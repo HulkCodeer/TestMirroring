@@ -41,6 +41,32 @@ internal struct Promotion {
             return self.rawValue
         }
     }
+    
+    enum Types: String {
+        case ad = "1"
+        case event = "3"
+        
+        internal var toValue: String {
+            return self.rawValue
+        }
+    }
+    
+    enum State: Int {
+        case end = 0
+        case inProgress = 1
+
+        internal var toValue: Int {
+            return self.rawValue
+        }
+        
+        static func convert(with state: Int) -> State {
+            switch state {
+            case 0: return .end
+            case 1: return .inProgress
+            default: return .end
+            }
+        }
+    }
 }
 
 internal final class EIAdManager {
@@ -77,8 +103,7 @@ internal final class EIAdManager {
                     switch result {
                     case .success(let data):
                         let json = JSON(data)
-                        let adList = json["data"].arrayValue.map { AdsInfo($0) }
-                        printLog(out: ":: PKH TEST ::")
+                        let adList = json["data"].arrayValue.map { AdsInfo($0) }                        
                         printLog(out: "광고갯수: \(adList.count)")
                         printLog(out: "광고: \(adList)")
                         

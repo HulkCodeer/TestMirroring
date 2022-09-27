@@ -8,7 +8,9 @@
 
 import Foundation
 import SwiftyJSON
-
+import MiniPlengi
+import RxCoreLocation
+import RxSwift
 
 struct Admin: Decodable {
     let mb_id: String
@@ -31,8 +33,14 @@ internal final class MemberManager {
     
     private init() {}
     
+    private var disposeBag = DisposeBag()
+    
     internal var mbId: Int { // 회원가입 아이디
         return UserDefault().readInt(key: UserDefault.Key.MB_ID)
+    }
+    
+    internal var mbIdToStr: String { // 회원가입 아이디
+        return "\(UserDefault().readInt(key: UserDefault.Key.MB_ID))"
     }
     
     internal var memberId: String { // 기기 아이디
@@ -191,10 +199,30 @@ internal final class MemberManager {
             return UserDefault().readBool(key: UserDefault.Key.MB_PAYMENT)
         }
     }
+        
+    // 로플랫 전용
+    internal var isFirstInstall: Bool { // false일 경우 처음 설치, true일때 처음설치 아님
+        set {
+            UserDefault().saveBool(key: UserDefault.Key.IS_FIRST_INSTALL, value: newValue)
+        }
+        get {
+            return UserDefault().readBool(key: UserDefault.Key.IS_FIRST_INSTALL)
+        }
+    }
+    
+    // 로플랫 전용
+    internal var isFirstLocationPopup: Bool { // false일 경우 처음 설치, true일때 처음설치 아님
+        set {
+            UserDefault().saveBool(key: UserDefault.Key.IS_FIRST_LOCATION_POPUP, value: newValue)
+        }
+        get {
+            return UserDefault().readBool(key: UserDefault.Key.IS_FIRST_LOCATION_POPUP)
+        }
+    }
     
     // 로그인 상태 체크
     internal var isLogin: Bool {
-        return UserDefault().readInt(key: UserDefault.Key.MB_ID) > 0
+        return UserDefault().readInt(key: UserDefault.Key.MB_ID) >= 0
     }
     
     // 지킴이 체크
@@ -238,12 +266,29 @@ internal final class MemberManager {
             userDefault.saveString(key: UserDefault.Key.MB_PHONE, value: data["phone"].stringValue)
             userDefault.saveString(key: UserDefault.Key.MB_REG_DATE, value: data["reg_date"].stringValue)
             userDefault.saveString(key: UserDefault.Key.MB_POINT, value: data["point"].stringValue)
+                        
+            CLLocationManager().rx
+                .status
+                .subscribe(onNext: { status in
+                    switch status {
+                    case .authorizedAlways, .authorizedWhenInUse:
+                        DispatchQueue.main.async {
+                            let receive = MemberManager.shared.isAllowMarketingNoti
+                            _ = Plengi.enableAdNetwork(true, enableNoti: receive)
+                            _ = Plengi.start()
+    //                        _ = Plengi.manual_refreshPlace_foreground()
+                        }
+                                                                
+                    default: break
+                    }
+                })
+                .disposed(by: self.disposeBag)
         }
     }
     
     func clearData() {
         let userDefault = UserDefault()
-        userDefault.saveInt(key: UserDefault.Key.MB_ID, value: 0)
+        userDefault.saveInt(key: UserDefault.Key.MB_ID, value: -1)
         userDefault.saveInt(key: UserDefault.Key.MB_LEVEL, value: MemberLevel.normal.rawValue)
         userDefault.saveString(key: UserDefault.Key.MB_USER_ID, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_PROFILE_NAME, value: "")
@@ -261,7 +306,10 @@ internal final class MemberManager {
         userDefault.saveString(key: UserDefault.Key.MB_AGE_RANGE, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_EMAIL, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_PHONE, value: "")
-        
+        // 로플랫 걷어낼 경우 실행시켜서 지워야함
+//        userDefault.removeObjectForKey(key: UserDefault.Key.IS_FIRST_INSTALL)
+//        userDefault.removeObjectForKey(key: UserDefault.Key.IS_FIRST_LOCATION_POPUP)
+                        
         AmplitudeManager.shared.setUser(with: nil)
     }
     
@@ -292,11 +340,11 @@ internal final class MemberManager {
                     Snackbar().show(message: "회원 탈퇴로 인해 로그아웃 되었습니다.")
                     MemberManager.shared.clearData()
                 } else {
-                    success?(UserDefault().readInt(key: UserDefault.Key.MB_ID) > 0)
+                    success?(MemberManager.shared.isLogin)
                 }
             }
                     
-        default: success?(UserDefault().readInt(key: UserDefault.Key.MB_ID) > 0)
+        default: success?(MemberManager.shared.isLogin)
         }
         
     }

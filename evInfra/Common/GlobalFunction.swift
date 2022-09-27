@@ -33,6 +33,19 @@ internal final class GlobalFunctionSwift {
         GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
     }
     
+    // 버튼 한개, 버튼 초록색, 액션 있을때, 딤드 터치 못하게
+    class func showPopup(title: String, message: String,
+                         confirmBtnTitle: String, confirmBtnAction: (() -> Void)? = nil, dimmedBtnAction: (() -> Void)? = nil) {
+        let popupModel = PopupModel(title: "\(title)",
+                                    message: "\(message)",
+                                    confirmBtnTitle: "\(confirmBtnTitle)",
+                                    confirmBtnAction: confirmBtnAction,
+                                    textAlignment: .center, dimmedBtnAction: dimmedBtnAction)
+        
+        let popup = VerticalConfirmPopupViewController(model: popupModel)
+        GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+    }
+    
     // 버튼 한개, 버튼 흰색
     class func showPopup(title: String, message: String, cancelBtnTitle: String) {
         let popupModel = PopupModel(title: "\(title)",
@@ -98,5 +111,12 @@ internal final class GlobalFunctionSwift {
         
         let popup = VerticalConfirmPopupViewController(model: popupModel)
         GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+    }
+    
+    class func getLastPushVC() -> UIViewController? {
+        if let _vc = GlobalDefine.shared.mainNavi?.viewControllers.last {
+            return _vc
+        }
+        return nil
     }
 }

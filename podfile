@@ -1,7 +1,7 @@
 # Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '13.0'
+platform :ios, '14.0'
 
 #target 'evInfra' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
@@ -38,7 +38,7 @@ def shared_pods
   pod 'SnapKit', '~> 5.0.0'
   
   # Rx Extensions
-#  pod 'RxCoreLocation', :git => 'https://github.com/RxSwiftCommunity/RxCoreLocation.git', :branch => 'master'
+  pod 'RxCoreLocation', :git => 'https://github.com/RxSwiftCommunity/RxCoreLocation.git', :branch => 'master'
   pod 'RxSwift', '6.5.0'
   pod 'RxCocoa', '6.5.0'
   pod 'RxViewController'
@@ -67,6 +67,10 @@ def shared_pods
   
   # Map
   pod 'NMapsMap'
+  
+  # 로플랫
+  pod 'MiniPlengi', '1.4.2.2'
+#  pod 'TEST-MiniPlengi', '1.4.2.2' # Debug 모드에서 테스트를 위해 필요
   
   pod 'Amplitude', '~> 8.8.0'
   

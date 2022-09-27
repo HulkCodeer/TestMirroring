@@ -30,7 +30,7 @@ protocol SoftberryAPI: class {
     func getNoticeList() -> Observable<(HTTPURLResponse, Data)>
     func getNotice(id noticeID: Int) -> Observable<(HTTPURLResponse, Data)>
     func postChargingQR(qrCode: String, typeId: Int) -> Observable<(HTTPURLResponse, Data)>
-    func postChargingQR(qrCode: String, typeId: Int, tc: String) -> Observable<(HTTPURLResponse, Data)>
+    func postChargingQR(qrCode: String, typeId: Int, tc: String) -> Observable<(HTTPURLResponse, Data)>    
 }
 
 internal final class RestApi: SoftberryAPI {

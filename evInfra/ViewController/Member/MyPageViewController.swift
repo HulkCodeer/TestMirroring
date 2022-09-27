@@ -102,8 +102,8 @@ internal final class MyPageViewController: UIViewController {
     
     func keyboardViewMove() {
         // 키보드 관리 (show/hide)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     @objc func keyboardWillShow(_ notification: NSNotification) {
@@ -111,7 +111,7 @@ internal final class MyPageViewController: UIViewController {
     }
 
     @objc func keyboardWillHide(_ notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             self.view.frame.origin.y = keyboardSize.height * 1/4
         }
     }
@@ -161,17 +161,17 @@ internal final class MyPageViewController: UIViewController {
         dropDwonLocation.dataSource = ["선택", "서울", "부산", "대구", "인천", "광주", "대전", "울산", "세종", "경기", "강원", "충북", "충남", "전북","전남", "경북", "경남", "제주"]
         dropDwonLocation.width = locationSpinnerBtn.frame.width * 2 / 3
         dropDwonLocation.selectionAction = { [unowned self] (index:Int, item:String) in
-            self.locationSpinnerBtn.setTitle(item, for: UIControlState.normal)
+            self.locationSpinnerBtn.setTitle(item, for: UIControl.State.normal)
         }
         dropDwonLocation.selectRow(at: getRegionIndex(region: UserDefault().readString(key: UserDefault.Key.MB_REGION)))
-        locationSpinnerBtn.setTitle(dropDwonLocation.selectedItem, for: UIControlState.normal)
+        locationSpinnerBtn.setTitle(dropDwonLocation.selectedItem, for: UIControl.State.normal)
         
         // 차종
         dropDwonCarKind.anchorView = self.carKindSpinnerBtn
         dropDwonCarKind.dataSource = ["선택"]
         dropDwonCarKind.width = carKindSpinnerBtn.frame.width * 2 / 3
         dropDwonCarKind.selectionAction = { [unowned self] (index:Int, item:String) in
-            self.carKindSpinnerBtn.setTitle(item, for: UIControlState.normal)
+            self.carKindSpinnerBtn.setTitle(item, for: UIControl.State.normal)
         }
         
         dropDwonProfileImg.anchorView = profileImgBtn
@@ -273,7 +273,7 @@ extension MyPageViewController {
         // 지역
         let mbRegion = UserDefault().readString(key: UserDefault.Key.MB_REGION)
         self.dropDwonLocation.selectRow(self.getRegionIndex(region: mbRegion))
-        self.locationSpinnerBtn.setTitle(self.dropDwonLocation.selectedItem, for: UIControlState.normal)
+        self.locationSpinnerBtn.setTitle(self.dropDwonLocation.selectedItem, for: UIControl.State.normal)
         
         // profile image
         profileName = UserDefault().readString(key: UserDefault.Key.MB_PROFILE_NAME)
@@ -308,7 +308,7 @@ extension MyPageViewController {
                 }
                 
                 self.dropDwonCarKind.selectRow(car_row)
-                self.carKindSpinnerBtn.setTitle(self.dropDwonCarKind.selectedItem, for: UIControlState.normal)
+                self.carKindSpinnerBtn.setTitle(self.dropDwonCarKind.selectedItem, for: UIControl.State.normal)
             }
             self.indicator.stopAnimating()
         }
@@ -444,7 +444,7 @@ extension MyPageViewController {
     func updateProfileImage() {
         if self.oldProfileName != self.profileName {
             if self.profileName.count > 14 {
-                let data: Data = UIImageJPEGRepresentation(self.profileImgView.image!, 1.0)!
+                let data: Data = self.profileImgView.image!.jpegData(compressionQuality: 1.0)!
                 Server.uploadImage(data: data, filename: self.profileName, kind: Const.CONTENTS_THUMBNAIL, targetId: "\(MemberManager.shared.mbId)", completion: { (isSuccess, value) in
                     let json = JSON(value)
                     if(!isSuccess) {

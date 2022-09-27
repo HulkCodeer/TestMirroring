@@ -30,7 +30,7 @@ final class NewNoticeViewController: CommonBaseViewController, StoryboardView {
     
     private lazy var noticeTableView = UITableView().then {
         $0.register(Reusable.noticeListCell)
-        $0.rowHeight = UITableViewAutomaticDimension 
+        $0.rowHeight = UITableView.automaticDimension 
         $0.estimatedRowHeight = 91
         $0.isMultipleTouchEnabled = false
         $0.allowsMultipleSelection = false

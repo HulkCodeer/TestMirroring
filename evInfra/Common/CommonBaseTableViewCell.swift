@@ -9,8 +9,7 @@
 import UIKit
 import RxSwift
 
-internal class CommonBaseTableViewCell: UITableViewCell {
-    
+internal class CommonBaseTableViewCell: UITableViewCell {    
     // MARK: UI
     
     internal lazy var totalView = UIView()

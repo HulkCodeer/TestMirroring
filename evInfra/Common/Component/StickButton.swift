@@ -10,15 +10,16 @@ import UIKit
 import RxSwift
 
 internal final class StickButton: UIView {
+    
     // MARK: UI
     
     private lazy var totalView = UIView()
-    private lazy var rectBtn = RectButton()
+    
+    internal lazy var rectBtn = RectButton()
             
     // MARK: VARIABLE
     
     private let disposebag = DisposeBag()
-    internal var backClosure: (() -> Void)?
          
     // MARK: SYSTEM FUNC
     
@@ -49,20 +50,8 @@ internal final class StickButton: UIView {
             $0.leading.top.equalToSuperview().offset(16)
             $0.trailing.bottom.equalToSuperview().offset(-16)
         }
-                        
-        rectBtn.rx.tap
-            .asDriver()
-            .drive(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                guard let _backClosure = self.backClosure else {
-                    GlobalDefine.shared.mainNavi?.pop()
-                    return
-                }
-                _backClosure()
-            })
-            .disposed(by: self.disposebag)
-        
-        totalView.setGradientColor([Colors.backgroundPrimary.color], locations: [0.0, 1.0], direction: .vertical, frame: totalView.bounds)
+                                        
+        totalView.setGradientColor([Colors.backgroundPrimaryTransparency.color, Colors.backgroundPrimary.color], locations: [0.0, 1.0], direction: .vertical, frame: totalView.bounds)
     }
     
 }

@@ -28,6 +28,7 @@ internal enum Colors {
   internal static let backgroundOverlayLight = ColorAsset(name: "background-overlay-light")
   internal static let backgroundPositiveLight = ColorAsset(name: "background-positive-light")
   internal static let backgroundPositive = ColorAsset(name: "background-positive")
+  internal static let backgroundPrimaryTransparency = ColorAsset(name: "background-primary-transparency")
   internal static let backgroundPrimary = ColorAsset(name: "background-primary")
   internal static let backgroundSecondary = ColorAsset(name: "background-secondary")
   internal static let backgroundTertiary = ColorAsset(name: "background-tertiary")

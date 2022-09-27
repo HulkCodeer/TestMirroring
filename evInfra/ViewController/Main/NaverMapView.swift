@@ -48,8 +48,16 @@ class NaverMapView: NMFNaverMapView {
     }
     
     func moveToCurrentPostiion() {
+        self.moveToPosition(with: 14)
+    }
+    
+    func moveToCenterPosition() {
+        self.moveToPosition(with: 10)
+    }
+    
+    func moveToPosition(with zoomLevel: Double) {
         let coordinate = locationManager.getCurrentCoordinate()
-        let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: coordinate.latitude, lng: coordinate.longitude), zoomTo: 14)
+        let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: coordinate.latitude, lng: coordinate.longitude), zoomTo: zoomLevel)
         cameraUpdate.animation = .fly
         mapView.moveCamera(cameraUpdate)
         

@@ -315,12 +315,12 @@ internal final class FCMManager {
     
     func getEventDetailData(eventId: Int) {
         guard let _mainNavi = GlobalDefine.shared.mainNavi, let _visibleViewcon = _mainNavi.visibleViewController else { return }
-        let eventVC = UIStoryboard(name: "Event", bundle: nil).instantiateViewController(ofType: EventContentsViewController.self)
-        if _visibleViewcon.isKind(of: EventContentsViewController.self) {
-            eventVC.eventId = eventId
+        let eventVC = UIStoryboard(name: "Event", bundle: nil).instantiateViewController(ofType: EventViewController.self)
+        if _visibleViewcon.isKind(of: NewEventDetailViewController.self) {
+            eventVC.externalEventID = eventId
             eventVC.viewDidLoad()
         } else {
-            eventVC.eventId = eventId
+            eventVC.externalEventID = eventId
             _mainNavi.push(viewController: eventVC)
         }
     }

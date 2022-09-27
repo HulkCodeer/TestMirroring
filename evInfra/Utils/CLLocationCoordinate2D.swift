@@ -30,7 +30,7 @@ extension CLLocationCoordinate2D {
 
 extension CLLocationManager {
     func getCurrentCoordinate() -> CLLocationCoordinate2D {
-        guard let location = self.location else { return CLLocationCoordinate2D(latitude: 0, longitude: 0) }
+        guard let location = self.location else { return CLLocationCoordinate2D(latitude: 37.5666805, longitude: 126.9784147) }
         return location.coordinate
     }
 }

@@ -16,12 +16,12 @@ public extension UINavigationController {
      - parameter type:     transition animation type.
      - parameter duration: transition animation duration.
      */
-    func pop(transitionType type: String = kCATransitionReveal, subtype: String = kCATransitionFromLeft, duration: CFTimeInterval = 0.3) {
+    func pop(transitionType type: CATransitionType = CATransitionType.reveal, subtype: CATransitionSubtype = CATransitionSubtype.fromLeft, duration: CFTimeInterval = 0.3) {
         self.addTransition(transitionType: type, subtype: subtype, duration: duration)
         self.popViewController(animated: false)
     }
     
-    func popToMain(transitionType type: String = kCATransitionMoveIn, subtype: String = kCATransitionFromLeft, duration: CFTimeInterval = 0.3) {
+    func popToMain(transitionType type: CATransitionType = CATransitionType.moveIn, subtype: CATransitionSubtype = CATransitionSubtype.fromLeft, duration: CFTimeInterval = 0.3) {
         self.addTransition(transitionType: type, subtype: subtype, duration: duration)
         self.popToRootViewController(animated: true)
     }
@@ -33,15 +33,15 @@ public extension UINavigationController {
      - parameter type:     transition animation type.
      - parameter duration: transition animation duration.
      */
-    func push(viewController vc: UIViewController, transitionType type: String = kCATransitionMoveIn, subtype: String = kCATransitionFromRight, duration: CFTimeInterval = 0.3) {
+    func push(viewController vc: UIViewController, transitionType type: CATransitionType = CATransitionType.moveIn, subtype: CATransitionSubtype = CATransitionSubtype.fromRight, duration: CFTimeInterval = 0.3) {
         self.addTransition(transitionType: type, subtype: subtype, duration: duration)
         self.pushViewController(vc, animated: false)
     }
     
-    private func addTransition(transitionType type: String, subtype: String, duration: CFTimeInterval) {
+    private func addTransition(transitionType type: CATransitionType, subtype: CATransitionSubtype, duration: CFTimeInterval) {
         let transition = CATransition()
         transition.duration = duration
-        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
         transition.type = type
         transition.subtype = subtype
         self.view.layer.add(transition, forKey: nil)

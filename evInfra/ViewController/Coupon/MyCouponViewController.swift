@@ -67,7 +67,7 @@ extension MyCouponViewController {
     func prepareTableView() {
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 150.0
         tableView.separatorColor = UIColor(rgb: 0xE4E4E4)
         tableView.tableFooterView = UIView()
@@ -195,7 +195,7 @@ extension MyCouponViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
 }
 

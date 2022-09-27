@@ -17,49 +17,59 @@ import FirebaseDynamicLinks
 import UserNotifications
 import AuthenticationServices
 import NMapsMap
+import MiniPlengi
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var appToolbarController: AppToolbarController!
     
     let gcmMessageIDKey = "gcm.message_id"
     let fcmManager = FCMManager.sharedInstance
     var chargingStatusPayload: [AnyHashable: Any]? = nil
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        print("application:didFinishLaunchingWithOptions:options")
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        printLog(out: "application:didFinishLaunchingWithOptions:options")
         FirebaseApp.configure()
         NMFAuthManager.shared().clientId = Const.NAVER_MAP_KEY
+
         AmplitudeManager.shared.configure(Const.AMPLITUDE_API_KEY)
-        
-        if #available(iOS 13.0, *) { // SceneDelegate
-        } else {
-            setupEntryController()
-        }
+                
         setupPushNotification(application, didFinishLaunchingWithOptions: launchOptions)
+                                        
+        // 로플랫 관련 코드
+        if Plengi.initialize(clientID: "zeroone",
+                       clientSecret: "zeroone)Q@Eh(4",
+                             echoCode: "\(MemberManager.shared.mbId)") == .SUCCESS {
+            _ = Plengi.setDelegate(self)            
+        }
+                                
+        if Plengi.getEngineStatus() == .STARTED {
+            _ = Plengi.start()
+        }
+                                        
+        // 앰플리튜드 설정
         UIViewController.swizzleMethod()
+                        
+        #if DEBUG
+        // PodFile에 TEST-MiniPlengi를 설치해서 테스트
+//        Plengi.isDebug = true
         
+        // terminating with uncaught exception of type NSException 에러시 CallStack을 찍어준다.
+        NSSetUncaughtExceptionHandler { exception in
+            let exceptionStr = exception.callStackSymbols.reduce("\n\(exception)\n") { exceptionStr, callStackSymbol -> String in
+                "\(exceptionStr)\(callStackSymbol)\n"
+            }
+            printLog(out: exceptionStr)
+        }
+        #endif
+                
         return true
     }
-    
-    private func setupEntryController() {
-        let introViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(ofType: IntroViewController.self)
             
-        window = UIWindow(frame: Screen.bounds)
-        let navigationController = AppNavigationController(rootViewController: introViewController)
-        GlobalDefine.shared.mainNavi = navigationController
-        navigationController.navigationBar.isHidden = true
-        window!.rootViewController = navigationController
-        window!.makeKeyAndVisible()
-    }
-    
-    func setupPushNotification(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) {
+    func setupPushNotification(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
         Messaging.messaging().delegate = self
-//        Messaging.messaging().shouldEstablishDirectChannel = true
         UNUserNotificationCenter.current().delegate = self
-            
         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
         UNUserNotificationCenter.current().requestAuthorization(
             options: authOptions,
@@ -67,7 +77,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let notification = launchOptions?[.remoteNotification] as? [AnyHashable: Any] {
             fcmManager.fcmNotification = notification
         }
-        
         application.registerForRemoteNotifications()
     }
     
@@ -80,7 +89,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return false
     }
     
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         guard url.scheme != nil else { return true }
                 
         if let shareChargerId = url.valueOf("charger_id") {
@@ -91,41 +100,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return KOSession.handleOpen(url)
         }
         return true
-    }
-            
-    func applicationDidFinishLaunching(_ application: UIApplication) {
-        print("applicationDidFinishLaunching()")
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let mainViewController = storyboard.instantiateViewController(withIdentifier: "MainViewController") as! MainViewController
-//        let leftViewController = storyboard.instantiateViewController(withIdentifier: "LeftViewController") as! LeftViewController
-//        let appToolbarController = AppToolbarController(rootViewController: mainViewController)
-//        appToolbarController.delegate = mainViewController
-//        
-//        window = UIWindow(frame: Screen.bounds)
-//        window!.rootViewController = AppNavigationDrawerController(rootViewController: appToolbarController, leftViewController: leftViewController)
-//        window!.makeKeyAndVisible()
-    }
-
-    func applicationWillResignActive(_ application: UIApplication) {
-        print("applicationWillResignActive()")
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
-    }
-
-    func applicationDidEnterBackground(_ application: UIApplication) {
-         print("applicationDidEnterBackground()")
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    }
-
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        print("applicationWillEnterForeground()")
-        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-    }
-
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        print("applicationDidBecomeActive()")
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -163,7 +137,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         })
         return container
     }()
-
+        
     // MARK: - Core Data Saving support
     func saveContext () {
         let context = persistentContainer.viewContext
@@ -177,14 +151,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
         }
-    }
-
-    func showStatusBar() {
-        appToolbarController.showStatusBar()
-    }
-    
-    func hideStatusBar() {
-        appToolbarController.hideStatusBar()
     }
 }
 
@@ -209,14 +175,15 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         fcmManager.nfcNoti = notification
         print("Notification Title: \(notification.request.content.title)")
         print("Notification body: \(notification.request.content.body)")
-        // Change this to your preferred presentation option
-        completionHandler([])
+        
         
         if #available(iOS 13.0, *) { // SceneDelegate의 navigationController 사용
             fcmManager.alertFCMMessage()
         } else {
             fcmManager.alertFCMMessage()
         }
+        
+        completionHandler([.alert, .badge, .sound])
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter,
@@ -231,14 +198,21 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         fcmManager.nfcNoti = response.notification
         fcmManager.fcmNotification = response.notification.request.content.userInfo
         
-        // 메인 실행이 완료되지 않으면 실행하지 않고 메인에서 끝날때 호출
-        if #available(iOS 13.0, *) { // SceneDelegate의 navigationController 사용
-            fcmManager.alertMessage(data: response.notification.request.content.userInfo)
-        } else {
-            fcmManager.alertMessage(data: response.notification.request.content.userInfo)
-        }
+        // 메인 실행이 완료되지 않으면 실행하지 않고 메인에서 끝날때 호출        
+        fcmManager.alertMessage(data: response.notification.request.content.userInfo)
+        
+        // 로플랫 관련 코드
+        _ = Plengi.processLoplatAdvertisement(center,
+                                              didReceive: response,
+                                              withCompletionHandler: completionHandler)
         
         completionHandler()
+    }
+    
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        printLog(out: "applicationWillEnterForeground")
+        // 로플랫 관련 코드
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "processAdvertisement"), object: nil) // SDK 내부 이벤트 호출 (정확한 처리를 위해 권장)
     }
 }
 
@@ -315,9 +289,16 @@ extension AppDelegate {
         Messaging.messaging().apnsToken = deviceToken
         print("APNs token retrieved: \(deviceToken)")
     }
-    
-    // MARK: - FCM Messages
-//    func getMessageFromUserInfo(userInfo: [AnyHashable: Any]) {
-//        userInfo["aps"]
-//    }
+}
+
+extension Notification.Name {
+    public static let pr = NSNotification.Name("plengiResponse")
+}
+
+extension AppDelegate: PlaceDelegate {
+    func responsePlaceEvent(_ plengiResponse: PlengiResponse) {        
+        let plengiResponseData = NSKeyedArchiver.archivedData(withRootObject: plengiResponse)
+        UserDefaults.standard.set(plengiResponseData, forKey: "plengiResponse")
+        NotificationCenter.default.post(name: .pr, object: nil)
+    }
 }
