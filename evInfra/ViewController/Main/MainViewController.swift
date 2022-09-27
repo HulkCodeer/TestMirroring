@@ -61,14 +61,13 @@ internal final class MainViewController: UIViewController, StoryboardView {
     @IBOutlet var btn_main_community: UIButton!
     @IBOutlet var btn_main_help: UIButton!
     @IBOutlet var btn_main_favorite: UIButton!
+    // 미수금
+    @IBOutlet weak var ivMainChargeNew: UIImageView!
     
     //경로찾기시 거리표시 뷰 (call out)
     @IBOutlet weak var routeDistanceView: UIView!
     @IBOutlet weak var routeDistanceLabel: UILabel!
     @IBOutlet var routeDistanceBtn: UIView!
-    
-    @IBOutlet weak var ivMainChargeNew: UIImageView!
-    private let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     private var tMapView: TMapView? = nil
     private var tMapPathData: TMapPathData = TMapPathData.init()
