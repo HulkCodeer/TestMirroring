@@ -653,6 +653,9 @@
 		63F31558284F08E3001713D2 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63F31555284F08E2001713D2 /* Colors.xcassets */; };
 		63F31559284F08E3001713D2 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63F31556284F08E3001713D2 /* Icons.xcassets */; };
 		63F3155A284F08E3001713D2 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63F31556284F08E3001713D2 /* Icons.xcassets */; };
+		63F7C2FC28E1CD2B00019CE0 /* NetworkWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F7C2FB28E1CD2B00019CE0 /* NetworkWorker.swift */; };
+		63F7C2FD28E1CD2B00019CE0 /* NetworkWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F7C2FB28E1CD2B00019CE0 /* NetworkWorker.swift */; };
+		63F7C2FE28E1CD2B00019CE0 /* NetworkWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F7C2FB28E1CD2B00019CE0 /* NetworkWorker.swift */; };
 		73008459213687150001DBFA /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73008458213687150001DBFA /* DetailViewController.swift */; };
 		7308559D206350890008497E /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7308559C206350890008497E /* UIView+Extension.swift */; };
 		7312786820BE38C500861B3E /* FCMManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7312786720BE38C500861B3E /* FCMManager.swift */; };
@@ -1275,15 +1278,12 @@
 		82DD57DD28C5D41900C6C55E /* StickButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD57DA28C5D41900C6C55E /* StickButton.swift */; };
 		82E03191286C31250019DFA6 /* QuitAccountCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E03190286C31250019DFA6 /* QuitAccountCompleteViewController.swift */; };
 		82E03192286C31250019DFA6 /* QuitAccountCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E03190286C31250019DFA6 /* QuitAccountCompleteViewController.swift */; };
-		82E1302328DEACF100E7983D /* NetworkWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1301C28DEACF100E7983D /* NetworkWorker.swift */; };
 		82E1302428DEACF100E7983D /* SoftberryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1301E28DEACF100E7983D /* SoftberryAPI.swift */; };
 		82E1302528DEACF100E7983D /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1302028DEACF100E7983D /* Server.swift */; };
 		82E1302728DEAE2600E7983D /* SoftberryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1301E28DEACF100E7983D /* SoftberryAPI.swift */; };
 		82E1302828DEAE2700E7983D /* SoftberryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1301E28DEACF100E7983D /* SoftberryAPI.swift */; };
 		82E1302928DEAE2A00E7983D /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1302028DEACF100E7983D /* Server.swift */; };
 		82E1302A28DEAE2A00E7983D /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1302028DEACF100E7983D /* Server.swift */; };
-		82E1302B28DEAE2D00E7983D /* NetworkWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1301C28DEACF100E7983D /* NetworkWorker.swift */; };
-		82E1302C28DEAE2D00E7983D /* NetworkWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1301C28DEACF100E7983D /* NetworkWorker.swift */; };
 		82E1303028DEAEB200E7983D /* MainReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1302F28DEAEB200E7983D /* MainReactor.swift */; };
 		82E1303128DEAEB200E7983D /* MainReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1302F28DEAEB200E7983D /* MainReactor.swift */; };
 		82E1303228DEAEB200E7983D /* MainReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1302F28DEAEB200E7983D /* MainReactor.swift */; };
@@ -1596,6 +1596,7 @@
 		63F3154E284F0809001713D2 /* Colors+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Colors+Generated.swift"; sourceTree = "<group>"; };
 		63F31555284F08E2001713D2 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		63F31556284F08E3001713D2 /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
+		63F7C2FB28E1CD2B00019CE0 /* NetworkWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkWorker.swift; sourceTree = "<group>"; };
 		73008458213687150001DBFA /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		7308559C206350890008497E /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		7312786720BE38C500861B3E /* FCMManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMManager.swift; sourceTree = "<group>"; };
@@ -1795,7 +1796,6 @@
 		82D986822839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceInfoReactor.swift; sourceTree = "<group>"; };
 		82DD57DA28C5D41900C6C55E /* StickButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickButton.swift; sourceTree = "<group>"; };
 		82E03190286C31250019DFA6 /* QuitAccountCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuitAccountCompleteViewController.swift; sourceTree = "<group>"; };
-		82E1301C28DEACF100E7983D /* NetworkWorker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkWorker.swift; sourceTree = "<group>"; };
 		82E1301E28DEACF100E7983D /* SoftberryAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoftberryAPI.swift; sourceTree = "<group>"; };
 		82E1302028DEACF100E7983D /* Server.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
 		82E1302F28DEAEB200E7983D /* MainReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainReactor.swift; sourceTree = "<group>"; };
@@ -2913,7 +2913,7 @@
 			isa = PBXGroup;
 			children = (
 				82E1301D28DEACF100E7983D /* Network */,
-				82E1301C28DEACF100E7983D /* NetworkWorker.swift */,
+				63F7C2FB28E1CD2B00019CE0 /* NetworkWorker.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -4204,7 +4204,6 @@
 				63C7C8E1286D7D2C00A357D6 /* NewBottomSheetViewController.swift in Sources */,
 				63F313BB284EC74F001713D2 /* ChargePriceViewController.swift in Sources */,
 				63F313BC284EC74F001713D2 /* GlobalDefine.swift in Sources */,
-				82E1302B28DEAE2D00E7983D /* NetworkWorker.swift in Sources */,
 				63F313BD284EC74F001713D2 /* SC_TRACE.swift in Sources */,
 				63F313BE284EC74F001713D2 /* MyCouponTableViewCell.swift in Sources */,
 				63F313BF284EC74F001713D2 /* Coupon.swift in Sources */,
@@ -4335,6 +4334,7 @@
 				63F31428284EC74F001713D2 /* CarModels.swift in Sources */,
 				63F31429284EC74F001713D2 /* MembershipUseGuideViewController.swift in Sources */,
 				63F3142A284EC74F001713D2 /* SearchHeaderView.swift in Sources */,
+				63F7C2FD28E1CD2B00019CE0 /* NetworkWorker.swift in Sources */,
 				63F3142B284EC74F001713D2 /* CidInfo.swift in Sources */,
 				63F3142C284EC74F001713D2 /* BoardInfo.swift in Sources */,
 				63F3142D284EC74F001713D2 /* BoardListViewModel.swift in Sources */,
@@ -4506,7 +4506,6 @@
 				DB8936542074A4EB006A10BB /* ChargerTableView.swift in Sources */,
 				DB9673C620843EF6008ACCAE /* ChargerTableViewCell.swift in Sources */,
 				CE24840420A59E6400611E24 /* UserDefault.swift in Sources */,
-				82E1302328DEACF100E7983D /* NetworkWorker.swift in Sources */,
 				902A11D3248F52B80049EF8E /* InfoLastUpdateDto.swift in Sources */,
 				19B4C7D8289A420900C6BE84 /* AdsModel.swift in Sources */,
 				00A82E3B252AB52F00EEBCBF /* PartnershipJoinView.swift in Sources */,
@@ -4647,6 +4646,7 @@
 				191FB60428A0CA40005248C8 /* NewEventDetailViewController.swift in Sources */,
 				73A7B430204F8A72002E975F /* CidInfo.swift in Sources */,
 				421569D7259B629100D018DC /* BoardInfo.swift in Sources */,
+				63F7C2FC28E1CD2B00019CE0 /* NetworkWorker.swift in Sources */,
 				52C0782727CC982A00DEFEBE /* BoardListViewModel.swift in Sources */,
 				0033CBC426C631970084B212 /* FilterManager.swift in Sources */,
 				DB6EBE31217078750000F442 /* ChargerSelectDelegate.swift in Sources */,
@@ -4828,7 +4828,6 @@
 				824D5C0D28BDD89C00EDC712 /* NewBottomSheetViewController.swift in Sources */,
 				824D5C0F28BDD89C00EDC712 /* ChargePriceViewController.swift in Sources */,
 				824D5C1028BDD89C00EDC712 /* GlobalDefine.swift in Sources */,
-				82E1302C28DEAE2D00E7983D /* NetworkWorker.swift in Sources */,
 				824D5C1128BDD89C00EDC712 /* SC_TRACE.swift in Sources */,
 				824D5C1228BDD89C00EDC712 /* MyCouponTableViewCell.swift in Sources */,
 				824D5C1328BDD89C00EDC712 /* Coupon.swift in Sources */,
@@ -4959,6 +4958,7 @@
 				824D5C8F28BDD89C00EDC712 /* CidInfo.swift in Sources */,
 				824D5C9028BDD89C00EDC712 /* BoardInfo.swift in Sources */,
 				824D5C9128BDD89C00EDC712 /* BoardListViewModel.swift in Sources */,
+				63F7C2FE28E1CD2B00019CE0 /* NetworkWorker.swift in Sources */,
 				824D5C9228BDD89C00EDC712 /* FilterManager.swift in Sources */,
 				824D5C9328BDD89C00EDC712 /* ChargerSelectDelegate.swift in Sources */,
 				824D5C9428BDD89C00EDC712 /* MyPayRegisterViewController.swift in Sources */,
@@ -5186,7 +5186,7 @@
 				CURRENT_PROJECT_VERSION = 09221524;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -5228,7 +5228,7 @@
 				CURRENT_PROJECT_VERSION = 09221524;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",

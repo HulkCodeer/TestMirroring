@@ -70,7 +70,7 @@ extension Observable where Element == (HTTPURLResponse, Data){
             #endif
             
             switch httpURLResponse.statusCode{
-            case 200 ... 299:                
+            case 200 ... 299:
                 printLog(out: "Request URL : \(String(describing: httpURLResponse.url?.description ?? ""))")
                 return .success(data)
                                 

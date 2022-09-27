@@ -119,20 +119,59 @@ internal final class MainViewController: UIViewController, StoryboardView {
         
         prepareCalloutLayer()
         
-        locationManager.rx.status
+        GlobalDefine.shared.mainViewcon = self
+        
+        self.locationManager.rx.status
             .subscribe(onNext: { [weak self] status in
-                guard let self = self else { return }
-                printLog(out: "PARK TEST 몇번뜨는거니 \(status)")
+                guard let self = self else { return }    
                 switch status {
                 case .authorizedWhenInUse:
-                    self.locationManager.requestAlwaysAuthorization()
                     self.naverMapView.moveToCurrentPostiion()
+                                  
+                    guard !MemberManager.shared.isFirstLocationPopup else { return }
+                    let message = "위치정보를 항상 허용으로 변경해주시면,\n근처의 충전소 정보 및 풍부한 혜택 정보를\n 알려드릴게요.\n정확한 위치를 위해 ‘설정>EV Infra>위치'\n에서 항상 허용으로 변경해주세요."
+                    let attributeText = NSMutableAttributedString(string: message)
+                    let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 14, weight: .regular), .foregroundColor: Colors.contentSecondary.color]
+                    attributeText.setAttributes(attributes, range: NSRange(location: 0, length: message.count))
+                    
+                    _ = message.getArrayAfterRegex(regex: "항상 허용")
+                        .map { NSRange($0, in: message) }
+                        .map {
+                            attributeText.setAttributes(
+                                [.font: UIFont.systemFont(ofSize: 14, weight: .bold),
+                                    .foregroundColor: Colors.contentSecondary.color],
+                                range: $0)
+                        }
+                    
+                    _ = message.getArrayAfterRegex(regex: "‘설정>EV Infra>위치'")
+                        .map { NSRange($0, in: message) }
+                        .map {
+                            attributeText.setAttributes(
+                                [.font: UIFont.systemFont(ofSize: 14, weight: .bold),
+                                    .foregroundColor: Colors.contentSecondary.color],
+                                range: $0)
+                        }
+                    
+                                        
+                    let popupModel = PopupModel(title: "위치 권한을 항상 허용으로\n변경해주세요.",
+                                                messageAttributedText: attributeText,
+                                                confirmBtnTitle: "항상 허용하기", cancelBtnTitle: "유지하기",
+                                                confirmBtnAction: {
+                        self.locationManager.requestAlwaysAuthorization()
+                        
+                    }, textAlignment: .center)
+
+                    let popup = ConfirmPopupViewController(model: popupModel)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                        MemberManager.shared.isFirstLocationPopup = true
+                        GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                    })
                     
                 case .authorizedAlways:
                     self.naverMapView.moveToCurrentPostiion()
                                     
                 default:
-                    let popupModel = PopupModel(title: "위치 권한을 항상 허용으로\n변경해주세요.",
+                    let popupModel = PopupModel(title: "위치권한을 허용해주세요",
                                                 message: "위치 권한을 허용해주시면, 근처의 충전소 정보 및 풍부한 혜택 정보를 알려드릴게요.",
                                                 confirmBtnTitle: "권한 변경하기",
                                                 confirmBtnAction: {
@@ -141,7 +180,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
                             }
                         }
-                    }, textAlignment: .center)
+                    }, textAlignment: .center, dimmedBtnAction: nil)
 
                     let popup = ConfirmPopupViewController(model: popupModel)
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
@@ -149,7 +188,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
                     })
                     self.naverMapView.moveToCenterPosition()
                 }
-
             })
             .disposed(by: self.disposeBag)
     }
@@ -203,6 +241,13 @@ internal final class MainViewController: UIViewController, StoryboardView {
     }
     
     // MARK: REACTORKIT
+    
+    internal func sceneDidBecomeActiveCall() {
+        guard let _reactor = self.reactor else { return }
+        Observable.just(MainReactor.Action.showMarketingPopup)
+            .bind(to: _reactor.action)
+            .disposed(by: self.disposeBag)
+    }
     
     internal func bind(reactor: MainReactor) {
         let message = "위치정보를 항상 허용으로 변경해주시면,\n근처의 충전소 정보 및 풍부한 혜택 정보를\n 알려드릴게요.\n정확한 위치를 위해 ‘설정>EV Infra>위치'\n에서 항상 허용으로 변경해주세요."

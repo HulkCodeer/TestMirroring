@@ -9,7 +9,6 @@
 import ReactorKit
 import MiniPlengi
 import CoreLocation
-import RxCoreLocation
 import RxViewController
 
 internal final class PermissionsGuideViewController: CommonBaseViewController, StoryboardView {
@@ -70,6 +69,10 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
         $0.rectBtn.setTitle("다음", for: .normal)
     }
     
+    // MARK: VARIABLE
+    
+    private let manager = CLLocationManager()
+    
     // MARK: SYSTEM FUNC
     
     override func loadView() {
@@ -117,6 +120,11 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
         for type in PermissionTypes.allCases {
             permissionStackView.addArrangedSubview(self.createPermissionView(type: type))
         }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        manager.delegate = self
     }
             
     // MARK: FUNC
@@ -193,7 +201,64 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
     }
     
     internal func bind(reactor: PermissionsGuideReactor) {
-        let manager = CLLocationManager()
+        manager.rx.isEnabled
+            .subscribe(with: self) { obj, isEnable in
+                guard !isEnable else { return }
+                obj.manager.requestWhenInUseAuthorization()
+            }
+            .disposed(by: self.disposeBag)
+        
+        nextBtn.rectBtn.rx.tap
+            .do(onNext: { _ in MemberManager.shared.isFirstInstall = true })
+            .asDriver(onErrorJustReturn: Void())
+            .drive(with: self) { obj, _ in
+                obj.manager.rx.status
+                    .observe(on: MainScheduler.asyncInstance)
+                    .subscribe(onNext: { status in
+                        switch status {
+                        case .denied:
+                            if let url = URL(string: UIApplication.openSettingsURLString) {
+                                if UIApplication.shared.canOpenURL(url) {
+                                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                                }
+                            }
+                            
+                            self.moveMainViewcon()
+                            
+                        case .notDetermined, .restricted:
+                            obj.manager.desiredAccuracy = kCLLocationAccuracyBest
+                            obj.manager.requestWhenInUseAuthorization()
+                            obj.manager.startUpdatingLocation()
+                            
+                        default: break
+                        }
+
+                    })
+                    .disposed(by: self.disposeBag)
+            }
+            .disposed(by: self.disposeBag)
+    }
+    
+    private func moveMainViewcon() {
+        MemberManager.shared.isFirstInstall = true
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let reactor = MainReactor(provider: RestApi())
+        let mainViewcon = storyboard.instantiateViewController(ofType: MainViewController.self)
+        mainViewcon.reactor = reactor
+        let leftViewController = storyboard.instantiateViewController(ofType: LeftViewController.self)
+        
+        let appToolbarController = AppToolbarController(rootViewController: mainViewcon)
+        appToolbarController.delegate = mainViewcon
+        let ndController = AppNavigationDrawerController(rootViewController: appToolbarController, leftViewController: leftViewController)
+        GlobalDefine.shared.mainNavi?.setViewControllers([ndController], animated: true)
+    }
+}
+
+
+extension PermissionsGuideViewController: CLLocationManagerDelegate {
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        guard MemberManager.shared.isFirstInstall else { return }
+        
         let message = "위치정보를 항상 허용으로 변경해주시면,\n근처의 충전소 정보 및 풍부한 혜택 정보를\n 알려드릴게요.\n정확한 위치를 위해 ‘설정>EV Infra>위치'\n에서 항상 허용으로 변경해주세요."
         let attributeText = NSMutableAttributedString(string: message)
         let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 14, weight: .regular), .foregroundColor: Colors.contentSecondary.color]
@@ -217,257 +282,35 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
                     range: $0)
             }
         
-        nextBtn.rectBtn.rx.tap
-            .do(onNext: { _ in MemberManager.shared.isFirstInstall = true })
-            .asDriver(onErrorJustReturn: Void())
-            .drive(with: self) { obj, _ in
-                manager.rx.status
-                .subscribe(onNext: { status in
-                    switch status {
-                    case .authorizedAlways:
-                        self.moveMainViewcon()
-                        
-                    case .authorizedWhenInUse, .notDetermined, .denied, .restricted:
-                        manager.desiredAccuracy = kCLLocationAccuracyBest
-                        manager.requestWhenInUseAuthorization()
-                        manager.startUpdatingLocation()
-                                    
-                    @unknown default:
-                        fatalError()
+        
+        switch manager.authorizationStatus {
+        case .notDetermined, .restricted, .denied:
+            let popupModel = PopupModel(title: "위치 권한을 항상 허용으로\n변경해주세요.",
+                                        messageAttributedText: attributeText,
+                                        confirmBtnTitle: "항상 허용하기", cancelBtnTitle: "유지하기",
+                                        confirmBtnAction: {
+                if let url = URL(string: UIApplication.openSettingsURLString) {
+                    if UIApplication.shared.canOpenURL(url) {
+                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
                     }
+                }
+            }, cancelBtnAction: { [weak self] in
+                guard let self = self else { return }
+                self.moveMainViewcon()
 
-                })
-                .disposed(by: self.disposeBag)
-            }
-            .disposed(by: self.disposeBag)
-        
-            manager.rx.didChangeAuthorization
-                .subscribe(onNext: { [weak self] _, status in
-                    guard let self = self else { return }
-                    if MemberManager.shared.isFirstInstall {                        
-                        switch status {
-                        case .authorizedWhenInUse:
-                            let popupModel = PopupModel(title: "위치 권한을 항상 허용으로\n변경해주세요.",
-                                                        messageAttributedText: attributeText,
-                                                        confirmBtnTitle: "항상 허용하기", cancelBtnTitle: "유지하기",
-                                                        confirmBtnAction: {
-                                if let url = URL(string: UIApplication.openSettingsURLString) {
-                                    if UIApplication.shared.canOpenURL(url) {
-                                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                                    }
-                                }
-                            }, cancelBtnAction: { [weak self] in
-                                guard let self = self else { return }
-                                self.moveMainViewcon()
+            }, textAlignment: .center)
 
-                            }, textAlignment: .center)
-
-                            let popup = ConfirmPopupViewController(model: popupModel)
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                                GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
-                            })
-        
-                        case .denied, .notDetermined, .restricted:
-                            self.moveMainViewcon()
-                                                        
-                        case .authorizedAlways:
-                            self.moveMainViewcon()
-        
-                        @unknown default:
-                            fatalError()
-                        }
-                    }
-                                                        
-                })
-                .disposed(by: self.disposeBag)
-        
-
-//        nextBtn.rectBtn.rx.tap
-//            .asDriver(onErrorJustReturn: Void())
-//            .drive(onNext: {
-//                manager.rx.status
-//                    .subscribe(onNext: { [weak self] status in
-//                        switch status {
-//                        case .authorizedAlways, .authorizedWhenInUse:
-//                            let popupModel = PopupModel(title: "위치 권한을 항상 허용으로\n변경해주세요.",
-//                                                        messageAttributedText: attributeText,
-//                                                        confirmBtnTitle: "항상 허용하기",
-//                                                        cancelBtnTitle: "유지하기",
-//                                                        confirmBtnAction: { [weak self] in
-//                                guard let self = self else { return }
-//                                if let url = URL(string: UIApplicationOpenSettingsURLString) {
-//                                    if UIApplication.shared.canOpenURL(url) {
-//                                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
-//                                    }
-//                                }
-//                                self.moveMainViewcon()
-//                            }, cancelBtnAction: { [weak self] in
-//                                guard let self = self else { return }
-//                                self.moveMainViewcon()
-//                                
-//                            }, textAlignment: .center)
-//                            
-//                            let popup = ConfirmPopupViewController(model: popupModel)
-//                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-//                                GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
-//                            })
-//                                                                                    
-//                            
-//                        case .notDetermined:
-//                            manager.desiredAccuracy = kCLLocationAccuracyBest
-//                            manager.requestAlwaysAuthorization()
-//                            manager.startUpdatingLocation()
-//                            
-//                        case .denied, .restricted:
-//                            let popupModel = PopupModel(title: "위치 권한을 항상 허용으로\n변경해주세요.",
-//                                                        messageAttributedText: attributeText,
-//                                                        confirmBtnTitle: "항상 허용하기",
-//                                                        confirmBtnAction: {
-//                                if let url = URL(string: UIApplicationOpenSettingsURLString) {
-//                                    if UIApplication.shared.canOpenURL(url) {
-//                                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
-//                                    }
-//                                }
-//                            }, textAlignment: .center)
-//                            
-//                            let popup = ConfirmPopupViewController(model: popupModel)
-//                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-//                                GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
-//                            })
-//                        }
-//                        
-//                    })
-//                    .disposed(by: self.disposeBag)
-//            })
-//            .disposed(by: self.disposeBag)
-//        
-//        
-//        manager.rx.didChangeAuthorization
-//            .skip(1)
-//            .subscribe(onNext: { [weak self] _, status in
-//                guard let self = self else { return }
-//                switch status {
-//                case .authorizedAlways, .authorizedWhenInUse:
-//                    if !MemberManager.shared.isFirstInstall {
-//                        MemberManager.shared.isFirstInstall = true
-//                        let popupModel = PopupModel(title: "위치 권한을 항상 허용으로\n변경해주세요.",
-//                                                    messageAttributedText: attributeText,
-//                                                    confirmBtnTitle: "항상 허용하기", cancelBtnTitle: "유지하기",
-//                                                    confirmBtnAction: {
-//                            if let url = URL(string: UIApplicationOpenSettingsURLString) {
-//                                if UIApplication.shared.canOpenURL(url) {
-//                                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
-//                                }
-//                            }
-//                        }, cancelBtnAction: { [weak self] in
-//                            guard let self = self else { return }
-//                            self.moveMainViewcon()
-//
-//                        }, textAlignment: .center)
-//
-//                        let popup = ConfirmPopupViewController(model: popupModel)
-//                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-//                            GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
-//                        })
-//                    } else {
-//                        self.moveMainViewcon()
-//                    }                                        
-//                    
-//                case .denied:
-//                    let popupModel = PopupModel(title: "위치 권한을 항상 허용으로\n변경해주세요.",
-//                                                messageAttributedText: attributeText,
-//                                                confirmBtnTitle: "항상 허용하기",
-//                                                confirmBtnAction: {
-//                        if let url = URL(string: UIApplicationOpenSettingsURLString) {
-//                            if UIApplication.shared.canOpenURL(url) {
-//                                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-//                            }
-//                        }
-//                    }, textAlignment: .center)
-//                    
-//                    let popup = ConfirmPopupViewController(model: popupModel)
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-//                        GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
-//                    })
-//                    
-//                    
-//                case .notDetermined, .restricted:
-//                    let popupModel = PopupModel(title: "위치 권한을 항상 허용으로\n변경해주세요.",
-//                                                messageAttributedText: attributeText,
-//                                                confirmBtnTitle: "항상 허용하기", cancelBtnTitle: "유지하기",
-//                                                confirmBtnAction: {
-//                        if let url = URL(string: UIApplicationOpenSettingsURLString) {
-//                            if UIApplication.shared.canOpenURL(url) {
-//                                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-//                            }
-//                        }
-//                    }, cancelBtnAction: { [weak self] in
-//                        guard let self = self else { return }
-//                        self.moveMainViewcon()
-//
-//                    }, textAlignment: .center)
-//
-//                    let popup = ConfirmPopupViewController(model: popupModel)
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-//                        GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
-//                    })
-//                
-//                @unknown default:
-//                    fatalError()
-//                }
-//            })
-//            .disposed(by: self.disposeBag)
-                               
-//        self.rx.viewWillAppear
-//            .skip(1)
-//            .subscribe(with: self) { obj, _ in
-//                if MemberManager.shared.isFirstInstall {
-//                    manager.rx.status
-//                        .subscribe(onNext: { [weak self] status in
-//                            guard let self = self else { return }
-//                            switch status {
-//                            case .authorizedAlways, .authorizedWhenInUse:
-//                                let popupModel = PopupModel(title: "위치 권한을 항상 허용으로\n변경해주세요.",
-//                                                            messageAttributedText: attributeText,
-//                                                            confirmBtnTitle: "항상 허용하기", cancelBtnTitle: "유지하기",
-//                                                            confirmBtnAction: {
-//                                    if let url = URL(string: UIApplicationOpenSettingsURLString) {
-//                                        if UIApplication.shared.canOpenURL(url) {
-//                                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-//                                        }
-//                                    }
-//                                }, cancelBtnAction: { [weak self] in
-//                                    guard let self = self else { return }
-//                                    self.moveMainViewcon()
-//
-//                                }, textAlignment: .center)
-//
-//                                let popup = ConfirmPopupViewController(model: popupModel)
-//                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-//                                    GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
-//                                })
-//
-//                            default: self.moveMainViewcon()
-//                            }
-//                        })
-//                        .disposed(by: obj.disposeBag)
-//                }
-//            }
-//            .disposed(by: self.disposeBag)
-    }
-    
-    private func moveMainViewcon() {
-        printLog(out: "PARK TEST move Main")
-        MemberManager.shared.isFirstInstall = true
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let reactor = MainReactor(provider: RestApi())
-        let mainViewcon = storyboard.instantiateViewController(ofType: MainViewController.self)
-        mainViewcon.reactor = reactor
-        let leftViewController = storyboard.instantiateViewController(ofType: LeftViewController.self)
-        
-        let appToolbarController = AppToolbarController(rootViewController: mainViewcon)
-        appToolbarController.delegate = mainViewcon
-        let ndController = AppNavigationDrawerController(rootViewController: appToolbarController, leftViewController: leftViewController)
-        GlobalDefine.shared.mainNavi?.setViewControllers([ndController], animated: true)
+            let popup = ConfirmPopupViewController(model: popupModel)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+            })
+            
+        case .authorizedAlways, .authorizedWhenInUse:
+            self.moveMainViewcon()
+                                                    
+        @unknown default:
+            printLog(out: "PARK TEST authorized")
+            fatalError()
+        }
     }
 }

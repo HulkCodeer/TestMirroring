@@ -210,6 +210,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
+        printLog(out: "applicationWillEnterForeground")
         // 로플랫 관련 코드
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "processAdvertisement"), object: nil) // SDK 내부 이벤트 호출 (정확한 처리를 위해 권장)
     }
