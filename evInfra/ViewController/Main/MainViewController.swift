@@ -341,6 +341,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     // MARK: FUNC
     
     internal func sceneDidBecomeActiveCall() {
+        printLog(out: "PARK TEST sceneDidBecomeActiveCall")
         guard let _reactor = self.reactor else { return }
         guard _reactor.currentState.isShowStartBanner == nil else { return }
         
