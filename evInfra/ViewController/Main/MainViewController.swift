@@ -32,6 +32,8 @@ internal final class MainViewController: UIViewController, StoryboardView {
     // user Default
     let defaults = UserDefault()
     
+    private lazy var customNaviBar = MainNavigationBar()
+    
     @IBOutlet weak var myLocationButton: UIButton!
     @IBOutlet weak var reNewButton: UIButton!
     @IBOutlet weak var btnChargePrice: UIButton!
@@ -199,7 +201,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
     override func viewDidAppear(_ animated: Bool) {
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         chargingStatus()
-        menuBadgeAdd()
         updateClustering()
         if self.sharedChargerId != nil {
             self.selectChargerFromShared()
@@ -248,7 +249,30 @@ internal final class MainViewController: UIViewController, StoryboardView {
             .disposed(by: self.disposeBag)
     }
     
+    private func setMenuBadge(reactor: MainReactor) {
+        let hasBadge = Board.sharedInstance.hasNew() || defaults.readBool(key: UserDefault.Key.HAS_FAILED_PAYMENT)
+        Observable.just(MainReactor.Action.setMenuBadge(hasBadge))
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+    }
+    
     internal func bind(reactor: MainReactor) {
+        self.rx.viewDidAppear
+            .subscribe(with: self) { owner, _ in
+                owner.setMenuBadge(reactor: reactor)
+            }
+            .disposed(by: disposeBag)
+
+        reactor.state.compactMap { $0.hasNewBoardContents }
+            .asDriver(onErrorJustReturn: false)
+            .drive(with: self) { owner, hasBadge in
+                let toolbarController = owner.toolbarController as? AppToolbarController
+                toolbarController?.setMenuIcon(hasBadge: hasBadge)
+//                customNaviBar.setMenuBadge(hasBadge: hasBadge)
+            }
+            .disposed(by: disposeBag)
+        
+        
         let message = "위치정보를 항상 허용으로 변경해주시면,\n근처의 충전소 정보 및 풍부한 혜택 정보를\n 알려드릴게요.\n정확한 위치를 위해 ‘설정>EV Infra>위치'\n에서 항상 허용으로 변경해주세요."
         let attributeText = NSMutableAttributedString(string: message)
         let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 14, weight: .regular), .foregroundColor: Colors.contentSecondary.color]
@@ -1472,12 +1496,6 @@ extension MainViewController {
         }
     }
     
-    private func menuBadgeAdd() {
-        let hasBadge = Board.sharedInstance.hasNew() || UserDefault().readBool(key: UserDefault.Key.HAS_FAILED_PAYMENT)
-        guard let _toolbar = self.toolbarController, let _appToolbar = _toolbar as? AppToolbarController else { return }
-        _appToolbar.setMenuIcon(hasBadge: hasBadge)
-    }
-    
     private func prepareClustering() {
         clusterManager = ClusterManager(mapView: mapView)
         clusterManager?.isClustering = defaults.readBool(key: UserDefault.Key.SETTINGS_CLUSTER)
@@ -1646,7 +1664,11 @@ extension MainViewController {
             defaults.saveBool(key: UserDefault.Key.HAS_FAILED_PAYMENT, value: false)
             ivMainChargeNew.isHidden = true
         }
-        menuBadgeAdd()
+        
+        if let reactor = reactor {
+            setMenuBadge(reactor: reactor)
+        }
+            
         switch (response["code"].intValue) {
         case 1000:
             // 충전중

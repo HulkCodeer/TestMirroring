@@ -14,16 +14,20 @@ internal final class MainReactor: ViewModel, Reactor {
     enum Action {        
         case showMarketingPopup
         case setAgreeMarketing(Bool)
+        case setMenuBadge(Bool)
     }
     
     enum Mutation {
         case setShowMarketingPopup(Bool)
         case setShowStartBanner(Bool)
+        case setMenuBadge(Bool)
     }
     
     struct State {
         var isShowMarketingPopup: Bool?
         var isShowStartBanner: Bool?
+        
+        var hasNewBoardContents: Bool?
     }
     
     internal var initialState: State    
@@ -50,6 +54,9 @@ internal final class MainReactor: ViewModel, Reactor {
                 .map { isShowStartBanner in
                     return .setShowStartBanner(isShowStartBanner)
                 }
+            
+        case .setMenuBadge(let hasNewContents):
+            return .just(.setMenuBadge(hasNewContents))
         }
     }
     
@@ -57,6 +64,7 @@ internal final class MainReactor: ViewModel, Reactor {
         var newState = state
         newState.isShowMarketingPopup = nil
         newState.isShowStartBanner = nil
+        newState.hasNewBoardContents = nil
         
         switch mutation {
         case .setShowMarketingPopup(let isShow):
@@ -65,6 +73,8 @@ internal final class MainReactor: ViewModel, Reactor {
         case .setShowStartBanner(let isShow):
             newState.isShowStartBanner = isShow
                     
+        case .setMenuBadge(let hasNewContents):
+            newState.hasNewBoardContents = hasNewContents
         }
         
         return newState
