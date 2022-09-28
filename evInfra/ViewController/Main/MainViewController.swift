@@ -130,6 +130,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 switch status {
                 case .authorizedAlways, .authorizedWhenInUse:
                     obj.naverMapView.moveToCurrentPostiion()
+                    obj.locationManager.startUpdatingLocation()
                     
                 default: obj.naverMapView.moveToCenterPosition()                    
                 }
@@ -275,27 +276,35 @@ internal final class MainViewController: UIViewController, StoryboardView {
                             })
                             
                         case .authorizedAlways:
-                            
                             guard let _reactor = obj.reactor else { return }
                             Observable.just(MainReactor.Action.showMarketingPopup)
                                 .bind(to: _reactor.action)
                                 .disposed(by: obj.disposeBag)
+                                                                                                           
                         default:
-                            let popupModel = PopupModel(title: "위치권한을 허용해주세요",
-                                                        message: "위치 권한을 허용해주시면, 근처의 충전소 정보 및 풍부한 혜택 정보를 알려드릴게요.",
-                                                        confirmBtnTitle: "권한 변경하기",
-                                                        confirmBtnAction: {
-                                if let url = URL(string: UIApplication.openSettingsURLString) {
-                                    if UIApplication.shared.canOpenURL(url) {
-                                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                            CLLocationManager().rx.isEnabled
+                                .subscribe(with: self) { obj, isEnable in
+                                    if isEnable {
+                                        let popupModel = PopupModel(title: "위치권한을 허용해주세요",
+                                                                    message: "위치 권한을 허용해주시면, 근처의 충전소 정보 및 풍부한 혜택 정보를 알려드릴게요.",
+                                                                    confirmBtnTitle: "권한 변경하기",
+                                                                    confirmBtnAction: {
+                                            if let url = URL(string: UIApplication.openSettingsURLString) {
+                                                if UIApplication.shared.canOpenURL(url) {
+                                                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                                                }
+                                            }
+                                        }, textAlignment: .center, dimmedBtnAction: nil)
+
+                                        let popup = ConfirmPopupViewController(model: popupModel)
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                            GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                                        })
+                                    } else {
+                                        obj.askPermission()
                                     }
                                 }
-                            }, textAlignment: .center, dimmedBtnAction: nil)
-
-                            let popup = ConfirmPopupViewController(model: popupModel)
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                                GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
-                            })
+                                .disposed(by: self.disposeBag)
                         }
                     }
                     .disposed(by: obj.disposeBag)
@@ -352,6 +361,23 @@ internal final class MainViewController: UIViewController, StoryboardView {
     }
     
     // MARK: FUNC
+    
+    private func askPermission() {
+        let alertController = UIAlertController(title: "위치정보가 활성화되지 않았습니다", message: "EV Infra의 원활한 서비스를 이용하시려면 [설정] > [개인정보보호]에서 위치 서비스를 켜주세요.", preferredStyle: UIAlertController.Style.alert)
+        
+        let cancelAction = UIAlertAction(title: "취소", style: UIAlertAction.Style.cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        let openAction = UIAlertAction(title: "설정", style: UIAlertAction.Style.default) { (action) in
+            if let url = URL(string: UIApplication.openSettingsURLString) {
+                if UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
+            }
+        }
+        alertController.addAction(openAction)        
+        self.present(alertController, animated: true, completion: nil)
+    }
     
     internal func sceneDidBecomeActiveCall() {
         printLog(out: "PARK TEST sceneDidBecomeActiveCall")
@@ -520,23 +546,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         self.locationManager.rx.isEnabled
             .subscribe(with: self) { obj, isEnable in
                 if !isEnable {
-                    self.locationManager.rx
-                        .status
-                        .subscribe(with: self) { obj, status in
-                            switch status {
-                            case .notDetermined, .restricted, .denied:
-                                GlobalFunctionSwift.showPopup(title: "위치정보가 활성화되지 않았습니다", message: "EV Infra의 원활한 기능을 이용하시려면 모든 권한을 허용해 주십시오.\n[설정] > [EV Infra] 에서 권한을 허용할 수 있습니다.", confirmBtnTitle: "설정하기", confirmBtnAction: {
-                                    if let url = URL(string: UIApplication.openSettingsURLString) {
-                                        if UIApplication.shared.canOpenURL(url) {
-                                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                                        }
-                                    }
-                                }, cancelBtnTitle: "확인")
-                                
-                            default: break
-                            }
-                        }
-                        .disposed(by: self.disposeBag)
+                    obj.askPermission()
                 } else {
                     switch self.mapView.positionMode {
                     case .normal:

@@ -206,7 +206,28 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
             .do(onNext: { _ in MemberManager.shared.isFirstInstall = true })
             .asDriver(onErrorJustReturn: Void())
             .drive(with: self) { obj, _ in
-                obj.manager.requestWhenInUseAuthorization()
+                obj.manager.rx.isEnabled
+                    .subscribe(with: self) { obj, isEnable in
+                        if isEnable {
+                            obj.manager.requestWhenInUseAuthorization()
+                        } else {
+                            let alertController = UIAlertController(title: "위치정보가 활성화되지 않았습니다", message: "EV Infra의 원활한 서비스를 이용하시려면 [설정] > [개인정보보호]에서 위치 서비스를 켜주세요.", preferredStyle: UIAlertController.Style.alert)
+                            
+                            let cancelAction = UIAlertAction(title: "취소", style: UIAlertAction.Style.cancel, handler: nil)
+                            alertController.addAction(cancelAction)
+                            
+                            let openAction = UIAlertAction(title: "설정", style: UIAlertAction.Style.default) { (action) in
+                                if let url = URL(string: UIApplication.openSettingsURLString) {
+                                    if UIApplication.shared.canOpenURL(url) {
+                                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                                    }
+                                }
+                            }
+                            alertController.addAction(openAction)                            
+                            self.present(alertController, animated: true, completion: nil)
+                        }
+                    }
+                    .disposed(by: self.disposeBag)
             }
             .disposed(by: self.disposeBag)
     }
