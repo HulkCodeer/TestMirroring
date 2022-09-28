@@ -162,6 +162,8 @@ internal final class IntroViewController: UIViewController {
                     } else {
                         self.moveMainView()
                     }
+                    
+                    FCMManager.sharedInstance.registerUser()
                 }
                 
             }

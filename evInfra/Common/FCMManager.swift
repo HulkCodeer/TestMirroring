@@ -392,10 +392,10 @@ internal final class FCMManager {
                 UserDefault().saveString(key: UserDefault.Key.MEMBER_ID, value: json["member_id"].stringValue)
                 UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_NOTIFICATION, value: json["receive_push"].boolValue)
                 UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_JEJU_NOTIFICATION, value: json["receive_jeju_push"].boolValue)
-                let marketing = json["receive_marketing_push"].boolValue
-                UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION, value: marketing)
+                let marketing = json["receive_marketing_push"].boolValue                
+                MemberManager.shared.isAllowMarketingNoti =  marketing
                 if marketing {
-                    UserDefault().saveBool(key: UserDefault.Key.DID_SHOW_MARKETING_POPUP, value: true)
+                    MemberManager.shared.isAllowMarketingNoti =  true
                 }
                 self.updateFCMInfo()
             }

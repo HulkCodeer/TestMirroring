@@ -122,6 +122,19 @@ internal final class MainViewController: UIViewController, StoryboardView {
         GlobalDefine.shared.mainViewcon = self
         
         self.locationManager.delegate = self
+        
+        
+        self.locationManager.rx
+            .status
+            .subscribe(with: self) { obj, status in
+                switch status {
+                case .authorizedAlways, .authorizedWhenInUse:
+                    obj.naverMapView.moveToCurrentPostiion()
+                    
+                default: obj.naverMapView.moveToCenterPosition()                    
+                }
+            }
+            .disposed(by: self.disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -201,7 +214,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
         self.rx.viewWillAppear
             .filter { _ in
                 let isProcessing = GlobalDefine.shared.tempDeepLink.isEmpty
-
                 if !isProcessing {
                     DeepLinkModel.shared.openSchemeURL(urlstring: GlobalDefine.shared.tempDeepLink)
                 }
@@ -214,7 +226,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                         switch status {
                         case .authorizedWhenInUse:
                             guard !MemberManager.shared.isFirstLocationPopup else {
-                                guard let _reactor = obj.reactor else { return }
+                                guard let _reactor = obj.reactor, _reactor.currentState.isShowStartBanner == nil else { return }
                                 Observable.just(MainReactor.Action.showMarketingPopup)
                                     .bind(to: _reactor.action)
                                     .disposed(by: obj.disposeBag)
@@ -261,7 +273,9 @@ internal final class MainViewController: UIViewController, StoryboardView {
                                 MemberManager.shared.isFirstLocationPopup = true
                                 GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
                             })
+                            
                         case .authorizedAlways:
+                            
                             guard let _reactor = obj.reactor else { return }
                             Observable.just(MainReactor.Action.showMarketingPopup)
                                 .bind(to: _reactor.action)
@@ -282,7 +296,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
                                 GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
                             })
-                            
                         }
                     }
                     .disposed(by: obj.disposeBag)
