@@ -54,8 +54,9 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
     private lazy var subTitleLbl = UILabel().then {
         $0.font = .systemFont(ofSize: 16, weight: .regular)
         $0.textColor = Colors.contentTertiary.color
-        $0.text = "아래의 권한 동의가 필요합니다."
+        $0.text = "개인정보보호 정책에 따라 EV Infra 이용 시 다음과 같은 권한이 필요해요."
         $0.textAlignment = .natural
+        $0.numberOfLines = 2
     }
     
     private lazy var permissionStackView = UIStackView().then {
@@ -66,7 +67,7 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
     }
     
     private lazy var nextBtn = StickButton(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 32, height: 80), level: .primary).then {
-        $0.rectBtn.setTitle("다음", for: .normal)
+        $0.rectBtn.setTitle("권한 동의하기", for: .normal)
     }
     
     // MARK: VARIABLE
@@ -108,7 +109,7 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
         subTitleLbl.snp.makeConstraints {
             $0.top.equalTo(mainTitleLbl.snp.bottom).offset(8)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(24)
+            $0.height.equalTo(48)
         }
         
         self.totalView.addSubview(permissionStackView)

@@ -156,7 +156,7 @@ internal final class MemberManager {
             UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION, value: newValue ?? false)
         }
         get {
-            return UserDefault().readBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION)
+            return UserDefault().readBoolWithNil(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION) as? Bool ?? nil
         }
     }
                     
