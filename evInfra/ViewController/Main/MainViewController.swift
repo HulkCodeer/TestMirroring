@@ -169,7 +169,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         // removeObserver 하면 안됨. addObserver를 viewdidload에서 함
         guard !MemberManager.shared.isShowQrTooltip else { return }
         _ = self.view.subviews.compactMap { $0 as? EasyTipView }.first?.removeFromSuperview()
-        MemberManager.shared.isShowQrTooltip = true
+        MemberManager.shared.isShowQrTooltip = true        
     }
     
     // MARK: REACTORKIT

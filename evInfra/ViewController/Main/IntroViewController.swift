@@ -156,8 +156,8 @@ internal final class IntroViewController: UIViewController {
                             CLLocationManager().requestWhenInUseAuthorization()
                         }
                         .disposed(by: self.disposeBag)
-                    
-                    if !MemberManager.shared.isFirstInstall {
+                                                            
+                    if MemberManager.shared.isAllowMarketingNoti == nil {
                         self.movePerminssonsGuideView()
                     } else {
                         self.moveMainView()
