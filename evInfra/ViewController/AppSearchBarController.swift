@@ -28,51 +28,51 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import UIKit
-import Material
-
-class AppSearchBarController: SearchBarController {
-    private var menuButton: IconButton!
-    private var moreButton: IconButton!
-    
-    internal var backbuttonTappedDelegate: (() -> Void)?
-    
-    open override func prepare() {
-        super.prepare()
-        prepareBackButton()
-//        prepareMoreButton()
-        prepareStatusBar()
-        prepareSearchBar()
-    }
-    
-    private func prepareBackButton() {
-        menuButton = IconButton(image: Icon.cm.arrowBack)
-        menuButton.tintColor = UIColor(named: "content-primary")
-        menuButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-    }
-    
-    private func prepareMoreButton() {
-        moreButton = IconButton(image: Icon.cm.moreVertical)
-        menuButton.tintColor = UIColor(named: "content-primary")
-    }
-    
-    private func prepareStatusBar() {
-        statusBarStyle = .lightContent
-        
-        // Access the statusBar.
-        //        statusBar.backgroundColor = Color.grey.base
-    }
-    
-    private func prepareSearchBar() {
-        searchBar.leftViews = [menuButton]
-//        searchBar.rightViews = [moreButton]
-    }
-}
-
-extension AppSearchBarController {
-    @objc
-    fileprivate func handleBackButton() {
-        backbuttonTappedDelegate?()
-        self.dismiss(animated: true, completion: nil)
-    }
-}
+//import UIKit
+//import Material
+//
+//class AppSearchBarController: SearchBarController {
+//    private var menuButton: IconButton!
+//    private var moreButton: IconButton!
+//    
+//    internal var backbuttonTappedDelegate: (() -> Void)?
+//    
+//    open override func prepare() {
+//        super.prepare()
+//        prepareBackButton()
+////        prepareMoreButton()
+//        prepareStatusBar()
+//        prepareSearchBar()
+//    }
+//    
+//    private func prepareBackButton() {
+//        menuButton = IconButton(image: Icon.cm.arrowBack)
+//        menuButton.tintColor = UIColor(named: "content-primary")
+//        menuButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
+//    }
+//    
+//    private func prepareMoreButton() {
+//        moreButton = IconButton(image: Icon.cm.moreVertical)
+//        menuButton.tintColor = UIColor(named: "content-primary")
+//    }
+//    
+//    private func prepareStatusBar() {
+//        statusBarStyle = .lightContent
+//        
+//        // Access the statusBar.
+//        //        statusBar.backgroundColor = Color.grey.base
+//    }
+//    
+//    private func prepareSearchBar() {
+//        searchBar.leftViews = [menuButton]
+////        searchBar.rightViews = [moreButton]
+//    }
+//}
+//
+//extension AppSearchBarController {
+//    @objc
+//    fileprivate func handleBackButton() {
+//        backbuttonTappedDelegate?()
+//        self.dismiss(animated: true, completion: nil)
+//    }
+//}

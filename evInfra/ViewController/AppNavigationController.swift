@@ -28,22 +28,22 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import UIKit
-import Material
-
-class AppNavigationController: NavigationController {
-    open override func prepare() {
-        super.prepare()
-//        isMotionEnabled = true
-        
-        motionNavigationTransitionType = .autoReverse(presenting: .none)
-        self.navigationBar.barStyle = .default
-        self.navigationBar.depthPreset = .none
-        navigationBar.dividerColor = Color.grey.lighten2
-        navigationBar.tintColor = UIColor.clear
-        navigationItem.leftViews.removeAll()
-        navigationItem.leftItemsSupplementBackButton = false
-        
-        (navigationBar as? NavigationBar)?.backButtonImage = Icon.cm.arrowBack?.tint(with: UIColor(named: "content-primary")!)
-    }
-}
+//import UIKit
+//import Material
+//
+//class AppNavigationController: NavigationController {
+//    open override func prepare() {
+//        super.prepare()
+////        isMotionEnabled = true
+//        
+//        motionNavigationTransitionType = .autoReverse(presenting: .none)
+//        self.navigationBar.barStyle = .default
+//        self.navigationBar.depthPreset = .none
+//        navigationBar.dividerColor = Color.grey.lighten2
+//        navigationBar.tintColor = UIColor.clear
+//        navigationItem.leftViews.removeAll()
+//        navigationItem.leftItemsSupplementBackButton = false
+//        
+//        (navigationBar as? NavigationBar)?.backButtonImage = Icon.cm.arrowBack?.tint(with: UIColor(named: "content-primary")!)
+//    }
+//}
