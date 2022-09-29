@@ -184,7 +184,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     
     // MARK: REACTORKIT
     
-    internal func bind(reactor: MainReactor) {                
+    internal func bind(reactor: MainReactor) {
         self.rx.viewWillAppear
             .filter { _ in
                 let isProcessing = GlobalDefine.shared.tempDeepLink.isEmpty
@@ -306,7 +306,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
     }
     
     internal func sceneDidBecomeActiveCall() {
-        printLog(out: "PARK TEST sceneDidBecomeActiveCall")
         guard let _reactor = self.reactor else { return }
         guard _reactor.currentState.isShowStartBanner == nil else { return }
         
@@ -316,7 +315,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 .bind(to: _reactor.action)
                 .disposed(by: self.disposeBag)
             
-        case .authorizedWhenInUse: break
+        case .authorizedWhenInUse, .authorizedAlways: break
         @unknown default:
             fatalError()
         }
