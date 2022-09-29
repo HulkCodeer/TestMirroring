@@ -18,7 +18,6 @@ import RxCocoa
 import EasyTipView
 import AVFoundation
 import ReactorKit
-import MiniPlengi
 import RxViewController
 import RxCoreLocation
 import CoreLocation

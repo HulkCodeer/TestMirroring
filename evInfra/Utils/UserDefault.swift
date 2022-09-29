@@ -95,8 +95,7 @@ class UserDefault {
         static let AD_KEEP_DATE_FOR_A_WEEK = "ad_keep_date_for_a_week" // 광고 - 일주일동안 보지 않기 선택한 날짜
         static let RECENT_KEYWORD = "keywords" // 게시글 검색 최근검색어
         static let IS_HIDDEN_DELEVERY_COMPLETE_TOOLTIP = "isDeleveryComplete" // 배송완료 툴팁 저장
-        
-        // 로플랫 전용
+                
         static let IS_FIRST_INSTALL = "is_first_install" // 앱 최초 설치인지 확인용
         static let IS_FIRST_LOCATION_POPUP = "is_first_location_popup" // 항상 허용 권한 위치 팝업 띄웠는지 유무        
     }

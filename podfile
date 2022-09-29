@@ -68,10 +68,6 @@ def shared_pods
   # Map
   pod 'NMapsMap'
   
-  # 로플랫
-  pod 'MiniPlengi', '1.4.2.2'
-#  pod 'TEST-MiniPlengi', '1.4.2.2' # Debug 모드에서 테스트를 위해 필요
-  
   pod 'Amplitude', '~> 8.8.0'
   
 end

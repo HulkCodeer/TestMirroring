@@ -7,7 +7,6 @@
 //
 
 import ReactorKit
-import MiniPlengi
 import CoreLocation
 import RxViewController
 
