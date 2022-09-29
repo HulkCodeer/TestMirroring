@@ -276,7 +276,7 @@ extension PermissionsGuideViewController: CLLocationManagerDelegate {
                 
         switch manager.authorizationStatus {
         case .notDetermined, .restricted: break
-        case .authorizedAlways, .authorizedWhenInUse, .denied: self.moveMainViewcon()
+        case .authorizedWhenInUse, .denied: self.moveMainViewcon()
                                                     
         @unknown default:
             fatalError()

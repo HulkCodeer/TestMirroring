@@ -119,15 +119,12 @@ internal final class MainViewController: UIViewController, StoryboardView {
         prepareCalloutLayer()
         
         GlobalDefine.shared.mainViewcon = self
-        
-        self.locationManager.delegate = self
-        
-        
+                        
         self.locationManager.rx
             .status
             .subscribe(with: self) { obj, status in
                 switch status {
-                case .authorizedAlways, .authorizedWhenInUse:
+                case .authorizedWhenInUse:
                     obj.naverMapView.moveToCurrentPostiion()
                     obj.locationManager.startUpdatingLocation()
                     
@@ -254,32 +251,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                                             .foregroundColor: Colors.contentSecondary.color],
                                         range: $0)
                                 }
-                                                                    
-                            let popupModel = PopupModel(title: "위치 권한을 항상 허용으로\n변경해주세요.",
-                                                        messageAttributedText: attributeText,
-                                                        confirmBtnTitle: "항상 허용하기", cancelBtnTitle: "유지하기",
-                                                        confirmBtnAction: {
-                                obj.locationManager.requestAlwaysAuthorization()
-                                
-                            }, cancelBtnAction: { [weak self] in
-                                guard  let self = self, let _reactor = self.reactor else { return }
-                                Observable.just(MainReactor.Action.showMarketingPopup)
-                                    .bind(to: _reactor.action)
-                                    .disposed(by: self.disposeBag)
-                            }, textAlignment: .center)
-
-                            let popup = ConfirmPopupViewController(model: popupModel)
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                                MemberManager.shared.isFirstLocationPopup = true
-                                GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
-                            })
-                            
-                        case .authorizedAlways:
-                            guard let _reactor = obj.reactor else { return }
-                            Observable.just(MainReactor.Action.showMarketingPopup)
-                                .bind(to: _reactor.action)
-                                .disposed(by: obj.disposeBag)
-                                                                                                           
+                                                                                                                                            
                         default:
                             CLLocationManager().rx.isEnabled
                                 .subscribe(with: self) { obj, isEnable in
@@ -389,7 +361,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 .bind(to: _reactor.action)
                 .disposed(by: self.disposeBag)
             
-        case .authorizedAlways, .authorizedWhenInUse: break
+        case .authorizedWhenInUse: break
         @unknown default:
             fatalError()
         }
@@ -588,23 +560,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
             self.showNavigation(start: start, destination: destination, via: naverMapView.viaList)
         }                
         RouteEvent.clickNavigationFindway.logEvent()
-    }
-}
-
-extension MainViewController: CLLocationManagerDelegate {
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        let status = manager.authorizationStatus
-        switch status {
-        case .authorizedAlways:
-            guard let _reactor = self.reactor else { return }
-            Observable.just(MainReactor.Action.showMarketingPopup)
-                .bind(to: _reactor.action)
-                .disposed(by: self.disposeBag)
-            
-        case .notDetermined, .authorizedWhenInUse, .denied, .restricted: break
-        @unknown default:
-            fatalError()
-        }
     }
 }
 
