@@ -215,6 +215,11 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
                 obj.manager.rx.status
                     .observe(on: MainScheduler.asyncInstance)
                     .subscribe(onNext: { status in
+                        
+                        Observable.just(PermissionsGuideReactor.Action.moveToMain(status == .denied))
+                            .bind(to: reactor.action)
+                            .disposed(by: obj.disposeBag)
+                        
                         switch status {
                         case .denied:
                             if let url = URL(string: UIApplication.openSettingsURLString) {
@@ -223,7 +228,7 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
                                 }
                             }
                             
-                            self.moveMainViewcon()
+//                            self.moveMainViewcon()
                             
                         case .notDetermined, .restricted:
                             obj.manager.desiredAccuracy = kCLLocationAccuracyBest
@@ -237,21 +242,30 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
                     .disposed(by: self.disposeBag)
             }
             .disposed(by: self.disposeBag)
+        
+        reactor.state.compactMap { $0.canMoveMain }
+            .filter { $0 == true}
+            .asDriver(onErrorJustReturn: true)
+            .drive { _ in
+                MemberManager.shared.isFirstInstall = true
+                GlobalDefine.shared.mainNavi?.popToViewController(self, animated: false)
+            }
+            .disposed(by: disposeBag)
     }
     
-    private func moveMainViewcon() {
-        MemberManager.shared.isFirstInstall = true
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let reactor = MainReactor(provider: RestApi())
-        let mainViewcon = storyboard.instantiateViewController(ofType: MainViewController.self)
-        mainViewcon.reactor = reactor
-        let leftViewController = storyboard.instantiateViewController(ofType: LeftViewController.self)
-        
-        let appToolbarController = AppToolbarController(rootViewController: mainViewcon)
-        appToolbarController.delegate = mainViewcon
-        let ndController = AppNavigationDrawerController(rootViewController: appToolbarController, leftViewController: leftViewController)
-        GlobalDefine.shared.mainNavi?.setViewControllers([ndController], animated: true)
-    }
+//    private func moveMainViewcon() {
+//        MemberManager.shared.isFirstInstall = true
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let reactor = MainReactor(provider: RestApi())
+//        let mainViewcon = storyboard.instantiateViewController(ofType: MainViewController.self)
+//        mainViewcon.reactor = reactor
+//        let leftViewController = storyboard.instantiateViewController(ofType: LeftViewController.self)
+//
+//        let appToolbarController = AppToolbarController(rootViewController: mainViewcon)
+//        appToolbarController.delegate = mainViewcon
+//        let ndController = AppNavigationDrawerController(rootViewController: appToolbarController, leftViewController: leftViewController)
+//        GlobalDefine.shared.mainNavi?.setViewControllers([ndController], animated: true)
+//    }
 }
 
 
@@ -295,8 +309,12 @@ extension PermissionsGuideViewController: CLLocationManagerDelegate {
                     }
                 }
             }, cancelBtnAction: { [weak self] in
-                guard let self = self else { return }
-                self.moveMainViewcon()
+                guard let self = self, let _reactor = self.reactor else { return }
+                
+//                self.moveMainViewcon()
+                Observable.just(PermissionsGuideReactor.Action.moveToMain(true))
+                    .bind(to: _reactor.action)
+                    .disposed(by: self.disposeBag)
 
             }, textAlignment: .center)
 
@@ -306,7 +324,12 @@ extension PermissionsGuideViewController: CLLocationManagerDelegate {
             })
             
         case .authorizedAlways, .authorizedWhenInUse:
-            self.moveMainViewcon()
+            guard let _reactor = reactor else { return }
+            
+//            self.moveMainViewcon()
+            Observable.just(PermissionsGuideReactor.Action.moveToMain(true))
+                .bind(to: _reactor.action)
+                .disposed(by: disposeBag)
                                                     
         @unknown default:
             printLog(out: "PARK TEST authorized")

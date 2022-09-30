@@ -156,14 +156,16 @@ internal final class IntroViewController: UIViewController {
                             .subscribe(with: self) { obj, status in
                                 switch status {
                                 case .authorizedAlways, .authorizedWhenInUse:
-                                    self.moveMainView()
+//                                    self.moveMainView()
+                                    self.presentMainView()
                                     
                                 default: self.movePerminssonsGuideView()
                                 }
                             }
                             .disposed(by: self.disposeBag)
                     } else {
-                        self.moveMainView()
+//                        self.moveMainView()
+                        self.presentMainView()
                     }
                 }
                 
@@ -171,18 +173,21 @@ internal final class IntroViewController: UIViewController {
         }
     }
     
-    private func moveMainView() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let reactor = MainReactor(provider: RestApi())
-        let mainViewcon = storyboard.instantiateViewController(ofType: MainViewController.self)
-        mainViewcon.reactor = reactor
-        let letfViewcon = storyboard.instantiateViewController(ofType: LeftViewController.self)
-        
-        let appToolbarController = AppToolbarController(rootViewController: mainViewcon)
-        appToolbarController.delegate = mainViewcon
-        let ndController = AppNavigationDrawerController(rootViewController: appToolbarController, leftViewController: letfViewcon)
-        GlobalDefine.shared.mainNavi?.setViewControllers([ndController], animated: true)
-    }
+//    private func moveMainView() {
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let reactor = MainReactor(provider: RestApi())
+//        let mainViewcon = storyboard.instantiateViewController(ofType: MainViewController.self)
+//        mainViewcon.reactor = reactor
+//        let letfViewcon = storyboard.instantiateViewController(ofType: LeftViewController.self)
+//
+//        // naviBar
+//        let appToolbarController = AppToolbarController(rootViewController: mainViewcon)
+//        appToolbarController.delegate = mainViewcon
+//
+//        let ndController = AppNavigationDrawerController(rootViewController: appToolbarController, leftViewController: letfViewcon)
+//
+//        GlobalDefine.shared.mainNavi?.setViewControllers([ndController], animated: true)
+//    }
     
     private func movePerminssonsGuideView() {
         let reactor = PermissionsGuideReactor(provider: RestApi())
@@ -235,5 +240,18 @@ extension IntroViewController: CompanyInfoCheckerDelegate {
         self.progressLayer.isHidden = !isShow
         self.progressBar.isHidden = !isShow
         self.progressLabel.isHidden = !isShow
+    }
+}
+
+extension IntroViewController: PermissionGuideDelegate {
+    func presentMainView() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let reactor = MainReactor(provider: RestApi())
+        let mainViewcon = storyboard.instantiateViewController(ofType: MainViewController.self)
+        mainViewcon.reactor = reactor
+//        let letfViewcon = storyboard.instantiateViewController(ofType: LeftViewController.self)
+        
+        let mainNavigationVC = UINavigationController(rootViewController: mainViewcon)
+        self.present(mainNavigationVC, animated: true)
     }
 }
