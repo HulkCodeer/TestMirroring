@@ -266,9 +266,9 @@ internal final class MainViewController: UIViewController, StoryboardView {
         reactor.state.compactMap { $0.hasNewBoardContents }
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { owner, hasBadge in
-                let toolbarController = owner.toolbarController as? AppToolbarController
-                toolbarController?.setMenuIcon(hasBadge: hasBadge)
-//                customNaviBar.setMenuBadge(hasBadge: hasBadge)
+//                let toolbarController = owner.toolbarController as? AppToolbarController
+//                toolbarController?.setMenuIcon(hasBadge: hasBadge)
+                owner.customNaviBar.setMenuBadge(hasBadge: hasBadge)
             }
             .disposed(by: disposeBag)
         
@@ -478,10 +478,11 @@ internal final class MainViewController: UIViewController, StoryboardView {
     
     func setStartPoint() {
         guard let selectCharger = selectCharger else { return }
-        guard let tc = toolbarController,
-              let appTc = tc as? AppToolbarController else { return }
-
-        appTc.enableRouteMode(isRoute: true)
+//        guard let tc = toolbarController,
+//              let appTc = tc as? AppToolbarController else { return }
+//
+//        appTc.enableRouteMode(isRoute: true)
+        // 길찾기 view show
         
         startField.text = selectCharger.mStationInfoDto?.mSnm
         routeStartPoint = selectCharger.getTMapPoint()
@@ -497,10 +498,11 @@ internal final class MainViewController: UIViewController, StoryboardView {
     
     func setEndPoint() {
         guard let selectCharger = selectCharger else { return }
-        guard let tc = toolbarController,
-              let appTc = tc as? AppToolbarController else { return }
-
-        appTc.enableRouteMode(isRoute: true)
+//        guard let tc = toolbarController,
+//              let appTc = tc as? AppToolbarController else { return }
+//
+//        appTc.enableRouteMode(isRoute: true)
+        // 길찾기 view show
         
         endField.text = selectCharger.mStationInfoDto?.mSnm
         routeEndPoint = selectCharger.getTMapPoint()
@@ -1253,10 +1255,11 @@ extension MainViewController {
     func requestStationInfo() {
         LoginHelper.shared.delegate = self
         
-        DispatchQueue.main.async {
-            self.markerIndicator.startAnimating()
-            guard let _toolbar = self.toolbarController, _toolbar is AppToolbarController else { return }
-            _toolbar.toolbar.isUserInteractionEnabled = false
+        DispatchQueue.main.async { [weak self] in
+            self?.markerIndicator.startAnimating()
+//            guard let _toolbar = self.toolbarController, _toolbar is AppToolbarController else { return }
+//            _toolbar.toolbar.isUserInteractionEnabled = false
+            self?.customNaviBar.isUserInteractionEnabled = false
         }
         
         ChargerManager.sharedInstance.getStations { [weak self] in
@@ -1267,10 +1270,11 @@ extension MainViewController {
             
             self?.drawMapMarker()
             
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
                 self?.markerIndicator.stopAnimating()
-                guard let _toolbar = self?.toolbarController, _toolbar is AppToolbarController else { return }
-                _toolbar.toolbar.isUserInteractionEnabled = true
+//                guard let _toolbar = self?.toolbarController, _toolbar is AppToolbarController else { return }
+//                _toolbar.toolbar.isUserInteractionEnabled = true
+                self?.customNaviBar.isUserInteractionEnabled = true
                 
                 if let chargerId = GlobalDefine.shared.sharedChargerIdFromDynamicLink {
                     self?.sharedChargerId = chargerId

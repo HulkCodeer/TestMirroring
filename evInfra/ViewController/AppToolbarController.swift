@@ -6,6 +6,10 @@
 //  Copyright © 2018년 soft-berry. All rights reserved.
 //
 
+/*
+ 메인 네비바 view
+ */
+
 //import UIKit
 //import Material
 
