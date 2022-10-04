@@ -7,10 +7,12 @@
 //
 
 import UIKit
+
 import DropDown
 import Material
 import M13Checkbox
 import SwiftyJSON
+import Then
 import NMapsMap
 import SnapKit
 import RxSwift
@@ -77,7 +79,11 @@ internal final class MainViewController: UIViewController, StoryboardView {
     private var routeEndPoint: TMapPoint? = nil
     private var resultTableView: PoiTableView?
     
-    var naverMapView: NaverMapView!
+    lazy var naverMapView = NaverMapView(frame: .zero).then {
+        $0.mapView.addCameraDelegate(delegate: self)
+        $0.mapView.touchDelegate = self
+        ChargerManager.sharedInstance.delegate = self
+    }
     var mapView: NMFMapView { naverMapView.mapView }
     private var locationManager = CLLocationManager()
     private var chargerManager = ChargerManager.sharedInstance
@@ -98,11 +104,20 @@ internal final class MainViewController: UIViewController, StoryboardView {
     }
     
     // MARK: - View Life Cycle
+    override func loadView() {
+        super.loadView()
+        
+        view.insertSubview(naverMapView, at: 0)
+        
+        naverMapView.snp.makeConstraints {
+            $0.edges.equalTo(view)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
                         
         configureLayer()
-        configureNaverMapView()                
         
         prepareRouteField()
         preparePOIResultView()
@@ -414,15 +429,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
     private func prepareRouteView() {
         let findPath = UITapGestureRecognizer(target: self, action:  #selector (self.onClickShowNavi(_:)))
         self.routeDistanceBtn.addGestureRecognizer(findPath)
-    }
-    
-    private func configureNaverMapView() {
-        naverMapView = NaverMapView(frame: view.frame)
-        naverMapView.mapView.addCameraDelegate(delegate: self)
-        naverMapView.mapView.touchDelegate = self
-        view.insertSubview(naverMapView, at: 0)
-        
-        ChargerManager.sharedInstance.delegate = self
     }
     
     private func configureLayer() {
