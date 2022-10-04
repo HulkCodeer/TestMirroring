@@ -114,11 +114,13 @@ internal final class MainViewController: UIViewController, StoryboardView {
         prepareMenuBtnLayer()
         
         prepareChargePrice()
-        requestStationInfo()
+//        requestStationInfo()
         
         prepareCalloutLayer()
         
         GlobalDefine.shared.mainViewcon = self
+        
+        self.locationManager.delegate = self
                         
         self.locationManager.rx
             .status
@@ -308,14 +310,15 @@ internal final class MainViewController: UIViewController, StoryboardView {
     internal func sceneDidBecomeActiveCall() {
         guard let _reactor = self.reactor else { return }
         guard _reactor.currentState.isShowStartBanner == nil else { return }
-        
+
         switch self.locationManager.authorizationStatus {
         case .denied, .restricted, .notDetermined:
             Observable.just(MainReactor.Action.showMarketingPopup)
                 .bind(to: _reactor.action)
                 .disposed(by: self.disposeBag)
-            
+
         case .authorizedWhenInUse, .authorizedAlways: break
+
         @unknown default:
             fatalError()
         }
@@ -480,7 +483,8 @@ internal final class MainViewController: UIViewController, StoryboardView {
                         self.mapView.positionMode = .compass
                     case .compass:
                         self.mapView.positionMode = .direction
-                    default: break
+                    default:
+                        self.mapView.positionMode = .direction
                     }
                     
                     self.updateMyLocationButton()
@@ -1350,28 +1354,27 @@ extension MainViewController {
                 
     private func myLocationModeOff() {
         mapView.positionMode = .normal
-        myLocationButton.setImage(UIImage(named: "icon_current_location_lg"), for: .normal)
-        myLocationButton.tintColor = UIColor.init(named: "content-primary")
+        myLocationButton.setImage(Icons.iconCurrentLocationLg.image, for: .normal)
+        myLocationButton.tintColor = Colors.contentPrimary.color
     }
     
     private func updateMyLocationButton() {
         self.markerIndicator.startAnimating()
-        DispatchQueue.global(qos: .background).async { [weak self] in
-            DispatchQueue.main.async {
-                switch self?.mapView.positionMode  {
-                case .normal, .direction:
-                    self?.myLocationButton.setImage(UIImage(named: "icon_current_location_lg"), for: .normal)
-                    self?.myLocationButton.tintColor = UIColor.init(named: "content-positive")
-                    UIApplication.shared.isIdleTimerDisabled = false // 화면 켜짐 유지 끔
-                case .compass:
-                    self?.myLocationButton.setImage(UIImage(named: "icon_compass_lg"), for: .normal)
-                    self?.myLocationButton.tintColor = UIColor.init(named: "content-positive")
-                    UIApplication.shared.isIdleTimerDisabled = true // 화면 켜짐 유지
-                default:
-                    break
-                }
-                self?.markerIndicator.stopAnimating()
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            switch self.mapView.positionMode  {
+            case .normal, .direction:
+                self.myLocationButton.setImage(Icons.iconCurrentLocationLg.image, for: .normal)
+                self.myLocationButton.tintColor = Colors.contentPositive.color
+                UIApplication.shared.isIdleTimerDisabled = false // 화면 켜짐 유지 끔
+            case .compass:
+                self.myLocationButton.setImage(Icons.iconCompassLg.image, for: .normal)
+                self.myLocationButton.tintColor = Colors.contentPositive.color
+                UIApplication.shared.isIdleTimerDisabled = true // 화면 켜짐 유지
+            default:
+                break
             }
+            self.markerIndicator.stopAnimating()
         }
     }
 
@@ -1615,4 +1618,15 @@ extension MainViewController: LoginHelperDelegate {
     }
 }
 
+extension MainViewController: CLLocationManagerDelegate {
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        switch manager.authorizationStatus {
+        case .notDetermined, .restricted: break
+        case .authorizedWhenInUse, .denied: break
+
+        @unknown default:
+            fatalError()
+        }
+    }
+}
 
