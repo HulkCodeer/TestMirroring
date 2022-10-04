@@ -209,7 +209,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
  
                         default:
                             CLLocationManager().rx.isEnabled
-                                .subscribe(with: self) { obj, isEnable in
+                                .subscribe(with: obj) { obj, isEnable in
                                     if isEnable {
                                         let popupModel = PopupModel(title: "위치권한을 허용해주세요",
                                                                     message: "위치 권한을 허용해주시면, 근처의 충전소 정보 및 풍부한 혜택 정보를 알려드릴게요.",
@@ -230,7 +230,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                                         obj.askPermission()
                                     }
                                 }
-                                .disposed(by: self.disposeBag)
+                                .disposed(by: obj.disposeBag)
                         }
                     }
                     .disposed(by: obj.disposeBag)
