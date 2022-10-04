@@ -8,7 +8,6 @@
 
 import ReactorKit
 import SwiftyJSON
-import MiniPlengi
 
 internal final class MainReactor: ViewModel, Reactor {
     enum Action {        
@@ -126,14 +125,7 @@ internal final class MainReactor: ViewModel, Reactor {
             
             var message = "[EV Infra] \(currDate) "
             message += receive ? "마케팅 수신 동의 처리가 완료되었어요! ☺️ 더 좋은 소식 준비할게요!" : "마케팅 수신 거부 처리가 완료되었어요."
-                        
-            DispatchQueue.main.async {
-                _ = Plengi.enableAdNetwork(true, enableNoti: receive)
-                if receive {
-                    _ = Plengi.start()
-                }
-            }
-                    
+            
             Snackbar().show(message: message)
         
             return true

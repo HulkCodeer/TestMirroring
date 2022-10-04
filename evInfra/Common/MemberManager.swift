@@ -8,7 +8,6 @@
 
 import Foundation
 import SwiftyJSON
-import MiniPlengi
 import RxCoreLocation
 import RxSwift
 
@@ -200,7 +199,6 @@ internal final class MemberManager {
         }
     }
         
-    // 로플랫 전용
     internal var isFirstInstall: Bool { // false일 경우 처음 설치, true일때 처음설치 아님
         set {
             UserDefault().saveBool(key: UserDefault.Key.IS_FIRST_INSTALL, value: newValue)
@@ -209,8 +207,7 @@ internal final class MemberManager {
             return UserDefault().readBool(key: UserDefault.Key.IS_FIRST_INSTALL)
         }
     }
-    
-    // 로플랫 전용
+        
     internal var isFirstLocationPopup: Bool { // false일 경우 처음 설치, true일때 처음설치 아님
         set {
             UserDefault().saveBool(key: UserDefault.Key.IS_FIRST_LOCATION_POPUP, value: newValue)
@@ -266,23 +263,6 @@ internal final class MemberManager {
             userDefault.saveString(key: UserDefault.Key.MB_PHONE, value: data["phone"].stringValue)
             userDefault.saveString(key: UserDefault.Key.MB_REG_DATE, value: data["reg_date"].stringValue)
             userDefault.saveString(key: UserDefault.Key.MB_POINT, value: data["point"].stringValue)
-                        
-            CLLocationManager().rx
-                .status
-                .subscribe(onNext: { status in
-                    switch status {
-                    case .authorizedAlways, .authorizedWhenInUse:
-                        DispatchQueue.main.async {
-                            let receive = MemberManager.shared.isAllowMarketingNoti
-                            _ = Plengi.enableAdNetwork(true, enableNoti: receive ?? false)
-                            _ = Plengi.start()
-    //                        _ = Plengi.manual_refreshPlace_foreground()
-                        }
-                                                                
-                    default: break
-                    }
-                })
-                .disposed(by: self.disposeBag)
         }
     }
     
@@ -306,7 +286,6 @@ internal final class MemberManager {
         userDefault.saveString(key: UserDefault.Key.MB_AGE_RANGE, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_EMAIL, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_PHONE, value: "")
-        // 로플랫 걷어낼 경우 실행시켜서 지워야함
 //        userDefault.removeObjectForKey(key: UserDefault.Key.IS_FIRST_INSTALL)
 //        userDefault.removeObjectForKey(key: UserDefault.Key.IS_FIRST_LOCATION_POPUP)
                         

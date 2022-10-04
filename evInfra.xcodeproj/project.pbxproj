@@ -3079,8 +3079,6 @@
 			dependencies = (
 			);
 			name = evInfra_dev;
-			packageProductDependencies = (
-			);
 			productName = evInfra;
 			productReference = 63F31548284EC74F001713D2 /* evInfra_dev.app */;
 			productType = "com.apple.product-type.application";
@@ -3102,8 +3100,6 @@
 			dependencies = (
 			);
 			name = evInfra;
-			packageProductDependencies = (
-			);
 			productName = evInfra;
 			productReference = 732121B9203AC023000E105C /* evInfra.app */;
 			productType = "com.apple.product-type.application";
@@ -3178,8 +3174,6 @@
 				Base,
 			);
 			mainGroup = 732121B0203AC023000E105C;
-			packageReferences = (
-			);
 			productRefGroup = 732121BA203AC023000E105C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -3771,7 +3765,6 @@
 				"${BUILT_PRODUCTS_DIR}/UIImageCropper/UIImageCropper.framework",
 				"${BUILT_PRODUCTS_DIR}/WeakMapTable/WeakMapTable.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/MiniPlengi/MiniPlengi.framework/MiniPlengi",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/NMapsMap/NMapsMap.framework/NMapsMap",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -3826,7 +3819,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UIImageCropper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WeakMapTable.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MiniPlengi.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NMapsMap.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3947,7 +3939,6 @@
 				"${BUILT_PRODUCTS_DIR}/UIImageCropper/UIImageCropper.framework",
 				"${BUILT_PRODUCTS_DIR}/WeakMapTable/WeakMapTable.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/MiniPlengi/MiniPlengi.framework/MiniPlengi",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/NMapsMap/NMapsMap.framework/NMapsMap",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -4002,7 +3993,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UIImageCropper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WeakMapTable.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MiniPlengi.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NMapsMap.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4067,7 +4057,6 @@
 				"${BUILT_PRODUCTS_DIR}/UIImageCropper/UIImageCropper.framework",
 				"${BUILT_PRODUCTS_DIR}/WeakMapTable/WeakMapTable.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/MiniPlengi/MiniPlengi.framework/MiniPlengi",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/NMapsMap/NMapsMap.framework/NMapsMap",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -4122,7 +4111,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UIImageCropper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WeakMapTable.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MiniPlengi.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NMapsMap.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5175,7 +5163,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 09271450;
+				CURRENT_PROJECT_VERSION = 10041701;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				ENABLE_BITCODE = NO;
@@ -5217,7 +5205,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 09271450;
+				CURRENT_PROJECT_VERSION = 10041701;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				ENABLE_BITCODE = NO;
@@ -5379,7 +5367,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 152;
+				CURRENT_PROJECT_VERSION = 09281432;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5420,7 +5408,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 152;
+				CURRENT_PROJECT_VERSION = 09281432;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				FRAMEWORK_SEARCH_PATHS = (
