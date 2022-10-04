@@ -212,7 +212,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                                 .subscribe(with: obj) { obj, isEnable in
                                     if isEnable {
                                         let popupModel = PopupModel(title: "위치권한을 허용해주세요",
-                                                                    message: "위치 권한을 허용해주시면, 근처의 충전소 정보 및 풍부한 혜택 정보를 알려드릴게요.",
+                                                                    message: "위치 권한을 허용해주시면, 사용자님 근처의 충전소 정보를 알려드릴게요. ",
                                                                     confirmBtnTitle: "권한 변경하기",
                                                                     confirmBtnAction: {
                                             if let url = URL(string: UIApplication.openSettingsURLString) {
