@@ -206,7 +206,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                                     .disposed(by: obj.disposeBag)
                                 return
                             }
-                                                                                                                                                                        
+ 
                         default:
                             CLLocationManager().rx.isEnabled
                                 .subscribe(with: self) { obj, isEnable in
