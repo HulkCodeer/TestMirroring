@@ -14,16 +14,27 @@ internal final class MainReactor: ViewModel, Reactor {
     enum Action {        
         case showMarketingPopup
         case setAgreeMarketing(Bool)
+        case setFilterType(FilterTagType?)
+        case swipeLeft
+        case swipeRight
+        case showFilterSetting
+        case updateFilterBarTitle
     }
     
     enum Mutation {
         case setShowMarketingPopup(Bool)
         case setShowStartBanner(Bool)
+        case setFilterType(FilterTagType?)
+        case showFilterSetting
+        case updateFilterBarTitle
     }
     
     struct State {
         var isShowMarketingPopup: Bool?
         var isShowStartBanner: Bool?
+        var selectedFilterTagType: FilterTagType?
+        var isShowFilterSetting: Bool?
+        var isUpdateFilterBarTitle: Bool?
     }
     
     internal var initialState: State    
@@ -50,13 +61,30 @@ internal final class MainReactor: ViewModel, Reactor {
                 .map { isShowStartBanner in
                     return .setShowStartBanner(isShowStartBanner)
                 }
+            
+        case .setFilterType(let filterTagType):
+            return .just(.setFilterType(filterTagType))
+            
+        case .swipeLeft:
+            return .just(.setFilterType(self.currentState.selectedFilterTagType?.swipeLeft()))
+            
+        case .swipeRight:
+            return .just(.setFilterType(self.currentState.selectedFilterTagType?.swipeRight()))
+            
+        case .showFilterSetting:
+            return .just(.showFilterSetting)
+            
+        case .updateFilterBarTitle:
+            return .just(.updateFilterBarTitle)
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
-        newState.isShowMarketingPopup = nil
-        newState.isShowStartBanner = nil
+        newState.isShowMarketingPopup = nil        
+        newState.isShowFilterSetting = nil
+        newState.isUpdateFilterBarTitle = nil
+        newState.selectedFilterTagType = nil
         
         switch mutation {
         case .setShowMarketingPopup(let isShow):
@@ -64,7 +92,16 @@ internal final class MainReactor: ViewModel, Reactor {
             
         case .setShowStartBanner(let isShow):
             newState.isShowStartBanner = isShow
-                    
+            
+        case .setFilterType(let filterTagType):
+            newState.selectedFilterTagType = filterTagType
+            newState.isUpdateFilterBarTitle = true
+            
+        case .showFilterSetting:
+            newState.isShowFilterSetting = true
+            
+        case .updateFilterBarTitle:
+            newState.isUpdateFilterBarTitle = true
         }
         
         return newState

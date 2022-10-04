@@ -15,7 +15,7 @@ class FilterCompanyView: UIView {
     @IBOutlet var titleView: UIView!
     @IBOutlet var companyTableView: CompanyTableView!
     
-    private let GROUP_TITLE = ["A.B.C..", "가", "나", "다", "라", "마", "바", "사", "아", "자", "차", "카", "타", "파", "하", "힣"];
+    private let GROUP_TITLE = ["A.B.C..", "가", "나", "다", "라", "마", "바", "사", "아", "자", "차", "카", "타", "파", "하", "힣"]
 
     var companyList = [CompanyInfoDto]()
     var groupList = Array<CompanyGroup>()
@@ -40,7 +40,15 @@ class FilterCompanyView: UIView {
         addSubview(view)
         
         prepareTagList()
-        setUpUI()
+        
+        companyTableView.separatorInset = .zero
+        companyTableView.separatorStyle = .none
+        companyTableView.allowsSelection = false
+        companyTableView.tableDelegate = self
+        
+        updateTable()
+        
+        self.switchCard.isOn = FilterManager.sharedInstance.getIsMembershipCardChecked()
     }
     
     func prepareTagList() {
@@ -106,19 +114,10 @@ class FilterCompanyView: UIView {
         groupList.insert(CompanyGroup(title: "추천", list: recommendList), at: 0)
     }
     
-    func setUpUI(){
-        companyTableView.separatorInset = .zero
-        companyTableView.separatorStyle = .none
-        companyTableView.allowsSelection = false
-        companyTableView.tableDelegate = self
-        
-        updateTable()
-    }
-    
     func updateTable() {
         updateSwitch()
-        
-        delegate?.onChangedFilter(type: .company) // update change or turnback
+                        
+        delegate?.onChangedFilter(type: .company)
         
         companyTableView.groupList = groupList
         companyTableView.reloadData()
@@ -167,10 +166,12 @@ class FilterCompanyView: UIView {
         
         switchAll.setOn(true, animated: true)
         switchCard.setOn(false, animated: true)
-        setUpUI()
+        updateTable()
     }
     
     func applyFilter() {
+        FilterManager.sharedInstance.saveIsMembershipCardChecked(self.switchCard.isOn)
+        
         for company in companyList {
             for list in groupList {
                 for tag in list.list {

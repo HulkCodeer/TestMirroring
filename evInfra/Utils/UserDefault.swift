@@ -40,7 +40,7 @@ class UserDefault {
         static let MB_POINT = "point"
         static let MB_HAS_REPRESENTED = "mb_has_represented"
         static let IS_SHOW_QR_TOOLTIP = "is_show_qr_tooltip"
-        
+                
         // 필터 - 개인 설정
         static let FILTER_DC_DEMO       = "filter_dc_demo"
         static let FILTER_DC_COMBO      = "filter_dc_combo"
@@ -62,6 +62,7 @@ class UserDefault {
         static let FILTER_HIGHWAY_UP    = "filter_highway_up"
         static let FILTER_HIGHWAT_DOWN  = "filter_highway_down"
         static let FILTER_MYCAR         = "filter_mycar"
+        static let FILTER_MEMBERSHIP_CARD = "filter_membership_card"
         
         static let FILTER_ROAD          = "filter_road"
         static let FILTER_ST_KIND       = "filter_station_kind"
@@ -98,7 +99,7 @@ class UserDefault {
         
         // 로플랫 전용
         static let IS_FIRST_INSTALL = "is_first_install" // 앱 최초 설치인지 확인용
-        static let IS_FIRST_LOCATION_POPUP = "is_first_location_popup" // 항상 허용 권한 위치 팝업 띄웠는지 유무
+        static let IS_FIRST_LOCATION_POPUP = "is_first_location_popup" // 항상 허용 권한 위치 팝업 띄웠는지 유무        
     }
 
     func saveString(key:String, value: String) -> Void {
@@ -133,6 +134,14 @@ class UserDefault {
     
     func readBool(key: String) -> Bool {
         return UserDefaults.standard.bool(forKey: key)
+    }
+    
+    func readBoolWithNil(key: String) -> AnyObject? {
+        if let value = UserDefaults.standard.object(forKey: key) {
+            return value as AnyObject
+        } else {
+            return nil
+        }
     }
     
     func saveIntArray(key: String, value: [JSON]) -> Void {

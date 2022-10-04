@@ -151,12 +151,12 @@ internal final class MemberManager {
         }
     }
     
-    internal var isAllowMarketingNoti: Bool {
+    internal var isAllowMarketingNoti: Bool? {
         set {
-            UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION, value: newValue)
+            UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION, value: newValue ?? false)
         }
         get {
-            return UserDefault().readBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION)
+            return UserDefault().readBoolWithNil(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION) as? Bool ?? nil
         }
     }
                     
@@ -239,7 +239,7 @@ internal final class MemberManager {
             return UserDefault().readBool(key: UserDefault.Key.IS_SHOW_QR_TOOLTIP)
         }
     }
-    
+            
     func setData(data: JSON) {
         if data["mb_id"].stringValue.elementsEqual("") {
             print("mb id is null");
@@ -274,7 +274,7 @@ internal final class MemberManager {
                     case .authorizedAlways, .authorizedWhenInUse:
                         DispatchQueue.main.async {
                             let receive = MemberManager.shared.isAllowMarketingNoti
-                            _ = Plengi.enableAdNetwork(true, enableNoti: receive)
+                            _ = Plengi.enableAdNetwork(true, enableNoti: receive ?? false)
                             _ = Plengi.start()
     //                        _ = Plengi.manual_refreshPlace_foreground()
                         }

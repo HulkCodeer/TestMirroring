@@ -39,13 +39,10 @@ internal final class PermissionsGuideReactor: ViewModel, Reactor {
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         newState.isQRScanRunning = nil
-        
         switch mutation {
         case .setRunnigQRReaderView(let isRunning):
             newState.isQRScanRunning = isRunning
-                    
-        }
-        
+        }        
         return newState
     }
 }

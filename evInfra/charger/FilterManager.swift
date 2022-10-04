@@ -30,6 +30,7 @@ class FilterManager {
         defaults.registerBool(key: UserDefault.Key.FILTER_GENERAL_WAY, val: true)
         defaults.registerBool(key: UserDefault.Key.FILTER_HIGHWAY_UP, val: true)
         defaults.registerBool(key: UserDefault.Key.FILTER_HIGHWAT_DOWN, val: true)
+        defaults.registerBool(key: UserDefault.Key.FILTER_MEMBERSHIP_CARD, val: false)
         
         // set filter value
         filter = ChargerFilter.init()
@@ -42,7 +43,7 @@ class FilterManager {
         
         filter.minSpeed = defaults.readInt(key: UserDefault.Key.FILTER_MIN_SPEED)
         filter.maxSpeed = defaults.readInt(key: UserDefault.Key.FILTER_MAX_SPEED)
-        
+                        
         var defValue = defaults.readString(key: UserDefault.Key.FILTER_DC_DEMO)
         if defValue.isEmpty {
             filter.dcDemo = true
@@ -84,7 +85,7 @@ class FilterManager {
         } else {
             filter.destination = defValue.equals("Checked")
         }
-        
+                                
         filter.isGeneralWay = defaults.readBool(key: UserDefault.Key.FILTER_GENERAL_WAY)
         filter.isHighwayUp = defaults.readBool(key: UserDefault.Key.FILTER_HIGHWAY_UP)
         filter.isHighwayDown = defaults.readBool(key: UserDefault.Key.FILTER_HIGHWAT_DOWN)
@@ -92,6 +93,8 @@ class FilterManager {
         filter.isIndoor = defaults.readBool(key: UserDefault.Key.FILTER_INDOOR)
         filter.isOutdoor = defaults.readBool(key: UserDefault.Key.FILTER_OUTDOOR)
         filter.isCanopy = defaults.readBool(key: UserDefault.Key.FILTER_CANOPY)
+        
+        filter.isMembershipCardChecked = defaults.readBool(key: UserDefault.Key.FILTER_MEMBERSHIP_CARD)
         
         let companyList = ChargerManager.sharedInstance.getCompanyInfoListAll()!
         
@@ -115,6 +118,15 @@ class FilterManager {
                 }
             }
         }
+    }
+    
+    internal func saveIsMembershipCardChecked(_ isChecked: Bool) {
+        filter.isMembershipCardChecked = isChecked
+        defaults.saveBool(key: UserDefault.Key.FILTER_MEMBERSHIP_CARD, value: isChecked)
+    }
+    
+    internal func getIsMembershipCardChecked() -> Bool {
+        return filter.isMembershipCardChecked
     }
     
     func savePriceFilter(free: Bool, paid:Bool) {
@@ -293,8 +305,7 @@ class FilterManager {
     
     func getTypeTitle() -> String {
         var title = ""
-        if ((filter.dcCombo && filter.dcDemo && filter.ac3 && filter.slow && filter.superCharger && filter.destination)
-                || !(filter.dcCombo || filter.dcDemo || filter.ac3 || filter.slow || filter.superCharger || filter.destination)){
+        if !filter.dcCombo, !filter.dcDemo, !filter.ac3, !filter.slow, !filter.superCharger, !filter.destination {
             title = "충전기타입"
         } else {
             if (filter.dcCombo) {

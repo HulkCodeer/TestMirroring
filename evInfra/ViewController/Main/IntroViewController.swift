@@ -150,21 +150,20 @@ internal final class IntroViewController: UIViewController {
                         Board.sharedInstance.brdNewInfo.append(boardNewInfo)
                     }
                     
-                    if !MemberManager.shared.isFirstInstall {
-                        CLLocationManager().rx
-                            .status
-                            .subscribe(with: self) { obj, status in
-                                switch status {
-                                case .authorizedAlways, .authorizedWhenInUse:
-                                    self.moveMainView()
-                                    
-                                default: self.movePerminssonsGuideView()
-                                }
-                            }
-                            .disposed(by: self.disposeBag)
+                    CLLocationManager().rx.isEnabled
+                        .subscribe(with: self) { obj, isEnable in
+                            guard !isEnable else { return }
+                            CLLocationManager().requestWhenInUseAuthorization()
+                        }
+                        .disposed(by: self.disposeBag)
+                                                            
+                    if MemberManager.shared.isAllowMarketingNoti == nil {
+                        self.movePerminssonsGuideView()
                     } else {
                         self.moveMainView()
                     }
+                    
+                    FCMManager.sharedInstance.registerUser()
                 }
                 
             }
