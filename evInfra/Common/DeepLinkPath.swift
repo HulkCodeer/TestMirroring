@@ -144,15 +144,19 @@ internal final class DeepLinkPath {
                 if _mainNav.containsViewController(ofKind: EventViewController.self) ||
                     _mainNav.containsViewController(ofKind: NewEventDetailViewController.self) {
                     let _viewControllers = _mainNav.viewControllers
-                    for vc in _viewControllers.reversed() {                        
-                        if let _vc = vc as? AppNavigationDrawerController {
-                            _mainNav.popToViewControllerWithHandler(vc: _vc, completion: { [weak self] in
-                                guard let self = self else { return }
-                                self.moveEventViewController()
-                            })
-                            return
-                        }
-                    }
+//                    for vc in _viewControllers.reversed() {
+//                        if let _vc = vc as? AppNavigationDrawerController {
+//                            _mainNav.popToViewControllerWithHandler(vc: _vc, completion: { [weak self] in
+//                                guard let self = self else { return }
+//                                self.moveEventViewController()
+//                            })
+//                            return
+//                        }
+                        
+                        // permissionVC 에서 main 진입한 경우
+                        // self.moveEventVC()
+                        
+//                    }
                 } else {
                     self.moveEventViewController()
                 }
