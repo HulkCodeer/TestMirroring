@@ -752,51 +752,55 @@ extension MainViewController {
     }
 }
 
-// MARK: - Delegate
-extension MainViewController: AppToolbarDelegate {
-    func toolBar(didClick iconButton: IconButton, arg: Any?) {
-        switch iconButton.tag {
-        case 1: // 충전소 검색 버튼
-            let mapStoryboard = UIStoryboard(name : "Map", bundle: nil)
-            let searchVC:SearchViewController = mapStoryboard.instantiateViewController(withIdentifier: "SearchViewController") as! SearchViewController
-            searchVC.delegate = self
-            let appSearchBarController: AppSearchBarController = AppSearchBarController(rootViewController: searchVC)
-            appSearchBarController.backbuttonTappedDelegate = {
-                let property: [String: Any] = ["result": "실패",
-                                               "stationOrAddress": "\(searchVC.searchType == SearchViewController.TABLE_VIEW_TYPE_CHARGER ? "충전소 검색" : "주소 검색")",
-                                               "searchKeyword": "\(searchVC.searchBarController?.searchBar.textField.text ?? "")",
-                                               "selectedStation": ""]
-                SearchEvent.clickSearchChooseStation.logEvent(property: property)
-                
-            }
-            self.present(appSearchBarController, animated: true, completion: nil)
-        case 2: // 경로 찾기 버튼
-            if let isRouteMode = arg as? Bool {
-                showRouteView(isShow: isRouteMode)
-                RouteEvent.clickNavigation.logEvent(property: ["onOrOff": "\(isRouteMode ? "On" : "Off")"])
-            }
-        default:
-            break
-        }
-    }
+//// MARK: - Delegate
+//extension MainViewController: AppToolbarDelegate {
+    /*
+     네비바 버튼 클릭관련.
+     */
     
-    func showRouteView(isShow: Bool) {
-        if isShow {
-            UIView.animate(withDuration: 0.2, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: {() -> Void in
-                self.filterView.transform = CGAffineTransform( translationX: 0.0, y: self.routeView.bounds.height )
-                self.myLocationButton.transform = CGAffineTransform( translationX: 0.0, y: self.routeView.bounds.height )
-                self.reNewButton.transform = CGAffineTransform( translationX: 0.0, y: self.routeView.bounds.height )
-            }, completion: nil)
-        } else {
-            UIView.animate(withDuration: 0.2, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: {() -> Void in
-                self.filterView.transform = CGAffineTransform( translationX: 0.0, y: 0.0 )
-                self.myLocationButton.transform = CGAffineTransform( translationX: 0.0, y: 0.0)
-                self.reNewButton.transform = CGAffineTransform( translationX: 0.0, y: 0.0)
-            }, completion: nil)
-            clearSearchResult()
-        }
-    }
-}
+//    func toolBar(didClick iconButton: IconButton, arg: Any?) {
+//        switch iconButton.tag {
+//        case 1: // 충전소 검색 버튼
+//            let mapStoryboard = UIStoryboard(name : "Map", bundle: nil)
+//            let searchVC:SearchViewController = mapStoryboard.instantiateViewController(withIdentifier: "SearchViewController") as! SearchViewController
+//            searchVC.delegate = self
+//            let appSearchBarController: AppSearchBarController = AppSearchBarController(rootViewController: searchVC)
+//            appSearchBarController.backbuttonTappedDelegate = {
+//                let property: [String: Any] = ["result": "실패",
+//                                               "stationOrAddress": "\(searchVC.searchType == SearchViewController.TABLE_VIEW_TYPE_CHARGER ? "충전소 검색" : "주소 검색")",
+//                                               "searchKeyword": "\(searchVC.searchBarController?.searchBar.textField.text ?? "")",
+//                                               "selectedStation": ""]
+//                SearchEvent.clickSearchChooseStation.logEvent(property: property)
+//                
+//            }
+//            self.present(appSearchBarController, animated: true, completion: nil)
+//        case 2: // 경로 찾기 버튼
+//            if let isRouteMode = arg as? Bool {
+//                showRouteView(isShow: isRouteMode)
+//                RouteEvent.clickNavigation.logEvent(property: ["onOrOff": "\(isRouteMode ? "On" : "Off")"])
+//            }
+//        default:
+//            break
+//        }
+//    }
+//    
+//    func showRouteView(isShow: Bool) {
+//        if isShow {
+//            UIView.animate(withDuration: 0.2, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: {() -> Void in
+//                self.filterView.transform = CGAffineTransform( translationX: 0.0, y: self.routeView.bounds.height )
+//                self.myLocationButton.transform = CGAffineTransform( translationX: 0.0, y: self.routeView.bounds.height )
+//                self.reNewButton.transform = CGAffineTransform( translationX: 0.0, y: self.routeView.bounds.height )
+//            }, completion: nil)
+//        } else {
+//            UIView.animate(withDuration: 0.2, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: {() -> Void in
+//                self.filterView.transform = CGAffineTransform( translationX: 0.0, y: 0.0 )
+//                self.myLocationButton.transform = CGAffineTransform( translationX: 0.0, y: 0.0)
+//                self.reNewButton.transform = CGAffineTransform( translationX: 0.0, y: 0.0)
+//            }, completion: nil)
+//            clearSearchResult()
+//        }
+//    }
+//}
 
 extension MainViewController: TextFieldDelegate {
     func prepareRouteField() {
