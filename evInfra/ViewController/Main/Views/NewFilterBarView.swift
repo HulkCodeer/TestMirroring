@@ -23,7 +23,7 @@ enum FilterType {
 }
 
 enum FilterTagType: CaseIterable {
-    typealias Property = (image: UIImage?, imageColor: UIColor?)
+    typealias Property = (image: UIImage?, imgUnSelectColor: UIColor?, imgSelectColor: UIColor?)
     
     case evpay
     case price
@@ -39,13 +39,13 @@ enum FilterTagType: CaseIterable {
         case .speed: return .place
         case .place: return .road
         case .road: return .type
-        case .type: return .evpay
+        case .type: return .type
         }
     }
     
     internal func swipeRight() -> FilterTagType {
         switch self {
-        case .evpay: return .type
+        case .evpay: return .evpay
         case .price: return .evpay
         case .speed: return .price
         case .place: return .speed
@@ -57,8 +57,8 @@ enum FilterTagType: CaseIterable {
     internal var typeImageProperty: Property? {
         switch self {
         // 나중에 이미지 있는 디자인으로 변경시 주석 푸세요
-//        case .evpay: return (image: Icons.iconElectricFillXs.image, imageColor: Colors.contentSecondary.color)
-        case .evpay: return nil
+        case .evpay:
+            return (image: Icons.iconElectricFillXs.image, imgUnSelectColor: Colors.contentSecondary.color, imgSelectColor : Colors.borderPositive.color)
         case .price: return nil
         case .speed: return nil
         case .place: return nil
@@ -169,11 +169,11 @@ internal final class NewFilterBarView: UIView {
             $0.text = filterTagType.typeDesc
         }
         
-        let typeImageProperty = filterTagType.typeImageProperty ?? (image: nil, imageColor: nil)
+        let typeImageProperty = filterTagType.typeImageProperty ?? (image: nil, imgUnSelectColor: nil, imgSelectColor: nil)
         
         let imgView = UIImageView().then {
             $0.image = typeImageProperty.image
-            $0.tintColor = typeImageProperty.imageColor
+            $0.tintColor = typeImageProperty.imgUnSelectColor
         }
         
         let btn = UIButton().then {
@@ -220,16 +220,24 @@ internal final class NewFilterBarView: UIView {
             }
             .disposed(by: self.disposeBag)
         
+        if filterTagType == .evpay {
+            let isSelected = FilterManager.sharedInstance.getIsMembershipCardChecked()
+            view.IBborderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
+            titleLbl.textColor = isSelected ? Colors.borderPositive.color : Colors.contentSecondary.color
+            imgView.tintColor = isSelected ? Colors.borderPositive.color : Colors.contentSecondary.color
+        }
+        
                 
         reactor.state.map { $0.selectedFilterTagType }
             .asDriver(onErrorJustReturn: nil)
             .drive(with: self) { obj, selectedFilterTagType in
-                let isSelected = selectedFilterTagType == nil ? false : selectedFilterTagType == filterTagType ? true : false
-                view.IBborderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
-                titleLbl.textColor = isSelected ? Colors.borderPositive.color : Colors.contentSecondary.color
-                btn.isSelected = isSelected
-                
-                if selectedFilterTagType == .evpay {                    
+                if selectedFilterTagType == .evpay && selectedFilterTagType == filterTagType {
+                    let isSelected = btn.isSelected
+                    view.IBborderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
+                    titleLbl.textColor = isSelected ? Colors.borderPositive.color : Colors.contentSecondary.color
+                    imgView.tintColor = isSelected ? Colors.borderPositive.color : Colors.contentSecondary.color
+                    FilterManager.sharedInstance.saveIsMembershipCardChecked(isSelected)
+                    
                     let GROUP_TITLE = ["A.B.C..", "가", "나", "다", "라", "마", "바", "사", "아", "자", "차", "카", "타", "파", "하", "힣"];
                     var groupList = Array<CompanyGroup>()
                     var companyList = [CompanyInfoDto]()
@@ -298,6 +306,11 @@ internal final class NewFilterBarView: UIView {
                         }
                     }
                     FilterManager.sharedInstance.updateCompanyFilter()
+                } else {
+                    let isSelected = selectedFilterTagType == nil ? false : selectedFilterTagType == filterTagType ? true : false
+                    view.IBborderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
+                    titleLbl.textColor = isSelected ? Colors.borderPositive.color : Colors.contentSecondary.color
+                    btn.isSelected = isSelected
                 }
             }
             .disposed(by: self.disposeBag)
