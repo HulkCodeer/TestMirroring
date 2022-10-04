@@ -168,7 +168,3 @@ extension MyWritingViewController: BoardTableViewDelegate {
     
     func showImageViewer(url: URL, isProfileImageMode: Bool) { }
 }
-
-extension MyWritingViewController: AppTabsControllerDelegate {
-    func changeTab() {}
-}
