@@ -252,6 +252,7 @@ extension IntroViewController: PermissionGuideDelegate {
 //        let letfViewcon = storyboard.instantiateViewController(ofType: LeftViewController.self)
         
         let mainNavigationVC = UINavigationController(rootViewController: mainViewcon)
+        mainNavigationVC.modalPresentationStyle = .fullScreen
         self.present(mainNavigationVC, animated: true)
     }
 }

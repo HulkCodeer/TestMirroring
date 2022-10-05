@@ -106,12 +106,8 @@ internal final class MainViewController: UIViewController, StoryboardView {
     // MARK: - View Life Cycle
     override func loadView() {
         super.loadView()
-        
-        view.insertSubview(naverMapView, at: 0)
-        
-        naverMapView.snp.makeConstraints {
-            $0.edges.equalTo(view)
-        }
+        setUI()
+        setConstraints()
     }
     
     override func viewDidLoad() {
@@ -211,6 +207,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         MapEvent.viewMainPage.logEvent()
+        self.navigationController?.navigationBar.isHidden = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -253,6 +250,33 @@ internal final class MainViewController: UIViewController, StoryboardView {
         guard !MemberManager.shared.isShowQrTooltip else { return }
         _ = self.view.subviews.compactMap { $0 as? EasyTipView }.first?.removeFromSuperview()
         MemberManager.shared.isShowQrTooltip = true
+    }
+    
+    // MARK: UI
+    
+    private func setUI() {
+        view.insertSubview(naverMapView, at: 0)
+        view.addSubview(customNaviBar)
+    }
+    
+    private func setConstraints() {
+        let filterBarHeight: CGFloat = 40
+        
+        customNaviBar.snp.makeConstraints {
+            $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(customNaviBar.height)
+        }
+        
+        filterBarView.snp.makeConstraints {
+            $0.top.equalTo(customNaviBar.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(filterBarHeight)
+        }
+        
+        naverMapView.snp.makeConstraints {
+            $0.top.equalTo(customNaviBar)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
     }
     
     // MARK: REACTORKIT
