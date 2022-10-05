@@ -376,7 +376,7 @@ internal final class FCMManager {
         }
     }
     
-    func registerUser(_ completeHandler: @escaping () -> Void) {
+    func registerUser() {
         let version = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
         let modelName = UIDevice.current.modelName
         var uid: String? = nil
@@ -415,6 +415,8 @@ internal final class FCMManager {
                 } else {
                     self.moveMainView()
                 }
+            } else {
+                self.moveMainView()
             }
         }
     }

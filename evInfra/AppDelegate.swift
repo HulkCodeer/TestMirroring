@@ -193,9 +193,7 @@ extension AppDelegate : MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         printLog(out: "Firebase registration token: \(fcmToken ?? "")")
         fcmManager.registerId = fcmToken
-        FCMManager.sharedInstance.registerUser {
-            
-        }
+        FCMManager.sharedInstance.registerUser()
     }
 }
 
