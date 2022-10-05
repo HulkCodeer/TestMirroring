@@ -43,7 +43,12 @@ internal final class MemberManager {
     }
     
     internal var memberId: String { // 기기 아이디
-        return UserDefault().readString(key: UserDefault.Key.MEMBER_ID)
+        get {
+            UserDefault().readString(key: UserDefault.Key.MEMBER_ID)
+        }
+        set {
+            UserDefault().saveString(key: UserDefault.Key.MEMBER_ID, value: newValue)
+        }
     }
     
     internal var userId: String {
@@ -208,14 +213,14 @@ internal final class MemberManager {
         }
     }
         
-    internal var isFirstLocationPopup: Bool { // false일 경우 처음 설치, true일때 처음설치 아님
-        set {
-            UserDefault().saveBool(key: UserDefault.Key.IS_FIRST_LOCATION_POPUP, value: newValue)
-        }
-        get {
-            return UserDefault().readBool(key: UserDefault.Key.IS_FIRST_LOCATION_POPUP)
-        }
-    }
+//    internal var isFirstLocationPopup: Bool { // false일 경우 처음 설치, true일때 처음설치 아님
+//        set {
+//            UserDefault().saveBool(key: UserDefault.Key.IS_FIRST_LOCATION_POPUP, value: newValue)
+//        }
+//        get {
+//            return UserDefault().readBool(key: UserDefault.Key.IS_FIRST_LOCATION_POPUP)
+//        }
+//    }
     
     // 로그인 상태 체크
     internal var isLogin: Bool {

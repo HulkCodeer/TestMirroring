@@ -6,10 +6,10 @@
 //  Copyright © 2018년 soft-berry. All rights reserved.
 //
 
-import Foundation
 import SwiftyJSON
 import UserNotifications
 import UIKit
+import RxSwift
 
 internal final class FCMManager {
     static let sharedInstance = FCMManager()
@@ -39,6 +39,7 @@ internal final class FCMManager {
     var nfcNoti: UNNotification? = nil
     var fcmNotification: [AnyHashable: Any]? = nil
     var isReady: Bool = false
+    private let disposeBag = DisposeBag()
     
     func getFCMRegisterId() -> String? {
         if let id = registerId {
@@ -375,7 +376,7 @@ internal final class FCMManager {
         }
     }
     
-    func registerUser() {
+    func registerUser(_ completeHandler: @escaping () -> Void) {
         let version = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
         let modelName = UIDevice.current.modelName
         var uid: String? = nil
@@ -386,10 +387,13 @@ internal final class FCMManager {
             KeyChainManager.set(value: uid!, forKey: KeyChainManager.KEY_DEVICE_UUID)
         }
 
-        Server.registerUser(version: version, model: modelName, uid: uid!, fcmId: getFCMRegisterId()) { (isSuccess, value) in
+        Server.registerUser(version: version, model: modelName, uid: uid!, fcmId: getFCMRegisterId()) { [weak self] (isSuccess, value) in
+            guard let self = self else { return }
             if isSuccess {
                 let json = JSON(value)
-                UserDefault().saveString(key: UserDefault.Key.MEMBER_ID, value: json["member_id"].stringValue)
+                let originalMarketingNotiValue = MemberManager.shared.isAllowMarketingNoti // 마켓팅 푸쉬 여부를 받기 전 값으로 앱 첫설치 여부를 파악하기 위해 필요함
+                
+                MemberManager.shared.memberId = json["member_id"].stringValue
                 UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_NOTIFICATION, value: json["receive_push"].boolValue)
                 UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_JEJU_NOTIFICATION, value: json["receive_jeju_push"].boolValue)
                 let marketing = json["receive_marketing_push"].boolValue                
@@ -398,8 +402,40 @@ internal final class FCMManager {
                     MemberManager.shared.isAllowMarketingNoti =  true
                 }
                 self.updateFCMInfo()
+                
+                CLLocationManager().rx.isEnabled
+                    .subscribe(with: self) { obj, isEnable in
+                        guard !isEnable else { return }
+                        CLLocationManager().requestWhenInUseAuthorization()
+                    }
+                    .disposed(by: self.disposeBag)
+                
+                if originalMarketingNotiValue == nil {
+                    self.movePerminssonsGuideView()
+                } else {
+                    self.moveMainView()
+                }
             }
         }
+    }
+    
+    private func moveMainView() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let reactor = MainReactor(provider: RestApi())
+        let mainViewcon = storyboard.instantiateViewController(ofType: MainViewController.self)
+        mainViewcon.reactor = reactor
+        let letfViewcon = storyboard.instantiateViewController(ofType: LeftViewController.self)
+        
+        let appToolbarController = AppToolbarController(rootViewController: mainViewcon)
+        appToolbarController.delegate = mainViewcon
+        let ndController = AppNavigationDrawerController(rootViewController: appToolbarController, leftViewController: letfViewcon)
+        GlobalDefine.shared.mainNavi?.setViewControllers([ndController], animated: true)
+    }
+    
+    private func movePerminssonsGuideView() {
+        let reactor = PermissionsGuideReactor(provider: RestApi())
+        let viewcon = PermissionsGuideViewController(reactor: reactor)
+        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
     }
     
     func updateFCMInfo() {
