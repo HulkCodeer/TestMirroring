@@ -236,11 +236,14 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
         let reactor = MainReactor(provider: RestApi())
         let mainViewcon = storyboard.instantiateViewController(ofType: MainViewController.self)
         mainViewcon.reactor = reactor
-        let leftViewController = storyboard.instantiateViewController(ofType: LeftViewController.self)
+        
+        let leftReactor = LeftViewReactor(provider: RestApi())
+        let leftViewcon = NewLeftViewController()
+        leftViewcon.reactor = leftReactor
         
         let appToolbarController = AppToolbarController(rootViewController: mainViewcon)
         appToolbarController.delegate = mainViewcon
-        let ndController = AppNavigationDrawerController(rootViewController: appToolbarController, leftViewController: leftViewController)
+        let ndController = AppNavigationDrawerController(rootViewController: appToolbarController, leftViewController: leftViewcon)
         GlobalDefine.shared.mainNavi?.setViewControllers([ndController], animated: true)
     }
 }
