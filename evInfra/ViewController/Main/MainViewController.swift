@@ -1155,8 +1155,9 @@ extension MainViewController {
     func requestStationInfo() {
         LoginHelper.shared.delegate = self
         
+        self.markerIndicator.startAnimating()
+        
         DispatchQueue.main.async {
-            self.markerIndicator.startAnimating()
             guard let _toolbar = self.toolbarController, _toolbar is AppToolbarController else { return }
             _toolbar.toolbar.isUserInteractionEnabled = false
         }

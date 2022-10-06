@@ -130,7 +130,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func handleUserActivity(userActivity: NSUserActivity){
         printLog(out: "scene:handleUserActivity")
         if let incomingURL = userActivity.webpageURL {
-            printLog(out: "Incoming : \(incomingURL)")
+            printLog(out: "handleUserActivity Incoming : \(incomingURL)")
             let linkHandled = DynamicLinks.dynamicLinks().handleUniversalLink(incomingURL) {
                 (dynamicLink, error) in
                 guard error == nil else {
@@ -155,7 +155,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             return
         
         }
-        printLog(out: "url : \(url.absoluteString)") // dynamiclink -> deeplink
+        printLog(out: "handleIncomingDynamicLink : \(url.absoluteString)") // dynamiclink -> deeplink
         // evinfra.page.link -> com.soft-berry.ev-infra
         if url.absoluteString.startsWith(DYNAMIC_LINK_PREFIX) { // filter URL by Prefix
             runLinkDirectly(url: url)
