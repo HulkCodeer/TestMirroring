@@ -194,8 +194,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
     private func setUI() {
         view.insertSubview(naverMapView, at: 0)
         view.addSubview(customNaviBar)
-        
-        setConstraints()
     }
     
     private func setConstraints() {
@@ -221,22 +219,12 @@ internal final class MainViewController: UIViewController, StoryboardView {
     // MARK: REACTORKIT
     
     internal func bind(reactor: MainReactor) {
+        // 스토리보드 제거 후 loadView 이동 요망.
         setUI()
+        setConstraints()
         
-        self.rx.viewDidAppear
-            .subscribe(with: self) { owner, _ in
-                owner.setMenuBadge(reactor: reactor)
-            }
-            .disposed(by: disposeBag)
-
-        reactor.state.compactMap { $0.hasNewBoardContents }
-            .asDriver(onErrorJustReturn: false)
-            .drive(with: self) { owner, hasBadge in
-//                let toolbarController = owner.toolbarController as? AppToolbarController
-//                toolbarController?.setMenuIcon(hasBadge: hasBadge)
-                owner.customNaviBar.setMenuBadge(hasBadge: hasBadge)
-            }
-            .disposed(by: disposeBag)
+        bindAction(reactor: reactor)
+        bindState(reactor: reactor)
 
         filterBarView.bind(reactor: reactor)
         filterContainerView.bind(reactor: reactor)
@@ -431,6 +419,26 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 GlobalDefine.shared.mainNavi?.push(viewController: chargerFilterViewController)
             }
             .disposed(by: self.disposeBag)
+    }
+    
+    private func bindAction(reactor: MainReactor) {
+        self.rx.viewDidAppear
+            .subscribe(with: self) { owner, _ in
+                owner.setMenuBadge(reactor: reactor)
+            }
+            .disposed(by: disposeBag)
+        
+    }
+    
+    private func bindState(reactor: MainReactor) {
+        reactor.state.compactMap { $0.hasNewBoardContents }
+            .asDriver(onErrorJustReturn: false)
+            .drive(with: self) { owner, hasBadge in
+//                let toolbarController = owner.toolbarController as? AppToolbarController
+//                toolbarController?.setMenuIcon(hasBadge: hasBadge)
+                owner.customNaviBar.setMenuBadge(hasBadge: hasBadge)
+            }
+            .disposed(by: disposeBag)
     }
     
     // MARK: FUNC
