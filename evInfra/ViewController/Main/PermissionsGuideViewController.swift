@@ -228,15 +228,18 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
                     .disposed(by: self.disposeBag)
             }
             .disposed(by: self.disposeBag)
+
+    }
+    
+    private func moveMainViewcon() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let reactor = MainReactor(provider: RestApi())
+        let mainViewcon = storyboard.instantiateViewController(ofType: MainViewController.self)
+        mainViewcon.reactor = reactor
         
-        reactor.state.compactMap { $0.canMoveMain }
-            .filter { $0 == true}
-            .asDriver(onErrorJustReturn: true)
-            .drive { _ in
-                MemberManager.shared.isFirstInstall = true
-                GlobalDefine.shared.mainNavi?.popToViewController(self, animated: false)
-            }
-            .disposed(by: disposeBag)
+        let mainNavigationVC = UINavigationController(rootViewController: mainViewcon)
+        mainNavigationVC.modalPresentationStyle = .fullScreen
+        self.present(mainNavigationVC, animated: true)
     }
 
 }
@@ -247,11 +250,7 @@ extension PermissionsGuideViewController: CLLocationManagerDelegate {
         guard MemberManager.shared.isFirstInstall else { return }
         switch manager.authorizationStatus {
         case .notDetermined, .restricted: break
-        case .authorizedWhenInUse, .denied:
-            guard let _reactor = self.reactor else { return }
-            Observable.just(PermissionsGuideReactor.Action.moveToMain(true))
-                .bind(to: _reactor.action)
-                .disposed(by: self.disposeBag)
+        case .authorizedWhenInUse, .denied: moveMainViewcon()
         @unknown default:
             fatalError()
         }

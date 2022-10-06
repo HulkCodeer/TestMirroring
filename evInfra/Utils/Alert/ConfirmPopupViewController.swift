@@ -208,7 +208,6 @@ internal final class ConfirmPopupViewController: UIViewController {
         
     private func dismissPopup(actionBtnType: ActionBtnType) {
         self.dismiss(animated: true, completion: {
-            
             switch actionBtnType {
             case .ok:
                 self.popupModel.confirmBtnAction?()

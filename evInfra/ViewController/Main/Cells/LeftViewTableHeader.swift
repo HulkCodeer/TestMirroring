@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LeftViewTableHeader: UITableViewHeaderFooterView {
+internal final class LeftViewTableHeader: UITableViewHeaderFooterView {
     
 //    @IBOutlet weak var cellTitle: UILabel!
     @IBOutlet weak var cellTitle: UILabel!

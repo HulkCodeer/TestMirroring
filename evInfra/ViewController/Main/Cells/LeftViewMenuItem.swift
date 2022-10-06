@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SideMenuTableViewCell: UITableViewCell {
+internal final class LeftViewMenuItem: UITableViewCell {
     @IBOutlet weak var menuLabel: UILabel!
     @IBOutlet weak var newBadge: UIImageView!
     @IBOutlet weak var menuContent: UILabel!
