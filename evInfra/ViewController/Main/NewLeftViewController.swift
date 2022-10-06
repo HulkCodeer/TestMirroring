@@ -198,7 +198,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         $0.register(UINib(nibName: "LeftViewTableHeader", bundle: nil), forHeaderFooterViewReuseIdentifier: "LeftViewTableHeader")
         $0.backgroundColor = .white
         $0.separatorStyle = .none
-        $0.rowHeight = UITableViewAutomaticDimension
+        $0.rowHeight = UITableView.automaticDimension
         $0.estimatedRowHeight = 48
         $0.allowsSelection = true
         $0.allowsSelectionDuringEditing = false

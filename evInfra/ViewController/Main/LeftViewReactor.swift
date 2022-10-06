@@ -409,7 +409,7 @@ internal final class LeftViewReactor: ViewModel, Reactor {
             switch index.row {
             case 0: // 공지사항
                 let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
-                let noticeVC = boardStoryboard.instantiateViewController(ofType: NoticeViewController.self)
+                let noticeVC = boardStoryboard.instantiateViewController(ofType: NewNoticeViewController.self)
                 GlobalDefine.shared.mainNavi?.push(viewController: noticeVC)
             
             case 1: // 자유 게시판
