@@ -78,7 +78,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     private var routeEndPoint: TMapPoint? = nil
     private var resultTableView: PoiTableView?
     
-    lazy var naverMapView = NaverMapView(frame: .zero).then {
+    private lazy var naverMapView = NaverMapView(frame: .zero).then {
         $0.mapView.addCameraDelegate(delegate: self)
         $0.mapView.touchDelegate = self
         ChargerManager.sharedInstance.delegate = self
@@ -428,6 +428,14 @@ internal final class MainViewController: UIViewController, StoryboardView {
             }
             .disposed(by: disposeBag)
         
+        customNaviBar.searchChargeButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                Observable.just(MainReactor.Action.showSearchChargingStation)
+                    .bind(to: reactor.action)
+                    .disposed(by: owner.disposeBag)
+            }
+            .disposed(by: disposeBag)
     }
     
     private func bindState(reactor: MainReactor) {
@@ -437,6 +445,29 @@ internal final class MainViewController: UIViewController, StoryboardView {
 //                let toolbarController = owner.toolbarController as? AppToolbarController
 //                toolbarController?.setMenuIcon(hasBadge: hasBadge)
                 owner.customNaviBar.setMenuBadge(hasBadge: hasBadge)
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state.compactMap { $0.isShowSearchChargingStation }
+            .asDriver(onErrorJustReturn: false)
+            .drive(with: self) { owenr, isShowSearchView in
+                let mapStoryboard = UIStoryboard(name : "Map", bundle: nil)
+                guard let searchVC = mapStoryboard
+                    .instantiateViewController(withIdentifier: "SearchViewController") as? SearchViewController
+                else { return }
+                
+                searchVC.delegate = self
+                
+                let appSearchBarController = AppSearchBarController(rootViewController: searchVC)
+                appSearchBarController.backbuttonTappedDelegate = {
+                    let property: [String: Any] = ["result": "실패",
+                                                   "stationOrAddress": "\(searchVC.searchType == SearchViewController.TABLE_VIEW_TYPE_CHARGER ? "충전소 검색" : "주소 검색")",
+                                                   "searchKeyword": "\(searchVC.searchBarController?.searchBar.textField.text ?? "")",
+                                                   "selectedStation": ""]
+                    SearchEvent.clickSearchChooseStation.logEvent(property: property)
+                    
+                }
+                self.present(appSearchBarController, animated: true, completion: nil)
             }
             .disposed(by: disposeBag)
     }
@@ -792,19 +823,6 @@ extension MainViewController {
 //    func toolBar(didClick iconButton: IconButton, arg: Any?) {
 //        switch iconButton.tag {
 //        case 1: // 충전소 검색 버튼
-//            let mapStoryboard = UIStoryboard(name : "Map", bundle: nil)
-//            let searchVC:SearchViewController = mapStoryboard.instantiateViewController(withIdentifier: "SearchViewController") as! SearchViewController
-//            searchVC.delegate = self
-//            let appSearchBarController: AppSearchBarController = AppSearchBarController(rootViewController: searchVC)
-//            appSearchBarController.backbuttonTappedDelegate = {
-//                let property: [String: Any] = ["result": "실패",
-//                                               "stationOrAddress": "\(searchVC.searchType == SearchViewController.TABLE_VIEW_TYPE_CHARGER ? "충전소 검색" : "주소 검색")",
-//                                               "searchKeyword": "\(searchVC.searchBarController?.searchBar.textField.text ?? "")",
-//                                               "selectedStation": ""]
-//                SearchEvent.clickSearchChooseStation.logEvent(property: property)
-//                
-//            }
-//            self.present(appSearchBarController, animated: true, completion: nil)
 //        case 2: // 경로 찾기 버튼
 //            if let isRouteMode = arg as? Bool {
 //                showRouteView(isShow: isRouteMode)
