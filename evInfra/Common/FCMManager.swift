@@ -35,12 +35,19 @@ internal final class FCMManager {
     
     private init() {}
     
+    // MARK: VARIABLE
+    
     var registerId: String? = nil
     var nfcNoti: UNNotification? = nil
     var fcmNotification: [AnyHashable: Any]? = nil
     var isReady: Bool = false
+    
+    internal var originalMarketingNotiValue: Bool?
+    
     private let disposeBag = DisposeBag()
     
+    // MARK: FUNC
+        
     func getFCMRegisterId() -> String? {
         if let id = registerId {
             return id
@@ -391,7 +398,7 @@ internal final class FCMManager {
             guard let self = self else { return }
             if isSuccess {
                 let json = JSON(value)
-                let originalMarketingNotiValue = MemberManager.shared.isAllowMarketingNoti // 마켓팅 푸쉬 여부를 받기 전 값으로 앱 첫설치 여부를 파악하기 위해 필요함
+                self.originalMarketingNotiValue = MemberManager.shared.isAllowMarketingNoti // 마켓팅 푸쉬 여부를 받기 전 값으로 앱 첫설치 여부를 파악하기 위해 필요함
                 
                 MemberManager.shared.memberId = json["member_id"].stringValue
                 UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_NOTIFICATION, value: json["receive_push"].boolValue)
@@ -402,44 +409,10 @@ internal final class FCMManager {
                     MemberManager.shared.isAllowMarketingNoti =  true
                 }
                 self.updateFCMInfo()
-                
-                CLLocationManager().rx.isEnabled
-                    .subscribe(with: self) { obj, isEnable in
-                        guard !isEnable else { return }
-                        CLLocationManager().requestWhenInUseAuthorization()
-                    }
-                    .disposed(by: self.disposeBag)
-                
-                if originalMarketingNotiValue == nil {
-                    self.movePerminssonsGuideView()
-                } else {
-                    self.moveMainView()
-                }
-            } else {
-                self.moveMainView()
             }
         }
     }
-    
-    private func moveMainView() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let reactor = MainReactor(provider: RestApi())
-        let mainViewcon = storyboard.instantiateViewController(ofType: MainViewController.self)
-        mainViewcon.reactor = reactor
-        let letfViewcon = storyboard.instantiateViewController(ofType: LeftViewController.self)
-        
-        let appToolbarController = AppToolbarController(rootViewController: mainViewcon)
-        appToolbarController.delegate = mainViewcon
-        let ndController = AppNavigationDrawerController(rootViewController: appToolbarController, leftViewController: letfViewcon)
-        GlobalDefine.shared.mainNavi?.setViewControllers([ndController], animated: true)
-    }
-    
-    private func movePerminssonsGuideView() {
-        let reactor = PermissionsGuideReactor(provider: RestApi())
-        let viewcon = PermissionsGuideViewController(reactor: reactor)
-        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-    }
-    
+            
     func updateFCMInfo() {
         var uid: String? = nil
         if let dUid = KeyChainManager.get(key: KeyChainManager.KEY_DEVICE_UUID), !dUid.isEmpty {

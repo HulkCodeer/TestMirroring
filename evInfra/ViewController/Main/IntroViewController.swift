@@ -151,10 +151,41 @@ internal final class IntroViewController: UIViewController {
                         Board.sharedInstance.brdNewInfo.append(boardNewInfo)
                     }                                        
                 }
-                
+            }
+            
+            CLLocationManager().rx.isEnabled
+                .subscribe(with: self) { obj, isEnable in
+                    guard !isEnable else { return }
+                    CLLocationManager().requestWhenInUseAuthorization()
+                }
+                .disposed(by: self.disposeBag)
+            
+            if FCMManager.sharedInstance.originalMarketingNotiValue != nil {
+                self.moveMainView()
+            } else {
+                self.movePerminssonsGuideView()
             }
         }        
-    }        
+    }
+    
+    private func moveMainView() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let reactor = MainReactor(provider: RestApi())
+        let mainViewcon = storyboard.instantiateViewController(ofType: MainViewController.self)
+        mainViewcon.reactor = reactor
+        let letfViewcon = storyboard.instantiateViewController(ofType: LeftViewController.self)
+        
+        let appToolbarController = AppToolbarController(rootViewController: mainViewcon)
+        appToolbarController.delegate = mainViewcon
+        let ndController = AppNavigationDrawerController(rootViewController: appToolbarController, leftViewController: letfViewcon)
+        GlobalDefine.shared.mainNavi?.setViewControllers([ndController], animated: true)
+    }
+    
+    private func movePerminssonsGuideView() {
+        let reactor = PermissionsGuideReactor(provider: RestApi())
+        let viewcon = PermissionsGuideViewController(reactor: reactor)
+        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+    }
 }
 
 extension FLAnimatedImage {
