@@ -8,13 +8,13 @@
 
 import Foundation
 
-class FilterManager {
+internal final class FilterManager {
     
     static let sharedInstance = FilterManager()
     
-    public var filter: ChargerFilter
+    internal var filter: ChargerFilter
     
-    let defaults = UserDefault()
+    private let defaults = UserDefault()
     
     public init() {
         // set default value
@@ -127,6 +127,15 @@ class FilterManager {
     
     internal func getIsMembershipCardChecked() -> Bool {
         return filter.isMembershipCardChecked
+    }
+    
+    internal var groupList: Array<CompanyGroup>? {
+        get {
+            return defaults.getUserDefault(UserDefault.Key.FILTER_CHARGING_PROVIDER_LIST_SAVE) as? Array<CompanyGroup>
+        }
+        set {
+            defaults.setUserDefault(UserDefault.Key.FILTER_CHARGING_PROVIDER_LIST_SAVE, value: newValue)
+        }
     }
     
     func savePriceFilter(free: Bool, paid:Bool) {
