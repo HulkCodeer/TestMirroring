@@ -82,6 +82,8 @@ class UserDefault {
         
         static let HAS_FAILED_PAYMENT = "has_failed_payment"
         
+        static let FILTER_CHARGING_PROVIDER_LIST_SAVE = "filter_charging_provider_list_save"
+        
         // 전체설정
         static let SETTINGS_ALLOW_NOTIFICATION = "allow_notification"
         static let SETTINGS_ALLOW_JEJU_NOTIFICATION = "allow_jeju_notification"
@@ -188,6 +190,22 @@ class UserDefault {
     func readData(key: String) -> Data? {
         if let value = UserDefaults.standard.data(forKey: key) {
             return value
+        } else {
+            return nil
+        }
+    }
+    
+    func setUserDefault(_ key: String?, value: Any?) {
+        let _key = key ?? ""
+        let userDefaults = UserDefaults.standard
+        userDefaults.set(value, forKey: _key)
+        userDefaults.synchronize()
+    }
+    
+    func getUserDefault(_ key: String?) -> AnyObject? {
+        let _key = key ?? ""
+        if let value = UserDefaults.standard.object(forKey: _key) {
+            return value as AnyObject
         } else {
             return nil
         }
