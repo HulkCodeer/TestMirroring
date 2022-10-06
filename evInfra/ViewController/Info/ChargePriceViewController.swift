@@ -182,7 +182,7 @@ extension ChargePriceViewController: UITableViewDataSource, UITableViewDelegate 
         tvChargePriceMb.delegate = self
         tvChargePriceMb.dataSource = self
         
-        tvChargePriceMb.autoresizingMask = UIViewAutoresizing.flexibleHeight
+        tvChargePriceMb.autoresizingMask = UIView.AutoresizingMask.flexibleHeight
     }
     
     // Table row
@@ -239,6 +239,6 @@ extension ChargePriceViewController: UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
 }

@@ -9,11 +9,9 @@
 import Foundation
 import SwiftyJSON
 
-public protocol BoardDelegate {
-    func complete()
-}
-
-class Board {
+internal final class Board {
+    static let sharedInstance = Board()
+    
     // Top Menu 타입
     enum SortType: String, CaseIterable {
         case LATEST = "0"
@@ -78,17 +76,41 @@ class Board {
                 case .CORP_SBC: return "company_ev_infra"
             }
         }
+        
+        var description: String {
+            switch self {
+            case .CHARGER: return "충전소 관련 이야기를 모아봐요."
+            case .FREE: return "자유롭게 이야기를 나누어요."
+            case .CORP_GS: return "GS칼텍스 전용 게시판입니다."
+            case .CORP_JEV: return "제주전기차서비스 전용 게시판입니다."
+            case .CORP_STC: return "에스트래픽 전용 게시판입니다."
+            case .CORP_SBC: return "EV Infra에 의견을 전달해 보세요."
+            default: return ""
+            }
+        }
+        
+        static func convertToEventKey(communityType: CommunityType) -> Promotion.Page {
+            switch communityType {
+            case .CHARGER: return .charging
+            case .FREE: return .free
+            case .NOTICE: return .notice
+            case .CORP_GS: return .gsc
+            case .CORP_JEV: return .jeju
+            case .CORP_STC: return .est
+            case .CORP_SBC: return .evinra
+            }
+        }
 
-        static func getCompanyType(shardKey: String) -> String {
-            var text: String = CommunityType.CORP_GS.rawValue
+        static func getCompanyType(key: String) -> CommunityType {
+            var type: CommunityType = .CORP_GS
 
             CommunityType.allCases.forEach {
-                if $0.shardKey == shardKey {
-                    text = $0.rawValue
+                if $0.shardKey == key {
+                    type = $0
                 }
             }
 
-            return text
+            return type
         }
     }
 
@@ -103,10 +125,6 @@ class Board {
     public static let KEY_CHARGER_BOARD = 2 // 충전소게시판
     public static let KEY_EVENT         = 3 // 이벤트
     
-    static let sharedInstance = Board()
-    
-    var delegate: BoardDelegate?
-    
     var latestBoardIds: Dictionary = [Int:Int]()
     var freeBoardId:Int = 0
     var chargeBoardId:Int = 0
@@ -114,48 +132,6 @@ class Board {
     var brdNewInfo:Array<BoardInfo> = Array<BoardInfo>()
     
     private init() {
-    }
-
-    func checkLastBoardId() {
-        Server.getBoardData { (isSuccess, value) in
-            if isSuccess {
-                let json = JSON(value)
-                if json["code"].intValue == 1000 {
-                    print(json)
-                    let latestId = JSON(json["latest_id"])
-                    
-                    self.latestBoardIds.removeAll()
-                    
-                    self.freeBoardId = latestId["free"].intValue
-                    self.chargeBoardId = latestId["charger"].intValue
-                    
-                    self.latestBoardIds[Board.KEY_NOTICE] = latestId["notice"].intValue
-                    self.latestBoardIds[Board.KEY_FREE_BOARD] = self.freeBoardId
-                    self.latestBoardIds[Board.KEY_CHARGER_BOARD] = self.chargeBoardId
-                    self.latestBoardIds[Board.KEY_EVENT] = latestId["event"].intValue
-                    
-                    let companyArr = JSON(json["company_list"]).arrayValue
-                    for company in companyArr {
-                        let boardNewInfo = BoardInfo()
-                        
-                        let bmId = company["bm_id"].intValue
-                        let boardTitle = company["title"].stringValue
-                        let shardKey = company["key"].stringValue
-                        let brdId = company["brd_id"].intValue
-                        
-                        boardNewInfo.bmId = bmId
-                        boardNewInfo.boardTitle = boardTitle
-                        boardNewInfo.shardKey = shardKey
-                        boardNewInfo.brdId = brdId
-                        
-                        self.brdNewInfo.append(boardNewInfo)
-                    }
-                }
-                if let delegate = self.delegate {
-                    delegate.complete()
-                }
-            }
-        }
     }
     
     public func getBoardTitleList() -> Array<String> {
@@ -182,12 +158,11 @@ class Board {
         let noticeId = UserDefault().readInt(key: UserDefault.Key.LAST_NOTICE_ID)
         let freeId = UserDefault().readInt(key: UserDefault.Key.LAST_FREE_ID)
         let chargerId = UserDefault().readInt(key: UserDefault.Key.LAST_CHARGER_ID)
-        let eventId = UserDefault().readInt(key: UserDefault.Key.LAST_EVENT_ID)
         
         return noticeId < latestBoardIds[Board.KEY_NOTICE] ?? 0
             || freeId < latestBoardIds[Board.KEY_FREE_BOARD] ?? 0
             || chargerId < latestBoardIds[Board.KEY_CHARGER_BOARD] ?? 0
-            || eventId < latestBoardIds[Board.KEY_EVENT] ?? 0 || checkNewCompanyId()
+            || checkNewCompanyId()
     }
     
     // 게시판에 새 글이 있는지 확인

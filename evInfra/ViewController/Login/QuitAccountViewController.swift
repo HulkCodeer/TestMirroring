@@ -21,7 +21,7 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
             case .deleteVery:
                 return "고객님의 소중한 베리가 모두 사라져요"
             case .delteMembership:
-                return "회원카드가 삭제되어요"
+                return "EV Pay카드가 삭제되어요"
             case .reSign:
                 return "처음부터 다시 가입해야 해요"
             case .unRecoverable:
@@ -44,7 +44,7 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
     }
     
     private lazy var mainTitleLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         $0.textColor = Colors.backgroundAlwaysDark.color
         $0.textAlignment = .natural
@@ -53,7 +53,6 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
     }
     
     private lazy var subTitleLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         $0.textColor = Colors.contentTertiary.color
         $0.textAlignment = .natural
@@ -64,22 +63,18 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
     // MARK: UI
     
     private lazy var naviTotalView = CommonNaviView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.naviTitleLbl.text = "회원탈퇴"
     }
     
     private lazy var totalScrollView = UIScrollView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.showsVerticalScrollIndicator = false
         $0.showsHorizontalScrollIndicator = false
     }
     
-    private lazy var totalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var totalView = UIView()
     
     private lazy var guideLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         $0.textColor = Colors.contentSecondary.color
         $0.text = "위 유의사항에 동의하고 탈퇴하시겠어요?"
@@ -88,7 +83,7 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
     }
                     
     private lazy var quitBtn = RectButton(level: .primary).then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.setTitle("탈퇴하기", for: .normal)
         $0.setTitle("탈퇴하기", for: .disabled)        
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
@@ -97,7 +92,7 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
     }
     
     private lazy var totalStackView = UIStackView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.axis = .vertical
         $0.distribution = .equalSpacing
         $0.alignment = .fill
@@ -181,7 +176,6 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "회원탈퇴 화면"
         
         let currentDate = Date()
         let formatter = DateFormatter()
@@ -261,13 +255,13 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
     
     private func createReasonView(mainTitle: String, subTitle: String) -> UIView {
         let view = UIView().then {
-            $0.translatesAutoresizingMaskIntoConstraints = false
+            
             $0.backgroundColor = Colors.backgroundSecondary.color
             $0.IBcornerRadius = 8
         }
         
         let mainTitleLbl = UILabel().then {
-            $0.translatesAutoresizingMaskIntoConstraints = false
+            
             $0.text = mainTitle
             $0.textAlignment = .natural
             $0.numberOfLines = 1
@@ -283,7 +277,7 @@ internal final class QuitAccountViewController: CommonBaseViewController, Storyb
         }
         
         let subTitleLbl = UILabel().then {
-            $0.translatesAutoresizingMaskIntoConstraints = false
+            
             $0.text = subTitle
             $0.textAlignment = .natural
             $0.numberOfLines = 2

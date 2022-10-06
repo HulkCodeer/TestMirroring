@@ -9,12 +9,16 @@
 import UIKit
 import RxSwift
 
-internal class CommonBaseTableViewCell: UITableViewCell {
-    internal lazy var totalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
-
+internal class CommonBaseTableViewCell: UITableViewCell {    
+    // MARK: UI
+    
+    internal lazy var totalView = UIView()
+    
+    // MARK: VARIABLE
+    
     internal var cellDisposeBag = DisposeBag()
+    
+    //MARK: SYSTEM FUNC
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -46,6 +50,6 @@ internal class CommonBaseTableViewCell: UITableViewCell {
     }
 
     internal func makeUI() {
-        self.contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]    
     }
 }

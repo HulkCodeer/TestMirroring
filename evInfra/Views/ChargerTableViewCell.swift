@@ -87,12 +87,32 @@ class ChargerTableViewCell: UITableViewCell {
     @objc func onClickFavorite(_ sender: UIButton) {
         ChargerManager.sharedInstance.setFavoriteCharger(charger: charger) { (charger) in
             self.updateFavoriteImage()
+            self.logFavoriteEvent(charger.mFavorite)
             if charger.mFavorite {
                 Snackbar().show(message: "즐겨찾기에 추가하였습니다.")
             } else {
                 Snackbar().show(message: "즐겨찾기에서 제거하였습니다.")
+                self.logAlarmEvent(charger.mFavorite, "자동해제")
             }
         }
+    }
+    
+    private func logFavoriteEvent(_ isFavorite: Bool) {
+        var property: [String: Any?] = AmpChargerStationModel(charger).toProperty
+        property["source"] = "즐겨찾기 화면"
+        if isFavorite {
+            MapEvent.clickStationAddFavorite.logEvent(property: property)
+        } else {            
+            MapEvent.clickStationCancelFavorite.logEvent(property: property)
+        }
+    }
+    
+    private func logAlarmEvent(_ isOn: Bool, _ type: String) {
+        var property: [String: Any] = ["onOrOff": (isOn ? "On" : "Off")]
+        if !isOn {
+            property["type"] = type
+        }
+        MapEvent.clickFavoriteStationAlarm.logEvent(property: property)
     }
     
     @objc func onClickAlarm(_ sender: UIButton) {
@@ -102,6 +122,7 @@ class ChargerTableViewCell: UITableViewCell {
                 if json["code"].intValue == 1000 {
                     self.charger.mFavoriteNoti = json["noti"].boolValue
                     self.updateFavoriteImage()
+                    self.logAlarmEvent(self.charger.mFavoriteNoti, "수동해제")
                 } else {
                     Snackbar().show(message: "즐겨찾기 알림 업데이트를 실패했습니다. 다시 시도해 주세요.")
                 }

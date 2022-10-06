@@ -25,26 +25,26 @@ internal final class MembershipGuideViewController: BaseViewController, WKUIDele
     }
     
     private lazy var webView = WKWebView(frame: CGRect.zero, configuration: self.config).then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.navigationDelegate = self
         $0.uiDelegate = self
     }
     
     private lazy var membershipRegisterBtn = UIButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.backgroundColor = UIColor(named: "gr-5")
     }
     
     private lazy var membershipBtnTitleLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "회원카드 만들기"
+        
+        $0.text = "EV Pay카드 만들기"
         $0.textColor = UIColor(named: "nt-9")
         $0.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         $0.textAlignment = .center
     }
     
     private lazy var arrowImgView = UIImageView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.image = UIImage(named: "icon_arrow_right_lg")
         $0.tintColor = UIColor(named: "content-primary")
     }
@@ -54,12 +54,12 @@ internal final class MembershipGuideViewController: BaseViewController, WKUIDele
     override func loadView() {
         super.loadView()
         
-        prepareActionBar(with: "회원카드 안내")
+        prepareActionBar(with: "EV Pay카드 안내")
         
         view.addSubview(self.membershipRegisterBtn)
         membershipRegisterBtn.snp.makeConstraints {
             $0.leading.trailing.bottom.equalToSuperview()
-            let safeAreaBottomHeight = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
+            let safeAreaBottomHeight = UIWindow.key?.safeAreaInsets.bottom ?? 0
             $0.height.equalTo(64 + safeAreaBottomHeight)
         }
         
@@ -92,20 +92,22 @@ internal final class MembershipGuideViewController: BaseViewController, WKUIDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "회원카드 안내 화면"
+        
         membershipRegisterBtn.rx.tap
             .asDriver()
             .drive(onNext: {[weak self] _ in
                 guard let self = self else { return }
                 let storyboard = UIStoryboard(name : "Membership", bundle: nil)
                 let mbsIssueVC = storyboard.instantiateViewController(ofType: MembershipIssuanceViewController.self)
-                self.navigationController?.push(viewController: mbsIssueVC)
+                self.navigationController?.push(viewController: mbsIssueVC)                                
+                PaymentEvent.clickApplyEVICard.logEvent()
             })
             .disposed(by: disposebag)
     }
-    
+            
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        GlobalDefine.shared.mainNavi?.navigationBar.isHidden = false
     }
     
     // 추후 딥링크 추가시 필요

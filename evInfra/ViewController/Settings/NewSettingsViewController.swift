@@ -40,22 +40,17 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
     // MARK: UI
     
     private lazy var naviTotalView = CommonNaviView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.naviTitleLbl.text = "설정"
     }
     
     private lazy var totalScrollView = UIScrollView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.showsVerticalScrollIndicator = false
         $0.showsHorizontalScrollIndicator = false
     }
     
-    private lazy var totalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
-            
-    private lazy var stackView = UIStackView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+    private lazy var totalView = UIView()
+    private lazy var stackView = UIStackView().then {        
         $0.axis = .vertical
         $0.distribution = .fillEqually
         $0.alignment = .fill
@@ -120,7 +115,6 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "설정 화면"
     }
             
     override func viewWillAppear(_ animated: Bool) {
@@ -131,12 +125,9 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
     internal func bind(reactor: SettingsReactor) {}
     
     private func createSettingView(mainTitle: String, subTitle: String, settingType: SettingType) -> UIView {
-        let view = UIView().then {
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        }
+        let view = UIView()
         
         let stackView = UIStackView().then {
-            $0.translatesAutoresizingMaskIntoConstraints = false
             $0.axis = .vertical
             $0.distribution = .equalSpacing
             $0.alignment = .fill
@@ -150,7 +141,7 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
         }
         
         let mainTitleLbl = UILabel().then {
-            $0.translatesAutoresizingMaskIntoConstraints = false
+            
             $0.text = mainTitle
             $0.numberOfLines = 1
             $0.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
@@ -163,7 +154,7 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
         }
         
         let subTitleLbl = UILabel().then {
-            $0.translatesAutoresizingMaskIntoConstraints = false
+            
             $0.text = subTitle
             $0.textAlignment = .natural
             $0.numberOfLines = 2
@@ -179,7 +170,7 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
         }
                 
         let noticeSw = UISwitch().then {
-            $0.translatesAutoresizingMaskIntoConstraints = false
+            
             $0.tintColor = Colors.contentPrimary.color
             $0.thumbTintColor = .white
             $0.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
@@ -295,12 +286,12 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
     
     private func createQuitAccountView(mainTitle: String) -> UIView {
         let view = UIView().then {
-            $0.translatesAutoresizingMaskIntoConstraints = false
+            
             $0.clipsToBounds = true
         }
         
         let mainTitleLbl = UILabel().then {
-            $0.translatesAutoresizingMaskIntoConstraints = false
+            
             $0.text = mainTitle
             $0.numberOfLines = 1
             $0.font = UIFont.systemFont(ofSize: 14, weight: .bold)
@@ -321,9 +312,7 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
             $0.height.equalTo(1)
         }
         
-        let quitAccountBtn = UIButton().then {
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        }
+        let quitAccountBtn = UIButton()
         
         view.addSubview(quitAccountBtn)
         quitAccountBtn.snp.makeConstraints {

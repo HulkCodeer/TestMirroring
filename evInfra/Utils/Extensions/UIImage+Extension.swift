@@ -22,8 +22,8 @@ extension UIImage {
     }
     
     func isEqual(other: UIImage) -> Bool {
-        guard let data1 = UIImagePNGRepresentation(self) else { return false }
-        guard let data2 = UIImagePNGRepresentation(other) else { return false }
+        guard let data1 = self.pngData() else { return false }
+        guard let data2 = other.pngData() else { return false }
         
         return data1.elementsEqual(data2)
     }
@@ -31,12 +31,12 @@ extension UIImage {
     func saveImage(_ name: String){
         let path: String = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
         let url = URL(fileURLWithPath: path).appendingPathComponent(name)
-        try! UIImagePNGRepresentation(self)?.write(to: url)
+        try! self.pngData()?.write(to: url)
         print("Save Image at \(url)")
     }
     
     func saveImage(image: UIImage, name: String) -> Bool {
-        guard let data = UIImagePNGRepresentation(image) else {
+        guard let data = image.pngData() else {
             return false
         }
         guard let directory = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false) as NSURL else {
@@ -52,7 +52,7 @@ extension UIImage {
     }
     
     func saveJPEGImage(image: UIImage, name: String) -> Bool {
-        guard let data = UIImageJPEGRepresentation(image, 1.0) else {
+        guard let data = image.jpegData(compressionQuality: 1.0) else {
             return false
         }
         guard let directory = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false) as NSURL else {
@@ -95,5 +95,5 @@ extension UIImage {
         let resultImage: UIImage = UIImage(cgImage: imageRef, scale: image.scale, orientation: image.imageOrientation)
 
         return resultImage
-    }
+    }    
 }

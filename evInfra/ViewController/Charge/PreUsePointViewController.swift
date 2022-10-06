@@ -31,7 +31,7 @@ class PreUsePointViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "베리 설정 화면"
+        
         prepareActionBar()
         prepareView()
         prepareTextField()
@@ -95,6 +95,8 @@ class PreUsePointViewController: UIViewController {
     @objc
     fileprivate func handleResetButton() {
         // 설정된 값이 0이 아니면 초기화
+        PaymentEvent.clickResetBerry.logEvent()
+        
         if oldUsePoint != 0 {
             preUsePoint = 0
             saveUsePoint()
@@ -146,13 +148,18 @@ class PreUsePointViewController: UIViewController {
     }
     
     func saveUsePoint() {
-        Server.setUsePoint (usePoint: preUsePoint, useNow: true) { (isSuccess, value) in
+        Server.setUsePoint (usePoint: preUsePoint, useNow: true) { [weak self] (isSuccess, value) in
+            guard let self = self else { return }
             if isSuccess {
                 let json = JSON(value)
                 if json["code"].stringValue == "1000" {
                     self.oldUsePoint = self.preUsePoint
                     Snackbar().show(message: "설정이 저장되었습니다.")
                     self.updateView()
+                    
+                    let setBerryAmount: String = self.preUsePoint == -1 ? "전액" : "\(self.preUsePoint)"
+                    let property: [String: Any] = ["setberryAmount": setBerryAmount]
+                    PaymentEvent.clickSetUpBerry.logEvent(property: property)
                 }
             } else {
                 Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 페이지 종료 후 재시도 바랍니다.")

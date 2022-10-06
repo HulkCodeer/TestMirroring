@@ -24,7 +24,7 @@ class CorporationLoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "법인 로그인 화면"
+        
         tfCorpId.delegate = self
         tfCorpPwd.delegate = self
         
@@ -57,9 +57,10 @@ class CorporationLoginViewController: UIViewController {
                         } else {
                             Snackbar().show(message: "로그인 성공")
                             MemberManager.shared.setData(data: json)
-                            let property: [String: Any] = ["type": Login.LoginType.evinfra.description]
-                            AmplitudeManager.shared.logEvent(type: .login(.complteLogin), property: property)
-                            self.navigationController?.pop()
+                            
+                            CorpLoginEvent.complteLogin.logEvent()
+                            
+                            GlobalDefine.shared.mainNavi?.pop()
                             if let delegate = self.delegate {
                                 delegate.successSignUp()
                             }

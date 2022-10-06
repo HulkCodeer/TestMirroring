@@ -21,6 +21,12 @@ internal enum Const {
     public static let EV_COMMUNITY_SERVER = "http://dev.soft-berry.co.kr/community/v2/EiCommunity"
     public static let EI_FILE_SERVER = "https://data.ev-infra.com/ev-infra/dev"
     public static let SK_BATTERY_SERVER = "http://mbaas.koreacentral.cloudapp.azure.com/ev-infra/web"
+    public static let AWS_SERVER = "https://app.ev-infra.com/v1/stg"
+    public static let AWS_IMAGE_SERVER = "https://app.ev-infra.com/v1/stg/image/"
+    public static let AMPLITUDE_API_KEY = "57bdb148be2db2b5ef49ae6b576fbd15"     // Dev Key
+//    private let AMPLITUDE_API_KEY: String = "5b0c10b3154cb361b516ea64682d2f8b" // Staging Key
+    
+    
     // public static let SK_BATTERY_SERVER = "https://mbaas.sk-on.com/ev-infra/web"
 //    public static let EV_PAY_SERVER = "http://khpark.soft-berry.co.kr"
 //    public static let EV_PAY_SERVER = "http://spark.soft-berry.co.kr"
@@ -36,6 +42,9 @@ internal enum Const {
     public static let EV_COMMUNITY_SERVER = "https://comm.ev-infra.com/community/v2/EiCommunity"
     public static let EI_FILE_SERVER = "https://data.ev-infra.com/ev-infra"
     public static let SK_BATTERY_SERVER = "https://mbaas.sk-on.com/ev-infra/web"
+    public static let AWS_SERVER = "https://app.ev-infra.com/v1"
+    public static let AWS_IMAGE_SERVER = "https://app.ev-infra.com/v1/image/"
+    public static let AMPLITUDE_API_KEY = "f22b183357026eaed8bbe215e0bbf0a1" // Release Key
     #endif
 
     // File Server
@@ -97,5 +106,5 @@ internal enum Const {
         static let titlePlaceHolder = "제목을 입력해주세요."
         static let contentsPlaceHolder = "내용을 입력해주세요."
         static let chargerPlaceHolder = "충전소 검색"
-    }
+    }        
 }

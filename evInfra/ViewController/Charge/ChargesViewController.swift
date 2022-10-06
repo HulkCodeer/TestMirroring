@@ -39,7 +39,7 @@ class ChargesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "충전이력 조회 화면"
+        
         prepareActionBar()
         prepareDatePicker()
         prepareCheckBox()
@@ -258,7 +258,7 @@ extension ChargesViewController: UITableViewDelegate, UITableViewDataSource, Cha
     }
     
     func didSelectReceipt(charge: ChargingStatus) {
-        let window = UIApplication.shared.keyWindow!
+        let window = UIWindow.key!
         let receiptView = ReceiptView(frame: window.bounds)
         receiptView.update(status: charge)
         receiptView.tag = 100
@@ -270,7 +270,7 @@ extension ChargesViewController: UITableViewDelegate, UITableViewDataSource, Cha
     }
     
     @objc func removeSubview() {
-        let window = UIApplication.shared.keyWindow!
+        let window = UIWindow.key!
         if let receiptView = window.viewWithTag(100) {
             receiptView.removeFromSuperview()
         }

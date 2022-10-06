@@ -14,7 +14,7 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
     
     @IBOutlet var detailTableView: UITableView!
     
-    var category = Board.CommunityType.FREE.rawValue
+    var category: Board.CommunityType = .FREE
     var document_srl: String = ""
     var detail: BoardDetailResponseData? = nil
     var recomment: Recomment?
@@ -30,7 +30,7 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "게시판 상세 화면"
+        
         fetchData()
         setConfiguration()
         prepareActionBar(with: "")
@@ -48,15 +48,28 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
     }
     
     private func fetchData() {
-        boardDetailViewModel.fetchBoardDetail(mid: category, document_srl: document_srl)
+        boardDetailViewModel.fetchBoardDetail(mid: category.rawValue, document_srl: document_srl)
         boardDetailViewModel.listener = { [weak self] detail in
             guard let self = self else { return }
-            
             self.detail = detail
-            
             DispatchQueue.main.async {
                 self.detailTableView.reloadData()
             }
+            
+            guard let detail = self.detail, let document = detail.document else { return }
+            
+            let postId = document.document_srl ?? ""
+            let likeCnt = document.like_count ?? "0"
+            let replyCnt = document.comment_count ?? "0"
+            let boardType = self.category == .FREE ? "자유 게시판" : "충전소 게시판"
+            let source = self.isFromStationDetailView ? "\(document.parseChargerIdToName())" : "충전소 게시판"
+            
+            let property: [String: Any] = ["boardType": boardType,
+                                           "source": source,
+                                           "postID": postId,
+                                           "likeCount": likeCnt,
+                                           "replyCount": replyCnt]
+            BoardEvent.viewBoardPost.logEvent(property: property)
         }
         getAdminList { adminList in
             self.adminList = adminList
@@ -88,7 +101,7 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
         detailTableView.register(UINib(nibName: "BoardDetailTableViewCell", bundle: nil), forCellReuseIdentifier: "BoardDetailTableViewCell")
         detailTableView.register(EmptyTableViewCell.classForCoder(), forCellReuseIdentifier: "EmptyTableViewCell")
         detailTableView.estimatedRowHeight = 100
-        detailTableView.rowHeight = UITableViewAutomaticDimension
+        detailTableView.rowHeight = UITableView.automaticDimension
         
         if #available(iOS 15.0, *) {
             self.detailTableView.sectionHeaderTopPadding = 0
@@ -131,7 +144,7 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
                 
                 let selectedImage = self.keyboardInputView?.selectedImageView.image
                 
-                var commentParamters = CommentParameter(mid: self.category,
+                var commentParamters = CommentParameter(mid: self.category.rawValue,
                                                         documentSRL: detail.document!.document_srl!,
                                                         comment: nil,
                                                         text: text,
@@ -205,8 +218,8 @@ extension BoardDetailViewController: MediaButtonTappedDelegate {
 extension BoardDetailViewController: UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
-        let originalImage = info[UIImagePickerControllerOriginalImage] as! UIImage
-        let editedImage = info[UIImagePickerControllerEditedImage] as? UIImage
+        let originalImage = info[UIImagePickerController.InfoKey.originalImage.rawValue] as! UIImage
+        let editedImage = info[UIImagePickerController.InfoKey.editedImage.rawValue] as? UIImage
         let selectedImage = editedImage ?? originalImage
         
         keyboardInputView?.selectedImageView.isHidden = false
@@ -243,7 +256,7 @@ extension BoardDetailViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -252,7 +265,7 @@ extension BoardDetailViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 0 {
-            return UITableViewAutomaticDimension
+            return UITableView.automaticDimension
         } else {
             if boardDetailViewModel.getDetailData()?.comments?.count == 0 {
                 return 64
@@ -321,7 +334,7 @@ extension BoardDetailViewController: UITableViewDataSource {
 // MARK: - 게시글/댓글 수정+삭제+신고 기능
 extension BoardDetailViewController {
     private func prepareSharingForKakao(with document: Document) {
-        linkShareManager.sendToKakaoWithBoard(with: document)
+        linkShareManager.sendToKakao(with: document)
     }
     
     private func deleteBoard() {
@@ -620,7 +633,7 @@ extension BoardDetailViewController: ButtonClickDelegate {
         
         if let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) {
             detailViewController.charger = charger
-            self.navigationController?.push(viewController: detailViewController, subtype: kCATransitionFromTop)
+            self.navigationController?.push(viewController: detailViewController, subtype: CATransitionSubtype.fromTop)
         }
     }
 }
@@ -631,4 +644,3 @@ extension BoardDetailViewController {
         self.view.endEditing(true)
     }
 }
-

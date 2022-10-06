@@ -43,10 +43,9 @@ internal final class RentalCarCardListView : UIView {
         
         moveLotteBtn.rx.tap
             .asDriver()
-            .drive(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                let membershipVC = UIStoryboard(name: "Membership", bundle: nil).instantiateViewController(ofType: LotteRentInfoViewController.self)
-                GlobalDefine.shared.mainNavi?.push(viewController: membershipVC)
+            .drive(onNext: { _ in
+                let viewcon = UIStoryboard(name: "Membership", bundle: nil).instantiateViewController(ofType: LotteRentInfoViewController.self)
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             })
             .disposed(by: self.disposebag)
     }

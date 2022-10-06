@@ -10,13 +10,22 @@ import Foundation
 
 public class UtilNavigation {
     func showNavigation(vc: UIViewController, startPoint: POIObject, endPoint: POIObject, viaList: [POIObject]) {
+        var property: [String: Any] = [:]
+        if let vc = vc as? MainViewController, let charger = vc.selectCharger {
+            property = AmpChargerStationModel(charger).toProperty
+        }
+        
         let optionMenu = UIAlertController(title: nil, message: "네비게이션", preferredStyle: .alert)
-           
         let kakaoMap = UIAlertAction(title: "카카오맵(KAKAO MAP)", style: .default) { _ in
             self.openKakaoNavigation(startPoint: startPoint, endPoint: endPoint, viaList: viaList)
+            property["navigationType"] = "카카오맵"
+            
+            RouteEvent.clickStationStartNavigaion.logEvent(property: property)
         }
         let tMap = UIAlertAction(title: "티맵(T MAP)", style: .default) { _ in
             self.tmapNavigation(startPoint: startPoint, endPoint: endPoint, viaList: viaList)
+            property["navigationType"] = "티맵"
+            RouteEvent.clickStationStartNavigaion.logEvent(property: property)
         }
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
        

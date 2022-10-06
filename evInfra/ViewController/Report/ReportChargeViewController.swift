@@ -58,7 +58,7 @@ internal final class ReportChargeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "충전소 제보 화면"
+        
         prepareActionBar()
         
         prepareMapView()
@@ -72,6 +72,8 @@ internal final class ReportChargeViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        ReportsEvent.clickStationReport.logEvent()
+        
         addObserver()
     }
     
@@ -136,7 +138,7 @@ internal final class ReportChargeViewController: UIViewController {
         
         // 운영 기관
         if let charger = self.charger {
-            operationBtn.setTitle(charger.mStationInfoDto?.mOperator, for: UIControlState.normal)
+            operationBtn.setTitle(charger.mStationInfoDto?.mOperator, for: UIControl.State.normal)
         }
         
         // 충전소 이름
@@ -303,6 +305,8 @@ internal final class ReportChargeViewController: UIViewController {
 
                     // 제보 정보 다시 받아오기
                     self.requestReportData()
+                    ReportsEvent.clickStationCompleteReport.logEvent()
+                    
                 } else {
                     Snackbar().show(message: "수정 요청이 실패하였습니다. 다시 시도해 주세요.")
                 }
@@ -362,10 +366,10 @@ extension ReportChargeViewController : UITextFieldDelegate, UITextViewDelegate {
     }
     
     func addObserver() {
-        NotificationCenter.default.addObserver(forName: .UIKeyboardWillShow, object: nil, queue: nil) { notification in
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: nil) { notification in
             self.keyboardWillShow(notification : notification)
         }
-        NotificationCenter.default.addObserver(forName: .UIKeyboardWillHide, object: nil, queue: nil) { notification in
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: nil) { notification in
             self.keyboardWillHide(notification : notification)
         }
     }
@@ -375,7 +379,7 @@ extension ReportChargeViewController : UITextFieldDelegate, UITextViewDelegate {
     }
     
     func keyboardWillShow(notification : Notification) {
-        guard let userInfo = notification.userInfo, let frame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+        guard let userInfo = notification.userInfo, let frame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
             return
         }
         let contentInsert = UIEdgeInsets(top: 0, left: 0, bottom: frame.height, right: 0)

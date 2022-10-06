@@ -14,13 +14,13 @@ internal final class RentalCarCardListViewController: UIViewController {
     // MARK: UI
     
     private lazy var partnershipJoinView = PartnershipJoinView(frame: .zero).then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.delegate = self
         $0.isHidden = true
     }
     
     private lazy var rentalCarCardList = RentalCarCardListView(frame: .zero).then {
-        $0.translatesAutoresizingMaskIntoConstraints = false        
+                
         $0.isHidden = true
     }
     
@@ -50,7 +50,6 @@ internal final class RentalCarCardListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "롯데렌터카/SK렌터카 회원카드 목록 화면"
         prepareActionBar()
     }
     
@@ -166,14 +165,17 @@ extension RentalCarCardListViewController: PartnershipJoinViewDelegate {
     }
     func showSKMemberQRView() {
         let storyboard = UIStoryboard(name : "Membership", bundle: nil)
-        let mbsQRVC = storyboard.instantiateViewController(ofType: MembershipQRViewController.self)
+        let mbsQRVC = storyboard.instantiateViewController(ofType: MembershipQRViewController.self)        
+        let property: [String: Any] = ["company": "롯데 렌터카"]
+        PaymentEvent.clickApplyAllianceCard.logEvent(property: property)
         navigationController?.push(viewController: mbsQRVC)
     }
     
     func showLotteRentCertificateView() {
         let storyboard = UIStoryboard(name : "Membership", bundle: nil)
         let lotteVC = storyboard.instantiateViewController(ofType: LotteRentCertificateViewController.self)
+        let property: [String: Any] = ["company": "롯데 렌터카"]
+        PaymentEvent.clickApplyAllianceCard.logEvent(property: property)
         navigationController?.push(viewController: lotteVC)
     }
 }
-

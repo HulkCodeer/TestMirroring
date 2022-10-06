@@ -24,7 +24,7 @@ class ReportBoardViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "나의 제보 내역 화면"
+        
         prepareActionBar()
         prepareInitView()
     }
@@ -59,8 +59,8 @@ class ReportBoardViewController: UIViewController {
     func prepareInitView() {
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        self.tableView.rowHeight = UITableViewAutomaticDimension
-        self.tableView.estimatedRowHeight = UITableViewAutomaticDimension
+        self.tableView.rowHeight = UITableView.automaticDimension
+        self.tableView.estimatedRowHeight = UITableView.automaticDimension
         self.tableView.separatorColor = UIColor(rgb: 0xE4E4E4)
         self.tableView.tableFooterView = UIView() // empty list의 separator 보이지 않도록 함
         self.emptyLabel.isHidden = true
@@ -152,7 +152,7 @@ extension ReportBoardViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {

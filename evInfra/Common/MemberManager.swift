@@ -8,7 +8,8 @@
 
 import Foundation
 import SwiftyJSON
-
+import RxCoreLocation
+import RxSwift
 
 struct Admin: Decodable {
     let mb_id: String
@@ -31,8 +32,14 @@ internal final class MemberManager {
     
     private init() {}
     
+    private var disposeBag = DisposeBag()
+    
     internal var mbId: Int { // 회원가입 아이디
         return UserDefault().readInt(key: UserDefault.Key.MB_ID)
+    }
+    
+    internal var mbIdToStr: String { // 회원가입 아이디
+        return "\(UserDefault().readInt(key: UserDefault.Key.MB_ID))"
     }
     
     internal var memberId: String { // 기기 아이디
@@ -124,6 +131,33 @@ internal final class MemberManager {
             return UserDefault().readString(key: UserDefault.Key.MB_POINT)
         }
     }
+    
+    internal var isAllowNoti: Bool {
+        set {
+            UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_NOTIFICATION, value: newValue)
+        }
+        get {
+            return UserDefault().readBool(key: UserDefault.Key.SETTINGS_ALLOW_NOTIFICATION)
+        }
+    }
+    
+    internal var isAllowJejuNoti: Bool {
+        set {
+            UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_JEJU_NOTIFICATION, value: newValue)
+        }
+        get {
+            return UserDefault().readBool(key: UserDefault.Key.SETTINGS_ALLOW_JEJU_NOTIFICATION)
+        }
+    }
+    
+    internal var isAllowMarketingNoti: Bool? {
+        set {
+            UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION, value: newValue ?? false)
+        }
+        get {
+            return UserDefault().readBoolWithNil(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION) as? Bool ?? nil
+        }
+    }
                     
     func isPartnershipClient(clientId : Int) -> Bool {
         let list = UserDefault().readIntArray(key: UserDefault.Key.MB_PARTNERSHIP_CLIENT)
@@ -148,16 +182,44 @@ internal final class MemberManager {
     }
     
     internal var hasMembership: Bool {
-        return UserDefault().readBool(key: UserDefault.Key.MB_HAS_MEMBERSHIP)
+        set {
+            UserDefault().saveBool(key: UserDefault.Key.MB_HAS_MEMBERSHIP, value: newValue)
+        }
+        get {
+            return UserDefault().readBool(key: UserDefault.Key.MB_HAS_MEMBERSHIP)
+        }
     }
     
     internal var hasPayment: Bool {
-        return UserDefault().readBool(key: UserDefault.Key.MB_PAYMENT)
+        set {
+            UserDefault().saveBool(key: UserDefault.Key.MB_PAYMENT, value: newValue)
+        }
+        get {
+            return UserDefault().readBool(key: UserDefault.Key.MB_PAYMENT)
+        }
+    }
+        
+    internal var isFirstInstall: Bool { // false일 경우 처음 설치, true일때 처음설치 아님
+        set {
+            UserDefault().saveBool(key: UserDefault.Key.IS_FIRST_INSTALL, value: newValue)
+        }
+        get {
+            return UserDefault().readBool(key: UserDefault.Key.IS_FIRST_INSTALL)
+        }
+    }
+        
+    internal var isFirstLocationPopup: Bool { // false일 경우 처음 설치, true일때 처음설치 아님
+        set {
+            UserDefault().saveBool(key: UserDefault.Key.IS_FIRST_LOCATION_POPUP, value: newValue)
+        }
+        get {
+            return UserDefault().readBool(key: UserDefault.Key.IS_FIRST_LOCATION_POPUP)
+        }
     }
     
     // 로그인 상태 체크
     internal var isLogin: Bool {
-        return UserDefault().readInt(key: UserDefault.Key.MB_ID) > 0
+        return UserDefault().readInt(key: UserDefault.Key.MB_ID) >= 0
     }
     
     // 지킴이 체크
@@ -165,6 +227,16 @@ internal final class MemberManager {
         return UserDefault().readInt(key: UserDefault.Key.MB_LEVEL) == MemberLevel.keeper.rawValue
     }
     
+    // QR 체크
+    internal var isShowQrTooltip: Bool {
+        set {
+            UserDefault().saveBool(key: UserDefault.Key.IS_SHOW_QR_TOOLTIP, value: newValue)
+        }
+        get {
+            return UserDefault().readBool(key: UserDefault.Key.IS_SHOW_QR_TOOLTIP)
+        }
+    }
+            
     func setData(data: JSON) {
         if data["mb_id"].stringValue.elementsEqual("") {
             print("mb id is null");
@@ -196,7 +268,7 @@ internal final class MemberManager {
     
     func clearData() {
         let userDefault = UserDefault()
-        userDefault.saveInt(key: UserDefault.Key.MB_ID, value: 0)
+        userDefault.saveInt(key: UserDefault.Key.MB_ID, value: -1)
         userDefault.saveInt(key: UserDefault.Key.MB_LEVEL, value: MemberLevel.normal.rawValue)
         userDefault.saveString(key: UserDefault.Key.MB_USER_ID, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_PROFILE_NAME, value: "")
@@ -214,24 +286,29 @@ internal final class MemberManager {
         userDefault.saveString(key: UserDefault.Key.MB_AGE_RANGE, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_EMAIL, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_PHONE, value: "")
+//        userDefault.removeObjectForKey(key: UserDefault.Key.IS_FIRST_INSTALL)
+//        userDefault.removeObjectForKey(key: UserDefault.Key.IS_FIRST_LOCATION_POPUP)
+                        
+        AmplitudeManager.shared.setUser(with: nil)
     }
     
     func showLoginAlert(completion: ((Bool) -> ())? = nil) {
         
-        let ok = UIAlertAction(title: "확인", style: .default, handler: {(ACTION) -> Void in
-            guard let _mainNavi = GlobalDefine.shared.mainNavi else { return }
-            let loginVC = UIStoryboard(name: "Login", bundle: nil).instantiateViewController(ofType: LoginViewController.self)
-            _mainNavi.push(viewController: loginVC)
-                        
-            completion?(true)
-        })
-        
-        let cancel = UIAlertAction(title: "취소", style: .cancel, handler:{ (ACTION) -> Void in
-            completion?(false)
-        })
-        
-        UIAlertController.showAlert(title: "로그인 필요", message: "로그인 후 사용가능합니다.\n로그인 하시려면 확인버튼을 누르세요.", actions: [ok, cancel])
-        
+        let popupModel = PopupModel(title: "로그인이 필요해요",
+                                    message:"해당 서비스는 로그인 후 이용할 수 있어요.\n아래 버튼을 눌러 로그인을 해주세요.",
+                                    confirmBtnTitle: "로그인 하기",
+                                    cancelBtnTitle: "닫기",
+                                    confirmBtnAction: {
+                                        let loginVC = UIStoryboard(name: "Login", bundle: nil).instantiateViewController(ofType: LoginViewController.self)
+                                        GlobalDefine.shared.mainNavi?.push(viewController: loginVC)
+                                                    
+                                        completion?(true)
+                                    },
+                                    cancelBtnAction: {
+                                        completion?(false)
+        }, dimmedBtnAction: {})
+        let popup = ConfirmPopupViewController(model: popupModel)
+        GlobalDefine.shared.mainNavi?.present(popup, animated: true, completion: nil)
     }
     
     internal func tryToLoginCheck(success: ((Bool) -> Void)? = nil) {
@@ -242,11 +319,11 @@ internal final class MemberManager {
                     Snackbar().show(message: "회원 탈퇴로 인해 로그아웃 되었습니다.")
                     MemberManager.shared.clearData()
                 } else {
-                    success?(UserDefault().readInt(key: UserDefault.Key.MB_ID) > 0)
+                    success?(MemberManager.shared.isLogin)
                 }
             }
                     
-        default: success?(UserDefault().readInt(key: UserDefault.Key.MB_ID) > 0)
+        default: success?(MemberManager.shared.isLogin)
         }
         
     }

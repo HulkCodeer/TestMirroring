@@ -101,7 +101,13 @@ class FilterSpeedView: UIView {
     
     @IBAction func onTouchUpSlider(_ sender: Any) {
         if (saveOnChange) {
-           applyFilter()
+            applyFilter()
+            let minSpeed: Int = FilterManager.sharedInstance.filter.minSpeed
+            let maxSpeed: Int = FilterManager.sharedInstance.filter.maxSpeed
+            let property: [String: Any] = ["filterName": "충전 속도",
+                                           "minChargingSpeed": "\(minSpeed == 0 ? "완속" : "\(minSpeed)")",
+                                           "maxChargingSpeed": "\(maxSpeed == 0 ? "완속" : "\(maxSpeed)")"]
+            FilterEvent.clickUpperFilter.logEvent(property: property)
         }
         delegate?.onChangedFilter(type: .speed)
     }

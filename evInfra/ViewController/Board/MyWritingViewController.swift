@@ -13,14 +13,12 @@ import SwiftyJSON
 
 class MyWritingViewController: BaseViewController {
     
-    private lazy var boardTableView = BoardTableView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var boardTableView = BoardTableView()
     
     var currentPage = 0
     var lastPage: Bool = false
     var communityBoardList: [BoardListItem] = [BoardListItem]()
-    var boardCategory = ""
+    var boardCategory: Board.CommunityType = .FREE
     var screenType = Board.ScreenType.LIST
     
     override func loadView() {
@@ -34,7 +32,6 @@ class MyWritingViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "내가 쓴 글 화면"
         prepareTabItem()
         boardTableView.tableViewDelegate = self
         boardTableView.separatorColor = UIColor(rgb: 0xE4E4E4)
@@ -43,7 +40,7 @@ class MyWritingViewController: BaseViewController {
         boardTableView.allowsSelection = true
         boardTableView.isNoneHeader = true
         boardTableView.category = boardCategory
-        boardTableView.contentInset = UIEdgeInsetsMake(-20, 0, 0, 0)
+        boardTableView.contentInset = UIEdgeInsets(top: -20, left: 0, bottom: 0, right: 0)
     }
 
     override func didReceiveMemoryWarning() {
@@ -54,15 +51,19 @@ class MyWritingViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Recalculates height
-        fetchFirstBoard(mid: boardCategory, sort: Board.SortType.LATEST, mode: screenType.rawValue)
+        fetchFirstBoard(mid: boardCategory.rawValue, sort: Board.SortType.LATEST, mode: screenType.rawValue)
+        
+        let boardType = boardCategory == .FREE ? "자유 게시판" : "충전소 게시판"
+        let property: [String: Any] = ["type" : boardType]
+        MyReportsEvent.viewMyPost.logEvent(property: property)
     }
 }
 
 extension MyWritingViewController {
     func prepareTabItem() {
-        if (boardCategory.elementsEqual(Board.CommunityType.FREE.rawValue)) {
+        if boardCategory == .FREE {
             tabItem.title = "자유게시판"
-        } else if (boardCategory.elementsEqual(Board.CommunityType.CHARGER.rawValue)) {
+        } else if boardCategory == .CHARGER {
             tabItem.title = "충전소게시판"
         }
         

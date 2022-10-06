@@ -6,25 +6,25 @@ PODS:
     - AnalyticsConnector (~> 1.0.0)
   - AnalyticsConnector (1.0.0)
   - AnyFormatKit (2.5.2)
+  - Differentiator (5.0.0)
   - DLRadioButton (1.4.12)
   - DropDown (2.3.13)
   - EasyTipView (2.1.0)
-  - ExpyTableView (1.2.1)
-  - Firebase/Analytics (9.3.0):
+  - Firebase/Analytics (9.4.0):
     - Firebase/Core
-  - Firebase/Core (9.3.0):
+  - Firebase/Core (9.4.0):
     - Firebase/CoreOnly
-    - FirebaseAnalytics (~> 9.3.0)
-  - Firebase/CoreOnly (9.3.0):
-    - FirebaseCore (= 9.3.0)
-  - Firebase/DynamicLinks (9.3.0):
+    - FirebaseAnalytics (~> 9.4.0)
+  - Firebase/CoreOnly (9.4.0):
+    - FirebaseCore (= 9.4.0)
+  - Firebase/DynamicLinks (9.4.0):
     - Firebase/CoreOnly
-    - FirebaseDynamicLinks (~> 9.3.0)
-  - Firebase/Messaging (9.3.0):
+    - FirebaseDynamicLinks (~> 9.4.0)
+  - Firebase/Messaging (9.4.0):
     - Firebase/CoreOnly
-    - FirebaseMessaging (~> 9.3.0)
-  - FirebaseAnalytics (9.3.0):
-    - FirebaseAnalytics/AdIdSupport (= 9.3.0)
+    - FirebaseMessaging (~> 9.4.0)
+  - FirebaseAnalytics (9.4.0):
+    - FirebaseAnalytics/AdIdSupport (= 9.4.0)
     - FirebaseCore (~> 9.0)
     - FirebaseInstallations (~> 9.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
@@ -32,42 +32,42 @@ PODS:
     - GoogleUtilities/Network (~> 7.7)
     - "GoogleUtilities/NSData+zlib (~> 7.7)"
     - nanopb (< 2.30910.0, >= 2.30908.0)
-  - FirebaseAnalytics/AdIdSupport (9.3.0):
+  - FirebaseAnalytics/AdIdSupport (9.4.0):
     - FirebaseCore (~> 9.0)
     - FirebaseInstallations (~> 9.0)
-    - GoogleAppMeasurement (= 9.3.0)
+    - GoogleAppMeasurement (= 9.4.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
     - GoogleUtilities/MethodSwizzler (~> 7.7)
     - GoogleUtilities/Network (~> 7.7)
     - "GoogleUtilities/NSData+zlib (~> 7.7)"
     - nanopb (< 2.30910.0, >= 2.30908.0)
-  - FirebaseCore (9.3.0):
+  - FirebaseCore (9.4.0):
     - FirebaseCoreDiagnostics (~> 9.0)
     - FirebaseCoreInternal (~> 9.0)
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/Logger (~> 7.7)
-  - FirebaseCoreDiagnostics (9.3.0):
+  - FirebaseCoreDiagnostics (9.4.0):
     - GoogleDataTransport (< 10.0.0, >= 9.1.4)
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/Logger (~> 7.7)
     - nanopb (< 2.30910.0, >= 2.30908.0)
-  - FirebaseCoreInternal (9.3.0):
+  - FirebaseCoreInternal (9.4.0):
     - "GoogleUtilities/NSData+zlib (~> 7.7)"
-  - FirebaseCrashlytics (9.3.0):
+  - FirebaseCrashlytics (9.4.0):
     - FirebaseCore (~> 9.0)
     - FirebaseInstallations (~> 9.0)
     - GoogleDataTransport (< 10.0.0, >= 9.1.4)
     - GoogleUtilities/Environment (~> 7.7)
     - nanopb (< 2.30910.0, >= 2.30908.0)
     - PromisesObjC (~> 2.1)
-  - FirebaseDynamicLinks (9.3.0):
+  - FirebaseDynamicLinks (9.4.0):
     - FirebaseCore (~> 9.0)
-  - FirebaseInstallations (9.3.0):
+  - FirebaseInstallations (9.4.0):
     - FirebaseCore (~> 9.0)
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/UserDefaults (~> 7.7)
     - PromisesObjC (~> 2.1)
-  - FirebaseMessaging (9.3.0):
+  - FirebaseMessaging (9.4.0):
     - FirebaseCore (~> 9.0)
     - FirebaseInstallations (~> 9.0)
     - GoogleDataTransport (< 10.0.0, >= 9.1.4)
@@ -77,21 +77,22 @@ PODS:
     - GoogleUtilities/UserDefaults (~> 7.7)
     - nanopb (< 2.30910.0, >= 2.30908.0)
   - FLAnimatedImage (1.0.16)
-  - GoogleAppMeasurement (9.3.0):
-    - GoogleAppMeasurement/AdIdSupport (= 9.3.0)
+  - FSPagerView (0.8.3)
+  - GoogleAppMeasurement (9.4.0):
+    - GoogleAppMeasurement/AdIdSupport (= 9.4.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
     - GoogleUtilities/MethodSwizzler (~> 7.7)
     - GoogleUtilities/Network (~> 7.7)
     - "GoogleUtilities/NSData+zlib (~> 7.7)"
     - nanopb (< 2.30910.0, >= 2.30908.0)
-  - GoogleAppMeasurement/AdIdSupport (9.3.0):
-    - GoogleAppMeasurement/WithoutAdIdSupport (= 9.3.0)
+  - GoogleAppMeasurement/AdIdSupport (9.4.0):
+    - GoogleAppMeasurement/WithoutAdIdSupport (= 9.4.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
     - GoogleUtilities/MethodSwizzler (~> 7.7)
     - GoogleUtilities/Network (~> 7.7)
     - "GoogleUtilities/NSData+zlib (~> 7.7)"
     - nanopb (< 2.30910.0, >= 2.30908.0)
-  - GoogleAppMeasurement/WithoutAdIdSupport (9.3.0):
+  - GoogleAppMeasurement/WithoutAdIdSupport (9.4.0):
     - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
     - GoogleUtilities/MethodSwizzler (~> 7.7)
     - GoogleUtilities/Network (~> 7.7)
@@ -206,7 +207,7 @@ PODS:
     - MaterialComponents/private/Application
     - MaterialComponents/private/Math
     - MDFTextAccessibility
-  - MDFInternationalization (2.0.0)
+  - MDFInternationalization (3.0.0)
   - MDFTextAccessibility (2.0.1)
   - Motion (1.4.3):
     - Motion/Core (= 1.4.3)
@@ -233,9 +234,21 @@ PODS:
   - RxCocoa (6.5.0):
     - RxRelay (= 6.5.0)
     - RxSwift (= 6.5.0)
+  - RxCoreLocation (1.5.1):
+    - RxCoreLocation/Core (= 1.5.1)
+  - RxCoreLocation/Core (1.5.1):
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
+  - RxDataSources (5.0.0):
+    - Differentiator (~> 5.0)
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
   - RxRelay (6.5.0):
     - RxSwift (= 6.5.0)
   - RxSwift (6.5.0)
+  - RxViewController (2.0.0):
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
   - SDWebImage/Core (4.4.8)
   - SDWebImage/GIF (4.4.8):
     - FLAnimatedImage (~> 1.0)
@@ -255,13 +268,13 @@ DEPENDENCIES:
   - DLRadioButton (~> 1.4)
   - DropDown
   - EasyTipView (~> 2.1.0)
-  - ExpyTableView (~> 1.2.1)
   - Firebase/Analytics
   - Firebase/Core
   - Firebase/DynamicLinks
   - Firebase/Messaging
   - FirebaseCrashlytics
-  - GRDB.swift
+  - FSPagerView
+  - GRDB.swift (= 5.11.0)
   - HandyJSON
   - JJFloatingActionButton
   - KeychainSwift (~> 13.0)
@@ -275,7 +288,10 @@ DEPENDENCIES:
   - ReusableKit (from `https://github.com/devxoul/ReusableKit`, branch `master`)
   - RxAlamofire
   - RxCocoa (= 6.5.0)
+  - RxCoreLocation (from `https://github.com/RxSwiftCommunity/RxCoreLocation.git`, branch `master`)
+  - RxDataSources (~> 5.0)
   - RxSwift (= 6.5.0)
+  - RxViewController
   - SDWebImage/GIF
   - SnapKit (~> 5.0.0)
   - SwiftyGif
@@ -291,10 +307,10 @@ SPEC REPOS:
     - Amplitude
     - AnalyticsConnector
     - AnyFormatKit
+    - Differentiator
     - DLRadioButton
     - DropDown
     - EasyTipView
-    - ExpyTableView
     - Firebase
     - FirebaseAnalytics
     - FirebaseCore
@@ -305,6 +321,7 @@ SPEC REPOS:
     - FirebaseInstallations
     - FirebaseMessaging
     - FLAnimatedImage
+    - FSPagerView
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleUtilities
@@ -325,8 +342,10 @@ SPEC REPOS:
     - ReactorKit
     - RxAlamofire
     - RxCocoa
+    - RxDataSources
     - RxRelay
     - RxSwift
+    - RxViewController
     - SDWebImage
     - SnapKit
     - SwiftyGif
@@ -340,11 +359,17 @@ EXTERNAL SOURCES:
   ReusableKit:
     :branch: master
     :git: https://github.com/devxoul/ReusableKit
+  RxCoreLocation:
+    :branch: master
+    :git: https://github.com/RxSwiftCommunity/RxCoreLocation.git
 
 CHECKOUT OPTIONS:
   ReusableKit:
     :commit: 9a5756ba41f7a864ff0738c21876d52b9e67eec7
     :git: https://github.com/devxoul/ReusableKit
+  RxCoreLocation:
+    :commit: 8c4b301640e84c258018a82a105678ae287576a7
+    :git: https://github.com/RxSwiftCommunity/RxCoreLocation.git
 
 SPEC CHECKSUMS:
   Alamofire: d368e1ff8a298e6dde360e35a3e68e6c610e7204
@@ -352,21 +377,22 @@ SPEC CHECKSUMS:
   Amplitude: 710116f3539c225e86fb70a8abdcd20015683132
   AnalyticsConnector: 4c386d5972ac9da86e22d668564dbbac97558754
   AnyFormatKit: b0dbb2a5f2fe7a0fc97f401f8a219a47ee63a335
+  Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
   DLRadioButton: d7c4e225ed0e8013cef7be61455230c7557ad7c1
   DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
   EasyTipView: a92b6edc377b81c5ac18e9fd35d5ee78e9409488
-  ExpyTableView: 19cf224c2ff04b1ec215ec52bc4ba6f81fa809ed
-  Firebase: ef75abb1cdbc746d5a38f4e26c422c807b189b8c
-  FirebaseAnalytics: bf46f5163f44097ce2c789de0b3e6f87f1da834a
-  FirebaseCore: c088995ece701a021a48a1348ea0174877de2a6a
-  FirebaseCoreDiagnostics: 060eb57cc56dfaf40b1b1b5874a5c17c41ce79f8
-  FirebaseCoreInternal: 635d1c9a612a6502b6377a0c92af83758076ffff
-  FirebaseCrashlytics: 65a5b349e664e986e6c7486b0a9b5ed8c11d0491
-  FirebaseDynamicLinks: af0acc2d1fa117a074e84a3c06a1d9f817443490
-  FirebaseInstallations: 54b40022cb06e462740c9f2b9fbe38b5e78a825a
-  FirebaseMessaging: 2f6e38b6133059eb796ec224104f09379298a8c3
+  Firebase: 7703fc4022824b6d6db1bf7bea58d13b8e17ec46
+  FirebaseAnalytics: a1a24e72b7ba7f47045a4633f1abb545c07bd29c
+  FirebaseCore: 9a2b10270a854731c4d4d8a97d0aa8380ec3458d
+  FirebaseCoreDiagnostics: aaa87098082c4d4bdd1a9557b1186d18ca85ce8c
+  FirebaseCoreInternal: a13302b0088fbf5f38b79b6ece49c2af7d3e05d6
+  FirebaseCrashlytics: 121ea1d37f4906c94c4c9307297af5121b98b789
+  FirebaseDynamicLinks: 311bb05788180e31a502bd0d413215413a4b3357
+  FirebaseInstallations: 61db1054e688d2bdc4e2b3f744c1b086e913b742
+  FirebaseMessaging: 4e220eddd356181469ba2ec5f7d5fafbc2312841
   FLAnimatedImage: 8f3e854ebf9680b71f0b6e700939687fc4d82b4b
-  GoogleAppMeasurement: b907bdad775b6975a8108762345b2cfbf1a93c37
+  FSPagerView: 670405b2f18e2a87fa37f20b00de783e562c25a8
+  GoogleAppMeasurement: 5d69e04287fc2c10cc43724bfa4bf31fc12c3dff
   GoogleDataTransport: 1c8145da7117bd68bbbed00cf304edb6a24de00f
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   GRDB.swift: 9a33d9680cd3c870c82f48a6cbc73d3cfbb235eb
@@ -376,7 +402,7 @@ SPEC CHECKSUMS:
   M13Checkbox: 6f59404540ac98ba83a3d1afac335895a40c6a5d
   Material: 4ed78690b09ffd148b5ffab6b4367fb1d8da1cd3
   MaterialComponents: 1a9b2d9d45b1601ae544de85089adc4c464306d4
-  MDFInternationalization: 010097556d6b09d2c4ea38e0820ea6d37be6a314
+  MDFInternationalization: d697c55307816222a55685c4ccb1044ffb030c12
   MDFTextAccessibility: f4bb4cc2194286651b59a215fdeaa0e05dc90ba5
   Motion: 153ba49692997888556c7a95207278a8b1f8be95
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
@@ -387,8 +413,11 @@ SPEC CHECKSUMS:
   ReusableKit: 6995fa5f7fedb456889f72ca3f8913d21759a45d
   RxAlamofire: beb75a1c452d0de225651db4903f5d29d034a620
   RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
+  RxCoreLocation: 5db05ff830a313466a29e82798d983826b93a2f8
+  RxDataSources: aa47cc1ed6c500fa0dfecac5c979b723542d79cf
   RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
+  RxViewController: 56486fa0afd629a1d6b5ba077f3b8cd9dc31b5d2
   SDWebImage: 783af2c3fa36291a250030c4752ee370a9a51d13
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftyGif: 6c3eafd0ce693cad58bb63d2b2fb9bacb8552780
@@ -398,6 +427,6 @@ SPEC CHECKSUMS:
   UIImageCropper: ab1c519018189af90b0780e1c7c9c900945b896e
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: cb9f9b7712660d82f52fe7f80f23ae2f2d4f1404
+PODFILE CHECKSUM: b5d6e7745865044a1f44d7818ddab8862dc53c05
 
 COCOAPODS: 1.11.3

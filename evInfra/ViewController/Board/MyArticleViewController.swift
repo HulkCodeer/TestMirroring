@@ -13,9 +13,7 @@ import SwiftyJSON
 
 class MyArticleViewController: UIViewController {
 
-    private lazy var boardTableView = BoardTableView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var boardTableView = BoardTableView()
     
     var boardList: Array<BoardItem> = Array<BoardItem>()
     
@@ -44,14 +42,14 @@ class MyArticleViewController: UIViewController {
         
 //        self.getFirstBoardData()
 //        self.boardTableView.tableViewDelegate = self
-        self.boardTableView.rowHeight = UITableViewAutomaticDimension
-        self.boardTableView.estimatedRowHeight = UITableViewAutomaticDimension
+        self.boardTableView.rowHeight = UITableView.automaticDimension
+        self.boardTableView.estimatedRowHeight = UITableView.automaticDimension
         self.boardTableView.separatorColor = UIColor(rgb: 0xE4E4E4)
         self.boardTableView.separatorInset = .zero
         self.boardTableView.separatorStyle = .none
         self.boardTableView.allowsSelection = false
         
-        self.boardTableView.sectionHeaderHeight = UITableViewAutomaticDimension;
+        self.boardTableView.sectionHeaderHeight = UITableView.automaticDimension;
         self.boardTableView.estimatedSectionHeaderHeight = 25;
         
         // Do any additional setup after loading the view.

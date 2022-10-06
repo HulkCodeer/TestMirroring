@@ -29,7 +29,30 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             self.handleUserActivity(userActivity: userActivity)
         }
         
+        if let url = connectionOptions.urlContexts.first?.url, let deepLinkType = url.valueOf("kakaoLinkType") {
+            switch deepLinkType {
+            case DeepLinkPath.DynamicLinkUrlPathType.KakaoLinkType.charger.toValue:
+                guard let chargerId = url.valueOf("charger_id") else { return }
+                GlobalDefine.shared.sharedChargerIdFromDynamicLink = chargerId
+            case DeepLinkPath.DynamicLinkUrlPathType.KakaoLinkType.board.toValue:
+                guard let mid = url.valueOf("mid"), let documentSrl = url.valueOf("document_srl") else { return }
+                DeepLinkPath.sharedInstance.linkPath = DeepLinkPath.DynamicLinkUrlPathType.kakaolink(.board).value
+                DeepLinkPath.sharedInstance.linkParameter = [URLQueryItem(name: "mid", value: mid),
+                                                             URLQueryItem(name: "documentSrl", value: documentSrl)]
+                DeepLinkPath.sharedInstance.runDeepLink()
+            default: break
+            }
+        } else {
+            self.processToDeeplink(connectionOptions.urlContexts.first?.url.absoluteString ?? "", isSave: true)
+        }
+        
         setupEntryController(scene)
+    }
+    
+    func sceneDidBecomeActive(_ scene: UIScene) {
+        printLog(out: "sceneDidBecomeActive")
+        guard let _mainViewcon = GlobalDefine.shared.mainViewcon else { return }
+        _mainViewcon.sceneDidBecomeActiveCall()
     }
 
     // background
@@ -37,18 +60,47 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         printLog(out: "scene:userActivity")
         // Dynamic Link
         self.handleUserActivity(userActivity: userActivity)
-    }
-    
+    }        
+            
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        printLog(out: "scene:openURLContexts")
         // kakao auto login
         guard let _urlContentx = URLContexts.first else { return }
         let url = _urlContentx.url
         if KOSession.isKakaoAccountLoginCallback(url.absoluteURL) {
             KOSession.handleOpen(url)
         }
-        
-        if url.absoluteString.hasPrefix("evinfra") {
-            
+
+        if let deepLinkType = url.valueOf("kakaoLinkType") {
+            switch deepLinkType {
+            case DeepLinkPath.DynamicLinkUrlPathType.KakaoLinkType.charger.toValue:
+                guard let chargerId = url.valueOf("charger_id") else { return }
+                NotificationCenter.default.post(name: Notification.Name("kakaoScheme"), object: nil, userInfo: ["sharedid": chargerId])
+                
+            case DeepLinkPath.DynamicLinkUrlPathType.KakaoLinkType.board.toValue:
+                guard let mid = url.valueOf("mid"), let documentSrl = url.valueOf("document_srl") else { return }
+                DeepLinkPath.sharedInstance.linkPath = DeepLinkPath.DynamicLinkUrlPathType.kakaolink(.board).value
+                DeepLinkPath.sharedInstance.linkParameter = [URLQueryItem(name: "mid", value: mid),
+                                                             URLQueryItem(name: "documentSrl", value: documentSrl)]
+                DeepLinkPath.sharedInstance.runDeepLink()
+                
+            default: break
+            }
+        }
+                
+        let deepLinkStr: String = url.absoluteString
+        if !deepLinkStr.isEmpty {
+            printLog(out: "DeepLink URL : \(deepLinkStr)")
+            self.processToDeeplink(deepLinkStr)
+        }
+    }
+    
+    private func processToDeeplink(_ deepLinkStr: String, isSave: Bool = false) {
+        printLog(out: "scene:processToDeeplink")
+        if isSave {
+            GlobalDefine.shared.tempDeepLink = deepLinkStr
+        } else {
+            DeepLinkModel.shared.openSchemeURL(urlstring: deepLinkStr)
         }
     }
     
@@ -76,6 +128,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func handleUserActivity(userActivity: NSUserActivity){
+        printLog(out: "scene:handleUserActivity")
         if let incomingURL = userActivity.webpageURL {
             printLog(out: "Incoming : \(incomingURL)")
             let linkHandled = DynamicLinks.dynamicLinks().handleUniversalLink(incomingURL) {
@@ -96,6 +149,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func handleIncomingDynamicLink(_ dynamicLink: DynamicLink) {
+        printLog(out: "scene:handleIncomingDynamicLink")
         guard let url = dynamicLink.url else {
             printLog(out: "has no url")
             return

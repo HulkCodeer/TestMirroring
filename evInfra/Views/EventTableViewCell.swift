@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class EventTableViewCell: UITableViewCell {
 
@@ -18,21 +19,38 @@ class EventTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+        contentView.layer.cornerRadius = 8
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
-        contentView.layer.cornerRadius = 8
-        
         // set the values for top, left, bottom, right margins
         let margins = UIEdgeInsets(top: 16, left: 16, bottom: 0, right: 16)
-        contentView.frame = UIEdgeInsetsInsetRect(contentView.frame, margins)
+        contentView.frame = contentView.frame.inset(by: margins)
+    }
+    
+    internal func configure(_ event: AdsInfo) {
+        eventCommentLabel.text = event.evtDesc
+        eventEndDateLabel.text = "행사종료 : \(event.dpEnd)"
+        
+        // Promotion state == 0 중지 / 1 == 게시
+        switch event.dpState {
+        case .inProgress:
+            let imgUrl: String = "\(Const.AWS_IMAGE_SERVER)/\(event.img)"
+            if !imgUrl.isEmpty {
+                eventImageView.sd_setImage(with: URL(string: imgUrl), placeholderImage: UIImage(named: "AppIcon"))
+            } else {
+                eventImageView.image = UIImage(named: "AppIcon")
+                eventImageView.contentMode = .scaleAspectFit
+            }
+            isUserInteractionEnabled = true
+            eventStatusView.isHidden = true
+            eventStatusImageView.isHidden = true
+        case .end:
+            isUserInteractionEnabled = false
+            eventStatusView.isHidden = false
+            eventStatusImageView.isHidden = false
+            eventStatusImageView.image = UIImage(named: "ic_event_end")
+        }
     }
 }

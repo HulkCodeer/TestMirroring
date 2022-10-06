@@ -20,7 +20,7 @@ internal final class MembershipUseGuideViewController: BaseViewController, WKUID
     }
     
     private lazy var webView = WKWebView(frame: CGRect.zero, configuration: self.config).then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.navigationDelegate = self
         $0.uiDelegate = self
     }
@@ -30,7 +30,7 @@ internal final class MembershipUseGuideViewController: BaseViewController, WKUID
     override func loadView() {
         super.loadView()
         
-        prepareActionBar(with: "회원카드 사용 안내")
+        prepareActionBar(with: "EV Pay 카드 사용 안내")
                         
         view.addSubview(self.webView)
         webView.snp.makeConstraints {
@@ -46,7 +46,6 @@ internal final class MembershipUseGuideViewController: BaseViewController, WKUID
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "회원카드 사용 안내 화면"
     }
     
     override func viewWillAppear(_ animated: Bool) {

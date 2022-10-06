@@ -15,24 +15,18 @@ internal final class CommonNaviView: UIView {
     // MARK: UI
     
     private lazy var totalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = .clear
     }
     
-    private lazy var naviBackBtn = NavigationClose().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
+    internal lazy var naviBackBtn = NavigationClose()
     internal lazy var naviTitleLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         $0.textColor = Colors.contentPrimary.color
         $0.textAlignment = .center
         $0.numberOfLines = 1
     }
     
-    private lazy var lineView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+    private lazy var lineView = UIView().then {        
         $0.backgroundColor = Colors.borderOpaque.color
     }
     
@@ -81,14 +75,14 @@ internal final class CommonNaviView: UIView {
         
         naviBackBtn.btn.rx.tap
             .asDriver()
-            .drive(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                guard let _backClosure = self.backClosure else {
+            .drive(with: self) { obj, _ in
+                guard let _backClosure = obj.backClosure else {
                     GlobalDefine.shared.mainNavi?.pop()
+                    GlobalDefine.shared.mainNavi?.navigationBar.isHidden = false
                     return
                 }
                 _backClosure()
-            })
+            }
             .disposed(by: self.disposebag)
     }
 }

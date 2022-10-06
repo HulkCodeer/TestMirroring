@@ -18,7 +18,7 @@ extension JSON {
                 return Date()
             }
             
-            return getString.toDate(dateFormat: "yyyy-MM-dd hh:mm:ss.SSSSSS") ?? Date()
+            return getString.toDate(dateFormat: .yyyyMMddhhmmssSSSSSS) ?? Date()
         }
         set {}
     }

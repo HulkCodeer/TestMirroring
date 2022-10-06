@@ -16,7 +16,7 @@ extension NavigationDrawerController{
                 return
             }
             
-            v.windowLevel = UIWindowLevelNormal
+            v.windowLevel = UIWindow.Level.normal
             
             guard let `self` = self else {
                 return
@@ -37,7 +37,7 @@ extension NavigationDrawerController{
                 return
             }
             
-            v.windowLevel = UIWindowLevelStatusBar + 1
+            v.windowLevel = UIWindow.Level.statusBar + 1
             
             guard let `self` = self else {
                 return

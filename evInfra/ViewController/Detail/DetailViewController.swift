@@ -65,14 +65,14 @@ internal final class DetailViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "충전소 상세 화면"
+        
         initKakaoMap()
         prepareActionBar()
         prepareBoardTableView()
         prepareChargerInfo()
         prepareSummaryView()
         
-        safeAreaBottomViewHeight.constant = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
+        safeAreaBottomViewHeight.constant = UIWindow.key?.safeAreaInsets.bottom ?? 0
                 
         reportBtn.rx.tap
             .asDriver()
@@ -94,6 +94,10 @@ internal final class DetailViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateCompletion(_:)), name: Notification.Name("ReloadData"), object: nil)
+        
+        guard let charger = charger else { return }
+        let property: [String: Any?] = AmpChargerStationModel(charger).toProperty
+        ChargerStationEvent.viewStationDetail.logEvent(property: property)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -131,14 +135,14 @@ internal final class DetailViewController: BaseViewController {
     func handleError(error: Error?) -> Void {
         if let error = error as NSError? {
             print(error)
-            let alert = UIAlertController(title: self.title!, message: error.localizedFailureReason, preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "확인", style: UIAlertActionStyle.cancel, handler: nil))
+            let alert = UIAlertController(title: self.title!, message: error.localizedFailureReason, preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "확인", style: UIAlertAction.Style.cancel, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
     }
     
     func prepareSummaryView() {
-        let window = UIApplication.shared.keyWindow!
+        let window = UIWindow.key!
         var frameTest:CGRect = summaryLayout.frame
         frameTest.size.width = window.frame.bounds.width
         
@@ -357,6 +361,10 @@ internal final class DetailViewController: BaseViewController {
             }else{
                 map.baseMapType = .standard
             }
+            
+            let type: String = mapSwitch.isOn ? "On" : "Off"
+            let property: [String: Any] = ["type": type]
+            ChargerStationEvent.clickStationSatelliteView.logEvent(property: property)
         }
     }
     
@@ -370,6 +378,8 @@ internal final class DetailViewController: BaseViewController {
         let termsViewControll = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
         termsViewControll.tabIndex = .StationPrice
         termsViewControll.subParams = "company_id=" + (charger?.mStationInfoDto?.mCompanyId)!
+        
+        ChargerStationEvent.clickStationChargingPrice.logEvent()
         self.navigationController?.push(viewController: termsViewControll)
     }
 }
@@ -392,7 +402,8 @@ extension DetailViewController {
     
     @objc
     fileprivate func handleBackButton() {
-        self.navigationController?.pop(transitionType: kCATransitionReveal, subtype: kCATransitionFromBottom)
+        ChargerStationEvent.viewStationReview.logEvent()
+        self.navigationController?.pop(transitionType: CATransitionType.reveal, subtype: CATransitionSubtype.fromBottom)
     }
 }
 
@@ -414,7 +425,7 @@ extension DetailViewController: BoardTableViewDelegate {
                             self.boardList.removeAll()
                             self.boardList += updateList
                               
-                            self.boardTableView.category = Board.CommunityType.CHARGER.rawValue
+                            self.boardTableView.category = .CHARGER
                             self.boardTableView.communityBoardList = self.boardList
                             self.boardTableView.isFromDetailView = true
                             
@@ -426,7 +437,7 @@ extension DetailViewController: BoardTableViewDelegate {
                         debugPrint("error")
                     }
                 } else {
-                    self.boardTableView.category = Board.CommunityType.CHARGER.rawValue
+                    self.boardTableView.category = .CHARGER
                     self.boardTableView.communityBoardList = self.boardList
                     self.boardTableView.isFromDetailView = true
                 }
@@ -451,7 +462,7 @@ extension DetailViewController: BoardTableViewDelegate {
                         if let updateList = result.list {
                             self.boardList += updateList
                               
-                            self.boardTableView.category = Board.CommunityType.CHARGER.rawValue
+                            self.boardTableView.category = .CHARGER
                             self.boardTableView.communityBoardList = self.boardList
                             self.boardTableView.isFromDetailView = true
                             
@@ -476,7 +487,7 @@ extension DetailViewController: BoardTableViewDelegate {
         let storyboard = UIStoryboard(name: "BoardDetailViewController", bundle: nil)
         guard let boardDetailTableViewController = storyboard.instantiateViewController(withIdentifier: "BoardDetailViewController") as? BoardDetailViewController else { return }
 
-        boardDetailTableViewController.category = Board.CommunityType.CHARGER.rawValue
+        boardDetailTableViewController.category = .CHARGER
         boardDetailTableViewController.document_srl = documentSRL
         boardDetailTableViewController.isFromStationDetailView = true
 
@@ -484,19 +495,19 @@ extension DetailViewController: BoardTableViewDelegate {
     }
     
     fileprivate func prepareBoardTableView() {
-        self.cidTableView.rowHeight = UITableViewAutomaticDimension
+        self.cidTableView.rowHeight = UITableView.automaticDimension
         self.cidTableView.separatorStyle = .none
         
         // UITableView cell(게시판) 높이를 자동으로 설정
         self.boardTableView.tableViewDelegate = self
-        self.boardTableView.rowHeight = UITableViewAutomaticDimension
-        self.boardTableView.estimatedRowHeight = UITableViewAutomaticDimension
+        self.boardTableView.rowHeight = UITableView.automaticDimension
+        self.boardTableView.estimatedRowHeight = UITableView.automaticDimension
         self.boardTableView.separatorStyle = .none
         self.boardTableView.allowsSelection = true
         
         // Table header 추가
         self.boardTableView.tableHeaderView = detailView
-        self.boardTableView.sectionHeaderHeight = UITableViewAutomaticDimension
+        self.boardTableView.sectionHeaderHeight = UITableView.automaticDimension
         self.boardTableView.estimatedSectionHeaderHeight = 25  // 25
     }
     
@@ -550,13 +561,20 @@ extension DetailViewController {
             }
         }
         
-        boardWriteViewController.category = Board.CommunityType.CHARGER.rawValue
+        boardWriteViewController.isFromDetailView = true
+        boardWriteViewController.category = .CHARGER
         boardWriteViewController.popCompletion = { [weak self] in
             guard let self = self else { return }
             self.fetchFirstBoard(mid: Board.CommunityType.CHARGER.rawValue, sort: .LATEST, mode: Board.ScreenType.FEED.rawValue)
         }
         
         self.navigationController?.push(viewController: boardWriteViewController)
+        
+        guard let charger = charger else { return }
+        guard let stationName = charger.mStationInfoDto?.mSnm else { return }
+        let property: [String: Any] = ["sourceStation": true,
+                                       "stationName": stationName]
+        BoardEvent.clickWriteBoardPost.logEvent(property: property)
     }
     
     @objc

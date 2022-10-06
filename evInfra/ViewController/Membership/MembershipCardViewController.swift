@@ -15,7 +15,7 @@ internal final class MembershipCardViewController: BaseViewController {
     // MARK: UI
     
     private lazy var partnershipListView = PartnershipListView(frame: .zero).then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.delegate = self
         $0.navi = self.navigationController ?? UINavigationController()
     }
@@ -37,8 +37,8 @@ internal final class MembershipCardViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "회원카드 관리 화면"
-        prepareActionBar(with: "회원카드 관리")
+        
+        prepareActionBar(with: "EV Pay 카드관리")
         checkPayStatus()
     }
     

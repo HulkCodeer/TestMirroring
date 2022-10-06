@@ -1,8 +1,8 @@
 //
-//  File.swift
+//  UITableView+Extension.swift
 //  evInfra
 //
-//  Created by 박현진 on 2022/08/16.
+//  Created by 소프트베리 on 2022/09/30.
 //  Copyright © 2022 soft-berry. All rights reserved.
 //
 

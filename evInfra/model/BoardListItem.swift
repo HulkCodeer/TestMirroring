@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SwiftyJSON
 
 struct BoardResponseData: Decodable {
     var total: Int?
@@ -42,6 +43,18 @@ struct BoardListItem: Decodable {
     var blind: String?
     var board_id: String?
     var files: [FilesItem]?
+    
+    init(_ adsInfo: AdsInfo) {
+        self.title = adsInfo.evtTitle
+        self.module_srl = adsInfo.extUrl
+        self.content = adsInfo.evtDesc
+        self.nick_name = adsInfo.clientName
+        self.document_srl = adsInfo.evtId
+        self.tags = adsInfo.evtType
+        self.cover_filename = adsInfo.img.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        self.mb_profile = adsInfo.logo.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        self.board_id = "ad"
+    }
 }
 
 struct FilesItem: Decodable {
@@ -100,6 +113,17 @@ struct Document: Decodable {
     var ipaddress: String?
     var board_id: String?
     var findYoutube: Bool?
+    
+    func parseChargerIdToName() -> String {
+        guard let tags = tags else { return "" }
+        guard tags.contains("charger_id") else { return "" }
+
+        let toJson = JSON.init(parseJSON: tags)
+        let chargerId = toJson["charger_id"].stringValue
+        guard let stationName = ChargerManager.sharedInstance.getStationInfoById(id: chargerId)?.mSnm else { return "" }
+        
+        return stationName
+    }
 }
 
 struct Comment: Decodable {

@@ -7,77 +7,106 @@
 //
 
 import UIKit
-import Material
 import SwiftyJSON
+import RxSwift
+import RxCocoa
 
 internal final class EventViewController: UIViewController {
 
     // MARK: UI
     
+    @IBOutlet weak var naviTitle: UILabel!
+    @IBOutlet weak var naviBackBtn: UIButton!
+    @IBOutlet weak var commonNaviView: UIView!
     @IBOutlet weak var emptyView: UILabel!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     @IBOutlet weak var tableView: UITableView!
     
+
     // MARK: VARIABLE
     
-    var list = Array<Event>()
-    var displayedList : Set = Set<Int>()
+    private var eventList: [AdsInfo] = [AdsInfo]()
+    private var displayedList : Set = Set<String>()
     internal var externalEventID: Int?
     internal var externalEventParam: String?
     
-    private let EVENT_IN_PROGRESS = 0
-    private let EVENT_SOLD_OUT = 1
-    private let EVENT_END = 2
-    
-    private let ACTION_VIEW = 0
-    private let ACTION_CLICK = 1
+    private let disposebag = DisposeBag()
     
     // MARK: SYSTEM FUNC
-    
-    deinit {
-        printLog(out: "\(type(of: self)): Deinited")
-    }
+        
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "이벤트 리스트 화면"
-        prepareActionBar()
-        prepareTableView()
+        
+        naviTitle.text = "이벤트"
+        naviBackBtn.rx.tap
+            .asDriver()
+            .drive(with: self) { obj, _ in
+                obj.tableView.indexPathsForVisibleRows?.forEach({ IndexPath in
+                    if obj.eventList[IndexPath.row].dpState == .inProgress {
+                        obj.displayedList.insert(self.eventList[IndexPath.row].evtId)
+                    }
+                })
+                Server.countEventAction(eventId: Array(self.displayedList).map { String($0) }, action: .view, page: .event, layer: .list)
+                GlobalDefine.shared.mainNavi?.pop()
+            }
+            .disposed(by: self.disposebag)
+        
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 150.0
+        tableView.tableFooterView = UIView()
         
         getEventList()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-    }
-}
-
-extension EventViewController {
-    
-    func prepareActionBar() {
-        var backButton: IconButton!
-        backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "content-primary")
-        backButton.addTarget(self, action: #selector(onClickBackBtn), for: .touchUpInside)
-        
-        navigationItem.hidesBackButton = true
-        navigationItem.leftViews = [backButton]
-        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-        navigationItem.titleLabel.text = "이벤트"
-        
-        self.navigationController?.isNavigationBarHidden = false
+        GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
     }
     
-    func prepareTableView() {
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 150.0
-        tableView.tableFooterView = UIView()
-        
-        emptyView.isHidden = true
-        tableView.isHidden = true
-        indicator.isHidden = true
+    // MARK: FUNC
+    
+    private func getEventList() {
+        self.indicatorControll(isStart: true)
+        RestApi().getAdsList(page: .event, layer: .list)
+                .convertData()
+                .compactMap { result -> [AdsInfo]? in
+                    switch result {
+                    case .success(let data):
+                        let json = JSON(data)
+                        let events = json["data"].arrayValue.map { AdsInfo($0) }                        
+                        guard !events.isEmpty else { return [] }
+                        return events
+                        
+                    case .failure(let errorMessage):
+                        Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 이벤트 페이지 종료 후 재시도 바랍니다.")
+                        printLog(out: "Error Message : \(errorMessage)")
+                        return []
+                    }
+                }
+                .subscribe(onNext: { [weak self] adList in
+                    guard let self = self else { return }
+                    self.eventList.removeAll()
+                    
+                    for event in adList {
+                        // TODO: externalEventID & externalEventParam 처리
+                        if self.externalEventID == event.oldId {
+                            guard let _externalEventParam = self.externalEventParam else { return }
+                            let viewcon = NewEventDetailViewController()
+                            viewcon.eventData = EventData(eventUrl: event.extUrl)
+                            
+                            GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                        }
+                        
+                        self.eventList.append(event)
+                    }
+                    
+                    self.eventList = self.eventList.sorted { $0.dpState.toValue < $1.dpState.toValue }
+                    self.updateTableView()
+                    
+                })
+                .disposed(by: self.disposebag)
+        self.indicatorControll(isStart: false)
     }
     
     func indicatorControll(isStart:Bool) {
@@ -93,12 +122,10 @@ extension EventViewController {
     }
     
     func updateTableView() {
-        if self.list.count > 0 {
+        if self.eventList.count > 0 {
             self.emptyView.isHidden = true
             self.tableView.isHidden = false
             self.tableView.reloadData()
-
-            UserDefault().saveInt(key: UserDefault.Key.LAST_EVENT_ID, value: list[0].eventId)
         } else {
             self.emptyView.isHidden = false
             self.tableView.isHidden = true
@@ -106,155 +133,74 @@ extension EventViewController {
     }
     
     func goToEventInfo(index: Int) {
-        Server.countEventAction(eventId: Array<Int>(arrayLiteral: list[index].eventId), action: ACTION_CLICK)
-        let viewcon = UIStoryboard(name: "Event", bundle: nil).instantiateViewController(ofType: EventContentsViewController.self)
-        viewcon.eventId = list[index].eventId
-        viewcon.eventTitle = list[index].title
-        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+        let event = eventList[index]
+        let viewcon = NewEventDetailViewController()
+        
+        switch event.convertEvtType {
+        case .event:
+            MemberManager.shared.tryToLoginCheck { isLogin in
+                if isLogin {
+                    viewcon.eventData = EventData(naviTitle: event.evtTitle, eventUrl: event.extUrl, promotionId: event.evtId, mbId: MemberManager.shared.mbIdToStr)
+                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                } else {
+                    MemberManager.shared.showLoginAlert()
+                }
+            }
+            
+        default:            
+            viewcon.eventData = EventData(naviTitle: event.evtTitle, eventUrl: event.extUrl)
+            GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+        }
     }
     
     @objc
     fileprivate func onClickBackBtn() {
         tableView.indexPathsForVisibleRows?.forEach({ IndexPath in
-            if list[IndexPath.row].state == EVENT_IN_PROGRESS {
-                displayedList.insert(list[IndexPath.row].eventId)
+            if eventList[IndexPath.row].dpState == .inProgress {
+                displayedList.insert(eventList[IndexPath.row].evtId)
             }
         })
-        Server.countEventAction(eventId: Array(displayedList), action: ACTION_VIEW)
+        Server.countEventAction(eventId: Array(displayedList).map { String($0) }, action: .view, page: .event, layer: .list)
         self.navigationController?.pop()
+    }
+    
+    private func logEventWithPromotion(index: Int) {
+        Server.countEventAction(eventId: [String(eventList[index].evtId)], action: .click, page: .event, layer: .list)
+        let property: [String: Any] = ["eventId": "\(eventList[index].evtId)",
+                                       "eventName": "\(eventList[index].evtTitle)"]
+        PromotionEvent.clickEvent.logEvent(property: property)
     }
 }
 
 extension EventViewController: UITableViewDelegate {
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         goToEventInfo(index:indexPath.row)
+        logEventWithPromotion(index: indexPath.row)
     }
 }
 
 extension EventViewController: UITableViewDataSource {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.list.count
+        return self.eventList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "EventTableViewCell", for: indexPath) as! EventTableViewCell
-        let item = self.list[indexPath.row]
-        let imgurl: String = "\(Const.EV_PAY_SERVER)/assets/images/event/events/adapters/\(item.imagePath)"
-        if !imgurl.isEmpty {
-            cell.eventImageView.sd_setImage(with: URL(string: imgurl), placeholderImage: UIImage(named: "AppIcon"))
-        } else {
-            cell.eventImageView.image = UIImage(named: "AppIcon")
-            cell.eventImageView.contentMode = .scaleAspectFit
-        }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "EventTableViewCell", for: indexPath) as? EventTableViewCell else { return UITableViewCell() }
         
-        cell.eventCommentLabel.text = item.description
-        cell.eventEndDateLabel.text = "행사종료 : \(item.endDate)"
-
-        if item.state > EVENT_IN_PROGRESS {
-            if item.state == EVENT_SOLD_OUT {
-                cell.eventStatusImageView.image = UIImage(named: "ic_event_soldout")
-            } else {
-                cell.eventStatusImageView.image = UIImage(named: "ic_event_end")
-            }
-            cell.isUserInteractionEnabled = false
-            cell.eventStatusView.isHidden = false
-            cell.eventStatusImageView.isHidden = false
-        } else {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-            if let finishDate = formatter.date(from: item.endDate) {
-                let currentDate = Date()
-                if finishDate > currentDate {
-                    cell.isUserInteractionEnabled = true
-                    cell.eventStatusView.isHidden = true
-                    cell.eventStatusImageView.isHidden = true
-                } else {
-                    cell.isUserInteractionEnabled = false
-                    cell.eventStatusView.isHidden = false
-                    cell.eventStatusImageView.isHidden = false
-                    cell.eventStatusImageView.image = UIImage(named: "ic_event_end")
-                }
-            }
-        }
-        
+        let item = self.eventList[indexPath.row]
+        cell.configure(item)
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         tableView.indexPathsForVisibleRows?.forEach({ IndexPath in
-            if list[IndexPath.row].state == EVENT_IN_PROGRESS {
-                displayedList.insert(list[IndexPath.row].eventId)
+            if eventList[IndexPath.row].dpState == .inProgress {
+                displayedList.insert(eventList[IndexPath.row].evtId)
             }
         })
-    }
-}
-
-extension EventViewController {
-    
-    func getEventList() {
-        indicatorControll(isStart: true)
-        
-        Server.getEventList { (isSuccess, value) in
-            if isSuccess {
-                let json = JSON(value)
-                self.list.removeAll()
-                
-                if json["code"].intValue != 1000 {
-                    self.updateTableView()
-                    self.indicatorControll(isStart: false)
-                } else {
-                    for jsonRow in json["list"].arrayValue {
-                        let item: Event = Event.init()
-                        
-                        item.eventId = jsonRow["id"].intValue
-                        item.eventType = jsonRow["type"].intValue
-                        item.standardValue  = jsonRow["strd_val"].intValue
-                        item.state = jsonRow["state"].intValue
-                        item.imagePath = jsonRow["image"].stringValue
-                        item.description = jsonRow["description"].stringValue
-                        item.endDate = jsonRow["finish_date"].stringValue
-                        item.title = jsonRow["title"].stringValue
-                        
-                        if self.externalEventID == item.eventId {
-                            guard let _externalEventParam = self.externalEventParam else {
-                                return
-                            }
-                            Server.countEventAction(eventId: Array<Int>(arrayLiteral: item.eventId), action: self.ACTION_CLICK)
-                            let viewcon = UIStoryboard(name: "Event", bundle: nil).instantiateViewController(ofType: EventContentsViewController.self)
-                            viewcon.eventId = item.eventId
-                            viewcon.eventTitle = item.title
-                            viewcon.externalEventParam = _externalEventParam
-                            GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-                        }
-                        
-                        if (item.state == 0) {
-                            let formatter = DateFormatter()
-                            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-                            if let finishDate = formatter.date(from: item.endDate) {
-                                let currentDate = Date()
-                                if finishDate <= currentDate {
-                                    item.state = self.EVENT_END
-                                }
-                            }
-                        }
-                        self.list.append(item)
-                    }
-                    self.list = self.list.sorted(by: {$0.state < $1.state})
-                }
-                
-                self.updateTableView()
-                self.indicatorControll(isStart: false)
-            } else {
-                self.updateTableView()
-                self.indicatorControll(isStart: false)
-                Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 이벤트 페이지 종료 후 재시도 바랍니다.")
-            }
-        }
     }
 }

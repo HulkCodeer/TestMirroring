@@ -63,15 +63,13 @@ internal final class NavigationClose: UIView {
     }
     
     private lazy var imgView = UIImageView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.image = self.sizeType.getImage
         $0.tintColor = self.imgViewColor
         $0.contentMode = .scaleToFill
     }
     
-    internal lazy var btn = UIButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false        
-    }
+    internal lazy var btn = UIButton()
     
     private var imgViewLeading: CGFloat = 16
     private var imgViewWidth: CGFloat = 24

@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MjX-0u-Kq9" userLabel="Filter View">
-                                <rect key="frame" x="0.0" y="-84" width="375" height="124"/>
+                                <rect key="frame" x="0.0" y="-84" width="375" height="138"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3RR-82-jR6" userLabel="Route View">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="84"/>
@@ -61,14 +61,14 @@
                                             <constraint firstItem="Vjd-ZG-9S9" firstAttribute="leading" secondItem="3RR-82-jR6" secondAttribute="leading" constant="8" id="uqt-6q-aKk"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bp2-BV-hd6" customClass="FilterBarView" customModule="evInfra" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="84" width="375" height="40"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bp2-BV-hd6" customClass="NewFilterBarView" customModule="evInfra" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="84" width="375" height="54"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="j5Y-dd-aBu"/>
+                                            <constraint firstAttribute="height" constant="54" id="j5Y-dd-aBu"/>
                                         </constraints>
                                     </view>
                                     <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oUv-17-AnI" customClass="FilterContainerView" customModule="evInfra" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="124" width="375" height="116"/>
+                                        <rect key="frame" x="0.0" y="138" width="375" height="116"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="116" id="WcX-Yp-t8D"/>
                                         </constraints>
@@ -79,7 +79,7 @@
                                     <constraint firstAttribute="trailing" secondItem="3RR-82-jR6" secondAttribute="trailing" id="0Qn-ri-3fw"/>
                                     <constraint firstItem="Bp2-BV-hd6" firstAttribute="leading" secondItem="MjX-0u-Kq9" secondAttribute="leading" id="2b9-LC-p4E"/>
                                     <constraint firstItem="Bp2-BV-hd6" firstAttribute="top" secondItem="3RR-82-jR6" secondAttribute="bottom" id="5Cx-iq-zgA"/>
-                                    <constraint firstAttribute="height" constant="124" id="G3d-Ad-3DT"/>
+                                    <constraint firstAttribute="height" constant="138" id="G3d-Ad-3DT"/>
                                     <constraint firstItem="3RR-82-jR6" firstAttribute="leading" secondItem="MjX-0u-Kq9" secondAttribute="leading" id="M0r-Bq-XtJ"/>
                                     <constraint firstItem="3RR-82-jR6" firstAttribute="top" secondItem="MjX-0u-Kq9" secondAttribute="top" id="S81-Pc-oaz"/>
                                     <constraint firstAttribute="trailing" secondItem="oUv-17-AnI" secondAttribute="trailing" id="ZQG-cK-oS0"/>
@@ -95,7 +95,7 @@
                                         <rect key="frame" x="8" y="0.0" width="82" height="64"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                         <color key="tintColor" name="gr-8"/>
-                                        <state key="normal" title="간편충전" image="ic_line_payment">
+                                        <state key="normal" title="QR충전" image="icon_qr">
                                             <color key="titleColor" name="gr-8"/>
                                         </state>
                                         <connections>
@@ -313,7 +313,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SJq-gl-PDQ" userLabel="Renew Button">
-                                <rect key="frame" x="325" y="52" width="40" height="40"/>
+                                <rect key="frame" x="325" y="66" width="40" height="40"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="i12-8V-bba"/>
@@ -336,7 +336,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Z5-Ng-0pM" userLabel="My Location Button">
-                                <rect key="frame" x="325" y="104" width="40" height="40"/>
+                                <rect key="frame" x="325" y="118" width="40" height="40"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="YpY-Du-EoB"/>
@@ -514,8 +514,12 @@
         <image name="ic_comment" width="32" height="24"/>
         <image name="ic_line_favorite" width="32" height="24"/>
         <image name="ic_line_payment" width="32" height="24"/>
+        <image name="ic_newbadge" width="20" height="20"/>
+        <image name="icon_battery" width="32" height="32"/>
+        <image name="icon_comment_lg" width="32" height="32"/>
         <image name="icon_current_location_md" width="24" height="24"/>
         <image name="icon_main_faq" width="32" height="24"/>
+        <image name="icon_qr" width="32" height="24"/>
         <image name="icon_refresh_md" width="24" height="24"/>
         <image name="intro_bg.jpg" width="1440" height="3200"/>
         <namedColor name="background-negative">

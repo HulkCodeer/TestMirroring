@@ -73,8 +73,8 @@ class EditViewController: UIViewController, UITextViewDelegate {
         self.editView.isScrollEnabled = false
         self.editView.delegate = self
         
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         if mode == EditViewController.BOARD_EDIT_MODE {
             self.editView.text = originBoardData.content
@@ -169,7 +169,7 @@ class EditViewController: UIViewController, UITextViewDelegate {
     
     // MARK: - KeyBoardHeight
     @objc func keyboardWillShow(_ notification: Notification) {
-        if let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
             self.scrollViewBottom.constant = keyboardHeight
@@ -207,13 +207,13 @@ class EditViewController: UIViewController, UITextViewDelegate {
     }
     
     private func showAuthAlert() {
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) { (action) in
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel) { (action) in
             Snackbar().show(message: "카메라 기능이 활성화되지 않았습니다.")
             self.navigationController?.pop()
         }
         
-        let openAction = UIAlertAction(title: "Open Settings", style: UIAlertActionStyle.default) { (action) in
-            if let url = URL(string: UIApplicationOpenSettingsURLString) {
+        let openAction = UIAlertAction(title: "Open Settings", style: UIAlertAction.Style.default) { (action) in
+            if let url = URL(string: UIApplication.openSettingsURLString) {
                 if UIApplication.shared.canOpenURL(url) {
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 }
@@ -256,12 +256,12 @@ extension EditViewController {
         var data: Data? = nil
         if self.mode == EditViewController.BOARD_NEW_MODE {
             if hasImage == 1 {
-                data = UIImageJPEGRepresentation(self.editImageView.image!.resize(withWidth: 1200)!, 0.8)!
+                data = self.editImageView.image!.resize(withWidth: 1200)!.jpegData(compressionQuality: 0.8)!
             }
             self.editViewDelegate?.postBoardData(content: content, hasImage: self.hasImage, picture: data)
         } else if self.mode == EditViewController.BOARD_EDIT_MODE {
             if hasImage == 1 {
-                data = UIImageJPEGRepresentation(self.editImageView.image!.resize(withWidth: 1200)!, 0.8)!
+                data = self.editImageView.image!.resize(withWidth: 1200)!.jpegData(compressionQuality: 0.8)!
             }
             self.editViewDelegate?.editBoardData(content: content, boardId: originBoardData.boardId!, editImage: self.editImage, picture: data)
         } else if self.mode == EditViewController.REPLY_NEW_MODE {

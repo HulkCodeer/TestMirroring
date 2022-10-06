@@ -21,9 +21,9 @@ extension String {
         }
     }
     
-    func toDate(dateFormat: String) -> Date? {
+    func toDate(dateFormat: DateConstants) -> Date? {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = dateFormat
+        dateFormatter.dateFormat = dateFormat.rawValue
         let date: Date? = dateFormatter.date(from: self)
         return date
     }
@@ -49,7 +49,7 @@ extension String {
     }
     
     func size(OfFont font: UIFont) -> CGSize {
-        let fontAttribute = [NSAttributedStringKey.font: font]
+        let fontAttribute = [NSAttributedString.Key.font: font]
         return self.size(withAttributes: fontAttribute)  // for Single Line
     }
     
@@ -69,7 +69,6 @@ extension String {
     }
     
     func htmlToAttributedString() -> NSAttributedString? {
-        
         guard let data = self.data(using: .utf8) else {
             return NSAttributedString()
         }
@@ -98,6 +97,17 @@ extension String {
     func deletingPrefix(_ prefix: String) -> String {
         guard self.hasPrefix(prefix) else { return self }
         return String(self.dropFirst(prefix.count))
+    }
+    
+    func getArrayAfterRegex(regex: String) -> [Range<Index>] {
+        do {
+            let _regex = try NSRegularExpression(pattern: regex)
+            let results = _regex.matches(in: self, range: NSRange(self.startIndex..., in: self))
+            return results.compactMap { Range($0.range, in: self) }
+        } catch {
+            printLog(out: "invalid regex: \(error.localizedDescription)")
+            return []
+        }
     }
 }
 

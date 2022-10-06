@@ -58,6 +58,17 @@ class FilterPriceView: UIView {
         setView()
         if (saveOnChange) {
             applyFilter()
+            var values = [String]()
+            if isPaid {
+                values.append("유료")
+            }
+            if isFree {
+                values.append("무료")
+            }
+            
+            let property: [String: Any] = ["filterName": "충전 금액",
+                                           "filterValue": values]
+            FilterEvent.clickUpperFilter.logEvent(property: property)
         }
         delegate?.onChangedFilter(type: .price)
     }
@@ -67,6 +78,17 @@ class FilterPriceView: UIView {
         setView()
         if (saveOnChange) {
             applyFilter()
+            var values = [String]()
+            if isPaid {
+                values.append("유료")
+            }
+            if isFree {
+                values.append("무료")
+            }
+            
+            let property: [String: Any] = ["filterName": "충전 금액",
+                                           "filterValue": values]
+            FilterEvent.clickUpperFilter.logEvent(property: property)
         }
         delegate?.onChangedFilter(type: .price)
     }

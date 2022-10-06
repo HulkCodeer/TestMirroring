@@ -8,7 +8,8 @@
 
 import UIKit
 import Material
-protocol DelegateChargerFilterView: class {
+
+protocol DelegateChargerFilterView: AnyObject {
     func onApplyFilter()
 }
 
@@ -34,7 +35,7 @@ class ChargerFilterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "필터 설정 화면"
+        
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         prepareActionBar()
         initView()
@@ -43,6 +44,7 @@ class ChargerFilterViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        FilterEvent.viewFilter.logEvent()
     }
     
     override func viewDidLayoutSubviews() {
@@ -63,6 +65,8 @@ class ChargerFilterViewController: UIViewController {
         accessFilter.applyFilter()
         companyFilter.applyFilter()
         delegate?.onApplyFilter()
+            
+        FilterManager.sharedInstance.logEventWithFilter("필터")
         self.navigationController?.pop()
     }
     
@@ -87,9 +91,9 @@ class ChargerFilterViewController: UIViewController {
     
     func initView(){
         btnApply.layer.cornerRadius = 6
+        
         setApplyBtnStatus(enabled: false)
-        
-        
+                
         typeFilter.delegate = self
         speedFilter.delegate = self
         roadFilter.delegate = self
@@ -141,6 +145,8 @@ class ChargerFilterViewController: UIViewController {
             self.priceFilter.resetFilter()
             self.accessFilter.resetFilter()
             self.companyFilter.resetFilter()
+                        
+           FilterEvent.clickFilterReset.logEvent()
         })
         let cancel = UIAlertAction(title: "취소", style: .default, handler: {(ACTION) -> Void in})
         var actions = Array<UIAlertAction>()

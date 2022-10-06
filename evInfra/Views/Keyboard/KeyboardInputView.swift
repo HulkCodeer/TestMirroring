@@ -85,8 +85,8 @@ class KeyboardInputView: UIView {
     }
     
     private func setKeyboardObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(adjustInputView), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(adjustInputView), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(adjustInputView), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(adjustInputView), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     @IBAction func addMediaButtonTapped(_ sender: Any) {
@@ -183,12 +183,13 @@ extension KeyboardInputView: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
+        let seletedRange = textView.selectedRange
         guard let text = textView.text else {
             sendButton.isEnabled = false
             return
         }
         var height = self.minHeight
-        
+
         if textView.contentSize.height >= self.maxHeight {
             height = self.maxHeight
         } else if textView.contentSize.height <= self.minHeight {
@@ -196,18 +197,18 @@ extension KeyboardInputView: UITextViewDelegate {
         } else {
             height = textView.contentSize.height
         }
-        
+
         inputBorderView.layer.borderWidth = 2
         inputBorderView.borderColor = UIColor(named: "nt-9")
         placeholderTextField.isHidden = !text.isEmpty
-        
+
         let defaultAttributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.systemFont(ofSize: 16, weight: .regular),
             .foregroundColor: UIColor(named: "nt-9")!,
             .baselineOffset: 0
         ]
         let attributedString = NSMutableAttributedString(string: text, attributes: defaultAttributes)
-        
+
         if isRecomment {
             if text.count > targetNickName.count {
                 if text.hasPrefix(targetNickName) {
@@ -216,7 +217,7 @@ extension KeyboardInputView: UITextViewDelegate {
                         .foregroundColor: UIColor(named: "gr-5")!,
                         .baselineOffset: 0
                     ]
-                    
+
                     let range = (text as NSString).range(of: targetNickName)
                     attributedString.addAttributes(tagAttributes, range: range)
                 }
@@ -224,7 +225,9 @@ extension KeyboardInputView: UITextViewDelegate {
                 self.isRecomment = false
             }
         }
+                
         textView.attributedText = attributedString
+        textView.selectedRange = seletedRange                
         
         sendButton.isEnabled = !text.isEmpty ? true : false
         textViewConstraint.constant = height
@@ -235,17 +238,17 @@ extension KeyboardInputView: UITextViewDelegate {
 extension KeyboardInputView {
     @objc private func adjustInputView(notification: Notification) {
         guard let userInfo = notification.userInfo else { return }
-        guard let keyboardFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
-        guard let animationDuration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? TimeInterval else { return }
+        guard let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
+        guard let animationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval else { return }
         
-        if notification.name == NSNotification.Name.UIKeyboardWillShow {
+        if notification.name == UIResponder.keyboardWillShowNotification {
             let adjustmentHeight = keyboardFrame.height - self.safeAreaInsets.bottom
             
             UIView.animate(withDuration: animationDuration) {
                 self.keyboardInputViewBottomMargin.constant = -adjustmentHeight
                 self.superview?.layoutIfNeeded()
             }
-        } else if notification.name == NSNotification.Name.UIKeyboardWillHide {
+        } else if notification.name == UIResponder.keyboardWillHideNotification {
             UIView.animate(withDuration: animationDuration) {
                 self.keyboardInputViewBottomMargin.constant = 0
                 self.superview?.layoutIfNeeded()

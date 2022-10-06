@@ -28,7 +28,7 @@ class AddressToLocationController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "충전소 위치 검색 화면"
+        
         prepareSearchBar()
         prepareTableView()
     }
@@ -42,8 +42,8 @@ extension AddressToLocationController {
     internal func prepareTableView() {
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = UITableView.automaticDimension
         tableView.separatorColor = UIColor(rgb: 0xE4E4E4)
         tableView.keyboardDismissMode = .onDrag
     }

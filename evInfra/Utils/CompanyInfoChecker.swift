@@ -43,7 +43,7 @@ class CompanyInfoChecker {
             // icon 이 외의 정보가 업데이트 된 경우 update date 저장
             // icon 업데이트인 경우 download 완료 후 update date 저장
             if downloadArray.count == 0 {
-                UserDefault().saveString(key: UserDefault.Key.COMPANY_ICON_UPDATE_DATE, value: Date().toString())
+                UserDefault().saveString(key: UserDefault.Key.COMPANY_ICON_UPDATE_DATE, value: Date().toString(dateFormat: .yyyyMMddHHmmssSD))
             }
         }
         
@@ -80,7 +80,7 @@ class CompanyInfoChecker {
                     if companyList.count <= updateCount {
                         printLog(out: "Download finish. list: \(companyList.count), download: \(updateCount)")
                         
-                        UserDefault().saveString(key: UserDefault.Key.COMPANY_ICON_UPDATE_DATE, value: Date().toString())
+                        UserDefault().saveString(key: UserDefault.Key.COMPANY_ICON_UPDATE_DATE, value: Date().toString(dateFormat: .yyyyMMddHHmmssSD))
                         self.companyInfoCheckerDelegate?.finishDownloadCompanyImage()
                     }
             }

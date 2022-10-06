@@ -27,7 +27,7 @@ class DateUtils {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyyMMddHHmmss"
     
-        let date = dateFormatter.date(from: date)!
+        guard let date = dateFormatter.date(from: date) else { return "" }
         
         let duration = DateUtils.currentTimeMillis() - Int64((date.timeIntervalSince1970) * 1000)
         let seconds = duration / 1000
@@ -41,59 +41,15 @@ class DateUtils {
         } else if hours < 24 {
             return "\(hours)시간 전"
         } else {
-            return date.toYearMonthDay()
+            return date.toString(dateFormat: .yyyyMMddS)
         }
     }
     
     public static func getDateStringForDetail(date : String) -> String{
-    /*
-            Calendar today = Calendar.getInstance();
-            Calendar inday = Calendar.getInstance();
-
-            today.setTime(new Date(System.currentTimeMillis()));
-            inday.setTime(date);
-
-            if (today.get(Calendar.YEAR) > inday.get(Calendar.YEAR)){
-                // years
-                return today.get(Calendar.YEAR) - inday.get(Calendar.YEAR) + "년전";
-            }else if (today.get(Calendar.MONTH) > inday.get(Calendar.MONTH)) {
-                // month
-                return today.get(Calendar.MONTH) - inday.get(Calendar.MONTH) + "달전";
-            }else{
-                int tday = today.get(Calendar.DATE);
-                int tweek = tday / 7;
-                int iday = inday.get(Calendar.DATE);
-                int iweek = iday / 7;
-                if (tweek > iweek){
-                    return (tweek - iweek) + "주전";
-                }else if (tday > iday){
-                    return (tday - iday) + "일전";
-                }else{
-                    long duration = System.currentTimeMillis() - inday.getTime().getTime();
-                    int seconds = (int) (duration / 1000);
-                    int minutes = seconds / 60;
-                    int hours = minutes / 60;
-                    seconds = seconds % 60;
-                    minutes = minutes % 60;
-
-                    if(hours > 0){
-                        return (hours) + "시간전";
-                    }else if (minutes > 0){
-                        return (minutes) + "분전";
-                    }else if (seconds > 0){
-                        return (seconds) + "초전";
-                    }
-                }
-            }
-    */
-    
-        
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = TimeZone(abbreviation: "KST")
-                
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-                
-        let iDate = dateFormatter.date(from: date)!
+        guard let iDate = dateFormatter.date(from: date) else { return "" }
                 
         dateFormatter.dateFormat = "yyyy. MM. dd."
         

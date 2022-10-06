@@ -14,12 +14,10 @@ internal final class MembershipReissuanceViewController: BaseViewController, Sto
     
     // MARK: UI
     
-    private lazy var totalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var totalView = UIView()
     
     private lazy var guideLblTop = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.text = "재발급 신청 전, 본인 확인을 위해"
         $0.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         $0.textAlignment = .left
@@ -27,7 +25,7 @@ internal final class MembershipReissuanceViewController: BaseViewController, Sto
     }
     
     private lazy var guideLblBottom = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.text = "결제 비밀번호를 입력해주세요."
         $0.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         $0.textAlignment = .left
@@ -35,12 +33,12 @@ internal final class MembershipReissuanceViewController: BaseViewController, Sto
     }
     
     private lazy var passwordTitleLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.text = "비밀번호"
     }
     
     private lazy var passwordInputTf = UITextField().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.keyboardType = .numberPad
         $0.isSecureTextEntry = true
         $0.delegate = self
@@ -50,34 +48,28 @@ internal final class MembershipReissuanceViewController: BaseViewController, Sto
     }
     
     private lazy var clearTxtImgView = UIImageView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.image = UIImage(named: "icon_close_md")
         $0.tintColor = UIColor(named: "content-primary")
         $0.isHidden = true
     }
     
-    private lazy var clearTxtBtn = UIButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var clearTxtBtn = UIButton()
     
     private lazy var findPasswordGuideLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont.systemFont(ofSize: 12, weight: .bold)
         $0.textColor = UIColor(named: "content-primary")
         $0.textAlignment = .natural
         let text = "비밀번호가 기억나지 않으신가요?"
         let textRange = NSMakeRange(0, text.count)
         let attributedText = NSMutableAttributedString(string: text)
-        attributedText.addAttribute(NSAttributedString.Key.underlineStyle , value: NSUnderlineStyle.styleSingle.rawValue, range: textRange)
+        attributedText.addAttribute(NSAttributedString.Key.underlineStyle , value: NSUnderlineStyle.single.rawValue, range: textRange)
         $0.attributedText = attributedText
     }
     
-    private lazy var moveFindPasswordBtn = UIButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var moveFindPasswordBtn = UIButton()
     
     private lazy var nextBtn = NextButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setTitle("다음", for: .normal)
         $0.setTitleColor(UIColor(named: "content-primary"), for: .normal)
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
@@ -85,7 +77,7 @@ internal final class MembershipReissuanceViewController: BaseViewController, Sto
     }
     
     private lazy var negativeMessageLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.textColor = UIColor(named: "content-negative")
         $0.font = UIFont.systemFont(ofSize: 12, weight: .regular)
     }
@@ -105,7 +97,7 @@ internal final class MembershipReissuanceViewController: BaseViewController, Sto
         nextBtn.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview().offset(0)
-            let safeAreaBottonInset = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
+            let safeAreaBottonInset = UIWindow.key?.safeAreaInsets.bottom ?? 0
             $0.height.equalTo(60 + safeAreaBottonInset)
         }
         
@@ -181,7 +173,7 @@ internal final class MembershipReissuanceViewController: BaseViewController, Sto
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "재발급 신청 화면"
+        
         clearTxtBtn.rx.tap
             .asDriver()
             .drive(onNext: { [weak self] _ in
@@ -264,8 +256,8 @@ internal final class MembershipReissuanceViewController: BaseViewController, Sto
         
         prepareActionBar(with: "재발급 신청")
         
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide(_:)), name: .UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -282,7 +274,7 @@ internal final class MembershipReissuanceViewController: BaseViewController, Sto
     }
     
     @objc private func keyboardWillShow(_ sender: NSNotification) {
-        if let keyboardSize = (sender.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+        if let keyboardSize = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             let keyboardHeight = keyboardSize.height
             view.layoutIfNeeded()
             nextBtn.snp.updateConstraints {

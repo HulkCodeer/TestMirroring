@@ -76,7 +76,7 @@ class MembershipIssuanceViewController: UIViewController,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "회원카드 신청 화면"
+        
         prepareActionBar()
         initView()
     }
@@ -86,8 +86,8 @@ class MembershipIssuanceViewController: UIViewController,
         if let result = payRegistResult {
             updateAfterPayRegist(json: result)
         } else {
-            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         }
     }
     
@@ -113,7 +113,7 @@ class MembershipIssuanceViewController: UIViewController,
         let text = labelAgreeTerm.text
         let textRange = NSRange(location: 0, length: (text?.count)!)
         let attributedText = NSMutableAttributedString(string: text!)
-        attributedText.addAttribute(NSAttributedStringKey.underlineStyle, value: NSUnderlineStyle.styleSingle.rawValue, range: textRange)
+        attributedText.addAttribute(NSAttributedString.Key.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: textRange)
         labelAgreeTerm.attributedText = attributedText
         
         let term_touch = UITapGestureRecognizer(target: self, action: #selector(self.handleTermTouch(recognizer:)))
@@ -133,7 +133,8 @@ class MembershipIssuanceViewController: UIViewController,
     func updateAfterPayRegist(json: JSON) {
         if (json["pay_code"].intValue == PaymentCard.PAY_REGISTER_SUCCESS) {
             if let params = self.memberData {
-                applyMembershipCard(params: params)
+                applyMembershipCard(params: params)                
+                PaymentEvent.completePaymentCard.logEvent()
             } else {
                 Snackbar().show(message: "회원정보를 다시 입력해 주세요.")
                 self.btnNext.isEnabled = true
@@ -172,7 +173,7 @@ class MembershipIssuanceViewController: UIViewController,
                         actions.append(ok)
                         UIAlertController.showAlert(title: "알림", message: json["ResultMsg"].stringValue, actions: actions)
 
-                    case PaymentCard.PAY_FINE_USER:
+                    case PaymentCard.PAY_FINE_USER, Const.CHARGER_STATE_CHARGING:
                         Server.getPayRegisterInfo { (isSuccess, value) in
                             if isSuccess {
                                 if let data = self.memberData {
@@ -206,38 +207,61 @@ class MembershipIssuanceViewController: UIViewController,
         }
         
         self.memberData = params
-        var actions = Array<UIAlertAction>()
-        let ok = UIAlertAction(title: "확인", style: .default, handler:{ (ACTION) -> Void in
+        
+        let popupModel = PopupModel(title: "EV pay 카드 발급",
+                                    message: "\(name)\n\(address)\n\(detail_address)\n위 주소로 EV Pay카드를 발급하시겠습니까?",
+                                    confirmBtnTitle: "확인",
+                                    cancelBtnTitle: "취소",
+                                    confirmBtnAction: { [weak self] in
+            guard let self = self else { return }
             self.checkPaymentCardStatus()
-        })
-        let cancel = UIAlertAction(title: "취소", style: .cancel, handler:{ (ACTION) -> Void in
+                                    },
+                                    cancelBtnAction: { [weak self] in
+            guard let self = self else { return }
             self.btnNext.isEnabled = true
-            self.dismiss(animated: true, completion: nil)
         })
-        actions.append(ok)
-        actions.append(cancel)
-        let msg = "\(name)\n\(address)\n\(detail_address)\n위 주소로 회원카드를 발급하시겠습니까?"
-        UIAlertController.showAlert(title: "알림", message: msg, actions: actions)
+        let popup = ConfirmPopupViewController(model: popupModel)
+        GlobalDefine.shared.mainNavi?.present(popup, animated: true, completion: nil)
     }
     
     func applyMembershipCard(params: [String : Any]) {
         Server.registerMembershipCard(values: params, completion: {(isSuccess, value) in
             if isSuccess {
-                let json = JSON(value)
+                let json = JSON(value)                
                 let ok = UIAlertAction(title: "확인", style: .default, handler:{ (ACTION) -> Void in                    
-                    UserDefault().saveBool(key: UserDefault.Key.IS_HIDDEN_DELEVERY_COMPLETE_TOOLTIP, value: false)
-                    UserDefault().saveBool(key: UserDefault.Key.MB_HAS_MEMBERSHIP, value:  true)
-                    let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)
-                    let viewcon = mbsStoryboard.instantiateViewController(ofType: MembershipCardViewController.self)
-                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                    
                 })
                 var actions = Array<UIAlertAction>()
                 actions.append(ok)
                 switch json["code"].stringValue {
                     case "1000":
-                        let message = "회원카드는 일반우편으로 발송되며 즉시 충전을 원하실 경우 마이페이지 > 회원카드 관리에 있는 카드번호를 충전기에 입력하시면 됩니다.\n감사합니다.(한전 이외의 충전사업자는 익일 반영됩니다)"
-                        UIAlertController.showAlert(title: "알림", message: message, actions: actions)
-
+                    
+                        let popupModel = PopupModel(title: "알림",
+                                                message: "EV pay 카드는 일반 우편으로 발송되며 즉시\n충전을 원하실 경우 마이페이지 > EV Pay카\n드 관리에 있는 카드 번호를 충전기에 입력하시면 됩니다.\n\n감사합니다.\n(한전 이외의 사업자는 익일 반영됩니다.)",
+                                                confirmBtnTitle: "확인",
+                                                confirmBtnAction: {                             
+                            UserDefault().saveBool(key: UserDefault.Key.IS_HIDDEN_DELEVERY_COMPLETE_TOOLTIP, value: false)
+                            MemberManager.shared.hasMembership = true
+                            MemberManager.shared.hasPayment = true
+                            
+                            let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)
+                            guard let _mainNavi = GlobalDefine.shared.mainNavi else { return }
+                            for vc in _mainNavi.viewControllers {
+                                if let _vc = vc as? NewPaymentQRScanViewController {
+                                    Snackbar().show(message: "EV Pay카드 발급이 완료되었어요.")
+                                    _ = _mainNavi.popToViewController(_vc, animated: true)
+                                    return
+                                }
+                            }
+                                                
+                            let viewcon = mbsStoryboard.instantiateViewController(ofType: MembershipCardViewController.self)
+                            GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                        }, textAlignment: .center)
+                        let popup = ConfirmPopupViewController(model: popupModel)
+                        GlobalDefine.shared.mainNavi?.present(popup, animated: true, completion: nil)
+                        
+                        PaymentEvent.completeApplyEVICard.logEvent()
+                    
                     default:
                         UIAlertController.showAlert(title: "알림", message: json["msg"].stringValue, actions: actions)
                 }
@@ -287,7 +311,7 @@ class MembershipIssuanceViewController: UIViewController,
         navigationItem.leftViews = [backButton]
         navigationItem.hidesBackButton = true
         navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-        navigationItem.titleLabel.text = "EV Infra 멤버쉽 카드 신청"
+        navigationItem.titleLabel.text = "EV Pay 카드 신청"
         self.navigationController?.isNavigationBarHidden = false
     }
     
@@ -312,7 +336,7 @@ class MembershipIssuanceViewController: UIViewController,
     // MARK: - KeyBoardHeight
     @objc func keyboardWillShow(_ notification: Notification) {
         var keyboardHeight: CGFloat = 0
-        if let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
             keyboardHeight = keyboardRectangle.height  + CGFloat(16.0)
         }

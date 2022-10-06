@@ -22,38 +22,34 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
     // MARK: UI
     
     private lazy var totalScrollView = UIScrollView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.showsVerticalScrollIndicator = false
         $0.showsHorizontalScrollIndicator = false
     }
     
-    private lazy var totalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
-    private lazy var guideStrTopLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.text = "카드 배송 정보를 입력해주세요"
+    private lazy var totalView = UIView()
+    private lazy var guideStrTopLbl = UILabel().then {        
+        $0.text = "EV Pay카드 배송 정보를 입력해주세요"
         $0.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         $0.textColor = UIColor(named: "content-primary")
     }
     
     private lazy var guideStrBottomLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.text = "입력된 정보로 카드 우편 배송되어요! 📮"
         $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         $0.textColor = UIColor(named: "content-secondary")
     }
     
     private lazy var nameTitleLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.text = "수령인 이름"
         $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         $0.textColor = UIColor(named: "content-secondary")
     }
     
     private lazy var nameTf = UITextField().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         $0.textColor = UIColor(named: "content-tertiary")
         $0.IBborderColor = UIColor(named: "border-opaque")
@@ -63,14 +59,14 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
     }
     
     private lazy var phoneTitleLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.text = "연락처"
         $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         $0.textColor = UIColor(named: "content-secondary")
     }
     
     private lazy var phoneTf = UITextField().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         $0.textColor = UIColor(named: "content-tertiary")
         $0.keyboardType = .numberPad
@@ -82,26 +78,24 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
     }
     
     private lazy var addressTitleLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.text = "수령 주소"
         $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         $0.textColor = UIColor(named: "content-secondary")
     }
     
     private lazy var addressStackView = UIStackView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.axis = .horizontal
         $0.distribution = .fillEqually
         $0.alignment = .fill
         $0.spacing = 8
     }
     
-    private lazy var totalSearchAddressBtn = UIButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var totalSearchAddressBtn = UIButton()
     
     private lazy var moveSearchAddressBtn = UIButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.setTitle("우편번호 검색", for: .normal)
         $0.setTitle("우편번호 검색", for: .disabled)
         $0.setTitleColor(UIColor(named: "content-secondary"), for: .normal)
@@ -113,7 +107,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
     }
     
     private lazy var zipCodeTf = UITextField().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         $0.textColor = UIColor(named: "content-tertiary")
         $0.keyboardType = .numberPad
@@ -125,7 +119,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
     }
     
     private lazy var addressTf = UITextField().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         $0.textColor = UIColor(named: "content-tertiary")
         $0.IBborderColor = UIColor(named: "border-opaque")
@@ -136,7 +130,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
     }
     
     private lazy var detailAddressTf = UITextField().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         $0.textColor = UIColor(named: "content-tertiary")
         $0.IBborderColor = UIColor(named: "border-opaque")
@@ -146,7 +140,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
     }
     
     private lazy var completeBtn = NextButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
+        
         $0.setTitle("재발급 신청 완료", for: .normal)
         $0.setTitleColor(UIColor(named: "content-primary"), for: .normal)
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
@@ -173,7 +167,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
         completeBtn.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview().offset(0)
-            let safeAreaBottonInset = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
+            let safeAreaBottonInset = UIWindow.key?.safeAreaInsets.bottom ?? 0
             $0.height.equalTo(60 + safeAreaBottonInset)
         }
         
@@ -282,8 +276,8 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
             .asDriver(onErrorJustReturn: ())
             .drive(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                let popupModel = PopupModel(title: "카드 배송 정보 확인",
-                                            message: "수령인 : \(self.nameTf.text ?? "")\n주소 : \(self.addressTf.text ?? "") \(self.detailAddressTf.text ?? "")\n\n위 주소로 회원카드를 발급하시겠습니까?",
+                let popupModel = PopupModel(title: "EV Pay카드 배송 정보 확인",
+                                            message: "수령인 : \(self.nameTf.text ?? "")\n주소 : \(self.addressTf.text ?? "") \(self.detailAddressTf.text ?? "")\n\n위 주소로 EV Pay카드를 발급하시겠습니까?",
                                             confirmBtnTitle: "네", cancelBtnTitle: "아니오",
                                             confirmBtnAction: { [weak self] in
                     guard let self = self else { return }
@@ -317,7 +311,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "재발급 신청 상세 화면"
+        
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(recognizer:)))
         self.view.addGestureRecognizer(tap)
         
@@ -362,8 +356,8 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
         
         prepareActionBar(with: "재발급 신청")
         
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide(_:)), name: .UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -376,7 +370,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
     }
     
     @objc private func keyboardWillShow(_ sender: NSNotification) {
-        if let keyboardSize = (sender.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+        if let keyboardSize = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             let keyboardHeight = keyboardSize.height
             view.layoutIfNeeded()
             completeBtn.snp.updateConstraints {

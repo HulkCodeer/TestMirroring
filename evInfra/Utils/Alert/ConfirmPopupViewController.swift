@@ -18,16 +18,20 @@ struct PopupModel {
     let cancelBtnTitle: String?
     let confirmBtnAction: (() -> Void)?
     let cancelBtnAction: (() -> Void)?
-    var messageTextAlignment: NSTextAlignment = .center    
+    var messageTextAlignment: NSTextAlignment = .center
+    let dimmedBtnAction: (() -> Void)?
+    let messageAttributedText: NSAttributedString?
     
-    init(title: String? = nil, message: String = "",  confirmBtnTitle: String? = nil, cancelBtnTitle: String? = nil, confirmBtnAction: (() -> Void)? = nil, cancelBtnAction: (() -> Void)? = nil, textAlignment: NSTextAlignment = .center) {
+    init(title: String? = nil, message: String = "", messageAttributedText: NSAttributedString? = nil,  confirmBtnTitle: String? = nil, cancelBtnTitle: String? = nil, confirmBtnAction: (() -> Void)? = nil, cancelBtnAction: (() -> Void)? = nil, textAlignment: NSTextAlignment = .center, dimmedBtnAction: (() -> Void)? = nil) {
         self.title = title
         self.message = message
+        self.messageAttributedText = messageAttributedText
         self.confirmBtnTitle = confirmBtnTitle
         self.cancelBtnTitle = cancelBtnTitle
         self.confirmBtnAction = confirmBtnAction
         self.cancelBtnAction = cancelBtnAction
         self.messageTextAlignment = textAlignment
+        self.dimmedBtnAction = dimmedBtnAction
     }
 }
 
@@ -40,11 +44,9 @@ internal final class ConfirmPopupViewController: UIViewController {
         case cancel
     }
     
-    private lazy var backgroundView: UIView = {
-       let view = UIView()
-        view.backgroundColor = UIColor(named: "nt-black")?.withAlphaComponent(0.3)
-        return view
-    }()
+    private lazy var dimmedBtn = UIButton().then {
+        $0.backgroundColor = UIColor(named: "nt-black")?.withAlphaComponent(0.3)
+    }
     
     private lazy var containerView: UIView = {
        let view = UIView()
@@ -111,15 +113,15 @@ internal final class ConfirmPopupViewController: UIViewController {
     override func loadView() {
         super.loadView()
                         
-        view.addSubview(backgroundView)
-        backgroundView.addSubview(containerView)
+        view.addSubview(dimmedBtn)
+        dimmedBtn.addSubview(containerView)
         containerView.addSubview(dialogView)
         
         dialogView.addArrangedSubview(titleLabel)
         dialogView.addArrangedSubview(descriptionLabel)
         dialogView.addArrangedSubview(buttonStackView)
         
-        backgroundView.snp.makeConstraints {
+        dimmedBtn.snp.makeConstraints {
             $0.top.bottom.left.right.equalToSuperview()
         }
         
@@ -142,6 +144,11 @@ internal final class ConfirmPopupViewController: UIViewController {
         
         self.titleLabel.text = self.popupModel.title
         self.descriptionLabel.text = self.popupModel.message
+        
+        if let _message = self.popupModel.messageAttributedText {
+            self.descriptionLabel.attributedText = _message
+        }
+        
                         
         if let _cancelTitle = self.popupModel.cancelBtnTitle {
             let cancelBtn = createButton(backgroundColor: Colors.backgroundPrimary.color ,
@@ -174,6 +181,15 @@ internal final class ConfirmPopupViewController: UIViewController {
         }
         
         descriptionLabel.textAlignment = self.popupModel.messageTextAlignment
+        
+        dimmedBtn.rx.tap
+            .asDriver()
+            .drive(with: self){ obj,_ in
+                guard let _dimmedAction = self.popupModel.dimmedBtnAction else { return }
+                obj.dismissPopup(actionBtnType: .cancel)
+                _dimmedAction()
+            }
+            .disposed(by: self.disposebag)
     }
     
     override func viewDidLoad() {

@@ -26,7 +26,6 @@ class MembershipQRViewController: UIViewController,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "SK렌터카 카드 QR scan 화면"
         prepareActionBar()
         prepareView()
         
@@ -71,13 +70,13 @@ class MembershipQRViewController: UIViewController,
     }
     
     private func showAuthAlert() {
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) { (action) in
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel) { (action) in
             Snackbar().show(message: "카메라 기능이 활성화되지 않아 QR스캔을 실행 할 수 없습니다.")
             self.navigationController?.pop()
         }
         
-        let openAction = UIAlertAction(title: "Open Settings", style: UIAlertActionStyle.default) { (action) in
-            if let url = URL(string: UIApplicationOpenSettingsURLString) {
+        let openAction = UIAlertAction(title: "Open Settings", style: UIAlertAction.Style.default) { (action) in
+            if let url = URL(string: UIApplication.openSettingsURLString) {
                 if UIApplication.shared.canOpenURL(url) {
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 }
@@ -182,7 +181,7 @@ extension MembershipQRViewController: AVCaptureMetadataOutputObjectsDelegate {
         videoPreviewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
         videoPreviewLayer.frame = scannerViewLayer.layer.bounds
         scannerViewLayer.layer.addSublayer(videoPreviewLayer!)
-        scannerViewLayer.bringSubview(toFront: lbExplainScanner)
+        scannerViewLayer.bringSubviewToFront(lbExplainScanner)
         // Start video capture.
         captureSession.startRunning()
         qrCodeFrameView = UIView()
@@ -191,7 +190,7 @@ extension MembershipQRViewController: AVCaptureMetadataOutputObjectsDelegate {
             qrCodeFrameView.layer.borderColor = UIColor.green.cgColor
             qrCodeFrameView.layer.borderWidth = 2
             scannerViewLayer.addSubview(qrCodeFrameView)
-            scannerViewLayer.bringSubview(toFront: qrCodeFrameView)
+            scannerViewLayer.bringSubviewToFront(qrCodeFrameView)
         }
     }
     
@@ -216,6 +215,10 @@ extension MembershipQRViewController: AVCaptureMetadataOutputObjectsDelegate {
                                 case 1000:
                                     MemberManager.shared.setSKRentConfig()
                                     self.showResultView(code : 0, imgType : "SUCCESS", retry : false, callBtn : false, msg : "정보가 확인되었습니다.")
+                                    
+                                    let property: [String: Any] = ["company": "SK 렌터카"]
+                                    PaymentEvent.completeApplyAllianceCard.logEvent(property: property)
+                                    
                                     break
                                 case 1104 :
                                     self.showResultView(code : 0, imgType : "QUESTION", retry : true, callBtn : true, msg : "기존에 등록된 회원 정보입니다.\nsk renter 멤버쉽 카드는\n기기당 한 계정만 등록 가능합니다.\n분실 및 재발급에 대한 문의는\n아래로 전화 주시기 바랍니다.")
