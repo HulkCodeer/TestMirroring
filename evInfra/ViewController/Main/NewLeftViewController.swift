@@ -23,43 +23,31 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     
     // MARK: UI
     
-    private lazy var userInfoTotalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var userInfoTotalView = UIView()
     
-    private lazy var loginTotalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var loginTotalView = UIView()
     
-    private lazy var profileTotalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var profileTotalView = UIView()
     
     private lazy var profileImgView = UIImageView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.image = Icons.iconProfileEmpty.image
     }
     
     private lazy var nicknameLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         $0.textColor = Colors.contentPrimary.color
         $0.textAlignment = .natural
         $0.numberOfLines = 1
     }
     
-    private lazy var moveMyInfoBtn = UIButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var moveMyInfoBtn = UIButton()
     
     private lazy var loginUserBerryInfoTotalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = Colors.backgroundPositiveLight.color
         $0.IBcornerRadius = 8
     }
     
     private lazy var myBerryGuideLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "MY 베리"
         $0.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         $0.textColor = Colors.gr6.color
@@ -68,32 +56,24 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     }
     
     private lazy var myBerryGuideArrow = ChevronArrow.init(.size20(.right)).then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.IBimageColor = Colors.gr3.color
     }
     
-    private lazy var moveMyPointBtn = UIButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var moveMyPointBtn = UIButton()
     
     private lazy var myBerryRefreshTotalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.IBcornerRadius = 20/2
         $0.backgroundColor = Colors.backgroundPrimary.color
     }
     
     private lazy var myBerryRefreshImgView = UIImageView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.image = Icons.iconRefreshXs.image
         $0.tintColor = Colors.gr4.color
     }
     
-    private lazy var myBerryRefreshBtn = UIButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var myBerryRefreshBtn = UIButton()
     
     private lazy var myBerryLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "0"
         $0.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         $0.textColor = Colors.gr6.color
@@ -101,12 +81,9 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         $0.numberOfLines = 1
     }
     
-    private lazy var useMyBerrySettingTotalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var useMyBerrySettingTotalView = UIView()
     
     private lazy var useAllMyBerryGuideLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "충전 시 베리 전액 사용"
         $0.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         $0.textColor = Colors.contentSecondary.color
@@ -115,27 +92,20 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     }
     
     private lazy var useAllMyBerrySw = UISwitch().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.tintColor = Colors.contentPrimary.color
         $0.thumbTintColor = .white
         $0.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
     }
     
-    private lazy var useAllMyBerryBtn = UIButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var useAllMyBerryBtn = UIButton()
     
-    private lazy var nonLoginTotalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var nonLoginTotalView = UIView()
     
     private lazy var nonLoginProfileImgView = UIImageView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.image = Icons.iconProfileEmpty.image
     }
     
     private lazy var loginInduceLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "로그인을 해주세요"
         $0.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         $0.textColor = Colors.contentPrimary.color
@@ -144,22 +114,17 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     }
     
     private lazy var loginInduceArrow = ChevronArrow.init(.size20(.right)).then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.IBimageColor = Colors.contentPrimary.color
     }
     
-    private lazy var moveLoginBtn = UIButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var moveLoginBtn = UIButton()
     
     private lazy var nonLoginUserBerryInfoTotalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = Colors.backgroundDisabled.color
         $0.IBcornerRadius = 8
     }
     
     private lazy var nonLoginMyBerryGuideLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "MY 베리"
         $0.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         $0.textColor = Colors.contentDisabled.color
@@ -169,7 +134,6 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         
     
     private lazy var nonLoginMyBerryLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "-"
         $0.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         $0.textColor = Colors.contentDisabled.color
@@ -179,12 +143,10 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     
     
     private lazy var menuListTotalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = Colors.backgroundSecondary.color
     }
     
     private lazy var menuCategoryTypeStackView = UIStackView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.axis = .vertical
         $0.distribution = .fillEqually
         $0.alignment = .fill
@@ -193,7 +155,6 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     }
     
     private lazy var tableView = UITableView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.register(Reusable.leftViewMenuItem)
         $0.register(UINib(nibName: "LeftViewTableHeader", bundle: nil), forHeaderFooterViewReuseIdentifier: "LeftViewTableHeader")
         $0.backgroundColor = .white
