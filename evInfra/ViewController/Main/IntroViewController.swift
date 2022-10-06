@@ -163,10 +163,13 @@ internal final class IntroViewController: UIViewController {
                                 }
                             }
                             .disposed(by: self.disposeBag)
+
                     } else {
 //                        self.moveMainView()
                         self.presentMainView()
                     }
+                    
+                    FCMManager.sharedInstance.registerUser()
                 }
                 
             }

@@ -97,7 +97,7 @@ internal final class MembershipReissuanceViewController: BaseViewController, Sto
         nextBtn.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview().offset(0)
-            let safeAreaBottonInset = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
+            let safeAreaBottonInset = UIWindow.key?.safeAreaInsets.bottom ?? 0
             $0.height.equalTo(60 + safeAreaBottonInset)
         }
         

@@ -255,7 +255,7 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
     @objc private func keyboardWillShow(_ sender: NSNotification) {
         if let keyboardSize = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             let keyboardHeight = keyboardSize.height
-            let safeAreaInset = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
+            let safeAreaInset = UIWindow.key?.safeAreaInsets.bottom ?? 0
             completeButton.snp.updateConstraints {
                 $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-keyboardHeight+safeAreaInset)
             }

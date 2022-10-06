@@ -58,7 +58,7 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
         $0.backgroundColor = Colors.backgroundPrimary.color
     }
     
-    private let safeAreaInsetBottomHeight = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
+    private let safeAreaInsetBottomHeight = UIWindow.key?.safeAreaInsets.bottom ?? 0
     
     init(reactor: GlobalAdsReactor) {
         super.init()

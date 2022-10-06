@@ -137,8 +137,7 @@ internal final class NewEventDetailViewController: CommonBaseViewController {
             return
         }
                         
-        let request = URLRequest(url: _url)
-        printLog(out: "PARK TEST url : \(_url)")
+        let request = URLRequest(url: _url)        
         webView.load(request)
     }
     

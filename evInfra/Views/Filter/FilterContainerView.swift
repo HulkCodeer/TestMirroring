@@ -6,13 +6,16 @@
 //  Copyright © 2021 soft-berry. All rights reserved.
 //
 
-import Foundation
-protocol DelegateFilterContainerView: class {
-    func changedFilter(type: FilterType)
-    func swipeFilterTo(type: FilterType)
+import RxSwift
+import RxCocoa
+
+protocol DelegateFilterContainerView: AnyObject {
+    func changedFilter(type: FilterType)    
 }
 
-class FilterContainerView: UIView {
+internal final class FilterContainerView: UIView {
+    
+    // MARK: UI
     
     @IBOutlet var filterContainerView: UIView!
     @IBOutlet var filterTypeView: FilterTypeView!
@@ -21,8 +24,15 @@ class FilterContainerView: UIView {
     @IBOutlet var filterRoadView: FilterRoadView!
     @IBOutlet var filterPlaceView: FilterPlaceView!
     
-    weak var delegate: DelegateFilterContainerView?
-    var currType: FilterType = FilterType.none
+    // MARK: VARIABLE
+    
+    internal weak var delegate: DelegateFilterContainerView?
+        
+    private var disposeBag = DisposeBag()
+    private weak var mainReactor: MainReactor?
+        
+    // MARK: SYSTEM FUNC
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         initView()
@@ -33,7 +43,7 @@ class FilterContainerView: UIView {
         initView()
     }
     
-    func initView(){
+    private func initView(){
         let view = Bundle.main.loadNibNamed("FilterContainerView", owner: self, options: nil)?.first as! UIView
         view.frame = bounds
         addSubview(view)
@@ -62,75 +72,52 @@ class FilterContainerView: UIView {
         filterTypeView.slowTypeChangeDelegate = self
     }
     
+    // MARK: FUNC
+    
+    func bind(reactor: MainReactor) {
+        self.mainReactor = reactor
+        
+        reactor.state.map { $0.selectedFilterTagType }
+            .asDriver(onErrorJustReturn: nil)
+            .drive(with: self) { obj, selectedFilterTagType in
+                switch selectedFilterTagType {
+                case .price:
+                    obj.filterContainerView.bringSubviewToFront(obj.filterPriceView)
+                case .speed:
+                    obj.filterContainerView.bringSubviewToFront(obj.filterSpeedView)
+                case .place:
+                    obj.filterContainerView.bringSubviewToFront(obj.filterPlaceView)
+                case .road:
+                    obj.filterContainerView.bringSubviewToFront(obj.filterRoadView)
+                case .type:
+                    obj.filterContainerView.bringSubviewToFront(obj.filterTypeView)
+                default: break
+                }
+            }
+            .disposed(by: self.disposeBag)
+    }
+    
     @objc func respondToSwipeGesture(_ gesture: UIGestureRecognizer) {
         // 만일 제스쳐가 있다면
         if let swipeGesture = gesture as? UISwipeGestureRecognizer{
+            guard let _reactor = self.mainReactor else { return }
             switch swipeGesture.direction {
-                case UISwipeGestureRecognizer.Direction.left :
-                    swipeLeft()
+                case UISwipeGestureRecognizer.Direction.left:
+                Observable.just(MainReactor.Action.swipeLeft)
+                    .bind(to: _reactor.action)
+                    .disposed(by: self.disposeBag)
+
                 case UISwipeGestureRecognizer.Direction.right :
-                    swipeRight()
-                default:
-                    break
+                Observable.just(MainReactor.Action.swipeRight)
+                    .bind(to: _reactor.action)
+                    .disposed(by: self.disposeBag)
+                
+                default: break
             }
         }
     }
     
-    func swipeLeft() {
-        var newType: FilterType = .none
-        switch currType {
-        case .price:
-            newType = .speed
-        case .speed:
-            newType = .place
-        case .place:
-            newType = .road
-        case .road:
-            newType = .type
-        case .type:
-            newType = .price
-        default:
-            break;
-        }
-        
-        showFilterView(type: newType)
-        delegate?.swipeFilterTo(type: newType)
-    }
-    
-    func swipeRight() {
-        var newType: FilterType = .none
-        switch currType {
-        case .price:
-            newType = .type
-        case .speed:
-            newType = .price
-        case .place:
-            newType = .speed
-        case .road:
-            newType = .place
-        case .type:
-            newType = .road
-        default:
-            break;
-        }
-        
-        showFilterView(type: newType)
-        delegate?.swipeFilterTo(type: newType)
-    }
-    
-    
-    func isSameView(type: FilterType) ->Bool{
-        if (currType == type){
-            currType = .none
-            return true
-        }
-
-        return false
-    }
-    
-    func showFilterView(type: FilterType){
-        currType = type
-        
+    private func showFilterView(type: FilterType){
         switch type {
         case .price:
             filterContainerView.bringSubviewToFront(filterPriceView!)
@@ -147,7 +134,7 @@ class FilterContainerView: UIView {
         }
     }
     
-    func updateFilters() {
+    internal func updateFilters() {
         filterPriceView.update()
         filterSpeedView.update()
         filterPlaceView.update()

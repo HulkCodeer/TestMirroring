@@ -8,7 +8,8 @@
 
 import UIKit
 import Material
-protocol DelegateChargerFilterView: class {
+
+protocol DelegateChargerFilterView: AnyObject {
     func onApplyFilter()
 }
 

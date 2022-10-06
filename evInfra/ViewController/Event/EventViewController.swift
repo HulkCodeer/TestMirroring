@@ -74,8 +74,7 @@ internal final class EventViewController: UIViewController {
                     switch result {
                     case .success(let data):
                         let json = JSON(data)
-                        let events = json["data"].arrayValue.map { AdsInfo($0) }
-                        printLog(out: "PARK TEST events : \(events)")
+                        let events = json["data"].arrayValue.map { AdsInfo($0) }                        
                         guard !events.isEmpty else { return [] }
                         return events
                         

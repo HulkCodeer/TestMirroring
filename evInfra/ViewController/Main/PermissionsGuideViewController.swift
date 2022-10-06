@@ -7,24 +7,22 @@
 //
 
 import ReactorKit
-import MiniPlengi
 import CoreLocation
 import RxViewController
 
 internal final class PermissionsGuideViewController: CommonBaseViewController, StoryboardView {
-    
     enum PermissionTypes: CaseIterable {
         case location
         
         internal var title: String {
             switch self {
-            case .location: return "위치 동의"
+            case .location: return "위치"
             }
         }
         
         internal var description: String {
             switch self {
-            case .location: return "내 현재 위치를 기준으로 주변 충전소 찾기, 충전소 경로 안내, 근처의 혜택 정보 및 광고 제공을 위한 필수 정보로 활용됩니다."
+            case .location: return "내 현재 위치를 기준으로 주변 충전소 찾기,충전소 경로 안내 등을 위한 필수 정보로 활용됩니다."
             }
         }
         
@@ -54,8 +52,9 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
     private lazy var subTitleLbl = UILabel().then {
         $0.font = .systemFont(ofSize: 16, weight: .regular)
         $0.textColor = Colors.contentTertiary.color
-        $0.text = "아래의 권한 동의가 필요합니다."
+        $0.text = "개인정보보호 정책에 따라 EV Infra 이용 시 다음과 같은 권한이 필요해요."
         $0.textAlignment = .natural
+        $0.numberOfLines = 2
     }
     
     private lazy var permissionStackView = UIStackView().then {
@@ -66,7 +65,7 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
     }
     
     private lazy var nextBtn = StickButton(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 32, height: 80), level: .primary).then {
-        $0.rectBtn.setTitle("다음", for: .normal)
+        $0.rectBtn.setTitle("권한 동의하기", for: .normal)
     }
     
     // MARK: VARIABLE
@@ -108,7 +107,7 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
         subTitleLbl.snp.makeConstraints {
             $0.top.equalTo(mainTitleLbl.snp.bottom).offset(8)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(24)
+            $0.height.equalTo(48)
         }
         
         self.totalView.addSubview(permissionStackView)
@@ -200,45 +199,32 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
         super.init(coder: aDecoder)
     }
     
-    internal func bind(reactor: PermissionsGuideReactor) {
-        manager.rx.isEnabled
-            .subscribe(with: self) { obj, isEnable in
-                guard !isEnable else { return }
-                obj.manager.requestWhenInUseAuthorization()
-            }
-            .disposed(by: self.disposeBag)
-        
+    internal func bind(reactor: PermissionsGuideReactor) {                
         nextBtn.rectBtn.rx.tap
             .do(onNext: { _ in MemberManager.shared.isFirstInstall = true })
             .asDriver(onErrorJustReturn: Void())
             .drive(with: self) { obj, _ in
-                obj.manager.rx.status
-                    .observe(on: MainScheduler.asyncInstance)
-                    .subscribe(onNext: { status in
-                        
-                        Observable.just(PermissionsGuideReactor.Action.moveToMain(status == .denied))
-                            .bind(to: reactor.action)
-                            .disposed(by: obj.disposeBag)
-                        
-                        switch status {
-                        case .denied:
-                            if let url = URL(string: UIApplication.openSettingsURLString) {
-                                if UIApplication.shared.canOpenURL(url) {
-                                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                obj.manager.rx.isEnabled
+                    .subscribe(with: self) { obj, isEnable in
+                        if isEnable {
+                            obj.manager.requestWhenInUseAuthorization()
+                        } else {
+                            let alertController = UIAlertController(title: "위치정보가 활성화되지 않았습니다", message: "EV Infra의 원활한 서비스를 이용하시려면 [설정] > [개인정보보호]에서 위치 서비스를 켜주세요.", preferredStyle: UIAlertController.Style.alert)
+                            
+                            let cancelAction = UIAlertAction(title: "취소", style: UIAlertAction.Style.cancel, handler: nil)
+                            alertController.addAction(cancelAction)
+                            
+                            let openAction = UIAlertAction(title: "설정", style: UIAlertAction.Style.default) { (action) in
+                                if let url = URL(string: UIApplication.openSettingsURLString) {
+                                    if UIApplication.shared.canOpenURL(url) {
+                                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                                    }
                                 }
                             }
-                            
-//                            self.moveMainViewcon()
-                            
-                        case .notDetermined, .restricted:
-                            obj.manager.desiredAccuracy = kCLLocationAccuracyBest
-                            obj.manager.requestWhenInUseAuthorization()
-                            obj.manager.startUpdatingLocation()
-                            
-                        default: break
+                            alertController.addAction(openAction)                            
+                            self.present(alertController, animated: true, completion: nil)
                         }
-
-                    })
+                    }
                     .disposed(by: self.disposeBag)
             }
             .disposed(by: self.disposeBag)
@@ -252,87 +238,21 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
             }
             .disposed(by: disposeBag)
     }
-    
-//    private func moveMainViewcon() {
-//        MemberManager.shared.isFirstInstall = true
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let reactor = MainReactor(provider: RestApi())
-//        let mainViewcon = storyboard.instantiateViewController(ofType: MainViewController.self)
-//        mainViewcon.reactor = reactor
-//        let leftViewController = storyboard.instantiateViewController(ofType: LeftViewController.self)
-//
-//        let appToolbarController = AppToolbarController(rootViewController: mainViewcon)
-//        appToolbarController.delegate = mainViewcon
-//        let ndController = AppNavigationDrawerController(rootViewController: appToolbarController, leftViewController: leftViewController)
-//        GlobalDefine.shared.mainNavi?.setViewControllers([ndController], animated: true)
-//    }
+
 }
 
 
 extension PermissionsGuideViewController: CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         guard MemberManager.shared.isFirstInstall else { return }
-        
-        let message = "위치정보를 항상 허용으로 변경해주시면,\n근처의 충전소 정보 및 풍부한 혜택 정보를\n 알려드릴게요.\n정확한 위치를 위해 ‘설정>EV Infra>위치'\n에서 항상 허용으로 변경해주세요."
-        let attributeText = NSMutableAttributedString(string: message)
-        let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 14, weight: .regular), .foregroundColor: Colors.contentSecondary.color]
-        attributeText.setAttributes(attributes, range: NSRange(location: 0, length: message.count))
-        
-        _ = message.getArrayAfterRegex(regex: "항상 허용")
-            .map { NSRange($0, in: message) }
-            .map {
-                attributeText.setAttributes(
-                    [.font: UIFont.systemFont(ofSize: 14, weight: .bold),
-                        .foregroundColor: Colors.contentSecondary.color],
-                    range: $0)
-            }
-        
-        _ = message.getArrayAfterRegex(regex: "‘설정>EV Infra>위치'")
-            .map { NSRange($0, in: message) }
-            .map {
-                attributeText.setAttributes(
-                    [.font: UIFont.systemFont(ofSize: 14, weight: .bold),
-                        .foregroundColor: Colors.contentSecondary.color],
-                    range: $0)
-            }
-        
-        
         switch manager.authorizationStatus {
-        case .notDetermined, .restricted, .denied:
-            let popupModel = PopupModel(title: "위치 권한을 항상 허용으로\n변경해주세요.",
-                                        messageAttributedText: attributeText,
-                                        confirmBtnTitle: "항상 허용하기", cancelBtnTitle: "유지하기",
-                                        confirmBtnAction: {
-                if let url = URL(string: UIApplication.openSettingsURLString) {
-                    if UIApplication.shared.canOpenURL(url) {
-                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                    }
-                }
-            }, cancelBtnAction: { [weak self] in
-                guard let self = self, let _reactor = self.reactor else { return }
-                
-//                self.moveMainViewcon()
-                Observable.just(PermissionsGuideReactor.Action.moveToMain(true))
-                    .bind(to: _reactor.action)
-                    .disposed(by: self.disposeBag)
-
-            }, textAlignment: .center)
-
-            let popup = ConfirmPopupViewController(model: popupModel)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
-            })
-            
-        case .authorizedAlways, .authorizedWhenInUse:
-            guard let _reactor = reactor else { return }
-            
-//            self.moveMainViewcon()
+        case .notDetermined, .restricted: break
+        case .authorizedWhenInUse, .denied:
+            guard let _reactor = self.reactor else { return }
             Observable.just(PermissionsGuideReactor.Action.moveToMain(true))
                 .bind(to: _reactor.action)
-                .disposed(by: disposeBag)
-                                                    
+                .disposed(by: self.disposeBag)
         @unknown default:
-            printLog(out: "PARK TEST authorized")
             fatalError()
         }
     }

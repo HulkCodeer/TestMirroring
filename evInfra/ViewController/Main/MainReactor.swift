@@ -8,26 +8,35 @@
 
 import ReactorKit
 import SwiftyJSON
-import MiniPlengi
 
 internal final class MainReactor: ViewModel, Reactor {
     enum Action {        
         case showMarketingPopup
         case setAgreeMarketing(Bool)
         case setMenuBadge(Bool)
+        case setFilterType(FilterTagType?)
+        case swipeLeft
+        case swipeRight
+        case showFilterSetting
+        case updateFilterBarTitle
     }
     
     enum Mutation {
         case setShowMarketingPopup(Bool)
         case setShowStartBanner(Bool)
         case setMenuBadge(Bool)
+        case setFilterType(FilterTagType?)
+        case showFilterSetting
+        case updateFilterBarTitle
     }
     
     struct State {
         var isShowMarketingPopup: Bool?
         var isShowStartBanner: Bool?
-        
         var hasNewBoardContents: Bool?
+        var selectedFilterTagType: FilterTagType?
+        var isShowFilterSetting: Bool?
+        var isUpdateFilterBarTitle: Bool?
     }
     
     internal var initialState: State    
@@ -57,6 +66,21 @@ internal final class MainReactor: ViewModel, Reactor {
             
         case .setMenuBadge(let hasNewContents):
             return .just(.setMenuBadge(hasNewContents))
+
+        case .setFilterType(let filterTagType):
+            return .just(.setFilterType(filterTagType))
+            
+        case .swipeLeft:
+            return .just(.setFilterType(self.currentState.selectedFilterTagType?.swipeLeft()))
+            
+        case .swipeRight:
+            return .just(.setFilterType(self.currentState.selectedFilterTagType?.swipeRight()))
+            
+        case .showFilterSetting:
+            return .just(.showFilterSetting)
+            
+        case .updateFilterBarTitle:
+            return .just(.updateFilterBarTitle)
         }
     }
     
@@ -65,6 +89,9 @@ internal final class MainReactor: ViewModel, Reactor {
         newState.isShowMarketingPopup = nil
         newState.isShowStartBanner = nil
         newState.hasNewBoardContents = nil
+        newState.isShowFilterSetting = nil
+        newState.isUpdateFilterBarTitle = nil
+        newState.selectedFilterTagType = nil
         
         switch mutation {
         case .setShowMarketingPopup(let isShow):
@@ -75,6 +102,16 @@ internal final class MainReactor: ViewModel, Reactor {
                     
         case .setMenuBadge(let hasNewContents):
             newState.hasNewBoardContents = hasNewContents
+            
+        case .setFilterType(let filterTagType):
+            newState.selectedFilterTagType = filterTagType
+            newState.isUpdateFilterBarTitle = true
+            
+        case .showFilterSetting:
+            newState.isShowFilterSetting = true
+            
+        case .updateFilterBarTitle:
+            newState.isUpdateFilterBarTitle = true
         }
         
         return newState
@@ -99,14 +136,7 @@ internal final class MainReactor: ViewModel, Reactor {
             
             var message = "[EV Infra] \(currDate) "
             message += receive ? "마케팅 수신 동의 처리가 완료되었어요! ☺️ 더 좋은 소식 준비할게요!" : "마케팅 수신 거부 처리가 완료되었어요."
-                        
-            DispatchQueue.main.async {
-                _ = Plengi.enableAdNetwork(true, enableNoti: receive)
-                if receive {
-                    _ = Plengi.start()
-                }
-            }
-                    
+            
             Snackbar().show(message: message)
         
             return true

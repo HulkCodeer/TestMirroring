@@ -55,6 +55,7 @@ internal enum Icons {
   internal static let iconEvMd = ImageAsset(name: "icon_ev_md")
   internal static let iconEvSm = ImageAsset(name: "icon_ev_sm")
   internal static let iconEvXs = ImageAsset(name: "icon_ev_xs")
+  internal static let iconCategoryFilter = ImageAsset(name: "icon_category_filter")
   internal static let iconInfoLg = ImageAsset(name: "icon_info_lg")
   internal static let iconInfoMd = ImageAsset(name: "icon_info_md")
   internal static let iconInfoSm = ImageAsset(name: "icon_info_sm")
