@@ -23,43 +23,31 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     
     // MARK: UI
     
-    private lazy var userInfoTotalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var userInfoTotalView = UIView()
     
-    private lazy var loginTotalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var loginTotalView = UIView()
     
-    private lazy var profileTotalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var profileTotalView = UIView()
     
     private lazy var profileImgView = UIImageView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.image = Icons.iconProfileEmpty.image
     }
     
     private lazy var nicknameLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         $0.textColor = Colors.contentPrimary.color
         $0.textAlignment = .natural
         $0.numberOfLines = 1
     }
     
-    private lazy var moveMyInfoBtn = UIButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var moveMyInfoBtn = UIButton()
     
     private lazy var loginUserBerryInfoTotalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = Colors.backgroundPositiveLight.color
         $0.IBcornerRadius = 8
     }
     
     private lazy var myBerryGuideLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "MY 베리"
         $0.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         $0.textColor = Colors.gr6.color
@@ -68,32 +56,24 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     }
     
     private lazy var myBerryGuideArrow = ChevronArrow.init(.size20(.right)).then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.IBimageColor = Colors.gr3.color
     }
     
-    private lazy var moveMyPointBtn = UIButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var moveMyPointBtn = UIButton()
     
     private lazy var myBerryRefreshTotalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.IBcornerRadius = 20/2
         $0.backgroundColor = Colors.backgroundPrimary.color
     }
     
     private lazy var myBerryRefreshImgView = UIImageView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.image = Icons.iconRefreshXs.image
         $0.tintColor = Colors.gr4.color
     }
     
-    private lazy var myBerryRefreshBtn = UIButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var myBerryRefreshBtn = UIButton()
     
     private lazy var myBerryLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "0"
         $0.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         $0.textColor = Colors.gr6.color
@@ -101,12 +81,9 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         $0.numberOfLines = 1
     }
     
-    private lazy var useMyBerrySettingTotalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var useMyBerrySettingTotalView = UIView()
     
     private lazy var useAllMyBerryGuideLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "충전 시 베리 전액 사용"
         $0.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         $0.textColor = Colors.contentSecondary.color
@@ -115,51 +92,39 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     }
     
     private lazy var useAllMyBerrySw = UISwitch().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.tintColor = Colors.contentPrimary.color
         $0.thumbTintColor = .white
         $0.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
     }
     
-    private lazy var useAllMyBerryBtn = UIButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var useAllMyBerryBtn = UIButton()
     
-    private lazy var nonLoginTotalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var nonLoginTotalView = UIView()
     
     private lazy var nonLoginProfileImgView = UIImageView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.image = Icons.iconProfileEmpty.image
     }
     
     private lazy var loginInduceLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "로그인을 해주세요"
-        $0.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        $0.font = .systemFont(ofSize: 16, weight: .semibold)
         $0.textColor = Colors.contentPrimary.color
         $0.textAlignment = .natural
         $0.numberOfLines = 1
     }
     
     private lazy var loginInduceArrow = ChevronArrow.init(.size20(.right)).then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.IBimageColor = Colors.contentPrimary.color
     }
     
-    private lazy var moveLoginBtn = UIButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+    private lazy var moveLoginBtn = UIButton()
     
     private lazy var nonLoginUserBerryInfoTotalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = Colors.backgroundDisabled.color
         $0.IBcornerRadius = 8
     }
     
     private lazy var nonLoginMyBerryGuideLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "MY 베리"
         $0.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         $0.textColor = Colors.contentDisabled.color
@@ -169,7 +134,6 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         
     
     private lazy var nonLoginMyBerryLbl = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.text = "-"
         $0.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         $0.textColor = Colors.contentDisabled.color
@@ -179,12 +143,10 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     
     
     private lazy var menuListTotalView = UIView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = Colors.backgroundSecondary.color
     }
     
     private lazy var menuCategoryTypeStackView = UIStackView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.axis = .vertical
         $0.distribution = .fillEqually
         $0.alignment = .fill
@@ -193,7 +155,6 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     }
     
     private lazy var tableView = UITableView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
         $0.register(Reusable.leftViewMenuItem)
         $0.register(UINib(nibName: "LeftViewTableHeader", bundle: nil), forHeaderFooterViewReuseIdentifier: "LeftViewTableHeader")
         $0.backgroundColor = .white
@@ -440,18 +401,16 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         moveMyInfoBtn.rx.tap
             .asDriver()
             .drive(onNext: {
-                let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
-                let mypageVC = memberStoryboard.instantiateViewController(ofType: MyPageViewController.self)
-                GlobalDefine.shared.mainNavi?.push(viewController: mypageVC)
+                let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPageViewController.self)
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             })
             .disposed(by: self.disposeBag)
         
         moveLoginBtn.rx.tap
             .asDriver()
             .drive(onNext: {
-                let loginStoryboard = UIStoryboard(name : "Login", bundle: nil)
-                let loginVC = loginStoryboard.instantiateViewController(ofType: LoginViewController.self)
-                GlobalDefine.shared.mainNavi?.push(viewController: loginVC)
+                let viewcon = UIStoryboard(name : "Login", bundle: nil).instantiateViewController(ofType: LoginViewController.self)
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             })
             .disposed(by: self.disposeBag)
         
@@ -515,53 +474,48 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         
         reactor.state.compactMap { $0.myBerryPoint }
             .asDriver(onErrorJustReturn: "")
-            .drive(onNext: { [weak self] point in
-                guard let self = self else { return }
+            .drive(with: self) { obj, point in
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.myBerryRefreshImgView.layer.removeAnimation(forKey: "transform.rotation.z")
+                    obj.myBerryRefreshImgView.layer.removeAnimation(forKey: "transform.rotation.z")
                 }
-                self.myBerryLbl.text = point
-            })
+                obj.myBerryLbl.text = point
+            }
             .disposed(by: self.disposeBag)
         
         reactor.state.compactMap { $0.isAllBerry }
             .asDriver(onErrorJustReturn: false)
-            .drive(onNext: { [weak self] isOn in
-                guard let self = self else { return }
-                self.useAllMyBerrySw.isOn = isOn
+            .drive(with: self) { obj, isOn in
+                obj.useAllMyBerrySw.isOn = isOn
                 guard isOn else { return }
                 let message = "0".equals(reactor.currentState.myBerryPoint ?? "") ? "베리가 적립되면 다음 충전 시 베리가 자동으로 전액 사용됩니다." : "다음 충전 후 결제 시 베리가 전액 사용됩니다."
                 Snackbar().show(message: "\(message)")
-            })
+            }
             .disposed(by: self.disposeBag)
         
         myBerryRefreshBtn.rx.tap
             .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
             .asDriver(onErrorJustReturn: ())
-            .drive(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                
+            .drive(with: self) { obj, _ in
                 let animation = CABasicAnimation(keyPath: "transform.rotation.z")
                 let direction = 1.0
                 animation.toValue = NSNumber(value: .pi * 2 * direction)
                 animation.duration = 1
                 animation.isCumulative = true
                 animation.repeatCount = .infinity
-                self.myBerryRefreshImgView.layer.add(animation, forKey: "transform.rotation.z")
+                obj.myBerryRefreshImgView.layer.add(animation, forKey: "transform.rotation.z")
                 
                 Observable.just(LeftViewReactor.Action.refreshBerryPoint)
                     .bind(to: reactor.action)
-                    .disposed(by: self.disposeBag)
-            })
+                    .disposed(by: obj.disposeBag)
+            }
             .disposed(by: self.disposeBag)
                         
         useAllMyBerryBtn.rx.tap
             .asDriver()
-            .drive(onNext: { [weak self] _ in
-                guard let self = self else { return }
+            .drive(with: self) { obj, _ in
                 switch (MemberManager.shared.hasPayment, MemberManager.shared.hasMembership) {
                 case (false, false):
-                    guard !self.useAllMyBerrySw.isOn else { return }
+                    guard !obj.useAllMyBerrySw.isOn else { return }
                     let popupModel = PopupModel(title: "회원카드를 발급하시겠어요?",
                                                 message: "베리는 회원카드 발급 후\n충전 시 할인 받을 수 있어요.",
                                                 confirmBtnTitle: "네 발급할게요.", cancelBtnTitle: "다음에 할게요.",
@@ -576,7 +530,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                     })
                     
                 case (false, true):
-                    guard !self.useAllMyBerrySw.isOn else { return }
+                    guard !obj.useAllMyBerrySw.isOn else { return }
                     let popupModel = PopupModel(title: "결제 카드를 확인해주세요",
                                                 message: "현재 회원님의 결제정보에 오류가 있어\n다음 충전 시 베리를 사용할 수 없어요.",
                                                 confirmBtnTitle: "결제정보 확인하러가기", cancelBtnTitle: "다음에 할게요.",
@@ -600,7 +554,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                                         GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                                     })
                                     
-                                default: self.dismiss(animated: true)
+                                default: obj.dismiss(animated: true)
                                 }
                             } else {
                                 self.dismiss(animated: true)
@@ -609,7 +563,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                         }
                         
                     }, cancelBtnAction: {
-                        self.dismiss(animated: true)
+                        obj.dismiss(animated: true)
                     }, textAlignment: .center)
                                             
                     let popup = VerticalConfirmPopupViewController(model: popupModel)
@@ -618,7 +572,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                     })
                     
                 case (true, false):
-                    guard !self.useAllMyBerrySw.isOn else { return }
+                    guard !obj.useAllMyBerrySw.isOn else { return }
                     let popupModel = PopupModel(title: "더 많은 충전소에서\n베리를 적립해보세요!",
                                                 message: "회원카드 발급 시 환경부, 한국전력 등\n더 많은 충전소에서 적립할 수 있어요.",
                                                 confirmBtnTitle: "회원카드 안내 보러가기", cancelBtnTitle: "다음에 할게요.",
@@ -631,12 +585,12 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                     GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
                     
                 case (true, true):
-                    Observable.just(LeftViewReactor.Action.setIsAllBerry(!self.useAllMyBerrySw.isOn))
+                    Observable.just(LeftViewReactor.Action.setIsAllBerry(!obj.useAllMyBerrySw.isOn))
                         .bind(to: reactor.action)
-                        .disposed(by: self.disposeBag)
+                        .disposed(by: obj.disposeBag)
                                 
                 }
-            })
+            }
             .disposed(by: self.disposeBag)
         
         GlobalDefine.shared.isUseAllBerry
@@ -648,13 +602,11 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     
     private func createMenuTypeView(menuCategoryType: LeftViewReactor.MenuCategoryType, reactor: LeftViewReactor) -> UIView {
         let view = UIView().then {
-            $0.translatesAutoresizingMaskIntoConstraints = false
             $0.clipsToBounds = true
             $0.backgroundColor = menuCategoryType == reactor.currentState.menuCategoryType ? Colors.backgroundPrimary.color : .clear
         }
                        
         let menuImgView = UIImageView().then {
-            $0.translatesAutoresizingMaskIntoConstraints = false
             $0.image = menuCategoryType.menuImgView
             $0.tintColor = Colors.backgroundAlwaysDark.color
         }
@@ -667,7 +619,6 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         }
         
         let menuTitleLbl = UILabel().then {
-            $0.translatesAutoresizingMaskIntoConstraints = false
             $0.text = menuCategoryType.menuTitle
             $0.numberOfLines = 1
             $0.font = UIFont.systemFont(ofSize: 12, weight: .regular)
@@ -683,9 +634,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
             $0.bottom.equalToSuperview().offset(-9)
         }
         
-        let btn = UIButton().then {
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        }
+        let btn = UIButton()
         view.addSubview(btn)
         btn.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -698,11 +647,10 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         
         reactor.state.map { $0.menuCategoryType }
             .asDriver(onErrorJustReturn: LeftViewReactor.MenuCategoryType.mypage)
-            .drive(onNext: { [weak self] type in
-                guard let self = self else { return }
+            .drive(with: self) { obj, type in
                 view.backgroundColor = menuCategoryType == type ? Colors.backgroundPrimary.color : .clear
-                self.tableView.reloadData()
-            })
+                obj.tableView.reloadData()
+            }
             .disposed(by: self.disposeBag)
         
         return view
