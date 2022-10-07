@@ -34,12 +34,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             case DeepLinkPath.DynamicLinkUrlPathType.KakaoLinkType.charger.toValue:
                 guard let chargerId = url.valueOf("charger_id") else { return }
                 GlobalDefine.shared.sharedChargerIdFromDynamicLink = chargerId
+                
             case DeepLinkPath.DynamicLinkUrlPathType.KakaoLinkType.board.toValue:
                 guard let mid = url.valueOf("mid"), let documentSrl = url.valueOf("document_srl") else { return }
                 DeepLinkPath.sharedInstance.linkPath = DeepLinkPath.DynamicLinkUrlPathType.kakaolink(.board).value
                 DeepLinkPath.sharedInstance.linkParameter = [URLQueryItem(name: "mid", value: mid),
                                                              URLQueryItem(name: "documentSrl", value: documentSrl)]
                 DeepLinkPath.sharedInstance.runDeepLink()
+                
             default: break
             }
         } else {
@@ -128,16 +130,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func handleUserActivity(userActivity: NSUserActivity){
-        printLog(out: "scene:handleUserActivity")
         if let incomingURL = userActivity.webpageURL {
-            printLog(out: "handleUserActivity Incoming : \(incomingURL)")
             let linkHandled = DynamicLinks.dynamicLinks().handleUniversalLink(incomingURL) {
                 (dynamicLink, error) in
                 guard error == nil else {
                     print("found error")
                     return
                 }
-                if let dynamicLink = dynamicLink {
+                                                
+                if let dynamicLink {
                     self.handleIncomingDynamicLink(dynamicLink)
                 }
             }
@@ -149,7 +150,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func handleIncomingDynamicLink(_ dynamicLink: DynamicLink) {
-        printLog(out: "scene:handleIncomingDynamicLink")
         guard let url = dynamicLink.url else {
             printLog(out: "has no url")
             return
@@ -163,9 +163,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func runLinkDirectly(url: URL) {
-        let path = url.path
-        printLog(out: "path : \(path)")
-        
+        let path = url.path        
         DeepLinkPath.sharedInstance.linkPath = url.path
         if let component = URLComponents(url: url, resolvingAgainstBaseURL: false) {
             DeepLinkPath.sharedInstance.linkParameter = component.queryItems
