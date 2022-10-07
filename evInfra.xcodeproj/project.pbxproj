@@ -2092,12 +2092,9 @@
 				73F6B53920F873110030D0B3 /* IntroViewController.swift */,
 				732ED1F921EEFA960012C67B /* MainViewController.swift */,
 				736813B3204513D50035FC66 /* Main.storyboard */,
-				193A4DAB27FAAEC000B604D3 /* NaverMapView.swift */,
 				192A338227FE747E00EF1684 /* Marker.swift */,
-				59F6229828E12095004CE1FC /* MainNavigationBar.swift */,
 				636BE34828A0E7CD005773CE /* NewLeftViewController.swift */,
 				636BE34B28A0E998005773CE /* LeftViewReactor.swift */,
-				59BAB6FA28F0346300077872 /* MainSearchWayView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -2573,6 +2570,9 @@
 		63F443BC28EC313300F6A66C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				59F6229828E12095004CE1FC /* MainNavigationBar.swift */,
+				59BAB6FA28F0346300077872 /* MainSearchWayView.swift */,
+				193A4DAB27FAAEC000B604D3 /* NaverMapView.swift */,
 				63F443BD28EC313300F6A66C /* NewFilterBarView.swift */,
 			);
 			path = Views;
