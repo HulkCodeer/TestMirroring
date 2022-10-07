@@ -479,6 +479,17 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 self.present(appSearchBarController, animated: true, completion: nil)
             }
             .disposed(by: disposeBag)
+        
+//        reactor.state.compactMap { $0.isShowMenu }
+////            .distinctUntilChanged()
+//            .filter { $0 == false }
+//            .asDriver(onErrorJustReturn: false)
+//            .drive(with: self) { owner, _ in
+//
+//            }
+//            .disposed(by: disposeBag)
+//        // 값이 바뀌는게 확실할 때. 표기?
+//
         reactor.state.compactMap { $0.isShowMenu }
             .filter { $0 == true }
             .asDriver(onErrorJustReturn: true)
@@ -502,6 +513,13 @@ internal final class MainViewController: UIViewController, StoryboardView {
         let hasBadge = Board.sharedInstance.hasNew() || defaults.readBool(key: UserDefault.Key.HAS_FAILED_PAYMENT)
         Observable.just(MainReactor.Action.setMenuBadge(hasBadge))
             .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+    }
+    
+    private func closeMenu() {
+        guard let _reactor = reactor else { return }
+        Observable.just(MainReactor.Action.closeMenu)
+            .bind(to: _reactor.action)
             .disposed(by: disposeBag)
     }
     
@@ -1428,7 +1446,7 @@ extension MainViewController {
     
     @objc func showSelectCharger(_ notification: NSNotification) {
         defer {
-            navigationDrawerController?.toggleLeftView()
+            closeMenu()
         }
         
         guard let chargerId = notification.object as? String else { return }
@@ -1463,9 +1481,8 @@ extension MainViewController {
         self.naverMapView.startMarker = nil
         self.naverMapView.midMarker?.mapView = nil
         
-        if navigationDrawerController?.isOpened == true {
-            navigationDrawerController?.toggleLeftView()
-        }
+        closeMenu()
+        
         self.navigationController?.popToRootViewController(animated: true)
         self.setStartPoint()
     }
@@ -1480,9 +1497,8 @@ extension MainViewController {
         naverMapView.viaList.removeAll()
         naverMapView.viaList.append(via)
         
-        if navigationDrawerController?.isOpened == true {
-            navigationDrawerController?.toggleLeftView()
-        }
+        closeMenu()
+        
         self.navigationController?.popToRootViewController(animated: true)
         self.setStartPath()
     }
@@ -1494,9 +1510,8 @@ extension MainViewController {
         self.naverMapView.endMarker = nil
         self.naverMapView.midMarker?.mapView = nil
         
-        if navigationDrawerController?.isOpened == true {
-            navigationDrawerController?.toggleLeftView()
-        }
+        closeMenu()
+        
         self.navigationController?.popToRootViewController(animated: true)
         self.setEndPoint()
     }
@@ -1759,9 +1774,9 @@ extension MainViewController {
         case 2002:
             switch response["status"].stringValue {
                 case "delete":
-                    LoginHelper.shared.logout(completion: { success in
+                    LoginHelper.shared.logout(completion: { [weak self] success in
                         if success {
-                            self.navigationDrawerController?.toggleLeftView()
+                            self?.closeMenu()
                             Snackbar().show(message: "회원 탈퇴로 인해 로그아웃 되었습니다.")
                         } else {
                             Snackbar().show(message: "다시 시도해 주세요.")

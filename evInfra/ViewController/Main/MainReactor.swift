@@ -21,6 +21,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case updateFilterBarTitle
         case showSearchChargingStation
         case showMenu
+        case closeMenu
     }
     
     enum Mutation {
@@ -94,6 +95,8 @@ internal final class MainReactor: ViewModel, Reactor {
         case .showMenu:
             return .just(.setIsShowMenu(true))
             
+        case .closeMenu:
+            return .just(.setIsShowMenu(false))
         }
     }
     
