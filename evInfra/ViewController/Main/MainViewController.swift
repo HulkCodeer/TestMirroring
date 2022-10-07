@@ -436,6 +436,15 @@ internal final class MainViewController: UIViewController, StoryboardView {
                     .disposed(by: owner.disposeBag)
             }
             .disposed(by: disposeBag)
+        
+        customNaviBar.menuButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                Observable.just(MainReactor.Action.showMenu)
+                    .bind(to: reactor.action)
+                    .disposed(by: owner.disposeBag)
+            }
+            .disposed(by: disposeBag)
     }
     
     private func bindState(reactor: MainReactor) {
@@ -470,6 +479,21 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 self.present(appSearchBarController, animated: true, completion: nil)
             }
             .disposed(by: disposeBag)
+        reactor.state.compactMap { $0.isShowMenu }
+            .filter { $0 == true }
+            .asDriver(onErrorJustReturn: true)
+            .drive(with: self) { owner, _ in
+                let menuReactor = LeftViewReactor(provider: RestApi())
+                let menuVC = NewLeftViewController()
+                menuVC.reactor = menuReactor
+    
+                guard owner.presentedViewController != menuVC else { return }
+
+                menuVC.modalPresentationStyle = .overCurrentContext
+                self.present(menuVC, animated: false)
+            }
+            .disposed(by: disposeBag)
+        
     }
     
     // MARK: FUNC

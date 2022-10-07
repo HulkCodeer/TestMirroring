@@ -20,6 +20,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case showFilterSetting
         case updateFilterBarTitle
         case showSearchChargingStation
+        case showMenu
     }
     
     enum Mutation {
@@ -30,6 +31,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case showFilterSetting
         case updateFilterBarTitle
         case showSearchChargingStation
+        case setIsShowMenu(Bool)
     }
     
     struct State {
@@ -40,6 +42,7 @@ internal final class MainReactor: ViewModel, Reactor {
         var isShowFilterSetting: Bool?
         var isUpdateFilterBarTitle: Bool?
         var isShowSearchChargingStation: Bool?
+        var isShowMenu: Bool?
     }
     
     internal var initialState: State    
@@ -87,6 +90,10 @@ internal final class MainReactor: ViewModel, Reactor {
             
         case .showSearchChargingStation:
             return .just(.showSearchChargingStation)
+            
+        case .showMenu:
+            return .just(.setIsShowMenu(true))
+            
         }
     }
     
@@ -99,6 +106,7 @@ internal final class MainReactor: ViewModel, Reactor {
         newState.isUpdateFilterBarTitle = nil
         newState.selectedFilterTagType = nil
         newState.isShowSearchChargingStation = nil
+        newState.isShowMenu = nil
         
         switch mutation {
         case .setShowMarketingPopup(let isShow):
@@ -122,6 +130,9 @@ internal final class MainReactor: ViewModel, Reactor {
             
         case .showSearchChargingStation:
             newState.isShowSearchChargingStation = true
+            
+        case .setIsShowMenu(let isShowMenu):
+            newState.isShowMenu = isShowMenu
         }
         
         return newState
