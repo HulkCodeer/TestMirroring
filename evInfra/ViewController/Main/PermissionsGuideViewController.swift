@@ -205,15 +205,15 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
             .asDriver(onErrorJustReturn: Void())
             .drive(with: self) { obj, _ in
                 obj.manager.rx.isEnabled
-                    .subscribe(with: self) { obj, isEnable in
+                    .subscribe(with: obj) { obj, isEnable in
                         if isEnable {
                             obj.manager.requestWhenInUseAuthorization()
                         } else {
                             let alertController = UIAlertController(title: "위치정보가 활성화되지 않았습니다", message: "EV Infra의 원활한 서비스를 이용하시려면 [설정] > [개인정보보호]에서 위치 서비스를 켜주세요.", preferredStyle: UIAlertController.Style.alert)
-                            
+
                             let cancelAction = UIAlertAction(title: "취소", style: UIAlertAction.Style.cancel, handler: nil)
                             alertController.addAction(cancelAction)
-                            
+
                             let openAction = UIAlertAction(title: "설정", style: UIAlertAction.Style.default) { (action) in
                                 if let url = URL(string: UIApplication.openSettingsURLString) {
                                     if UIApplication.shared.canOpenURL(url) {
@@ -221,13 +221,14 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
                                     }
                                 }
                             }
-                            alertController.addAction(openAction)                            
-                            self.present(alertController, animated: true, completion: nil)
+                            alertController.addAction(openAction)
+                            obj.present(alertController, animated: true, completion: nil)
                         }
                     }
-                    .disposed(by: self.disposeBag)
+                    .disposed(by: obj.disposeBag)
             }
             .disposed(by: self.disposeBag)
+        
     }
     
     private func moveMainViewcon() {
@@ -236,15 +237,15 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
         let reactor = MainReactor(provider: RestApi())
         let mainViewcon = storyboard.instantiateViewController(ofType: MainViewController.self)
         mainViewcon.reactor = reactor
-        
-        let leftReactor = LeftViewReactor(provider: RestApi())
-        let leftViewcon = NewLeftViewController()
-        leftViewcon.reactor = leftReactor
+        let leftViewController = storyboard.instantiateViewController(ofType: LeftViewController.self)
         
         let appToolbarController = AppToolbarController(rootViewController: mainViewcon)
         appToolbarController.delegate = mainViewcon
-        let ndController = AppNavigationDrawerController(rootViewController: appToolbarController, leftViewController: leftViewcon)
-        GlobalDefine.shared.mainNavi?.setViewControllers([ndController], animated: true)
+        let ndController = AppNavigationDrawerController(rootViewController: appToolbarController, leftViewController: leftViewController)
+        
+        GlobalDefine.shared.mainNavi?.popToViewControllerWithHandler(vc: self, completion: {
+            GlobalDefine.shared.mainNavi?.setViewControllers([ndController], animated: true)
+        })
     }
 }
 
@@ -253,8 +254,8 @@ extension PermissionsGuideViewController: CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         guard MemberManager.shared.isFirstInstall else { return }
         switch manager.authorizationStatus {
-        case .notDetermined, .restricted: break
-        case .authorizedWhenInUse, .denied: self.moveMainViewcon()                                                    
+        case .notDetermined, .restricted, .authorizedAlways: break
+        case .authorizedWhenInUse, .denied: self.moveMainViewcon()
         @unknown default:
             fatalError()
         }

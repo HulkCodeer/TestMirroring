@@ -16,7 +16,8 @@ import Foundation
 ///   - funcname: 발생한 function 명
 ///   - line: 발생 라인 수
 public func printLog(_ filename: String = #file, at funcname: String = #function, on line: Int = #line) {
-    #if DEBUG
+    // TEST CODE
+//    #if DEBUG
         let dateFormatter: DateFormatter = {
             $0.locale = Locale.current // 지역 설정
             $0.dateFormat = "yyyy-MM-dd hh:mm:ss.SSSS" // 시간 형식 설정
@@ -25,7 +26,7 @@ public func printLog(_ filename: String = #file, at funcname: String = #function
         let nowTime = Date()
         let nowTimeStr = dateFormatter.string(from: nowTime)
         print("< \(nowTimeStr): \(funcname) [Line \(line)]\n\(filename)\n")
-    #endif
+//    #endif
 }
 
 /// log로 output 값을 콘솔에 보여준다.
@@ -37,7 +38,8 @@ public func printLog(_ filename: String = #file, at funcname: String = #function
 ///   - line: 발생 라인 수
 ///   - output: 추가로 보여줄 string값
 public func printLog(_ filename: String = #file, at funcname: String = #function, on line: Int = #line, out output: Any...) {
-    #if DEBUG
+    // TEST CODE
+//    #if DEBUG
         let dateFormatter: DateFormatter = {
             $0.locale = Locale.current // 지역 설정
             $0.dateFormat = "yyyy-MM-dd hh:mm:ss.SSSS" // 시간 형식 설정
@@ -55,5 +57,5 @@ public func printLog(_ filename: String = #file, at funcname: String = #function
             }
             print("*/ \(funcname) [Line \(line)]\n\(filename)\n")
         }
-    #endif
+//    #endif
 }

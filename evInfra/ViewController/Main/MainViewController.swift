@@ -42,7 +42,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     @IBOutlet weak var filterView: UIView!
     @IBOutlet weak var routeView: UIView!
     
-    @IBOutlet weak var filterBarView: NewFilterBarView!
+    @IBOutlet weak var filterBarView: FilterBarView!
     @IBOutlet weak var filterContainerView: FilterContainerView!
     @IBOutlet weak var filterHeight: NSLayoutConstraint!
     
@@ -100,10 +100,11 @@ internal final class MainViewController: UIViewController, StoryboardView {
         super.viewDidLoad()
                         
         configureLayer()
-        configureNaverMapView()
+        configureNaverMapView()                
         
         prepareRouteField()
         preparePOIResultView()
+        prepareFilterView()
         prepareTmapAPI()
         
         prepareSummaryView()
@@ -113,24 +114,23 @@ internal final class MainViewController: UIViewController, StoryboardView {
         prepareMenuBtnLayer()
         
         prepareChargePrice()
-//        requestStationInfo()
+        requestStationInfo()
         
         prepareCalloutLayer()
         
         GlobalDefine.shared.mainViewcon = self
         
         self.locationManager.delegate = self
-        
-        
+                        
         self.locationManager.rx
             .status
             .subscribe(with: self) { obj, status in
                 switch status {
-                case .authorizedAlways, .authorizedWhenInUse:
+                case .authorizedWhenInUse:
                     obj.naverMapView.moveToCurrentPostiion()
                     obj.locationManager.startUpdatingLocation()
                     
-                default: obj.naverMapView.moveToCenterPosition()
+                default: obj.naverMapView.moveToCenterPosition()                    
                 }
             }
             .disposed(by: self.disposeBag)
@@ -139,6 +139,49 @@ internal final class MainViewController: UIViewController, StoryboardView {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         MapEvent.viewMainPage.logEvent()
+        
+        let isProcessing = GlobalDefine.shared.tempDeepLink.isEmpty
+        if !isProcessing {
+            DeepLinkModel.shared.openSchemeURL(urlstring: GlobalDefine.shared.tempDeepLink)
+        } else {
+            self.locationManager.rx.status
+                .observe(on: MainScheduler.asyncInstance)
+                .subscribe(with: self) { obj, status in
+                    switch status {
+                    case .authorizedWhenInUse:
+                        guard let _reactor = obj.reactor, _reactor.currentState.isShowStartBanner == nil else { return }
+                        Observable.just(MainReactor.Action.showMarketingPopup)
+                            .bind(to: _reactor.action)
+                            .disposed(by: obj.disposeBag)
+
+                    default:
+                        CLLocationManager().rx.isEnabled
+                            .subscribe(with: obj) { obj, isEnable in
+                                if isEnable {
+                                    let popupModel = PopupModel(title: "위치권한을 허용해주세요",
+                                                                message: "위치 권한을 허용해주시면, 사용자님 근처의 충전소 정보를 알려드릴게요.",
+                                                                confirmBtnTitle: "권한 변경하기",
+                                                                confirmBtnAction: {
+                                        if let url = URL(string: UIApplication.openSettingsURLString) {
+                                            if UIApplication.shared.canOpenURL(url) {
+                                                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                                            }
+                                        }
+                                    }, textAlignment: .center, dimmedBtnAction: nil)
+
+                                    let popup = ConfirmPopupViewController(model: popupModel)
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                        GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                                    })
+                                } else {
+                                    obj.askPermission()
+                                }
+                            }
+                            .disposed(by: obj.disposeBag)
+                    }
+                }
+                .disposed(by: self.disposeBag)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -181,137 +224,12 @@ internal final class MainViewController: UIViewController, StoryboardView {
         // removeObserver 하면 안됨. addObserver를 viewdidload에서 함
         guard !MemberManager.shared.isShowQrTooltip else { return }
         _ = self.view.subviews.compactMap { $0 as? EasyTipView }.first?.removeFromSuperview()
-        MemberManager.shared.isShowQrTooltip = true
+        MemberManager.shared.isShowQrTooltip = true        
     }
-    
+        
     // MARK: REACTORKIT
     
     internal func bind(reactor: MainReactor) {
-        filterBarView.bind(reactor: reactor)
-        filterContainerView.bind(reactor: reactor)
-        
-        let message = "위치정보를 항상 허용으로 변경해주시면,\n근처의 충전소 정보 및 풍부한 혜택 정보를\n 알려드릴게요.\n정확한 위치를 위해 ‘설정>EV Infra>위치'\n에서 항상 허용으로 변경해주세요."
-        let attributeText = NSMutableAttributedString(string: message)
-        let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 14, weight: .regular), .foregroundColor: Colors.contentSecondary.color]
-        attributeText.setAttributes(attributes, range: NSRange(location: 0, length: message.count))
-        
-        _ = message.getArrayAfterRegex(regex: "항상 허용")
-            .map { NSRange($0, in: message) }
-            .map {
-                attributeText.setAttributes(
-                    [.font: UIFont.systemFont(ofSize: 14, weight: .bold),
-                        .foregroundColor: Colors.contentSecondary.color],
-                    range: $0)
-            }
-        
-        _ = message.getArrayAfterRegex(regex: "‘설정>EV Infra>위치'")
-            .map { NSRange($0, in: message) }
-            .map {
-                attributeText.setAttributes(
-                    [.font: UIFont.systemFont(ofSize: 14, weight: .bold),
-                        .foregroundColor: Colors.contentSecondary.color],
-                    range: $0)
-            }
-        
-        self.rx.viewWillAppear
-            .filter { _ in
-                let isProcessing = GlobalDefine.shared.tempDeepLink.isEmpty
-                if !isProcessing {
-                    DeepLinkModel.shared.openSchemeURL(urlstring: GlobalDefine.shared.tempDeepLink)
-                }
-                return isProcessing
-            }
-            .subscribe(with: self) { obj,_ in
-                obj.locationManager.rx.status
-                    .observe(on: MainScheduler.asyncInstance)
-                    .subscribe(with: obj) { obj, status in
-                        switch status {
-                        case .authorizedWhenInUse:
-                            guard !MemberManager.shared.isFirstLocationPopup else {
-                                guard let _reactor = obj.reactor, _reactor.currentState.isShowStartBanner == nil else { return }
-                                Observable.just(MainReactor.Action.showMarketingPopup)
-                                    .bind(to: _reactor.action)
-                                    .disposed(by: obj.disposeBag)
-                                return
-                            }
-                            let message = "위치정보를 항상 허용으로 변경해주시면,\n근처의 충전소 정보 및 풍부한 혜택 정보를\n 알려드릴게요.\n정확한 위치를 위해 ‘설정>EV Infra>위치'\n에서 항상 허용으로 변경해주세요."
-                            let attributeText = NSMutableAttributedString(string: message)
-                            let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 14, weight: .regular), .foregroundColor: Colors.contentSecondary.color]
-                            attributeText.setAttributes(attributes, range: NSRange(location: 0, length: message.count))
-                            
-                            _ = message.getArrayAfterRegex(regex: "항상 허용")
-                                .map { NSRange($0, in: message) }
-                                .map {
-                                    attributeText.setAttributes(
-                                        [.font: UIFont.systemFont(ofSize: 14, weight: .bold),
-                                            .foregroundColor: Colors.contentSecondary.color],
-                                        range: $0)
-                                }
-                            
-                            _ = message.getArrayAfterRegex(regex: "‘설정>EV Infra>위치'")
-                                .map { NSRange($0, in: message) }
-                                .map {
-                                    attributeText.setAttributes(
-                                        [.font: UIFont.systemFont(ofSize: 14, weight: .bold),
-                                            .foregroundColor: Colors.contentSecondary.color],
-                                        range: $0)
-                                }
-                                                                    
-                            let popupModel = PopupModel(title: "위치 권한을 항상 허용으로\n변경해주세요.",
-                                                        messageAttributedText: attributeText,
-                                                        confirmBtnTitle: "항상 허용하기", cancelBtnTitle: "유지하기",
-                                                        confirmBtnAction: {
-                                obj.locationManager.requestAlwaysAuthorization()
-                                
-                            }, cancelBtnAction: { [weak self] in
-                                guard  let self = self, let _reactor = self.reactor else { return }
-                                Observable.just(MainReactor.Action.showMarketingPopup)
-                                    .bind(to: _reactor.action)
-                                    .disposed(by: self.disposeBag)
-                            }, textAlignment: .center)
-
-                            let popup = ConfirmPopupViewController(model: popupModel)
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                                MemberManager.shared.isFirstLocationPopup = true
-                                GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
-                            })
-                            
-                        case .authorizedAlways:
-                            guard let _reactor = obj.reactor else { return }
-                            Observable.just(MainReactor.Action.showMarketingPopup)
-                                .bind(to: _reactor.action)
-                                .disposed(by: obj.disposeBag)
-                                                                                                           
-                        default:
-                            CLLocationManager().rx.isEnabled
-                                .subscribe(with: self) { obj, isEnable in
-                                    if isEnable {
-                                        let popupModel = PopupModel(title: "위치권한을 허용해주세요",
-                                                                    message: "위치 권한을 허용해주시면, 근처의 충전소 정보 및 풍부한 혜택 정보를 알려드릴게요.",
-                                                                    confirmBtnTitle: "권한 변경하기",
-                                                                    confirmBtnAction: {
-                                            if let url = URL(string: UIApplication.openSettingsURLString) {
-                                                if UIApplication.shared.canOpenURL(url) {
-                                                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                                                }
-                                            }
-                                        }, textAlignment: .center, dimmedBtnAction: nil)
-
-                                        let popup = ConfirmPopupViewController(model: popupModel)
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                                            GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
-                                        })
-                                    } else {
-                                        obj.askPermission()
-                                    }
-                                }
-                                .disposed(by: self.disposeBag)
-                        }
-                    }
-                    .disposed(by: obj.disposeBag)
-            }
-            .disposed(by: self.disposeBag)
-                        
         reactor.state.compactMap { $0.isShowMarketingPopup }
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { obj, _ in
@@ -340,8 +258,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         
         reactor.state.compactMap { $0.isShowStartBanner }
             .asDriver(onErrorJustReturn: false)
-            .drive(with: self) { obj, isShow in
-                guard !isShow else { return }
+            .drive(with: self) { obj, _ in                
                 GlobalAdsReactor.sharedInstance.state.compactMap { $0.startBanner }
                     .asDriver(onErrorJustReturn: AdsInfo(JSON.null))
                     .drive(onNext: { adInfo in
@@ -358,26 +275,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
                         }
                     })
                     .disposed(by: self.disposeBag)
-            }
-            .disposed(by: self.disposeBag)
-        
-        reactor.state.map { $0.selectedFilterTagType }
-            .asDriver(onErrorJustReturn: nil)
-            .drive(with: self) { obj, filterTagType in
-                if filterTagType == nil || filterTagType == .evpay {
-                    obj.hideFilter()
-                } else {
-                    obj.showFilter()
-                }
-            }
-            .disposed(by: self.disposeBag)
-        
-        reactor.state.compactMap { $0.isShowFilterSetting }
-            .asDriver(onErrorJustReturn: false)
-            .drive(with: self) { obj, isShow in
-                let chargerFilterViewController = UIStoryboard(name : "Filter", bundle: nil).instantiateViewController(ofType: ChargerFilterViewController.self)
-                chargerFilterViewController.delegate = obj
-                GlobalDefine.shared.mainNavi?.push(viewController: chargerFilterViewController)
             }
             .disposed(by: self.disposeBag)
     }
@@ -397,25 +294,31 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 }
             }
         }
-        alertController.addAction(openAction)
+        alertController.addAction(openAction)        
         self.present(alertController, animated: true, completion: nil)
     }
     
     internal func sceneDidBecomeActiveCall() {
-        printLog(out: "PARK TEST sceneDidBecomeActiveCall")
         guard let _reactor = self.reactor else { return }
         guard _reactor.currentState.isShowStartBanner == nil else { return }
-        
+
         switch self.locationManager.authorizationStatus {
         case .denied, .restricted, .notDetermined:
             Observable.just(MainReactor.Action.showMarketingPopup)
                 .bind(to: _reactor.action)
                 .disposed(by: self.disposeBag)
-            
-        case .authorizedAlways, .authorizedWhenInUse: break
+
+        case .authorizedWhenInUse, .authorizedAlways: break
+
         @unknown default:
             fatalError()
         }
+    }
+            
+    // Filter
+    private func prepareFilterView() {
+        filterBarView.delegate = self
+        filterContainerView.delegate = self
     }
     
     private func prepareRouteView() {
@@ -564,18 +467,45 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 if !isEnable {
                     obj.askPermission()
                 } else {
-                    switch self.mapView.positionMode {
-                    case .normal:
-                        self.mapView.positionMode = .direction
-                    case .direction:
-                        self.mapView.positionMode = .compass
-                    case .compass:
-                        self.mapView.positionMode = .direction
-                    default: break
-                    }
-                    
-                    self.updateMyLocationButton()
-                            
+                    obj.locationManager.rx
+                        .status
+                        .subscribe(with: obj) { obj, status in
+                            switch status {
+                            case .authorizedWhenInUse:
+                                switch obj.mapView.positionMode {
+                                case .normal:
+                                    obj.mapView.positionMode = .direction
+                                case .direction:
+                                    obj.mapView.positionMode = .compass
+                                case .compass:
+                                    obj.mapView.positionMode = .direction
+                                default:
+                                    obj.mapView.positionMode = .direction
+                                }
+                                
+                                self.updateMyLocationButton()
+                                
+                            case .denied, .notDetermined, .restricted:
+                                let popupModel = PopupModel(title: "위치권한을 허용해주세요",
+                                                            message: "위치 권한을 허용해주시면, 사용자님 근처의 충전소 정보를 알려드릴게요.",
+                                                            confirmBtnTitle: "권한 변경하기",
+                                                            confirmBtnAction: {
+                                    if let url = URL(string: UIApplication.openSettingsURLString) {
+                                        if UIApplication.shared.canOpenURL(url) {
+                                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                                        }
+                                    }
+                                }, textAlignment: .center, dimmedBtnAction: nil)
+
+                                let popup = ConfirmPopupViewController(model: popupModel)
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                    GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                                })
+                                
+                            default: break
+                            }
+                        }
+                        .disposed(by: obj.disposeBag)
                     MapEvent.clickMyLocation.logEvent()
                 }
             }
@@ -585,7 +515,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     @IBAction func onClickRenewBtn(_ sender: UIButton) {
         if !self.markerIndicator.isAnimating {
             self.refreshChargerInfo()
-        }
+        }        
         MapEvent.clickRenew.logEvent()
     }
     
@@ -603,8 +533,64 @@ internal final class MainViewController: UIViewController, StoryboardView {
             let start = POIObject(name: positionName, lat: currentPoint.latitude, lng: currentPoint.longitude)
             
             self.showNavigation(start: start, destination: destination, via: naverMapView.viaList)
-        }
+        }                
         RouteEvent.clickNavigationFindway.logEvent()
+    }
+}
+
+extension MainViewController: DelegateChargerFilterView {
+    func onApplyFilter() {
+        filterContainerView.updateFilters()
+        filterBarView.updateTitle()
+        // refresh marker
+        clusterManager?.removeClusterFromSettings()
+        drawMapMarker()
+    }
+}
+
+extension MainViewController: DelegateFilterContainerView {
+    func swipeFilterTo(type: FilterType) {
+        filterBarView.updateView(newSelect: type)
+    }
+    
+    func changedFilter(type: FilterType) {
+        filterBarView.updateTitleByType(type: type)
+        // refresh marker
+        drawMapMarker()
+    }
+}
+
+extension MainViewController: DelegateFilterBarView {
+    func showFilterContainer(type: FilterType){
+        // change or remove containerview
+        if (filterContainerView.isSameView(type: type)){
+            hideFilter()
+        } else {
+            showFilter()
+            filterContainerView.showFilterView(type: type)
+        }
+    }
+    
+    func hideFilter(){
+        filterBarView.updateView(newSelect: .none)
+        filterContainerView.isHidden = true
+        filterHeight.constant = routeView.layer.height + filterBarView.layer.height
+        filterView.sizeToFit()
+        filterView.layoutIfNeeded()
+    }
+    
+    func showFilter(){
+        filterContainerView.isHidden = false
+        filterHeight.constant = routeView.layer.height + filterBarView.layer.height + filterContainerView.layer.height
+        filterView.sizeToFit()
+        filterView.layoutIfNeeded()
+    }
+    
+    func startFilterSetting(){
+        // chargerFilterViewcontroller
+        let chargerFilterViewController = UIStoryboard(name : "Filter", bundle: nil).instantiateViewController(ofType: ChargerFilterViewController.self)
+        chargerFilterViewController.delegate = self
+        GlobalDefine.shared.mainNavi?.push(viewController: chargerFilterViewController)
     }
     
     @IBAction func onClickMainFavorite(_ sender: UIButton) {
@@ -618,53 +604,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 MemberManager.shared.showLoginAlert()
             }
         }
-    }
-    
-    private func hideFilter(){
-        filterContainerView.isHidden = true
-        filterHeight.constant = routeView.layer.height + filterBarView.layer.height
-        filterView.sizeToFit()
-        filterView.layoutIfNeeded()
-    }
-    
-    private func showFilter(){
-        filterContainerView.isHidden = false
-        filterHeight.constant = routeView.layer.height + filterBarView.layer.height + filterContainerView.layer.height
-        filterView.sizeToFit()
-        filterView.layoutIfNeeded()
-    }
-}
-
-extension MainViewController: CLLocationManagerDelegate {
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        let status = manager.authorizationStatus
-        switch status {
-        case .authorizedAlways:
-            guard let _reactor = self.reactor else { return }
-            Observable.just(MainReactor.Action.showMarketingPopup)
-                .bind(to: _reactor.action)
-                .disposed(by: self.disposeBag)
-            
-        case .notDetermined, .authorizedWhenInUse, .denied, .restricted: break
-        @unknown default:
-            fatalError()
-        }
-    }
-}
-
-extension MainViewController: DelegateChargerFilterView {
-    func onApplyFilter() {
-        filterContainerView.updateFilters()
-        // refresh marker
-        clusterManager?.removeClusterFromSettings()
-        drawMapMarker()
-    }
-}
-
-extension MainViewController: DelegateFilterContainerView {
-    func changedFilter(type: FilterType) {
-        // refresh marker
-        drawMapMarker()
     }
 }
 
@@ -681,12 +620,7 @@ extension MainViewController: NMFMapViewCameraDelegate {
 
 extension MainViewController: NMFMapViewTouchDelegate {
     func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
-        guard let _reactor = self.reactor else { return }
-        
-        Observable.just(MainReactor.Action.setFilterType(nil))
-            .bind(to: _reactor.action)
-            .disposed(by: self.disposeBag)
-        
+        hideFilter()
         hideKeyboard()
         myLocationModeOff()
         setView(view: callOutLayer, hidden: true)
@@ -1221,8 +1155,9 @@ extension MainViewController {
     func requestStationInfo() {
         LoginHelper.shared.delegate = self
         
+        self.markerIndicator.startAnimating()
+        
         DispatchQueue.main.async {
-            self.markerIndicator.startAnimating()
             guard let _toolbar = self.toolbarController, _toolbar is AppToolbarController else { return }
             _toolbar.toolbar.isUserInteractionEnabled = false
         }
@@ -1284,8 +1219,9 @@ extension MainViewController {
     private func checkJeJuBoundary() {
         if naverMapView.isInJeju() {
             canIgnoreJejuPush = true
-            let window = UIWindow.key!
-            window.addSubview(PopUpDialog(frame: window.bounds))
+            if let window = UIWindow.key {
+                window.addSubview(PopUpDialog(frame: window.bounds))
+            }            
         }
     }
 }
@@ -1338,6 +1274,7 @@ extension MainViewController {
     @objc func updateMemberInfo() {
         FilterManager.sharedInstance.saveTypeFilterForCarType()
         filterContainerView.updateFilters()
+        filterBarView.updateTitle()
         drawMapMarker()
     }
     
@@ -1350,8 +1287,6 @@ extension MainViewController {
     }
     
     @objc func directionStartPoint(_ notification: NSNotification) {
-        guard let selectCharger = notification.object as? ChargerStationInfo else { return }
-        
         self.naverMapView.startMarker?.mapView = nil
         self.naverMapView.startMarker = nil
         self.naverMapView.midMarker?.mapView = nil
@@ -1381,8 +1316,6 @@ extension MainViewController {
     }
     
     @objc func directionEnd(_ notification: NSNotification) {
-        guard let selectCharger = notification.object as? ChargerStationInfo else { return }
-        
         self.naverMapView.endMarker?.mapView = nil
         self.naverMapView.endMarker = nil
         self.naverMapView.midMarker?.mapView = nil
@@ -1436,28 +1369,26 @@ extension MainViewController {
                 
     private func myLocationModeOff() {
         mapView.positionMode = .normal
-        myLocationButton.setImage(UIImage(named: "icon_current_location_lg"), for: .normal)
-        myLocationButton.tintColor = UIColor.init(named: "content-primary")
+        myLocationButton.setImage(Icons.iconCurrentLocationLg.image, for: .normal)
+        myLocationButton.tintColor = Colors.contentPrimary.color
     }
     
     private func updateMyLocationButton() {
         self.markerIndicator.startAnimating()
-        DispatchQueue.global(qos: .background).async { [weak self] in
-            DispatchQueue.main.async {
-                switch self?.mapView.positionMode  {
-                case .normal, .direction:
-                    self?.myLocationButton.setImage(UIImage(named: "icon_current_location_lg"), for: .normal)
-                    self?.myLocationButton.tintColor = UIColor.init(named: "content-positive")
-                    UIApplication.shared.isIdleTimerDisabled = false // 화면 켜짐 유지 끔
-                case .compass:
-                    self?.myLocationButton.setImage(UIImage(named: "icon_compass_lg"), for: .normal)
-                    self?.myLocationButton.tintColor = UIColor.init(named: "content-positive")
-                    UIApplication.shared.isIdleTimerDisabled = true // 화면 켜짐 유지
-                default:
-                    break
-                }
-                self?.markerIndicator.stopAnimating()
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            switch self.mapView.positionMode  {
+            case .normal, .direction:
+                self.myLocationButton.setImage(Icons.iconCurrentLocationLg.image, for: .normal)
+                self.myLocationButton.tintColor = Colors.contentPositive.color
+                UIApplication.shared.isIdleTimerDisabled = false // 화면 켜짐 유지 끔
+            case .compass:
+                self.myLocationButton.setImage(Icons.iconCompassLg.image, for: .normal)
+                self.myLocationButton.tintColor = Colors.contentPositive.color
+                UIApplication.shared.isIdleTimerDisabled = true // 화면 켜짐 유지
+            default: break
             }
+            self.markerIndicator.stopAnimating()
         }
     }
 
@@ -1547,15 +1478,8 @@ extension MainViewController {
         let code = response["code"].intValue
         switch code {
         case 1000:
-//            defaults.saveString(key: UserDefault.Key.CHARGING_ID, value: response["charging_id"].stringValue)
-//            let viewcon = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: PaymentStatusViewController.self)
-//            viewcon.cpId = "GS00002204"
-//            viewcon.connectorId = "1"
-            
             let reactor = PaymentStatusReactor(provider: RestApi())
             let viewcon = NewPaymentStatusViewController(reactor: reactor)
-//            viewcon.cpId = response["cp_id"].stringValue
-//            viewcon.connectorId = response["connector_id"].stringValue
             viewcon.chargingId = response["charging_id"].stringValue
             
             GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
@@ -1580,6 +1504,8 @@ extension MainViewController {
                     self.movePaymentQRScan()
                     
                 case .restricted: break
+                @unknown default:
+                    fatalError()
                 }
             }
             
@@ -1701,4 +1627,23 @@ extension MainViewController: LoginHelperDelegate {
     }
 }
 
+extension MainViewController: CLLocationManagerDelegate {
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        switch manager.authorizationStatus {
+        case .notDetermined, .restricted, .denied, .authorizedAlways:
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                self.myLocationButton.setImage(Icons.iconCurrentLocationLg.image, for: .normal)
+                self.myLocationButton.tintColor = Colors.contentPrimary.color
+            }
+                                                
+        case .authorizedWhenInUse:
+            self.mapView.positionMode = .direction
+            self.updateMyLocationButton()
+
+        @unknown default:
+            fatalError()
+        }
+    }
+}
 

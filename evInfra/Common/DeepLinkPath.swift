@@ -29,6 +29,7 @@ internal final class DeepLinkPath {
         case terms
         case event_detail
         case kakaolink(KakaoLinkType)
+        case main
         
         enum KakaoLinkType: String {
             case charger = "charger"
@@ -59,6 +60,9 @@ internal final class DeepLinkPath {
                 
             case .event_detail:
                 return "/event_detail"
+                
+            case .main:
+                return "/main"
                 
             case .kakaolink(let type):
                 switch type {
@@ -171,6 +175,10 @@ internal final class DeepLinkPath {
             viewcon.document_srl = documentSrl
             viewcon.isFromStationDetailView = false
             _mainNavi.push(viewController: viewcon)
+            
+        case DynamicLinkUrlPathType.main.value:
+            _mainNavi.popToRootViewController(animated: false)
+            
         default: break
         }
     }

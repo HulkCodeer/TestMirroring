@@ -117,7 +117,8 @@ internal final class IntroViewController: UIViewController {
     }
     
     private func checkLastBoardId() {
-        Server.getBoardData { (isSuccess, value) in
+        Server.getBoardData { [weak self] (isSuccess, value) in
+            guard let self = self else { return }
             if isSuccess {
                 let json = JSON(value)
                 if json["code"].intValue == 1000 {
@@ -148,26 +149,23 @@ internal final class IntroViewController: UIViewController {
                         boardNewInfo.brdId = brdId
                         
                         Board.sharedInstance.brdNewInfo.append(boardNewInfo)
-                    }
-                    
-                    CLLocationManager().rx.isEnabled
-                        .subscribe(with: self) { obj, isEnable in
-                            guard !isEnable else { return }
-                            CLLocationManager().requestWhenInUseAuthorization()
-                        }
-                        .disposed(by: self.disposeBag)
-                                                            
-                    if MemberManager.shared.isAllowMarketingNoti == nil {
-                        self.movePerminssonsGuideView()
-                    } else {
-                        self.moveMainView()
-                    }
-                    
-                    FCMManager.sharedInstance.registerUser()
+                    }                                        
                 }
-                
             }
-        }
+            
+            CLLocationManager().rx.isEnabled
+                .subscribe(with: self) { obj, isEnable in
+                    guard !isEnable else { return }
+                    CLLocationManager().requestWhenInUseAuthorization()
+                }
+                .disposed(by: self.disposeBag)
+            
+            if FCMManager.sharedInstance.originalMarketingNotiValue != nil {
+                self.moveMainView()
+            } else {
+                self.movePerminssonsGuideView()
+            }
+        }        
     }
     
     private func moveMainView() {

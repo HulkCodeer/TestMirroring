@@ -36,7 +36,7 @@ class EventTableViewCell: UITableViewCell {
         // Promotion state == 0 중지 / 1 == 게시
         switch event.dpState {
         case .inProgress:
-            let imgUrl: String = "\(Const.AWS_IMAGE_SERVER)/\(event.img)"
+            let imgUrl: String = "\(Const.AWS_IMAGE_SERVER)/\(event.thumbNail)"        
             if !imgUrl.isEmpty {
                 eventImageView.sd_setImage(with: URL(string: imgUrl), placeholderImage: UIImage(named: "AppIcon"))
             } else {
