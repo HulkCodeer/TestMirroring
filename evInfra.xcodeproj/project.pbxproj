@@ -179,6 +179,9 @@
 		5975BD5728D97DAA00910F6F /* NewNoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522DC28BE290400FD4025 /* NewNoticeTableViewCell.swift */; };
 		5975BD5828D97DBB00910F6F /* NoticeCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522E528C877F000FD4025 /* NoticeCellReactor.swift */; };
 		5975BD5928D97DC900910F6F /* NoticeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522E228BEF3E800FD4025 /* NoticeList.swift */; };
+		59BAB6FB28F0346300077872 /* MainSearchWayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB6FA28F0346300077872 /* MainSearchWayView.swift */; };
+		59BAB6FC28F0346300077872 /* MainSearchWayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB6FA28F0346300077872 /* MainSearchWayView.swift */; };
+		59BAB6FD28F0346300077872 /* MainSearchWayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB6FA28F0346300077872 /* MainSearchWayView.swift */; };
 		59EC3B7128D18CD8001A18B5 /* NewNoticeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59317D1128B7702C00B1AE92 /* NewNoticeDetailViewController.swift */; };
 		59EC3B7A28D32A1D001A18B5 /* ViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7928D32A1D001A18B5 /* ViewConstants.swift */; };
 		59EC3B7C28D32A33001A18B5 /* DateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7B28D32A33001A18B5 /* DateConstants.swift */; };
@@ -1568,6 +1571,7 @@
 		596522DD28BE290400FD4025 /* NewNoticeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewNoticeTableViewCell.xib; sourceTree = "<group>"; };
 		596522E228BEF3E800FD4025 /* NoticeList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeList.swift; sourceTree = "<group>"; };
 		596522E528C877F000FD4025 /* NoticeCellReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeCellReactor.swift; sourceTree = "<group>"; };
+		59BAB6FA28F0346300077872 /* MainSearchWayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSearchWayView.swift; sourceTree = "<group>"; };
 		59EC3B7928D32A1D001A18B5 /* ViewConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewConstants.swift; sourceTree = "<group>"; };
 		59EC3B7B28D32A33001A18B5 /* DateConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConstants.swift; sourceTree = "<group>"; };
 		59EC3B7D28D32A49001A18B5 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -2093,6 +2097,7 @@
 				59F6229828E12095004CE1FC /* MainNavigationBar.swift */,
 				636BE34828A0E7CD005773CE /* NewLeftViewController.swift */,
 				636BE34B28A0E998005773CE /* LeftViewReactor.swift */,
+				59BAB6FA28F0346300077872 /* MainSearchWayView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -4375,6 +4380,7 @@
 				63F313FF284EC74F001713D2 /* BedgeButton.swift in Sources */,
 				821A05E628627F3100EB1A91 /* CommonNaviView.swift in Sources */,
 				63F31400284EC74F001713D2 /* MemberManager.swift in Sources */,
+				59BAB6FC28F0346300077872 /* MainSearchWayView.swift in Sources */,
 				63F31401284EC74F001713D2 /* FilterCompanyView.swift in Sources */,
 				63F31402284EC74F001713D2 /* ReportCharger.swift in Sources */,
 				63F31403284EC74F001713D2 /* MyCouponViewController.swift in Sources */,
@@ -4697,6 +4703,7 @@
 				00A3659726C4E38700424E40 /* FilterCompanyView.swift in Sources */,
 				CEBE0601214BA5C30047E6F2 /* ReportCharger.swift in Sources */,
 				CE33B4C12191BD9500B6C632 /* MyCouponViewController.swift in Sources */,
+				59BAB6FB28F0346300077872 /* MainSearchWayView.swift in Sources */,
 				DBF3827B2304475900FAF772 /* CBT.swift in Sources */,
 				73CF041A20B2736500BEA9CF /* UIScrollView+Extension.swift in Sources */,
 				00C75C4D252EEB5300387559 /* RegisterResultViewController.swift in Sources */,
@@ -4787,7 +4794,6 @@
 				523A3AF22797A9CA004C3C23 /* GroupViewController.swift in Sources */,
 				596522D728BC8B1C00FD4025 /* Notice.swift in Sources */,
 				821A05E128627F3100EB1A91 /* NavigationClose.swift in Sources */,
-				19A3D3262887F13400AE8280 /* AmplitudeManager.swift in Sources */,
 				59F6229928E12095004CE1FC /* MainNavigationBar.swift in Sources */,
 				523A3AF22797A9CA004C3C23 /* GroupViewController.swift in Sources */,
 				73F0FE3021E73F2000653BCB /* ClusterGenerator.swift in Sources */,
@@ -5125,6 +5131,7 @@
 				5975BD5528D97D0500910F6F /* NewNoticeViewController.swift in Sources */,
 				82E1303228DEAEB200E7983D /* MainReactor.swift in Sources */,
 				5975BD5628D97D1800910F6F /* NoticeReactor.swift in Sources */,
+				59BAB6FD28F0346300077872 /* MainSearchWayView.swift in Sources */,
 				824D5CBE28BDD89C00EDC712 /* MembershipIssuanceViewController.swift in Sources */,
 				824D5CBF28BDD89C00EDC712 /* ChargerDetailViewController.swift in Sources */,
 				824D5CC028BDD89C00EDC712 /* AppDelegate.swift in Sources */,
