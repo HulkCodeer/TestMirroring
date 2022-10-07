@@ -138,7 +138,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     return
                 }
                                                 
-                if let dynamicLink {
+                if let dynamicLink = dynamicLink {
                     self.handleIncomingDynamicLink(dynamicLink)
                 }
             }
