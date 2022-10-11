@@ -55,6 +55,9 @@ internal final class MainViewController: UIViewController, StoryboardView {
     
     @IBOutlet weak var btnRouteCancel: UIButton!
     @IBOutlet weak var btnRoute: UIButton!
+    private lazy var searchWayView = MainSearchWayView().then {
+        $0.isHidden = true
+    }
     
     // Callout View
     @IBOutlet weak var callOutLayer: UIView!
@@ -198,18 +201,32 @@ internal final class MainViewController: UIViewController, StoryboardView {
     
     private func setConstraints() {
         let filterBarHeight: CGFloat = 40
+        let searchWayViewHeight: CGFloat = 84
         
         customNaviBar.snp.makeConstraints {
             $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
             $0.height.equalTo(customNaviBar.height)
         }
         
+//        routeView.snp.makeConstraints {
+//            $0.top.equalTo(customNaviBar.snp.bottom).inset(Constants.view.naviBarHeight)
+//            $0.leading.trailing.equalToSuperview()
+//            $0.height.equalTo(searchWayViewHeight)
+//        }
+        
         filterBarView.snp.makeConstraints {
+//            $0.top.equalTo(routeView.snp.bottom)
             $0.top.equalTo(customNaviBar.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(filterBarHeight)
         }
         
+        reNewButton.snp.makeConstraints {
+            $0.top.equalTo(filterBarView.snp.bottom).offset(12)
+            $0.trailing.equalToSuperview().inset(10)
+            $0.size.equalTo(40)
+        }
+
         naverMapView.snp.makeConstraints {
             $0.top.equalTo(customNaviBar)
             $0.leading.trailing.bottom.equalToSuperview()
@@ -445,6 +462,24 @@ internal final class MainViewController: UIViewController, StoryboardView {
                     .disposed(by: owner.disposeBag)
             }
             .disposed(by: disposeBag)
+        
+        customNaviBar.searchWayButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                Observable.just(MainReactor.Action.hideSearchWay(false))
+                    .bind(to: reactor.action)
+                    .disposed(by: owner.disposeBag)
+            }
+            .disposed(by: disposeBag)
+
+        customNaviBar.cancelSearchWayButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                Observable.just(MainReactor.Action.hideSearchWay(true))
+                    .bind(to: reactor.action)
+                    .disposed(by: owner.disposeBag)
+            }
+            .disposed(by: disposeBag)
     }
     
     private func bindState(reactor: MainReactor) {
@@ -505,6 +540,33 @@ internal final class MainViewController: UIViewController, StoryboardView {
             }
             .disposed(by: disposeBag)
         
+        reactor.state.compactMap { $0.isHideSearchWay }
+            .asDriver(onErrorJustReturn: true)
+            .drive(with: self) { owner, isHideSearchWay in
+//                owner.searchWayView.isHidden = isHideSearchWay
+                owner.customNaviBar.hideSearchWayMode(isHideSearchWay)
+                
+                owner.filterView.backgroundColor = .gray
+                RouteEvent.clickNavigation.logEvent(property: ["onOrOff": "\(!isHideSearchWay ? "On" : "Off")"])
+                
+                UIView.animate(withDuration: 0.2, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: {() -> Void in
+//                    owner.routeView.snp.updateConstraints {
+//                        $0.height.equalTo(isHideSearchWay ? 0 : 84)
+//                    }
+                    
+                    let offset: CGFloat = !isHideSearchWay ? owner.routeView.bounds.height : 0.0
+                    owner.filterView.transform = CGAffineTransform(translationX: 0.0, y:  offset)
+//                    owner.filterBarView.transform = CGAffineTransform(translationX: 0.0, y: offset)
+                    owner.myLocationButton.transform = CGAffineTransform(translationX: 0.0, y: offset)
+                    owner.reNewButton.transform = CGAffineTransform(translationX: 0.0, y: offset)
+                })
+                
+                if isHideSearchWay {
+                    owner.clearSearchResult()
+                }
+                
+            }
+            .disposed(by: disposeBag)
     }
     
     // MARK: FUNC

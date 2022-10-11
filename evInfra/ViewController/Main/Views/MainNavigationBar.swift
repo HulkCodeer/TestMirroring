@@ -140,8 +140,8 @@ internal final class MainNavigationBar: UIView {
         menuButton.setImage(image, for: .normal)
     }
 
-    func setSearchWayImage(isSearch: Bool) {
-        searchWayButton.isHidden = !isSearch
-        cancelSearchWayButton.isHidden = isSearch
+    func hideSearchWayMode(_ hideSearch: Bool) {
+        searchWayButton.isHidden = !hideSearch
+        cancelSearchWayButton.isHidden = hideSearch
     }
 }
