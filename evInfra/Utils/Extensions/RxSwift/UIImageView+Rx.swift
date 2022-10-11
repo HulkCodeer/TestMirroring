@@ -6,7 +6,6 @@
 //  Copyright © 2022 soft-berry. All rights reserved.
 //
 
-import Foundation
 import RxCocoa
 import RxSwift
 

@@ -37,8 +37,6 @@
 		00A6A16226C3A4D30023DAE3 /* FilterPlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A6A16126C3A4D30023DAE3 /* FilterPlaceView.swift */; };
 		00A6A16426C3B3BC0023DAE3 /* FilterContainerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A6A16326C3B3BC0023DAE3 /* FilterContainerView.xib */; };
 		00A6A16626C3B3DC0023DAE3 /* FilterContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A6A16526C3B3DC0023DAE3 /* FilterContainerView.swift */; };
-		00A6A16826C3C4450023DAE3 /* FilterBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A6A16726C3C4450023DAE3 /* FilterBarView.swift */; };
-		00A6A16A26C3C44E0023DAE3 /* FilterBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A6A16926C3C44E0023DAE3 /* FilterBarView.xib */; };
 		00A7D5C826B7B0D100C5DBCC /* Filter.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00A7D5C726B7B0D100C5DBCC /* Filter.storyboard */; };
 		00A7D5D226B7DA2100C5DBCC /* ChargerFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A7D5D126B7DA2100C5DBCC /* ChargerFilterViewController.swift */; };
 		00A7D5D626B7ED9F00C5DBCC /* TagFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A7D5D526B7ED9F00C5DBCC /* TagFlowLayout.swift */; };
@@ -446,7 +444,6 @@
 		63F3146B284EC74F001713D2 /* StringUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902A11D9248F5E440049EF8E /* StringUtils.swift */; };
 		63F3146C284EC74F001713D2 /* CommunityBoardAdsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B5DECE27CEFFBD006F8325 /* CommunityBoardAdsCell.swift */; };
 		63F3146D284EC74F001713D2 /* SearchTypeSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B53D2E27BCF30100D446A9 /* SearchTypeSelectView.swift */; };
-		63F3146E284EC74F001713D2 /* FilterBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A6A16726C3C4450023DAE3 /* FilterBarView.swift */; };
 		63F3146F284EC74F001713D2 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527165C627B251E20078DF3A /* AlertView.swift */; };
 		63F31471284EC74F001713D2 /* Connector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7379A44F22CB43C600F4271C /* Connector.swift */; };
 		63F31472284EC74F001713D2 /* KeyChainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE72D73B219BDA32003979D2 /* KeyChainManager.swift */; };
@@ -631,7 +628,6 @@
 		63F31535284EC74F001713D2 /* type_ac_slow_dim.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7B3CD204E3592002E975F /* type_ac_slow_dim.png */; };
 		63F31536284EC74F001713D2 /* Board.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00FDEAF126B3BF97006617EE /* Board.storyboard */; };
 		63F31537284EC74F001713D2 /* TrackingDotHalo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73EF8B6D203C85CC00D04494 /* TrackingDotHalo@2x.png */; };
-		63F31538284EC74F001713D2 /* FilterBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A6A16926C3C44E0023DAE3 /* FilterBarView.xib */; };
 		63F31539284EC74F001713D2 /* icon_clustering@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73EF8B65203C85CC00D04494 /* icon_clustering@2x.png */; };
 		63F3153A284EC74F001713D2 /* charger_ac3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 73C31C0020A2BAFF005B6C53 /* charger_ac3.jpg */; };
 		63F3153B284EC74F001713D2 /* GuideAlertDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00AB7BD626E870730040CFDE /* GuideAlertDialog.xib */; };
@@ -650,6 +646,15 @@
 		63F31558284F08E3001713D2 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63F31555284F08E2001713D2 /* Colors.xcassets */; };
 		63F31559284F08E3001713D2 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63F31556284F08E3001713D2 /* Icons.xcassets */; };
 		63F3155A284F08E3001713D2 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63F31556284F08E3001713D2 /* Icons.xcassets */; };
+		63F443BE28EC313300F6A66C /* NewFilterBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F443BD28EC313300F6A66C /* NewFilterBarView.swift */; };
+		63F443BF28EC313300F6A66C /* NewFilterBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F443BD28EC313300F6A66C /* NewFilterBarView.swift */; };
+		63F443C028EC313300F6A66C /* NewFilterBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F443BD28EC313300F6A66C /* NewFilterBarView.swift */; };
+		63F443C328EC31C300F6A66C /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F443C128EC31C300F6A66C /* UITableView+Extension.swift */; };
+		63F443C428EC31C300F6A66C /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F443C128EC31C300F6A66C /* UITableView+Extension.swift */; };
+		63F443C528EC31C300F6A66C /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F443C128EC31C300F6A66C /* UITableView+Extension.swift */; };
+		63F443C628EC31C300F6A66C /* UIWindow+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F443C228EC31C300F6A66C /* UIWindow+Extension.swift */; };
+		63F443C728EC31C300F6A66C /* UIWindow+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F443C228EC31C300F6A66C /* UIWindow+Extension.swift */; };
+		63F443C828EC31C300F6A66C /* UIWindow+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F443C228EC31C300F6A66C /* UIWindow+Extension.swift */; };
 		63F7C2FC28E1CD2B00019CE0 /* NetworkWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F7C2FB28E1CD2B00019CE0 /* NetworkWorker.swift */; };
 		63F7C2FD28E1CD2B00019CE0 /* NetworkWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F7C2FB28E1CD2B00019CE0 /* NetworkWorker.swift */; };
 		63F7C2FE28E1CD2B00019CE0 /* NetworkWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F7C2FB28E1CD2B00019CE0 /* NetworkWorker.swift */; };
@@ -1048,7 +1053,6 @@
 		824D5CD528BDD89C00EDC712 /* StringUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902A11D9248F5E440049EF8E /* StringUtils.swift */; };
 		824D5CD628BDD89C00EDC712 /* CommunityBoardAdsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B5DECE27CEFFBD006F8325 /* CommunityBoardAdsCell.swift */; };
 		824D5CD728BDD89C00EDC712 /* SearchTypeSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B53D2E27BCF30100D446A9 /* SearchTypeSelectView.swift */; };
-		824D5CD828BDD89C00EDC712 /* FilterBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A6A16726C3C4450023DAE3 /* FilterBarView.swift */; };
 		824D5CD928BDD89C00EDC712 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527165C627B251E20078DF3A /* AlertView.swift */; };
 		824D5CDB28BDD89C00EDC712 /* Connector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7379A44F22CB43C600F4271C /* Connector.swift */; };
 		824D5CDC28BDD89C00EDC712 /* KeyChainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE72D73B219BDA32003979D2 /* KeyChainManager.swift */; };
@@ -1242,7 +1246,6 @@
 		824D5DA528BDD89C00EDC712 /* type_ac_slow_dim.png in Resources */ = {isa = PBXBuildFile; fileRef = 73A7B3CD204E3592002E975F /* type_ac_slow_dim.png */; };
 		824D5DA628BDD89C00EDC712 /* Board.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00FDEAF126B3BF97006617EE /* Board.storyboard */; };
 		824D5DA728BDD89C00EDC712 /* TrackingDotHalo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73EF8B6D203C85CC00D04494 /* TrackingDotHalo@2x.png */; };
-		824D5DA828BDD89C00EDC712 /* FilterBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00A6A16926C3C44E0023DAE3 /* FilterBarView.xib */; };
 		824D5DA928BDD89C00EDC712 /* icon_clustering@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73EF8B65203C85CC00D04494 /* icon_clustering@2x.png */; };
 		824D5DAA28BDD89C00EDC712 /* charger_ac3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 73C31C0020A2BAFF005B6C53 /* charger_ac3.jpg */; };
 		824D5DAB28BDD89C00EDC712 /* GuideAlertDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00AB7BD626E870730040CFDE /* GuideAlertDialog.xib */; };
@@ -1424,8 +1427,6 @@
 		00A6A16126C3A4D30023DAE3 /* FilterPlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPlaceView.swift; sourceTree = "<group>"; };
 		00A6A16326C3B3BC0023DAE3 /* FilterContainerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterContainerView.xib; sourceTree = "<group>"; };
 		00A6A16526C3B3DC0023DAE3 /* FilterContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterContainerView.swift; sourceTree = "<group>"; };
-		00A6A16726C3C4450023DAE3 /* FilterBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterBarView.swift; sourceTree = "<group>"; };
-		00A6A16926C3C44E0023DAE3 /* FilterBarView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterBarView.xib; sourceTree = "<group>"; };
 		00A7D5C726B7B0D100C5DBCC /* Filter.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Filter.storyboard; sourceTree = "<group>"; };
 		00A7D5D126B7DA2100C5DBCC /* ChargerFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargerFilterViewController.swift; sourceTree = "<group>"; };
 		00A7D5D526B7ED9F00C5DBCC /* TagFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagFlowLayout.swift; sourceTree = "<group>"; };
@@ -1595,6 +1596,9 @@
 		63F3154E284F0809001713D2 /* Colors+Generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Colors+Generated.swift"; sourceTree = "<group>"; };
 		63F31555284F08E2001713D2 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		63F31556284F08E3001713D2 /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
+		63F443BD28EC313300F6A66C /* NewFilterBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewFilterBarView.swift; sourceTree = "<group>"; };
+		63F443C128EC31C300F6A66C /* UITableView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
+		63F443C228EC31C300F6A66C /* UIWindow+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIWindow+Extension.swift"; sourceTree = "<group>"; };
 		63F7C2FB28E1CD2B00019CE0 /* NetworkWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkWorker.swift; sourceTree = "<group>"; };
 		73008458213687150001DBFA /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		7308559C206350890008497E /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
@@ -1994,8 +1998,6 @@
 				00A6A16126C3A4D30023DAE3 /* FilterPlaceView.swift */,
 				00A6A16326C3B3BC0023DAE3 /* FilterContainerView.xib */,
 				00A6A16526C3B3DC0023DAE3 /* FilterContainerView.swift */,
-				00A6A16726C3C4450023DAE3 /* FilterBarView.swift */,
-				00A6A16926C3C44E0023DAE3 /* FilterBarView.xib */,
 				00A3658C26C4E33100424E40 /* FilterSpeedView.xib */,
 				00A3658E26C4E35900424E40 /* FilterSpeedView.swift */,
 				00A3659026C4E36200424E40 /* FilterRoadView.swift */,
@@ -2045,6 +2047,7 @@
 		00B2E8BB26C0FE76005D017C /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				63F443BC28EC313300F6A66C /* Views */,
 				82E1303328DEAEC100E7983D /* PermissionsGuideReactor.swift */,
 				82E1303428DEAEC100E7983D /* PermissionsGuideViewController.swift */,
 				82E1302F28DEAEB200E7983D /* MainReactor.swift */,
@@ -2445,7 +2448,8 @@
 				73D65D7123588ACC00F564A2 /* UITextField+Extension.swift */,
 				7308559C206350890008497E /* UIView+Extension.swift */,
 				82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */,
-				8261C8B428ECF6A20018E168 /* UIWindow+Extension.swift */,
+				63F443C128EC31C300F6A66C /* UITableView+Extension.swift */,
+				63F443C228EC31C300F6A66C /* UIWindow+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2494,6 +2498,14 @@
 				732121C6203AC023000E105C /* Assets.xcassets */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		63F443BC28EC313300F6A66C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				63F443BD28EC313300F6A66C /* NewFilterBarView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		7312786220B7D81A00861B3E /* Common */ = {
@@ -3325,7 +3337,6 @@
 				63F31535284EC74F001713D2 /* type_ac_slow_dim.png in Resources */,
 				63F31536284EC74F001713D2 /* Board.storyboard in Resources */,
 				63F31537284EC74F001713D2 /* TrackingDotHalo@2x.png in Resources */,
-				63F31538284EC74F001713D2 /* FilterBarView.xib in Resources */,
 				63F31539284EC74F001713D2 /* icon_clustering@2x.png in Resources */,
 				63F3153A284EC74F001713D2 /* charger_ac3.jpg in Resources */,
 				63F3153B284EC74F001713D2 /* GuideAlertDialog.xib in Resources */,
@@ -3467,7 +3478,6 @@
 				73A7B410204E3595002E975F /* type_ac_slow_dim.png in Resources */,
 				00FDEAF226B3BF97006617EE /* Board.storyboard in Resources */,
 				73EF8B7A203C85CC00D04494 /* TrackingDotHalo@2x.png in Resources */,
-				00A6A16A26C3C44E0023DAE3 /* FilterBarView.xib in Resources */,
 				73EF8B72203C85CC00D04494 /* icon_clustering@2x.png in Resources */,
 				73C31C0620A2BB04005B6C53 /* charger_ac3.jpg in Resources */,
 				00AB7BD726E870730040CFDE /* GuideAlertDialog.xib in Resources */,
@@ -3606,7 +3616,6 @@
 				824D5DA528BDD89C00EDC712 /* type_ac_slow_dim.png in Resources */,
 				824D5DA628BDD89C00EDC712 /* Board.storyboard in Resources */,
 				824D5DA728BDD89C00EDC712 /* TrackingDotHalo@2x.png in Resources */,
-				824D5DA828BDD89C00EDC712 /* FilterBarView.xib in Resources */,
 				824D5DA928BDD89C00EDC712 /* icon_clustering@2x.png in Resources */,
 				824D5DAA28BDD89C00EDC712 /* charger_ac3.jpg in Resources */,
 				824D5DAB28BDD89C00EDC712 /* GuideAlertDialog.xib in Resources */,
@@ -4257,6 +4266,7 @@
 				636DB9412876ED6A008BB27A /* IconTextRectButton.swift in Sources */,
 				596522D528BC7EFD00FD4025 /* NoticeDetailReactor.swift in Sources */,
 				63F313F1284EC74F001713D2 /* BoardDetailViewModel.swift in Sources */,
+				63F443C428EC31C300F6A66C /* UITableView+Extension.swift in Sources */,
 				63F313F2284EC74F001713D2 /* EIAdManager.swift in Sources */,
 				63F313F3284EC74F001713D2 /* AlertViewController.swift in Sources */,
 				63F313F4284EC74F001713D2 /* Observable+Operators.swift in Sources */,
@@ -4332,6 +4342,7 @@
 				82E03192286C31250019DFA6 /* QuitAccountCompleteViewController.swift in Sources */,
 				63F31432284EC74F001713D2 /* EVIcon.swift in Sources */,
 				63F31433284EC74F001713D2 /* URL+Extension.swift in Sources */,
+				63F443C728EC31C300F6A66C /* UIWindow+Extension.swift in Sources */,
 				63F31434284EC74F001713D2 /* LeftViewController.swift in Sources */,
 				63F31435284EC74F001713D2 /* ChargerInfoViewController.swift in Sources */,
 				63F31436284EC74F001713D2 /* ReportChargerList.swift in Sources */,
@@ -4353,6 +4364,7 @@
 				63F31444284EC74F001713D2 /* CidTableView.swift in Sources */,
 				63F31445284EC74F001713D2 /* PoiTableView.swift in Sources */,
 				63F31446284EC74F001713D2 /* LeftViewTableHeader.swift in Sources */,
+				63F443BF28EC313300F6A66C /* NewFilterBarView.swift in Sources */,
 				63F31447284EC74F001713D2 /* AddressToLocationController.swift in Sources */,
 				63F31448284EC74F001713D2 /* BoardTableViewHeader.swift in Sources */,
 				63F31449284EC74F001713D2 /* ChargerManager.swift in Sources */,
@@ -4403,7 +4415,6 @@
 				63F3146C284EC74F001713D2 /* CommunityBoardAdsCell.swift in Sources */,
 				8261C8B628ECF6A20018E168 /* UIWindow+Extension.swift in Sources */,
 				63F3146D284EC74F001713D2 /* SearchTypeSelectView.swift in Sources */,
-				63F3146E284EC74F001713D2 /* FilterBarView.swift in Sources */,
 				63F3146F284EC74F001713D2 /* AlertView.swift in Sources */,
 				63F31471284EC74F001713D2 /* Connector.swift in Sources */,
 				63F31472284EC74F001713D2 /* KeyChainManager.swift in Sources */,
@@ -4569,6 +4580,7 @@
 				596522D428BC7B9A00FD4025 /* NoticeDetailReactor.swift in Sources */,
 				63BEAC602833965A00E797DD /* Observable+Operators.swift in Sources */,
 				527165C327B2516D0078DF3A /* TransientAlertViewController.swift in Sources */,
+				63F443C328EC31C300F6A66C /* UITableView+Extension.swift in Sources */,
 				90CA0DE42488B82900904015 /* DataBaseHelper.swift in Sources */,
 				DBEE9AF82117DB5600770D04 /* LoginViewController.swift in Sources */,
 				63762F472869A8F000C951BF /* QuitAccountReasonModel.swift in Sources */,
@@ -4644,6 +4656,7 @@
 				63CCE82B2834E7A4006B8B9A /* URL+Extension.swift in Sources */,
 				73AD13C6203AC34400ADD19A /* LeftViewController.swift in Sources */,
 				73C31BFB20A288BB005B6C53 /* ChargerInfoViewController.swift in Sources */,
+				63F443C628EC31C300F6A66C /* UIWindow+Extension.swift in Sources */,
 				CE93308F214F9807006B7EF6 /* ReportChargerList.swift in Sources */,
 				63B23740282CA4B400E8A3F8 /* PointUseGuideViewController.swift in Sources */,
 				00A7D5D626B7ED9F00C5DBCC /* TagFlowLayout.swift in Sources */,
@@ -4665,6 +4678,7 @@
 				DB3B858020874788005454F5 /* PoiTableView.swift in Sources */,
 				733662F822FD11740049AEFE /* LeftViewTableHeader.swift in Sources */,
 				CE5242362182FD9000FF6AB1 /* AddressToLocationController.swift in Sources */,
+				63F443BE28EC313300F6A66C /* NewFilterBarView.swift in Sources */,
 				DB87607520690B370095394B /* BoardTableViewHeader.swift in Sources */,
 				9058A3C1248639D000091823 /* ChargerManager.swift in Sources */,
 				73C6A10B2345F1F800349A86 /* MembershipCardViewController.swift in Sources */,
@@ -4716,7 +4730,6 @@
 				8261C8B528ECF6A20018E168 /* UIWindow+Extension.swift in Sources */,
 				52B5DECF27CEFFBD006F8325 /* CommunityBoardAdsCell.swift in Sources */,
 				52B53D2F27BCF30100D446A9 /* SearchTypeSelectView.swift in Sources */,
-				00A6A16826C3C4450023DAE3 /* FilterBarView.swift in Sources */,
 				527165C727B251E20078DF3A /* AlertView.swift in Sources */,
 				7379A45022CB43C600F4271C /* Connector.swift in Sources */,
 				CE72D73C219BDA32003979D2 /* KeyChainManager.swift in Sources */,
@@ -4881,6 +4894,7 @@
 				824D5C4F28BDD89C00EDC712 /* EIAdManager.swift in Sources */,
 				824D5C5028BDD89C00EDC712 /* AlertViewController.swift in Sources */,
 				824D5C5128BDD89C00EDC712 /* Observable+Operators.swift in Sources */,
+				63F443C528EC31C300F6A66C /* UITableView+Extension.swift in Sources */,
 				824D5C5228BDD89C00EDC712 /* TransientAlertViewController.swift in Sources */,
 				824D5C5328BDD89C00EDC712 /* DataBaseHelper.swift in Sources */,
 				824D5C5428BDD89C00EDC712 /* LoginViewController.swift in Sources */,
@@ -4956,6 +4970,7 @@
 				824D5C9828BDD89C00EDC712 /* LeftViewController.swift in Sources */,
 				824D5C9928BDD89C00EDC712 /* ChargerInfoViewController.swift in Sources */,
 				824D5C9A28BDD89C00EDC712 /* ReportChargerList.swift in Sources */,
+				63F443C828EC31C300F6A66C /* UIWindow+Extension.swift in Sources */,
 				824D5C9B28BDD89C00EDC712 /* PointUseGuideViewController.swift in Sources */,
 				824D5C9C28BDD89C00EDC712 /* TagFlowLayout.swift in Sources */,
 				824D5C9D28BDD89C00EDC712 /* PreUsePointViewController.swift in Sources */,
@@ -4977,6 +4992,7 @@
 				824D5CAC28BDD89C00EDC712 /* LeftViewTableHeader.swift in Sources */,
 				824D5CAD28BDD89C00EDC712 /* AddressToLocationController.swift in Sources */,
 				824D5CAE28BDD89C00EDC712 /* BoardTableViewHeader.swift in Sources */,
+				63F443C028EC313300F6A66C /* NewFilterBarView.swift in Sources */,
 				824D5CAF28BDD89C00EDC712 /* ChargerManager.swift in Sources */,
 				824D5CB028BDD89C00EDC712 /* MembershipCardViewController.swift in Sources */,
 				824D5CB128BDD89C00EDC712 /* GroupViewController.swift in Sources */,
@@ -5028,7 +5044,6 @@
 				8261C8B728ECF6A20018E168 /* UIWindow+Extension.swift in Sources */,
 				824D5CD628BDD89C00EDC712 /* CommunityBoardAdsCell.swift in Sources */,
 				824D5CD728BDD89C00EDC712 /* SearchTypeSelectView.swift in Sources */,
-				824D5CD828BDD89C00EDC712 /* FilterBarView.swift in Sources */,
 				824D5CD928BDD89C00EDC712 /* AlertView.swift in Sources */,
 				824D5CDB28BDD89C00EDC712 /* Connector.swift in Sources */,
 				824D5CDC28BDD89C00EDC712 /* KeyChainManager.swift in Sources */,

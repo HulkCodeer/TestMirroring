@@ -86,7 +86,7 @@ internal final class NewBottomSheetViewController: CommonBaseViewController {
         }
     }
     private let disposebag = DisposeBag()
-    private let safeAreaInsetBottomHeight = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
+    private var safeAreaInsetBottomHeight: CGFloat = 0
     private var selectedCellCompletion: ((Int) -> Void)?
     
     // MARK: SYSTEM FUNC
@@ -96,6 +96,9 @@ internal final class NewBottomSheetViewController: CommonBaseViewController {
         self.view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
         self.contentView.backgroundColor = .clear
         
+        if let _window = UIWindow.key{
+            self.safeAreaInsetBottomHeight = _window.safeAreaInsets.bottom 
+        }
                                 
         self.view.addSubview(dimmedViewBtn)
         dimmedViewBtn.snp.makeConstraints {
