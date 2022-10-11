@@ -1261,9 +1261,6 @@
 		824D5DC128BE1C2500EDC712 /* GlobalFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824D5DC028BE1C2500EDC712 /* GlobalFunction.swift */; };
 		824D5DC228BE1C2500EDC712 /* GlobalFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824D5DC028BE1C2500EDC712 /* GlobalFunction.swift */; };
 		824D5DC328BE1C2500EDC712 /* GlobalFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824D5DC028BE1C2500EDC712 /* GlobalFunction.swift */; };
-		8261C8B528ECF6A20018E168 /* UIWindow+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8261C8B428ECF6A20018E168 /* UIWindow+Extension.swift */; };
-		8261C8B628ECF6A20018E168 /* UIWindow+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8261C8B428ECF6A20018E168 /* UIWindow+Extension.swift */; };
-		8261C8B728ECF6A20018E168 /* UIWindow+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8261C8B428ECF6A20018E168 /* UIWindow+Extension.swift */; };
 		82829BCE28ADC1330044AD6C /* UIImageView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */; };
 		82829BCF28ADC1330044AD6C /* UIImageView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */; };
 		82829BD128ADC2F20044AD6C /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */; };
@@ -2490,6 +2487,14 @@
 			path = Reissuance;
 			sourceTree = "<group>";
 		};
+		63E01D1528F5095300D316B1 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				8261C8B428ECF6A20018E168 /* UIWindow+Extension.swift */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		63F31554284F08A8001713D2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -2546,6 +2551,7 @@
 				732121BA203AC023000E105C /* Products */,
 				F0519D7EF9D227801C35EA9E /* Pods */,
 				5659BC9F308878047DB36D3E /* Frameworks */,
+				63E01D1528F5095300D316B1 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -4413,7 +4419,6 @@
 				63F3146A284EC74F001713D2 /* BoardTableViewDelegate.swift in Sources */,
 				63F3146B284EC74F001713D2 /* StringUtils.swift in Sources */,
 				63F3146C284EC74F001713D2 /* CommunityBoardAdsCell.swift in Sources */,
-				8261C8B628ECF6A20018E168 /* UIWindow+Extension.swift in Sources */,
 				63F3146D284EC74F001713D2 /* SearchTypeSelectView.swift in Sources */,
 				63F3146F284EC74F001713D2 /* AlertView.swift in Sources */,
 				63F31471284EC74F001713D2 /* Connector.swift in Sources */,
@@ -4727,7 +4732,6 @@
 				73B752802048E5B30077112A /* SideMenuTableViewCell.swift in Sources */,
 				736D37C620871B15009535EE /* BoardTableViewDelegate.swift in Sources */,
 				902A11DA248F5E440049EF8E /* StringUtils.swift in Sources */,
-				8261C8B528ECF6A20018E168 /* UIWindow+Extension.swift in Sources */,
 				52B5DECF27CEFFBD006F8325 /* CommunityBoardAdsCell.swift in Sources */,
 				52B53D2F27BCF30100D446A9 /* SearchTypeSelectView.swift in Sources */,
 				527165C727B251E20078DF3A /* AlertView.swift in Sources */,
@@ -5041,7 +5045,6 @@
 				824D5CD328BDD89C00EDC712 /* SideMenuTableViewCell.swift in Sources */,
 				824D5CD428BDD89C00EDC712 /* BoardTableViewDelegate.swift in Sources */,
 				824D5CD528BDD89C00EDC712 /* StringUtils.swift in Sources */,
-				8261C8B728ECF6A20018E168 /* UIWindow+Extension.swift in Sources */,
 				824D5CD628BDD89C00EDC712 /* CommunityBoardAdsCell.swift in Sources */,
 				824D5CD728BDD89C00EDC712 /* SearchTypeSelectView.swift in Sources */,
 				824D5CD928BDD89C00EDC712 /* AlertView.swift in Sources */,
@@ -5389,7 +5392,7 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;				
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 10072223;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
