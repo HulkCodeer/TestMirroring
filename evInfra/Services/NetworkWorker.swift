@@ -16,13 +16,13 @@ internal final class NetworkWorker {
         
     func rxRequest(url: String, httpMethod: Alamofire.HTTPMethod, parameters: [String: Any]?, headers: HTTPHeaders?) -> Observable<(HTTPURLResponse, Data)> {
         // TEST CODE
-//        #if DEBUG
+        #if DEBUG
             let debugDesc = """
             <URL: \(httpMethod.rawValue)> \(url)
             parameter: \(parameters ?? [:])
             """
             printLog(out: debugDesc)
-//        #endif
+        #endif
         
         return RxAlamofire.request(httpMethod, url,
                                    parameters: parameters,
@@ -32,14 +32,14 @@ internal final class NetworkWorker {
     
     func rxRequest(url: String, httpMethod: Alamofire.HTTPMethod, parameters: [String: Any]?, headers: HTTPHeaders?) -> Disposable {
         // TEST CODE
-//        #if DEBUG
+        #if DEBUG
             let debugDesc = """
             <URL: \(httpMethod.rawValue)> \(url)
             parameter: \(parameters ?? [:])
             """
             printLog(out: debugDesc)
         // TEST CODE
-//        #endif
+        #endif
         
         
         _ = RxAlamofire.request(httpMethod, url,
@@ -55,7 +55,7 @@ extension Observable where Element == (HTTPURLResponse, Data){
     internal func convertData() -> Observable<ApiResult<Data, ApiError>>{
         return self.map { (httpURLResponse, data) -> ApiResult<Data, ApiError> in
             // TEST CODE
-//            #if DEBUG
+            #if DEBUG
                 var strResponse: String?
                 if let str = String(data: data, encoding: .utf8) {
                     strResponse = str
@@ -69,7 +69,7 @@ extension Observable where Element == (HTTPURLResponse, Data){
                 ========== Response END ==========
                 """
                 printLog(out: debugDesc)
-//            #endif
+            #endif
             
             switch httpURLResponse.statusCode{
             case 200 ... 299:
