@@ -42,7 +42,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     @IBOutlet weak var filterView: UIView!
     @IBOutlet weak var routeView: UIView!
     
-    @IBOutlet weak var filterBarView: FilterBarView!
+    @IBOutlet weak var filterBarView: NewFilterBarView!
     @IBOutlet weak var filterContainerView: FilterContainerView!
     @IBOutlet weak var filterHeight: NSLayoutConstraint!
     
