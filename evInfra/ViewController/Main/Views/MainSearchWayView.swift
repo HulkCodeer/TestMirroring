@@ -13,18 +13,29 @@ import Then
 import SnapKit
 
 final class MainSearchWayView: UIView {
-    let startTextField = UITextField()
-    let endTextField = UITextField()
+    internal lazy var startTextField = SearchWayTextField().then {
+        $0.placeholder = "출발지를 입력하세요."
+    }
+    internal lazy var endTextField = SearchWayTextField().then {
+        $0.placeholder = "도착지를 입력하세요."
+    }
     
-    let removeButton = UIButton()
-    let searchButton = UIButton()
+    internal lazy var removeButton = UIButton().then {
+        $0.setTitleColor(UIColor(hex: "#2A536D "), for: .normal)
+        $0.setTitle("지우기", for: .normal)
+        $0.fontSize = 15
+    }
+    internal lazy var searchButton = UIButton().then {
+        $0.setTitleColor(UIColor(hex: "#2A536D "), for: .normal)
+        $0.setTitle("경로찾기", for: .normal)
+        $0.fontSize = 15
+    }
     
     // MARK: - initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        setUI()
-        setConstraints()
+        makeUI()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -33,13 +44,9 @@ final class MainSearchWayView: UIView {
     
     // MARK: - makeUI
     
-    private func setUI() {
+    private func makeUI() {
         self.backgroundColor = Colors.backgroundPrimary.color
 
-    }
-    
-    private func setConstraints() {
-        
     }
     
 }
