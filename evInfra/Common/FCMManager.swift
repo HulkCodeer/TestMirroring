@@ -6,10 +6,10 @@
 //  Copyright © 2018년 soft-berry. All rights reserved.
 //
 
-import Foundation
 import SwiftyJSON
 import UserNotifications
 import UIKit
+import RxSwift
 
 internal final class FCMManager {
     static let sharedInstance = FCMManager()
@@ -35,11 +35,19 @@ internal final class FCMManager {
     
     private init() {}
     
+    // MARK: VARIABLE
+    
     var registerId: String? = nil
     var nfcNoti: UNNotification? = nil
     var fcmNotification: [AnyHashable: Any]? = nil
     var isReady: Bool = false
     
+    internal var originalMarketingNotiValue: Bool?
+    
+    private let disposeBag = DisposeBag()
+    
+    // MARK: FUNC
+        
     func getFCMRegisterId() -> String? {
         if let id = registerId {
             return id
@@ -315,12 +323,12 @@ internal final class FCMManager {
     
     func getEventDetailData(eventId: Int) {
         guard let _mainNavi = GlobalDefine.shared.mainNavi, let _visibleViewcon = _mainNavi.visibleViewController else { return }
-        let eventVC = UIStoryboard(name: "Event", bundle: nil).instantiateViewController(ofType: EventContentsViewController.self)
-        if _visibleViewcon.isKind(of: EventContentsViewController.self) {
-            eventVC.eventId = eventId
+        let eventVC = UIStoryboard(name: "Event", bundle: nil).instantiateViewController(ofType: EventViewController.self)
+        if _visibleViewcon.isKind(of: NewEventDetailViewController.self) {
+            eventVC.externalEventID = eventId
             eventVC.viewDidLoad()
         } else {
-            eventVC.eventId = eventId
+            eventVC.externalEventID = eventId
             _mainNavi.push(viewController: eventVC)
         }
     }
@@ -386,22 +394,25 @@ internal final class FCMManager {
             KeyChainManager.set(value: uid!, forKey: KeyChainManager.KEY_DEVICE_UUID)
         }
 
-        Server.registerUser(version: version, model: modelName, uid: uid!, fcmId: getFCMRegisterId()) { (isSuccess, value) in
+        Server.registerUser(version: version, model: modelName, uid: uid!, fcmId: getFCMRegisterId()) { [weak self] (isSuccess, value) in
+            guard let self = self else { return }
             if isSuccess {
                 let json = JSON(value)
-                UserDefault().saveString(key: UserDefault.Key.MEMBER_ID, value: json["member_id"].stringValue)
+                self.originalMarketingNotiValue = MemberManager.shared.isAllowMarketingNoti // 마켓팅 푸쉬 여부를 받기 전 값으로 앱 첫설치 여부를 파악하기 위해 필요함
+                
+                MemberManager.shared.memberId = json["member_id"].stringValue
                 UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_NOTIFICATION, value: json["receive_push"].boolValue)
                 UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_JEJU_NOTIFICATION, value: json["receive_jeju_push"].boolValue)
-                let marketing = json["receive_marketing_push"].boolValue
-                UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION, value: marketing)
+                let marketing = json["receive_marketing_push"].boolValue                
+                MemberManager.shared.isAllowMarketingNoti =  marketing
                 if marketing {
-                    UserDefault().saveBool(key: UserDefault.Key.DID_SHOW_MARKETING_POPUP, value: true)
+                    MemberManager.shared.isAllowMarketingNoti =  true
                 }
                 self.updateFCMInfo()
             }
         }
     }
-    
+            
     func updateFCMInfo() {
         var uid: String? = nil
         if let dUid = KeyChainManager.get(key: KeyChainManager.KEY_DEVICE_UUID), !dUid.isEmpty {

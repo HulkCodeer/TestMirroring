@@ -29,6 +29,7 @@ internal final class DeepLinkPath {
         case terms
         case event_detail
         case kakaolink(KakaoLinkType)
+        case main
         
         enum KakaoLinkType: String {
             case charger = "charger"
@@ -59,6 +60,9 @@ internal final class DeepLinkPath {
                 
             case .event_detail:
                 return "/event_detail"
+                
+            case .main:
+                return "/main"
                 
             case .kakaolink(let type):
                 switch type {
@@ -122,19 +126,19 @@ internal final class DeepLinkPath {
             guard let paramItems = linkParameter else { return }
             if let type = paramItems.first(where: { $0.name == "type"})?.value {
                 storyboard = UIStoryboard(name : "Info", bundle: nil)
-                let termsViewControll = storyboard.instantiateViewController(ofType: TermsViewController.self)
+                let termsViewControll = storyboard.instantiateViewController(ofType: TermsViewController.self)                
                 guard let value = URLParam.allCases.filter({ $0.toValue == type }).first else { return }
 
                 switch value {
                 case .faqTop:
-                    termsViewControll.tabIndex = .FAQTop
+                    termsViewControll.tabIndex = .faqTop
                 case .faqDetail:
-                    termsViewControll.tabIndex = .FAQDetail
+                    termsViewControll.tabIndex = .faqDetail
                     if let page = paramItems.first(where: { $0.name == "page"})?.value {
                         termsViewControll.subURL = "type=" + page
                     }
                 case .chargePrice:
-                    termsViewControll.tabIndex = .PriceInfo
+                    termsViewControll.tabIndex = .priceInfo
                 }
                 _mainNavi.push(viewController: termsViewControll)
             }
@@ -142,19 +146,19 @@ internal final class DeepLinkPath {
         case DynamicLinkUrlPathType.event_detail.value:
             if let _mainNav = GlobalDefine.shared.mainNavi {
                 if _mainNav.containsViewController(ofKind: EventViewController.self) ||
-                    _mainNav.containsViewController(ofKind: EventContentsViewController.self) {
+                    _mainNav.containsViewController(ofKind: NewEventDetailViewController.self) {
                     let _viewControllers = _mainNav.viewControllers
                     for vc in _viewControllers.reversed() {                        
                         if let _vc = vc as? AppNavigationDrawerController {
                             _mainNav.popToViewControllerWithHandler(vc: _vc, completion: { [weak self] in
                                 guard let self = self else { return }
-                                self.moveEventDetailViewController()
+                                self.moveEventViewController()
                             })
                             return
                         }
                     }
                 } else {
-                    self.moveEventDetailViewController()
+                    self.moveEventViewController()
                 }
             }
             
@@ -171,11 +175,15 @@ internal final class DeepLinkPath {
             viewcon.document_srl = documentSrl
             viewcon.isFromStationDetailView = false
             _mainNavi.push(viewController: viewcon)
+            
+        case DynamicLinkUrlPathType.main.value:
+            _mainNavi.popToRootViewController(animated: false)
+            
         default: break
         }
     }
     
-    private func moveEventDetailViewController() {
+    private func moveEventViewController() {
         guard let paramItems = linkParameter, let eventID = paramItems.first(where: { $0.name == "event_id"})?.value else { return }
         let viewcon = UIStoryboard(name : "Event", bundle: nil).instantiateViewController(ofType: EventViewController.self)
         viewcon.externalEventParam = paramItems.first(where: { $0.name == "param" })?.value?.description

@@ -13,6 +13,7 @@ import Motion
 import FLAnimatedImage
 import RxSwift
 import RxCocoa
+import Alamofire
 
 internal final class IntroViewController: UIViewController {
 
@@ -26,13 +27,8 @@ internal final class IntroViewController: UIViewController {
     @IBOutlet var imgIntroFLAnimated: FLAnimatedImageView!
         
     // MARK: VARIABLE
-    
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    let fcmManager = FCMManager.sharedInstance
-    
-    var isNewBoardList = Array<Bool>()
-    var maxCount = 0
-    
+                    
+    private var maxCount = 0
     private let disposeBag = DisposeBag()
     
     // MARK: SYSTEM FUNC
@@ -77,25 +73,33 @@ internal final class IntroViewController: UIViewController {
         super.viewWillAppear(animated)
         self.title = "인트로 화면"
     }
-}
-
-extension FLAnimatedImage {
-    convenience init(gifResource: String) {
-        self.init(animatedGIFData: NSData(contentsOfFile: Bundle.main.path(forResource: gifResource, ofType: "")!) as Data?)
-    }
-}
-
-extension IntroViewController: IntroImageCheckerDelegate {
+    
+    // MARK: FUNC
+    
     func showIntro(){
         if MemberManager.shared.isPartnershipClient(clientId: RentClientType.skr.rawValue){
             imgIntroBackground.image = UIImage(named: "intro_skr_bg.jpg")
         } else {
-            let checker = IntroImageChecker.init(delegate: self)
-            checker.getIntroImage()
+            self.getIntroImage()
         }
     }
     
-    func finishCheckIntro(imgName : String, path : String){
+    func getIntroImage() {
+        let imgName = UserDefault().readString(key: UserDefault.Key.APP_INTRO_IMAGE)
+        let endDate = UserDefault().readString(key: UserDefault.Key.APP_INTRO_END_DATE)
+        if !imgName.isEmpty , !Date().isPassedDate(date: endDate){
+            if EVFileManager.sharedInstance.isFileExist(named : imgName){
+                let path = EVFileManager.sharedInstance.getFilePath(named: imgName)
+                self.finishCheckIntro(imgName: imgName, path : path)
+            } else {
+                self.finishCheckIntro()
+            }
+        } else {
+            self.finishCheckIntro()
+        }
+    }
+                
+    private func finishCheckIntro(imgName : String, path : String){
         printLog(out: "\(imgName)")
         if imgName.hasSuffix(".gif"){
             let gifData = NSData(contentsOfFile: path)
@@ -108,12 +112,13 @@ extension IntroViewController: IntroImageCheckerDelegate {
         }
     }
     
-    func showDefaultImage(){
+    private func finishCheckIntro(){
         imgIntroBackground.image = UIImage(named: "intro_bg.jpg")
     }
     
     private func checkLastBoardId() {
-        Server.getBoardData { (isSuccess, value) in
+        Server.getBoardData { [weak self] (isSuccess, value) in
+            guard let self = self else { return }
             if isSuccess {
                 let json = JSON(value)
                 if json["code"].intValue == 1000 {
@@ -128,7 +133,6 @@ extension IntroViewController: IntroImageCheckerDelegate {
                     Board.sharedInstance.latestBoardIds[Board.KEY_NOTICE] = latestId["notice"].intValue
                     Board.sharedInstance.latestBoardIds[Board.KEY_FREE_BOARD] = Board.sharedInstance.freeBoardId
                     Board.sharedInstance.latestBoardIds[Board.KEY_CHARGER_BOARD] = Board.sharedInstance.chargeBoardId
-                    Board.sharedInstance.latestBoardIds[Board.KEY_EVENT] = latestId["event"].intValue
                     
                     let companyArr = JSON(json["company_list"]).arrayValue
                     for company in companyArr {
@@ -145,21 +149,48 @@ extension IntroViewController: IntroImageCheckerDelegate {
                         boardNewInfo.brdId = brdId
                         
                         Board.sharedInstance.brdNewInfo.append(boardNewInfo)
-                    }
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                        let mainViewController = storyboard.instantiateViewController(ofType: MainViewController.self)
-                        let leftViewController = storyboard.instantiateViewController(ofType: LeftViewController.self)
-                        self.appDelegate.appToolbarController = AppToolbarController(rootViewController: mainViewController)
-                        self.appDelegate.appToolbarController.delegate = mainViewController
-                        let ndController = AppNavigationDrawerController(rootViewController: self.appDelegate.appToolbarController, leftViewController: leftViewController)
-                        GlobalDefine.shared.mainNavi?.setViewControllers([ndController], animated: true)
-                    }
+                    }                                        
                 }
-                
             }
-        }
+            
+            CLLocationManager().rx.isEnabled
+                .subscribe(with: self) { obj, isEnable in
+                    guard !isEnable else { return }
+                    CLLocationManager().requestWhenInUseAuthorization()
+                }
+                .disposed(by: self.disposeBag)
+            
+            if FCMManager.sharedInstance.originalMarketingNotiValue != nil {
+                self.moveMainView()
+            } else {
+                self.movePerminssonsGuideView()
+            }
+        }        
+    }
+    
+    private func moveMainView() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let reactor = MainReactor(provider: RestApi())
+        let mainViewcon = storyboard.instantiateViewController(ofType: MainViewController.self)
+        mainViewcon.reactor = reactor
+        let letfViewcon = storyboard.instantiateViewController(ofType: LeftViewController.self)
+        
+        let appToolbarController = AppToolbarController(rootViewController: mainViewcon)
+        appToolbarController.delegate = mainViewcon
+        let ndController = AppNavigationDrawerController(rootViewController: appToolbarController, leftViewController: letfViewcon)
+        GlobalDefine.shared.mainNavi?.setViewControllers([ndController], animated: true)
+    }
+    
+    private func movePerminssonsGuideView() {
+        let reactor = PermissionsGuideReactor(provider: RestApi())
+        let viewcon = PermissionsGuideViewController(reactor: reactor)
+        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+    }
+}
+
+extension FLAnimatedImage {
+    convenience init(gifResource: String) {
+        self.init(animatedGIFData: NSData(contentsOfFile: Bundle.main.path(forResource: gifResource, ofType: "")!) as Data?)
     }
 }
 

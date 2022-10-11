@@ -871,8 +871,8 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
         GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
         GlobalDefine.shared.mainNavi?.interactivePopGestureRecognizer?.isEnabled = false
         
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -902,7 +902,7 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
     // MARK: FUNC
     
     @objc func keyboardWillShow(_ notification: Notification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             let keyboardHeight = keyboardSize.height
             nextBtn.snp.updateConstraints {
                 $0.bottom.equalToSuperview().offset(-(keyboardHeight + 16))

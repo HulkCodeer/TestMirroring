@@ -97,7 +97,6 @@ extension CardBoardViewController {
         boardTableView.tableViewDelegate = self
         boardTableView.category = self.category
         boardTableView.screenType = self.mode
-
         boardTableView.refreshControl = UIRefreshControl()
         boardTableView.refreshControl?.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
         boardTableView.refreshControl?.attributedTitle = NSAttributedString(string: "새로고침")

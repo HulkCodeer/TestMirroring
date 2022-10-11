@@ -21,7 +21,6 @@ internal final class VerticalConfirmPopupViewController: UIViewController {
     }
     
     private lazy var dimmedBtn = UIButton().then {
-        
         $0.backgroundColor = UIColor(named: "nt-black")?.withAlphaComponent(0.3)
     }
     

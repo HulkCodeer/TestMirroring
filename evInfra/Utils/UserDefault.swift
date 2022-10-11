@@ -10,23 +10,13 @@ import Foundation
 import SwiftyJSON
 class UserDefault {
     struct Key {
-        // 안드로이드에 있으나 iOS에 없는 key
-//        public static final String KEY_APP_VERSION  = "appVersion";
-//        public static final String KEY_DB_VERSION   = "db_version";
-//
-//        public static final String KEY_SETTINGS_ENABLE_CLUSTERING = "enable_clustering";
-//        public static final String KEY_SETTINGS_CLUSTERING_ZOOM = "clustering_zoom";
-
-        // 앱 버젼
-        static let KEY_APP_VERSION  = "appVersion"
         
-        // 사용자 정보
-        static let MEMBER_ID        = "member_id"
-        
+        static let KEY_APP_VERSION  = "appVersion" // 앱 버젼
         static let COMPANY_ICON_UPDATE_DATE = "company_icon_update_date"
         static let COMPANY_ICON_IMAGE_PATH_VERSION = "company_icon_image_path_version"
         
         // 회원 정보
+        static let MEMBER_ID        = "member_id" // 사용자 정보
         static let MB_ID            = "mb_id"       // 회원 id
         static let MB_LEVEL         = "mb_level"
         static let MB_USER_ID       = "mb_user_id"  // user id
@@ -50,7 +40,7 @@ class UserDefault {
         static let MB_POINT = "point"
         static let MB_HAS_REPRESENTED = "mb_has_represented"
         static let IS_SHOW_QR_TOOLTIP = "is_show_qr_tooltip"
-        
+                
         // 필터 - 개인 설정
         static let FILTER_DC_DEMO       = "filter_dc_demo"
         static let FILTER_DC_COMBO      = "filter_dc_combo"
@@ -82,7 +72,6 @@ class UserDefault {
         static let LAST_NOTICE_ID       = "read_notice"
         static let LAST_FREE_ID         = "read_free"
         static let LAST_CHARGER_ID      = "read_station"
-        static let LAST_EVENT_ID        = "read_event"
         
         static let MAP_ZOOM_LEVEL   = "map_zoom_level"
         
@@ -103,15 +92,12 @@ class UserDefault {
         
         // 마케팅 팝업을 이미 보여줬는지 체크
         static let DID_SHOW_MARKETING_POPUP = "app_first_boot" // false : first booting
-                        
-        // 광고 - 일주일동안 보지 않기 선택한 날짜
-        static let AD_KEEP_DATE_FOR_A_WEEK = "ad_keep_date_for_a_week"
-        
-        // 게시글 검색 최근검색어
-        static let RECENT_KEYWORD = "keywords"
-        
-        // 배송완료 툴팁 저장
-        static let IS_HIDDEN_DELEVERY_COMPLETE_TOOLTIP = "isDeleveryComplete"
+        static let AD_KEEP_DATE_FOR_A_WEEK = "ad_keep_date_for_a_week" // 광고 - 일주일동안 보지 않기 선택한 날짜
+        static let RECENT_KEYWORD = "keywords" // 게시글 검색 최근검색어
+        static let IS_HIDDEN_DELEVERY_COMPLETE_TOOLTIP = "isDeleveryComplete" // 배송완료 툴팁 저장
+                
+        static let IS_FIRST_INSTALL = "is_first_install" // 앱 최초 설치인지 확인용
+        static let IS_FIRST_LOCATION_POPUP = "is_first_location_popup" // 항상 허용 권한 위치 팝업 띄웠는지 유무        
     }
 
     func saveString(key:String, value: String) -> Void {
@@ -146,6 +132,14 @@ class UserDefault {
     
     func readBool(key: String) -> Bool {
         return UserDefaults.standard.bool(forKey: key)
+    }
+    
+    func readBoolWithNil(key: String) -> AnyObject? {
+        if let value = UserDefaults.standard.object(forKey: key) {
+            return value as AnyObject
+        } else {
+            return nil
+        }
     }
     
     func saveIntArray(key: String, value: [JSON]) -> Void {

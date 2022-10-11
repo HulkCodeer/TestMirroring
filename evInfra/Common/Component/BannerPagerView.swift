@@ -109,10 +109,23 @@ extension BannerPagerView: FSPagerViewDelegate {
                                        "adID": banner.evtId,
                                        "adName": banner.evtTitle]
         PromotionEvent.clickBanner.logEvent(property: property)
-        // open url
-        let adUrl = banner.extUrl
-        guard let url = URL(string: adUrl), UIApplication.shared.canOpenURL(url) else { return }
-        UIApplication.shared.open(url)
+        
+        if banner.evtType == Promotion.Types.event.toValue {
+            MemberManager.shared.tryToLoginCheck { isLogin in
+                if isLogin {
+                    let viewcon = NewEventDetailViewController()
+                    viewcon.eventData = EventData(eventUrl: "\(banner.extUrl)", promotionId: banner.evtId, mbId: "\(MemberManager.shared.mbId)")
+                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                } else {
+                    MemberManager.shared.showLoginAlert()
+                }
+            }
+        } else {
+            // open url
+            let adUrl = banner.extUrl
+            guard let url = URL(string: adUrl), UIApplication.shared.canOpenURL(url) else { return }
+            UIApplication.shared.open(url)
+        }
     }
     
     internal func pagerViewWillEndDragging(_ pagerView: FSPagerView, targetIndex: Int) {

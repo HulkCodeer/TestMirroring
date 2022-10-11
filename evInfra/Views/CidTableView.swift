@@ -22,7 +22,7 @@ class CidTableView: UITableView, UITableViewDataSource, UITableViewDelegate {
         
         self.dataSource = self
         self.delegate = self
-        self.autoresizingMask = UIViewAutoresizing.flexibleHeight
+        self.autoresizingMask = UIView.AutoresizingMask.flexibleHeight
         
         reloadData()
     }

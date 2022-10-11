@@ -91,6 +91,6 @@ extension FavoriteViewController: ChargerTableViewDelegate {
         MapEvent.viewStationSummarized.logEvent(property: property)
         
         delegate?.moveToSelected(chargerId: charger.mChargerId!)
-        GlobalDefine.shared.mainNavi?.pop(subtype: kCATransitionFromBottom)
+        GlobalDefine.shared.mainNavi?.pop(subtype: CATransitionSubtype.fromBottom)
     }
 }

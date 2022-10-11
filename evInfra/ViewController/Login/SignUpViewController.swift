@@ -78,8 +78,8 @@ internal final class SignUpViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     private func prepareView() {
@@ -149,7 +149,7 @@ internal final class SignUpViewController: UIViewController {
     // MARK: - KeyBoardHeight
     @objc private func keyboardWillShow(_ notification: Notification) {
         var keyboardHeight: CGFloat = 0
-        if let keyboardFrame: NSValue = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
             keyboardHeight = keyboardRectangle.height
         }
@@ -402,7 +402,7 @@ extension SignUpViewController {
     }
 }
 extension SignUpViewController: UITextFieldDelegate {
-    private func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    internal func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == tfPhone {
             guard let text = textField.text else {
                 return false
@@ -432,7 +432,7 @@ extension SignUpViewController: UITextFieldDelegate {
         return true
     }
     
-    private func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == tfNickname {
             tfEmail.becomeFirstResponder()
         } else if textField == tfEmail {

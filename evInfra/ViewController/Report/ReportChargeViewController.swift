@@ -138,7 +138,7 @@ internal final class ReportChargeViewController: UIViewController {
         
         // 운영 기관
         if let charger = self.charger {
-            operationBtn.setTitle(charger.mStationInfoDto?.mOperator, for: UIControlState.normal)
+            operationBtn.setTitle(charger.mStationInfoDto?.mOperator, for: UIControl.State.normal)
         }
         
         // 충전소 이름
@@ -366,10 +366,10 @@ extension ReportChargeViewController : UITextFieldDelegate, UITextViewDelegate {
     }
     
     func addObserver() {
-        NotificationCenter.default.addObserver(forName: .UIKeyboardWillShow, object: nil, queue: nil) { notification in
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: nil) { notification in
             self.keyboardWillShow(notification : notification)
         }
-        NotificationCenter.default.addObserver(forName: .UIKeyboardWillHide, object: nil, queue: nil) { notification in
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: nil) { notification in
             self.keyboardWillHide(notification : notification)
         }
     }
@@ -379,7 +379,7 @@ extension ReportChargeViewController : UITextFieldDelegate, UITextViewDelegate {
     }
     
     func keyboardWillShow(notification : Notification) {
-        guard let userInfo = notification.userInfo, let frame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+        guard let userInfo = notification.userInfo, let frame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
             return
         }
         let contentInsert = UIEdgeInsets(top: 0, left: 0, bottom: frame.height, right: 0)

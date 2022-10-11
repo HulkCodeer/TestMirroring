@@ -135,8 +135,8 @@ internal final class DetailViewController: BaseViewController {
     func handleError(error: Error?) -> Void {
         if let error = error as NSError? {
             print(error)
-            let alert = UIAlertController(title: self.title!, message: error.localizedFailureReason, preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "확인", style: UIAlertActionStyle.cancel, handler: nil))
+            let alert = UIAlertController(title: self.title!, message: error.localizedFailureReason, preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "확인", style: UIAlertAction.Style.cancel, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
     }
@@ -403,7 +403,7 @@ extension DetailViewController {
     @objc
     fileprivate func handleBackButton() {
         ChargerStationEvent.viewStationReview.logEvent()
-        self.navigationController?.pop(transitionType: kCATransitionReveal, subtype: kCATransitionFromBottom)
+        self.navigationController?.pop(transitionType: CATransitionType.reveal, subtype: CATransitionSubtype.fromBottom)
     }
 }
 
@@ -495,19 +495,19 @@ extension DetailViewController: BoardTableViewDelegate {
     }
     
     fileprivate func prepareBoardTableView() {
-        self.cidTableView.rowHeight = UITableViewAutomaticDimension
+        self.cidTableView.rowHeight = UITableView.automaticDimension
         self.cidTableView.separatorStyle = .none
         
         // UITableView cell(게시판) 높이를 자동으로 설정
         self.boardTableView.tableViewDelegate = self
-        self.boardTableView.rowHeight = UITableViewAutomaticDimension
-        self.boardTableView.estimatedRowHeight = UITableViewAutomaticDimension
+        self.boardTableView.rowHeight = UITableView.automaticDimension
+        self.boardTableView.estimatedRowHeight = UITableView.automaticDimension
         self.boardTableView.separatorStyle = .none
         self.boardTableView.allowsSelection = true
         
         // Table header 추가
         self.boardTableView.tableHeaderView = detailView
-        self.boardTableView.sectionHeaderHeight = UITableViewAutomaticDimension
+        self.boardTableView.sectionHeaderHeight = UITableView.automaticDimension
         self.boardTableView.estimatedSectionHeaderHeight = 25  // 25
     }
     

@@ -136,7 +136,7 @@ internal final class LeftViewController: UIViewController {
                 
         sideTableView.delegate = self
         sideTableView.dataSource = self
-        sideTableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        sideTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         
         initSideViewArr()
         
@@ -431,26 +431,24 @@ extension LeftViewController {
         case SUB_MENU_CELL_EVENT:
             switch index.row {
             case SUB_MENU_EVENT: // 이벤트
-                let eventStoryboard = UIStoryboard(name : "Event", bundle: nil)
-                let eventBoardVC = eventStoryboard.instantiateViewController(ofType: EventViewController.self)
-                GlobalDefine.shared.mainNavi?.push(viewController: eventBoardVC)
+                let viewcon = UIStoryboard(name : "Event", bundle: nil).instantiateViewController(ofType: EventViewController.self)
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                
             case SUB_MENU_MY_COUPON: // 내 쿠폰함
-                MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
-                    guard let self = self else { return }
+                MemberManager.shared.tryToLoginCheck { isLogin in                    
                     if isLogin {
-                        let couponStoryboard = UIStoryboard(name : "Coupon", bundle: nil)
-                        let coponVC = couponStoryboard.instantiateViewController(ofType: MyCouponViewController.self)
-                        self.navigationController?.push(viewController: coponVC)
+                        let viewcon = UIStoryboard(name : "Coupon", bundle: nil).instantiateViewController(ofType: MyCouponViewController.self)
+                        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                     }else {
                         MemberManager.shared.showLoginAlert()
                     }
                 }
                 
             default:
-                print("out of index")
+                printLog(out: "out of index")
             }
         default:
-            print("out of index")
+            printLog(out: "out of index")
         }
     }
     
@@ -482,7 +480,7 @@ extension LeftViewController {
             case SUB_MENU_CHARGE_PRICE: // 충전요금 안내
                 let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
                 let priceInfoVC = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
-                priceInfoVC.tabIndex = .PriceInfo
+                priceInfoVC.tabIndex = .priceInfo
                 GlobalDefine.shared.mainNavi?.push(viewController: priceInfoVC)
                 
             default:
@@ -543,7 +541,7 @@ extension LeftViewController {
             case SUB_MENU_FAQ: // 자주묻는 질문
                 let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
                 let termsVC = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
-                termsVC.tabIndex = .FAQTop
+                termsVC.tabIndex = .faqTop
                 GlobalDefine.shared.mainNavi?.push(viewController: termsVC)
             
             case SUB_MENU_SERVICE_GUIDE:
@@ -640,20 +638,6 @@ extension LeftViewController {
                     if companyId < boardInfo.brdId! {
                         cell.newBadge.isHidden = false
                     }
-                }
-            }
-        case MENU_EVENT:
-            if index.section == SUB_MENU_CELL_EVENT {
-                switch index.row {
-                case SUB_MENU_EVENT:
-                    if let latestEventId = latestIds[Board.KEY_EVENT] {
-                        let eventId = UserDefault().readInt(key: UserDefault.Key.LAST_EVENT_ID)
-                        if eventId < latestEventId {
-                            cell.newBadge.isHidden = false
-                        }
-                    }
-                default:
-                    cell.newBadge.isHidden = true
                 }
             }
         default:

@@ -158,12 +158,11 @@ internal final class Board {
         let noticeId = UserDefault().readInt(key: UserDefault.Key.LAST_NOTICE_ID)
         let freeId = UserDefault().readInt(key: UserDefault.Key.LAST_FREE_ID)
         let chargerId = UserDefault().readInt(key: UserDefault.Key.LAST_CHARGER_ID)
-        let eventId = UserDefault().readInt(key: UserDefault.Key.LAST_EVENT_ID)
         
         return noticeId < latestBoardIds[Board.KEY_NOTICE] ?? 0
             || freeId < latestBoardIds[Board.KEY_FREE_BOARD] ?? 0
             || chargerId < latestBoardIds[Board.KEY_CHARGER_BOARD] ?? 0
-            || eventId < latestBoardIds[Board.KEY_EVENT] ?? 0 || checkNewCompanyId()
+            || checkNewCompanyId()
     }
     
     // 게시판에 새 글이 있는지 확인

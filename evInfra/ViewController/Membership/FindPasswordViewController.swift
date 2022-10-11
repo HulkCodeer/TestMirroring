@@ -14,8 +14,7 @@ internal final class FindPasswordViewController: BaseViewController {
     // MARK: UI
     
     private lazy var contentTotalView = UIView()
-    private lazy var callCenterImgView = UIImageView().then {
-        
+    private lazy var callCenterImgView = UIImageView().then {        
         $0.image = UIImage(named: "callCenter")
     }
     

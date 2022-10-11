@@ -35,7 +35,7 @@ extension UILabel {
         guard let _text = self.text else { return }
         let attributedString = NSMutableAttributedString(string: _text)
         attributedString.addAttribute(.underlineStyle,
-                                      value: NSUnderlineStyle.styleSingle.rawValue,
+                                      value: NSUnderlineStyle.single.rawValue,
                                       range: (attributedString.string as NSString).range(of: underLineText)
         )
         self.attributedText = attributedString
@@ -45,7 +45,7 @@ extension UILabel {
         guard let _text = self.text else { return }
         let attributedString = NSMutableAttributedString(string: _text)
         attributedString.addAttribute(.underlineStyle,
-                                      value: NSUnderlineStyle.styleSingle.rawValue,
+                                      value: NSUnderlineStyle.single.rawValue,
                                       range: NSRange(location: 0, length: _text.count)
         )
         self.attributedText = attributedString

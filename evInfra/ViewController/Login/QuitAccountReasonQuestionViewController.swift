@@ -21,12 +21,10 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
     // MARK: UI
     
     private lazy var naviTotalView = CommonNaviView().then {
-        
         $0.naviTitleLbl.text = "회원탈퇴"
     }
     
     private lazy var totalScrollView = UIScrollView().then {
-        
         $0.showsVerticalScrollIndicator = true
         $0.showsHorizontalScrollIndicator = false
     }
@@ -35,7 +33,6 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
     private lazy var dismissKeyboardBtn = UIButton()
         
     private lazy var mainTitleLbl = UILabel().then {
-        
         $0.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         $0.textColor = Colors.backgroundAlwaysDark.color
         $0.textAlignment = .natural
@@ -53,14 +50,12 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
     }
     
     private lazy var selectBoxTotalView = UIView().then {
-        
         $0.IBborderColor = Colors.borderOpaque.color
         $0.IBborderWidth = 1
         $0.IBcornerRadius = 6
     }
     
     private lazy var selectBoxTitleLbl = UILabel().then {
-        
         $0.font = UIFont.systemFont(ofSize: 18, weight: .regular)
         $0.textColor = Colors.contentPrimary.color
         $0.textAlignment = .natural
@@ -69,7 +64,6 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
     }
     
     private lazy var selectBoxArrow = ChevronArrow.init(.size24(.down)).then {
-        
         $0.IBimageColor = Colors.contentPrimary.color
     }
     
@@ -80,7 +74,6 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
     }
     
     private lazy var reasonMainTitleLbl = UILabel().then {
-        
         $0.text = "더 자세하게 말씀해주세요."
         $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         $0.numberOfLines = 1
@@ -89,25 +82,21 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
     }
     
     private lazy var reasonBorderView = UIView().then {
-        
         $0.IBborderWidth = 1
         $0.IBcornerRadius = 6
         $0.IBborderColor = Colors.borderOpaque.color
     }
     
     private lazy var reasonNegativeTotalView = UIView().then {
-        
         $0.isHidden = true
     }
 
     private lazy var reasonNegativeIconImgView = Info(.size16).then {
-        
         $0.IBimageWidth = 16
         $0.IBimageColor = Colors.contentNegative.color
     }
     
     private lazy var reasonNegativeLbl = UILabel().then {
-        
         $0.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         $0.textColor = Colors.contentNegative.color
         $0.text = "1200자 이상 작성할 수 없습니다."
@@ -115,7 +104,6 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
     }
             
     private lazy var reasonTextView = UITextView().then {
-        
         $0.showsVerticalScrollIndicator = false
         $0.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         $0.textColor = Colors.nt9.color
@@ -125,7 +113,6 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
     }
     
     private lazy var reasonTextCountLbl = UILabel().then {
-        
         $0.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         $0.textColor = Colors.contentTertiary.color
         $0.text = "0  / 1200"
@@ -134,7 +121,6 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
     }
     
     private lazy var nextBtn = RectButton(level: .primary).then {
-        
         $0.setTitle("다음", for: .normal)
         $0.setTitle("다음", for: .disabled)                
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
@@ -304,8 +290,8 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide(_:)), name: .UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -314,7 +300,7 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
     }
     
     @objc private func keyboardWillShow(_ sender: NSNotification) {
-        if let keyboardSize = (sender.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+        if let keyboardSize = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             let keyboardHeight = keyboardSize.height
             view.layoutIfNeeded()
 //            totalScrollView.snp.updateConstraints {
@@ -354,7 +340,7 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
                 rowVC.items = reactor.currentState.quitAccountReasonList?.compactMap { $0.reasonMessage } ?? []
                 rowVC.headerTitleStr = "탈퇴 사유 선택"
                 rowVC.view.frame = GlobalDefine.shared.mainNavi?.view.bounds ?? UIScreen.main.bounds
-                self.addChildViewController(rowVC)
+                self.addChild(rowVC)
                 self.view.addSubview(rowVC.view)
                                                                               
                 rowVC.selectedCompletion = { [weak self] index in
@@ -364,7 +350,7 @@ internal final class QuitAccountReasonQuestionViewController: CommonBaseViewCont
                     self.nextBtn.isEnabled = true
                     self.reasonTotalView.isHidden = false
                     rowVC.view.removeFromSuperview()
-                    rowVC.removeFromParentViewController()
+                    rowVC.removeFromParent()
                 }
             })
             .disposed(by: self.disposeBag)

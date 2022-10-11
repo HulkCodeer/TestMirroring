@@ -64,7 +64,7 @@ internal final class PartnershipListView : UIView {
         initView()
         
         membershipUseGuideLbl.attributedText = NSAttributedString(string: "EV Pay카드 사용방법이 궁금하신가요?", attributes:
-                                                                    [.underlineStyle: NSUnderlineStyle.styleSingle.rawValue])
+                                                                    [.underlineStyle: NSUnderlineStyle.single.rawValue])
         
         membershipUseGuideBtn.rx.tap
             .throttle(.milliseconds(500), scheduler: MainScheduler.instance)

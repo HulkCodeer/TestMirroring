@@ -50,6 +50,7 @@ struct BoardListItem: Decodable {
         self.content = adsInfo.evtDesc
         self.nick_name = adsInfo.clientName
         self.document_srl = adsInfo.evtId
+        self.tags = adsInfo.evtType
         self.cover_filename = adsInfo.img.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         self.mb_profile = adsInfo.logo.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         self.board_id = "ad"

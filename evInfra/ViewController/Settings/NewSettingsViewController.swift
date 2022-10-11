@@ -50,9 +50,7 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
     }
     
     private lazy var totalView = UIView()
-            
-    private lazy var stackView = UIStackView().then {
-        
+    private lazy var stackView = UIStackView().then {        
         $0.axis = .vertical
         $0.distribution = .fillEqually
         $0.alignment = .fill

@@ -19,7 +19,7 @@ class Server {
             completion(true, response.data)
 
         case .failure(let error):
-            print(error)
+            printLog(out: "Request URL : \(String(describing: response.debugDescription ))")
             completion(false, response.data)
         }
     }
@@ -37,7 +37,7 @@ class Server {
             }
             
         case .failure(let error):
-            print(error)
+            printLog(out: "Request URL : \(String(describing: response.debugDescription ))")
             completion(false, error)
         }
     }
@@ -102,19 +102,7 @@ class Server {
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseData { response in responseJson(response: response, completion: completion) }
     }
-    
-    // 사용자 - 마케팅 push message 알림 설정
-    static func updateMarketingNotificationState(state: Bool, completion: @escaping (Bool, Any) -> Void) {
-        let reqParam: Parameters = [
-            "member_id": MemberManager.shared.memberId,
-            "receive_push": state
-        ]
-        
-        AF.request(Const.EV_PAY_SERVER + "/member/user/setMarketingNotification",
-                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
-            .validate().responseData { response in responseJson(response: response, completion: completion) }
-    }
-    
+            
     // 회원 - 회원 가입
     static func signUp(user: Login, completion: @escaping (Bool, Any) -> Void) {
         let reqParam = user.convertToParams()
@@ -617,7 +605,7 @@ class Server {
     
     // MARK: - Community 개선 - 게시글 이미지 업로드
     static func boardImageUpload(mid: String, document_srl: String, image: UIImage, seq: String, completion: @escaping (Bool, Any) -> Void) {
-        guard let imageData = UIImageJPEGRepresentation(image, 0.5) else { return }
+        guard let imageData = image.jpegData(compressionQuality: 0.5) else { return }
         
         let url = Const.EV_COMMUNITY_SERVER + "/file/mid/\(mid)/document_srl/\(document_srl)/seq/\(seq)"
         
@@ -632,7 +620,7 @@ class Server {
     
     // MARK: - Community 개선 - 댓글 이미지 업로드
     static func commentImageUpload(mid: String, document_srl: String, comment_srl: String, image: UIImage, completion: @escaping(Bool, Any) -> Void) {
-        guard let imageData = UIImageJPEGRepresentation(image, 0.5) else { return }
+        guard let imageData = image.jpegData(compressionQuality: 0.5) else { return }
         
         let url = Const.EV_COMMUNITY_SERVER + "/comment_file/mid/\(mid)/document_srl/\(document_srl)/comment_srl/\(comment_srl)"
         
@@ -1013,21 +1001,8 @@ class Server {
         AF.request(Const.EV_PAY_SERVER + "/charger/report/my_report",
                           method: .post, parameters: reqParam, encoding: JSONEncoding.default)
             .validate().responseData { response in responseData(response: response, completion: completion) }
-    }
-    
-    // 이벤트 - 리스트 가져오기
-    static func getEventList(completion: @escaping (Bool, Any) -> Void) {
-        let reqParam: Parameters = [
-            "req_ver": 1,
-            "mb_id": MemberManager.shared.mbId,
-            "memberId": MemberManager.shared.memberId
-            ]
-        
-        AF.request(Const.EV_PAY_SERVER + "/event/Event/getEventList",
-                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
-            .responseData { response in responseJson(response: response, completion: completion) }
-    }
-    
+    }    
+            
     // MARK: - AWS 프로모션(광고/이벤트) click/view event 전송
     static func countEventAction(eventId: [String], action: Promotion.Action, page: Promotion.Page, layer: Promotion.Layer) {
         guard !eventId.isEmpty else { return }
