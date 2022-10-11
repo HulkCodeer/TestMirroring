@@ -228,15 +228,16 @@ internal final class NewFilterBarView: UIView {
         }
         
                 
-        reactor.state.map { $0.selectedFilterTagType }
-            .asDriver(onErrorJustReturn: nil)
+        reactor.state.compactMap { $0.selectedFilterTagType }
+            .asDriver(onErrorJustReturn: .evpay)
             .drive(with: self) { obj, selectedFilterTagType in
-                let isSelected = selectedFilterTagType == filterTagType ? (selectedFilterTagType == nil ? false : true) : false
-                if filterTagType == .evpay {
+                let isSelected = selectedFilterTagType == filterTagType ? btn.isSelected : false
+                if selectedFilterTagType == .evpay, selectedFilterTagType == filterTagType {
                     view.IBborderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
                     titleLbl.textColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
                     imgView.tintColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-                    FilterManager.sharedInstance.saveIsMembershipCardChecked(isSelected)
+                                        
+                    FilterManager.sharedInstance.saveIsMembershipCardChecked(isSelected)                    
                     
                     let GROUP_TITLE = ["A.B.C..", "가", "나", "다", "라", "마", "바", "사", "아", "자", "차", "카", "타", "파", "하", "힣"];
                     var groupList = Array<CompanyGroup>()
@@ -249,10 +250,7 @@ internal final class NewFilterBarView: UIView {
                     let companyNameSortList = companyList.sorted { $0.name!.lowercased() < $1.name!.lowercased() }
 
                     for company in companyNameSortList {
-                        printLog(out: "PARK TEST company name : \(company.name)")
                         if company.name! >= GROUP_TITLE[titleIndex] {
-                            printLog(out: "PARK TEST company : \(company.name)")
-                            
                             let currentIndex = titleIndex
                             for index in (currentIndex+1)..<GROUP_TITLE.count {
                                 if company.name! >= GROUP_TITLE[index] {
@@ -310,7 +308,6 @@ internal final class NewFilterBarView: UIView {
                     }
                     FilterManager.sharedInstance.updateCompanyFilter()
                 } else {
-                    
                     view.IBborderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
                     titleLbl.textColor = isSelected ? Colors.borderPositive.color : Colors.contentSecondary.color
                     btn.isSelected = isSelected

@@ -51,8 +51,7 @@ internal final class FilterCompanyView: UIView {
         companyTableView.allowsSelection = false
         companyTableView.tableDelegate = self
         
-        updateTable()
-        
+        updateTable()        
         self.switchCard.isOn = FilterManager.sharedInstance.getIsMembershipCardChecked()
     }
     
