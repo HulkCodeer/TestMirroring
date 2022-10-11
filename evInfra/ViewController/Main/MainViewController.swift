@@ -113,7 +113,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         prepareMenuBtnLayer()
         
         prepareChargePrice()
-        requestStationInfo()
+//        requestStationInfo()
         
         prepareCalloutLayer()
         
@@ -137,52 +137,52 @@ internal final class MainViewController: UIViewController, StoryboardView {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-            super.viewWillAppear(animated)
-            MapEvent.viewMainPage.logEvent()
-            
-            let isProcessing = GlobalDefine.shared.tempDeepLink.isEmpty
-            if !isProcessing {
-                DeepLinkModel.shared.openSchemeURL(urlstring: GlobalDefine.shared.tempDeepLink)
-            } else {
-                self.locationManager.rx.status
-                    .observe(on: MainScheduler.asyncInstance)
-                    .subscribe(with: self) { obj, status in
-                        switch status {
-                        case .authorizedWhenInUse:
-                            guard let _reactor = obj.reactor, _reactor.currentState.isShowStartBanner == nil else { return }
-                            Observable.just(MainReactor.Action.showMarketingPopup)
-                                .bind(to: _reactor.action)
-                                .disposed(by: obj.disposeBag)
+        super.viewWillAppear(animated)
+        MapEvent.viewMainPage.logEvent()
+        
+        let isProcessing = GlobalDefine.shared.tempDeepLink.isEmpty
+        if !isProcessing {
+            DeepLinkModel.shared.openSchemeURL(urlstring: GlobalDefine.shared.tempDeepLink)
+        } else {
+            self.locationManager.rx.status
+                .observe(on: MainScheduler.asyncInstance)
+                .subscribe(with: self) { obj, status in
+                    switch status {
+                    case .authorizedWhenInUse:
+                        guard let _reactor = obj.reactor, _reactor.currentState.isShowStartBanner == nil else { return }
+                        Observable.just(MainReactor.Action.showMarketingPopup)
+                            .bind(to: _reactor.action)
+                            .disposed(by: obj.disposeBag)
 
-                        default:
-                            CLLocationManager().rx.isEnabled
-                                .subscribe(with: obj) { obj, isEnable in
-                                    if isEnable {
-                                        let popupModel = PopupModel(title: "위치권한을 허용해주세요",
-                                                                    message: "위치 권한을 허용해주시면, 사용자님 근처의 충전소 정보를 알려드릴게요.",
-                                                                    confirmBtnTitle: "권한 변경하기",
-                                                                    confirmBtnAction: {
-                                            if let url = URL(string: UIApplication.openSettingsURLString) {
-                                                if UIApplication.shared.canOpenURL(url) {
-                                                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                                                }
+                    default:
+                        CLLocationManager().rx.isEnabled
+                            .subscribe(with: obj) { obj, isEnable in
+                                if isEnable {
+                                    let popupModel = PopupModel(title: "위치권한을 허용해주세요",
+                                                                message: "위치 권한을 허용해주시면, 사용자님 근처의 충전소 정보를 알려드릴게요.",
+                                                                confirmBtnTitle: "권한 변경하기",
+                                                                confirmBtnAction: {
+                                        if let url = URL(string: UIApplication.openSettingsURLString) {
+                                            if UIApplication.shared.canOpenURL(url) {
+                                                UIApplication.shared.open(url, options: [:], completionHandler: nil)
                                             }
-                                        }, textAlignment: .center, dimmedBtnAction: nil)
+                                        }
+                                    }, textAlignment: .center, dimmedBtnAction: nil)
 
-                                        let popup = ConfirmPopupViewController(model: popupModel)
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                                            GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
-                                        })
-                                    } else {
-                                        obj.askPermission()
-                                    }
+                                    let popup = ConfirmPopupViewController(model: popupModel)
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                        GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                                    })
+                                } else {
+                                    obj.askPermission()
                                 }
-                                .disposed(by: obj.disposeBag)
-                        }
+                            }
+                            .disposed(by: obj.disposeBag)
                     }
-                    .disposed(by: self.disposeBag)
-            }
+                }
+                .disposed(by: self.disposeBag)
         }
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true

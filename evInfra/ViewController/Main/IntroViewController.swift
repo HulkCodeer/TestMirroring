@@ -47,26 +47,15 @@ internal final class IntroViewController: UIViewController {
         showProgressLayer(isShow: false)
         showIntro()
         
-        ChargerManager.sharedInstance.getChargerCompanyInfo(listener: {
-            
-            class chargerManagerListener: ChargerManagerListener {
-
-                var controller: IntroViewController?
-                
-                func onComplete() {
-                    controller?.checkCompanyInfo()
-                }
-                
-                func onError(errorMsg: String) {
-                }
-                
-                required init(_ controller : IntroViewController) {
-                    self.controller = controller
-                }
+        Server.getCompanyInfo(updateDate: ChargerManager.sharedInstance.getChargerCompanyInfo()) { (isSuccess, value) in
+            if isSuccess {
+                ChargerManager.sharedInstance.updateCompanyInfoListFromServer(json: JSON(value))
+                self.checkCompanyInfo()
+            } else {
+                Snackbar().show(message: "네트워크 오류")
+                fatalError("네트워크 오류")
             }
-            
-            return chargerManagerListener(self)
-        } ())
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
