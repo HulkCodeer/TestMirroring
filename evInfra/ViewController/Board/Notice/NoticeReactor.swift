@@ -67,6 +67,8 @@ internal final class NoticeReactor: ViewModel, Reactor {
                 return nil
             }
             
+            checkLastNotice(noticeList.list)
+            
             return noticeList.list
             
         case .failure(let error):
@@ -103,6 +105,14 @@ internal final class NoticeReactor: ViewModel, Reactor {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             GlobalDefine.shared.mainNavi?.pop()
         }
+    }
+    
+    private func checkLastNotice(_ item: [NoticeList.NoticeItem]) {
+        guard item.count > 0,
+                let id = item.first?.id
+        else { return }
+        
+        UserDefault().saveInt(key: UserDefault.Key.LAST_NOTICE_ID, value: id)
     }
 }
 
