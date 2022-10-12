@@ -309,7 +309,7 @@ internal final class NewFilterBarView: UIView {
                 } else {
                     for company in companyList {
                         for groupItem in groupList {
-                            for tagItem in groupItem.list {
+                            for _ in groupItem.list {
                                 if let companyId = company.company_id {
                                     ChargerManager.sharedInstance.updateCompanyVisibility(isVisible: true, companyID: companyId)
                                     continue
