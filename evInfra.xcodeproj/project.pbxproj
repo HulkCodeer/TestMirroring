@@ -1292,6 +1292,7 @@
 		82A27BF828F682D100C8AD2C /* Exo-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82A27BF728F682D100C8AD2C /* Exo-SemiBoldItalic.ttf */; };
 		82A27BF928F682D100C8AD2C /* Exo-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82A27BF728F682D100C8AD2C /* Exo-SemiBoldItalic.ttf */; };
 		82A27BFA28F682D100C8AD2C /* Exo-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82A27BF728F682D100C8AD2C /* Exo-SemiBoldItalic.ttf */; };
+		82A27BFB28F693E600C8AD2C /* LeftViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636BE34B28A0E998005773CE /* LeftViewReactor.swift */; };
 		82B3E7F42837D5A700B8ACF7 /* GlobalDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */; };
 		82C9A01728B0F0EE0003296B /* QRReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01628B0F0EE0003296B /* QRReaderView.swift */; };
 		82C9A01828B0F0EE0003296B /* QRReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01628B0F0EE0003296B /* QRReaderView.swift */; };
@@ -5119,6 +5120,7 @@
 				824D5CB328BDD89C00EDC712 /* ClusterGenerator.swift in Sources */,
 				824D5CB428BDD89C00EDC712 /* ChargesTableViewCell.swift in Sources */,
 				824D5CB528BDD89C00EDC712 /* UILabel+Extension.swift in Sources */,
+				82A27BFB28F693E600C8AD2C /* LeftViewReactor.swift in Sources */,
 				824D5CB628BDD89C00EDC712 /* MembershipReissuanceViewController.swift in Sources */,
 				824D5CB728BDD89C00EDC712 /* CommunityChargeStationTableViewCell.swift in Sources */,
 				824D5CB828BDD89C00EDC712 /* AppNavigationDrawerController.swift in Sources */,
