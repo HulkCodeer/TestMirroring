@@ -167,8 +167,9 @@ internal final class NewFilterBarView: UIView {
     // 아래 코드는 추후 디자인 개편시 지워도 됨
     private func createFilterTagView(_ reactor: MainReactor) -> UIView {
         let titleLbl = UILabel().then {
-            $0.font = .systemFont(ofSize: 14, weight: .regular)
+            $0.font = UIFont(name: "Exo-SemiBoldItalic", size: 14)
             $0.textColor = Colors.contentSecondary.color
+            $0.textAlignment = .center
             $0.text = "EV Pay"
         }
         

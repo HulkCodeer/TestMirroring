@@ -1289,6 +1289,9 @@
 		82829BD228ADC2F20044AD6C /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */; };
 		82A27BE428F64C7E00C8AD2C /* VerticalConfirmPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8204895C28A5F0520030B3BA /* VerticalConfirmPopupViewController.swift */; };
 		82A27BE528F66A8400C8AD2C /* NewLeftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636BE34828A0E7CD005773CE /* NewLeftViewController.swift */; };
+		82A27BE828F67E2600C8AD2C /* Exo-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82A27BE728F67E2600C8AD2C /* Exo-SemiBoldItalic.ttf */; };
+		82A27BE928F67E2600C8AD2C /* Exo-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82A27BE728F67E2600C8AD2C /* Exo-SemiBoldItalic.ttf */; };
+		82A27BEA28F67E2600C8AD2C /* Exo-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82A27BE728F67E2600C8AD2C /* Exo-SemiBoldItalic.ttf */; };
 		82B3E7F42837D5A700B8ACF7 /* GlobalDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */; };
 		82C9A01728B0F0EE0003296B /* QRReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01628B0F0EE0003296B /* QRReaderView.swift */; };
 		82C9A01828B0F0EE0003296B /* QRReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01628B0F0EE0003296B /* QRReaderView.swift */; };
@@ -1821,6 +1824,7 @@
 		8261C8B428ECF6A20018E168 /* UIWindow+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow+Extension.swift"; sourceTree = "<group>"; };
 		82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Rx.swift"; sourceTree = "<group>"; };
 		82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
+		82A27BE728F67E2600C8AD2C /* Exo-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Exo-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalDefine.swift; sourceTree = "<group>"; };
 		82C9A01628B0F0EE0003296B /* QRReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRReaderView.swift; sourceTree = "<group>"; };
 		82C9A01928B10A010003296B /* PaymentQRScanReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentQRScanReactor.swift; sourceTree = "<group>"; };
@@ -2560,6 +2564,7 @@
 		63F31554284F08A8001713D2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				82A27BE628F67E2600C8AD2C /* Fonts */,
 				63F31555284F08E2001713D2 /* Colors.xcassets */,
 				63F31556284F08E3001713D2 /* Icons.xcassets */,
 				732121C6203AC023000E105C /* Assets.xcassets */,
@@ -2991,6 +2996,14 @@
 			path = RxSwift;
 			sourceTree = "<group>";
 		};
+		82A27BE628F67E2600C8AD2C /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				82A27BE728F67E2600C8AD2C /* Exo-SemiBoldItalic.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		82E1301B28DEACF100E7983D /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -3371,6 +3384,7 @@
 				63F31512284EC74F001713D2 /* navi_personal_settings.png in Resources */,
 				63F31513284EC74F001713D2 /* thumbnail_mask_white.png in Resources */,
 				63F31514284EC74F001713D2 /* type_destination.png in Resources */,
+				82A27BE928F67E2600C8AD2C /* Exo-SemiBoldItalic.ttf in Resources */,
 				63F31515284EC74F001713D2 /* FilterCompanyView.xib in Resources */,
 				63F31516284EC74F001713D2 /* ioniq.jpg in Resources */,
 				63F31517284EC74F001713D2 /* delete_normal.png in Resources */,
@@ -3486,6 +3500,7 @@
 				63F31557284F08E3001713D2 /* Colors.xcassets in Resources */,
 				73EF8B78203C85CC00D04494 /* TrackingDot@2x.png in Resources */,
 				73EF8B6F203C85CC00D04494 /* HeadingAngleSmall.png in Resources */,
+				82A27BE828F67E2600C8AD2C /* Exo-SemiBoldItalic.ttf in Resources */,
 				73A7B420204E3595002E975F /* type_ac_three.png in Resources */,
 				73A7B41C204E3595002E975F /* reply_pressed.png in Resources */,
 				00B4F54926BA23B6009A904C /* TagListViewCell.xib in Resources */,
@@ -3578,6 +3593,7 @@
 				824D5D3528BDD89C00EDC712 /* delete_pressed.png in Resources */,
 				824D5D3728BDD89C00EDC712 /* ChargerTableViewCell.xib in Resources */,
 				824D5D3828BDD89C00EDC712 /* img_load_fail.png in Resources */,
+				82A27BEA28F67E2600C8AD2C /* Exo-SemiBoldItalic.ttf in Resources */,
 				824D5D3928BDD89C00EDC712 /* FilterTypeView.xib in Resources */,
 				824D5D3A28BDD89C00EDC712 /* type_dc_combo.png in Resources */,
 				824D5D3B28BDD89C00EDC712 /* TrackingDotHalo.png in Resources */,
