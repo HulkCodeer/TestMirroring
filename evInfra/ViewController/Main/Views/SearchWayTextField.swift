@@ -11,27 +11,25 @@ import SnapKit
 
 /// 취소버튼, highlight 선 보유한 TextField
 class SearchWayTextField: UITextField {
-    private lazy var clearButton = UIButton().then {
+    lazy var clearButton = UIButton().then {
         let image = UIImage(asset: Icons.iconCloseSm)
         $0.setImage(image, for: .normal)
         $0.imageView?.contentMode = .scaleAspectFill
         $0.isHidden = true
     }
     private lazy var highilightLine = UIView().then {
-        $0.backgroundColor = Colors.backgroundPositive.color
-        $0.isHidden = true
+        $0.backgroundColor = Colors.nt3.color
     }
     
     override var intrinsicContentSize: CGSize {
       return CGSize(width: bounds.width, height: 32)
     }
-    
+        
     // MARK: - initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         makeUI()
-        makeAction()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -41,9 +39,12 @@ class SearchWayTextField: UITextField {
     // MARK: - makeUI
     
     private func makeUI() {
+        self.delegate = self
+        clearButton.addTarget(self, action: #selector(didTapClearButton(_:)), for: .touchUpInside)
+        
         self.addSubview(clearButton)
         self.addSubview(highilightLine)
-        
+
         let removeButtonSize: CGFloat = 32
         
         clearButton.snp.makeConstraints {
@@ -52,32 +53,33 @@ class SearchWayTextField: UITextField {
         }
         highilightLine.snp.makeConstraints {
             $0.leading.trailing.bottom.equalToSuperview()
-            $0.height.equalTo(1)
+            $0.height.equalTo(0.5)
         }
     }
     
     // MARK: - Action
-    
-    func setHighilightColor(_ color: UIColor) {
-        highilightLine.backgroundColor = color
+
+    @objc private func didTapClearButton(_ sender: UIButton) {
+        self.text = String()
+    }
+}
+
+extension SearchWayTextField: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        highilightLine.backgroundColor = Colors.backgroundPositive.color
+        highilightLine.snp.updateConstraints {
+            $0.height.equalTo(1)
+        }
+        
+        clearButton.isHidden = false
     }
     
-    private func makeAction() {
-        let clearAction = UIAction { [weak self] _ in
-            self?.text = String()
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        highilightLine.backgroundColor = Colors.nt3.color
+        highilightLine.snp.updateConstraints {
+            $0.height.equalTo(0.5)
         }
-        clearButton.addAction(clearAction, for: .touchUpInside)
         
-        let highlightAction = UIAction { [weak self] _ in
-            self?.highilightLine.isHidden = false
-            self?.clearButton.isHidden = false
-        }
-        self.addAction(highlightAction, for: .touchUpInside)
-        
-        let editEndAction = UIAction { [weak self] _ in
-            self?.highilightLine.isHidden = true
-            self?.clearButton.isHidden = true
-        }
-        self.addAction(editEndAction, for: .editingDidEndOnExit)
+        clearButton.isHidden = true
     }
 }

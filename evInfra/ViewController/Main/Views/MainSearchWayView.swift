@@ -47,6 +47,42 @@ final class MainSearchWayView: UIView {
     private func makeUI() {
         self.backgroundColor = Colors.backgroundPrimary.color
 
+        self.addSubview(startTextField)
+        self.addSubview(removeButton)
+
+        self.addSubview(endTextField)
+        self.addSubview(searchButton)
+        
+        let verticalMargin: CGFloat = 4
+        let horizontalMargin: CGFloat = 8
+                
+        let buttonWidth: CGFloat = 66
+        
+        startTextField.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(verticalMargin)
+            $0.leading.equalToSuperview().inset(horizontalMargin)
+            $0.trailing.equalTo(removeButton.snp.leading)
+            $0.bottom.equalTo(self.snp.centerY)
+        }
+        endTextField.snp.makeConstraints {
+            $0.top.equalTo(startTextField.snp.bottom)
+            $0.leading.equalToSuperview().inset(horizontalMargin)
+            $0.trailing.equalTo(searchButton.snp.leading)
+            $0.bottom.equalToSuperview().inset(verticalMargin)
+        }
+
+        removeButton.snp.makeConstraints {
+            $0.centerY.equalTo(startTextField)
+            $0.trailing.equalToSuperview()
+            $0.height.equalTo(startTextField)
+            $0.width.equalTo(buttonWidth)
+        }
+        searchButton.snp.makeConstraints {
+            $0.centerY.equalTo(endTextField)
+            $0.trailing.equalToSuperview()
+            $0.height.equalTo(endTextField)
+            $0.width.equalTo(buttonWidth)
+        }
     }
     
 }
