@@ -163,8 +163,7 @@ internal final class IntroViewController: UIViewController {
         let mainViewcon = storyboard.instantiateViewController(ofType: MainViewController.self)
         mainViewcon.reactor = reactor
         let leftReactor = LeftViewReactor(provider: RestApi())
-        let leftViewcon = NewLeftViewController()
-        leftViewcon.reactor = leftReactor
+        let leftViewcon = NewLeftViewController(reactor: leftReactor)        
         
         let appToolbarController = AppToolbarController(rootViewController: mainViewcon)
         appToolbarController.delegate = mainViewcon

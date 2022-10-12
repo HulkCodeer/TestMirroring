@@ -177,6 +177,15 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     
     // MARK: SYSTEM FUNC
     
+    init(reactor: LeftViewReactor) {
+        super.init()
+        self.reactor = reactor        
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
     override func loadView() {
         super.loadView()
                 
