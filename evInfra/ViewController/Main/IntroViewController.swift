@@ -149,10 +149,10 @@ internal final class IntroViewController: UIViewController {
                 }
                 .disposed(by: self.disposeBag)
             
-            if FCMManager.sharedInstance.originalMarketingNotiValue != nil {
-                self.moveMainView()
+            if FCMManager.sharedInstance.originalMemberId.isEmpty {
+                self.movePerminssonsGuideView()                
             } else {
-                self.movePerminssonsGuideView()
+                self.moveMainView()
             }
         }        
     }
