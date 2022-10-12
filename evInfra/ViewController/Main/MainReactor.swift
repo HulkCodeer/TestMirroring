@@ -10,30 +10,35 @@ import ReactorKit
 import SwiftyJSON
 
 internal final class MainReactor: ViewModel, Reactor {
+    typealias SelectedFilterInfo = (filterTagType: FilterTagType, isSeleted: Bool)
+    
     enum Action {        
         case showMarketingPopup
         case setAgreeMarketing(Bool)
-        case setFilterType(FilterTagType?)
+        case setSelectedFilterInfo(SelectedFilterInfo)
         case swipeLeft
         case swipeRight
         case showFilterSetting
         case updateFilterBarTitle
+        case setEvPayFilter(Bool)
     }
     
     enum Mutation {
         case setShowMarketingPopup(Bool)
         case setShowStartBanner(Bool)
-        case setFilterType(FilterTagType?)
+        case setSelectedFilterInfo(SelectedFilterInfo)
         case showFilterSetting
         case updateFilterBarTitle
+        case setEvPayFilter(Bool)
     }
     
     struct State {
         var isShowMarketingPopup: Bool?
         var isShowStartBanner: Bool?
-        var selectedFilterTagType: FilterTagType?
+        var selectedFilterInfo: SelectedFilterInfo?
         var isShowFilterSetting: Bool?
         var isUpdateFilterBarTitle: Bool?
+        var isEvPayFilter: Bool?
     }
     
     internal var initialState: State    
@@ -61,20 +66,25 @@ internal final class MainReactor: ViewModel, Reactor {
                     return .setShowStartBanner(isShowStartBanner)
                 }
             
-        case .setFilterType(let filterTagType):
-            return .just(.setFilterType(filterTagType))
+        case .setSelectedFilterInfo(let selectedFilterInfo):
+            return .just(.setSelectedFilterInfo(selectedFilterInfo))
             
         case .swipeLeft:
-            return .just(.setFilterType(self.currentState.selectedFilterTagType?.swipeLeft()))
+            let selectedFilterInfo: SelectedFilterInfo = (filterTagType: self.currentState.selectedFilterInfo?.filterTagType.swipeLeft() ?? .price, isSeleted: true)
+            return .just(.setSelectedFilterInfo(selectedFilterInfo))
             
         case .swipeRight:
-            return .just(.setFilterType(self.currentState.selectedFilterTagType?.swipeRight()))
+            let selectedFilterInfo: SelectedFilterInfo = (filterTagType: self.currentState.selectedFilterInfo?.filterTagType.swipeRight() ?? .price, isSeleted: true)
+            return .just(.setSelectedFilterInfo(selectedFilterInfo))
             
         case .showFilterSetting:
             return .just(.showFilterSetting)
             
         case .updateFilterBarTitle:
             return .just(.updateFilterBarTitle)
+            
+        case .setEvPayFilter(let isEvPayFilter):
+            return .just(.setEvPayFilter(isEvPayFilter))
         }
     }
     
@@ -82,8 +92,7 @@ internal final class MainReactor: ViewModel, Reactor {
         var newState = state
         newState.isShowMarketingPopup = nil        
         newState.isShowFilterSetting = nil
-        newState.isUpdateFilterBarTitle = nil
-        newState.selectedFilterTagType = nil
+        newState.isUpdateFilterBarTitle = nil        
         
         switch mutation {
         case .setShowMarketingPopup(let isShow):
@@ -92,8 +101,8 @@ internal final class MainReactor: ViewModel, Reactor {
         case .setShowStartBanner(let isShow):
             newState.isShowStartBanner = isShow
             
-        case .setFilterType(let filterTagType):
-            newState.selectedFilterTagType = filterTagType
+        case .setSelectedFilterInfo(let selectedFilterInfo):
+            newState.selectedFilterInfo = selectedFilterInfo
             newState.isUpdateFilterBarTitle = true
             
         case .showFilterSetting:
@@ -101,6 +110,9 @@ internal final class MainReactor: ViewModel, Reactor {
             
         case .updateFilterBarTitle:
             newState.isUpdateFilterBarTitle = true
+            
+        case .setEvPayFilter(let isEvPayFilter):
+            newState.isEvPayFilter = isEvPayFilter
         }
         
         return newState

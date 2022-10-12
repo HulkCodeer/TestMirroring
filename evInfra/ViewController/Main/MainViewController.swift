@@ -113,15 +113,15 @@ internal final class MainViewController: UIViewController, StoryboardView {
         prepareMenuBtnLayer()
         
         prepareChargePrice()
-//        requestStationInfo()
+        requestStationInfo()
         
         prepareCalloutLayer()
         
         GlobalDefine.shared.mainViewcon = self
         
         self.locationManager.delegate = self
-        
-        
+        filterContainerView.delegate = self
+                
         self.locationManager.rx
             .status
             .subscribe(with: self) { obj, status in
@@ -282,13 +282,13 @@ internal final class MainViewController: UIViewController, StoryboardView {
             }
             .disposed(by: self.disposeBag)
         
-        reactor.state.map { $0.selectedFilterTagType }
-            .asDriver(onErrorJustReturn: nil)
-            .drive(with: self) { obj, filterTagType in
-                if filterTagType == nil || filterTagType == .evpay {
-                    obj.hideFilter()
-                } else {
+        reactor.state.compactMap { $0.selectedFilterInfo }
+            .asDriver(onErrorJustReturn: (filterTagType: .price, isSeleted: false))
+            .drive(with: self) { obj, selectedFilterInfo in
+                if selectedFilterInfo.isSeleted {
                     obj.showFilter()
+                } else {
+                    obj.hideFilter()
                 }
             }
             .disposed(by: self.disposeBag)
@@ -632,7 +632,7 @@ extension MainViewController: NMFMapViewTouchDelegate {
     func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
         guard let _reactor = self.reactor else { return }
         
-        Observable.just(MainReactor.Action.setFilterType(nil))
+        Observable.just(MainReactor.Action.setSelectedFilterInfo(MainReactor.SelectedFilterInfo(filterTagType: .price, isSeleted: false)))
             .bind(to: _reactor.action)
             .disposed(by: self.disposeBag)
         
