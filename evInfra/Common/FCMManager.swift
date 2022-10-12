@@ -42,7 +42,7 @@ internal final class FCMManager {
     var fcmNotification: [AnyHashable: Any]? = nil
     var isReady: Bool = false
     
-    internal var originalMarketingNotiValue: Bool?
+    internal var originalMemberId: String = ""
     
     private let disposeBag = DisposeBag()
     
@@ -398,7 +398,7 @@ internal final class FCMManager {
             guard let self = self else { return }
             if isSuccess {
                 let json = JSON(value)
-                self.originalMarketingNotiValue = MemberManager.shared.isAllowMarketingNoti // 마켓팅 푸쉬 여부를 받기 전 값으로 앱 첫설치 여부를 파악하기 위해 필요함
+                FCMManager.sharedInstance.originalMemberId = MemberManager.shared.memberId
                 
                 MemberManager.shared.memberId = json["member_id"].stringValue
                 UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_NOTIFICATION, value: json["receive_push"].boolValue)
