@@ -21,12 +21,11 @@ internal final class VerticalConfirmPopupViewController: UIViewController {
     }
     
     private lazy var dimmedBtn = UIButton().then {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = UIColor(named: "nt-black")?.withAlphaComponent(0.3)
+        $0.backgroundColor = Colors.ntBlack.color.withAlphaComponent(0.3)
     }
     
     private lazy var containerView = UIView().then {
-        $0.backgroundColor = UIColor(named: "nt-white")
+        $0.backgroundColor = Colors.ntWhite.color
         $0.layer.cornerRadius = 8
     }
     
@@ -37,7 +36,6 @@ internal final class VerticalConfirmPopupViewController: UIViewController {
     }
     
     private lazy var titleLabel = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = true
         $0.numberOfLines = 0
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: 18, weight: .semibold)
@@ -45,7 +43,6 @@ internal final class VerticalConfirmPopupViewController: UIViewController {
     }
     
     private lazy var descriptionLabel = UILabel().then {
-        $0.translatesAutoresizingMaskIntoConstraints = true
         $0.numberOfLines = 0
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: 14)
@@ -53,7 +50,6 @@ internal final class VerticalConfirmPopupViewController: UIViewController {
     }
     
     private lazy var buttonStackView = UIStackView().then {
-        $0.translatesAutoresizingMaskIntoConstraints = true
         $0.axis = .vertical
         $0.distribution = .fillEqually
         $0.spacing = 8
@@ -107,7 +103,6 @@ internal final class VerticalConfirmPopupViewController: UIViewController {
         
         buttonStackView.snp.makeConstraints {
             $0.width.equalToSuperview()
-            $0.height.equalTo(104)
         }
         
         self.titleLabel.text = self.popupModel.title
@@ -119,12 +114,14 @@ internal final class VerticalConfirmPopupViewController: UIViewController {
                                           titleColor: Colors.contentOnColor.color)
             confirmBtn.rx.tap
                 .asDriver()
-                .drive(onNext: { [weak self] _ in
-                    guard let self = self else { return }
-                    self.dismissPopup(actionBtnType: .ok)
-                })
+                .drive(with: self){ obj,_ in
+                    obj.dismissPopup(actionBtnType: .ok)
+                }
                 .disposed(by: self.disposebag)
             buttonStackView.addArrangedSubview(confirmBtn)
+            confirmBtn.snp.makeConstraints {
+                $0.height.equalTo(48)
+            }
         }
                         
         if let _cancelTitle = self.popupModel.cancelBtnTitle {
@@ -135,21 +132,27 @@ internal final class VerticalConfirmPopupViewController: UIViewController {
             cancelBtn.IBborderColor = Colors.borderOpaque.color
             cancelBtn.rx.tap
                 .asDriver()
-                .drive(onNext: { [weak self] _ in
-                    guard let self = self else { return }
-                    self.dismissPopup(actionBtnType: .cancel)
-                })
+                .drive(with: self){ obj,_ in
+                    obj.dismissPopup(actionBtnType: .cancel)
+                }
                 .disposed(by: self.disposebag)
+            
             buttonStackView.addArrangedSubview(cancelBtn)
+            cancelBtn.snp.makeConstraints {
+                $0.height.equalTo(48)
+            }
         }
         
         dimmedBtn.rx.tap
             .asDriver()
-            .drive(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                self.dismiss(animated: true)
-                
-            })
+            .drive(with: self){ obj,_ in
+                if let _dimmedAction = self.popupModel.dimmedBtnAction {
+                    obj.dismissPopup(actionBtnType: .cancel)
+                    _dimmedAction()
+                } else {
+                    obj.dismiss(animated: true)
+                }
+            }
             .disposed(by: self.disposebag)
         
         descriptionLabel.textAlignment = self.popupModel.messageTextAlignment
