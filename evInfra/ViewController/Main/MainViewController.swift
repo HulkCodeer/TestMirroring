@@ -200,7 +200,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         }
         canIgnoreJejuPush = UserDefault().readBool(key: UserDefault.Key.JEJU_PUSH)// default : false
                   
-        if !MemberManager.shared.isShowEvPayTooltip {
+        if !MemberManager.shared.isShowEvPayTooltip, !FCMManager.sharedInstance.originalMemberId.isEmpty {
             var evPayPreferences = EasyTipView.Preferences()
                     
             evPayPreferences.drawing.backgroundColor = Colors.backgroundAlwaysDark.color
@@ -216,7 +216,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
             let evPayTiptext = "EV Pay 카드로 충전 가능한 충전소만\n볼 수 있어요"
             self.evPayTipView = EasyTipView(text: evPayTiptext, preferences: evPayPreferences)
             self.evPayTipView.show(forView: self.filterBarView.evPayView, withinSuperview: self.view)
-            self.evPayTipView.isHidden = true
         }
                         
         if !MemberManager.shared.isShowQrTooltip {
@@ -289,8 +288,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         
         reactor.state.compactMap { $0.isShowStartBanner }
             .asDriver(onErrorJustReturn: false)
-            .drive(with: self) { obj, isShow in
-                guard !isShow else { return }
+            .drive(with: self) { obj, _ in
                 GlobalAdsReactor.sharedInstance.state.compactMap { $0.startBanner }
                     .asDriver(onErrorJustReturn: AdsInfo(JSON.null))
                     .drive(onNext: { adInfo in
@@ -307,7 +305,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                             GlobalDefine.shared.mainNavi?.present(viewcon, animated: false, completion: nil)
                         }
                     })
-                    .disposed(by: self.disposeBag)                                
+                    .disposed(by: obj.disposeBag)
             }
             .disposed(by: self.disposeBag)
         
@@ -340,7 +338,25 @@ internal final class MainViewController: UIViewController, StoryboardView {
         
         reactor.state.compactMap { $0.isShowEvPayToolTip }
             .asDriver(onErrorJustReturn: false)
-            .drive(self.evPayTipView.rx.isHidden)
+            .drive(with: self) { obj, isShow in
+                guard isShow else { return }
+                
+                var evPayPreferences = EasyTipView.Preferences()
+                        
+                evPayPreferences.drawing.backgroundColor = Colors.backgroundAlwaysDark.color
+                evPayPreferences.drawing.foregroundColor = Colors.backgroundSecondary.color
+                evPayPreferences.drawing.textAlignment = NSTextAlignment.left
+
+                evPayPreferences.drawing.arrowPosition = .top
+                evPayPreferences.animating.showInitialAlpha = 1
+                evPayPreferences.animating.showDuration = 1
+                evPayPreferences.animating.dismissDuration = 1
+                evPayPreferences.positioning.maxWidth = 227
+
+                let evPayTiptext = "EV Pay 카드로 충전 가능한 충전소만\n볼 수 있어요"
+                self.evPayTipView = EasyTipView(text: evPayTiptext, preferences: evPayPreferences)
+                self.evPayTipView.show(forView: self.filterBarView.evPayView, withinSuperview: self.view)
+            }
             .disposed(by: self.disposeBag)
     }
     
