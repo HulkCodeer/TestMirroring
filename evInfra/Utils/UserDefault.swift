@@ -40,6 +40,7 @@ class UserDefault {
         static let MB_POINT = "point"
         static let MB_HAS_REPRESENTED = "mb_has_represented"
         static let IS_SHOW_QR_TOOLTIP = "is_show_qr_tooltip"
+        static let IS_SHOW_EVPAY_TOOLTIP = "is_show_evpay_tooltip"
                 
         // 필터 - 개인 설정
         static let FILTER_DC_DEMO       = "filter_dc_demo"

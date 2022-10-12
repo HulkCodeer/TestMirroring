@@ -21,14 +21,12 @@ internal final class LeftViewReactor: ViewModel, Reactor {
         case getMyBerryPoint
         case refreshBerryPoint
         case setIsAllBerry(Bool)
-        case none
     }
     
     enum Mutation {
         case setMenuCategoryType(MenuCategoryType)
         case setMyBerryPoint(String)
         case setIsAllBerry(Bool)
-        case none
     }
     
     struct State {
@@ -84,9 +82,6 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                 .map { isSuccess in
                     return .setIsAllBerry(isAll)
                 }
-            
-        case .none:
-            return .just(.none)
         }
     }
     
@@ -105,8 +100,7 @@ internal final class LeftViewReactor: ViewModel, Reactor {
             
         case .setIsAllBerry(let isAll):
             newState.isAllBerry = isAll
-                                
-        case .none: break
+            
         }
         return newState
     }

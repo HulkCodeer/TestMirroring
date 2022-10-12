@@ -112,8 +112,8 @@ internal final class NewFilterBarView: UIView {
     // MARK: VARIABLE
     
     private var disposeBag = DisposeBag()
-        
-    private weak var mainReactor: MainReactor?
+    
+    internal var evPayView: UIView = UIView()
          
     // MARK: SYSTEM FUNC
     
@@ -153,7 +153,10 @@ internal final class NewFilterBarView: UIView {
             $0.height.equalTo(30)
         }
         
-        filterTagStackView.addArrangedSubview(self.createFilterTagView(reactor))
+        evPayView = self.createFilterTagView(reactor)
+        
+        filterTagStackView.addArrangedSubview(evPayView)
+        
         for filterTagType in FilterTagType.allCases {
             filterTagStackView.addArrangedSubview(self.createFilterTagView(filterTagType, reactor: reactor))
         }
@@ -162,6 +165,7 @@ internal final class NewFilterBarView: UIView {
             .map { MainReactor.Action.showFilterSetting }
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
+        
     }
     
     // 아래 코드는 추후 디자인 개편시 지워도 됨
