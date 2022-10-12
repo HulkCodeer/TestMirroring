@@ -192,7 +192,7 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
         self.dimmedViewBtn.backgroundColor = .clear
         GlobalDefine.shared.mainNavi?.dismiss(animated: true)
         guard let _mainReactor = self.mainReactor else { return }
-        Observable.just(mainReactor.action.openEvPayTooltip)
+        Observable.just(MainReactor.Action.openEvPayTooltip)
             .bind(to: _mainReactor.action)
             .disposed(by: self.disposeBag)
         

@@ -123,7 +123,7 @@ internal final class MainReactor: ViewModel, Reactor {
             newState.isEvPayFilter = isEvPayFilter
             
         case .openEvPayTooltip:
-            newState.isShowEvPayToolTip = false
+            newState.isShowEvPayToolTip = !FCMManager.sharedInstance.originalMemberId.isEmpty
         }
         
         return newState

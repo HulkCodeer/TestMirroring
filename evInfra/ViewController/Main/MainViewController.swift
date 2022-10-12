@@ -119,7 +119,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         prepareMenuBtnLayer()
         
         prepareChargePrice()
-        requestStationInfo()
+//        requestStationInfo()
         
         prepareCalloutLayer()
         
@@ -244,7 +244,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         super.viewWillDisappear(true)
         // removeObserver 하면 안됨. addObserver를 viewdidload에서 함
         
-        if !MemberManager.shared.isShowEvPayTooltip {
+        if !MemberManager.shared.isShowEvPayTooltip && !FCMManager.sharedInstance.originalMemberId.isEmpty {
             self.evPayTipView.dismiss()
             MemberManager.shared.isShowEvPayTooltip = true
         }
