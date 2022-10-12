@@ -54,7 +54,7 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                 .convertData()
                 .compactMap(convertToData)
                 .map { pointModel in
-                    return .setMyBerryPoint(pointModel.point)
+                    return .setMyBerryPoint(pointModel.displayPoint)
                 },
                  self.provider.postGetIsAllBerry()
                      .observe(on: self.backgroundScheduler)
@@ -71,7 +71,7 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                 .convertData()
                 .compactMap(convertToData)
                 .map { pointModel in
-                    return .setMyBerryPoint(pointModel.point)
+                    return .setMyBerryPoint(pointModel.displayPoint)
                 }
             
         case .setIsAllBerry(let isAll):
@@ -162,11 +162,13 @@ internal final class LeftViewReactor: ViewModel, Reactor {
         var code: Int
         var usePoint: String
         var point: String
+        var displayPoint: String
         
         init(_ json: JSON) {
             self.code = json["code"].intValue
             self.usePoint = json["use_point"].stringValue
             self.point = json["point"].stringValue
+            self.displayPoint = json["point"].intValue.toPrice()
         }
     }
 

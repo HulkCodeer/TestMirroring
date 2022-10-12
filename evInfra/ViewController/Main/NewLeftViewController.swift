@@ -404,9 +404,6 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let displayNickname = MemberManager.shared.memberNickName
-        nicknameLbl.text = displayNickname.count > 10 ? "\(displayNickname.substring(to: 10))..." : displayNickname
-        
         moveMyInfoBtn.rx.tap
             .asDriver()
             .drive(onNext: {
@@ -443,6 +440,9 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
             }
             
             guard isLogin else { return }
+            let displayNickname = MemberManager.shared.memberNickName
+            self.nicknameLbl.text = displayNickname.count > 10 ? "\(displayNickname.substring(to: 10))..." : displayNickname
+            
             Observable.just(LeftViewReactor.Action.getMyBerryPoint)
                 .bind(to: _reactor.action)
                 .disposed(by: self.disposeBag)                        

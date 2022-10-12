@@ -1293,6 +1293,9 @@
 		82A27BF928F682D100C8AD2C /* Exo-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82A27BF728F682D100C8AD2C /* Exo-SemiBoldItalic.ttf */; };
 		82A27BFA28F682D100C8AD2C /* Exo-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82A27BF728F682D100C8AD2C /* Exo-SemiBoldItalic.ttf */; };
 		82A27BFB28F693E600C8AD2C /* LeftViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636BE34B28A0E998005773CE /* LeftViewReactor.swift */; };
+		82A27BFD28F6E52100C8AD2C /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A27BFC28F6E52100C8AD2C /* Int+Extension.swift */; };
+		82A27BFE28F6E52100C8AD2C /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A27BFC28F6E52100C8AD2C /* Int+Extension.swift */; };
+		82A27BFF28F6E52100C8AD2C /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A27BFC28F6E52100C8AD2C /* Int+Extension.swift */; };
 		82B3E7F42837D5A700B8ACF7 /* GlobalDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */; };
 		82C9A01728B0F0EE0003296B /* QRReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01628B0F0EE0003296B /* QRReaderView.swift */; };
 		82C9A01828B0F0EE0003296B /* QRReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01628B0F0EE0003296B /* QRReaderView.swift */; };
@@ -1826,6 +1829,7 @@
 		82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Rx.swift"; sourceTree = "<group>"; };
 		82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		82A27BF728F682D100C8AD2C /* Exo-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Exo-SemiBoldItalic.ttf"; path = "Fonts/Exo-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
+		82A27BFC28F6E52100C8AD2C /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalDefine.swift; sourceTree = "<group>"; };
 		82C9A01628B0F0EE0003296B /* QRReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRReaderView.swift; sourceTree = "<group>"; };
 		82C9A01928B10A010003296B /* PaymentQRScanReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentQRScanReactor.swift; sourceTree = "<group>"; };
@@ -2485,6 +2489,7 @@
 				82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */,
 				63F443C128EC31C300F6A66C /* UITableView+Extension.swift */,
 				63F443C228EC31C300F6A66C /* UIWindow+Extension.swift */,
+				82A27BFC28F6E52100C8AD2C /* Int+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -4340,6 +4345,7 @@
 				63F313DC284EC74F001713D2 /* NavigationDrawerController.swift in Sources */,
 				63F313DD284EC74F001713D2 /* LoginHelper.swift in Sources */,
 				63F313DE284EC74F001713D2 /* BoardTableView.swift in Sources */,
+				82A27BFE28F6E52100C8AD2C /* Int+Extension.swift in Sources */,
 				63F313DF284EC74F001713D2 /* FilterSpeedView.swift in Sources */,
 				63CAC181289BAE3E00ADA809 /* CommonBaseTableViewCell.swift in Sources */,
 				63F313E0284EC74F001713D2 /* BoardItem.swift in Sources */,
@@ -4660,6 +4666,7 @@
 				00A3658F26C4E35900424E40 /* FilterSpeedView.swift in Sources */,
 				736D37D3208DC9CE009535EE /* BoardItem.swift in Sources */,
 				00AE577D26CE4891003E6643 /* TapticEngine.swift in Sources */,
+				82A27BFD28F6E52100C8AD2C /* Int+Extension.swift in Sources */,
 				63CAC180289BAE3E00ADA809 /* CommonBaseTableViewCell.swift in Sources */,
 				732ED1CA21ED8ABB0012C67B /* DropDownCheckBoxCell.swift in Sources */,
 				42CEB75026C1110D00E37AE4 /* CidInfoTableViewCell.swift in Sources */,
@@ -4980,6 +4987,7 @@
 				824D5C3528BDD89C00EDC712 /* FilterSpeedView.swift in Sources */,
 				824D5C3628BDD89C00EDC712 /* CommonBaseTableViewCell.swift in Sources */,
 				824D5C3728BDD89C00EDC712 /* BoardItem.swift in Sources */,
+				82A27BFF28F6E52100C8AD2C /* Int+Extension.swift in Sources */,
 				824D5C3828BDD89C00EDC712 /* TapticEngine.swift in Sources */,
 				824D5C3928BDD89C00EDC712 /* DropDownCheckBoxCell.swift in Sources */,
 				824D5C3A28BDD89C00EDC712 /* CidInfoTableViewCell.swift in Sources */,

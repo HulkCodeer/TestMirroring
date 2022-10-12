@@ -416,7 +416,8 @@ extension MyPageViewController {
             let nickNameData = json["mb_nickname"].stringValue
             if !nickNameData.isEmpty && !nickNameData.elementsEqual("") {
                 self.nickNameField.text = nickNameData
-            }
+            }            
+            MemberManager.shared.memberNickName = nickNameData
             
         default:
             Snackbar().show(message: "서비스 연결상태가 좋지 않습니다.\n잠시 후 다시 시도해 주세요.")
