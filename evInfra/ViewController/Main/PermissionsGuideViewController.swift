@@ -254,8 +254,8 @@ extension PermissionsGuideViewController: CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         guard MemberManager.shared.isFirstInstall else { return }
         switch manager.authorizationStatus {
-        case .notDetermined, .restricted, .authorizedAlways: break
-        case .authorizedWhenInUse, .denied: self.moveMainViewcon()
+        case .notDetermined, .restricted: break
+        case .authorizedWhenInUse, .denied: self.moveMainViewcon()                                                            
         @unknown default:
             fatalError()
         }

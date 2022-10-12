@@ -51,8 +51,7 @@ internal final class FilterCompanyView: UIView {
         companyTableView.allowsSelection = false
         companyTableView.tableDelegate = self
         
-        updateTable()
-        
+        updateTable()        
         self.switchCard.isOn = FilterManager.sharedInstance.getIsMembershipCardChecked()
     }
     
@@ -115,9 +114,7 @@ internal final class FilterCompanyView: UIView {
         groupList.remove(at: 0)
         groupList.append(abcGroup)
         
-        groupList.insert(CompanyGroup(title: "추천", list: recommendList), at: 0)
-        
-        
+        groupList.insert(CompanyGroup(title: "추천", list: recommendList), at: 0)                
     }
     
     func updateTable() {

@@ -126,7 +126,7 @@ class ChargerManager {
         return companyVisibleList
     }
 
-    private func updateCompanyInfoListFromServer(json : JSON) {
+    internal func updateCompanyInfoListFromServer(json : JSON) {
         let code = json["code"]
         let list = json["list"]
         let last = json["last"]
@@ -269,26 +269,14 @@ class ChargerManager {
     }
 
     // from server or from db
-    public func getChargerCompanyInfo(listener : ChargerManagerListener?) {
+    public func getChargerCompanyInfo() -> String {
         var updateDate = ""
         if (try! (mDb?.getCompanyInfoList()!.count)! > 0) {
             if let dto = try! mDb?.getCompanyInfoLastUpdate() {
                 updateDate = (dto.mInfoLastUpdateDate)!
             }
         }
-        
-        Server.getCompanyInfo(updateDate: updateDate) { (isSuccess, value) in
-            if isSuccess {
-                self.updateCompanyInfoListFromServer(json: JSON(value))
-                if let chargerManagerListener = listener {
-                    chargerManagerListener.onComplete()
-                }
-            } else {
-                if let chargerManagerListener = listener {
-                    chargerManagerListener.onError(errorMsg: "network error")
-                }
-            }
-        }
+        return updateDate        
     }
  
     // naver map
@@ -349,33 +337,33 @@ class ChargerManager {
         }
     }
 
-    public func getFavoriteList(listener : ChargerManagerListener?) {
-        
-        Server.getFavoriteList { (isSuccess, value) in
-            if isSuccess {
-                let json = JSON(value)
-                let code = json["code"]
-                let list = json["list"]
-                
-                if (code == 1000 && list.count > 0) {
-                
-                    for favorite in list.arrayValue {
-                        let chargerId = favorite["id"].stringValue
-                        let noti = favorite["noti"].boolValue
-                        
-                        if let chargerStationInfo = self.getChargerStationInfoById(charger_id: chargerId) {
-                            chargerStationInfo.mFavorite = true
-                            chargerStationInfo.mFavoriteNoti = noti
-                        }
-                    }
-                    
-                    if let chargerManagerListener = listener {
-                        chargerManagerListener.onComplete()
-                    }
-                }
-            }
-        }
-    }
+//    public func getFavoriteList(listener : ChargerManagerListener?) {
+//        
+//        Server.getFavoriteList { (isSuccess, value) in
+//            if isSuccess {
+//                let json = JSON(value)
+//                let code = json["code"]
+//                let list = json["list"]
+//                
+//                if (code == 1000 && list.count > 0) {
+//                
+//                    for favorite in list.arrayValue {
+//                        let chargerId = favorite["id"].stringValue
+//                        let noti = favorite["noti"].boolValue
+//                        
+//                        if let chargerStationInfo = self.getChargerStationInfoById(charger_id: chargerId) {
+//                            chargerStationInfo.mFavorite = true
+//                            chargerStationInfo.mFavoriteNoti = noti
+//                        }
+//                    }
+//                    
+//                    if let chargerManagerListener = listener {
+//                        chargerManagerListener.onComplete()
+//                    }
+//                }
+//            }
+//        }
+//    }
     
     func getFavoriteCharger() {
         if MemberManager.shared.mbId > 0 {

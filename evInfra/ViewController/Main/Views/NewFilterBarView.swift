@@ -25,7 +25,8 @@ enum FilterType {
 enum FilterTagType: CaseIterable {
     typealias Property = (image: UIImage?, imgUnSelectColor: UIColor?, imgSelectColor: UIColor?)
     
-    case evpay
+    // 현재 EV Pay는 따로 작동해야 하므로 주석, 추후 디자인 개편시 EV Pay 관련 주석 풀면 됨
+//    case evpay
     case price
     case speed
     case place
@@ -34,7 +35,7 @@ enum FilterTagType: CaseIterable {
     
     internal func swipeLeft() -> FilterTagType {
         switch self {
-        case .evpay: return .price
+//        case .evpay: return .price
         case .price: return .speed
         case .speed: return .place
         case .place: return .road
@@ -45,8 +46,8 @@ enum FilterTagType: CaseIterable {
     
     internal func swipeRight() -> FilterTagType {
         switch self {
-        case .evpay: return .evpay
-        case .price: return .evpay
+//        case .evpay: return .evpay
+        case .price: return .price
         case .speed: return .price
         case .place: return .speed
         case .road: return .place
@@ -57,8 +58,8 @@ enum FilterTagType: CaseIterable {
     internal var typeImageProperty: Property? {
         switch self {
         // 나중에 이미지 있는 디자인으로 변경시 주석 푸세요
-        case .evpay:
-            return (image: Icons.iconElectricFillXs.image, imgUnSelectColor: Colors.contentSecondary.color, imgSelectColor : Colors.borderPositive.color)
+//        case .evpay:
+//            return (image: Icons.iconElectricFillXs.image, imgUnSelectColor: Colors.contentSecondary.color, imgSelectColor : Colors.borderPositive.color)
         case .price: return nil
         case .speed: return nil
         case .place: return nil
@@ -69,7 +70,7 @@ enum FilterTagType: CaseIterable {
     
     internal var typeDesc: String {
         switch self {
-        case .evpay: return "EV Pay"
+//        case .evpay: return "EV Pay"
         case .price: return FilterManager.sharedInstance.getPriceTitle()
         case .speed: return FilterManager.sharedInstance.getSpeedTitle()
         case .place: return FilterManager.sharedInstance.getPlaceTitle()
@@ -152,6 +153,7 @@ internal final class NewFilterBarView: UIView {
             $0.height.equalTo(30)
         }
         
+        filterTagStackView.addArrangedSubview(self.createFilterTagView(reactor))
         for filterTagType in FilterTagType.allCases {
             filterTagStackView.addArrangedSubview(self.createFilterTagView(filterTagType, reactor: reactor))
         }
@@ -160,6 +162,152 @@ internal final class NewFilterBarView: UIView {
             .map { MainReactor.Action.showFilterSetting }
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
+    }
+    
+    // 아래 코드는 추후 디자인 개편시 지워도 됨
+    private func createFilterTagView(_ reactor: MainReactor) -> UIView {
+        let titleLbl = UILabel().then {
+            $0.font = .systemFont(ofSize: 14, weight: .regular)
+            $0.textColor = Colors.contentSecondary.color
+            $0.text = "EV Pay"
+        }
+        
+        let typeImageProperty = (image: Icons.iconElectricFillXs.image, imgUnSelectColor: Colors.contentSecondary.color, imgSelectColor : Colors.borderPositive.color)
+        
+        let imgView = UIImageView().then {
+            $0.image = typeImageProperty.image
+            $0.tintColor = typeImageProperty.imgUnSelectColor
+        }
+        
+        let btn = UIButton().then {
+            $0.isSelected = false
+        }
+        
+        let view = UIView().then {
+            $0.addSubview(imgView)
+            imgView.snp.makeConstraints {
+                $0.leading.equalTo(8)
+                $0.centerY.equalToSuperview()
+                $0.width.height.equalTo(16)
+            }
+            
+            $0.addSubview(titleLbl)
+            titleLbl.snp.makeConstraints {
+                $0.leading.equalTo(imgView.snp.trailing).offset(2)
+                $0.centerY.equalToSuperview()
+                $0.trailing.equalToSuperview().offset(-12)
+                $0.height.equalTo(22)
+            }
+            
+            $0.addSubview(btn)
+            btn.snp.makeConstraints {
+                $0.edges.equalToSuperview()
+            }
+            
+            // 추후에 Arrow 이미지만 붙이면 새로운 디자인으로 적용됨
+                                    
+            $0.backgroundColor = Colors.backgroundPrimary.color
+            $0.IBcornerRadius = 15
+            $0.IBborderWidth = 1
+            $0.IBborderColor = Colors.nt1.color
+        }
+        
+        let isSelected = FilterManager.sharedInstance.getIsMembershipCardChecked()
+        view.IBborderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
+        titleLbl.textColor = isSelected ? Colors.borderPositive.color : Colors.contentSecondary.color
+        imgView.tintColor = isSelected ? Colors.borderPositive.color : Colors.contentSecondary.color
+                        
+        btn.rx.tap
+            .asDriver()
+            .drive(with: self) { obj, _ in
+                let isEvPayFilter = FilterManager.sharedInstance.getIsMembershipCardChecked()
+                FilterManager.sharedInstance.saveIsMembershipCardChecked(!isEvPayFilter)
+                Observable.just(MainReactor.Action.setEvPayFilter(!isEvPayFilter))
+                    .bind(to: reactor.action)
+                    .disposed(by: obj.disposeBag)
+            }
+            .disposed(by: self.disposeBag)
+                
+        reactor.state.compactMap { $0.isEvPayFilter }
+            .asDriver(onErrorJustReturn: false)
+            .drive(with: self) { obj, isEvPayFilter in                
+                let isSelected = FilterManager.sharedInstance.getIsMembershipCardChecked()
+                view.IBborderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
+                titleLbl.textColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+                imgView.tintColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+                                                                    
+                let GROUP_TITLE = ["A.B.C..", "가", "나", "다", "라", "마", "바", "사", "아", "자", "차", "카", "타", "파", "하", "힣"];
+                var groupList = Array<CompanyGroup>()
+                var companyList = [CompanyInfoDto]()
+                var tagList = Array<TagValue>()
+                var titleIndex = 1
+                var recommendList = Array<TagValue>()
+                
+                companyList = Array(FilterManager.sharedInstance.filter.companyDictionary.values)
+                let companyNameSortList = companyList.sorted { $0.name!.lowercased() < $1.name!.lowercased() }
+
+                for company in companyNameSortList {
+                    if company.name! >= GROUP_TITLE[titleIndex] {
+                        let currentIndex = titleIndex
+                        for index in (currentIndex+1)..<GROUP_TITLE.count {
+                            if company.name! >= GROUP_TITLE[index] {
+                                titleIndex += 1
+                            } else {
+                                break
+                            }
+                        }
+                        if !tagList.isEmpty {
+                            groupList.append(CompanyGroup(title: GROUP_TITLE[titleIndex-1], list: tagList))
+                            tagList = Array<TagValue>()
+                        }
+                        titleIndex += 1
+                    }
+                    
+                    var selected = company.is_visible
+                    if isSelected {
+                        selected = company.card_setting ?? false // infra card
+                    }
+                    
+                    let icon : UIImage?
+                    if company.icon_name != nil {
+                        icon = ImageMarker.companyImg(company: company.icon_name!)
+                    } else {
+                        icon = UIImage(named: "icon_building_sm")
+                    }
+                    let tag = TagValue(title:company.name!, img:icon!, selected: selected)
+                    tagList.append(tag)
+                    if company.recommend ?? false {
+                        recommendList.append(tag)
+                    }
+                }
+                
+                if !tagList.isEmpty {
+                    groupList.append(CompanyGroup(title: GROUP_TITLE[titleIndex-1], list: tagList))
+                }
+
+                let abcGroup = groupList[0]
+                groupList.remove(at: 0)
+                groupList.append(abcGroup)
+                
+                groupList.insert(CompanyGroup(title: "추천", list: recommendList), at: 0)
+
+                for company in companyList {
+                    for list in groupList {
+                        for tag in list.list {
+                            if (company.name == tag.title){
+                                if let companyId = company.company_id {
+                                    ChargerManager.sharedInstance.updateCompanyVisibility(isVisible: tag.selected, companyID: companyId)
+                                    continue
+                                }
+                            }
+                        }
+                    }
+                }
+                FilterManager.sharedInstance.updateCompanyFilter()
+            }
+            .disposed(by: self.disposeBag)
+                
+        return view
     }
                
     private func createFilterTagView(_ filterTagType: FilterTagType, reactor: MainReactor) -> UIView {
@@ -212,106 +360,20 @@ internal final class NewFilterBarView: UIView {
         btn.rx.tap
             .asDriver()
             .drive(with: self) { obj, _ in
-                let tempIsSelected = !btn.isSelected
-                btn.isSelected = tempIsSelected
-                Observable.just(MainReactor.Action.setFilterType(tempIsSelected ? filterTagType : nil))
+                btn.isSelected = !btn.isSelected
+                Observable.just(MainReactor.Action.setSelectedFilterInfo((filterTagType, btn.isSelected)))
                     .bind(to: reactor.action)
                     .disposed(by: obj.disposeBag)
             }
             .disposed(by: self.disposeBag)
-        
-        if filterTagType == .evpay {
-            let isSelected = FilterManager.sharedInstance.getIsMembershipCardChecked()
-            view.IBborderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
-            titleLbl.textColor = isSelected ? Colors.borderPositive.color : Colors.contentSecondary.color
-            imgView.tintColor = isSelected ? Colors.borderPositive.color : Colors.contentSecondary.color
-        }
-        
                 
-        reactor.state.map { $0.selectedFilterTagType }
-            .asDriver(onErrorJustReturn: nil)
-            .drive(with: self) { obj, selectedFilterTagType in
-                if selectedFilterTagType == .evpay && selectedFilterTagType == filterTagType {
-                    let isSelected = btn.isSelected
-                    view.IBborderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
-                    titleLbl.textColor = isSelected ? Colors.borderPositive.color : Colors.contentSecondary.color
-                    imgView.tintColor = isSelected ? Colors.borderPositive.color : Colors.contentSecondary.color
-                    FilterManager.sharedInstance.saveIsMembershipCardChecked(isSelected)
-                    
-                    let GROUP_TITLE = ["A.B.C..", "가", "나", "다", "라", "마", "바", "사", "아", "자", "차", "카", "타", "파", "하", "힣"];
-                    var groupList = Array<CompanyGroup>()
-                    var companyList = [CompanyInfoDto]()
-                    var tagList = Array<TagValue>()
-                    var titleIndex = 1
-                    var recommendList = Array<TagValue>()
-                    
-                    companyList = Array(FilterManager.sharedInstance.filter.companyDictionary.values)
-                    let wholeList = companyList.sorted { $0.name!.lowercased() < $1.name!.lowercased() }
-
-                    for company in wholeList {
-                        if company.name! >= GROUP_TITLE[titleIndex] {
-                            let currentIndex = titleIndex
-                            for index in (currentIndex+1)..<GROUP_TITLE.count {
-                                if company.name! >= GROUP_TITLE[index] {
-                                    titleIndex += 1
-                                } else {
-                                    break
-                                }
-                            }
-                            if !tagList.isEmpty {
-                                groupList.append(CompanyGroup(title: GROUP_TITLE[titleIndex-1], list: tagList))
-                                tagList = Array<TagValue>()
-                            }
-                            titleIndex += 1
-                        }
-                        
-                        var selected = company.is_visible
-                        if isSelected {
-                            selected = company.card_setting ?? false // infra card
-                        }
-                        
-                        let icon : UIImage?
-                        if company.icon_name != nil {
-                            icon = ImageMarker.companyImg(company: company.icon_name!)
-                        } else {
-                            icon = UIImage(named: "icon_building_sm")
-                        }
-                        let tag = TagValue(title:company.name!, img:icon!, selected: selected)
-                        tagList.append(tag)
-                        if company.recommend ?? false {
-                            recommendList.append(tag)
-                        }
-                    }
-                    
-                    if !tagList.isEmpty {
-                        groupList.append(CompanyGroup(title: GROUP_TITLE[titleIndex-1], list: tagList))
-                    }
-
-                    let abcGroup = groupList[0]
-                    groupList.remove(at: 0)
-                    groupList.append(abcGroup)
-                    
-                    groupList.insert(CompanyGroup(title: "추천", list: recommendList), at: 0)
-
-                    for company in companyList {
-                        for list in groupList {
-                            for tag in list.list {
-                                if (company.name == tag.title){
-                                    if let companyId = company.company_id {
-                                        ChargerManager.sharedInstance.updateCompanyVisibility(isVisible: tag.selected, companyID: companyId)
-                                        continue
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    FilterManager.sharedInstance.updateCompanyFilter()
-                } else {
-                    let isSelected = selectedFilterTagType == nil ? false : selectedFilterTagType == filterTagType ? true : false
-                    view.IBborderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
-                    titleLbl.textColor = isSelected ? Colors.borderPositive.color : Colors.contentSecondary.color
-                    btn.isSelected = isSelected
-                }
+        reactor.state.compactMap { $0.selectedFilterInfo }
+            .asDriver(onErrorJustReturn: MainReactor.SelectedFilterInfo(.price, false))
+            .drive(with: self) { obj, selectedFilterInfo in
+                let isSelected = selectedFilterInfo.filterTagType == filterTagType ? selectedFilterInfo.isSeleted : false
+                view.IBborderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
+                titleLbl.textColor = isSelected ? Colors.borderPositive.color : Colors.contentSecondary.color
+                btn.isSelected = isSelected
             }
             .disposed(by: self.disposeBag)
         
