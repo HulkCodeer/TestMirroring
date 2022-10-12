@@ -45,51 +45,39 @@ internal final class ConfirmPopupViewController: UIViewController {
     }
     
     private lazy var dimmedBtn = UIButton().then {
-        $0.backgroundColor = UIColor(named: "nt-black")?.withAlphaComponent(0.3)
+        $0.backgroundColor = Colors.ntBlack.color.withAlphaComponent(0.3)
     }
     
-    private lazy var containerView: UIView = {
-       let view = UIView()
-        view.backgroundColor = UIColor(named: "nt-white")
-        view.layer.cornerRadius = 8
-        return view
-    }()
+    private lazy var containerView = UIView().then {
+        $0.backgroundColor = Colors.ntWhite.color
+        $0.IBcornerRadius = 8
+    }
     
-    private lazy var dialogView: UIStackView = {
-       let view = UIStackView()
-        view.axis = .vertical
-        view.alignment = .fill
-        view.spacing = 16
-        return view
-    }()
+    private lazy var dialogView = UIStackView().then {
+        $0.axis = .vertical
+        $0.alignment = .fill
+        $0.spacing = 16
+    }
     
-    private lazy var titleLabel: UILabel = {
-       let label = UILabel()
-        label.numberOfLines = 0
-        label.textAlignment = .center
-        label.font = .systemFont(ofSize: 18, weight: .semibold)
-        label.textColor = Colors.contentPrimary.color
-        label.translatesAutoresizingMaskIntoConstraints = true
-        return label
-    }()
+    private lazy var titleLabel = UILabel().then {
+        $0.numberOfLines = 0
+        $0.textAlignment = .center
+        $0.font = .systemFont(ofSize: 18, weight: .semibold)
+        $0.textColor = Colors.contentPrimary.color
+    }
     
-    private lazy var descriptionLabel: UILabel = {
-       let label = UILabel()
-        label.numberOfLines = 0
-        label.textAlignment = .center
-        label.font = .systemFont(ofSize: 14)
-        label.textColor = Colors.contentSecondary.color
-        label.translatesAutoresizingMaskIntoConstraints = true
-        return label
-    }()
+    private lazy var descriptionLabel = UILabel().then {
+        $0.numberOfLines = 0
+        $0.textAlignment = .center
+        $0.font = .systemFont(ofSize: 14)
+        $0.textColor = Colors.contentSecondary.color
+    }
     
-    private lazy var buttonStackView: UIStackView = {
-       let view = UIStackView()
-        view.axis = .horizontal
-        view.distribution = .fillEqually
-        view.spacing = 8
-        return view
-    }()
+    private lazy var buttonStackView = UIStackView().then {
+        $0.axis = .horizontal
+        $0.distribution = .fillEqually
+        $0.spacing = 8
+    }
     
     // MARK: VARIABLE
     
