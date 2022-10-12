@@ -237,8 +237,7 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
         let reactor = MainReactor(provider: RestApi())
         let mainViewcon = storyboard.instantiateViewController(ofType: MainViewController.self)
         mainViewcon.reactor = reactor
-        let leftViewController = storyboard.instantiateViewController(ofType: LeftViewController.self)
-        
+        let leftViewController = storyboard.instantiateViewController(ofType: NewLeftViewController.self)
         let appToolbarController = AppToolbarController(rootViewController: mainViewcon)
         appToolbarController.delegate = mainViewcon
         let ndController = AppNavigationDrawerController(rootViewController: appToolbarController, leftViewController: leftViewController)
@@ -254,7 +253,7 @@ extension PermissionsGuideViewController: CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         guard MemberManager.shared.isFirstInstall else { return }
         switch manager.authorizationStatus {
-        case .notDetermined, .restricted: break
+        case .notDetermined, .restricted, .authorizedAlways: break
         case .authorizedWhenInUse, .denied: self.moveMainViewcon()                                                            
         @unknown default:
             fatalError()

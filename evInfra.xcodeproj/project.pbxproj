@@ -1283,11 +1283,11 @@
 		824D5DC128BE1C2500EDC712 /* GlobalFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824D5DC028BE1C2500EDC712 /* GlobalFunction.swift */; };
 		824D5DC228BE1C2500EDC712 /* GlobalFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824D5DC028BE1C2500EDC712 /* GlobalFunction.swift */; };
 		824D5DC328BE1C2500EDC712 /* GlobalFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824D5DC028BE1C2500EDC712 /* GlobalFunction.swift */; };
-		8261C8B528ECF6A20018E168 /* UIWindow+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8261C8B428ECF6A20018E168 /* UIWindow+Extension.swift */; };		
 		82829BCE28ADC1330044AD6C /* UIImageView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */; };
 		82829BCF28ADC1330044AD6C /* UIImageView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */; };
 		82829BD128ADC2F20044AD6C /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */; };
 		82829BD228ADC2F20044AD6C /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */; };
+		82A27BE428F64C7E00C8AD2C /* VerticalConfirmPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8204895C28A5F0520030B3BA /* VerticalConfirmPopupViewController.swift */; };
 		82B3E7F42837D5A700B8ACF7 /* GlobalDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */; };
 		82C9A01728B0F0EE0003296B /* QRReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01628B0F0EE0003296B /* QRReaderView.swift */; };
 		82C9A01828B0F0EE0003296B /* QRReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01628B0F0EE0003296B /* QRReaderView.swift */; };
@@ -5142,6 +5142,7 @@
 				82E1302828DEAE2700E7983D /* SoftberryAPI.swift in Sources */,
 				824D5CCE28BDD89C00EDC712 /* CompanyTableView.swift in Sources */,
 				824D5CD028BDD89C00EDC712 /* HangulUtils.swift in Sources */,
+				82A27BE428F64C7E00C8AD2C /* VerticalConfirmPopupViewController.swift in Sources */,
 				824D5CD128BDD89C00EDC712 /* PaymentStatus.swift in Sources */,
 				824D5CD228BDD89C00EDC712 /* CommunityBoardTableViewHeader.swift in Sources */,
 				824D5CD428BDD89C00EDC712 /* BoardTableViewDelegate.swift in Sources */,
