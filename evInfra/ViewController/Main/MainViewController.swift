@@ -293,6 +293,13 @@ internal final class MainViewController: UIViewController, StoryboardView {
             }
             .disposed(by: self.disposeBag)
         
+        reactor.state.compactMap { $0.isEvPayFilter }
+            .asDriver(onErrorJustReturn: false)
+            .drive(with: self) { obj, _ in
+                self.drawMapMarker()
+            }
+            .disposed(by: self.disposeBag)
+        
         reactor.state.compactMap { $0.isShowFilterSetting }
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { obj, isShow in

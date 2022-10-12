@@ -408,9 +408,9 @@ internal final class LeftViewReactor: ViewModel, Reactor {
         func moveViewController(index: IndexPath) {
             switch index.row {
             case 0: // 공지사항
-                let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
-                let noticeVC = boardStoryboard.instantiateViewController(ofType: NewNoticeViewController.self)
-                GlobalDefine.shared.mainNavi?.push(viewController: noticeVC)
+                let reactor = NoticeReactor(provider: RestApi())
+                let viewcon = NewNoticeViewController(reactor: reactor)
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             
             case 1: // 자유 게시판
                 UserDefault().saveInt(key: UserDefault.Key.LAST_FREE_ID, value: Board.sharedInstance.freeBoardId)

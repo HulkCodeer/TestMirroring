@@ -232,10 +232,11 @@ internal final class NewFilterBarView: UIView {
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { obj, isEvPayFilter in                
                 let isSelected = FilterManager.sharedInstance.getIsMembershipCardChecked()
+                
                 view.IBborderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
                 titleLbl.textColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
                 imgView.tintColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-                                                                    
+                
                 let GROUP_TITLE = ["A.B.C..", "가", "나", "다", "라", "마", "바", "사", "아", "자", "차", "카", "타", "파", "하", "힣"];
                 var groupList = Array<CompanyGroup>()
                 var companyList = [CompanyInfoDto]()
@@ -243,60 +244,73 @@ internal final class NewFilterBarView: UIView {
                 var titleIndex = 1
                 var recommendList = Array<TagValue>()
                 
-                companyList = Array(FilterManager.sharedInstance.filter.companyDictionary.values)
-                let companyNameSortList = companyList.sorted { $0.name!.lowercased() < $1.name!.lowercased() }
+                if isSelected {
+                    companyList = Array(FilterManager.sharedInstance.filter.companyDictionary.values)
+                    let companyNameSortList = companyList.sorted { $0.name!.lowercased() < $1.name!.lowercased() }
 
-                for company in companyNameSortList {
-                    if company.name! >= GROUP_TITLE[titleIndex] {
-                        let currentIndex = titleIndex
-                        for index in (currentIndex+1)..<GROUP_TITLE.count {
-                            if company.name! >= GROUP_TITLE[index] {
-                                titleIndex += 1
-                            } else {
-                                break
+                    for company in companyNameSortList {
+                        if company.name! >= GROUP_TITLE[titleIndex] {
+                            let currentIndex = titleIndex
+                            for index in (currentIndex+1)..<GROUP_TITLE.count {
+                                if company.name! >= GROUP_TITLE[index] {
+                                    titleIndex += 1
+                                } else {
+                                    break
+                                }
+                            }
+                            if !tagList.isEmpty {
+                                groupList.append(CompanyGroup(title: GROUP_TITLE[titleIndex-1], list: tagList))
+                                tagList = Array<TagValue>()
+                            }
+                            titleIndex += 1
+                        }
+                        
+                        var selected = company.is_visible
+                        if isSelected {
+                            selected = company.card_setting ?? false // infra card
+                        }
+                        
+                        let icon : UIImage?
+                        if company.icon_name != nil {
+                            icon = ImageMarker.companyImg(company: company.icon_name!)
+                        } else {
+                            icon = UIImage(named: "icon_building_sm")
+                        }
+                        let tag = TagValue(title:company.name!, img:icon!, selected: selected)
+                        tagList.append(tag)
+                        if company.recommend ?? false {
+                            recommendList.append(tag)
+                        }
+                    }
+                    
+                    if !tagList.isEmpty {
+                        groupList.append(CompanyGroup(title: GROUP_TITLE[titleIndex-1], list: tagList))
+                    }
+
+                    let abcGroup = groupList[0]
+                    groupList.remove(at: 0)
+                    groupList.append(abcGroup)
+                    
+                    groupList.insert(CompanyGroup(title: "추천", list: recommendList), at: 0)
+
+                    for company in companyList {
+                        for list in groupList {
+                            for tag in list.list {
+                                if (company.name == tag.title){
+                                    if let companyId = company.company_id {
+                                        ChargerManager.sharedInstance.updateCompanyVisibility(isVisible: tag.selected, companyID: companyId)
+                                        continue
+                                    }
+                                }
                             }
                         }
-                        if !tagList.isEmpty {
-                            groupList.append(CompanyGroup(title: GROUP_TITLE[titleIndex-1], list: tagList))
-                            tagList = Array<TagValue>()
-                        }
-                        titleIndex += 1
-                    }
-                    
-                    var selected = company.is_visible
-                    if isSelected {
-                        selected = company.card_setting ?? false // infra card
-                    }
-                    
-                    let icon : UIImage?
-                    if company.icon_name != nil {
-                        icon = ImageMarker.companyImg(company: company.icon_name!)
-                    } else {
-                        icon = UIImage(named: "icon_building_sm")
-                    }
-                    let tag = TagValue(title:company.name!, img:icon!, selected: selected)
-                    tagList.append(tag)
-                    if company.recommend ?? false {
-                        recommendList.append(tag)
-                    }
-                }
-                
-                if !tagList.isEmpty {
-                    groupList.append(CompanyGroup(title: GROUP_TITLE[titleIndex-1], list: tagList))
-                }
-
-                let abcGroup = groupList[0]
-                groupList.remove(at: 0)
-                groupList.append(abcGroup)
-                
-                groupList.insert(CompanyGroup(title: "추천", list: recommendList), at: 0)
-
-                for company in companyList {
-                    for list in groupList {
-                        for tag in list.list {
-                            if (company.name == tag.title){
+                    }                    
+                } else {
+                    for company in companyList {
+                        for groupItem in groupList {
+                            for tagItem in groupItem.list {
                                 if let companyId = company.company_id {
-                                    ChargerManager.sharedInstance.updateCompanyVisibility(isVisible: tag.selected, companyID: companyId)
+                                    ChargerManager.sharedInstance.updateCompanyVisibility(isVisible: true, companyID: companyId)
                                     continue
                                 }
                             }
