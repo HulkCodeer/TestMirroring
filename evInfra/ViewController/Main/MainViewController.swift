@@ -100,11 +100,10 @@ internal final class MainViewController: UIViewController, StoryboardView {
         super.viewDidLoad()
                         
         configureLayer()
-        configureNaverMapView()                
+        configureNaverMapView()
         
         prepareRouteField()
         preparePOIResultView()
-        prepareFilterView()
         prepareTmapAPI()
         
         prepareSummaryView()
@@ -122,16 +121,16 @@ internal final class MainViewController: UIViewController, StoryboardView {
         
         self.locationManager.delegate = self
         filterContainerView.delegate = self
-            
+                
         self.locationManager.rx
             .status
             .subscribe(with: self) { obj, status in
                 switch status {
-                case .authorizedWhenInUse:
+                case .authorizedAlways, .authorizedWhenInUse:
                     obj.naverMapView.moveToCurrentPostiion()
                     obj.locationManager.startUpdatingLocation()
                     
-                default: obj.naverMapView.moveToCenterPosition()                    
+                default: obj.naverMapView.moveToCenterPosition()
                 }
             }
             .disposed(by: self.disposeBag)
@@ -225,7 +224,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         // removeObserver 하면 안됨. addObserver를 viewdidload에서 함
         guard !MemberManager.shared.isShowQrTooltip else { return }
         _ = self.view.subviews.compactMap { $0 as? EasyTipView }.first?.removeFromSuperview()
-        MemberManager.shared.isShowQrTooltip = true        
+        MemberManager.shared.isShowQrTooltip = true
     }
     
     // MARK: REACTORKIT
@@ -262,7 +261,8 @@ internal final class MainViewController: UIViewController, StoryboardView {
         
         reactor.state.compactMap { $0.isShowStartBanner }
             .asDriver(onErrorJustReturn: false)
-            .drive(with: self) { obj, _ in                
+            .drive(with: self) { obj, isShow in
+                guard !isShow else { return }
                 GlobalAdsReactor.sharedInstance.state.compactMap { $0.startBanner }
                     .asDriver(onErrorJustReturn: AdsInfo(JSON.null))
                     .drive(onNext: { adInfo in
@@ -318,7 +318,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 }
             }
         }
-        alertController.addAction(openAction)        
+        alertController.addAction(openAction)
         self.present(alertController, animated: true, completion: nil)
     }
     
@@ -337,12 +337,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
         @unknown default:
             fatalError()
         }
-    }
-            
-    // Filter
-    private func prepareFilterView() {
-        filterBarView.delegate = self
-        filterContainerView.delegate = self
     }
     
     private func prepareRouteView() {
@@ -540,7 +534,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     @IBAction func onClickRenewBtn(_ sender: UIButton) {
         if !self.markerIndicator.isAnimating {
             self.refreshChargerInfo()
-        }        
+        }
         MapEvent.clickRenew.logEvent()
     }
     
@@ -558,64 +552,8 @@ internal final class MainViewController: UIViewController, StoryboardView {
             let start = POIObject(name: positionName, lat: currentPoint.latitude, lng: currentPoint.longitude)
             
             self.showNavigation(start: start, destination: destination, via: naverMapView.viaList)
-        }                
-        RouteEvent.clickNavigationFindway.logEvent()
-    }
-}
-
-extension MainViewController: DelegateChargerFilterView {
-    func onApplyFilter() {
-        filterContainerView.updateFilters()
-        filterBarView.updateTitle()
-        // refresh marker
-        clusterManager?.removeClusterFromSettings()
-        drawMapMarker()
-    }
-}
-
-extension MainViewController: DelegateFilterContainerView {
-    func swipeFilterTo(type: FilterType) {
-        filterBarView.updateView(newSelect: type)
-    }
-    
-    func changedFilter(type: FilterType) {
-        filterBarView.updateTitleByType(type: type)
-        // refresh marker
-        drawMapMarker()
-    }
-}
-
-extension MainViewController: DelegateFilterBarView {
-    func showFilterContainer(type: FilterType){
-        // change or remove containerview
-        if (filterContainerView.isSameView(type: type)){
-            hideFilter()
-        } else {
-            showFilter()
-            filterContainerView.showFilterView(type: type)
         }
-    }
-    
-    func hideFilter(){
-        filterBarView.updateView(newSelect: .none)
-        filterContainerView.isHidden = true
-        filterHeight.constant = routeView.layer.height + filterBarView.layer.height
-        filterView.sizeToFit()
-        filterView.layoutIfNeeded()
-    }
-    
-    func showFilter(){
-        filterContainerView.isHidden = false
-        filterHeight.constant = routeView.layer.height + filterBarView.layer.height + filterContainerView.layer.height
-        filterView.sizeToFit()
-        filterView.layoutIfNeeded()
-    }
-    
-    func startFilterSetting(){
-        // chargerFilterViewcontroller
-        let chargerFilterViewController = UIStoryboard(name : "Filter", bundle: nil).instantiateViewController(ofType: ChargerFilterViewController.self)
-        chargerFilterViewController.delegate = self
-        GlobalDefine.shared.mainNavi?.push(viewController: chargerFilterViewController)
+        RouteEvent.clickNavigationFindway.logEvent()
     }
     
     @IBAction func onClickMainFavorite(_ sender: UIButton) {
@@ -629,6 +567,53 @@ extension MainViewController: DelegateFilterBarView {
                 MemberManager.shared.showLoginAlert()
             }
         }
+    }
+    
+    private func hideFilter(){
+        filterContainerView.isHidden = true
+        filterHeight.constant = routeView.layer.height + filterBarView.layer.height
+        filterView.sizeToFit()
+        filterView.layoutIfNeeded()
+    }
+    
+    private func showFilter(){
+        filterContainerView.isHidden = false
+        filterHeight.constant = routeView.layer.height + filterBarView.layer.height + filterContainerView.layer.height
+        filterView.sizeToFit()
+        filterView.layoutIfNeeded()
+    }
+}
+
+extension MainViewController: CLLocationManagerDelegate {
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        let status = manager.authorizationStatus
+        switch status {
+        case .authorizedAlways:
+            guard let _reactor = self.reactor else { return }
+            Observable.just(MainReactor.Action.showMarketingPopup)
+                .bind(to: _reactor.action)
+                .disposed(by: self.disposeBag)
+            
+        case .notDetermined, .authorizedWhenInUse, .denied, .restricted: break
+        @unknown default:
+            fatalError()
+        }
+    }
+}
+
+extension MainViewController: DelegateChargerFilterView {
+    func onApplyFilter() {
+        filterContainerView.updateFilters()
+        // refresh marker
+        clusterManager?.removeClusterFromSettings()
+        drawMapMarker()
+    }
+}
+
+extension MainViewController: DelegateFilterContainerView {
+    func changedFilter(type: FilterType) {
+        // refresh marker
+        drawMapMarker()
     }
 }
 
@@ -1248,9 +1233,8 @@ extension MainViewController {
     private func checkJeJuBoundary() {
         if naverMapView.isInJeju() {
             canIgnoreJejuPush = true
-            if let window = UIWindow.key {
-                window.addSubview(PopUpDialog(frame: window.bounds))
-            }            
+            let window = UIWindow.key!
+            window.addSubview(PopUpDialog(frame: window.bounds))
         }
     }
 }
@@ -1303,7 +1287,6 @@ extension MainViewController {
     @objc func updateMemberInfo() {
         FilterManager.sharedInstance.saveTypeFilterForCarType()
         filterContainerView.updateFilters()
-        filterBarView.updateTitle()
         drawMapMarker()
     }
     
