@@ -21,6 +21,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case showFilterSetting
         case updateFilterBarTitle
         case setEvPayFilter(Bool)
+        case openEvPayTooltip
     }
     
     enum Mutation {
@@ -30,6 +31,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case showFilterSetting
         case updateFilterBarTitle
         case setEvPayFilter(Bool)
+        case openEvPayTooltip
     }
     
     struct State {
@@ -39,6 +41,7 @@ internal final class MainReactor: ViewModel, Reactor {
         var isShowFilterSetting: Bool?
         var isUpdateFilterBarTitle: Bool?
         var isEvPayFilter: Bool?
+        var isShowEvPayToolTip: Bool?
     }
     
     internal var initialState: State    
@@ -85,6 +88,10 @@ internal final class MainReactor: ViewModel, Reactor {
             
         case .setEvPayFilter(let isEvPayFilter):
             return .just(.setEvPayFilter(isEvPayFilter))
+            
+        case .openEvPayTooltip:
+            return .just(.openEvPayTooltip)
+            
         }
     }
     
@@ -92,7 +99,8 @@ internal final class MainReactor: ViewModel, Reactor {
         var newState = state
         newState.isShowMarketingPopup = nil        
         newState.isShowFilterSetting = nil
-        newState.isUpdateFilterBarTitle = nil        
+        newState.isUpdateFilterBarTitle = nil
+        newState.isShowEvPayToolTip = nil        
         
         switch mutation {
         case .setShowMarketingPopup(let isShow):
@@ -113,6 +121,9 @@ internal final class MainReactor: ViewModel, Reactor {
             
         case .setEvPayFilter(let isEvPayFilter):
             newState.isEvPayFilter = isEvPayFilter
+            
+        case .openEvPayTooltip:
+            newState.isShowEvPayToolTip = false
         }
         
         return newState

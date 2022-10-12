@@ -239,7 +239,7 @@ extension PointViewController {
         Server.getPointHistory(isAllDate: isAllDate, sDate: sDate, eDate: eDate) { (isSuccess, responseData) in
             if isSuccess {
                 if let data = responseData {
-                    self.pointHistory = try! JSONDecoder().decode(PointHistory.self, from: data)
+                    self.pointHistory = try! JSONDecoder().decode(PointHistory.self, from: data)                    
                     if self.pointHistory.code != 1000 {
                         self.labelResultMsg.visible()
                         self.labelResultMsg.text = self.pointHistory.msg

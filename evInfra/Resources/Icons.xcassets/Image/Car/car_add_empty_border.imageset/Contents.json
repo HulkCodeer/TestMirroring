@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "car_add_empty_border.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

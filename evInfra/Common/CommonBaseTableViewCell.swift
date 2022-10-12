@@ -50,6 +50,6 @@ internal class CommonBaseTableViewCell: UITableViewCell {
     }
 
     internal func makeUI() {
-        self.contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-    } 
+        self.contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]    
+    }
 }

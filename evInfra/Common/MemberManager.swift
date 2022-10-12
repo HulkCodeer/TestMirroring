@@ -232,13 +232,23 @@ internal final class MemberManager {
         return UserDefault().readInt(key: UserDefault.Key.MB_LEVEL) == MemberLevel.keeper.rawValue
     }
     
-    // QR 체크
+    // QR 툴팁 체크
     internal var isShowQrTooltip: Bool {
         set {
             UserDefault().saveBool(key: UserDefault.Key.IS_SHOW_QR_TOOLTIP, value: newValue)
         }
         get {
             return UserDefault().readBool(key: UserDefault.Key.IS_SHOW_QR_TOOLTIP)
+        }
+    }
+    
+    // EV Pay 툴팁 체크
+    internal var isShowEvPayTooltip: Bool {
+        set {
+            UserDefault().saveBool(key: UserDefault.Key.IS_SHOW_EVPAY_TOOLTIP, value: newValue)
+        }
+        get {
+            return UserDefault().readBool(key: UserDefault.Key.IS_SHOW_EVPAY_TOOLTIP)
         }
     }
             

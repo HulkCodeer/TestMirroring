@@ -67,6 +67,9 @@ internal final class MainViewController: UIViewController, StoryboardView {
     @IBOutlet var routeDistanceBtn: UIView!
     
     @IBOutlet weak var ivMainChargeNew: UIImageView!
+    
+    // MARK: VARIABLE
+    
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     private var tMapView: TMapView? = nil
@@ -90,6 +93,9 @@ internal final class MainViewController: UIViewController, StoryboardView {
     
     private var summaryView: SummaryView!
     internal var disposeBag = DisposeBag()
+    
+    private var evPayTipView = EasyTipView(text: "")
+    private var qrTipView = EasyTipView(text: "")
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -193,38 +199,60 @@ internal final class MainViewController: UIViewController, StoryboardView {
             self.selectChargerFromShared()
         }
         canIgnoreJejuPush = UserDefault().readBool(key: UserDefault.Key.JEJU_PUSH)// default : false
+                  
+        if !MemberManager.shared.isShowEvPayTooltip {
+            var evPayPreferences = EasyTipView.Preferences()
+                    
+            evPayPreferences.drawing.backgroundColor = Colors.backgroundAlwaysDark.color
+            evPayPreferences.drawing.foregroundColor = Colors.backgroundSecondary.color
+            evPayPreferences.drawing.textAlignment = NSTextAlignment.left
+
+            evPayPreferences.drawing.arrowPosition = .top
+            evPayPreferences.animating.showInitialAlpha = 1
+            evPayPreferences.animating.showDuration = 1
+            evPayPreferences.animating.dismissDuration = 1
+            evPayPreferences.positioning.maxWidth = 227
+
+            let evPayTiptext = "EV Pay 카드로 충전 가능한 충전소만\n볼 수 있어요"
+            self.evPayTipView = EasyTipView(text: evPayTiptext, preferences: evPayPreferences)
+            self.evPayTipView.show(forView: self.filterBarView.evPayView, withinSuperview: self.view)
+            self.evPayTipView.isHidden = true
+        }
                         
-        
-        guard !MemberManager.shared.isShowQrTooltip else { return }
-        
-        var preferences = EasyTipView.Preferences()
-        
-        preferences.drawing.backgroundColor = Colors.backgroundAlwaysDark.color
-        preferences.drawing.foregroundColor = Colors.backgroundSecondary.color
-        preferences.drawing.textAlignment = NSTextAlignment.center
-        
-        preferences.drawing.arrowPosition = .top
-        
-        preferences.animating.dismissTransform = CGAffineTransform(translationX: -30, y: -100)
-        preferences.animating.showInitialTransform = CGAffineTransform(translationX: 30, y: 100)
-        preferences.animating.showInitialAlpha = 1
-        preferences.animating.showDuration = 1
-        preferences.animating.dismissDuration = 1
-        
-        let text = "한국전력과 GS칼텍스에서\nQR충전을 할 수 있어요!"
-        EasyTipView.show(forView: self.btn_main_charge,
-                         withinSuperview: self.view,
-                         text: text,
-                         preferences: preferences)
-                
+        if !MemberManager.shared.isShowQrTooltip {
+            var qrTipPreferences = EasyTipView.Preferences()
+            
+            qrTipPreferences.drawing.backgroundColor = Colors.backgroundAlwaysDark.color
+            qrTipPreferences.drawing.foregroundColor = Colors.backgroundSecondary.color
+            qrTipPreferences.drawing.textAlignment = NSTextAlignment.center
+            
+            qrTipPreferences.drawing.arrowPosition = .top
+            
+            qrTipPreferences.animating.dismissTransform = CGAffineTransform(translationX: -30, y: -100)
+            qrTipPreferences.animating.showInitialTransform = CGAffineTransform(translationX: 30, y: 100)
+            qrTipPreferences.animating.showInitialAlpha = 1
+            qrTipPreferences.animating.showDuration = 1
+            qrTipPreferences.animating.dismissDuration = 1
+            
+            let qrTipText = "한국전력과 GS칼텍스에서\nQR충전을 할 수 있어요!"
+            self.qrTipView = EasyTipView(text: qrTipText, preferences: qrTipPreferences)
+            self.qrTipView.show(forView: self.btn_main_charge, withinSuperview: self.view)
+        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         // removeObserver 하면 안됨. addObserver를 viewdidload에서 함
-        guard !MemberManager.shared.isShowQrTooltip else { return }
-        _ = self.view.subviews.compactMap { $0 as? EasyTipView }.first?.removeFromSuperview()
-        MemberManager.shared.isShowQrTooltip = true
+        
+        if !MemberManager.shared.isShowEvPayTooltip {
+            self.evPayTipView.dismiss()
+            MemberManager.shared.isShowEvPayTooltip = true
+        }
+        
+        if !MemberManager.shared.isShowQrTooltip {
+            self.qrTipView.dismiss()
+            MemberManager.shared.isShowQrTooltip = true
+        }
     }
     
     // MARK: REACTORKIT
@@ -232,7 +260,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     internal func bind(reactor: MainReactor) {
         filterBarView.bind(reactor: reactor)
         filterContainerView.bind(reactor: reactor)
-                        
+                                        
         reactor.state.compactMap { $0.isShowMarketingPopup }
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { obj, _ in
@@ -275,10 +303,11 @@ internal final class MainViewController: UIViewController, StoryboardView {
                         let difference = Calendar.current.dateComponents([.day], from: _keepDate, to: Date())
                         if let day = difference.day, day > 6 {
                             let viewcon = StartBannerViewController(reactor: GlobalAdsReactor.sharedInstance)
+                            viewcon.mainReactor = reactor
                             GlobalDefine.shared.mainNavi?.present(viewcon, animated: false, completion: nil)
                         }
                     })
-                    .disposed(by: self.disposeBag)
+                    .disposed(by: self.disposeBag)                                
             }
             .disposed(by: self.disposeBag)
         
@@ -293,6 +322,13 @@ internal final class MainViewController: UIViewController, StoryboardView {
             }
             .disposed(by: self.disposeBag)
         
+        reactor.state.compactMap { $0.isEvPayFilter }
+            .asDriver(onErrorJustReturn: false)
+            .drive(with: self) { obj, _ in
+                self.drawMapMarker()
+            }
+            .disposed(by: self.disposeBag)
+        
         reactor.state.compactMap { $0.isShowFilterSetting }
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { obj, isShow in
@@ -300,6 +336,11 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 chargerFilterViewController.delegate = obj
                 GlobalDefine.shared.mainNavi?.push(viewController: chargerFilterViewController)
             }
+            .disposed(by: self.disposeBag)
+        
+        reactor.state.compactMap { $0.isShowEvPayToolTip }
+            .asDriver(onErrorJustReturn: false)
+            .drive(self.evPayTipView.rx.isHidden)
             .disposed(by: self.disposeBag)
     }
     
@@ -472,9 +513,15 @@ internal final class MainViewController: UIViewController, StoryboardView {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard !MemberManager.shared.isShowQrTooltip else { return }
-        _ = self.view.subviews.compactMap { $0 as? EasyTipView }.first?.removeFromSuperview()
-        MemberManager.shared.isShowQrTooltip = true
+        if !MemberManager.shared.isShowEvPayTooltip {
+            self.evPayTipView.dismiss()
+            MemberManager.shared.isShowEvPayTooltip = true
+        }
+        
+        if !MemberManager.shared.isShowQrTooltip {
+            self.qrTipView.dismiss()
+            MemberManager.shared.isShowQrTooltip = true
+        }
     }
     
     // MARK: - Action for button

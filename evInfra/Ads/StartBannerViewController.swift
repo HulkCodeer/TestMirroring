@@ -58,7 +58,10 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
         $0.backgroundColor = Colors.backgroundPrimary.color
     }
     
+    // MARK: VARIABLE
+    
     private let safeAreaInsetBottomHeight = UIWindow.key?.safeAreaInsets.bottom ?? 0
+    internal weak var mainReactor: MainReactor?
     
     init(reactor: GlobalAdsReactor) {
         super.init()
@@ -188,6 +191,11 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
     private func closeStartBannerViewController() {
         self.dimmedViewBtn.backgroundColor = .clear
         GlobalDefine.shared.mainNavi?.dismiss(animated: true)
+        guard let _mainReactor = self.mainReactor else { return }
+        Observable.just(mainReactor.action.openEvPayTooltip)
+            .bind(to: _mainReactor.action)
+            .disposed(by: self.disposeBag)
+        
     }
     
     private func logClickEvent() {
