@@ -64,7 +64,6 @@ extension AppNavigationDrawerController: NavigationDrawerControllerDelegate {
 //        printLog(out: "navigationDrawerController statusBar is hidden:", isHidden ? "Yes" : "No")
         guard isHidden else {
             return
-        }
-        (leftViewController as? LeftViewController)?.appeared()
+        }        
     }
 }

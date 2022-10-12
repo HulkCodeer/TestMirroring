@@ -72,7 +72,7 @@ internal final class DetailViewController: BaseViewController {
         prepareChargerInfo()
         prepareSummaryView()
         
-        safeAreaBottomViewHeight.constant = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
+        safeAreaBottomViewHeight.constant = UIWindow.key?.safeAreaInsets.bottom ?? 0
                 
         reportBtn.rx.tap
             .asDriver()
@@ -142,7 +142,7 @@ internal final class DetailViewController: BaseViewController {
     }
     
     func prepareSummaryView() {
-        let window = UIApplication.shared.keyWindow!
+        let window = UIWindow.key!
         var frameTest:CGRect = summaryLayout.frame
         frameTest.size.width = window.frame.bounds.width
         

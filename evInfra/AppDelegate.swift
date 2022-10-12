@@ -17,7 +17,6 @@ import FirebaseDynamicLinks
 import UserNotifications
 import AuthenticationServices
 import NMapsMap
-import MiniPlengi
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -37,24 +36,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
         setupPushNotification(application, didFinishLaunchingWithOptions: launchOptions)
                                         
-        // 로플랫 관련 코드
-        if Plengi.initialize(clientID: "zeroone",
-                       clientSecret: "zeroone)Q@Eh(4",
-                             echoCode: "\(MemberManager.shared.mbId)") == .SUCCESS {
-            _ = Plengi.setDelegate(self)            
-        }
-                                
-        if Plengi.getEngineStatus() == .STARTED {
-            _ = Plengi.start()
-        }
-                                        
         // 앰플리튜드 설정
         UIViewController.swizzleMethod()
                         
         #if DEBUG
-        // PodFile에 TEST-MiniPlengi를 설치해서 테스트
-//        Plengi.isDebug = true
-        
         // terminating with uncaught exception of type NSException 에러시 CallStack을 찍어준다.
         NSSetUncaughtExceptionHandler { exception in
             let exceptionStr = exception.callStackSymbols.reduce("\n\(exception)\n") { exceptionStr, callStackSymbol -> String in
@@ -199,40 +184,17 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         fcmManager.fcmNotification = response.notification.request.content.userInfo
         
         // 메인 실행이 완료되지 않으면 실행하지 않고 메인에서 끝날때 호출        
-        fcmManager.alertMessage(data: response.notification.request.content.userInfo)
-        
-        // 로플랫 관련 코드
-        _ = Plengi.processLoplatAdvertisement(center,
-                                              didReceive: response,
-                                              withCompletionHandler: completionHandler)
-        
+        fcmManager.alertMessage(data: response.notification.request.content.userInfo)                        
         completionHandler()
-    }
-    
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        printLog(out: "applicationWillEnterForeground")
-        // 로플랫 관련 코드
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "processAdvertisement"), object: nil) // SDK 내부 이벤트 호출 (정확한 처리를 위해 권장)
     }
 }
 
 extension AppDelegate : MessagingDelegate {
-    // [START refresh_token]
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         printLog(out: "Firebase registration token: \(fcmToken ?? "")")
         fcmManager.registerId = fcmToken
-        fcmManager.registerUser()
-        // TODO: If necessary send token to application server.
-        // Note: This callback is fired at each app startup and whenever a new token is generated.
+        FCMManager.sharedInstance.registerUser()
     }
-    // [END refresh_token]
-    // [START ios_10_data_message]
-    // Receive data messages on iOS 10+ directly from FCM (bypassing APNs) when the app is in the foreground.
-    // To enable direct data messages, you can set Messaging.messaging().shouldEstablishDirectChannel to true.
-//    func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
-//         print("ApFirebase Firebase Received data message: \(remoteMessage.appData)")
-//    }
-    // [END ios_10_data_message]
 }
 
 extension AppDelegate {
@@ -288,17 +250,5 @@ extension AppDelegate {
                      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
         print("APNs token retrieved: \(deviceToken)")
-    }
-}
-
-extension Notification.Name {
-    public static let pr = NSNotification.Name("plengiResponse")
-}
-
-extension AppDelegate: PlaceDelegate {
-    func responsePlaceEvent(_ plengiResponse: PlengiResponse) {        
-        let plengiResponseData = NSKeyedArchiver.archivedData(withRootObject: plengiResponse)
-        UserDefaults.standard.set(plengiResponseData, forKey: "plengiResponse")
-        NotificationCenter.default.post(name: .pr, object: nil)
     }
 }

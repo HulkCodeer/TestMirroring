@@ -14,7 +14,7 @@ internal final class MembershipGuideViewController: BaseViewController, WKUIDele
     
     // MARK: VARIABLE
     
-    private let disposebag = DisposeBag()
+    private let disposebag = DisposeBag()    
     
     // MARK: UI
     
@@ -59,7 +59,7 @@ internal final class MembershipGuideViewController: BaseViewController, WKUIDele
         view.addSubview(self.membershipRegisterBtn)
         membershipRegisterBtn.snp.makeConstraints {
             $0.leading.trailing.bottom.equalToSuperview()
-            let safeAreaBottomHeight = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
+            let safeAreaBottomHeight = UIWindow.key?.safeAreaInsets.bottom ?? 0
             $0.height.equalTo(64 + safeAreaBottomHeight)
         }
         

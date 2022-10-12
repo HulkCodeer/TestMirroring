@@ -8,7 +8,6 @@
 
 import Foundation
 import SwiftyJSON
-import MiniPlengi
 import RxCoreLocation
 import RxSwift
 
@@ -44,7 +43,12 @@ internal final class MemberManager {
     }
     
     internal var memberId: String { // 기기 아이디
-        return UserDefault().readString(key: UserDefault.Key.MEMBER_ID)
+        get {
+            UserDefault().readString(key: UserDefault.Key.MEMBER_ID)
+        }
+        set {
+            UserDefault().saveString(key: UserDefault.Key.MEMBER_ID, value: newValue)
+        }
     }
     
     internal var userId: String {
@@ -151,12 +155,12 @@ internal final class MemberManager {
         }
     }
     
-    internal var isAllowMarketingNoti: Bool {
+    internal var isAllowMarketingNoti: Bool? {
         set {
-            UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION, value: newValue)
+            UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION, value: newValue ?? false)
         }
         get {
-            return UserDefault().readBool(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION)
+            return UserDefault().readBoolWithNil(key: UserDefault.Key.SETTINGS_ALLOW_MARKETING_NOTIFICATION) as? Bool ?? nil
         }
     }
                     
@@ -200,7 +204,6 @@ internal final class MemberManager {
         }
     }
         
-    // 로플랫 전용
     internal var isFirstInstall: Bool { // false일 경우 처음 설치, true일때 처음설치 아님
         set {
             UserDefault().saveBool(key: UserDefault.Key.IS_FIRST_INSTALL, value: newValue)
@@ -209,16 +212,15 @@ internal final class MemberManager {
             return UserDefault().readBool(key: UserDefault.Key.IS_FIRST_INSTALL)
         }
     }
-    
-    // 로플랫 전용
-    internal var isFirstLocationPopup: Bool { // false일 경우 처음 설치, true일때 처음설치 아님
-        set {
-            UserDefault().saveBool(key: UserDefault.Key.IS_FIRST_LOCATION_POPUP, value: newValue)
-        }
-        get {
-            return UserDefault().readBool(key: UserDefault.Key.IS_FIRST_LOCATION_POPUP)
-        }
-    }
+        
+//    internal var isFirstLocationPopup: Bool { // false일 경우 처음 설치, true일때 처음설치 아님
+//        set {
+//            UserDefault().saveBool(key: UserDefault.Key.IS_FIRST_LOCATION_POPUP, value: newValue)
+//        }
+//        get {
+//            return UserDefault().readBool(key: UserDefault.Key.IS_FIRST_LOCATION_POPUP)
+//        }
+//    }
     
     // 로그인 상태 체크
     internal var isLogin: Bool {
@@ -230,7 +232,7 @@ internal final class MemberManager {
         return UserDefault().readInt(key: UserDefault.Key.MB_LEVEL) == MemberLevel.keeper.rawValue
     }
     
-    // QR 체크
+    // QR 툴팁 체크
     internal var isShowQrTooltip: Bool {
         set {
             UserDefault().saveBool(key: UserDefault.Key.IS_SHOW_QR_TOOLTIP, value: newValue)
@@ -240,6 +242,16 @@ internal final class MemberManager {
         }
     }
     
+    // EV Pay 툴팁 체크
+    internal var isShowEvPayTooltip: Bool {
+        set {
+            UserDefault().saveBool(key: UserDefault.Key.IS_SHOW_EVPAY_TOOLTIP, value: newValue)
+        }
+        get {
+            return UserDefault().readBool(key: UserDefault.Key.IS_SHOW_EVPAY_TOOLTIP)
+        }
+    }
+            
     func setData(data: JSON) {
         if data["mb_id"].stringValue.elementsEqual("") {
             print("mb id is null");
@@ -266,23 +278,6 @@ internal final class MemberManager {
             userDefault.saveString(key: UserDefault.Key.MB_PHONE, value: data["phone"].stringValue)
             userDefault.saveString(key: UserDefault.Key.MB_REG_DATE, value: data["reg_date"].stringValue)
             userDefault.saveString(key: UserDefault.Key.MB_POINT, value: data["point"].stringValue)
-                        
-            CLLocationManager().rx
-                .status
-                .subscribe(onNext: { status in
-                    switch status {
-                    case .authorizedAlways, .authorizedWhenInUse:
-                        DispatchQueue.main.async {
-                            let receive = MemberManager.shared.isAllowMarketingNoti
-                            _ = Plengi.enableAdNetwork(true, enableNoti: receive)
-                            _ = Plengi.start()
-    //                        _ = Plengi.manual_refreshPlace_foreground()
-                        }
-                                                                
-                    default: break
-                    }
-                })
-                .disposed(by: self.disposeBag)
         }
     }
     
@@ -306,7 +301,6 @@ internal final class MemberManager {
         userDefault.saveString(key: UserDefault.Key.MB_AGE_RANGE, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_EMAIL, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_PHONE, value: "")
-        // 로플랫 걷어낼 경우 실행시켜서 지워야함
 //        userDefault.removeObjectForKey(key: UserDefault.Key.IS_FIRST_INSTALL)
 //        userDefault.removeObjectForKey(key: UserDefault.Key.IS_FIRST_LOCATION_POPUP)
                         

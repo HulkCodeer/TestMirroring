@@ -7,10 +7,13 @@
 //
 import RxSwift
 
+import RxSwift
+
 internal final class GlobalDefine: NSObject {
     internal static var shared = GlobalDefine()
     
     internal weak var mainNavi: AppNavigationController?
+    internal var isUseAllBerry = PublishSubject<Bool>()
     internal weak var mainViewcon: MainViewController?
     internal var sharedChargerIdFromDynamicLink: String?
     internal var tempDeepLink: String = ""

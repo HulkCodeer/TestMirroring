@@ -32,6 +32,7 @@ class MembershipIssuanceViewController: UIViewController,
     @IBOutlet var checkAgree: M13Checkbox!
     
     var membershipTermView : MembershipTermView? = nil
+    
     @IBOutlet var scrollview_bottom: NSLayoutConstraint!
     
     @IBAction func onClickZipSearchBtn(_ sender: Any) {
@@ -67,7 +68,7 @@ class MembershipIssuanceViewController: UIViewController,
     
     var payRegistResult: JSON?
     var memberData: [String: Any]? = nil
-    var isConfirmTerm = false
+    var isConfirmTerm = false    
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")

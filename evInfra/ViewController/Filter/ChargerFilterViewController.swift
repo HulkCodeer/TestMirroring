@@ -8,7 +8,8 @@
 
 import UIKit
 import Material
-protocol DelegateChargerFilterView: class {
+
+protocol DelegateChargerFilterView: AnyObject {
     func onApplyFilter()
 }
 
@@ -90,9 +91,9 @@ class ChargerFilterViewController: UIViewController {
     
     func initView(){
         btnApply.layer.cornerRadius = 6
+        
         setApplyBtnStatus(enabled: false)
-        
-        
+                
         typeFilter.delegate = self
         speedFilter.delegate = self
         roadFilter.delegate = self

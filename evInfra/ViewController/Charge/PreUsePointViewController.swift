@@ -11,6 +11,7 @@ import Foundation
 import UIKit
 import Material
 import SwiftyJSON
+
 class PreUsePointViewController: UIViewController {
     
     @IBOutlet weak var tfUsePoint: UITextField!

@@ -40,7 +40,8 @@ class UserDefault {
         static let MB_POINT = "point"
         static let MB_HAS_REPRESENTED = "mb_has_represented"
         static let IS_SHOW_QR_TOOLTIP = "is_show_qr_tooltip"
-        
+        static let IS_SHOW_EVPAY_TOOLTIP = "is_show_evpay_tooltip"
+                
         // 필터 - 개인 설정
         static let FILTER_DC_DEMO       = "filter_dc_demo"
         static let FILTER_DC_COMBO      = "filter_dc_combo"
@@ -62,6 +63,7 @@ class UserDefault {
         static let FILTER_HIGHWAY_UP    = "filter_highway_up"
         static let FILTER_HIGHWAT_DOWN  = "filter_highway_down"
         static let FILTER_MYCAR         = "filter_mycar"
+        static let FILTER_MEMBERSHIP_CARD = "filter_membership_card"
         
         static let FILTER_ROAD          = "filter_road"
         static let FILTER_ST_KIND       = "filter_station_kind"
@@ -81,6 +83,8 @@ class UserDefault {
         
         static let HAS_FAILED_PAYMENT = "has_failed_payment"
         
+        static let FILTER_CHARGING_PROVIDER_LIST_SAVE = "filter_charging_provider_list_save"
+        
         // 전체설정
         static let SETTINGS_ALLOW_NOTIFICATION = "allow_notification"
         static let SETTINGS_ALLOW_JEJU_NOTIFICATION = "allow_jeju_notification"
@@ -95,10 +99,9 @@ class UserDefault {
         static let AD_KEEP_DATE_FOR_A_WEEK = "ad_keep_date_for_a_week" // 광고 - 일주일동안 보지 않기 선택한 날짜
         static let RECENT_KEYWORD = "keywords" // 게시글 검색 최근검색어
         static let IS_HIDDEN_DELEVERY_COMPLETE_TOOLTIP = "isDeleveryComplete" // 배송완료 툴팁 저장
-        
-        // 로플랫 전용
+                
         static let IS_FIRST_INSTALL = "is_first_install" // 앱 최초 설치인지 확인용
-        static let IS_FIRST_LOCATION_POPUP = "is_first_location_popup" // 항상 허용 권한 위치 팝업 띄웠는지 유무
+        static let IS_FIRST_LOCATION_POPUP = "is_first_location_popup" // 항상 허용 권한 위치 팝업 띄웠는지 유무        
     }
 
     func saveString(key:String, value: String) -> Void {
@@ -133,6 +136,14 @@ class UserDefault {
     
     func readBool(key: String) -> Bool {
         return UserDefaults.standard.bool(forKey: key)
+    }
+    
+    func readBoolWithNil(key: String) -> AnyObject? {
+        if let value = UserDefaults.standard.object(forKey: key) {
+            return value as AnyObject
+        } else {
+            return nil
+        }
     }
     
     func saveIntArray(key: String, value: [JSON]) -> Void {
@@ -180,6 +191,22 @@ class UserDefault {
     func readData(key: String) -> Data? {
         if let value = UserDefaults.standard.data(forKey: key) {
             return value
+        } else {
+            return nil
+        }
+    }
+    
+    func setUserDefault(_ key: String?, value: Any?) {
+        let _key = key ?? ""
+        let userDefaults = UserDefaults.standard
+        userDefaults.set(value, forKey: _key)
+        userDefaults.synchronize()
+    }
+    
+    func getUserDefault(_ key: String?) -> AnyObject? {
+        let _key = key ?? ""
+        if let value = UserDefaults.standard.object(forKey: _key) {
+            return value as AnyObject
         } else {
             return nil
         }

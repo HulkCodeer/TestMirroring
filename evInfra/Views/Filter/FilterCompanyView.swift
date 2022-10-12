@@ -8,22 +8,27 @@
 
 import Foundation
 
-class FilterCompanyView: UIView {
+internal final class FilterCompanyView: UIView {
+    // MARK: UI
+    
     @IBOutlet var switchAll: UISwitch!
     @IBOutlet var switchCard: UISwitch!
     
     @IBOutlet var titleView: UIView!
     @IBOutlet var companyTableView: CompanyTableView!
     
-    private let GROUP_TITLE = ["A.B.C..", "가", "나", "다", "라", "마", "바", "사", "아", "자", "차", "카", "타", "파", "하", "힣"];
-
-    var companyList = [CompanyInfoDto]()
-    var groupList = Array<CompanyGroup>()
+    // MARK: VARIABLE
     
-    var allSelect: Bool = false
-    var cardSetting: Bool = false
+    private let GROUP_TITLE = ["A.B.C..", "가", "나", "다", "라", "마", "바", "사", "아", "자", "차", "카", "타", "파", "하", "힣"]
+    private var companyList = [CompanyInfoDto]()
+    private var groupList = Array<CompanyGroup>()
+    private var allSelect: Bool = false
+    private var cardSetting: Bool = false
     
     internal weak var delegate: DelegateFilterChange?
+    
+    // MARK: SYSTEM FUNC
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         initView()
@@ -40,7 +45,14 @@ class FilterCompanyView: UIView {
         addSubview(view)
         
         prepareTagList()
-        setUpUI()
+        
+        companyTableView.separatorInset = .zero
+        companyTableView.separatorStyle = .none
+        companyTableView.allowsSelection = false
+        companyTableView.tableDelegate = self
+        
+        updateTable()        
+        self.switchCard.isOn = FilterManager.sharedInstance.getIsMembershipCardChecked()
     }
     
     func prepareTagList() {
@@ -91,7 +103,6 @@ class FilterCompanyView: UIView {
             if !selected {
                 allSelect = false
             }
-            
         }
         switchAll.isOn = allSelect
         
@@ -103,22 +114,13 @@ class FilterCompanyView: UIView {
         groupList.remove(at: 0)
         groupList.append(abcGroup)
         
-        groupList.insert(CompanyGroup(title: "추천", list: recommendList), at: 0)
-    }
-    
-    func setUpUI(){
-        companyTableView.separatorInset = .zero
-        companyTableView.separatorStyle = .none
-        companyTableView.allowsSelection = false
-        companyTableView.tableDelegate = self
-        
-        updateTable()
+        groupList.insert(CompanyGroup(title: "추천", list: recommendList), at: 0)                
     }
     
     func updateTable() {
         updateSwitch()
-        
-        delegate?.onChangedFilter(type: .company) // update change or turnback
+                        
+        delegate?.onChangedFilter(type: .company)
         
         companyTableView.groupList = groupList
         companyTableView.reloadData()
@@ -167,10 +169,12 @@ class FilterCompanyView: UIView {
         
         switchAll.setOn(true, animated: true)
         switchCard.setOn(false, animated: true)
-        setUpUI()
+        updateTable()
     }
     
     func applyFilter() {
+        FilterManager.sharedInstance.saveIsMembershipCardChecked(self.switchCard.isOn)
+        
         for company in companyList {
             for list in groupList {
                 for tag in list.list {

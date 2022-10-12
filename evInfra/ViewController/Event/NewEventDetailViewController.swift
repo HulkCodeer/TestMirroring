@@ -18,6 +18,15 @@ struct EventData {
     var eventUrl: String = ""
     var promotionId: String = ""
     var mbId: String = ""
+    var carmoreParam: String = "" // 카모아 전용 파라미터
+    
+    init(naviTitle: String, eventUrl: String, promotionId: String, mbId: String, carmoreParam: String) {
+        self.naviTitle = naviTitle
+        self.eventUrl = eventUrl
+        self.promotionId = promotionId
+        self.mbId = mbId
+        self.carmoreParam = carmoreParam
+    }
     
     init(naviTitle: String, eventUrl: String, promotionId: String, mbId: String) {
         self.naviTitle = naviTitle
@@ -62,6 +71,10 @@ struct EventData {
         
         if !self.promotionId.isEmpty {
             result.append(URLQueryItem(name: "promotionId", value: self.promotionId))
+        }
+        
+        if !self.carmoreParam.isEmpty {
+            result.append(URLQueryItem(name: "param", value: self.carmoreParam))
         }
                         
         return result
@@ -137,8 +150,7 @@ internal final class NewEventDetailViewController: CommonBaseViewController {
             return
         }
                         
-        let request = URLRequest(url: _url)
-        printLog(out: "PARK TEST url : \(_url)")
+        let request = URLRequest(url: _url)        
         webView.load(request)
     }
     

@@ -43,7 +43,7 @@ internal final class AmplitudeManager {
         identify.set("age range", value: MemberManager.shared.ageRange as NSObject)
         identify.set("push allowed", value: MemberManager.shared.isAllowNoti as NSObject)
         identify.set("push allowed jeju", value: MemberManager.shared.isAllowJejuNoti as NSObject)
-        identify.set("push allowed marketing", value: MemberManager.shared.isAllowMarketingNoti as NSObject)
+        identify.set("push allowed marketing", value: MemberManager.shared.isAllowMarketingNoti as? NSObject)
         
         DispatchQueue.global(qos: .background).async {
             Amplitude.instance().identify(self.identify)
@@ -321,7 +321,7 @@ internal enum EnterViewType: String, EventTypeProtocol {
         case "PaymentQRScanViewController": self = .paymentQRScanViewController
         case "PaymentStatusViewController": self = .paymentStatusViewController
         case "PaymentResultViewController": self = .paymentResultViewController
-        case "NoticeViewController": self = .noticeViewController
+        case "NewNoticeViewController": self = .noticeViewController
         case "EventViewController": self = .eventViewController
         case "RegisterResultViewController": self = .registerResultViewController
         case "LotteRentInfoViewController": self = .lotteRentInfoViewController

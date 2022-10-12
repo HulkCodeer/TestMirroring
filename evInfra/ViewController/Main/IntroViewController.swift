@@ -47,26 +47,15 @@ internal final class IntroViewController: UIViewController {
         showProgressLayer(isShow: false)
         showIntro()
         
-        ChargerManager.sharedInstance.getChargerCompanyInfo(listener: {
-            
-            class chargerManagerListener: ChargerManagerListener {
-
-                var controller: IntroViewController?
-                
-                func onComplete() {
-                    controller?.checkCompanyInfo()
-                }
-                
-                func onError(errorMsg: String) {
-                }
-                
-                required init(_ controller : IntroViewController) {
-                    self.controller = controller
-                }
+        Server.getCompanyInfo(updateDate: ChargerManager.sharedInstance.getChargerCompanyInfo()) { (isSuccess, value) in
+            if isSuccess {
+                ChargerManager.sharedInstance.updateCompanyInfoListFromServer(json: JSON(value))
+                self.checkCompanyInfo()
+            } else {
+                Snackbar().show(message: "네트워크 오류")
+                fatalError("네트워크 오류")
             }
-            
-            return chargerManagerListener(self)
-        } ())
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -117,7 +106,8 @@ internal final class IntroViewController: UIViewController {
     }
     
     private func checkLastBoardId() {
-        Server.getBoardData { (isSuccess, value) in
+        Server.getBoardData { [weak self] (isSuccess, value) in
+            guard let self = self else { return }
             if isSuccess {
                 let json = JSON(value)
                 if json["code"].intValue == 1000 {
@@ -148,27 +138,23 @@ internal final class IntroViewController: UIViewController {
                         boardNewInfo.brdId = brdId
                         
                         Board.sharedInstance.brdNewInfo.append(boardNewInfo)
-                    }
-                    
-                    if !MemberManager.shared.isFirstInstall {
-                        CLLocationManager().rx
-                            .status
-                            .subscribe(with: self) { obj, status in
-                                switch status {
-                                case .authorizedAlways, .authorizedWhenInUse:
-                                    self.moveMainView()
-                                    
-                                default: self.movePerminssonsGuideView()
-                                }
-                            }
-                            .disposed(by: self.disposeBag)
-                    } else {
-                        self.moveMainView()
-                    }
+                    }                                        
                 }
-                
             }
-        }
+            
+            CLLocationManager().rx.isEnabled
+                .subscribe(with: self) { obj, isEnable in
+                    guard !isEnable else { return }
+                    CLLocationManager().requestWhenInUseAuthorization()
+                }
+                .disposed(by: self.disposeBag)
+            
+            if FCMManager.sharedInstance.originalMemberId.isEmpty {
+                self.movePerminssonsGuideView()                
+            } else {
+                self.moveMainView()
+            }
+        }        
     }
     
     private func moveMainView() {
@@ -176,11 +162,12 @@ internal final class IntroViewController: UIViewController {
         let reactor = MainReactor(provider: RestApi())
         let mainViewcon = storyboard.instantiateViewController(ofType: MainViewController.self)
         mainViewcon.reactor = reactor
-        let letfViewcon = storyboard.instantiateViewController(ofType: LeftViewController.self)
+        let leftReactor = LeftViewReactor(provider: RestApi())
+        let leftViewcon = NewLeftViewController(reactor: leftReactor)        
         
         let appToolbarController = AppToolbarController(rootViewController: mainViewcon)
         appToolbarController.delegate = mainViewcon
-        let ndController = AppNavigationDrawerController(rootViewController: appToolbarController, leftViewController: letfViewcon)
+        let ndController = AppNavigationDrawerController(rootViewController: appToolbarController, leftViewController: leftViewcon)
         GlobalDefine.shared.mainNavi?.setViewControllers([ndController], animated: true)
     }
     

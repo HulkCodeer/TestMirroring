@@ -8,22 +8,40 @@
 
 import ReactorKit
 import SwiftyJSON
-import MiniPlengi
 
 internal final class MainReactor: ViewModel, Reactor {
+    typealias SelectedFilterInfo = (filterTagType: FilterTagType, isSeleted: Bool)
+    
     enum Action {        
         case showMarketingPopup
         case setAgreeMarketing(Bool)
+        case setSelectedFilterInfo(SelectedFilterInfo)
+        case swipeLeft
+        case swipeRight
+        case showFilterSetting
+        case updateFilterBarTitle
+        case setEvPayFilter(Bool)
+        case openEvPayTooltip
     }
     
     enum Mutation {
         case setShowMarketingPopup(Bool)
         case setShowStartBanner(Bool)
+        case setSelectedFilterInfo(SelectedFilterInfo)
+        case showFilterSetting
+        case updateFilterBarTitle
+        case setEvPayFilter(Bool)
+        case openEvPayTooltip
     }
     
     struct State {
         var isShowMarketingPopup: Bool?
         var isShowStartBanner: Bool?
+        var selectedFilterInfo: SelectedFilterInfo?
+        var isShowFilterSetting: Bool?
+        var isUpdateFilterBarTitle: Bool?
+        var isEvPayFilter: Bool?
+        var isShowEvPayToolTip: Bool?
     }
     
     internal var initialState: State    
@@ -50,13 +68,39 @@ internal final class MainReactor: ViewModel, Reactor {
                 .map { isShowStartBanner in
                     return .setShowStartBanner(isShowStartBanner)
                 }
+            
+        case .setSelectedFilterInfo(let selectedFilterInfo):
+            return .just(.setSelectedFilterInfo(selectedFilterInfo))
+            
+        case .swipeLeft:
+            let selectedFilterInfo: SelectedFilterInfo = (filterTagType: self.currentState.selectedFilterInfo?.filterTagType.swipeLeft() ?? .price, isSeleted: true)
+            return .just(.setSelectedFilterInfo(selectedFilterInfo))
+            
+        case .swipeRight:
+            let selectedFilterInfo: SelectedFilterInfo = (filterTagType: self.currentState.selectedFilterInfo?.filterTagType.swipeRight() ?? .price, isSeleted: true)
+            return .just(.setSelectedFilterInfo(selectedFilterInfo))
+            
+        case .showFilterSetting:
+            return .just(.showFilterSetting)
+            
+        case .updateFilterBarTitle:
+            return .just(.updateFilterBarTitle)
+            
+        case .setEvPayFilter(let isEvPayFilter):
+            return .just(.setEvPayFilter(isEvPayFilter))
+            
+        case .openEvPayTooltip:
+            return .just(.openEvPayTooltip)
+            
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
-        newState.isShowMarketingPopup = nil
-        newState.isShowStartBanner = nil
+        newState.isShowMarketingPopup = nil        
+        newState.isShowFilterSetting = nil
+        newState.isUpdateFilterBarTitle = nil
+        newState.isShowEvPayToolTip = nil        
         
         switch mutation {
         case .setShowMarketingPopup(let isShow):
@@ -64,7 +108,22 @@ internal final class MainReactor: ViewModel, Reactor {
             
         case .setShowStartBanner(let isShow):
             newState.isShowStartBanner = isShow
-                    
+            
+        case .setSelectedFilterInfo(let selectedFilterInfo):
+            newState.selectedFilterInfo = selectedFilterInfo
+            newState.isUpdateFilterBarTitle = true
+            
+        case .showFilterSetting:
+            newState.isShowFilterSetting = true
+            
+        case .updateFilterBarTitle:
+            newState.isUpdateFilterBarTitle = true
+            
+        case .setEvPayFilter(let isEvPayFilter):
+            newState.isEvPayFilter = isEvPayFilter
+            
+        case .openEvPayTooltip:
+            newState.isShowEvPayToolTip = false
         }
         
         return newState
@@ -89,14 +148,7 @@ internal final class MainReactor: ViewModel, Reactor {
             
             var message = "[EV Infra] \(currDate) "
             message += receive ? "마케팅 수신 동의 처리가 완료되었어요! ☺️ 더 좋은 소식 준비할게요!" : "마케팅 수신 거부 처리가 완료되었어요."
-                        
-            DispatchQueue.main.async {
-                _ = Plengi.enableAdNetwork(true, enableNoti: receive)
-                if receive {
-                    _ = Plengi.start()
-                }
-            }
-                    
+            
             Snackbar().show(message: message)
         
             return true
