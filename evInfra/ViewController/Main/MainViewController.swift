@@ -733,8 +733,18 @@ internal final class MainViewController: UIViewController, StoryboardView {
         findPath(passList: passList)
     }
     
-    private func showNavigation(start: POIObject, destination: POIObject, via: [POIObject]) {
-        UtilNavigation().showNavigation(vc: self, startPoint: start, endPoint: destination, viaList: via)
+    private func showNavigation(start: POIObject?, destination: POIObject, via: [POIObject]) {
+        if let _start = start {
+            UtilNavigation().showNavigation(vc: self, startPoint: _start, endPoint: destination, viaList: via)
+        } else {
+            let currentPoint = locationManager.getCurrentCoordinate()
+            let point = TMapPoint(coordinate: currentPoint)
+
+            let positionName = tMapPathData.convertGpsToAddress(at: point) ?? ""
+            let start = POIObject(name: positionName, lat: currentPoint.latitude, lng: currentPoint.longitude)
+            
+            UtilNavigation().showNavigation(vc: self, startPoint: start, endPoint: destination, viaList: via)
+        }
     }
     
     @objc func onClickChargePrice(sender: UITapGestureRecognizer) {
@@ -787,17 +797,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     @objc func onClickShowNavi(_ sender: Any) {
         guard let destination = naverMapView.destination else { return }
         
-        if let start = naverMapView.start {
-            self.showNavigation(start: start, destination: destination, via: naverMapView.viaList)
-        } else {
-            let currentPoint = locationManager.getCurrentCoordinate()
-            let point = TMapPoint(coordinate: currentPoint)
-            
-            let positionName = tMapPathData.convertGpsToAddress(at: point) ?? ""
-            let start = POIObject(name: positionName, lat: currentPoint.latitude, lng: currentPoint.longitude)
-            
-            self.showNavigation(start: start, destination: destination, via: naverMapView.viaList)
-        }
+        showNavigation(start: naverMapView.start, destination: destination, via: naverMapView.viaList)
         RouteEvent.clickNavigationFindway.logEvent()
     }
     
@@ -1584,18 +1584,7 @@ extension MainViewController {
                                     lat: selectCharger.mStationInfoDto?.mLatitude ?? .zero,
                                     lng: selectCharger.mStationInfoDto?.mLongitude ?? .zero)
         
-        guard let start = naverMapView.start  else {
-            let currentPoint = locationManager.getCurrentCoordinate()
-            let point = TMapPoint(coordinate: currentPoint)
-            
-            let positionName = tMapPathData.convertGpsToAddress(at: point) ?? ""
-            let start = POIObject(name: positionName, lat: currentPoint.latitude, lng: currentPoint.longitude)
-            
-            self.showNavigation(start: start, destination: destination, via: [])
-            return
-        }
-        
-        self.showNavigation(start: start, destination: destination, via: [])
+        showNavigation(start: naverMapView.start, destination: destination, via: [])
     }
     
     @objc func requestLogIn(_ notification: NSNotification) {
