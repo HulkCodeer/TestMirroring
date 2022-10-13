@@ -44,20 +44,13 @@ internal final class MainViewController: UIViewController, StoryboardView {
     
     // Filter View
     @IBOutlet weak var filterView: UIView!
-    @IBOutlet weak var routeView: UIView!
+    private lazy var searchWayView = MainSearchWayView().then {
+        $0.isHidden = true
+    }
     
     @IBOutlet weak var filterBarView: NewFilterBarView!
     @IBOutlet weak var filterContainerView: FilterContainerView!
     @IBOutlet weak var filterHeight: NSLayoutConstraint!
-    
-    @IBOutlet weak var startField: TextField!
-    @IBOutlet weak var endField: TextField!
-    
-    @IBOutlet weak var btnRouteCancel: UIButton!
-    @IBOutlet weak var btnRoute: UIButton!
-    private lazy var searchWayView = MainSearchWayView().then {
-        $0.isHidden = true
-    }
     
     // Callout View
     @IBOutlet weak var callOutLayer: UIView!
@@ -111,7 +104,9 @@ internal final class MainViewController: UIViewController, StoryboardView {
         super.viewDidLoad()
                         
         configureLayer()
-        prepareRouteField()
+
+        routeDistanceView.isHidden = true
+        
         preparePOIResultView()
         prepareTmapAPI()
         
@@ -201,18 +196,12 @@ internal final class MainViewController: UIViewController, StoryboardView {
     
     private func setConstraints() {
         let filterBarHeight: CGFloat = 40
-        let searchWayViewHeight: CGFloat = 84
+        let searchWayViewHeight: CGFloat = 72
         
         customNaviBar.snp.makeConstraints {
             $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
             $0.height.equalTo(customNaviBar.height)
         }
-        
-//        routeView.snp.makeConstraints {
-//            $0.top.equalTo(customNaviBar.snp.bottom).inset(Constants.view.naviBarHeight)
-//            $0.leading.trailing.equalToSuperview()
-//            $0.height.equalTo(searchWayViewHeight)
-//        }
         
         filterBarView.snp.makeConstraints {
 //            $0.top.equalTo(routeView.snp.bottom)
@@ -480,6 +469,77 @@ internal final class MainViewController: UIViewController, StoryboardView {
                     .disposed(by: owner.disposeBag)
             }
             .disposed(by: disposeBag)
+        
+        // MARK: 길찾기 bindAction
+        searchWayView.startTextField.rx.controlEvent([.editingChanged])
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                if owner.searchWayView.startTextField.text == String() {
+                    owner.hideResultView()
+                } else if let poiList = owner.tMapPathData.requestFindAllPOI(owner.searchWayView.startTextField.text) as? [TMapPOIItem] {
+                    owner.showResultView()
+                    owner.resultTableView?.setPOI(list: poiList)
+                    owner.resultTableView?.reloadData()
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        searchWayView.startTextField.rx.controlEvent([.editingDidBegin])
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.resultTableView?.tag = owner.ROUTE_START
+            }
+            .disposed(by: disposeBag)
+        
+        searchWayView.startTextClearButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.hideResultView()
+                owner.searchWayView.startTextField.text = String()
+            }
+            .disposed(by: disposeBag)
+        
+        searchWayView.endTextField.rx.controlEvent([.editingChanged])
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                if owner.searchWayView.endTextField.text == String() {
+                    owner.hideResultView()
+                } else if let poiList = owner.tMapPathData.requestFindAllPOI(owner.searchWayView.endTextField.text) as? [TMapPOIItem] {
+                    owner.showResultView()
+                    owner.resultTableView?.setPOI(list: poiList)
+                    owner.resultTableView?.reloadData()
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        searchWayView.endTextField.rx.controlEvent([.editingDidBegin])
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.resultTableView?.tag = owner.ROUTE_END
+            }
+            .disposed(by: disposeBag)
+        
+        searchWayView.endTextClearButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.hideResultView()
+                owner.searchWayView.endTextField.text = String()
+            }
+            .disposed(by: disposeBag)
+        
+        searchWayView.removeButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.clearSearchResult()
+                RouteEvent.clickNavigationFindway.logEvent()
+            }
+            .disposed(by: disposeBag)
+        searchWayView.searchButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.findPath(passList: [])
+            }
+            .disposed(by: disposeBag)
     }
     
     private func bindState(reactor: MainReactor) {
@@ -683,7 +743,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
 //        appTc.enableRouteMode(isRoute: true)
         // 길찾기 view show
         
-        startField.text = selectCharger.mStationInfoDto?.mSnm
+        searchWayView.startTextField.text = selectCharger.mStationInfoDto?.mSnm
         routeStartPoint = selectCharger.getTMapPoint()
         naverMapView.start = POIObject(name: selectCharger.mStationInfoDto?.mSnm ?? "",
                                              lat: selectCharger.mStationInfoDto?.mLatitude ?? .zero,
@@ -703,7 +763,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
 //        appTc.enableRouteMode(isRoute: true)
         // 길찾기 view show
         
-        endField.text = selectCharger.mStationInfoDto?.mSnm
+        searchWayView.endTextField.text = selectCharger.mStationInfoDto?.mSnm
         routeEndPoint = selectCharger.getTMapPoint()
         naverMapView.destination = POIObject(name: selectCharger.mStationInfoDto?.mSnm ?? "",
                                              lat: selectCharger.mStationInfoDto?.mLatitude ?? .zero,
@@ -955,56 +1015,8 @@ extension MainViewController {
 //    }
 //}
 
-extension MainViewController: TextFieldDelegate {
-    func prepareRouteField() {
-        startField.tag = ROUTE_START
-        startField.delegate = self
-        if startField.placeholder == nil {
-            startField.placeholder = "출발지를 입력하세요"
-        }
-        startField.placeholderAnimation = .hidden
-        startField.isClearIconButtonEnabled = true
-        startField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-        
-        endField.tag = ROUTE_END
-        endField.delegate = self
-        endField.placeholder = "도착지를 입력하세요"
-        endField.placeholderAnimation = .hidden
-        endField.isClearIconButtonEnabled = true
-        endField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-        
-        btnRouteCancel.addTarget(self, action: #selector(onClickRouteCancel(_:)), for: .touchUpInside)
-        btnRoute.addTarget(self, action: #selector(onClickRoute(_:)), for: .touchUpInside)
-        
-        routeDistanceView.isHidden = true
-    }
-    
-    @objc func textFieldDidChange(_ textField: UITextField) {
-        guard let searchKeyword = textField.text,
-                !searchKeyword.isEmpty else {
-            hideResultView()
-            return
-        }
-        
-        DispatchQueue.global(qos: .background).async { [weak self] in
-            guard let poiList = self?.tMapPathData.requestFindAllPOI(searchKeyword) else { return }
-            DispatchQueue.main.async {
-                self?.showResultView()
-                self?.resultTableView?.setPOI(list: poiList as! [TMapPOIItem])
-                self?.resultTableView?.reloadData()
-            }
-        }
-    }
-    
-    @objc func onClickRouteCancel(_ sender: UIButton) {
-        clearSearchResult()
-        RouteEvent.clickNavigationFindway.logEvent()
-    }
-            
-    @objc func onClickRoute(_ sender: UIButton) {
-        findPath(passList: [])
-    }
-    
+extension MainViewController {
+
     func clearSearchResult() {
         
         hideKeyboard()
@@ -1014,14 +1026,12 @@ extension MainViewController: TextFieldDelegate {
         self.btnChargePrice.isHidden = false
         self.btn_menu_layer.isHidden = false
         
-        startField.text = ""
-        endField.text = ""
+        searchWayView.startTextField.text = String()
+        searchWayView.endTextField.text = String()
         
         routeStartPoint = nil
         routeEndPoint = nil
-        
-        btnRouteCancel.setTitle("지우기", for: .normal)
-        
+                
         naverMapView.startMarker?.mapView = nil
         naverMapView.midMarker?.mapView = nil
         naverMapView.endMarker?.mapView = nil
@@ -1050,7 +1060,7 @@ extension MainViewController: TextFieldDelegate {
             let currentPoint = locationManager.getCurrentCoordinate()
             let point = TMapPoint(coordinate: currentPoint)
 
-            startField.text = tMapPathData.convertGpsToAddress(at: point)
+            searchWayView.startTextField.text = tMapPathData.convertGpsToAddress(at: point)
             routeStartPoint = point
         }
         
@@ -1183,8 +1193,8 @@ extension MainViewController: TextFieldDelegate {
     }
     
     func hideKeyboard() {
-        startField.endEditing(true)
-        endField.endEditing(true)
+        searchWayView.startTextField.endEditing(true)
+        searchWayView.endTextField.endEditing(true)
     }
     
     func hideResultView() {
@@ -1197,25 +1207,6 @@ extension MainViewController: TextFieldDelegate {
         UIView.animate(withDuration: 0.5, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: {() -> Void in
             self.resultTableView?.isHidden = false
         }, completion: nil)
-    }
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        // text filed가 선택되었을 때 result view의 종류(start, end) 설정
-        resultTableView?.tag = textField.tag
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        print("textFieldDidEndEditing")
-    }
-    
-    func textFieldShouldClear(_ textField: UITextField) -> Bool {
-        hideResultView()
-        return true
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        print("textFieldShouldReturn")
-        return true
     }
 }
 
@@ -1245,7 +1236,7 @@ extension MainViewController: PoiTableViewDelegate {
         
         // 출발지, 도착지 설정
         if resultTableView?.tag == ROUTE_START {
-            startField.text = poiItem.name
+            searchWayView.startTextField.text = poiItem.name
             routeStartPoint = poiItem.getPOIPoint()
             
             naverMapView.startMarker?.mapView = nil
@@ -1253,7 +1244,7 @@ extension MainViewController: PoiTableViewDelegate {
             naverMapView.startMarker?.mapView = self.mapView
             naverMapView.start = POIObject(name: poiItem.name, lat: latitude, lng: longitude)
         } else {
-            endField.text = poiItem.name
+            searchWayView.endTextField.text = poiItem.name
             routeEndPoint = poiItem.getPOIPoint()
             
             naverMapView.endMarker?.mapView = nil
