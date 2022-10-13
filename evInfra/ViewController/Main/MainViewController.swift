@@ -43,11 +43,15 @@ internal final class MainViewController: UIViewController, StoryboardView {
     @IBOutlet weak var markerIndicator: UIActivityIndicatorView!
     
     // Filter View
-    @IBOutlet weak var filterView: UIView!
+    private lazy var filterStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.alignment = .fill
+        $0.distribution = .equalSpacing
+        $0.spacing = 0
+    }
     private lazy var searchWayView = MainSearchWayView().then {
         $0.isHidden = true
     }
-    
     @IBOutlet weak var filterBarView: NewFilterBarView!
     @IBOutlet weak var filterContainerView: FilterContainerView!
     @IBOutlet weak var filterHeight: NSLayoutConstraint!
@@ -191,27 +195,41 @@ internal final class MainViewController: UIViewController, StoryboardView {
     
     private func setUI() {
         view.insertSubview(naverMapView, at: 0)
+        view.addSubview(filterStackView)
         view.addSubview(customNaviBar)
+        
+        filterStackView.addArrangedSubview(searchWayView)
+        filterStackView.addArrangedSubview(filterBarView)
+        filterStackView.addArrangedSubview(filterContainerView)
     }
     
     private func setConstraints() {
-        let filterBarHeight: CGFloat = 40
         let searchWayViewHeight: CGFloat = 72
+        let filterBarViewHeight: CGFloat = 54
+        let filterContainerViewHeight: CGFloat = 116
         
         customNaviBar.snp.makeConstraints {
-            $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
-            $0.height.equalTo(customNaviBar.height)
+            $0.top.equalToSuperview()
+            $0.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.top).offset(customNaviBar.height)
         }
         
-        filterBarView.snp.makeConstraints {
-//            $0.top.equalTo(routeView.snp.bottom)
+        filterStackView.snp.makeConstraints {
             $0.top.equalTo(customNaviBar.snp.bottom)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(filterBarHeight)
+        }
+        searchWayView.snp.makeConstraints {
+            $0.height.equalTo(searchWayViewHeight)
+        }
+        filterBarView.snp.makeConstraints {
+            $0.height.equalTo(filterBarViewHeight)
+        }
+        filterContainerView.snp.makeConstraints {
+            $0.height.equalTo(filterContainerViewHeight)
         }
         
         reNewButton.snp.makeConstraints {
-            $0.top.equalTo(filterBarView.snp.bottom).offset(12)
+            $0.top.equalTo(filterStackView.snp.bottom).offset(12)
             $0.trailing.equalToSuperview().inset(10)
             $0.size.equalTo(40)
         }
@@ -409,11 +427,8 @@ internal final class MainViewController: UIViewController, StoryboardView {
         reactor.state.map { $0.selectedFilterTagType }
             .asDriver(onErrorJustReturn: nil)
             .drive(with: self) { obj, filterTagType in
-                if filterTagType == nil || filterTagType == .evpay {
-                    obj.hideFilter()
-                } else {
-                    obj.showFilter()
-                }
+                let isHideFilterContainer = (filterTagType == nil) || (filterTagType == .evpay)
+                obj.filterContainerView.isHidden = isHideFilterContainer
             }
             .disposed(by: self.disposeBag)
         
@@ -427,6 +442,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
             .disposed(by: self.disposeBag)
     }
     
+    // MARK: - bindAction
     private func bindAction(reactor: MainReactor) {
         self.rx.viewDidAppear
             .subscribe(with: self) { owner, _ in
@@ -434,6 +450,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
             }
             .disposed(by: disposeBag)
         
+        // MARK: - 네비바 bindAction
         customNaviBar.searchChargeButton.rx.tap
             .asDriver()
             .drive(with: self) { owner, _ in
@@ -470,7 +487,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
             }
             .disposed(by: disposeBag)
         
-        // MARK: 길찾기 bindAction
+        // MARK: - 길찾기 bindAction
         searchWayView.startTextField.rx.controlEvent([.editingChanged])
             .asDriver()
             .drive(with: self) { owner, _ in
@@ -548,6 +565,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
             .disposed(by: disposeBag)
     }
     
+    // MARK: - bindState
     private func bindState(reactor: MainReactor) {
         reactor.state.compactMap { $0.hasNewBoardContents }
             .asDriver(onErrorJustReturn: false)
@@ -609,23 +627,18 @@ internal final class MainViewController: UIViewController, StoryboardView {
         reactor.state.compactMap { $0.isHideSearchWay }
             .asDriver(onErrorJustReturn: true)
             .drive(with: self) { owner, isHideSearchWay in
-//                owner.searchWayView.isHidden = isHideSearchWay
+                owner.clusterManager?.isRouteMode = !isHideSearchWay
                 owner.customNaviBar.hideSearchWayMode(isHideSearchWay)
                 
-                owner.filterView.backgroundColor = .gray
                 RouteEvent.clickNavigation.logEvent(property: ["onOrOff": "\(!isHideSearchWay ? "On" : "Off")"])
                 
-                UIView.animate(withDuration: 0.2, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: {() -> Void in
-//                    owner.routeView.snp.updateConstraints {
-//                        $0.height.equalTo(isHideSearchWay ? 0 : 84)
-//                    }
-                    
-                    let offset: CGFloat = !isHideSearchWay ? owner.routeView.bounds.height : 0.0
-                    owner.filterView.transform = CGAffineTransform(translationX: 0.0, y:  offset)
-//                    owner.filterBarView.transform = CGAffineTransform(translationX: 0.0, y: offset)
-                    owner.myLocationButton.transform = CGAffineTransform(translationX: 0.0, y: offset)
-                    owner.reNewButton.transform = CGAffineTransform(translationX: 0.0, y: offset)
-                })
+                UIView.animate(
+                    withDuration: 0.2, delay: 0.0,
+                    options: UIView.AnimationOptions.curveEaseOut,
+                    animations: {() -> Void in
+                        owner.searchWayView.isHidden = isHideSearchWay
+                    })
+                
             }
             .disposed(by: disposeBag)
         
@@ -806,11 +819,12 @@ internal final class MainViewController: UIViewController, StoryboardView {
     
     func setStartPoint() {
         guard let selectCharger = selectCharger else { return }
-//        guard let tc = toolbarController,
-//              let appTc = tc as? AppToolbarController else { return }
-//
-//        appTc.enableRouteMode(isRoute: true)
-        // 길찾기 view show
+        
+        if let reactor = reactor {
+            Observable.just(MainReactor.Action.hideSearchWay(false))
+                .bind(to: reactor.action)
+                .disposed(by: disposeBag)
+        }
         
         searchWayView.startTextField.text = selectCharger.mStationInfoDto?.mSnm
         routeStartPoint = selectCharger.getTMapPoint()
@@ -826,12 +840,13 @@ internal final class MainViewController: UIViewController, StoryboardView {
     
     func setEndPoint() {
         guard let selectCharger = selectCharger else { return }
-//        guard let tc = toolbarController,
-//              let appTc = tc as? AppToolbarController else { return }
-//
-//        appTc.enableRouteMode(isRoute: true)
-        // 길찾기 view show
-        
+
+        if let reactor = reactor {
+            Observable.just(MainReactor.Action.hideSearchWay(false))
+                .bind(to: reactor.action)
+                .disposed(by: disposeBag)
+        }
+            
         searchWayView.endTextField.text = selectCharger.mStationInfoDto?.mSnm
         routeEndPoint = selectCharger.getTMapPoint()
         naverMapView.destination = POIObject(name: selectCharger.mStationInfoDto?.mSnm ?? "",
@@ -946,20 +961,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
             }
         }
     }
-    
-    private func hideFilter(){
-        filterContainerView.isHidden = true
-        filterHeight.constant = routeView.layer.height + filterBarView.layer.height
-        filterView.sizeToFit()
-        filterView.layoutIfNeeded()
-    }
-    
-    private func showFilter(){
-        filterContainerView.isHidden = false
-        filterHeight.constant = routeView.layer.height + filterBarView.layer.height + filterContainerView.layer.height
-        filterView.sizeToFit()
-        filterView.layoutIfNeeded()
-    }
 }
 
 extension MainViewController: CLLocationManagerDelegate {
@@ -1050,43 +1051,6 @@ extension MainViewController {
         }
     }
 }
-
-//// MARK: - Delegate
-//extension MainViewController: AppToolbarDelegate {
-    /*
-     네비바 버튼 클릭관련.
-     */
-    
-//    func toolBar(didClick iconButton: IconButton, arg: Any?) {
-//        switch iconButton.tag {
-//        case 1: // 충전소 검색 버튼
-//        case 2: // 경로 찾기 버튼
-//            if let isRouteMode = arg as? Bool {
-//                showRouteView(isShow: isRouteMode)
-//                RouteEvent.clickNavigation.logEvent(property: ["onOrOff": "\(isRouteMode ? "On" : "Off")"])
-//            }
-//        default:
-//            break
-//        }
-//    }
-//    
-//    func showRouteView(isShow: Bool) {
-//        if isShow {
-//            UIView.animate(withDuration: 0.2, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: {() -> Void in
-//                self.filterView.transform = CGAffineTransform( translationX: 0.0, y: self.routeView.bounds.height )
-//                self.myLocationButton.transform = CGAffineTransform( translationX: 0.0, y: self.routeView.bounds.height )
-//                self.reNewButton.transform = CGAffineTransform( translationX: 0.0, y: self.routeView.bounds.height )
-//            }, completion: nil)
-//        } else {
-//            UIView.animate(withDuration: 0.2, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: {() -> Void in
-//                self.filterView.transform = CGAffineTransform( translationX: 0.0, y: 0.0 )
-//                self.myLocationButton.transform = CGAffineTransform( translationX: 0.0, y: 0.0)
-//                self.reNewButton.transform = CGAffineTransform( translationX: 0.0, y: 0.0)
-//            }, completion: nil)
-//            clearSearchResult()
-//        }
-//    }
-//}
 
 extension MainViewController {
 
@@ -1242,7 +1206,7 @@ extension MainViewController: PoiTableViewDelegate {
         let screenSize: CGRect = UIScreen.main.bounds
         let screenWidth = screenSize.width
         let screenHeight = screenSize.height
-        let frame = CGRect(x: 0, y: filterView.frame.height, width: screenWidth, height: screenHeight - filterView.frame.height)
+        let frame = CGRect(x: 0, y: filterStackView.frame.height, width: screenWidth, height: screenHeight - filterStackView.frame.height)
         
         resultTableView = PoiTableView.init(frame: frame, style: .plain)
         resultTableView?.poiTableDelegate = self

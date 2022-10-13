@@ -106,7 +106,7 @@ internal final class MainNavigationBar: UIView {
         contentStackView.snp.makeConstraints {
             $0.height.equalTo(itemSize)
             $0.leading.trailing.equalToSuperview().inset(verticalPadding)
-            $0.centerY.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(4)
         }
         
         menuButton.snp.makeConstraints {
