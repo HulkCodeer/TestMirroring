@@ -23,6 +23,8 @@ internal final class MainReactor: ViewModel, Reactor {
         case showMenu
         case closeMenu
         case hideSearchWay(Bool)
+        case hideDestinationResult(Bool)
+        case clearResult
     }
     
     enum Mutation {
@@ -35,6 +37,8 @@ internal final class MainReactor: ViewModel, Reactor {
         case showSearchChargingStation
         case setIsShowMenu(Bool)
         case hidSearchWay(Bool)
+        case hideDestinationResult(Bool)
+        case clearResult
     }
     
     struct State {
@@ -47,6 +51,8 @@ internal final class MainReactor: ViewModel, Reactor {
         var isShowSearchChargingStation: Bool?
         var isShowMenu: Bool?
         var isHideSearchWay: Bool?
+        var isHideDestinationResult: Bool?
+        var isClearResult: Bool?
     }
     
     internal var initialState: State    
@@ -101,8 +107,21 @@ internal final class MainReactor: ViewModel, Reactor {
         case .closeMenu:
             return .just(.setIsShowMenu(false))
             
+        case .hideSearchWay(let isHide) where isHide == true:
+            return Observable.concat([
+                .just(.hidSearchWay(isHide)),
+                .just(.clearResult),
+                .just(.hideDestinationResult(isHide))])
         case .hideSearchWay(let isHide):
             return .just(.hidSearchWay(isHide))
+            
+        case .hideDestinationResult(let isHide):
+            return .just(.hideDestinationResult(isHide))
+            
+        case .clearResult:
+            return Observable.concat([
+                .just(.clearResult),
+                .just(.hideDestinationResult(true))])
         }
     }
     
@@ -117,6 +136,8 @@ internal final class MainReactor: ViewModel, Reactor {
         newState.isShowSearchChargingStation = nil
         newState.isShowMenu = nil
         newState.isHideSearchWay = nil
+        newState.isHideDestinationResult = nil
+        newState.isClearResult = nil
         
         switch mutation {
         case .setShowMarketingPopup(let isShow):
@@ -146,6 +167,12 @@ internal final class MainReactor: ViewModel, Reactor {
             
         case .hidSearchWay(let isHideSearchWay):
             newState.isHideSearchWay = isHideSearchWay
+            
+        case .hideDestinationResult(let isHideDestinationResult):
+            newState.isHideDestinationResult = isHideDestinationResult
+            
+        case .clearResult:
+            newState.isClearResult = true
         }
         
         return newState

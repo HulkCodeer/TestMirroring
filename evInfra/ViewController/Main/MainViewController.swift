@@ -475,7 +475,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
             .asDriver()
             .drive(with: self) { owner, _ in
                 if owner.searchWayView.startTextField.text == String() {
-                    owner.hideResultView()
+                    owner.hideDestinationResult(reactor: reactor, hide: true)
                 } else if let poiList = owner.tMapPathData.requestFindAllPOI(owner.searchWayView.startTextField.text) as? [TMapPOIItem] {
                     owner.showResultView()
                     owner.resultTableView?.setPOI(list: poiList)
@@ -494,7 +494,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         searchWayView.startTextClearButton.rx.tap
             .asDriver()
             .drive(with: self) { owner, _ in
-                owner.hideResultView()
+                owner.hideDestinationResult(reactor: reactor, hide: true)
                 owner.searchWayView.startTextField.text = String()
             }
             .disposed(by: disposeBag)
@@ -503,7 +503,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
             .asDriver()
             .drive(with: self) { owner, _ in
                 if owner.searchWayView.endTextField.text == String() {
-                    owner.hideResultView()
+                    owner.hideDestinationResult(reactor: reactor, hide: true)
                 } else if let poiList = owner.tMapPathData.requestFindAllPOI(owner.searchWayView.endTextField.text) as? [TMapPOIItem] {
                     owner.showResultView()
                     owner.resultTableView?.setPOI(list: poiList)
@@ -522,7 +522,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         searchWayView.endTextClearButton.rx.tap
             .asDriver()
             .drive(with: self) { owner, _ in
-                owner.hideResultView()
+                owner.hideDestinationResult(reactor: reactor, hide: true)
                 owner.searchWayView.endTextField.text = String()
             }
             .disposed(by: disposeBag)
@@ -530,7 +530,9 @@ internal final class MainViewController: UIViewController, StoryboardView {
         searchWayView.removeButton.rx.tap
             .asDriver()
             .drive(with: self) { owner, _ in
-                owner.clearSearchResult()
+                Observable.just(MainReactor.Action.clearResult)
+                    .bind(to: reactor.action)
+                    .disposed(by: owner.disposeBag)
                 RouteEvent.clickNavigationFindway.logEvent()
             }
             .disposed(by: disposeBag)
@@ -538,6 +540,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
             .asDriver()
             .drive(with: self) { owner, _ in
                 owner.findPath(passList: [])
+                owner.hideDestinationResult(reactor: reactor, hide: true)
             }
             .disposed(by: disposeBag)
     }
@@ -620,11 +623,55 @@ internal final class MainViewController: UIViewController, StoryboardView {
                     owner.myLocationButton.transform = CGAffineTransform(translationX: 0.0, y: offset)
                     owner.reNewButton.transform = CGAffineTransform(translationX: 0.0, y: offset)
                 })
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state.compactMap { $0.isHideDestinationResult }
+            .filter { $0 == true }
+            .asDriver(onErrorJustReturn: true)
+            .drive(with: self) { owner, isHideDestination in
+                UIView.animate(withDuration: 0.5, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, animations: {() -> Void in
+                    self.resultTableView?.isHidden = true
+                }, completion: nil)
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state.compactMap { $0.isClearResult }
+            .asDriver(onErrorJustReturn: true)
+            .drive(with: self) { owner, _ in
+                // 기존 clearResult
+                owner.hideKeyboard()
+                    
+                owner.setView(view: owner.routeDistanceView, hidden: true)
+                owner.btnChargePrice.isHidden = false
+                owner.btn_menu_layer.isHidden = false
                 
-                if isHideSearchWay {
-                    owner.clearSearchResult()
+                owner.searchWayView.startTextField.text = String()
+                owner.searchWayView.endTextField.text = String()
+                
+                owner.routeStartPoint = nil
+                owner.routeEndPoint = nil
+                        
+                owner.naverMapView.startMarker?.mapView = nil
+                owner.naverMapView.midMarker?.mapView = nil
+                owner.naverMapView.endMarker?.mapView = nil
+                owner.naverMapView.startMarker = nil
+                owner.naverMapView.midMarker = nil
+                owner.naverMapView.endMarker = nil
+                owner.naverMapView.start = nil
+                owner.naverMapView.destination = nil
+                owner.naverMapView.viaList = []
+                owner.naverMapView.path?.mapView = nil
+                
+                // 경로 주변 충전소 초기화
+                for charger in ChargerManager.sharedInstance.getChargerStationInfoList() {
+                    charger.isAroundPath = true
                 }
                 
+                owner.updateClustering()
+
+                self.clusterManager?.isRouteMode = false
+                owner.summaryView.layoutAddPathSummary(hiddenAddBtn: !self.clusterManager!.isRouteMode)
             }
             .disposed(by: disposeBag)
     }
@@ -634,6 +681,12 @@ internal final class MainViewController: UIViewController, StoryboardView {
     private func setMenuBadge(reactor: MainReactor) {
         let hasBadge = Board.sharedInstance.hasNew() || defaults.readBool(key: UserDefault.Key.HAS_FAILED_PAYMENT)
         Observable.just(MainReactor.Action.setMenuBadge(hasBadge))
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+    }
+    
+    private func hideDestinationResult(reactor: MainReactor, hide: Bool) {
+        Observable.just(MainReactor.Action.hideDestinationResult(hide))
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
@@ -791,6 +844,10 @@ internal final class MainViewController: UIViewController, StoryboardView {
         }
         
         findPath(passList: passList)
+        
+        if let reactor = reactor {
+            hideDestinationResult(reactor: reactor, hide: true)
+        }
     }
     
     private func showNavigation(start: POIObject?, destination: POIObject, via: [POIObject]) {
@@ -1017,43 +1074,6 @@ extension MainViewController {
 
 extension MainViewController {
 
-    func clearSearchResult() {
-        
-        hideKeyboard()
-        hideResultView()
-        
-        setView(view: routeDistanceView, hidden: true)
-        self.btnChargePrice.isHidden = false
-        self.btn_menu_layer.isHidden = false
-        
-        searchWayView.startTextField.text = String()
-        searchWayView.endTextField.text = String()
-        
-        routeStartPoint = nil
-        routeEndPoint = nil
-                
-        naverMapView.startMarker?.mapView = nil
-        naverMapView.midMarker?.mapView = nil
-        naverMapView.endMarker?.mapView = nil
-        naverMapView.startMarker = nil
-        naverMapView.midMarker = nil
-        naverMapView.endMarker = nil
-        naverMapView.start = nil
-        naverMapView.destination = nil
-        naverMapView.viaList = []
-        naverMapView.path?.mapView = nil
-        
-        // 경로 주변 충전소 초기화
-        for charger in ChargerManager.sharedInstance.getChargerStationInfoList() {
-            charger.isAroundPath = true
-        }
-        
-        updateClustering()
-
-        self.clusterManager?.isRouteMode = false
-        summaryView.layoutAddPathSummary(hiddenAddBtn: !self.clusterManager!.isRouteMode)
-    }
-    
     func findPath(passList: [TMapPoint]) {
         // 경로찾기: 시작 위치가 없을때
         if routeStartPoint == nil {
@@ -1070,9 +1090,6 @@ extension MainViewController {
             
             // 키보드 숨기기
             hideKeyboard()
-            
-            // 검색 결과창 숨기기
-            hideResultView()
             
             // 하단 충전소 정보 숨기기
             setView(view: callOutLayer, hidden: true)
@@ -1197,12 +1214,6 @@ extension MainViewController {
         searchWayView.endTextField.endEditing(true)
     }
     
-    func hideResultView() {
-        UIView.animate(withDuration: 0.5, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, animations: {() -> Void in
-            self.resultTableView?.isHidden = true
-        }, completion: nil)
-    }
-    
     func showResultView() {
         UIView.animate(withDuration: 0.5, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: {() -> Void in
             self.resultTableView?.isHidden = false
@@ -1221,7 +1232,6 @@ extension MainViewController: PoiTableViewDelegate {
         resultTableView?.poiTableDelegate = self
         view.addSubview(resultTableView!)
         resultTableView?.isHidden = true
-        hideResultView()
     }
     
     func didSelectRow(poiItem: TMapPOIItem) {
@@ -1232,7 +1242,9 @@ extension MainViewController: PoiTableViewDelegate {
         let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: latitude, lng: longitude), zoomTo: 15)
         self.mapView.moveCamera(cameraUpdate)
         
-        hideResultView()
+        if let reactor = reactor {
+            hideDestinationResult(reactor: reactor, hide: true)
+        }
         
         // 출발지, 도착지 설정
         if resultTableView?.tag == ROUTE_START {
