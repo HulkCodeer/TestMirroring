@@ -13,13 +13,13 @@ import Then
 import SnapKit
 
 final class MainSearchWayView: UIView {
-    internal lazy var startTextField = SearchWayTextField().then {
+    internal lazy var startTextField = UnderLineTextField().then {
         $0.placeholder = "출발지를 입력하세요."
     }
     internal lazy var startTextClearButton = startTextField.clearButton
 
     
-    internal lazy var endTextField = SearchWayTextField().then {
+    internal lazy var endTextField = UnderLineTextField().then {
         $0.placeholder = "도착지를 입력하세요."
     }
     internal lazy var endTextClearButton = endTextField.clearButton

@@ -182,9 +182,9 @@
 		59BAB6FB28F0346300077872 /* MainSearchWayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB6FA28F0346300077872 /* MainSearchWayView.swift */; };
 		59BAB6FC28F0346300077872 /* MainSearchWayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB6FA28F0346300077872 /* MainSearchWayView.swift */; };
 		59BAB6FD28F0346300077872 /* MainSearchWayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB6FA28F0346300077872 /* MainSearchWayView.swift */; };
-		59BAB6FF28F50B7500077872 /* SearchWayTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB6FE28F50B7500077872 /* SearchWayTextField.swift */; };
-		59BAB70028F50B7500077872 /* SearchWayTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB6FE28F50B7500077872 /* SearchWayTextField.swift */; };
-		59BAB70128F50B7500077872 /* SearchWayTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB6FE28F50B7500077872 /* SearchWayTextField.swift */; };
+		59BAB6FF28F50B7500077872 /* UnderLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB6FE28F50B7500077872 /* UnderLineTextField.swift */; };
+		59BAB70028F50B7500077872 /* UnderLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB6FE28F50B7500077872 /* UnderLineTextField.swift */; };
+		59BAB70128F50B7500077872 /* UnderLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB6FE28F50B7500077872 /* UnderLineTextField.swift */; };
 		59EC3B7128D18CD8001A18B5 /* NewNoticeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59317D1128B7702C00B1AE92 /* NewNoticeDetailViewController.swift */; };
 		59EC3B7A28D32A1D001A18B5 /* ViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7928D32A1D001A18B5 /* ViewConstants.swift */; };
 		59EC3B7C28D32A33001A18B5 /* DateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7B28D32A33001A18B5 /* DateConstants.swift */; };
@@ -1575,7 +1575,7 @@
 		596522E228BEF3E800FD4025 /* NoticeList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeList.swift; sourceTree = "<group>"; };
 		596522E528C877F000FD4025 /* NoticeCellReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeCellReactor.swift; sourceTree = "<group>"; };
 		59BAB6FA28F0346300077872 /* MainSearchWayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSearchWayView.swift; sourceTree = "<group>"; };
-		59BAB6FE28F50B7500077872 /* SearchWayTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWayTextField.swift; sourceTree = "<group>"; };
+		59BAB6FE28F50B7500077872 /* UnderLineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderLineTextField.swift; sourceTree = "<group>"; };
 		59EC3B7928D32A1D001A18B5 /* ViewConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewConstants.swift; sourceTree = "<group>"; };
 		59EC3B7B28D32A33001A18B5 /* DateConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConstants.swift; sourceTree = "<group>"; };
 		59EC3B7D28D32A49001A18B5 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -2578,7 +2578,7 @@
 				59BAB6FA28F0346300077872 /* MainSearchWayView.swift */,
 				193A4DAB27FAAEC000B604D3 /* NaverMapView.swift */,
 				63F443BD28EC313300F6A66C /* NewFilterBarView.swift */,
-				59BAB6FE28F50B7500077872 /* SearchWayTextField.swift */,
+				59BAB6FE28F50B7500077872 /* UnderLineTextField.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -4386,7 +4386,7 @@
 				821A05E628627F3100EB1A91 /* CommonNaviView.swift in Sources */,
 				63F31400284EC74F001713D2 /* MemberManager.swift in Sources */,
 				59BAB6FC28F0346300077872 /* MainSearchWayView.swift in Sources */,
-				59BAB70028F50B7500077872 /* SearchWayTextField.swift in Sources */,
+				59BAB70028F50B7500077872 /* UnderLineTextField.swift in Sources */,
 				63F31401284EC74F001713D2 /* FilterCompanyView.swift in Sources */,
 				63F31402284EC74F001713D2 /* ReportCharger.swift in Sources */,
 				63F31403284EC74F001713D2 /* MyCouponViewController.swift in Sources */,
@@ -4710,7 +4710,7 @@
 				CEBE0601214BA5C30047E6F2 /* ReportCharger.swift in Sources */,
 				CE33B4C12191BD9500B6C632 /* MyCouponViewController.swift in Sources */,
 				59BAB6FB28F0346300077872 /* MainSearchWayView.swift in Sources */,
-				59BAB6FF28F50B7500077872 /* SearchWayTextField.swift in Sources */,
+				59BAB6FF28F50B7500077872 /* UnderLineTextField.swift in Sources */,
 				DBF3827B2304475900FAF772 /* CBT.swift in Sources */,
 				73CF041A20B2736500BEA9CF /* UIScrollView+Extension.swift in Sources */,
 				00C75C4D252EEB5300387559 /* RegisterResultViewController.swift in Sources */,
@@ -5051,7 +5051,7 @@
 				824D5C6F28BDD89C00EDC712 /* CircularProgressBar.swift in Sources */,
 				824D5C7028BDD89C00EDC712 /* BaseViewController.swift in Sources */,
 				824D5C7128BDD89C00EDC712 /* FindAllPOIListenerCallback.swift in Sources */,
-				59BAB70128F50B7500077872 /* SearchWayTextField.swift in Sources */,
+				59BAB70128F50B7500077872 /* UnderLineTextField.swift in Sources */,
 				824D5C7228BDD89C00EDC712 /* AppNavigationController.swift in Sources */,
 				824D5C7328BDD89C00EDC712 /* CompanyInfoChecker.swift in Sources */,
 				824D5C7428BDD89C00EDC712 /* GlobalAdsReactor.swift in Sources */,

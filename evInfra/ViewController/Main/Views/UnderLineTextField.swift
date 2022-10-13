@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 
 /// 취소버튼, highlight 선 보유한 TextField
-class SearchWayTextField: UITextField {
+class UnderLineTextField: UITextField {
     lazy var clearButton = UIButton().then {
         let image = UIImage(asset: Icons.iconCloseSm)
         $0.setImage(image, for: .normal)
@@ -51,7 +51,7 @@ class SearchWayTextField: UITextField {
     
 }
 
-extension SearchWayTextField: UITextFieldDelegate {
+extension UnderLineTextField: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         highilightLine.backgroundColor = Colors.backgroundPositive.color
         highilightLine.snp.updateConstraints {
