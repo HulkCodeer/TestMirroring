@@ -40,28 +40,15 @@ class SearchWayTextField: UITextField {
     
     private func makeUI() {
         self.delegate = self
-        clearButton.addTarget(self, action: #selector(didTapClearButton(_:)), for: .touchUpInside)
         
-        self.addSubview(clearButton)
         self.addSubview(highilightLine)
 
-        let removeButtonSize: CGFloat = 32
-        
-        clearButton.snp.makeConstraints {
-            $0.top.bottom.trailing.equalToSuperview()
-            $0.width.equalTo(removeButtonSize)
-        }
         highilightLine.snp.makeConstraints {
             $0.leading.trailing.bottom.equalToSuperview()
             $0.height.equalTo(0.5)
         }
     }
     
-    // MARK: - Action
-
-    @objc private func didTapClearButton(_ sender: UIButton) {
-        self.text = String()
-    }
 }
 
 extension SearchWayTextField: UITextFieldDelegate {
