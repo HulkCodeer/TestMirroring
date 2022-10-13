@@ -25,6 +25,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case hideSearchWay(Bool)
         case hideDestinationResult(Bool)
         case clearResult
+        case clearSearchPoint(SearchWayPointType)
     }
     
     enum Mutation {
@@ -39,6 +40,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case hidSearchWay(Bool)
         case hideDestinationResult(Bool)
         case clearResult
+        case clearSearchPoint(SearchWayPointType)
     }
     
     struct State {
@@ -53,6 +55,7 @@ internal final class MainReactor: ViewModel, Reactor {
         var isHideSearchWay: Bool?
         var isHideDestinationResult: Bool?
         var isClearResult: Bool?
+        var isClearSearchWayPoint: (Bool, SearchWayPointType)?
     }
     
     internal var initialState: State    
@@ -122,6 +125,12 @@ internal final class MainReactor: ViewModel, Reactor {
             return Observable.concat([
                 .just(.clearResult),
                 .just(.hideDestinationResult(true))])
+            
+        case .clearSearchPoint(let searchPoint):
+            return Observable.concat([
+                .just(.clearSearchPoint(searchPoint)),
+                .just(.hideDestinationResult(true))
+            ])
         }
     }
     
@@ -138,6 +147,7 @@ internal final class MainReactor: ViewModel, Reactor {
         newState.isHideSearchWay = nil
         newState.isHideDestinationResult = nil
         newState.isClearResult = nil
+        newState.isClearSearchWayPoint = nil
         
         switch mutation {
         case .setShowMarketingPopup(let isShow):
@@ -173,6 +183,9 @@ internal final class MainReactor: ViewModel, Reactor {
             
         case .clearResult:
             newState.isClearResult = true
+         
+        case .clearSearchPoint(let pointType):
+            newState.isClearSearchWayPoint = (true, pointType)
         }
         
         return newState
@@ -207,5 +220,10 @@ internal final class MainReactor: ViewModel, Reactor {
             Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
             return nil
         }
+    }
+    
+    enum SearchWayPointType {
+        case startPoint
+        case endPoint
     }
 }

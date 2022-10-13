@@ -494,8 +494,9 @@ internal final class MainViewController: UIViewController, StoryboardView {
         searchWayView.startTextClearButton.rx.tap
             .asDriver()
             .drive(with: self) { owner, _ in
-                owner.hideDestinationResult(reactor: reactor, hide: true)
-                owner.searchWayView.startTextField.text = String()
+                Observable.just(MainReactor.Action.clearSearchPoint(.startPoint))
+                    .bind(to: reactor.action)
+                    .disposed(by: owner.disposeBag)
             }
             .disposed(by: disposeBag)
         
@@ -522,8 +523,9 @@ internal final class MainViewController: UIViewController, StoryboardView {
         searchWayView.endTextClearButton.rx.tap
             .asDriver()
             .drive(with: self) { owner, _ in
-                owner.hideDestinationResult(reactor: reactor, hide: true)
-                owner.searchWayView.endTextField.text = String()
+                Observable.just(MainReactor.Action.clearSearchPoint(.endPoint))
+                    .bind(to: reactor.action)
+                    .disposed(by: owner.disposeBag)
             }
             .disposed(by: disposeBag)
         
@@ -536,6 +538,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 RouteEvent.clickNavigationFindway.logEvent()
             }
             .disposed(by: disposeBag)
+        
         searchWayView.searchButton.rx.tap
             .asDriver()
             .drive(with: self) { owner, _ in
@@ -625,6 +628,19 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 })
             }
             .disposed(by: disposeBag)
+        
+
+        reactor.state.compactMap { $0.isClearSearchWayPoint }
+            .filter { $0.1 == .startPoint }
+            .map { _ in return String() }
+            .bind(to: searchWayView.startTextField.rx.text)
+            .disposed(by: disposeBag)
+        reactor.state.compactMap { $0.isClearSearchWayPoint }
+            .filter { $0.1 == .endPoint }
+            .map { _ in return String() }
+            .bind(to: searchWayView.endTextField.rx.text)
+            .disposed(by: disposeBag)
+        
         
         reactor.state.compactMap { $0.isHideDestinationResult }
             .filter { $0 == true }
