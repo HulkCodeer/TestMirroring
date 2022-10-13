@@ -24,7 +24,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case closeMenu
         case hideSearchWay(Bool)
         case hideDestinationResult(Bool)
-        case clearResult
+        case clearSearchWayData
         case clearSearchPoint(SearchWayPointType)
     }
     
@@ -39,7 +39,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case setIsShowMenu(Bool)
         case hidSearchWay(Bool)
         case hideDestinationResult(Bool)
-        case clearResult
+        case clearSearchWayData
         case clearSearchPoint(SearchWayPointType)
     }
     
@@ -54,7 +54,7 @@ internal final class MainReactor: ViewModel, Reactor {
         var isShowMenu: Bool?
         var isHideSearchWay: Bool?
         var isHideDestinationResult: Bool?
-        var isClearResult: Bool?
+        var isClearSearchWayData: Bool?
         var isClearSearchWayPoint: (Bool, SearchWayPointType)?
     }
     
@@ -113,7 +113,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case .hideSearchWay(let isHide) where isHide == true:
             return Observable.concat([
                 .just(.hidSearchWay(isHide)),
-                .just(.clearResult),
+                .just(.clearSearchWayData),
                 .just(.hideDestinationResult(isHide))])
         case .hideSearchWay(let isHide):
             return .just(.hidSearchWay(isHide))
@@ -121,9 +121,9 @@ internal final class MainReactor: ViewModel, Reactor {
         case .hideDestinationResult(let isHide):
             return .just(.hideDestinationResult(isHide))
             
-        case .clearResult:
+        case .clearSearchWayData:
             return Observable.concat([
-                .just(.clearResult),
+                .just(.clearSearchWayData),
                 .just(.hideDestinationResult(true))])
             
         case .clearSearchPoint(let searchPoint):
@@ -146,7 +146,7 @@ internal final class MainReactor: ViewModel, Reactor {
         newState.isShowMenu = nil
         newState.isHideSearchWay = nil
         newState.isHideDestinationResult = nil
-        newState.isClearResult = nil
+        newState.isClearSearchWayData = nil
         newState.isClearSearchWayPoint = nil
         
         switch mutation {
@@ -181,8 +181,8 @@ internal final class MainReactor: ViewModel, Reactor {
         case .hideDestinationResult(let isHideDestinationResult):
             newState.isHideDestinationResult = isHideDestinationResult
             
-        case .clearResult:
-            newState.isClearResult = true
+        case .clearSearchWayData:
+            newState.isClearSearchWayData = true
          
         case .clearSearchPoint(let pointType):
             newState.isClearSearchWayPoint = (true, pointType)

@@ -549,7 +549,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         searchWayView.removeButton.rx.tap
             .asDriver()
             .drive(with: self) { owner, _ in
-                Observable.just(MainReactor.Action.clearResult)
+                Observable.just(MainReactor.Action.clearSearchWayData)
                     .bind(to: reactor.action)
                     .disposed(by: owner.disposeBag)
                 RouteEvent.clickNavigationFindway.logEvent()
@@ -665,7 +665,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
             }
             .disposed(by: disposeBag)
         
-        reactor.state.compactMap { $0.isClearResult }
+        reactor.state.compactMap { $0.isClearSearchWayData }
             .asDriver(onErrorJustReturn: true)
             .drive(with: self) { owner, _ in
                 // 기존 clearResult
