@@ -173,7 +173,7 @@ internal final class LeftViewReactor: ViewModel, Reactor {
     }
 
     enum MediumCategoryType: String {
-        case mypage = "마이페이지"
+        case mypage = "내 활동"
         case pay = "EV Pay"
         
         case generalCommunity = "커뮤니티"
