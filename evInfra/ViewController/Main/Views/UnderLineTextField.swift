@@ -24,7 +24,9 @@ class UnderLineTextField: UITextField {
     override var intrinsicContentSize: CGSize {
       return CGSize(width: bounds.width, height: 32)
     }
-        
+    
+    let clearButtonSize: CGFloat = 32
+    
     // MARK: - initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -43,9 +45,11 @@ class UnderLineTextField: UITextField {
         
         self.addSubview(highilightLine)
 
+        let highilightWidth = self.frame.width + clearButtonSize
         highilightLine.snp.makeConstraints {
-            $0.leading.trailing.bottom.equalToSuperview()
+            $0.leading.bottom.equalToSuperview()
             $0.height.equalTo(0.5)
+            $0.width.equalToSuperview().offset(clearButtonSize)
         }
     }
     

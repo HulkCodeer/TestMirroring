@@ -63,16 +63,17 @@ final class MainSearchWayView: UIView {
         let horizontalMargin: CGFloat = 8
                 
         let buttonWidth: CGFloat = 66
-        let clearButtonSize: CGFloat = 32
+        let clearButtonSize: CGFloat = startTextField.clearButtonSize
 
         startTextField.snp.makeConstraints {
             $0.top.equalToSuperview().offset(verticalMargin)
             $0.leading.equalToSuperview().inset(horizontalMargin)
-            $0.trailing.equalTo(removeButton.snp.leading)
+            $0.trailing.equalTo(removeButton.snp.leading).inset(-clearButtonSize)
             $0.bottom.equalTo(self.snp.centerY)
         }
         startTextClearButton.snp.makeConstraints {
-            $0.top.bottom.trailing.equalTo(startTextField)
+            $0.top.bottom.equalTo(startTextField)
+            $0.leading.equalTo(startTextField.snp.trailing)
             $0.width.equalTo(clearButtonSize)
         }
         removeButton.snp.makeConstraints {
@@ -85,11 +86,12 @@ final class MainSearchWayView: UIView {
         endTextField.snp.makeConstraints {
             $0.top.equalTo(startTextField.snp.bottom)
             $0.leading.equalToSuperview().inset(horizontalMargin)
-            $0.trailing.equalTo(searchButton.snp.leading)
+            $0.trailing.equalTo(searchButton.snp.leading).inset(-clearButtonSize)
             $0.bottom.equalToSuperview().inset(verticalMargin)
         }
         endTextClearButton.snp.makeConstraints {
-            $0.top.bottom.trailing.equalTo(endTextField)
+            $0.top.bottom.equalTo(endTextField)
+            $0.leading.equalTo(endTextField.snp.trailing)
             $0.width.equalTo(clearButtonSize)
         }
         searchButton.snp.makeConstraints {
