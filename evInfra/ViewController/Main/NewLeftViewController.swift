@@ -526,7 +526,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                 case (false, false):
                     guard !obj.useAllMyBerrySw.isOn else { return }
                     let popupModel = PopupModel(title: "회원카드를 발급하시겠어요?",
-                                                message: "베리는 회원카드 발급 후\n충전 시 할인 받을 수 있어요.",
+                                                message: "베리는 회원카드 발급 후\n충전 시 베리로 할인 받을 수 있어요.",
                                                 confirmBtnTitle: "네 발급할게요.", cancelBtnTitle: "다음에 할게요.",
                                                 confirmBtnAction: {
                         let viewcon = MembershipGuideViewController()
