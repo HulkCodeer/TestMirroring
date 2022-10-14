@@ -527,9 +527,13 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
             .asDriver()
             .drive(with: self) { obj, _ in
                 switch (MemberManager.shared.hasPayment, MemberManager.shared.hasMembership) {
-                switch (true, false) {
+                    // TEST CODE
+//                switch (false, true) {
                 case (false, false): // 피그마 case 1
-                    guard !obj.useAllMyBerrySw.isOn else { return }
+                    guard !obj.useAllMyBerrySw.isOn else {
+                        obj.useAllMyBerrySw.isOn = !obj.useAllMyBerrySw.isOn
+                        return
+                    }
                     let popupModel = PopupModel(title: "회원카드를 발급하시겠어요?",
                                                 message: "베리는 회원카드 발급 후\n충전 시 베리로 할인 받을 수 있어요.",
                                                 confirmBtnTitle: "네 발급할게요.", cancelBtnTitle: "다음에 할게요.",
@@ -544,7 +548,10 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                     })
                     
                 case (false, true): // 피그마 case 2
-                    guard !obj.useAllMyBerrySw.isOn else { return }
+                    guard !obj.useAllMyBerrySw.isOn else {
+                        obj.useAllMyBerrySw.isOn = !obj.useAllMyBerrySw.isOn
+                        return
+                    }
                     let popupModel = PopupModel(title: "결제 카드를 확인해주세요",
                                                 message: "현재 회원님의 결제정보에 오류가 있어\n다음 충전 시 베리를 사용할 수 없어요.",
                                                 confirmBtnTitle: "결제정보 확인하러가기", cancelBtnTitle: "다음에 할게요.",
@@ -554,8 +561,9 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                             if isSuccess {
                                 let json = JSON(value)
                                 let payCode = json["pay_code"].intValue
-                                                    
                                 switch PaymentStatus(rawValue: payCode) {
+                                    // TEST CODE
+//                                switch PaymentStatus(rawValue: 8804) {
                                 case .PAY_NO_CARD_USER, .PAY_NO_USER: // 카드등록 아니된 멤버
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
                                         let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPayinfoViewController.self)                                                                                                                        
