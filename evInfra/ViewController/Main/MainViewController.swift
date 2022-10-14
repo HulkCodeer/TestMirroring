@@ -500,13 +500,10 @@ internal final class MainViewController: UIViewController, StoryboardView {
         searchWayView.startTextField.rx.controlEvent([.editingChanged])
             .asDriver()
             .drive(with: self) { owner, _ in
-                if owner.searchWayView.startTextField.text == String() {
-                    owner.hideDestinationResult(reactor: reactor, hide: true)
-                } else if let poiList = owner.tMapPathData.requestFindAllPOI(owner.searchWayView.startTextField.text) as? [TMapPOIItem] {
-                    owner.showResultView()
-                    owner.destinationResultTableView.setPOI(list: poiList)
-                    owner.destinationResultTableView.reloadData()
-                }
+                Observable.just(MainReactor.Action
+                    .searchDestination(.startPoint, owner.searchWayView.startTextField.text ?? String()))
+                .bind(to: reactor.action)
+                .disposed(by: owner.disposeBag)
             }
             .disposed(by: disposeBag)
         
@@ -529,13 +526,10 @@ internal final class MainViewController: UIViewController, StoryboardView {
         searchWayView.endTextField.rx.controlEvent([.editingChanged])
             .asDriver()
             .drive(with: self) { owner, _ in
-                if owner.searchWayView.endTextField.text == String() {
-                    owner.hideDestinationResult(reactor: reactor, hide: true)
-                } else if let poiList = owner.tMapPathData.requestFindAllPOI(owner.searchWayView.endTextField.text) as? [TMapPOIItem] {
-                    owner.showResultView()
-                    owner.destinationResultTableView.setPOI(list: poiList)
-                    owner.destinationResultTableView.reloadData()
-                }
+                Observable.just(MainReactor.Action
+                    .searchDestination(.endPoint, owner.searchWayView.endTextField.text ?? String()))
+                .bind(to: reactor.action)
+                .disposed(by: owner.disposeBag)
             }
             .disposed(by: disposeBag)
         
@@ -681,6 +675,16 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 UIView.animate(withDuration: 0.5, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: {() -> Void in
                     owner.destinationResultTableView.isHidden = false
                 }, completion: nil)
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state.compactMap { $0.searchDetinationData }
+            .compactMap { self.tMapPathData.requestFindAllPOI($0.1) as? [TMapPOIItem] }
+            .debug()
+            .asDriver(onErrorJustReturn: [])
+            .drive(with: self) { owner, poiList in
+                owner.destinationResultTableView.setPOI(list: poiList)
+                owner.destinationResultTableView.reloadData()
             }
             .disposed(by: disposeBag)
         
