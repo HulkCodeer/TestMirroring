@@ -123,7 +123,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         prepareMenuBtnLayer()
         
         prepareChargePrice()
-//        requestStationInfo()
+        requestStationInfo()
         
         prepareCalloutLayer()
         
@@ -674,6 +674,16 @@ internal final class MainViewController: UIViewController, StoryboardView {
             }
             .disposed(by: disposeBag)
         
+        reactor.state.compactMap { $0.isHideDestinationResult }
+            .filter { $0 == false }
+            .asDriver(onErrorJustReturn: false)
+            .drive(with: self) { owner, isHideDestination in
+                UIView.animate(withDuration: 0.5, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: {() -> Void in
+                    owner.destinationResultTableView.isHidden = false
+                }, completion: nil)
+            }
+            .disposed(by: disposeBag)
+        
         reactor.state.compactMap { $0.isClearSearchWayData }
             .asDriver(onErrorJustReturn: true)
             .drive(with: self) { owner, _ in
@@ -815,15 +825,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
         
         let gesture = UITapGestureRecognizer(target: self, action: #selector(self.onClickChargePrice))
         btnChargePrice.addGestureRecognizer(gesture)
-    }
-    
-    private func handleError(error: Error?) -> Void {
-        if let error = error as NSError? {
-            print(error)
-            let alert = UIAlertController(title: self.title!, message: error.localizedFailureReason, preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "확인", style: UIAlertAction.Style.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }
     }
     
     func setStartPoint() {
@@ -1202,12 +1203,7 @@ extension MainViewController {
         searchWayView.startTextField.endEditing(true)
         searchWayView.endTextField.endEditing(true)
     }
-    
-    func showResultView() {
-        UIView.animate(withDuration: 0.5, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: {() -> Void in
-            self.destinationResultTableView.isHidden = false
-        }, completion: nil)
-    }
+
 }
 
 extension MainViewController: PoiTableViewDelegate {
@@ -1306,10 +1302,7 @@ extension MainViewController: ChargerSelectDelegate {
     
     func prepareCalloutLayer() {
         callOutLayer.isHidden = true
-        addCalloutClickListener()
-    }
-    
-    func addCalloutClickListener() {
+        
         let gesture = UITapGestureRecognizer(target: self, action:  #selector (self.onClickCalloutLayer (_:)))
         self.callOutLayer.addGestureRecognizer(gesture)
     }
