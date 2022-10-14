@@ -102,7 +102,10 @@ internal final class MainReactor: ViewModel, Reactor {
             return .just(.updateFilterBarTitle)
             
         case .showSearchChargingStation:
-            return .just(.showSearchChargingStation)
+            return Observable.concat([
+                .just(.showSearchChargingStation),
+                .just(.setFilterType(currentState.selectedFilterTagType))
+            ])
             
         case .showMenu:
             return .just(.setIsShowMenu(true))
@@ -114,9 +117,14 @@ internal final class MainReactor: ViewModel, Reactor {
             return Observable.concat([
                 .just(.hidSearchWay(isHide)),
                 .just(.clearSearchWayData),
-                .just(.hideDestinationResult(isHide))])
+                .just(.hideDestinationResult(isHide)),
+                .just(.setFilterType(currentState.selectedFilterTagType))
+            ])
         case .hideSearchWay(let isHide):
-            return .just(.hidSearchWay(isHide))
+            return Observable.concat([
+                .just(.hidSearchWay(isHide)),
+                .just(.setFilterType(currentState.selectedFilterTagType))
+            ])
             
         case .hideDestinationResult(let isHide):
             return .just(.hideDestinationResult(isHide))
