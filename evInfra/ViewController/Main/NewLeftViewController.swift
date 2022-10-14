@@ -25,7 +25,9 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     
     private lazy var userInfoTotalView = UIView()
     
-    private lazy var loginTotalView = UIView()
+    private lazy var loginTotalView = UIView().then {
+        $0.isHidden = true
+    }
     
     private lazy var profileTotalView = UIView()
     
@@ -99,7 +101,9 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     
     private lazy var useAllMyBerryBtn = UIButton()
     
-    private lazy var nonLoginTotalView = UIView()
+    private lazy var nonLoginTotalView = UIView().then {
+        $0.isHidden = true
+    }
     
     private lazy var nonLoginProfileImgView = UIImageView().then {
         $0.image = Icons.iconProfileEmpty.image
@@ -523,7 +527,8 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
             .asDriver()
             .drive(with: self) { obj, _ in
                 switch (MemberManager.shared.hasPayment, MemberManager.shared.hasMembership) {
-                case (false, false):
+                switch (true, false) {
+                case (false, false): // 피그마 case 1
                     guard !obj.useAllMyBerrySw.isOn else { return }
                     let popupModel = PopupModel(title: "회원카드를 발급하시겠어요?",
                                                 message: "베리는 회원카드 발급 후\n충전 시 베리로 할인 받을 수 있어요.",
@@ -538,7 +543,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                         GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
                     })
                     
-                case (false, true):
+                case (false, true): // 피그마 case 2
                     guard !obj.useAllMyBerrySw.isOn else { return }
                     let popupModel = PopupModel(title: "결제 카드를 확인해주세요",
                                                 message: "현재 회원님의 결제정보에 오류가 있어\n다음 충전 시 베리를 사용할 수 없어요.",
@@ -580,8 +585,13 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                         GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
                     })
                     
-                case (true, false):
-                    guard !obj.useAllMyBerrySw.isOn else { return }
+                case (true, false): // 피그마 case 3
+                    guard !obj.useAllMyBerrySw.isOn, !UserDefault().readBool(key: UserDefault.Key.IS_SHOW_BERRYSETTING_CASE3_POPUP) else {
+                        obj.useAllMyBerrySw.isOn = !obj.useAllMyBerrySw.isOn
+                        return
+                    }
+                    obj.useAllMyBerrySw.isOn = !obj.useAllMyBerrySw.isOn
+                    UserDefault().saveBool(key: UserDefault.Key.IS_SHOW_BERRYSETTING_CASE3_POPUP, value: true)
                     let popupModel = PopupModel(title: "더 많은 충전소에서\n베리를 적립해보세요!",
                                                 message: "회원카드 발급 시 환경부, 한국전력 등\n더 많은 충전소에서 적립할 수 있어요.",
                                                 confirmBtnTitle: "회원카드 안내 보러가기", cancelBtnTitle: "다음에 할게요.",
@@ -593,7 +603,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                     let popup = VerticalConfirmPopupViewController(model: popupModel)
                     GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
                     
-                case (true, true):
+                case (true, true): // 피그마 case 4
                     Observable.just(LeftViewReactor.Action.setIsAllBerry(!obj.useAllMyBerrySw.isOn))
                         .bind(to: reactor.action)
                         .disposed(by: obj.disposeBag)

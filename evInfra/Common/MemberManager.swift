@@ -221,19 +221,10 @@ internal final class MemberManager {
             return UserDefault().readBool(key: UserDefault.Key.IS_FIRST_INSTALL)
         }
     }
-        
-//    internal var isFirstLocationPopup: Bool { // false일 경우 처음 설치, true일때 처음설치 아님
-//        set {
-//            UserDefault().saveBool(key: UserDefault.Key.IS_FIRST_LOCATION_POPUP, value: newValue)
-//        }
-//        get {
-//            return UserDefault().readBool(key: UserDefault.Key.IS_FIRST_LOCATION_POPUP)
-//        }
-//    }
     
     // 로그인 상태 체크
     internal var isLogin: Bool {
-        return UserDefault().readInt(key: UserDefault.Key.MB_ID) >= 0
+        return UserDefault().readInt(key: UserDefault.Key.MB_ID) > 0
     }
     
     // 지킴이 체크
@@ -310,14 +301,11 @@ internal final class MemberManager {
         userDefault.saveString(key: UserDefault.Key.MB_AGE_RANGE, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_EMAIL, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_PHONE, value: "")
-//        userDefault.removeObjectForKey(key: UserDefault.Key.IS_FIRST_INSTALL)
-//        userDefault.removeObjectForKey(key: UserDefault.Key.IS_FIRST_LOCATION_POPUP)
                         
         AmplitudeManager.shared.setUser(with: nil)
     }
     
     func showLoginAlert(completion: ((Bool) -> ())? = nil) {
-        
         let popupModel = PopupModel(title: "로그인이 필요해요",
                                     message:"해당 서비스는 로그인 후 이용할 수 있어요.\n아래 버튼을 눌러 로그인을 해주세요.",
                                     confirmBtnTitle: "로그인 하기",
