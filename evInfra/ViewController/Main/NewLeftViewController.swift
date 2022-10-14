@@ -398,7 +398,6 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         }
                 
         profileImgView.IBcornerRadius = 32/2
-        profileImgView.sd_setImage(with: URL(string:"\(Const.urlProfileImage)\(MemberManager.shared.profileImage)"), placeholderImage: Icons.iconProfileEmpty.image)
     }
     
     override func viewDidLoad() {
@@ -448,6 +447,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                 .disposed(by: self.disposeBag)                        
         }
         
+        profileImgView.sd_setImage(with: URL(string:"\(Const.urlProfileImage)\(MemberManager.shared.profileImage)"), placeholderImage: Icons.iconProfileEmpty.image)
         tableView.reloadData()
     }
     
