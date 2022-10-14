@@ -589,7 +589,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 let appSearchBarController = AppSearchBarController(rootViewController: searchVC)
                 appSearchBarController.backbuttonTappedDelegate = {
                     let property: [String: Any] = ["result": "실패",
-                                                   "stationOrAddress": "\(searchVC.searchType == SearchViewController.TABLE_VIEW_TYPE_CHARGER ? "충전소 검색" : "주소 검색")",
+                                                   "stationOrAddress": "\(searchVC.searchType.title)",
                                                    "searchKeyword": "\(searchVC.searchBarController?.searchBar.textField.text ?? "")",
                                                    "selectedStation": ""]
                     SearchEvent.clickSearchChooseStation.logEvent(property: property)
