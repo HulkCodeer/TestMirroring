@@ -29,6 +29,7 @@ class UserDefault {
         static let MB_CAR_TYPE      = "mb_car_type"
         static let MB_PARTNERSHIP_CLIENT   = "mb_partnership_client"
         static let MB_PAYMENT       = "mb_payment"
+        static let MB_RENTCAR       = "mb_rentcar"
         static let MB_DEVICE_ID       = "mb_device_id"
         static let MB_HAS_MEMBERSHIP = "has_membership"
         static let APPLE_REFRESH_TOKEN = "apple_refresh_token"

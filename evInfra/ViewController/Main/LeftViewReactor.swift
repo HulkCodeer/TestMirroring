@@ -476,7 +476,7 @@ internal final class LeftViewReactor: ViewModel, Reactor {
     
     struct Pay: MoveSmallCategoryView {
         var mediumCategory: MediumCategoryType = MediumCategoryType.pay
-        var smallMenuList: [String] = ["결제카드 관리", "회원카드 관리", "렌터카 정보 관리" , "충전이력 조회"]
+        var smallMenuList: [String] = ["결제카드 관리", "회원카드 관리", "렌터카 정보 등록" , "충전이력 조회"]
         
         func moveViewController(index: IndexPath) {
             MemberManager.shared.tryToLoginCheck { isLogin in

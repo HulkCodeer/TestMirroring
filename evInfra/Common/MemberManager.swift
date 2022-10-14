@@ -203,6 +203,15 @@ internal final class MemberManager {
             return UserDefault().readBool(key: UserDefault.Key.MB_PAYMENT)
         }
     }
+    
+    internal var hasRentcar: Bool {
+        set {
+            UserDefault().saveBool(key: UserDefault.Key.MB_RENTCAR, value: newValue)
+        }
+        get {
+            return UserDefault().readBool(key: UserDefault.Key.MB_RENTCAR)
+        }
+    }
         
     internal var isFirstInstall: Bool { // false일 경우 처음 설치, true일때 처음설치 아님
         set {

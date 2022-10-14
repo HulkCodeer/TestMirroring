@@ -731,18 +731,14 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     }
 
     private func updateMyPageTitle(cell: LeftViewMenuItem, index: IndexPath) {
-        if index.row == 0 {
-            if MemberManager.shared.hasPayment {
-                cell.menuLabel.text = "결제 정보 관리"
-            } else {
-                cell.menuLabel.text = "결제 정보 등록"
-            }
-        } else if index.row == 1 {
-            if MemberManager.shared.hasMembership {
-                cell.menuLabel.text = "회원카드 관리"
-            } else {
-                cell.menuLabel.text = "회원카드 신청"
-            }
+        switch index.row {
+        case 0: // 결제 정보 관리
+            cell.menuLabel.text = MemberManager.shared.hasPayment ? "결제 정보 관리" : "결제 정보 등록"
+        case 1: // 회원카드 관리
+            cell.menuLabel.text = MemberManager.shared.hasMembership ? "회원카드 관리" : "회원카드 신청"
+        case 2: // 렌터카 정보 관리
+            cell.menuLabel.text = MemberManager.shared.hasRentcar ? "렌터카 정보 관리" : "렌터카 정보 등록"
+        default: break
         }
     }
 }
