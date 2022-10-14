@@ -76,8 +76,11 @@ internal final class MainViewController: UIViewController, StoryboardView {
     private var tMapPathData: TMapPathData = TMapPathData.init()
     private var routeStartPoint: TMapPoint? = nil
     private var routeEndPoint: TMapPoint? = nil
-    private var resultTableView: PoiTableView?
-    
+    private lazy var destinationResultTableView = PoiTableView().then {
+        $0.poiTableDelegate = self
+        $0.isHidden = true
+    }
+
     private lazy var naverMapView = NaverMapView(frame: .zero).then {
         $0.mapView.addCameraDelegate(delegate: self)
         $0.mapView.touchDelegate = self
@@ -111,7 +114,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
 
         routeDistanceView.isHidden = true
         
-        preparePOIResultView()
         prepareTmapAPI()
         
         prepareSummaryView()
@@ -198,6 +200,8 @@ internal final class MainViewController: UIViewController, StoryboardView {
         view.addSubview(filterStackView)
         view.addSubview(customNaviBar)
         
+        view.addSubview(destinationResultTableView)
+        
         filterStackView.addArrangedSubview(searchWayView)
         filterStackView.addArrangedSubview(filterBarView)
         filterStackView.addArrangedSubview(filterContainerView)
@@ -236,6 +240,11 @@ internal final class MainViewController: UIViewController, StoryboardView {
 
         naverMapView.snp.makeConstraints {
             $0.top.equalTo(customNaviBar)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        destinationResultTableView.snp.makeConstraints {
+            $0.top.equalTo(filterBarView.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
         }
     }
@@ -495,8 +504,8 @@ internal final class MainViewController: UIViewController, StoryboardView {
                     owner.hideDestinationResult(reactor: reactor, hide: true)
                 } else if let poiList = owner.tMapPathData.requestFindAllPOI(owner.searchWayView.startTextField.text) as? [TMapPOIItem] {
                     owner.showResultView()
-                    owner.resultTableView?.setPOI(list: poiList)
-                    owner.resultTableView?.reloadData()
+                    owner.destinationResultTableView.setPOI(list: poiList)
+                    owner.destinationResultTableView.reloadData()
                 }
             }
             .disposed(by: disposeBag)
@@ -504,7 +513,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         searchWayView.startTextField.rx.controlEvent([.editingDidBegin])
             .asDriver()
             .drive(with: self) { owner, _ in
-                owner.resultTableView?.tag = owner.ROUTE_START
+                owner.destinationResultTableView.tag = owner.ROUTE_START
             }
             .disposed(by: disposeBag)
         
@@ -524,8 +533,8 @@ internal final class MainViewController: UIViewController, StoryboardView {
                     owner.hideDestinationResult(reactor: reactor, hide: true)
                 } else if let poiList = owner.tMapPathData.requestFindAllPOI(owner.searchWayView.endTextField.text) as? [TMapPOIItem] {
                     owner.showResultView()
-                    owner.resultTableView?.setPOI(list: poiList)
-                    owner.resultTableView?.reloadData()
+                    owner.destinationResultTableView.setPOI(list: poiList)
+                    owner.destinationResultTableView.reloadData()
                 }
             }
             .disposed(by: disposeBag)
@@ -533,7 +542,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         searchWayView.endTextField.rx.controlEvent([.editingDidBegin])
             .asDriver()
             .drive(with: self) { owner, _ in
-                owner.resultTableView?.tag = owner.ROUTE_END
+                owner.destinationResultTableView.tag = owner.ROUTE_END
             }
             .disposed(by: disposeBag)
         
@@ -660,7 +669,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
             .asDriver(onErrorJustReturn: true)
             .drive(with: self) { owner, isHideDestination in
                 UIView.animate(withDuration: 0.5, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, animations: {() -> Void in
-                    self.resultTableView?.isHidden = true
+                    self.destinationResultTableView.isHidden = true
                 }, completion: nil)
             }
             .disposed(by: disposeBag)
@@ -1196,24 +1205,13 @@ extension MainViewController {
     
     func showResultView() {
         UIView.animate(withDuration: 0.5, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: {() -> Void in
-            self.resultTableView?.isHidden = false
+            self.destinationResultTableView.isHidden = false
         }, completion: nil)
     }
 }
 
 extension MainViewController: PoiTableViewDelegate {
-    func preparePOIResultView() {
-        let screenSize: CGRect = UIScreen.main.bounds
-        let screenWidth = screenSize.width
-        let screenHeight = screenSize.height
-        let frame = CGRect(x: 0, y: filterStackView.frame.height, width: screenWidth, height: screenHeight - filterStackView.frame.height)
-        
-        resultTableView = PoiTableView.init(frame: frame, style: .plain)
-        resultTableView?.poiTableDelegate = self
-        view.addSubview(resultTableView!)
-        resultTableView?.isHidden = true
-    }
-    
+
     func didSelectRow(poiItem: TMapPOIItem) {
         // 선택한 주소로 지도 이동
         let latitude = poiItem.coordinate.latitude
@@ -1227,7 +1225,7 @@ extension MainViewController: PoiTableViewDelegate {
         }
         
         // 출발지, 도착지 설정
-        if resultTableView?.tag == ROUTE_START {
+        if destinationResultTableView.tag == ROUTE_START {
             searchWayView.startTextField.text = poiItem.name
             routeStartPoint = poiItem.getPOIPoint()
             
