@@ -283,7 +283,7 @@ extension SearchViewController: SearchTableViewViewDelegate {
         guard let poi = self.addrTableView.poiList?[row] else {
             return
         }
-        logEventWithSelectedCharger(row)
+//        logEventWithSelectedCharger(row)
         delegate?.moveToSelected(chargerId: poi.getPOID()!)
         delegate?.moveToSelectLocation(lat: poi.getPOIPoint().getLatitude() , lon: poi.getPOIPoint().getLongitude() )
         dismiss(animated: true, completion: nil)
