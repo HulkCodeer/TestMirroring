@@ -328,7 +328,7 @@ internal final class MemberManager {
         case .kakao:
             KOSessionTask.userMeTask { (error, me) in
                 if (error as NSError?) != nil {
-                    Snackbar().show(message: "회원 탈퇴로 인해 로그아웃 되었습니다.")
+                    Snackbar().show(message: "로그아웃 되었습니다.")
                     MemberManager.shared.clearData()
                 } else {
                     success?(MemberManager.shared.isLogin)
