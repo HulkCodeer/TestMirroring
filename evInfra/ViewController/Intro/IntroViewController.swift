@@ -14,8 +14,10 @@ import FLAnimatedImage
 import RxSwift
 import RxCocoa
 import Alamofire
+import RealmSwift
+import ReactorKit
 
-internal final class IntroViewController: UIViewController {
+internal final class IntroViewController: UIViewController, StoryboardView {
 
     // MARK: UI
     
@@ -27,43 +29,40 @@ internal final class IntroViewController: UIViewController {
     @IBOutlet var imgIntroFLAnimated: FLAnimatedImageView!
         
     // MARK: VARIABLE
-                    
-    private var maxCount = 0
-    private let disposeBag = DisposeBag()
+            
+    internal var disposeBag = DisposeBag()
+    
+    private var maxCount = 0    
     
     // MARK: SYSTEM FUNC
-    
-    deinit {
-        printLog(out: "\(type(of: self)): Deinited")
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         Observable.just(GlobalAdsReactor.Action.loadStartBanner)
             .bind(to: GlobalAdsReactor.sharedInstance.action)
-            .disposed(by: disposeBag)
+            .disposed(by: self.disposeBag)
         
         showProgressLayer(isShow: false)
         showIntro()
+    }
         
-        Server.getCompanyInfo(updateDate: ChargerManager.sharedInstance.getChargerCompanyInfo()) { (isSuccess, value) in
-            if isSuccess {
-                ChargerManager.sharedInstance.updateCompanyInfoListFromServer(json: JSON(value))
-                self.checkCompanyInfo()
-            } else {
-                Snackbar().show(message: "네트워크 오류")
-                fatalError("네트워크 오류")
-            }
-        }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.title = "인트로 화면"
-    }
     
     // MARK: FUNC
+    
+    func bind(reactor: IntroReactor) {
+        Observable.just(IntroReactor.Action.chargerCompanyInfoList)
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
+
+        reactor.state.compactMap { $0.isComplete }
+            .asDriver(onErrorJustReturn: false)
+            .drive(with: self) { obj, isComplete in
+                let icChecker = CompanyInfoChecker.init(delegate: obj)
+                icChecker.checkCompanyInfo()
+            }
+            .disposed(by: self.disposeBag)
+    }
     
     func showIntro(){
         if MemberManager.shared.isPartnershipClient(clientId: RentClientType.skr.rawValue){
@@ -185,11 +184,6 @@ extension FLAnimatedImage {
 }
 
 extension IntroViewController: CompanyInfoCheckerDelegate {
-    func checkCompanyInfo() {
-        let icChecker = CompanyInfoChecker.init(delegate: self)
-        icChecker.checkCompanyInfo()
-    }
-    
     func finishDownloadCompanyImage() {
         ImageMarker.loadMarkers()
         checkLastBoardId()

@@ -108,12 +108,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     private func setupEntryController(_ scene: UIScene) {
         // init initial view controller
-        let introViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(ofType: IntroViewController.self)
+        let viewcon = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(ofType: IntroViewController.self)
+        let reactor = IntroReactor(provider: RestApi())
+        viewcon.reactor = reactor
         
         guard let _ = (scene as? UIWindowScene) else { return }
         if let windowScene = scene as? UIWindowScene {
             window = UIWindow(windowScene: windowScene)
-            let navigationController = AppNavigationController(rootViewController: introViewController)
+            let navigationController = AppNavigationController(rootViewController: viewcon)
             GlobalDefine.shared.mainNavi = navigationController
             navigationController.navigationBar.isHidden = true
             

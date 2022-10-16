@@ -125,26 +125,7 @@ class ChargerManager {
         
         return companyVisibleList
     }
-
-    internal func updateCompanyInfoListFromServer(json : JSON) {
-        let code = json["code"]
-        let list = json["list"]
-        let last = json["last"]
-
-        if (code == 1000 && list.array!.count > 0) {
-            var companyList = [CompanyInfoDto]()
-            
-            for company in list.arrayValue {
-                let companyInfo = CompanyInfoDto()
-                companyInfo.setCompanyInfo(json: company)
-                companyList.append(companyInfo)
-            }
-            
-            try! mDb?.insertOrUpdateCompanyInfoList(list: companyList)
-            try! mDb?.insertOrUpdateInfoLastUpdate(info_type: ChargerConst.INFO_TYPE_COMPANY, lastUpdate: last.stringValue)
-        }
-    }
-
+    
     public func updateCompanyVisibility(isVisible : Bool, companyID : String) {
         if let companyInfo = try! mDb?.getCompanyInfo(company_id: companyID)! {
             if companyInfo.is_visible != isVisible {

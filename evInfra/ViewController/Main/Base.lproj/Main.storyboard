@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="I0H-Up-SNg">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="I0H-Up-SNg">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -424,7 +424,7 @@
         <!--Intro View Controller-->
         <scene sceneID="L3d-sG-Gmw">
             <objects>
-                <viewController storyboardIdentifier="IntroViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="I0H-Up-SNg" customClass="IntroViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="IntroViewController" storyboardIdentifier="IntroViewController" id="I0H-Up-SNg" customClass="IntroViewController" customModule="evInfra" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tJM-vc-YFo">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -513,10 +513,6 @@
         <image name="go_navi_icon_white" width="16" height="16"/>
         <image name="ic_comment" width="32" height="24"/>
         <image name="ic_line_favorite" width="32" height="24"/>
-        <image name="ic_line_payment" width="32" height="24"/>
-        <image name="ic_newbadge" width="20" height="20"/>
-        <image name="icon_battery" width="32" height="32"/>
-        <image name="icon_comment_lg" width="32" height="32"/>
         <image name="icon_current_location_md" width="24" height="24"/>
         <image name="icon_main_faq" width="32" height="24"/>
         <image name="icon_qr" width="32" height="24"/>

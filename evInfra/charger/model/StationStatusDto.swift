@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import GRDB
+
 class StationStatusDto : Record{
     required init(row: Row) {
         mChargerId = row["mChargerId"]

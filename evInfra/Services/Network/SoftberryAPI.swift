@@ -9,7 +9,9 @@
 import RxSwift
 import Alamofire
 
-protocol SoftberryAPI: class {
+protocol SoftberryAPI: AnyObject {
+    func getCompanyInfo(updateDate: String) -> Observable<(HTTPURLResponse, Data)>
+    
     func getCheckPassword(password: String, cardNo: String) -> Observable<(HTTPURLResponse, Data)>
     func postReissueMembershipCard(model: ReissuanceModel) -> Observable<(HTTPURLResponse, Data)>
     
@@ -40,6 +42,15 @@ protocol SoftberryAPI: class {
 internal final class RestApi: SoftberryAPI {
 
     init() {}
+    
+    // Station - 운영기관 정보
+    func getCompanyInfo(updateDate: String) -> Observable<(HTTPURLResponse, Data)> {
+        let reqParam: Parameters = [
+            "update_date": updateDate
+        ]
+                        
+        return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/company/v2/company/info", httpMethod: .post, parameters: reqParam, headers: nil)
+    }
     
     // MARK: - 비밀번호 확인
     func getCheckPassword(password: String, cardNo: String) -> Observable<(HTTPURLResponse, Data)> {

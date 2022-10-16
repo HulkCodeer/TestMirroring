@@ -57,7 +57,7 @@ def shared_pods
   pod 'SwiftyGif'
   
   # SQLite
-  pod 'GRDB.swift', '5.11.0'
+  pod 'RealmSwift'
       
   # Keychain
   pod 'KeychainSwift', '~> 13.0'      # For keychain
