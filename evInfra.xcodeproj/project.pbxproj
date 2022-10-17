@@ -3170,7 +3170,6 @@
 				63F31542284EC74F001713D2 /* Run Script */,
 				63F31543284EC74F001713D2 /* ShellScript */,
 				63F31544284EC74F001713D2 /* [CP] Embed Pods Frameworks */,
-				63CAC182289BBD4400ADA809 /* Run SwiftGen */,
 			);
 			buildRules = (
 			);
@@ -3752,24 +3751,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "${PODS_ROOT}/FirebaseCrashlytics/upload-symbols -gsp ${PROJECT_DIR}/evInfra/GoogleService-Info.plist -p ios ${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}\n";
-		};
-		63CAC182289BBD4400ADA809 /* Run SwiftGen */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Run SwiftGen";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nswiftgen run xcassets --param enumName=Colors evInfra/Resources/Colors.xcassets -t swift5 --output \"evInfra/Common/Colors+Generated.swift\"\nswiftgen run xcassets --param enumName=Icons evInfra/Resources/Icons.xcassets -t swift5 --output \"evInfra/Common/Icons+Generated.swift\"\n";
 		};
 		63F313A1284EC74F001713D2 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -5312,7 +5293,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 10171422;
+				CURRENT_PROJECT_VERSION = 10171606;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				ENABLE_BITCODE = NO;
@@ -5354,7 +5335,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 10171422;
+				CURRENT_PROJECT_VERSION = 10171606;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				ENABLE_BITCODE = NO;

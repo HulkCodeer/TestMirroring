@@ -31,7 +31,7 @@ internal final class LeftViewReactor: ViewModel, Reactor {
     
     struct State {
         var menuCategoryType: MenuCategoryType = .mypage
-        var myBerryPoint: String?
+        var myBerryPoint: String = "0"
         var isAllBerry: Bool?
     }
     
@@ -88,7 +88,6 @@ internal final class LeftViewReactor: ViewModel, Reactor {
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         
-        newState.myBerryPoint = nil
         newState.isAllBerry = nil
         
         switch mutation {

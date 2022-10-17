@@ -500,7 +500,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
             .drive(with: self) { obj, isOn in
                 obj.useAllMyBerrySw.isOn = isOn
                 guard isOn else { return }
-                let message = "0".equals(reactor.currentState.myBerryPoint ?? "") ? "베리가 적립되면 다음 충전 시 베리가 자동으로 전액 사용됩니다." : "다음 충전 후 결제 시 베리가 전액 사용됩니다."
+                let message = "0".equals(reactor.currentState.myBerryPoint) ? "베리가 적립되면 다음 충전 시 베리가 자동으로 전액 사용됩니다." : "다음 충전 후 결제 시 베리가 전액 사용됩니다."
                 Snackbar().show(message: "\(message)")
             }
             .disposed(by: self.disposeBag)
