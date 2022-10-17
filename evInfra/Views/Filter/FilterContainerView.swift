@@ -22,7 +22,7 @@ internal final class FilterContainerView: UIView {
     @IBOutlet var filterSpeedView: FilterSpeedView!
     @IBOutlet var filterPriceView: FilterPriceView!
     @IBOutlet var filterRoadView: FilterRoadView!
-    @IBOutlet var filterPlaceView: FilterPlaceView!
+    @IBOutlet var filterPlaceView: NewFilterPlaceView!
     
     // MARK: VARIABLE
     
@@ -76,6 +76,8 @@ internal final class FilterContainerView: UIView {
     
     func bind(reactor: MainReactor) {
         self.mainReactor = reactor
+        
+        filterPlaceView.bind(reactor: reactor)
         
         reactor.state.compactMap { $0.selectedFilterInfo }
             .asDriver(onErrorJustReturn: nil)
@@ -135,7 +137,7 @@ internal final class FilterContainerView: UIView {
     internal func updateFilters() {
         filterPriceView.update()
         filterSpeedView.update()
-        filterPlaceView.update()
+//        filterPlaceView.update()
         filterRoadView.update()
         filterTypeView.update()
     }

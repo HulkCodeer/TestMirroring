@@ -11,11 +11,13 @@ import SwiftyJSON
 
 internal final class MainReactor: ViewModel, Reactor {
     typealias SelectedFilterInfo = (filterTagType: FilterTagType, isSeleted: Bool)
+    typealias SelectedPlaceFilter = (placeType: PlaceType, isSelected: Bool)
     
     enum Action {        
         case showMarketingPopup
         case setAgreeMarketing(Bool)
         case setSelectedFilterInfo(SelectedFilterInfo)
+        case setSelectedPlaceFilter(SelectedPlaceFilter)
         case swipeLeft
         case swipeRight
         case showFilterSetting
@@ -29,6 +31,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case setShowMarketingPopup(Bool)
         case setShowStartBanner(Bool)
         case setSelectedFilterInfo(SelectedFilterInfo)
+        case setSelectedPlaceFilter(SelectedPlaceFilter)
         case showFilterSetting
         case updateFilterBarTitle
         case setEvPayFilter(Bool)
@@ -40,6 +43,7 @@ internal final class MainReactor: ViewModel, Reactor {
         var isShowMarketingPopup: Bool?
         var isShowStartBanner: Bool?
         var selectedFilterInfo: SelectedFilterInfo?
+        var selectedPlaceFilter: SelectedPlaceFilter?
         var isShowFilterSetting: Bool?
         var isUpdateFilterBarTitle: Bool?
         var isEvPayFilter: Bool?
@@ -74,6 +78,9 @@ internal final class MainReactor: ViewModel, Reactor {
             
         case .setSelectedFilterInfo(let selectedFilterInfo):
             return .just(.setSelectedFilterInfo(selectedFilterInfo))
+            
+        case .setSelectedPlaceFilter(let selectedPlaceFilter):
+            return .just(.setSelectedPlaceFilter(selectedPlaceFilter))
             
         case .swipeLeft:
             let selectedFilterInfo: SelectedFilterInfo = (filterTagType: self.currentState.selectedFilterInfo?.filterTagType.swipeLeft() ?? .speed, isSeleted: true)
@@ -117,6 +124,10 @@ internal final class MainReactor: ViewModel, Reactor {
             
         case .setSelectedFilterInfo(let selectedFilterInfo):
             newState.selectedFilterInfo = selectedFilterInfo
+            newState.isUpdateFilterBarTitle = true
+            
+        case .setSelectedPlaceFilter(let selectedPlaceFilter):
+            newState.selectedPlaceFilter = selectedPlaceFilter
             newState.isUpdateFilterBarTitle = true
             
         case .showFilterSetting:

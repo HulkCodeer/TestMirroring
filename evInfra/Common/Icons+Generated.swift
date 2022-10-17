@@ -61,7 +61,10 @@ internal enum Icons {
   internal static let iconEvMd = ImageAsset(name: "icon_ev_md")
   internal static let iconEvSm = ImageAsset(name: "icon_ev_sm")
   internal static let iconEvXs = ImageAsset(name: "icon_ev_xs")
+  internal static let iconCanopy = ImageAsset(name: "icon_canopy")
   internal static let iconCategoryFilter = ImageAsset(name: "icon_category_filter")
+  internal static let iconInside = ImageAsset(name: "icon_inside")
+  internal static let iconOutside = ImageAsset(name: "icon_outside")
   internal static let iconGiftLg = ImageAsset(name: "icon_gift_lg")
   internal static let iconGiftMd = ImageAsset(name: "icon_gift_md")
   internal static let iconGiftSm = ImageAsset(name: "icon_gift_sm")
@@ -70,7 +73,6 @@ internal enum Icons {
   internal static let iconInfoMd = ImageAsset(name: "icon_info_md")
   internal static let iconInfoSm = ImageAsset(name: "icon_info_sm")
   internal static let iconInfoXs = ImageAsset(name: "icon_info_xs")
-  
   internal static let iconMapLg = ImageAsset(name: "icon_map_lg")
   internal static let iconMapMd = ImageAsset(name: "icon_map_md")
   internal static let iconMapSm = ImageAsset(name: "icon_map_sm")

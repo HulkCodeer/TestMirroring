@@ -148,7 +148,7 @@ internal final class FilterManager {
             defaults.saveBool(key: UserDefault.Key.FILTER_PAID, value: paid)
         }
     }
-    
+
     func savePlaceFilter(indoor: Bool, outdoor:Bool, canopy:Bool) {
         if (filter.isIndoor != indoor){
             filter.isIndoor = indoor
@@ -161,6 +161,27 @@ internal final class FilterManager {
         if (filter.isCanopy != canopy) {
             filter.isCanopy = canopy
             defaults.saveBool(key: UserDefault.Key.FILTER_CANOPY, value: canopy)
+        }
+    }
+    
+    func saveIndoor(with isSelect: Bool) {
+        if filter.isIndoor != isSelect {
+            filter.isIndoor = isSelect
+            defaults.saveBool(key: UserDefault.Key.FILTER_INDOOR, value: isSelect)
+        }
+    }
+    
+    func saveOutdoor(with isSelect: Bool) {
+        if filter.isOutdoor != isSelect {
+            filter.isOutdoor = isSelect
+            defaults.saveBool(key: UserDefault.Key.FILTER_OUTDOOR, value: isSelect)
+        }
+    }
+    
+    func saveCanopy(with isSelect: Bool) {
+        if filter.isCanopy != isSelect {
+            filter.isCanopy = isSelect
+            defaults.saveBool(key: UserDefault.Key.FILTER_CANOPY, value: isSelect)
         }
     }
     
@@ -257,7 +278,7 @@ internal final class FilterManager {
     func getSpeedTitle() -> String {
         var title = ""
         if (filter.minSpeed == 0 && filter.maxSpeed == 350) {
-            title = "속도"
+            title = "충전속도"
         } else if (filter.minSpeed == filter.maxSpeed){
             if (filter.minSpeed == 0) {
                 title = "완속~완속"
@@ -291,6 +312,11 @@ internal final class FilterManager {
             }
         }
         return title
+    }
+    
+    internal func getPlaceChanged() -> Bool {
+        guard (filter.isIndoor || filter.isOutdoor || filter.isCanopy) else { return false }
+        return true
     }
     
     func getRoadTitle() -> String {
