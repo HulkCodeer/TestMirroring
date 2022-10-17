@@ -68,9 +68,8 @@ internal final class IntroReactor: ViewModel, Reactor {
                 Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
                 return nil
             }
-                        
-            let db = SoftberryDBManager()
-            db.writeCompanyInfoList(list: jsonData["list"].arrayValue.map { CompanyInfoDB($0) })
+                                    
+            softberryDBManager.writeCompanyInfoList(list: jsonData["list"].arrayValue.map { CompanyInfoDB($0) })
             
             return true
                                                              

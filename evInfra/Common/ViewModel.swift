@@ -14,6 +14,7 @@ internal class ViewModel: NSObject {
     internal let provider: SoftberryAPI
     internal let backgroundScheduler = SerialDispatchQueueScheduler(qos: .userInitiated)
     internal let disposeBag = DisposeBag()
+    internal let softberryDBWorker: SoftberryDBWorker = SoftberryDBWorker()
 
     init(provider: SoftberryAPI) {
         self.provider = provider

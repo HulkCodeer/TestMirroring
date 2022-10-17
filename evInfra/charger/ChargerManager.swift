@@ -65,7 +65,7 @@ class ChargerManager {
     }
 
     // charger company
-    public func getCompanyInfoListAll() -> [CompanyInfoDto]? {
+    public func getCompanyInfoListAll() -> [CompanyInfoDB]? {
         return try! mDb?.getCompanyInfoList()
     }
     

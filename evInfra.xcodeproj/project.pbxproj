@@ -1295,9 +1295,9 @@
 		82B1EB6328FAF1ED00619311 /* StationInfoDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B1EB6228FAF1ED00619311 /* StationInfoDB.swift */; };
 		82B1EB6428FAF1ED00619311 /* StationInfoDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B1EB6228FAF1ED00619311 /* StationInfoDB.swift */; };
 		82B1EB6528FAF1ED00619311 /* StationInfoDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B1EB6228FAF1ED00619311 /* StationInfoDB.swift */; };
-		82B1EB6728FAF3DE00619311 /* SoftberryDBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B1EB6628FAF3DE00619311 /* SoftberryDBManager.swift */; };
-		82B1EB6828FAF3DE00619311 /* SoftberryDBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B1EB6628FAF3DE00619311 /* SoftberryDBManager.swift */; };
-		82B1EB6928FAF3DE00619311 /* SoftberryDBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B1EB6628FAF3DE00619311 /* SoftberryDBManager.swift */; };
+		82B1EB6728FAF3DE00619311 /* SoftberryDBWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B1EB6628FAF3DE00619311 /* SoftberryDBWorker.swift */; };
+		82B1EB6828FAF3DE00619311 /* SoftberryDBWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B1EB6628FAF3DE00619311 /* SoftberryDBWorker.swift */; };
+		82B1EB6928FAF3DE00619311 /* SoftberryDBWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B1EB6628FAF3DE00619311 /* SoftberryDBWorker.swift */; };
 		82B3E7F42837D5A700B8ACF7 /* GlobalDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */; };
 		82C9A01728B0F0EE0003296B /* QRReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01628B0F0EE0003296B /* QRReaderView.swift */; };
 		82C9A01828B0F0EE0003296B /* QRReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01628B0F0EE0003296B /* QRReaderView.swift */; };
@@ -1837,7 +1837,7 @@
 		82A27BF728F682D100C8AD2C /* Exo-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Exo-SemiBoldItalic.ttf"; path = "Fonts/Exo-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		82A27BFC28F6E52100C8AD2C /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		82B1EB6228FAF1ED00619311 /* StationInfoDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationInfoDB.swift; sourceTree = "<group>"; };
-		82B1EB6628FAF3DE00619311 /* SoftberryDBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoftberryDBManager.swift; sourceTree = "<group>"; };
+		82B1EB6628FAF3DE00619311 /* SoftberryDBWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoftberryDBWorker.swift; sourceTree = "<group>"; };
 		82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalDefine.swift; sourceTree = "<group>"; };
 		82C9A01628B0F0EE0003296B /* QRReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRReaderView.swift; sourceTree = "<group>"; };
 		82C9A01928B10A010003296B /* PaymentQRScanReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentQRScanReactor.swift; sourceTree = "<group>"; };
@@ -3016,7 +3016,7 @@
 			children = (
 				82E1301D28DEACF100E7983D /* Network */,
 				63F7C2FB28E1CD2B00019CE0 /* NetworkWorker.swift */,
-				82B1EB6628FAF3DE00619311 /* SoftberryDBManager.swift */,
+				82B1EB6628FAF3DE00619311 /* SoftberryDBWorker.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -4508,7 +4508,7 @@
 				63F3143D284EC74F001713D2 /* DeepLinkModel.swift in Sources */,
 				63F3143E284EC74F001713D2 /* UITextField+Extension.swift in Sources */,
 				63F3143F284EC74F001713D2 /* EvInfoViewController.swift in Sources */,
-				82B1EB6828FAF3DE00619311 /* SoftberryDBManager.swift in Sources */,
+				82B1EB6828FAF3DE00619311 /* SoftberryDBWorker.swift in Sources */,
 				63F31440284EC74F001713D2 /* FilterTypeView.swift in Sources */,
 				63F31441284EC74F001713D2 /* DeepLinkPath.swift in Sources */,
 				82F938C428F980560000B602 /* CompanyInfoDB.swift in Sources */,
@@ -4831,7 +4831,7 @@
 				63CCE81C2834CB9E006B8B9A /* DeepLinkModel.swift in Sources */,
 				73D65D7223588ACC00F564A2 /* UITextField+Extension.swift in Sources */,
 				735759552091758C008181E9 /* EvInfoViewController.swift in Sources */,
-				82B1EB6728FAF3DE00619311 /* SoftberryDBManager.swift in Sources */,
+				82B1EB6728FAF3DE00619311 /* SoftberryDBWorker.swift in Sources */,
 				00A3659F26C4E98D00424E40 /* FilterTypeView.swift in Sources */,
 				00EAB7C627228F42004E78D2 /* DeepLinkPath.swift in Sources */,
 				82F938C328F980560000B602 /* CompanyInfoDB.swift in Sources */,
@@ -5154,7 +5154,7 @@
 				824D5CA328BDD89C00EDC712 /* UITextField+Extension.swift in Sources */,
 				824D5CA428BDD89C00EDC712 /* EvInfoViewController.swift in Sources */,
 				824D5CA528BDD89C00EDC712 /* FilterTypeView.swift in Sources */,
-				82B1EB6928FAF3DE00619311 /* SoftberryDBManager.swift in Sources */,
+				82B1EB6928FAF3DE00619311 /* SoftberryDBWorker.swift in Sources */,
 				824D5CA628BDD89C00EDC712 /* DeepLinkPath.swift in Sources */,
 				824D5CA728BDD89C00EDC712 /* IntroViewController.swift in Sources */,
 				82F938C528F980560000B602 /* CompanyInfoDB.swift in Sources */,

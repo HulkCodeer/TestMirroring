@@ -39,7 +39,7 @@ class ChargerFilter {
     
     var isMembershipCardChecked = true
     
-    var companyDictionary: [String: CompanyInfoDto] = [:]
+    var companyDictionary: [String: CompanyInfoDB] = [:]
     
     func copy() -> ChargerFilter {
         let filter = ChargerFilter()
@@ -66,7 +66,7 @@ class ChargerFilter {
     }
     
     func getCompanySelected(companyId: String) -> Bool {
-        return companyDictionary[companyId]?.is_visible ?? false
+        return companyDictionary[companyId]?.isVisible ?? false
     }
     
     func isSame(filter : ChargerFilter?) -> Bool{
