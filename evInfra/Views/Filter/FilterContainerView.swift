@@ -81,8 +81,6 @@ internal final class FilterContainerView: UIView {
             .asDriver(onErrorJustReturn: nil)
             .drive(with: self) { obj, selectedFilterInfo in
                 switch selectedFilterInfo?.filterTagType {
-                case .price:
-                    obj.filterContainerView.bringSubviewToFront(obj.filterPriceView)
                 case .speed:
                     obj.filterContainerView.bringSubviewToFront(obj.filterSpeedView)
                 case .place:

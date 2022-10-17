@@ -64,6 +64,7 @@ class UserDefault {
         static let FILTER_HIGHWAT_DOWN  = "filter_highway_down"
         static let FILTER_MYCAR         = "filter_mycar"
         static let FILTER_MEMBERSHIP_CARD = "filter_membership_card"
+        static let FILTER_FAVORITE      = "filter_favorite"
         
         static let FILTER_ROAD          = "filter_road"
         static let FILTER_ST_KIND       = "filter_station_kind"

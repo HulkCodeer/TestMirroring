@@ -21,6 +21,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case showFilterSetting
         case updateFilterBarTitle
         case setEvPayFilter(Bool)
+        case setFavoriteFilter(Bool)
         case openEvPayTooltip
     }
     
@@ -31,6 +32,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case showFilterSetting
         case updateFilterBarTitle
         case setEvPayFilter(Bool)
+        case setFavoriteFilter(Bool)
         case openEvPayTooltip
     }
     
@@ -41,6 +43,7 @@ internal final class MainReactor: ViewModel, Reactor {
         var isShowFilterSetting: Bool?
         var isUpdateFilterBarTitle: Bool?
         var isEvPayFilter: Bool?
+        var isFavoriteFilter: Bool?
         var isShowEvPayToolTip: Bool?
     }
     
@@ -73,11 +76,11 @@ internal final class MainReactor: ViewModel, Reactor {
             return .just(.setSelectedFilterInfo(selectedFilterInfo))
             
         case .swipeLeft:
-            let selectedFilterInfo: SelectedFilterInfo = (filterTagType: self.currentState.selectedFilterInfo?.filterTagType.swipeLeft() ?? .price, isSeleted: true)
+            let selectedFilterInfo: SelectedFilterInfo = (filterTagType: self.currentState.selectedFilterInfo?.filterTagType.swipeLeft() ?? .speed, isSeleted: true)
             return .just(.setSelectedFilterInfo(selectedFilterInfo))
             
         case .swipeRight:
-            let selectedFilterInfo: SelectedFilterInfo = (filterTagType: self.currentState.selectedFilterInfo?.filterTagType.swipeRight() ?? .price, isSeleted: true)
+            let selectedFilterInfo: SelectedFilterInfo = (filterTagType: self.currentState.selectedFilterInfo?.filterTagType.swipeRight() ?? .speed, isSeleted: true)
             return .just(.setSelectedFilterInfo(selectedFilterInfo))
             
         case .showFilterSetting:
@@ -88,6 +91,9 @@ internal final class MainReactor: ViewModel, Reactor {
             
         case .setEvPayFilter(let isEvPayFilter):
             return .just(.setEvPayFilter(isEvPayFilter))
+            
+        case .setFavoriteFilter(let isFavoriteFilter):
+            return .just(.setFavoriteFilter(isFavoriteFilter))
             
         case .openEvPayTooltip:
             return .just(.openEvPayTooltip)
@@ -121,6 +127,9 @@ internal final class MainReactor: ViewModel, Reactor {
             
         case .setEvPayFilter(let isEvPayFilter):
             newState.isEvPayFilter = isEvPayFilter
+            
+        case .setFavoriteFilter(let isFavoriteFilter):
+            newState.isFavoriteFilter = isFavoriteFilter
             
         case .openEvPayTooltip:
             newState.isShowEvPayToolTip = false

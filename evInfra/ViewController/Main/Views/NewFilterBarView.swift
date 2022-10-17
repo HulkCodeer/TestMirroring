@@ -23,11 +23,11 @@ enum FilterType {
 }
 
 enum FilterTagType: CaseIterable {
-    typealias Property = (image: UIImage?, imgUnSelectColor: UIColor?, imgSelectColor: UIColor?)
+    typealias Property = (imgUnSelect: UIImage?, imgSelect: UIImage?, imgUnSelectColor: UIColor?, imgSelectColor: UIColor?)
     
     // 현재 EV Pay는 따로 작동해야 하므로 주석, 추후 디자인 개편시 EV Pay 관련 주석 풀면 됨
-//    case evpay
-    case price
+    case evpay
+    case favorite
     case speed
     case place
     case road
@@ -35,8 +35,8 @@ enum FilterTagType: CaseIterable {
     
     internal func swipeLeft() -> FilterTagType {
         switch self {
-//        case .evpay: return .price
-        case .price: return .speed
+        case .evpay: return .speed
+        case .favorite: return .favorite
         case .speed: return .place
         case .place: return .road
         case .road: return .type
@@ -46,9 +46,9 @@ enum FilterTagType: CaseIterable {
     
     internal func swipeRight() -> FilterTagType {
         switch self {
-//        case .evpay: return .evpay
-        case .price: return .price
-        case .speed: return .price
+        case .evpay: return .evpay
+        case .favorite: return .favorite
+        case .speed: return .favorite
         case .place: return .speed
         case .road: return .place
         case .type: return .road
@@ -58,20 +58,17 @@ enum FilterTagType: CaseIterable {
     internal var typeImageProperty: Property? {
         switch self {
         // 나중에 이미지 있는 디자인으로 변경시 주석 푸세요
-//        case .evpay:
-//            return (image: Icons.iconElectricFillXs.image, imgUnSelectColor: Colors.contentSecondary.color, imgSelectColor : Colors.borderPositive.color)
-        case .price: return nil
-        case .speed: return nil
-        case .place: return nil
-        case .road: return nil
-        case .type: return nil
+        case .evpay:
+            return (imgUnSelect: Icons.iconElectricFillXs.image, imgSelect: Icons.iconElectricFillXs.image, imgUnSelectColor: Colors.contentSecondary.color, imgSelectColor : Colors.gr6.color)
+        case .favorite: return (imgUnSelect: Icons.iconStarXs.image, imgSelect: Icons.iconStarFillXs.image, imgUnSelectColor: Colors.contentSecondary.color, imgSelectColor : Colors.gr6.color)
+        default: return (imgUnSelect: Icons.iconChevronDownXs.image, imgSelect: Icons.iconChevronUpXs.image, imgUnSelectColor: Colors.contentTertiary.color, imgSelectColor : Colors.gr7.color)
         }
     }
     
     internal var typeDesc: String {
         switch self {
-//        case .evpay: return "EV Pay"
-        case .price: return FilterManager.sharedInstance.getPriceTitle()
+        case .evpay: return "EV Pay"
+        case .favorite: return "즐겨찾기"
         case .speed: return FilterManager.sharedInstance.getSpeedTitle()
         case .place: return FilterManager.sharedInstance.getPlaceTitle()
         case .road: return FilterManager.sharedInstance.getRoadTitle()
@@ -114,6 +111,7 @@ internal final class NewFilterBarView: UIView {
     private var disposeBag = DisposeBag()
     
     internal var evPayView: UIView = UIView()
+    internal var favoriteView: UIView = UIView()
          
     // MARK: SYSTEM FUNC
     
@@ -153,10 +151,6 @@ internal final class NewFilterBarView: UIView {
             $0.height.equalTo(30)
         }
         
-        evPayView = self.createFilterTagView(reactor)
-        
-        filterTagStackView.addArrangedSubview(evPayView)
-        
         for filterTagType in FilterTagType.allCases {
             filterTagStackView.addArrangedSubview(self.createFilterTagView(filterTagType, reactor: reactor))
         }
@@ -165,181 +159,19 @@ internal final class NewFilterBarView: UIView {
             .map { MainReactor.Action.showFilterSetting }
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
-        
-    }
-    
-    // 아래 코드는 추후 디자인 개편시 지워도 됨
-    private func createFilterTagView(_ reactor: MainReactor) -> UIView {
-        let titleLbl = UILabel().then {
-            $0.font = UIFont(name: "Exo-SemiBoldItalic", size: 14)
-            $0.textColor = Colors.contentSecondary.color
-            $0.textAlignment = .center
-            $0.text = "EV Pay"
-        }
-        
-        let typeImageProperty = (image: Icons.iconElectricFillXs.image, imgUnSelectColor: Colors.contentSecondary.color, imgSelectColor : Colors.borderPositive.color)
-        
-        let imgView = UIImageView().then {
-            $0.image = typeImageProperty.image
-            $0.tintColor = typeImageProperty.imgUnSelectColor
-        }
-        
-        let btn = UIButton().then {
-            $0.isSelected = false
-        }
-        
-        let view = UIView().then {
-            $0.addSubview(imgView)
-            imgView.snp.makeConstraints {
-                $0.leading.equalTo(8)
-                $0.centerY.equalToSuperview()
-                $0.width.height.equalTo(16)
-            }
-            
-            $0.addSubview(titleLbl)
-            titleLbl.snp.makeConstraints {
-                $0.leading.equalTo(imgView.snp.trailing).offset(2)
-                $0.centerY.equalToSuperview()
-                $0.trailing.equalToSuperview().offset(-12)
-                $0.height.equalTo(22)
-            }
-            
-            $0.addSubview(btn)
-            btn.snp.makeConstraints {
-                $0.edges.equalToSuperview()
-            }
-            
-            // 추후에 Arrow 이미지만 붙이면 새로운 디자인으로 적용됨
-                                    
-            $0.backgroundColor = Colors.backgroundPrimary.color
-            $0.IBcornerRadius = 15
-            $0.IBborderWidth = 1
-            $0.IBborderColor = Colors.nt1.color
-        }
-        
-        let isSelected = FilterManager.sharedInstance.getIsMembershipCardChecked()
-        view.IBborderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
-        titleLbl.textColor = isSelected ? Colors.borderPositive.color : Colors.contentSecondary.color
-        imgView.tintColor = isSelected ? Colors.borderPositive.color : Colors.contentSecondary.color
-                        
-        btn.rx.tap
-            .asDriver()
-            .drive(with: self) { obj, _ in
-                let isEvPayFilter = FilterManager.sharedInstance.getIsMembershipCardChecked()
-                FilterManager.sharedInstance.saveIsMembershipCardChecked(!isEvPayFilter)
-                Observable.just(MainReactor.Action.setEvPayFilter(!isEvPayFilter))
-                    .bind(to: reactor.action)
-                    .disposed(by: obj.disposeBag)
-            }
-            .disposed(by: self.disposeBag)
-                
-        reactor.state.compactMap { $0.isEvPayFilter }
-            .asDriver(onErrorJustReturn: false)
-            .drive(with: self) { obj, isEvPayFilter in                
-                let isSelected = FilterManager.sharedInstance.getIsMembershipCardChecked()
-                
-                view.IBborderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
-                titleLbl.textColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-                imgView.tintColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-                
-                let GROUP_TITLE = ["A.B.C..", "가", "나", "다", "라", "마", "바", "사", "아", "자", "차", "카", "타", "파", "하", "힣"];
-                var groupList = Array<CompanyGroup>()
-                var companyList = [CompanyInfoDto]()
-                var tagList = Array<TagValue>()
-                var titleIndex = 1
-                var recommendList = Array<TagValue>()
-                
-                if isSelected {
-                    companyList = Array(FilterManager.sharedInstance.filter.companyDictionary.values)
-                    let companyNameSortList = companyList.sorted { $0.name!.lowercased() < $1.name!.lowercased() }
-
-                    for company in companyNameSortList {
-                        if company.name! >= GROUP_TITLE[titleIndex] {
-                            let currentIndex = titleIndex
-                            for index in (currentIndex+1)..<GROUP_TITLE.count {
-                                if company.name! >= GROUP_TITLE[index] {
-                                    titleIndex += 1
-                                } else {
-                                    break
-                                }
-                            }
-                            if !tagList.isEmpty {
-                                groupList.append(CompanyGroup(title: GROUP_TITLE[titleIndex-1], list: tagList))
-                                tagList = Array<TagValue>()
-                            }
-                            titleIndex += 1
-                        }
-                        
-                        var selected = company.is_visible
-                        if isSelected {
-                            selected = company.card_setting ?? false // infra card
-                        }
-                        
-                        let icon : UIImage?
-                        if company.icon_name != nil {
-                            icon = ImageMarker.companyImg(company: company.icon_name!)
-                        } else {
-                            icon = UIImage(named: "icon_building_sm")
-                        }
-                        let tag = TagValue(title:company.name!, img:icon!, selected: selected)
-                        tagList.append(tag)
-                        if company.recommend ?? false {
-                            recommendList.append(tag)
-                        }
-                    }
-                    
-                    if !tagList.isEmpty {
-                        groupList.append(CompanyGroup(title: GROUP_TITLE[titleIndex-1], list: tagList))
-                    }
-
-                    let abcGroup = groupList[0]
-                    groupList.remove(at: 0)
-                    groupList.append(abcGroup)
-                    
-                    groupList.insert(CompanyGroup(title: "추천", list: recommendList), at: 0)
-
-                    for company in companyList {
-                        for list in groupList {
-                            for tag in list.list {
-                                if (company.name == tag.title){
-                                    if let companyId = company.company_id {
-                                        ChargerManager.sharedInstance.updateCompanyVisibility(isVisible: tag.selected, companyID: companyId)
-                                        continue
-                                    }
-                                }
-                            }
-                        }
-                    }                    
-                } else {
-                    for company in companyList {
-                        for groupItem in groupList {
-                            for _ in groupItem.list {
-                                if let companyId = company.company_id {
-                                    ChargerManager.sharedInstance.updateCompanyVisibility(isVisible: true, companyID: companyId)
-                                    continue
-                                }
-                            }
-                        }
-                    }
-                }
-                FilterManager.sharedInstance.updateCompanyFilter()
-            }
-            .disposed(by: self.disposeBag)
-                
-        return view
     }
                
     private func createFilterTagView(_ filterTagType: FilterTagType, reactor: MainReactor) -> UIView {
         let titleLbl = UILabel().then {
-            $0.font = .systemFont(ofSize: 14, weight: .regular)
+            $0.font = filterTagType == .evpay ? UIFont(name: "Exo-SemiBoldItalic", size: 14) : .systemFont(ofSize: 14, weight: .regular)
             $0.textColor = Colors.contentSecondary.color
             $0.text = filterTagType.typeDesc
         }
         
-        let typeImageProperty = filterTagType.typeImageProperty ?? (image: nil, imgUnSelectColor: nil, imgSelectColor: nil)
+        let typeImageProperty = filterTagType.typeImageProperty ?? (imgUnSelect: nil, imgSelect: nil, imgUnSelectColor: nil, imgSelectColor: nil)
         
         let imgView = UIImageView().then {
-            $0.image = typeImageProperty.image
+            $0.image = typeImageProperty.imgUnSelect
             $0.tintColor = typeImageProperty.imgUnSelectColor
         }
         
@@ -348,19 +180,37 @@ internal final class NewFilterBarView: UIView {
         }
         
         let view = UIView().then {
-            $0.addSubview(imgView)
-            imgView.snp.makeConstraints {
-                $0.leading.equalTo(typeImageProperty.image == nil ? 10 : 8)
-                $0.centerY.equalToSuperview()
-                $0.width.height.equalTo(typeImageProperty.image == nil ? 0 : 16)
-            }
-            
-            $0.addSubview(titleLbl)
-            titleLbl.snp.makeConstraints {
-                $0.leading.equalTo(imgView.snp.trailing).offset(2)
-                $0.centerY.equalToSuperview()
-                $0.trailing.equalToSuperview().offset(-12)
-                $0.height.equalTo(22)
+            switch filterTagType {
+            case .evpay, .favorite:
+                $0.addSubview(imgView)
+                imgView.snp.makeConstraints {
+                    $0.leading.equalTo(typeImageProperty.imgUnSelect == nil ? 10 : 8)
+                    $0.centerY.equalToSuperview()
+                    $0.width.height.equalTo(typeImageProperty.imgUnSelect == nil ? 0 : 16)
+                }
+                
+                $0.addSubview(titleLbl)
+                titleLbl.snp.makeConstraints {
+                    $0.leading.equalTo(imgView.snp.trailing).offset(2)
+                    $0.centerY.equalToSuperview()
+                    $0.trailing.equalToSuperview().offset(-12)
+                    $0.height.equalTo(22)
+                }
+            default:
+                $0.addSubview(titleLbl)
+                titleLbl.snp.makeConstraints {
+                    $0.leading.equalToSuperview().offset(12)
+                    $0.centerY.equalToSuperview()
+                    $0.height.equalTo(22)
+                }
+                
+                $0.addSubview(imgView)
+                imgView.snp.makeConstraints {
+                    $0.leading.equalTo(titleLbl.snp.trailing).offset(2)
+                    $0.centerY.equalToSuperview()
+                    $0.width.height.equalTo(typeImageProperty.imgUnSelect == nil ? 0 : 16)
+                    $0.trailing.equalToSuperview().offset(-8)
+                }
             }
             
             $0.addSubview(btn)
@@ -369,33 +219,98 @@ internal final class NewFilterBarView: UIView {
             }
             
             // 추후에 Arrow 이미지만 붙이면 새로운 디자인으로 적용됨
-                                    
             $0.backgroundColor = Colors.backgroundPrimary.color
             $0.IBcornerRadius = 15
             $0.IBborderWidth = 1
             $0.IBborderColor = Colors.nt1.color
         }
-                        
-        btn.rx.tap
-            .asDriver()
-            .drive(with: self) { obj, _ in
-                btn.isSelected = !btn.isSelected
-                Observable.just(MainReactor.Action.setSelectedFilterInfo((filterTagType, btn.isSelected)))
-                    .bind(to: reactor.action)
-                    .disposed(by: obj.disposeBag)
-            }
-            .disposed(by: self.disposeBag)
-                
-        reactor.state.compactMap { $0.selectedFilterInfo }
-            .asDriver(onErrorJustReturn: MainReactor.SelectedFilterInfo(.price, false))
-            .drive(with: self) { obj, selectedFilterInfo in
-                let isSelected = selectedFilterInfo.filterTagType == filterTagType ? selectedFilterInfo.isSeleted : false
-                view.IBborderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
-                titleLbl.textColor = isSelected ? Colors.borderPositive.color : Colors.contentSecondary.color
-                btn.isSelected = isSelected
-            }
-            .disposed(by: self.disposeBag)
-        
+
+        switch filterTagType {
+        case .evpay:
+            let isSelected = FilterManager.sharedInstance.getIsMembershipCardChecked()
+            view.IBborderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
+            titleLbl.textColor = isSelected ? Colors.borderPositive.color : Colors.contentSecondary.color
+            imgView.tintColor = isSelected ? Colors.borderPositive.color : Colors.contentSecondary.color
+            
+            btn.rx.tap
+                .asDriver()
+                .drive(with: self) { obj, _ in
+                    let isEvPayFilter = FilterManager.sharedInstance.getIsMembershipCardChecked()
+                    FilterManager.sharedInstance.saveIsMembershipCardChecked(!isEvPayFilter)
+                    Observable.just(MainReactor.Action.setEvPayFilter(!isEvPayFilter))
+                        .bind(to: reactor.action)
+                        .disposed(by: obj.disposeBag)
+                }
+                .disposed(by: self.disposeBag)
+            
+            reactor.state.compactMap { $0.isEvPayFilter }
+                .asDriver(onErrorJustReturn: false)
+                .drive(with: self) { obj, isEvPayFilter in
+                    let isSelected = FilterManager.sharedInstance.getIsMembershipCardChecked()
+
+                    view.IBborderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
+                    titleLbl.textColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+                    imgView.tintColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+                }
+                .disposed(by: self.disposeBag)
+        case .favorite:
+            let isSelected = FilterManager.sharedInstance.getIsFavoriteChecked()
+            view.IBborderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
+            titleLbl.textColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+            imgView.tintColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+            imgView.image = isSelected ? typeImageProperty.imgSelect : typeImageProperty.imgUnSelect
+            
+            btn.rx.tap
+                .asDriver()
+                .drive(with: self) { obj, _ in
+                    let isFavoriteFilter = FilterManager.sharedInstance.getIsFavoriteChecked()
+                    FilterManager.sharedInstance.saveIsFavoriteChecked(!isFavoriteFilter)
+                    Observable.just(MainReactor.Action.setFavoriteFilter(!isFavoriteFilter))
+                        .bind(to: reactor.action)
+                        .disposed(by: obj.disposeBag)
+                }
+                .disposed(by: self.disposeBag)
+            
+            reactor.state.compactMap { $0.isFavoriteFilter }
+                .asDriver(onErrorJustReturn: false)
+                .drive(with: self) { obj, isFavoriteFilter in
+                    let isSelected = FilterManager.sharedInstance.getIsFavoriteChecked()
+                    
+                    view.IBborderColor = isSelected ? Colors.gr6.color : Colors.nt1.color
+                    titleLbl.textColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+                    imgView.tintColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+                    imgView.image = isSelected ? typeImageProperty.imgSelect : typeImageProperty.imgUnSelect
+                }
+                .disposed(by: self.disposeBag)
+        case .speed, .place, .road, .type:
+            btn.rx.tap
+                .asDriver()
+                .drive(with: self) { obj, _ in
+                    btn.isSelected = !btn.isSelected
+                    Observable.just(MainReactor.Action.setSelectedFilterInfo((filterTagType, btn.isSelected)))
+                        .bind(to: reactor.action)
+                        .disposed(by: obj.disposeBag)
+                }
+                .disposed(by: self.disposeBag)
+            
+            reactor.state.compactMap { $0.selectedFilterInfo }
+                .asDriver(onErrorJustReturn: MainReactor.SelectedFilterInfo(.speed, false))
+                .drive(with: self) { obj, selectedFilterInfo in
+                    switch selectedFilterInfo.filterTagType {
+                    case .evpay, .favorite: break
+                    default:
+                        let isSelected = selectedFilterInfo.filterTagType == filterTagType ? selectedFilterInfo.isSeleted : false
+                        view.IBborderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
+                        view.backgroundColor = isSelected ? Colors.backgroundPositiveLight.color : Colors.backgroundPrimary.color
+                        titleLbl.textColor = isSelected ? Colors.gr7.color : Colors.contentSecondary.color
+                        imgView.image = isSelected ? selectedFilterInfo.filterTagType.typeImageProperty?.imgSelect : selectedFilterInfo.filterTagType.typeImageProperty?.imgUnSelect
+                        imgView.tintColor = isSelected ? selectedFilterInfo.filterTagType.typeImageProperty?.imgSelectColor : selectedFilterInfo.filterTagType.typeImageProperty?.imgUnSelectColor
+                        btn.isSelected = isSelected
+                    }
+                }
+                .disposed(by: self.disposeBag)
+        }
+   
         reactor.state.compactMap { $0.isUpdateFilterBarTitle }
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { obj, isUpdate in

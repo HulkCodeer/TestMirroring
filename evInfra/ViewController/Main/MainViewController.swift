@@ -215,7 +215,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
 
             let evPayTiptext = "EV Pay 카드로 충전 가능한 충전소만\n볼 수 있어요"
             self.evPayTipView = EasyTipView(text: evPayTiptext, preferences: evPayPreferences)
-            self.evPayTipView.show(forView: self.filterBarView.evPayView, withinSuperview: self.view)
+            self.evPayTipView.show(forView: self.filterBarView, withinSuperview: self.view)
             self.evPayTipView.isHidden = true
         }
                         
@@ -312,7 +312,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
             .disposed(by: self.disposeBag)
         
         reactor.state.compactMap { $0.selectedFilterInfo }
-            .asDriver(onErrorJustReturn: (filterTagType: .price, isSeleted: false))
+            .asDriver(onErrorJustReturn: (filterTagType: .speed, isSeleted: false))
             .drive(with: self) { obj, selectedFilterInfo in
                 if selectedFilterInfo.isSeleted {
                     obj.showFilter()
@@ -322,7 +322,16 @@ internal final class MainViewController: UIViewController, StoryboardView {
             }
             .disposed(by: self.disposeBag)
         
+        // evpay filter
         reactor.state.compactMap { $0.isEvPayFilter }
+            .asDriver(onErrorJustReturn: false)
+            .drive(with: self) { obj, _ in
+                self.drawMapMarker()
+            }
+            .disposed(by: self.disposeBag)
+        
+        // 즐겨찾기
+        reactor.state.compactMap { $0.isFavoriteFilter }
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { obj, _ in
                 self.drawMapMarker()
@@ -679,7 +688,7 @@ extension MainViewController: NMFMapViewTouchDelegate {
     func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
         guard let _reactor = self.reactor else { return }
         
-        Observable.just(MainReactor.Action.setSelectedFilterInfo(MainReactor.SelectedFilterInfo(filterTagType: .price, isSeleted: false)))
+        Observable.just(MainReactor.Action.setSelectedFilterInfo(MainReactor.SelectedFilterInfo(filterTagType: .speed, isSeleted: false)))
             .bind(to: _reactor.action)
             .disposed(by: self.disposeBag)
         
