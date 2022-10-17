@@ -534,8 +534,8 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                         obj.useAllMyBerrySw.isOn = !obj.useAllMyBerrySw.isOn
                         return
                     }
-                    let popupModel = PopupModel(title: "회원카드를 발급하시겠어요?",
-                                                message: "베리는 회원카드 발급 후\n충전 시 베리로 할인 받을 수 있어요.",
+                    let popupModel = PopupModel(title: "EV Pay카드를 발급하시겠어요?",
+                                                message: "베리는 EV Pay카드 발급 후\n충전 시 베리로 할인 받을 수 있어요.",
                                                 confirmBtnTitle: "네 발급할게요.", cancelBtnTitle: "다음에 할게요.",
                                                 confirmBtnAction: {
                         let viewcon = MembershipGuideViewController()
@@ -601,8 +601,8 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                     obj.useAllMyBerrySw.isOn = !obj.useAllMyBerrySw.isOn
                     UserDefault().saveBool(key: UserDefault.Key.IS_SHOW_BERRYSETTING_CASE3_POPUP, value: true)
                     let popupModel = PopupModel(title: "더 많은 충전소에서\n베리를 적립해보세요!",
-                                                message: "회원카드 발급 시 환경부, 한국전력 등\n더 많은 충전소에서 적립할 수 있어요.",
-                                                confirmBtnTitle: "회원카드 안내 보러가기", cancelBtnTitle: "다음에 할게요.",
+                                                message: "EV Pay카드 발급 시 환경부, 한국전력 등\n더 많은 충전소에서 적립할 수 있어요.",
+                                                confirmBtnTitle: "EV Pay카드 안내 보러가기", cancelBtnTitle: "다음에 할게요.",
                                                 confirmBtnAction: {
                         let viewcon = MembershipGuideViewController()
                         GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
@@ -753,7 +753,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         case 0: // 결제 정보 관리
             cell.menuLabel.text = MemberManager.shared.hasPayment ? "결제 정보 관리" : "결제 정보 등록"
         case 1: // 회원카드 관리
-            cell.menuLabel.text = MemberManager.shared.hasMembership ? "회원카드 관리" : "회원카드 신청"
+            cell.menuLabel.text = MemberManager.shared.hasMembership ? "EV Pay카드 관리" : "EV Pay카드 신청"
         case 2: // 렌터카 정보 관리
             cell.menuLabel.text = MemberManager.shared.hasRentcar ? "렌터카 정보 관리" : "렌터카 정보 등록"
         default: break

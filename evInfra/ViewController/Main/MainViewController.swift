@@ -199,7 +199,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
             self.selectChargerFromShared()
         }
         canIgnoreJejuPush = UserDefault().readBool(key: UserDefault.Key.JEJU_PUSH)// default : false
-                  
+        
         if !MemberManager.shared.isShowEvPayTooltip, !FCMManager.sharedInstance.originalMemberId.isEmpty {
             var evPayPreferences = EasyTipView.Preferences()
                     
