@@ -238,6 +238,10 @@ internal final class NewFilterBarView: UIView {
             .drive(with: self) { obj, isEvPayFilter in                
                 let isSelected = FilterManager.sharedInstance.getIsMembershipCardChecked()
                 
+                let property: [String: Any] = ["filterName": "EV Pay",
+                                               "filterValue": isSelected ? "On":"Off"]
+                FilterEvent.clickUpperFilter.logEvent(property: property)
+                
                 view.IBborderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
                 titleLbl.textColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
                 imgView.tintColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor

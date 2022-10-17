@@ -528,9 +528,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
             .drive(with: self) { obj, _ in
                 let hasPayment = MemberManager.shared.hasPayment
                 let hasMembership = MemberManager.shared.hasMembership
-                switch (hasPayment, hasMembership) {
-                    // TEST CODE
-//                switch (false, true) {
+                switch (hasPayment, hasMembership) {                    
                 case (false, false): // 피그마 case 1
                     guard !obj.useAllMyBerrySw.isOn else {
                         obj.useAllMyBerrySw.isOn = !obj.useAllMyBerrySw.isOn
@@ -643,7 +641,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                 }
             }
             .disposed(by: self.disposeBag)
-        
+                    
         GlobalDefine.shared.isUseAllBerry
             .filter { $0 }
             .map { isUseAllBerry in  LeftViewReactor.Action.setIsAllBerry(isUseAllBerry) }

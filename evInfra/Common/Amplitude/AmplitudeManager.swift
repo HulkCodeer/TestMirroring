@@ -240,7 +240,7 @@ internal enum FilterEvent: String, EventTypeProtocol {
     case clickFilterCancel = "click_filter_cancel"
     case clickFilterReset = "click_filter_reset"
     case clickFilterSave = "click_filter_save"
-    case clickUpperFilter = "click_upper_filter"
+    case clickUpperFilter = "click_upper_filter"    
     
     internal var toTypeDesc: String {
         return self.rawValue
