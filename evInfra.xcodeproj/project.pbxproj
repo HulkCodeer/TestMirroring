@@ -95,6 +95,9 @@
 		1969693728AB9AB300FE47A7 /* AmpChargerStationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1969693528AB9AB300FE47A7 /* AmpChargerStationModel.swift */; };
 		196CEE1028BDE26000C39AE6 /* AmpBoardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194EEB5628BC723200280299 /* AmpBoardModel.swift */; };
 		19B4C7D8289A420900C6BE84 /* AdsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B4C7D7289A420900C6BE84 /* AdsModel.swift */; };
+		19D85C8528FCF016000B1BB1 /* NewFilterPlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D85C8428FCF016000B1BB1 /* NewFilterPlaceView.swift */; };
+		19D85C8628FCF016000B1BB1 /* NewFilterPlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D85C8428FCF016000B1BB1 /* NewFilterPlaceView.swift */; };
+		19D85C8728FCF016000B1BB1 /* NewFilterPlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D85C8428FCF016000B1BB1 /* NewFilterPlaceView.swift */; };
 		2057BEA80311E70601C67835 /* Pods_evInfra.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CC5B658D05400DBBB0E6E63 /* Pods_evInfra.framework */; };
 		421569D7259B629100D018DC /* BoardInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421569D6259B629100D018DC /* BoardInfo.swift */; };
 		42541588257E045600A2A7B9 /* UtilNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42541587257E045600A2A7B9 /* UtilNavigation.swift */; };
@@ -1502,6 +1505,7 @@
 		195C4E8128C5CE3F000B47F7 /* BannerPagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerPagerView.swift; sourceTree = "<group>"; };
 		1969693528AB9AB300FE47A7 /* AmpChargerStationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmpChargerStationModel.swift; sourceTree = "<group>"; };
 		19B4C7D7289A420900C6BE84 /* AdsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsModel.swift; sourceTree = "<group>"; };
+		19D85C8428FCF016000B1BB1 /* NewFilterPlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFilterPlaceView.swift; sourceTree = "<group>"; };
 		3FF4500A7EA0A1061E041BED /* Pods-evInfra_dev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra_dev.release.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra_dev/Pods-evInfra_dev.release.xcconfig"; sourceTree = "<group>"; };
 		421569D6259B629100D018DC /* BoardInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardInfo.swift; sourceTree = "<group>"; };
 		42541587257E045600A2A7B9 /* UtilNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilNavigation.swift; sourceTree = "<group>"; };
@@ -2053,6 +2057,7 @@
 			children = (
 				00A7D5C726B7B0D100C5DBCC /* Filter.storyboard */,
 				00A7D5D126B7DA2100C5DBCC /* ChargerFilterViewController.swift */,
+				19D85C8428FCF016000B1BB1 /* NewFilterPlaceView.swift */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -4276,6 +4281,7 @@
 				63F313A4284EC74F001713D2 /* MyWritingViewController.swift in Sources */,
 				63A9DE5028EECEC700A8BFBE /* AmpBoardModel.swift in Sources */,
 				63F313A5284EC74F001713D2 /* TagListViewCell.swift in Sources */,
+				19D85C8628FCF016000B1BB1 /* NewFilterPlaceView.swift in Sources */,
 				63F313A6284EC74F001713D2 /* UIViewController+Extension.swift in Sources */,
 				63F313A7284EC74F001713D2 /* BottomSheetTableViewCell.swift in Sources */,
 				63F313A8284EC74F001713D2 /* EIPOIItem.swift in Sources */,
@@ -4596,6 +4602,7 @@
 				00A13AD727910E4D0058C291 /* BottomSheetTableViewCell.swift in Sources */,
 				63A9DE4F28EECEC700A8BFBE /* AmpBoardModel.swift in Sources */,
 				9014C12724E55C4800CB6549 /* EIPOIItem.swift in Sources */,
+				19D85C8528FCF016000B1BB1 /* NewFilterPlaceView.swift in Sources */,
 				73AF8FC121C77E1B003CB2CF /* ClusterManager.swift in Sources */,
 				73EE8FBB2105B3420016F505 /* Board.swift in Sources */,
 				DB5041B023506DCF007336BC /* EvPoint.swift in Sources */,
@@ -4916,6 +4923,7 @@
 				824D5BF528BDD89C00EDC712 /* ImageMarker.swift in Sources */,
 				824D5BF628BDD89C00EDC712 /* MyWritingViewController.swift in Sources */,
 				824D5BF728BDD89C00EDC712 /* TagListViewCell.swift in Sources */,
+				19D85C8728FCF016000B1BB1 /* NewFilterPlaceView.swift in Sources */,
 				824D5BF828BDD89C00EDC712 /* UIViewController+Extension.swift in Sources */,
 				824D5BF928BDD89C00EDC712 /* BottomSheetTableViewCell.swift in Sources */,
 				824D5BFA28BDD89C00EDC712 /* EIPOIItem.swift in Sources */,
