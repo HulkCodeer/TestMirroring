@@ -159,6 +159,12 @@ class ChargerStationInfo {
         if !filter.isHighwayDown && (stationInfo.mSkind == "05" && stationInfo.mDirection == 2){
             return false
         }
+
+        if MemberManager.shared.isLogin {
+            if filter.isFavoriteChecked && !self.mFavorite {
+                return false
+            }
+        }
         
         // 운영 기관
         if !filter.getCompanySelected(companyId: stationInfo.mCompanyId!) {

@@ -129,6 +129,15 @@ internal final class FilterManager {
         return filter.isMembershipCardChecked
     }
     
+    internal func saveIsFavoriteChecked(_ isChecked: Bool) {
+        filter.isFavoriteChecked = isChecked
+        defaults.saveBool(key: UserDefault.Key.FILTER_FAVORITE, value: isChecked)
+    }
+    
+    internal func getIsFavoriteChecked() -> Bool {
+        return filter.isFavoriteChecked
+    }
+    
     internal var groupList: Array<CompanyGroup>? {
         get {
             return defaults.getUserDefault(UserDefault.Key.FILTER_CHARGING_PROVIDER_LIST_SAVE) as? Array<CompanyGroup>

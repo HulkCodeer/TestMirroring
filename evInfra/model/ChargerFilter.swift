@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol DelegateFilterChange: class {    
+protocol DelegateFilterChange: AnyObject {
     func onChangedFilter(type: FilterType)
 }
 
@@ -38,6 +38,7 @@ class ChargerFilter {
     var destination = true
     
     var isMembershipCardChecked = true
+    var isFavoriteChecked = true
     
     var companyDictionary: [String: CompanyInfoDto] = [:]
     

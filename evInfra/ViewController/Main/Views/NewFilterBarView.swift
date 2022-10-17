@@ -254,20 +254,30 @@ internal final class NewFilterBarView: UIView {
                 }
                 .disposed(by: self.disposeBag)
         case .favorite:
-            let isSelected = FilterManager.sharedInstance.getIsFavoriteChecked()
-            view.IBborderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
-            titleLbl.textColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-            imgView.tintColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-            imgView.image = isSelected ? typeImageProperty.imgSelect : typeImageProperty.imgUnSelect
-            
+            MemberManager.shared.tryToLoginCheck { isLogin in
+                if isLogin {
+                    let isSelected = FilterManager.sharedInstance.getIsFavoriteChecked()
+                    view.IBborderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
+                    titleLbl.textColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+                    imgView.tintColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+                    imgView.image = isSelected ? typeImageProperty.imgSelect : typeImageProperty.imgUnSelect
+                } 
+            }
+
             btn.rx.tap
                 .asDriver()
                 .drive(with: self) { obj, _ in
-                    let isFavoriteFilter = FilterManager.sharedInstance.getIsFavoriteChecked()
-                    FilterManager.sharedInstance.saveIsFavoriteChecked(!isFavoriteFilter)
-                    Observable.just(MainReactor.Action.setFavoriteFilter(!isFavoriteFilter))
-                        .bind(to: reactor.action)
-                        .disposed(by: obj.disposeBag)
+                    MemberManager.shared.tryToLoginCheck { isLogin in
+                        if isLogin {
+                            let isFavoriteFilter = FilterManager.sharedInstance.getIsFavoriteChecked()
+                            FilterManager.sharedInstance.saveIsFavoriteChecked(!isFavoriteFilter)
+                            Observable.just(MainReactor.Action.setFavoriteFilter(!isFavoriteFilter))
+                                .bind(to: reactor.action)
+                                .disposed(by: obj.disposeBag)
+                        } else {
+                            MemberManager.shared.showLoginAlert()
+                        }
+                    }
                 }
                 .disposed(by: self.disposeBag)
             
