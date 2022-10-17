@@ -31,6 +31,7 @@ internal final class LeftViewReactor: ViewModel, Reactor {
     enum Mutation {
         case setMenuCategoryType(MenuCategoryType)
         case setMyBerryPoint(String)
+        case setIsAllBerryFirst(Bool)
         case setIsAllBerry(Bool)
         case empty
     }
@@ -62,7 +63,7 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                 .map { pointModel in
                     return .setMyBerryPoint(pointModel.displayPoint)
                 },
-                             self.provider.postGetIsAllBerry()
+             self.provider.postGetIsAllBerry()
                 .observe(on: self.backgroundScheduler)
                 .convertData()
                 .compactMap(convertToIsUseAllBerry)
@@ -177,10 +178,15 @@ internal final class LeftViewReactor: ViewModel, Reactor {
             newState.myBerryPoint = point
             
         case .setIsAllBerry(let isAll):
+            guard isAll else { return newState }
+            let message = "0".equals(self.currentState.myBerryPoint) ? "베리가 적립되면 다음 충전 시 베리가 자동으로 전액 사용됩니다." : "다음 충전 후 결제 시 베리가 전액 사용됩니다."
+            Snackbar().show(message: "\(message)")
             newState.isAllBerry = isAll
             
         case .empty: break
             
+        case .setIsAllBerryFirst(let isAll):
+            newState.isAllBerry = isAll
         }
         return newState
     }

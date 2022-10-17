@@ -446,6 +446,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
             let displayNickname = MemberManager.shared.memberNickName
             self.nicknameLbl.text = displayNickname.count > 10 ? "\(displayNickname.substring(to: 10))..." : displayNickname
             
+            guard _reactor.currentState.isAllBerry != nil else { return }
             Observable.just(LeftViewReactor.Action.getMyBerryPoint)
                 .bind(to: _reactor.action)
                 .disposed(by: self.disposeBag)                        
@@ -497,12 +498,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         
         reactor.state.compactMap { $0.isAllBerry }
             .asDriver(onErrorJustReturn: false)
-            .drive(with: self) { obj, isOn in
-                obj.useAllMyBerrySw.isOn = isOn
-                guard isOn else { return }
-                let message = "0".equals(reactor.currentState.myBerryPoint) ? "베리가 적립되면 다음 충전 시 베리가 자동으로 전액 사용됩니다." : "다음 충전 후 결제 시 베리가 전액 사용됩니다."
-                Snackbar().show(message: "\(message)")
-            }
+            .drive(self.useAllMyBerrySw.rx.isOn)
             .disposed(by: self.disposeBag)
         
         myBerryRefreshBtn.rx.tap
