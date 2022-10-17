@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol SearchTableViewViewDelegate: class {
+protocol SearchTableViewViewDelegate: AnyObject {
     func didAddrSelectRow(row: Int)
 }
 

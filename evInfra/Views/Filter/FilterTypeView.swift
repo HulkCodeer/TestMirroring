@@ -9,7 +9,7 @@
 import Foundation
 
 
-protocol DelegateSlowTypeChange: class {
+protocol DelegateSlowTypeChange: AnyObject {
     func onChangeSlowType(slowOn: Bool)
 }
 

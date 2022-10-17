@@ -9,7 +9,7 @@
 import RxSwift
 import Alamofire
 
-protocol SoftberryAPI: class {
+protocol SoftberryAPI: AnyObject {
     func getCheckPassword(password: String, cardNo: String) -> Observable<(HTTPURLResponse, Data)>
     func postReissueMembershipCard(model: ReissuanceModel) -> Observable<(HTTPURLResponse, Data)>
     

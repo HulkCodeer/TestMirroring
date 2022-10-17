@@ -14,7 +14,9 @@ internal final class MembershipGuideViewController: BaseViewController, WKUIDele
     
     // MARK: VARIABLE
     
-    private let disposebag = DisposeBag()    
+    private let disposebag = DisposeBag()
+    
+    internal weak var delegate: LeftViewReactorDelegate?
     
     // MARK: UI
     
@@ -95,13 +97,12 @@ internal final class MembershipGuideViewController: BaseViewController, WKUIDele
         
         membershipRegisterBtn.rx.tap
             .asDriver()
-            .drive(onNext: {[weak self] _ in
-                guard let self = self else { return }
-                let storyboard = UIStoryboard(name : "Membership", bundle: nil)
-                let mbsIssueVC = storyboard.instantiateViewController(ofType: MembershipIssuanceViewController.self)
-                self.navigationController?.push(viewController: mbsIssueVC)                                
+            .drive(with: self) { obj, _ in
+                let viewcon = UIStoryboard(name : "Membership", bundle: nil).instantiateViewController(ofType: MembershipIssuanceViewController.self)
+                viewcon.delegate = obj
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 PaymentEvent.clickApplyEVICard.logEvent()
-            })
+            }
             .disposed(by: disposebag)
     }
             
@@ -151,5 +152,10 @@ extension MembershipGuideViewController: UIWebViewDelegate {
 }
 
 extension MembershipGuideViewController: WKNavigationDelegate {
-    
+}
+
+extension MembershipGuideViewController: LeftViewReactorDelegate {
+    func completeMembershipCard() {
+        self.delegate?.completeMembershipCard()
+    }
 }

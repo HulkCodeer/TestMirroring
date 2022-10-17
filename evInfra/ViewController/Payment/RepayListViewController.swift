@@ -11,7 +11,7 @@ import SwiftyJSON
 import Material
 import M13Checkbox
 
-protocol RepaymentListDelegate: class {
+protocol RepaymentListDelegate: AnyObject {
     func onRepaySuccess()
     func onRepayFail()
 }

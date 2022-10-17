@@ -11,7 +11,7 @@ import RxSwift
 import SwiftyJSON
 import EasyTipView
 
-protocol PartnershipListViewDelegate: class {
+protocol PartnershipListViewDelegate: AnyObject {
     func addNewPartnership()
     func showEvinfraMembershipInfo(info : MemberPartnershipInfo)    
     func moveMembershipUseGuideView()

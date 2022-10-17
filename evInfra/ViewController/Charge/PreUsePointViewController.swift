@@ -148,21 +148,124 @@ class PreUsePointViewController: UIViewController {
     }
     
     func saveUsePoint() {
-        Server.setUsePoint (usePoint: preUsePoint, useNow: true) { [weak self] (isSuccess, value) in
-            guard let self = self else { return }
-            if isSuccess {
-                let json = JSON(value)
-                if json["code"].stringValue == "1000" {
-                    self.oldUsePoint = self.preUsePoint
-                    Snackbar().show(message: "설정이 저장되었습니다.")
-                    self.updateView()
-                    
-                    let setBerryAmount: String = self.preUsePoint == -1 ? "전액" : "\(self.preUsePoint)"
-                    let property: [String: Any] = ["setberryAmount": setBerryAmount]
-                    PaymentEvent.clickSetUpBerry.logEvent(property: property)
+//        let hasPayment = MemberManager.shared.hasPayment
+//        let hasMembership = MemberManager.shared.hasMembership
+        
+        // TEST CODE
+        let hasPayment = false
+        let hasMembership = false
+        
+        switch (hasPayment, hasMembership) {
+        case (false, false): // 피그마 case 1
+            let popupModel = PopupModel(title: "EV Pay카드를 발급하시겠어요?",
+                                        message: "베리는 EV Pay카드 발급 후\n충전 시 베리로 할인 받을 수 있어요.",
+                                        confirmBtnTitle: "네 발급할게요.", cancelBtnTitle: "다음에 할게요.",
+                                        confirmBtnAction: {
+                let viewcon = MembershipGuideViewController()
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+            }, textAlignment: .center)
+                
+            let popup = VerticalConfirmPopupViewController(model: popupModel)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+            })
+            
+        case (false, true), (true, false), (true, true) : // 피그마 나머지 케이스 // 미수금 체크
+            Server.getPayRegisterStatus { [weak self] (isSuccess, value) in
+                guard let self = self else { return }
+                if isSuccess {
+                    let json = JSON(value)
+                    let payCode = json["pay_code"].intValue
+                    switch PaymentStatus(rawValue: payCode) {
+                    case .PAY_FINE_USER:
+                        switch (hasPayment, hasMembership) {
+                        case (false, true): // 피그마 case 2
+                            let popupModel = PopupModel(title: "결제 카드를 확인해주세요",
+                                                        message: "현재 회원님의 결제정보에 오류가 있어\n다음 충전 시 베리를 사용할 수 없어요.",
+                                                        confirmBtnTitle: "결제정보 확인하러가기", cancelBtnTitle: "다음에 할게요.",
+                                                        confirmBtnAction: {
+                                
+                                Server.getPayRegisterStatus { (isSuccess, value) in
+                                    if isSuccess {
+                                        let json = JSON(value)
+                                        let payCode = json["pay_code"].intValue
+                                        switch PaymentStatus(rawValue: payCode) {
+                                        case .PAY_NO_CARD_USER, .PAY_NO_USER: // 카드등록 아니된 멤버
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                                let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPayinfoViewController.self)
+                                                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                                            })
+                                                                
+                                        case .PAY_DEBTOR_USER: // 돈안낸 유저
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                                let viewcon = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: RepayListViewController.self)
+                                                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                                            })
+                                            
+                                        default: self.dismiss(animated: true)
+                                        }
+                                    } else {
+                                        self.dismiss(animated: true)
+                                        Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 결제정보관리 페이지 종료후 재시도 바랍니다.")
+                                    }
+                                }
+                                
+                            }, cancelBtnAction: {
+                                self.dismiss(animated: true)
+                            }, textAlignment: .center)
+                                                    
+                            let popup = VerticalConfirmPopupViewController(model: popupModel)
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                            })
+                            
+                        case (true, false): // 피그마 case 3
+                            UserDefault().saveBool(key: UserDefault.Key.IS_SHOW_BERRYSETTING_CASE3_POPUP, value: true)
+                            let popupModel = PopupModel(title: "더 많은 충전소에서\n베리를 적립해보세요!",
+                                                        message: "EV Pay카드 발급 시 환경부, 한국전력 등\n더 많은 충전소에서 적립할 수 있어요.",
+                                                        confirmBtnTitle: "EV Pay카드 안내 보러가기", cancelBtnTitle: "다음에 할게요.",
+                                                        confirmBtnAction: {
+                                let viewcon = MembershipGuideViewController()
+                                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                            }, textAlignment: .center)
+                                
+                            let popup = VerticalConfirmPopupViewController(model: popupModel)
+                            GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                            
+                        case (true, true): // 피그마 case 4
+                            Server.setUsePoint (usePoint: self.preUsePoint, useNow: true) { [weak self] (isSuccess, value) in
+                                guard let self = self else { return }
+                                if isSuccess {
+                                    let json = JSON(value)
+                                    if json["code"].stringValue == "1000" {
+                                        self.oldUsePoint = self.preUsePoint
+                                        Snackbar().show(message: "설정이 저장되었습니다.")
+                                        self.updateView()
+                                        
+                                        let setBerryAmount: String = self.preUsePoint == -1 ? "전액" : "\(self.preUsePoint)"
+                                        let property: [String: Any] = ["setberryAmount": setBerryAmount]
+                                        PaymentEvent.clickSetUpBerry.logEvent(property: property)
+                                    }
+                                } else {
+                                    Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 페이지 종료 후 재시도 바랍니다.")
+                                }
+                            }
+                            
+                        default: break
+                        }
+                                                                                                    
+                    case .PAY_DEBTOR_USER: // 돈안낸 유저
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                            let viewcon = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: RepayListViewController.self)
+                            GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                        })
+                                                                                    
+                    default: self.dismiss(animated: true)
+                    }
+                } else {
+                    self.dismiss(animated: true)
+                    Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 결제정보관리 페이지 종료후 재시도 바랍니다.")
                 }
-            } else {
-                Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 페이지 종료 후 재시도 바랍니다.")
             }
         }
     }

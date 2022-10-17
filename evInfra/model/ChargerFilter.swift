@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol DelegateFilterChange: class {    
+protocol DelegateFilterChange: AnyObject {    
     func onChangedFilter(type: FilterType)
 }
 

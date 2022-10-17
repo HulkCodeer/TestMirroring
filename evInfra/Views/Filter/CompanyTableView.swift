@@ -18,7 +18,7 @@ class CompanyGroup {
     }
 }
 
-protocol CompanyTableDelegate: class {
+protocol CompanyTableDelegate: AnyObject {
     func onClickTag(tagName: String, value: Bool)
 }
 
