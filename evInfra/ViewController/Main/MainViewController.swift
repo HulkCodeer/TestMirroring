@@ -94,8 +94,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     private var summaryView: SummaryView!
     internal var disposeBag = DisposeBag()
     
-    private var evPayTipView = EasyTipView(text: "")
-    private var qrTipView = EasyTipView(text: "")
+    private var evPayTipView = EasyTipView(text: "")    
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -217,26 +216,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
             self.evPayTipView = EasyTipView(text: evPayTiptext, preferences: evPayPreferences)
             self.evPayTipView.show(forView: self.filterBarView.evPayView, withinSuperview: self.view)
         }
-                        
-        if !MemberManager.shared.isShowQrTooltip {
-            var qrTipPreferences = EasyTipView.Preferences()
-            
-            qrTipPreferences.drawing.backgroundColor = Colors.backgroundAlwaysDark.color
-            qrTipPreferences.drawing.foregroundColor = Colors.backgroundSecondary.color
-            qrTipPreferences.drawing.textAlignment = NSTextAlignment.center
-            
-            qrTipPreferences.drawing.arrowPosition = .top
-            
-            qrTipPreferences.animating.dismissTransform = CGAffineTransform(translationX: -30, y: -100)
-            qrTipPreferences.animating.showInitialTransform = CGAffineTransform(translationX: 30, y: 100)
-            qrTipPreferences.animating.showInitialAlpha = 1
-            qrTipPreferences.animating.showDuration = 1
-            qrTipPreferences.animating.dismissDuration = 1
-            
-            let qrTipText = "한국전력과 GS칼텍스에서\nQR충전을 할 수 있어요!"
-            self.qrTipView = EasyTipView(text: qrTipText, preferences: qrTipPreferences)
-            self.qrTipView.show(forView: self.btn_main_charge, withinSuperview: self.view)
-        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -246,11 +225,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
         if !MemberManager.shared.isShowEvPayTooltip && !FCMManager.sharedInstance.originalMemberId.isEmpty {
             self.evPayTipView.dismiss()
             MemberManager.shared.isShowEvPayTooltip = true
-        }
-        
-        if !MemberManager.shared.isShowQrTooltip {
-            self.qrTipView.dismiss()
-            MemberManager.shared.isShowQrTooltip = true
         }
     }
     
@@ -532,11 +506,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
         if !MemberManager.shared.isShowEvPayTooltip {
             self.evPayTipView.dismiss()
             MemberManager.shared.isShowEvPayTooltip = true
-        }
-        
-        if !MemberManager.shared.isShowQrTooltip {
-            self.qrTipView.dismiss()
-            MemberManager.shared.isShowQrTooltip = true
         }
     }
     

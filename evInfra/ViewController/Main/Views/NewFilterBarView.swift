@@ -177,7 +177,7 @@ internal final class NewFilterBarView: UIView {
             $0.text = "EV Pay"
         }
         
-        let typeImageProperty = (image: Icons.iconElectricFillXs.image, imgUnSelectColor: Colors.contentSecondary.color, imgSelectColor : Colors.borderPositive.color)
+        let typeImageProperty = (image: Icons.iconElectricFillXs.image, imgUnSelectColor: Colors.contentSecondary.color, imgSelectColor : Colors.gr6.color)
         
         let imgView = UIImageView().then {
             $0.image = typeImageProperty.image
@@ -219,8 +219,8 @@ internal final class NewFilterBarView: UIView {
         
         let isSelected = FilterManager.sharedInstance.getIsMembershipCardChecked()
         view.IBborderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
-        titleLbl.textColor = isSelected ? Colors.borderPositive.color : Colors.contentSecondary.color
-        imgView.tintColor = isSelected ? Colors.borderPositive.color : Colors.contentSecondary.color
+        titleLbl.textColor = isSelected ? Colors.gr6.color : Colors.contentSecondary.color
+        imgView.tintColor = isSelected ? Colors.gr6.color : Colors.contentSecondary.color
                         
         btn.rx.tap
             .asDriver()
@@ -391,7 +391,7 @@ internal final class NewFilterBarView: UIView {
             .drive(with: self) { obj, selectedFilterInfo in
                 let isSelected = selectedFilterInfo.filterTagType == filterTagType ? selectedFilterInfo.isSeleted : false
                 view.IBborderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
-                titleLbl.textColor = isSelected ? Colors.borderPositive.color : Colors.contentSecondary.color
+                titleLbl.textColor = isSelected ? Colors.gr6.color : Colors.contentSecondary.color
                 btn.isSelected = isSelected
             }
             .disposed(by: self.disposeBag)

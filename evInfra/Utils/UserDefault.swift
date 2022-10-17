@@ -39,8 +39,7 @@ class UserDefault {
         static let MB_PHONE = "mb_phone"
         static let MB_REG_DATE = "reg_date"
         static let MB_POINT = "point"
-        static let MB_HAS_REPRESENTED = "mb_has_represented"
-        static let IS_SHOW_QR_TOOLTIP = "is_show_qr_tooltip"
+        static let MB_HAS_REPRESENTED = "mb_has_represented"        
         static let IS_SHOW_EVPAY_TOOLTIP = "is_show_evpay_tooltip"
                 
         // 필터 - 개인 설정
@@ -213,6 +212,13 @@ class UserDefault {
             return value as AnyObject
         } else {
             return nil
+        }
+    }
+    
+    func deleteNoUseKey() {
+        let deleteKeys: [String] = ["is_show_qr_tooltip"]
+        for keyStr in deleteKeys {
+            self.removeObjectForKey(key: keyStr)
         }
     }
 }
