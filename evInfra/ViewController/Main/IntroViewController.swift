@@ -148,7 +148,7 @@ internal final class IntroViewController: UIViewController {
                     CLLocationManager().requestWhenInUseAuthorization()
                 }
                 .disposed(by: self.disposeBag)
-            
+                        
             if FCMManager.sharedInstance.originalMemberId.isEmpty {
                 self.movePerminssonsGuideView()                
             } else {
