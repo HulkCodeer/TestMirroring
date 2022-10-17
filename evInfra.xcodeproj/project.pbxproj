@@ -185,6 +185,9 @@
 		59BAB6FF28F50B7500077872 /* UnderLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB6FE28F50B7500077872 /* UnderLineTextField.swift */; };
 		59BAB70028F50B7500077872 /* UnderLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB6FE28F50B7500077872 /* UnderLineTextField.swift */; };
 		59BAB70128F50B7500077872 /* UnderLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB6FE28F50B7500077872 /* UnderLineTextField.swift */; };
+		59BAB70328FD14B900077872 /* MainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB70228FD14B900077872 /* MainManager.swift */; };
+		59BAB70428FD16F600077872 /* MainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB70228FD14B900077872 /* MainManager.swift */; };
+		59BAB70528FD16F700077872 /* MainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB70228FD14B900077872 /* MainManager.swift */; };
 		59EC3B7128D18CD8001A18B5 /* NewNoticeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59317D1128B7702C00B1AE92 /* NewNoticeDetailViewController.swift */; };
 		59EC3B7A28D32A1D001A18B5 /* ViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7928D32A1D001A18B5 /* ViewConstants.swift */; };
 		59EC3B7C28D32A33001A18B5 /* DateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7B28D32A33001A18B5 /* DateConstants.swift */; };
@@ -1576,6 +1579,7 @@
 		596522E528C877F000FD4025 /* NoticeCellReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeCellReactor.swift; sourceTree = "<group>"; };
 		59BAB6FA28F0346300077872 /* MainSearchWayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSearchWayView.swift; sourceTree = "<group>"; };
 		59BAB6FE28F50B7500077872 /* UnderLineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderLineTextField.swift; sourceTree = "<group>"; };
+		59BAB70228FD14B900077872 /* MainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainManager.swift; sourceTree = "<group>"; };
 		59EC3B7928D32A1D001A18B5 /* ViewConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewConstants.swift; sourceTree = "<group>"; };
 		59EC3B7B28D32A33001A18B5 /* DateConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConstants.swift; sourceTree = "<group>"; };
 		59EC3B7D28D32A49001A18B5 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -2099,6 +2103,7 @@
 				192A338227FE747E00EF1684 /* Marker.swift */,
 				636BE34828A0E7CD005773CE /* NewLeftViewController.swift */,
 				636BE34B28A0E998005773CE /* LeftViewReactor.swift */,
+				59BAB70228FD14B900077872 /* MainManager.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -4520,6 +4525,7 @@
 				63F31468284EC74F001713D2 /* CommunityBoardTableViewHeader.swift in Sources */,
 				63F3146A284EC74F001713D2 /* BoardTableViewDelegate.swift in Sources */,
 				63F3146B284EC74F001713D2 /* StringUtils.swift in Sources */,
+				59BAB70428FD16F600077872 /* MainManager.swift in Sources */,
 				63F3146C284EC74F001713D2 /* CommunityBoardAdsCell.swift in Sources */,
 				63F3146D284EC74F001713D2 /* SearchTypeSelectView.swift in Sources */,
 				63F3146F284EC74F001713D2 /* AlertView.swift in Sources */,
@@ -4844,6 +4850,7 @@
 				82E1302428DEACF100E7983D /* SoftberryAPI.swift in Sources */,
 				525E3A2A278D729600F5C54D /* CommunityBoardTableViewHeader.swift in Sources */,
 				736D37C620871B15009535EE /* BoardTableViewDelegate.swift in Sources */,
+				59BAB70328FD14B900077872 /* MainManager.swift in Sources */,
 				902A11DA248F5E440049EF8E /* StringUtils.swift in Sources */,
 				52B5DECF27CEFFBD006F8325 /* CommunityBoardAdsCell.swift in Sources */,
 				52B53D2F27BCF30100D446A9 /* SearchTypeSelectView.swift in Sources */,
@@ -5009,6 +5016,7 @@
 				824D5C4A28BDD89C00EDC712 /* Colors+Generated.swift in Sources */,
 				824D5C4B28BDD89C00EDC712 /* UIDevice+Extension.swift in Sources */,
 				824D5C4C28BDD89C00EDC712 /* TermsViewController.swift in Sources */,
+				59BAB70528FD16F700077872 /* MainManager.swift in Sources */,
 				824D5C4D28BDD89C00EDC712 /* IconTextRectButton.swift in Sources */,
 				824D5C4E28BDD89C00EDC712 /* BoardDetailViewModel.swift in Sources */,
 				824D5C4F28BDD89C00EDC712 /* EIAdManager.swift in Sources */,
