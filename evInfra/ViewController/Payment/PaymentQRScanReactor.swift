@@ -185,7 +185,7 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
                 let popupModel = PopupModel(title: "\(title)",
                                             message: "\(msg)",
                                             confirmBtnTitle: "EV Pay카드 발급하기", cancelBtnTitle: "닫기",
-                                            confirmBtnAction: {
+                                            confirmBtnAction: {                    
                     let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPayinfoViewController.self)
                     GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 }, cancelBtnAction: {

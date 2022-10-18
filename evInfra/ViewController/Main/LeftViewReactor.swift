@@ -111,7 +111,7 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                             let popupModel = PopupModel(title: "EV Pay카드를 발급하시겠어요?",
                                                         message: "베리는 EV Pay카드 발급 후\n충전 시 베리로 할인 받을 수 있어요.",
                                                         confirmBtnTitle: "네 발급할게요.", cancelBtnTitle: "다음에 할게요.",
-                                                        confirmBtnAction: {
+                                                        confirmBtnAction: {                                
                                 let viewcon = MembershipGuideViewController()
                                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                             }, textAlignment: .center)
@@ -208,7 +208,6 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                                             message: "현재 회원님의 결제정보에 오류가 있어\n다음 충전 시 베리를 사용할 수 없어요.",
                                             confirmBtnTitle: "결제정보 확인하러가기", cancelBtnTitle: "다음에 할게요.",
                                             confirmBtnAction: {
-                    
                     let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPayinfoViewController.self)
                     GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                     
