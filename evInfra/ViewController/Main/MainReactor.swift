@@ -12,12 +12,14 @@ import SwiftyJSON
 internal final class MainReactor: ViewModel, Reactor {
     typealias SelectedFilterInfo = (filterTagType: FilterTagType, isSeleted: Bool)
     typealias SelectedPlaceFilter = (placeType: PlaceType, isSelected: Bool)
+    typealias SelectedRoadFilter = (roadType: RoadType, isSelected: Bool)
     
     enum Action {        
         case showMarketingPopup
         case setAgreeMarketing(Bool)
         case setSelectedFilterInfo(SelectedFilterInfo)
         case setSelectedPlaceFilter(SelectedPlaceFilter)
+        case setSelectedRoadFilter(SelectedRoadFilter)
         case swipeLeft
         case swipeRight
         case showFilterSetting
@@ -32,6 +34,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case setShowStartBanner(Bool)
         case setSelectedFilterInfo(SelectedFilterInfo)
         case setSelectedPlaceFilter(SelectedPlaceFilter)
+        case setSelectedRoadFilter(SelectedRoadFilter)
         case showFilterSetting
         case updateFilterBarTitle
         case setEvPayFilter(Bool)
@@ -44,6 +47,7 @@ internal final class MainReactor: ViewModel, Reactor {
         var isShowStartBanner: Bool?
         var selectedFilterInfo: SelectedFilterInfo?
         var selectedPlaceFilter: SelectedPlaceFilter?
+        var selectedRoadFilter: SelectedRoadFilter?
         var isShowFilterSetting: Bool?
         var isUpdateFilterBarTitle: Bool?
         var isEvPayFilter: Bool?
@@ -82,6 +86,9 @@ internal final class MainReactor: ViewModel, Reactor {
         case .setSelectedPlaceFilter(let selectedPlaceFilter):
             return .just(.setSelectedPlaceFilter(selectedPlaceFilter))
             
+        case .setSelectedRoadFilter(let selectedRoadFilter):
+            return .just(.setSelectedRoadFilter(selectedRoadFilter))
+            
         case .swipeLeft:
             let selectedFilterInfo: SelectedFilterInfo = (filterTagType: self.currentState.selectedFilterInfo?.filterTagType.swipeLeft() ?? .speed, isSeleted: true)
             return .just(.setSelectedFilterInfo(selectedFilterInfo))
@@ -112,7 +119,6 @@ internal final class MainReactor: ViewModel, Reactor {
         var newState = state
         newState.isShowMarketingPopup = nil        
         newState.isShowFilterSetting = nil
-        newState.isUpdateFilterBarTitle = nil
         newState.isShowEvPayToolTip = nil        
         
         switch mutation {
@@ -128,6 +134,10 @@ internal final class MainReactor: ViewModel, Reactor {
             
         case .setSelectedPlaceFilter(let selectedPlaceFilter):
             newState.selectedPlaceFilter = selectedPlaceFilter
+            newState.isUpdateFilterBarTitle = true
+            
+        case .setSelectedRoadFilter(let selectedRoadFilter):
+            newState.selectedRoadFilter = selectedRoadFilter
             newState.isUpdateFilterBarTitle = true
             
         case .showFilterSetting:

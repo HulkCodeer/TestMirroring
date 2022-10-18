@@ -209,6 +209,27 @@ internal final class FilterManager {
         }
     }
     
+    func saveGeneralRoad(with isSelect: Bool) {
+        if filter.isGeneralWay != isSelect {
+            filter.isGeneralWay = isSelect
+            defaults.saveBool(key: UserDefault.Key.FILTER_GENERAL_WAY, value: isSelect)
+        }
+    }
+    
+    func saveHighwayUp(with isSelect: Bool) {
+        if filter.isHighwayUp != isSelect {
+            filter.isHighwayUp = isSelect
+            defaults.saveBool(key: UserDefault.Key.FILTER_HIGHWAY_UP, value: isSelect)
+        }
+    }
+    
+    func saveHighwayDown(with isSelect: Bool) {
+        if filter.isHighwayDown != isSelect {
+            filter.isHighwayDown = isSelect
+            defaults.saveBool(key: UserDefault.Key.FILTER_HIGHWAT_DOWN, value: isSelect)
+        }
+    }
+    
     func saveAccessFilter(isPublic: Bool, nonPublic:Bool) {
         if (filter.isPublic != isPublic){
             filter.isPublic = isPublic
@@ -323,7 +344,7 @@ internal final class FilterManager {
         return title
     }
     
-    internal func getPlaceChanged() -> Bool {
+    internal func shouldPlaceChanged() -> Bool {
         guard (filter.isIndoor || filter.isOutdoor || filter.isCanopy) else { return false }
         return true
     }
@@ -345,6 +366,11 @@ internal final class FilterManager {
             }
         }
         return title
+    }
+    
+    internal func shouldRoadChanged() -> Bool {
+        guard (filter.isGeneralWay || filter.isHighwayUp || filter.isHighwayDown) else { return false }
+        return true
     }
     
     func getTypeTitle() -> String {

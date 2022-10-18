@@ -82,6 +82,9 @@
 		193A4DAC27FAAEC000B604D3 /* NaverMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193A4DAB27FAAEC000B604D3 /* NaverMapView.swift */; };
 		193C95C4289906DB00CD61D6 /* GlobalAdsReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193C95C3289906DB00CD61D6 /* GlobalAdsReactor.swift */; };
 		193C95C5289906DB00CD61D6 /* GlobalAdsReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193C95C3289906DB00CD61D6 /* GlobalAdsReactor.swift */; };
+		1946E4F128FE312000CC9156 /* NewFilterRoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1946E4F028FE312000CC9156 /* NewFilterRoadView.swift */; };
+		1946E4F228FE312000CC9156 /* NewFilterRoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1946E4F028FE312000CC9156 /* NewFilterRoadView.swift */; };
+		1946E4F328FE312000CC9156 /* NewFilterRoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1946E4F028FE312000CC9156 /* NewFilterRoadView.swift */; };
 		1947A92D28A39F0600124904 /* AdsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B4C7D7289A420900C6BE84 /* AdsModel.swift */; };
 		1947A92E28A39F8000124904 /* NewEventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191FB60328A0CA40005248C8 /* NewEventDetailViewController.swift */; };
 		194C02682897CF8C00DADA8D /* StartBannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194C02672897CF8C00DADA8D /* StartBannerViewController.swift */; };
@@ -1500,6 +1503,7 @@
 		192A338427FED07C00EF1684 /* CLLocationCoordinate2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocationCoordinate2D.swift; sourceTree = "<group>"; };
 		193A4DAB27FAAEC000B604D3 /* NaverMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverMapView.swift; sourceTree = "<group>"; };
 		193C95C3289906DB00CD61D6 /* GlobalAdsReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalAdsReactor.swift; sourceTree = "<group>"; };
+		1946E4F028FE312000CC9156 /* NewFilterRoadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFilterRoadView.swift; sourceTree = "<group>"; };
 		194C02672897CF8C00DADA8D /* StartBannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartBannerViewController.swift; sourceTree = "<group>"; };
 		194EEB5628BC723200280299 /* AmpBoardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmpBoardModel.swift; sourceTree = "<group>"; };
 		195C4E8128C5CE3F000B47F7 /* BannerPagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerPagerView.swift; sourceTree = "<group>"; };
@@ -2058,6 +2062,7 @@
 				00A7D5C726B7B0D100C5DBCC /* Filter.storyboard */,
 				00A7D5D126B7DA2100C5DBCC /* ChargerFilterViewController.swift */,
 				19D85C8428FCF016000B1BB1 /* NewFilterPlaceView.swift */,
+				1946E4F028FE312000CC9156 /* NewFilterRoadView.swift */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -4469,6 +4474,7 @@
 				63F3143F284EC74F001713D2 /* EvInfoViewController.swift in Sources */,
 				63F31440284EC74F001713D2 /* FilterTypeView.swift in Sources */,
 				63F31441284EC74F001713D2 /* DeepLinkPath.swift in Sources */,
+				1946E4F228FE312000CC9156 /* NewFilterRoadView.swift in Sources */,
 				63F31442284EC74F001713D2 /* IntroViewController.swift in Sources */,
 				633FF2FD28B342630041BDBB /* CheckBox.swift in Sources */,
 				63F31443284EC74F001713D2 /* EventTableViewCell.swift in Sources */,
@@ -4790,6 +4796,7 @@
 				735759552091758C008181E9 /* EvInfoViewController.swift in Sources */,
 				00A3659F26C4E98D00424E40 /* FilterTypeView.swift in Sources */,
 				00EAB7C627228F42004E78D2 /* DeepLinkPath.swift in Sources */,
+				1946E4F128FE312000CC9156 /* NewFilterRoadView.swift in Sources */,
 				73F6B53A20F873110030D0B3 /* IntroViewController.swift in Sources */,
 				CE33B4BF2191BD0900B6C632 /* EventTableViewCell.swift in Sources */,
 				633FF2FC28B342630041BDBB /* CheckBox.swift in Sources */,
@@ -5111,6 +5118,7 @@
 				824D5CA528BDD89C00EDC712 /* FilterTypeView.swift in Sources */,
 				824D5CA628BDD89C00EDC712 /* DeepLinkPath.swift in Sources */,
 				824D5CA728BDD89C00EDC712 /* IntroViewController.swift in Sources */,
+				1946E4F328FE312000CC9156 /* NewFilterRoadView.swift in Sources */,
 				824D5CA828BDD89C00EDC712 /* CheckBox.swift in Sources */,
 				824D5CA928BDD89C00EDC712 /* EventTableViewCell.swift in Sources */,
 				824D5CAA28BDD89C00EDC712 /* CidTableView.swift in Sources */,
