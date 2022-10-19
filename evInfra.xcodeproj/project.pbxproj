@@ -85,6 +85,12 @@
 		1946E4F128FE312000CC9156 /* NewFilterRoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1946E4F028FE312000CC9156 /* NewFilterRoadView.swift */; };
 		1946E4F228FE312000CC9156 /* NewFilterRoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1946E4F028FE312000CC9156 /* NewFilterRoadView.swift */; };
 		1946E4F328FE312000CC9156 /* NewFilterRoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1946E4F028FE312000CC9156 /* NewFilterRoadView.swift */; };
+		1946E4F528FE95AF00CC9156 /* NewFilterTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1946E4F428FE95AF00CC9156 /* NewFilterTypeView.swift */; };
+		1946E4F628FE95AF00CC9156 /* NewFilterTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1946E4F428FE95AF00CC9156 /* NewFilterTypeView.swift */; };
+		1946E4F728FE95AF00CC9156 /* NewFilterTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1946E4F428FE95AF00CC9156 /* NewFilterTypeView.swift */; };
+		1946E4F928FE97FF00CC9156 /* NewTagListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1946E4F828FE97FF00CC9156 /* NewTagListViewCell.swift */; };
+		1946E4FA28FE97FF00CC9156 /* NewTagListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1946E4F828FE97FF00CC9156 /* NewTagListViewCell.swift */; };
+		1946E4FB28FE97FF00CC9156 /* NewTagListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1946E4F828FE97FF00CC9156 /* NewTagListViewCell.swift */; };
 		1947A92D28A39F0600124904 /* AdsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B4C7D7289A420900C6BE84 /* AdsModel.swift */; };
 		1947A92E28A39F8000124904 /* NewEventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191FB60328A0CA40005248C8 /* NewEventDetailViewController.swift */; };
 		194C02682897CF8C00DADA8D /* StartBannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194C02672897CF8C00DADA8D /* StartBannerViewController.swift */; };
@@ -1504,6 +1510,8 @@
 		193A4DAB27FAAEC000B604D3 /* NaverMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverMapView.swift; sourceTree = "<group>"; };
 		193C95C3289906DB00CD61D6 /* GlobalAdsReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalAdsReactor.swift; sourceTree = "<group>"; };
 		1946E4F028FE312000CC9156 /* NewFilterRoadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFilterRoadView.swift; sourceTree = "<group>"; };
+		1946E4F428FE95AF00CC9156 /* NewFilterTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFilterTypeView.swift; sourceTree = "<group>"; };
+		1946E4F828FE97FF00CC9156 /* NewTagListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTagListViewCell.swift; sourceTree = "<group>"; };
 		194C02672897CF8C00DADA8D /* StartBannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartBannerViewController.swift; sourceTree = "<group>"; };
 		194EEB5628BC723200280299 /* AmpBoardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmpBoardModel.swift; sourceTree = "<group>"; };
 		195C4E8128C5CE3F000B47F7 /* BannerPagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerPagerView.swift; sourceTree = "<group>"; };
@@ -2063,6 +2071,7 @@
 				00A7D5D126B7DA2100C5DBCC /* ChargerFilterViewController.swift */,
 				19D85C8428FCF016000B1BB1 /* NewFilterPlaceView.swift */,
 				1946E4F028FE312000CC9156 /* NewFilterRoadView.swift */,
+				1946E4F428FE95AF00CC9156 /* NewFilterTypeView.swift */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -2073,6 +2082,7 @@
 				00A7D5D526B7ED9F00C5DBCC /* TagFlowLayout.swift */,
 				00B4F54626BA2399009A904C /* TagListViewCell.swift */,
 				00B4F54826BA23B6009A904C /* TagListViewCell.xib */,
+				1946E4F828FE97FF00CC9156 /* NewTagListViewCell.swift */,
 			);
 			path = Tag;
 			sourceTree = "<group>";
@@ -4282,6 +4292,7 @@
 				194EEB5828BC768700280299 /* AmpBoardModel.swift in Sources */,
 				1947A92E28A39F8000124904 /* NewEventDetailViewController.swift in Sources */,
 				1947A92D28A39F0600124904 /* AdsModel.swift in Sources */,
+				1946E4F628FE95AF00CC9156 /* NewFilterTypeView.swift in Sources */,
 				63F313A3284EC74F001713D2 /* ImageMarker.swift in Sources */,
 				63F313A4284EC74F001713D2 /* MyWritingViewController.swift in Sources */,
 				63A9DE5028EECEC700A8BFBE /* AmpBoardModel.swift in Sources */,
@@ -4404,6 +4415,7 @@
 				63F31405284EC74F001713D2 /* UIScrollView+Extension.swift in Sources */,
 				63F31406284EC74F001713D2 /* RegisterResultViewController.swift in Sources */,
 				63F31407284EC74F001713D2 /* Snackbar.swift in Sources */,
+				1946E4FA28FE97FF00CC9156 /* NewTagListViewCell.swift in Sources */,
 				63A4F3722872F88100601018 /* RectButton.swift in Sources */,
 				63F31408284EC74F001713D2 /* ChargerStationInfo.swift in Sources */,
 				63F31409284EC74F001713D2 /* Login.swift in Sources */,
@@ -4604,6 +4616,7 @@
 				73A7B39F204E2A6E002E975F /* ImageMarker.swift in Sources */,
 				73268D5221886C3000C00427 /* MyWritingViewController.swift in Sources */,
 				00B4F54726BA2399009A904C /* TagListViewCell.swift in Sources */,
+				1946E4F528FE95AF00CC9156 /* NewFilterTypeView.swift in Sources */,
 				637247D3282A5F7900595FCE /* UIViewController+Extension.swift in Sources */,
 				00A13AD727910E4D0058C291 /* BottomSheetTableViewCell.swift in Sources */,
 				63A9DE4F28EECEC700A8BFBE /* AmpBoardModel.swift in Sources */,
@@ -4726,6 +4739,7 @@
 				902A11E2248F7A3A0049EF8E /* ChargerStationInfo.swift in Sources */,
 				63A4F3712872F88100601018 /* RectButton.swift in Sources */,
 				DB367BF124FE429D00898BED /* Login.swift in Sources */,
+				1946E4F928FE97FF00CC9156 /* NewTagListViewCell.swift in Sources */,
 				DB5041AC235066CA007336BC /* PointViewController.swift in Sources */,
 				82D986832839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift in Sources */,
 				734FBDEF219001EA00BEDB60 /* AppTabsController.swift in Sources */,
@@ -4926,6 +4940,7 @@
 				196CEE1028BDE26000C39AE6 /* AmpBoardModel.swift in Sources */,
 				824D5BF228BDD89C00EDC712 /* NewEventDetailViewController.swift in Sources */,
 				59EC3B7128D18CD8001A18B5 /* NewNoticeDetailViewController.swift in Sources */,
+				1946E4F728FE95AF00CC9156 /* NewFilterTypeView.swift in Sources */,
 				824D5BF328BDD89C00EDC712 /* AdsModel.swift in Sources */,
 				824D5BF528BDD89C00EDC712 /* ImageMarker.swift in Sources */,
 				824D5BF628BDD89C00EDC712 /* MyWritingViewController.swift in Sources */,
@@ -5048,6 +5063,7 @@
 				824D5C6528BDD89C00EDC712 /* RegisterResultViewController.swift in Sources */,
 				824D5C6628BDD89C00EDC712 /* Snackbar.swift in Sources */,
 				5975BD5428D97CF000910F6F /* DateConstants.swift in Sources */,
+				1946E4FB28FE97FF00CC9156 /* NewTagListViewCell.swift in Sources */,
 				824D5C6728BDD89C00EDC712 /* RectButton.swift in Sources */,
 				824D5C6828BDD89C00EDC712 /* ChargerStationInfo.swift in Sources */,
 				824D5C6928BDD89C00EDC712 /* Login.swift in Sources */,

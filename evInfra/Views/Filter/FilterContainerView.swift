@@ -18,10 +18,10 @@ internal final class FilterContainerView: UIView {
     // MARK: UI
     
     @IBOutlet var filterContainerView: UIView!
-    @IBOutlet var filterTypeView: FilterTypeView!
+    @IBOutlet var filterTypeView: NewFilterTypeView!
     @IBOutlet var filterSpeedView: FilterSpeedView!
     @IBOutlet var filterPriceView: FilterPriceView!
-    @IBOutlet var filterRoadView: FilterRoadView!
+    @IBOutlet var filterRoadView: NewFilterRoadView!
     @IBOutlet var filterPlaceView: NewFilterPlaceView!
     
     // MARK: VARIABLE
@@ -62,14 +62,14 @@ internal final class FilterContainerView: UIView {
         filterPlaceView.saveOnChange = true
         filterPriceView.saveOnChange = true
         
-        filterTypeView.delegate = self
+//        filterTypeView.delegate = self
         filterSpeedView.delegate = self
         filterRoadView.delegate = self
         filterPlaceView.delegate = self
         filterPriceView.delegate = self
         
         filterSpeedView.slowSpeedChangeDelegate = self
-        filterTypeView.slowTypeChangeDelegate = self
+//        filterTypeView.slowTypeChangeDelegate = self
     }
     
     // MARK: FUNC
@@ -78,6 +78,8 @@ internal final class FilterContainerView: UIView {
         self.mainReactor = reactor
         
         filterPlaceView.bind(reactor: reactor)
+        filterRoadView.bind(reactor: reactor)
+        filterTypeView.bind(reactor: reactor)
         
         reactor.state.compactMap { $0.selectedFilterInfo }
             .asDriver(onErrorJustReturn: nil)
@@ -138,8 +140,8 @@ internal final class FilterContainerView: UIView {
         filterPriceView.update()
         filterSpeedView.update()
 //        filterPlaceView.update()
-        filterRoadView.update()
-        filterTypeView.update()
+//        filterRoadView.update()
+//        filterTypeView.update()
     }
 }
 
@@ -157,6 +159,6 @@ extension FilterContainerView : DelegateSlowTypeChange {
 
 extension FilterContainerView : DelegateSlowSpeedChange {
     func onChangeSlowSpeed(isSlow: Bool) {
-        filterTypeView.setSlowTypeOn(slowTypeOn: isSlow)
+//        filterTypeView.setSlowTypeOn(slowTypeOn: isSlow)
     }
 }
