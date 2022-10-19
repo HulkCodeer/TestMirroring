@@ -459,6 +459,10 @@ internal final class MainViewController: UIViewController, StoryboardView {
             }
             .disposed(by: disposeBag)
         
+        Observable.just(MainReactor.Action.closeMenu)
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: - 네비바 bindAction
         customNaviBar.searchChargeButton.rx.tap
             .asDriver()
@@ -602,31 +606,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
             }
             .disposed(by: disposeBag)
         
-//        reactor.state.compactMap { $0.isShowMenu }
-////            .distinctUntilChanged()
-//            .filter { $0 == false }
-//            .asDriver(onErrorJustReturn: false)
-//            .drive(with: self) { owner, _ in
-//
-//            }
-//            .disposed(by: disposeBag)
-//        // 값이 바뀌는게 확실할 때. 표기?
-//
-        reactor.state.compactMap { $0.isShowMenu }
-            .filter { $0 == true }
-            .asDriver(onErrorJustReturn: true)
-            .drive(with: self) { owner, _ in
-                let menuReactor = LeftViewReactor(provider: RestApi())
-                let menuVC = NewLeftViewController()
-                menuVC.reactor = menuReactor
-    
-                guard owner.presentedViewController != menuVC else { return }
-
-                menuVC.modalPresentationStyle = .overCurrentContext
-                self.present(menuVC, animated: false)
-            }
-            .disposed(by: disposeBag)
-        
         reactor.state.compactMap { $0.isHideSearchWay }
             .asDriver(onErrorJustReturn: true)
             .drive(with: self) { owner, isHideSearchWay in
@@ -746,6 +725,13 @@ internal final class MainViewController: UIViewController, StoryboardView {
     private func closeMenu() {
         guard let _reactor = reactor else { return }
         Observable.just(MainReactor.Action.closeMenu)
+            .bind(to: _reactor.action)
+            .disposed(by: disposeBag)
+    }
+    
+    private func showMenu() {
+        guard let _reactor = reactor else { return }
+        Observable.just(MainReactor.Action.showMenu)
             .bind(to: _reactor.action)
             .disposed(by: disposeBag)
     }
@@ -1410,6 +1396,7 @@ extension MainViewController {
                     self?.selectChargerFromShared()
                     GlobalDefine.shared.sharedChargerIdFromDynamicLink = nil
                 }
+                self?.showMenu()
             }
             
             self?.checkFCM()

@@ -21,6 +21,7 @@ internal final class LeftViewReactor: ViewModel, Reactor {
         case getMyBerryPoint
         case refreshBerryPoint
         case setIsAllBerry(Bool)
+        case setOwnHide(Bool)
         case none
     }
     
@@ -38,7 +39,8 @@ internal final class LeftViewReactor: ViewModel, Reactor {
     }
     
     internal var initialState: State
-    
+    weak var leftDrawerDelegate: LeftDrawerDelegate?
+
     override init(provider: SoftberryAPI) {
         self.initialState = State()
         super.init(provider: provider)
@@ -84,6 +86,14 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                 .map { isSuccess in
                     return .setIsAllBerry(isAll)
                 }
+            
+        case .setOwnHide(let isHideMenu):
+            if isHideMenu {
+                self.leftDrawerDelegate?.closeLeftView(nil)
+            } else {
+                self.leftDrawerDelegate?.openLeftView(nil)
+            }
+            return .empty()
             
         case .none:
             return .just(.none)

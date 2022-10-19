@@ -61,13 +61,15 @@ internal final class MainReactor: ViewModel, Reactor {
         var searchDetinationData: (SearchWayPointType, String)?
     }
     
-    internal var initialState: State    
+    internal var initialState: State
+    weak var leftDrawerDelegate: LeftDrawerDelegate?
 
     override init(provider: SoftberryAPI) {
         self.initialState = State()
         super.init(provider: provider)
     }
     
+    // MARK: - mutate
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .showMarketingPopup:
@@ -110,10 +112,13 @@ internal final class MainReactor: ViewModel, Reactor {
                 .just(.setFilterType(currentState.selectedFilterTagType))
             ])
             
+            // 메뉴화면.
         case .showMenu:
+            self.leftDrawerDelegate?.openLeftView(nil)
             return .just(.setIsShowMenu(true))
             
         case .closeMenu:
+            self.leftDrawerDelegate?.closeLeftView(nil)
             return .just(.setIsShowMenu(false))
             
         case .hideSearchWay(let isHide) where isHide == true:
@@ -150,9 +155,11 @@ internal final class MainReactor: ViewModel, Reactor {
                 .just(.clearSearchPoint(searchPoint)),
                 .just(.hideDestinationResult(true))
             ])
+
         }
     }
     
+    // MARK: - reduce
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         newState.isShowMarketingPopup = nil

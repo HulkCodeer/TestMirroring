@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 import Material
 import SwiftyJSON
 import Motion
@@ -191,21 +192,7 @@ internal final class IntroViewController: UIViewController {
 //
 //        GlobalDefine.shared.mainNavi?.setViewControllers([ndController], animated: true)
 //    }
-    // 2
-//    private func moveMainView() {
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let reactor = MainReactor(provider: RestApi())
-//        let mainViewcon = storyboard.instantiateViewController(ofType: MainViewController.self)
-//        mainViewcon.reactor = reactor
-//        let leftReactor = LeftViewReactor(provider: RestApi())
-//        let leftViewcon = NewLeftViewController()
-//        leftViewcon.reactor = leftReactor
-//
-//        let appToolbarController = AppToolbarController(rootViewController: mainViewcon)
-//        appToolbarController.delegate = mainViewcon
-//        let ndController = AppNavigationDrawerController(rootViewController: appToolbarController, leftViewController: leftViewcon)
-//        GlobalDefine.shared.mainNavi?.setViewControllers([ndController], animated: true)
-//    }
+
     
     private func movePerminssonsGuideView() {
         let reactor = PermissionsGuideReactor(provider: RestApi())
@@ -266,11 +253,23 @@ extension IntroViewController: PermissionGuideDelegate {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let reactor = MainReactor(provider: RestApi())
         let mainViewcon = storyboard.instantiateViewController(ofType: MainViewController.self)
-        mainViewcon.reactor = reactor
-//        let letfViewcon = storyboard.instantiateViewController(ofType: LeftViewController.self)
         
-        let mainNavigationVC = UINavigationController(rootViewController: mainViewcon)
-        mainNavigationVC.modalPresentationStyle = .fullScreen
-        self.present(mainNavigationVC, animated: true)
+        let menuVC = NewLeftViewController()
+        let menuReactor = LeftViewReactor(provider: RestApi())
+
+        let rootVC = UINavigationController(rootViewController: mainViewcon)
+
+        mainViewcon.reactor = reactor
+        menuVC.reactor = menuReactor
+        
+        let presentVC = LeftDrawerController(rootViewController: rootVC, leftViewController: menuVC)
+        
+        reactor.leftDrawerDelegate = presentVC
+        menuReactor.leftDrawerDelegate = presentVC
+        
+        presentVC.modalPresentationStyle = .fullScreen
+        self.present(presentVC, animated: true)
+        
+        GlobalDefine.shared.mainNavi = rootVC
     }
 }
