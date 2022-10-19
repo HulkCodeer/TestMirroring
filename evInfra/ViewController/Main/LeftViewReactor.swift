@@ -40,7 +40,7 @@ internal final class LeftViewReactor: ViewModel, Reactor {
     struct State {
         var menuCategoryType: MenuCategoryType = .mypage
         var myBerryPoint: String = "0"
-        var isAllBerry: Bool?
+        var isAllBerry: Bool = false
     }
     
     internal var initialState: State
@@ -96,76 +96,88 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                 .convertData()
                 .compactMap(convertToPaymentStatus)
                 .compactMap { [weak self] isPaymentFineUser in
-                    guard let self = self, let _isAllBerry = self.currentState.isAllBerry else { return .empty }
-                    if isPaymentFineUser {
-                        let hasPayment = MemberManager.shared.hasPayment
-                        let hasMembership = MemberManager.shared.hasMembership
-                        
-                        switch (hasPayment, hasMembership) {
-                        case (false, false): // 피그마 case 1
-                            guard !_isAllBerry else {
-                                Observable.just(LeftViewReactor.Action.setIsAllBerry(!_isAllBerry))
-                                    .bind(to: self.action)
-                                    .disposed(by: self.disposeBag)
-                                return .empty
-                            }
-                            let popupModel = PopupModel(title: "EV Pay카드를 발급하시겠어요?",
-                                                        message: "베리는 EV Pay카드 발급 후\n충전 시 베리로 할인 받을 수 있어요.",
-                                                        confirmBtnTitle: "네 발급할게요.", cancelBtnTitle: "다음에 할게요.",
-                                                        confirmBtnAction: {
-                                AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "좌측메뉴 상단 베리 팝업")
-                                let viewcon = MembershipGuideViewController()
-                                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-                            }, textAlignment: .center)
-                            
-                            let popup = VerticalConfirmPopupViewController(model: popupModel)
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                                GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
-                            })
-                            
-                        case (true, false): // 피그마 case 3
-                            guard !_isAllBerry, !UserDefault().readBool(key: UserDefault.Key.IS_SHOW_BERRYSETTING_CASE3_POPUP) else {
-                                Observable.just(LeftViewReactor.Action.setIsAllBerry(!_isAllBerry))
-                                    .bind(to: self.action)
-                                    .disposed(by: self.disposeBag)
-                                return .empty
-                            }
+                    guard let self = self else { return .empty }
+                    
+                    let _isAllBerry = self.currentState.isAllBerry                    
+                    let hasPayment = isPaymentFineUser
+                    let hasMembership = MemberManager.shared.hasMembership
+                    
+                    switch (hasPayment, hasMembership) {
+                                                    
+                    case (false, false): // 피그마 case 1
+                        guard !_isAllBerry else {
                             Observable.just(LeftViewReactor.Action.setIsAllBerry(!_isAllBerry))
                                 .bind(to: self.action)
                                 .disposed(by: self.disposeBag)
-                            
-                            UserDefault().saveBool(key: UserDefault.Key.IS_SHOW_BERRYSETTING_CASE3_POPUP, value: true)
-                            let popupModel = PopupModel(title: "더 많은 충전소에서\n베리를 적립해보세요!",
-                                                        message: "EV Pay카드 발급 시 환경부, 한국전력 등\n더 많은 충전소에서 적립할 수 있어요.",
-                                                        confirmBtnTitle: "EV Pay카드 안내 보러가기", cancelBtnTitle: "다음에 할게요.",
-                                                        confirmBtnAction: {
-                                AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "좌측메뉴 상단 베리 팝업")
-                                let viewcon = MembershipGuideViewController()
-                                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-                            }, textAlignment: .center)
-                            
-                            let popup = VerticalConfirmPopupViewController(model: popupModel)
-                            GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
-                            
-                        case (true, true): // 피그마 case 4
-                            Observable.just(LeftViewReactor.Action.setIsAllBerry(!_isAllBerry))
-                                .bind(to: self.action)
-                                .disposed(by: self.disposeBag)
-                            
-                        default:
-                            Observable.just(LeftViewReactor.Action.loadPaymentStatus)
-                                .bind(to: self.action)
-                                .disposed(by: self.disposeBag)
+                            return .empty
                         }
+                        let popupModel = PopupModel(title: "EV Pay카드를 발급하시겠어요?",
+                                                    message: "베리는 EV Pay카드 발급 후\n충전 시 베리로 할인 받을 수 있어요.",
+                                                    confirmBtnTitle: "네 발급할게요.", cancelBtnTitle: "다음에 할게요.",
+                                                    confirmBtnAction: {
+                            AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "좌측메뉴 상단 베리 팝업")
+                            let viewcon = MembershipGuideViewController()
+                            GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                        }, textAlignment: .center)
                         
-                        return .empty
-                    } else {
-                        Observable.just(LeftViewReactor.Action.setIsAllBerry(isPaymentFineUser))
+                        let popup = VerticalConfirmPopupViewController(model: popupModel)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                            GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                        })
+                        
+                    case (false, true):
+                        let popupModel = PopupModel(title: "결제 카드를 확인해주세요",
+                                                    message: "현재 회원님의 결제정보에 오류가 있어\n다음 충전 시 베리를 사용할 수 없어요.",
+                                                    confirmBtnTitle: "결제정보 확인하러가기", cancelBtnTitle: "다음에 할게요.",
+                                                    confirmBtnAction: {
+                            AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "좌측메뉴 상단 베리 팝업")
+                            let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPayinfoViewController.self)
+                            viewcon.delegate = self
+                            GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                            
+                        }, textAlignment: .center)
+                                                
+                        let popup = VerticalConfirmPopupViewController(model: popupModel)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                            GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                        })
+                        
+                    case (true, false): // 피그마 case 3
+                        guard !_isAllBerry, !UserDefault().readBool(key: UserDefault.Key.IS_SHOW_BERRYSETTING_CASE3_POPUP) else {
+                            Observable.just(LeftViewReactor.Action.setIsAllBerry(!_isAllBerry))
+                                .bind(to: self.action)
+                                .disposed(by: self.disposeBag)
+                            return .empty
+                        }
+                        Observable.just(LeftViewReactor.Action.setIsAllBerry(!_isAllBerry))
                             .bind(to: self.action)
                             .disposed(by: self.disposeBag)
                         
-                        return .empty
+                        UserDefault().saveBool(key: UserDefault.Key.IS_SHOW_BERRYSETTING_CASE3_POPUP, value: true)
+                        let popupModel = PopupModel(title: "더 많은 충전소에서\n베리를 적립해보세요!",
+                                                    message: "EV Pay카드 발급 시 환경부, 한국전력 등\n더 많은 충전소에서 적립할 수 있어요.",
+                                                    confirmBtnTitle: "EV Pay카드 안내 보러가기", cancelBtnTitle: "다음에 할게요.",
+                                                    confirmBtnAction: {
+                            AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "좌측메뉴 상단 베리 팝업")
+                            let viewcon = MembershipGuideViewController()
+                            GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                        }, textAlignment: .center)
+                        
+                        let popup = VerticalConfirmPopupViewController(model: popupModel)
+                        GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                        
+                    case (true, true): // 피그마 case 4
+                        Observable.just(LeftViewReactor.Action.setIsAllBerry(!_isAllBerry))
+                            .bind(to: self.action)
+                            .disposed(by: self.disposeBag)
+                        
+//                    default:
+//                        Observable.just(LeftViewReactor.Action.loadPaymentStatus)
+//                            .bind(to: self.action)
+//                            .disposed(by: self.disposeBag)
                     }
+                    
+                    return .empty
                 }
         }
     }
@@ -206,22 +218,6 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                 return true
                                                             
             case .PAY_NO_USER, .PAY_NO_CARD_USER, .PAY_NO_VERIFY_USER, .PAY_DELETE_FAIL_USER:
-                let popupModel = PopupModel(title: "결제 카드를 확인해주세요",
-                                            message: "현재 회원님의 결제정보에 오류가 있어\n다음 충전 시 베리를 사용할 수 없어요.",
-                                            confirmBtnTitle: "결제정보 확인하러가기", cancelBtnTitle: "다음에 할게요.",
-                                            confirmBtnAction: {
-                    AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "좌측메뉴 상단 베리 팝업")
-                    let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPayinfoViewController.self)
-                    viewcon.delegate = self
-                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-                    
-                }, textAlignment: .center)
-                                        
-                let popup = VerticalConfirmPopupViewController(model: popupModel)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                    GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
-                })
-                
                 return false
                                                                                                                                
             case .PAY_DEBTOR_USER: // 돈안낸 유저
