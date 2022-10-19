@@ -243,7 +243,7 @@ internal struct LeftViewEvent {
             
     func fromViewSourceByLogEvent(eventType: Event) {
         DispatchQueue.global(qos: .background).async {
-            guard !self.fromViewType.isEmpty else { return }
+            guard !self.fromViewDesc.isEmpty else { return }
             let property: [String: Any] = ["source": "\(self.fromViewType)"]
             Amplitude.instance().logEvent(eventType.toTypeDesc, withEventProperties: property)
         }

@@ -202,6 +202,15 @@ extension NewEventDetailViewController: WKNavigationDelegate {
         let credential = URLCredential(trust: serverTrust)
         completionHandler(.useCredential, credential)
     }
+    
+    func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
+        let urlString = navigationAction.request.url?.absoluteString ?? ""
+        printLog(out: "createWebViewWith \(urlString)")
+        if navigationAction.targetFrame == nil {
+            self.webView.load(navigationAction.request)
+        }
+        return nil
+    }
 }
 
 extension NewEventDetailViewController: WKScriptMessageHandler {
