@@ -74,7 +74,6 @@ internal final class FilterTypeView: UIView {
                 guard isLogin, let self = self else { return }
                 self.setForCarType()
             }
-            
         } else { // 차량필터 해제 시
             if (!isChanged()) { // 변경사항 없으면 초기값
                 resetFilter()
@@ -87,6 +86,8 @@ internal final class FilterTypeView: UIView {
     }
     
     func setForCarType(){
+        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "필터 상세 대표차량 필터ON")
+        AmplitudeEvent.shared.fromViewSourceByLogEvent(eventType: .viewLogin)
         var carType = UserDefault().readInt(key: UserDefault.Key.MB_CAR_TYPE);
         switch(carType) {
             case Const.CHARGER_TYPE_DCCOMBO, Const.CHARGER_TYPE_DCDEMO
