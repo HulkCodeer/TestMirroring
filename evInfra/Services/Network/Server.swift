@@ -37,6 +37,7 @@ class Server {
             }
             
         case .failure(let error):
+            
             printLog(out: "Request URL : \(String(describing: response.debugDescription ))")
             completion(false, error)
         }
