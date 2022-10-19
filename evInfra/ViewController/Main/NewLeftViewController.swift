@@ -26,11 +26,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     private lazy var menuContentView = UIView().then {
         $0.backgroundColor = Colors.backgroundPrimary.color
     }
-    private lazy var dimView = UIButton().then {
-        $0.backgroundColor = .darkGray.withAlphaComponent(0.5)
-        $0.isHighlighted = false
-    }
-    
+
     private lazy var userInfoTotalView = UIView()
     
     private lazy var loginTotalView = UIView()
@@ -191,15 +187,10 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         view.isOpaque = false
         view.backgroundColor = .clear
         
-        view.addSubview(dimView)
-        dimView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-        
         view.addSubview(menuContentView)
         menuContentView.snp.makeConstraints {
             $0.top.leading.bottom.equalToSuperview()
-            $0.width.equalTo(view.frame.width * 0.7)
+            $0.width.equalTo(UIScreen.main.bounds.width * 0.7)
         }
         
         menuContentView.addSubview(userInfoTotalView)
@@ -517,13 +508,6 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                 Snackbar().show(message: "\(message)")
             })
             .disposed(by: self.disposeBag)
-        
-        dimView.rx.tap
-            .asDriver()
-            .drive(with: self) { owenr, _ in
-                owenr.dismiss(animated: false)
-            }
-            .disposed(by: disposeBag)
         
         myBerryRefreshBtn.rx.tap
             .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
