@@ -1188,7 +1188,8 @@ extension MainViewController {
                 CBT.checkCBT(vc: self!)
             }
             
-            DeepLinkPath.sharedInstance.runDeepLink()
+            DeepLinkPath.sharedInstance.runDeepLink()            
+            self?.markerIndicator.stopAnimating()
         }
     }
     

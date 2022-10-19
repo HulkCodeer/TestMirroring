@@ -345,6 +345,8 @@ class ChargerManager {
                     self?.mIsReady = true
                     completion()
                 }
+            } else {
+                
             }
         }
     }

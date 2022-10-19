@@ -97,7 +97,7 @@ class UserDefault {
         static let IS_HIDDEN_DELEVERY_COMPLETE_TOOLTIP = "isDeleveryComplete" // 배송완료 툴팁 저장
                 
         static let IS_FIRST_INSTALL = "is_first_install" // 앱 최초 설치인지 확인용
-        static let IS_FIRST_LOCATION_POPUP = "is_first_location_popup" // 항상 허용 권한 위치 팝업 띄웠는지 유무        
+        static let IS_SHOW_PERMISSION = "IS_SHOW_PERMISSION" // 권한 관련 화면 보여졌는지 체크
     }
 
     func saveString(key:String, value: String) -> Void {

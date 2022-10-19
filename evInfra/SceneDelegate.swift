@@ -109,6 +109,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private func setupEntryController(_ scene: UIScene) {
         // init initial view controller
         let introViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(ofType: IntroViewController.self)
+        if !MemberManager.shared.memberId.isEmpty {
+            FCMManager.sharedInstance.originalMemberId = MemberManager.shared.memberId
+        }
         
         guard let _ = (scene as? UIWindowScene) else { return }
         if let windowScene = scene as? UIWindowScene {

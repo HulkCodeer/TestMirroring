@@ -161,7 +161,12 @@ internal final class IntroViewController: UIViewController {
                 .disposed(by: self.disposeBag)
             
             if FCMManager.sharedInstance.originalMemberId.isEmpty {
-                self.movePerminssonsGuideView()                
+                if MemberManager.shared.isShowPermission {
+                    self.moveMainView()
+                } else {
+                    MemberManager.shared.isShowPermission = true
+                    self.movePerminssonsGuideView()
+                }
             } else {
                 self.moveMainView()
             }

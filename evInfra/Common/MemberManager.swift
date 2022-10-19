@@ -212,15 +212,15 @@ internal final class MemberManager {
             return UserDefault().readBool(key: UserDefault.Key.IS_FIRST_INSTALL)
         }
     }
-        
-//    internal var isFirstLocationPopup: Bool { // false일 경우 처음 설치, true일때 처음설치 아님
-//        set {
-//            UserDefault().saveBool(key: UserDefault.Key.IS_FIRST_LOCATION_POPUP, value: newValue)
-//        }
-//        get {
-//            return UserDefault().readBool(key: UserDefault.Key.IS_FIRST_LOCATION_POPUP)
-//        }
-//    }
+                
+    internal var isShowPermission: Bool { // false일 경우 처음 설치, true일때 처음설치 아님
+        set {
+            UserDefault().saveBool(key: UserDefault.Key.IS_SHOW_PERMISSION, value: newValue)
+        }
+        get {
+            return UserDefault().readBool(key: UserDefault.Key.IS_SHOW_PERMISSION)
+        }
+    }
     
     // 로그인 상태 체크
     internal var isLogin: Bool {
