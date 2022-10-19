@@ -87,20 +87,23 @@ internal final class MainViewController: UIViewController, StoryboardView {
         ChargerManager.sharedInstance.delegate = self
     }
     var mapView: NMFMapView { naverMapView.mapView }
+    private var summaryView: SummaryView!
+    
     private var locationManager = CLLocationManager()
     private var chargerManager = ChargerManager.sharedInstance
     internal var selectCharger: ChargerStationInfo? = nil
     private var viaCharger: ChargerStationInfo? = nil
     
+    // MARK: VARIABLE
+
     var sharedChargerId: String? = nil
     
     private var loadedChargers = false
     private var clusterManager: ClusterManager? = nil
     private var canIgnoreJejuPush = true
-    
-    private var summaryView: SummaryView!
+
     internal var disposeBag = DisposeBag()
-    
+     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
     }
