@@ -10,6 +10,11 @@
 import UIKit
 import Motion
 
+protocol LeftDrawerDelegate: AnyObject {
+    func openLeftView(_ completion: (() -> Void)?)
+    func closeLeftView(_ completion: (() -> Void)?)
+}
+
 class LeftDrawerController: UIViewController {
     private lazy var contentViewController = UIViewController()
     internal var rootViewController: UINavigationController {
@@ -101,11 +106,10 @@ class LeftDrawerController: UIViewController {
     
     // MARK: - initializer
     init(rootViewController: UINavigationController, leftViewController: NewLeftViewController) {
-        super.init(nibName: nil, bundle: nil)
         self.rootViewController = rootViewController
         self.leftViewController = leftViewController
+        super.init(nibName: nil, bundle: nil)
         
-        //        prepare()
     }
     
     required init?(coder: NSCoder) {
@@ -173,8 +177,14 @@ class LeftDrawerController: UIViewController {
         }
         
         view.isUserInteractionEnabled = false
-        MotionTransition.shared.transition(from: rootViewController, to: viewController, in: container) { [weak self, viewController = viewController, completion = completion] (isFinishing) in
-            guard let self = self else { return }
+        MotionTransition.shared.transition(
+            from: rootViewController,
+            to: viewController,
+            in: container
+        ) { [weak self] (isFinishing) in
+            guard let self = self,
+                  let viewController = viewController as? UINavigationController
+            else { return }
             
             self.rootViewController = viewController
             self.view.isUserInteractionEnabled = true
@@ -310,7 +320,7 @@ class LeftDrawerController: UIViewController {
         }
     }
     
-    internal func closeLeftView(velocity: CGFloat = 0) {
+    private func closeLeftView(velocity: CGFloat = 0) {
         guard !isAnimating else {
             return
         }
@@ -347,7 +357,7 @@ class LeftDrawerController: UIViewController {
         }
     }
     
-    internal func openLeftView(velocity: CGFloat = 0) {
+    private func openLeftView(velocity: CGFloat = 0) {
         guard !isAnimating else {
             return
         }
@@ -478,4 +488,17 @@ extension LeftDrawerController: UIGestureRecognizerDelegate {
         return false
     }
     
+}
+
+// MARK: - Delegate
+extension LeftDrawerController: LeftDrawerDelegate {
+    func openLeftView(_ completion: (() -> Void)?) {
+        self.openLeftView()
+        completion?()
+    }
+    
+    func closeLeftView(_ completion: (() -> Void)?) {
+        self.closeLeftView()
+        completion?()
+    }
 }
