@@ -43,6 +43,8 @@ internal final class LoginViewController: UIViewController {
         prepareActionBar()
         prepareLoginButton()
         LoginHelper.shared.delegate = self
+        
+        AmplitudeEvent.shared.fromViewSourceByLogEvent(eventType: .viewLogin)
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -605,6 +605,16 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                     default: break
                     }
                 } else {
+                    switch index.row {
+                    case 0: // 내가 쓴 글 보기
+                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "내가 쓴 글 보기 메뉴")
+                        
+                    case 1: // 충전소 제보 내역
+                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "층전소 제보 내역 메뉴")
+                        
+                    default: break
+                    }
+                    
                     MemberManager.shared.showLoginAlert()
                 }
             }
@@ -649,6 +659,22 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                     default: break
                     }
                 } else {
+                    switch index.row {
+                    case 0: // 개인정보 관리
+                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "결제 정보 등록 메뉴")
+                
+                    case 1: // 회원카드 관리
+                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "EV Pay카드 신청 메뉴")
+                        
+                    case 2: // 렌탈정보 관리
+                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "렌터카 정보 등록 메뉴")
+
+                    case 3: // 충전이력조회
+                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "충전이력 조회 메뉴")
+
+                    default: break
+                    }
+                    
                     MemberManager.shared.showLoginAlert()
                 }
             }

@@ -16,8 +16,7 @@ import RxSwift
 import RxCocoa
 import PanModal
 
-class BoardWriteViewController: BaseViewController, UINavigationControllerDelegate {
-
+internal final class BoardWriteViewController: BaseViewController, UINavigationControllerDelegate {
     @IBOutlet var chargeStationStackView: UIStackView!
     @IBOutlet var stationSearchButton: UIButton!
     @IBOutlet var titleTextView: UITextView!
@@ -67,6 +66,7 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
         MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
             guard let self = self else { return }
             if !isLogin {
+                AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: self.isFromDetailView ? "충전소 상세 게시글 작성 버튼": "커뮤니티 글쓰기 버튼")                
                 MemberManager.shared.showLoginAlert(completion: { (result) -> Void in
                     if !result {
                         self.navigationController?.pop()

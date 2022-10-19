@@ -419,6 +419,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         moveLoginBtn.rx.tap
             .asDriver()
             .drive(onNext: {
+                AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "비로그인 전체메뉴 상단 베리 닉네임")
                 let viewcon = UIStoryboard(name : "Login", bundle: nil).instantiateViewController(ofType: LoginViewController.self)
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             })

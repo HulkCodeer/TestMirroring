@@ -596,6 +596,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 favoriteViewController.delegate = self
                 GlobalDefine.shared.mainNavi?.push(viewController: favoriteViewController, subtype: CATransitionSubtype.fromTop)
             } else {
+                AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "즐겨찾기 리스트/버튼")
                 MemberManager.shared.showLoginAlert()
             }
         }
@@ -1493,6 +1494,7 @@ extension MainViewController {
                     }
                 }
             } else {
+                AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "QR충전")
                 MemberManager.shared.showLoginAlert()
             }
         }
