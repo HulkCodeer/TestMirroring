@@ -111,7 +111,8 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                             let popupModel = PopupModel(title: "EV Pay카드를 발급하시겠어요?",
                                                         message: "베리는 EV Pay카드 발급 후\n충전 시 베리로 할인 받을 수 있어요.",
                                                         confirmBtnTitle: "네 발급할게요.", cancelBtnTitle: "다음에 할게요.",
-                                                        confirmBtnAction: {                                
+                                                        confirmBtnAction: {
+                                AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "좌측메뉴 상단 베리 팝업")
                                 let viewcon = MembershipGuideViewController()
                                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                             }, textAlignment: .center)
@@ -137,6 +138,7 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                                                         message: "EV Pay카드 발급 시 환경부, 한국전력 등\n더 많은 충전소에서 적립할 수 있어요.",
                                                         confirmBtnTitle: "EV Pay카드 안내 보러가기", cancelBtnTitle: "다음에 할게요.",
                                                         confirmBtnAction: {
+                                AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "좌측메뉴 상단 베리 팝업")
                                 let viewcon = MembershipGuideViewController()
                                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                             }, textAlignment: .center)
@@ -208,6 +210,7 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                                             message: "현재 회원님의 결제정보에 오류가 있어\n다음 충전 시 베리를 사용할 수 없어요.",
                                             confirmBtnTitle: "결제정보 확인하러가기", cancelBtnTitle: "다음에 할게요.",
                                             confirmBtnAction: {
+                    AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "좌측메뉴 상단 베리 팝업")
                     let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPayinfoViewController.self)
                     GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                     
@@ -617,6 +620,7 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                 if isLogin {
                     switch index.row {
                     case 0: // 개인정보 관리
+                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "결제 정보 등록 메뉴")
                         let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
                         let myPayInfoVC = memberStoryboard.instantiateViewController(ofType: MyPayinfoViewController.self)
                         GlobalDefine.shared.mainNavi?.push(viewController: myPayInfoVC)
@@ -627,6 +631,7 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                             let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)
                             viewcon = mbsStoryboard.instantiateViewController(ofType: MembershipCardViewController.self)
                         } else {
+                            AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "EV Pay 카드 신청 메뉴")
                             viewcon = MembershipGuideViewController()
                         }
                         

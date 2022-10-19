@@ -223,15 +223,19 @@ internal enum PaymentEvent: String, EventTypeProtocol {
     }
 }
 
-// MARK: 결제 이벤트
-internal struct LeftViewEvent {
-    internal static let shared = LeftViewEvent()
+// MARK: 3.7.8 버전 앰플리튜드
+internal class AmplitudeEvent {
+    internal static let shared = AmplitudeEvent()
     
     private init() {}
     
     enum Event: String, EventTypeProtocol {
         case clickViewAddPaymentCard = "view_add_payment_card"
         case clickViewApplyEVICard = "view_apply_EVI_card"
+        case viewMyInfo = "view_my_info"
+        case clickSidemenuRenewBerry = "click_sidemenu_renew_berry"
+        case clickSidemenuSetUpBerryAll = "click_sidemenu_set_up_berry_all"
+        case clickSidemenuMyBerry = "click_sidemenu_my_berry"
         case none
         
         internal var toTypeDesc: String {
@@ -239,15 +243,24 @@ internal struct LeftViewEvent {
         }
     }
          
-    internal var fromViewDesc: String = ""
+    private var fromViewDesc: String = ""
+        
+    func fromViewDescStr() -> String {
+        return fromViewDesc
+    }
+    
+    func setFromViewDesc(fromViewDesc: String) {
+        self.fromViewDesc = fromViewDesc
+    }
             
     func fromViewSourceByLogEvent(eventType: Event) {
         DispatchQueue.global(qos: .background).async {
             guard !self.fromViewDesc.isEmpty else { return }
-            let property: [String: Any] = ["source": "\(self.fromViewType)"]
+            let property: [String: Any] = ["source": "\(self.fromViewDesc)"]
             Amplitude.instance().logEvent(eventType.toTypeDesc, withEventProperties: property)
+            self.fromViewDesc = ""
         }
-    }
+    }    
 }
 
 // MARK: 이벤트/광고/배너 이벤트
@@ -312,7 +325,6 @@ internal enum EnterViewType: String, EventTypeProtocol {
     case repayListViewController = "미수금 결제 내역 화면"
     case myPayinfoViewController = "결제정보관리 화면"
     case repayResultViewController = "미수금 결제 완료 화면"
-    case myPayRegisterViewController = "결제 정보 등록 화면"
     case myPageViewController = "개인정보관리 화면"
     case quitAccountCompleteViewController = "회원탈퇴 완료 화면"
     case quitAccountReasonQuestionViewController = "회원탈퇴 사유 선택화면"
@@ -358,7 +370,6 @@ internal enum EnterViewType: String, EventTypeProtocol {
         case "RepayListViewController": self = .repayListViewController
         case "MyPayinfoViewController": self = .myPayinfoViewController
         case "RepayResultViewController": self = .repayResultViewController
-        case "MyPayRegisterViewController": self = .myPayRegisterViewController
         case "MyPageViewController": self = .myPageViewController
         case "QuitAccountCompleteViewController": self = .quitAccountCompleteViewController
         case "QuitAccountReasonQuestionViewController": self = .quitAccountReasonQuestionViewController

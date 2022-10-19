@@ -410,6 +410,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         moveMyInfoBtn.rx.tap
             .asDriver()
             .drive(onNext: {
+                AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "전체메뉴 상단 베리 닉네임")
                 let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPageViewController.self)
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             })
@@ -426,6 +427,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         moveMyPointBtn.rx.tap
             .asDriver()
             .drive(onNext: {
+                AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "좌측메뉴 상단 MY베리 버튼")
                 let viewcon = UIStoryboard(name : "Charge", bundle: nil).instantiateViewController(ofType: PointViewController.self)
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             })
@@ -497,6 +499,11 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
             .disposed(by: self.disposeBag)
         
         reactor.state.compactMap { $0.isAllBerry }
+            .do(onNext: { isOn in
+                let property: [String: Any] = ["berryAmount": "베리량",
+                                               "onOrOff": isOn]
+                AmplitudeEvent.Event.clickSidemenuSetUpBerryAll.logEvent(property: property)                
+            })
             .asDriver(onErrorJustReturn: false)
             .drive(self.useAllMyBerrySw.rx.isOn)
             .disposed(by: self.disposeBag)
@@ -512,6 +519,8 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                 animation.isCumulative = true
                 animation.repeatCount = .infinity
                 obj.myBerryRefreshImgView.layer.add(animation, forKey: "transform.rotation.z")
+                
+                AmplitudeEvent.Event.clickSidemenuRenewBerry.logEvent()
                 
                 Observable.just(LeftViewReactor.Action.refreshBerryPoint)
                     .bind(to: reactor.action)

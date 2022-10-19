@@ -140,7 +140,8 @@ internal final class NewEventDetailViewController: CommonBaseViewController {
             GlobalDefine.shared.mainNavi?.pop()
         }
                                 
-        var urlComponents = URLComponents(string: eventData.eventUrl)
+//        var urlComponents = URLComponents(string: eventData.eventUrl)
+        var urlComponents = URLComponents(string: "https://data.ev-infra.com/ev-infra/event/2022/tirefly/html/index.html")
         
         if !eventData.getQueryItems().isEmpty {
             urlComponents?.queryItems = eventData.getQueryItems()

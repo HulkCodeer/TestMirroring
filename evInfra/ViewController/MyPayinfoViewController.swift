@@ -51,6 +51,8 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
                 MemberManager.shared.showLoginAlert()
             }
         }
+        
+        AmplitudeEvent.shared.fromViewSourceByLogEvent(eventType: .clickViewAddPaymentCard)
     }
     
     override func viewWillAppear(_ animated: Bool) {

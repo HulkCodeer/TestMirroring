@@ -95,6 +95,8 @@ internal final class MembershipGuideViewController: BaseViewController, WKUIDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        AmplitudeEvent.shared.fromViewSourceByLogEvent(eventType: .clickViewApplyEVICard)
+        
         membershipRegisterBtn.rx.tap
             .asDriver()
             .drive(with: self) { obj, _ in

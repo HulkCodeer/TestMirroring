@@ -127,6 +127,7 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
                                             message: "현재 회원님은 EV Pay카드는 있지만\n결제정보가 등록되어있지 않아요.\n등록 후 다시 스캔해주세요.",
                                             confirmBtnTitle: "결제카드 등록하기", cancelBtnTitle: "닫기",
                                             confirmBtnAction: {
+                    AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "QR코드 스캔 프로세스")
                     let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPayinfoViewController.self)
                     GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 }, textAlignment: .center)
@@ -185,7 +186,8 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
                 let popupModel = PopupModel(title: "\(title)",
                                             message: "\(msg)",
                                             confirmBtnTitle: "EV Pay카드 발급하기", cancelBtnTitle: "닫기",
-                                            confirmBtnAction: {                    
+                                            confirmBtnAction: {
+                    AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "QR코드 스캔 프로세스")
                     let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPayinfoViewController.self)
                     GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 }, cancelBtnAction: {
@@ -245,6 +247,7 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
                                             confirmBtnTitle: "결제정보 등록하기", cancelBtnTitle: "나가기",
                                             confirmBtnAction: {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "QR 팝업")
                         let viewcon = MembershipGuideViewController()
                         GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                     })
@@ -265,6 +268,7 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
                                             confirmBtnTitle: "EV Pay카드 발급하기", cancelBtnTitle: "나중에 하기",
                                             confirmBtnAction: {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "QR 팝업")
                         let viewcon = MembershipGuideViewController()
                         GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                     })
@@ -365,6 +369,7 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
     private func showRegisterCardDialog() {
         let dialogMessage = UIAlertController(title: "카드 등록 필요", message: "결제카드 등록 후 사용 가능합니다. \n카드를 등록하시려면 확인 버튼을 누르세요.", preferredStyle: .alert)
         let ok = UIAlertAction(title: "확인", style: .default, handler: {(ACTION) -> Void in
+            AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "QR코드 스캔 프로세스")
             let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPayinfoViewController.self)
             GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
         })
