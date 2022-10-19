@@ -258,7 +258,7 @@ class MembershipIssuanceViewController: UIViewController,
                             for vc in _mainNavi.viewControllers {
                                 if let _vc = vc as? NewLeftViewController {
                                     Snackbar().show(message: "EV Pay카드 발급이 완료되었어요.")
-                                    _delegate.completeMembershipCard()
+                                    _delegate.completeResiterMembershipCard()
                                     _ = _mainNavi.popToViewController(_vc, animated: true)
                                     return
                                 }

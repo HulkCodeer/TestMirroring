@@ -10,7 +10,8 @@ import ReactorKit
 import SwiftyJSON
 
 protocol LeftViewReactorDelegate: AnyObject {
-    func completeMembershipCard()
+    func completeResiterMembershipCard()
+    func completeRegisterPayCard()
 }
 
 protocol MoveSmallCategoryView {
@@ -199,19 +200,19 @@ internal final class LeftViewReactor: ViewModel, Reactor {
             let json = JSON(data)
                         
             let payCode = json["pay_code"].intValue
-//            let payCode = 8844
                   
             switch PaymentStatus(rawValue: payCode) {
             case .PAY_FINE_USER:
                 return true
-                
-            case .PAY_NO_USER, .PAY_NO_CARD_USER:
+                                                            
+            case .PAY_NO_USER, .PAY_NO_CARD_USER, .PAY_NO_VERIFY_USER, .PAY_DELETE_FAIL_USER:
                 let popupModel = PopupModel(title: "결제 카드를 확인해주세요",
                                             message: "현재 회원님의 결제정보에 오류가 있어\n다음 충전 시 베리를 사용할 수 없어요.",
                                             confirmBtnTitle: "결제정보 확인하러가기", cancelBtnTitle: "다음에 할게요.",
                                             confirmBtnAction: {
                     AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "좌측메뉴 상단 베리 팝업")
                     let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPayinfoViewController.self)
+                    viewcon.delegate = self
                     GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                     
                 }, textAlignment: .center)
@@ -224,13 +225,7 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                 return false
                                                                                                                                
             case .PAY_DEBTOR_USER: // 돈안낸 유저
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                    let viewcon = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: RepayListViewController.self)
-                    viewcon.delegate = self
-                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-                })
-                
-                return false
+                return true
                                                                             
             default: return false
             }
@@ -682,20 +677,14 @@ internal final class LeftViewReactor: ViewModel, Reactor {
     }
 }
 
-extension LeftViewReactor: RepaymentListDelegate {
-    func onRepaySuccess() {
+extension LeftViewReactor: LeftViewReactorDelegate {
+    func completeResiterMembershipCard() {
         Observable.just(LeftViewReactor.Action.setIsAllBerry(true))
             .bind(to: self.action)
             .disposed(by: self.disposeBag)
     }
     
-    func onRepayFail(){
-        
-    }
-}
-
-extension LeftViewReactor: LeftViewReactorDelegate {
-    func completeMembershipCard() {
+    func completeRegisterPayCard() {
         Observable.just(LeftViewReactor.Action.setIsAllBerry(true))
             .bind(to: self.action)
             .disposed(by: self.disposeBag)

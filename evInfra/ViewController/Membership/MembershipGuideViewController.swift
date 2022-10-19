@@ -157,7 +157,9 @@ extension MembershipGuideViewController: WKNavigationDelegate {
 }
 
 extension MembershipGuideViewController: LeftViewReactorDelegate {
-    func completeMembershipCard() {
-        self.delegate?.completeMembershipCard()
+    func completeResiterMembershipCard() {
+        self.delegate?.completeResiterMembershipCard()
     }
+    
+    func completeRegisterPayCard() {}
 }
