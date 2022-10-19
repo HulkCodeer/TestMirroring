@@ -14,6 +14,7 @@ import FLAnimatedImage
 import RxSwift
 import RxCocoa
 import Alamofire
+import CoreLocation
 
 internal final class IntroViewController: UIViewController {
 
