@@ -31,10 +31,6 @@
 import UIKit
 import Material
 
-// 단순 네비바 + 검색 item
-// custom Navi + backButton
-// dismiss button,
-
 class AppSearchBarController: SearchBarController {
     private var menuButton: IconButton!
     private var moreButton: IconButton!

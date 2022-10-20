@@ -15,7 +15,7 @@ protocol LeftDrawerDelegate: AnyObject {
     func closeLeftView(_ completion: (() -> Void)?)
 }
 
-class LeftDrawerController: UIViewController {
+final class LeftDrawerController: UIViewController {
     private lazy var contentViewController = UIViewController()
     internal var rootViewController: UINavigationController {
         didSet {

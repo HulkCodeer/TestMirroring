@@ -255,7 +255,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     // MARK: REACTORKIT
     
     internal func bind(reactor: MainReactor) {
-        // 스토리보드 제거 후 loadView 이동 요망.
+        // 스토리보드 제거 후 loadView 이동 요망. setUI, setConstraints
         setUI()
         setConstraints()
         
@@ -1375,8 +1375,6 @@ extension MainViewController {
         
         DispatchQueue.main.async { [weak self] in
             self?.markerIndicator.startAnimating()
-//            guard let _toolbar = self.toolbarController, _toolbar is AppToolbarController else { return }
-//            _toolbar.toolbar.isUserInteractionEnabled = false
             self?.customNaviBar.isUserInteractionEnabled = false
         }
         
@@ -1390,8 +1388,6 @@ extension MainViewController {
             
             DispatchQueue.main.async { [weak self] in
                 self?.markerIndicator.stopAnimating()
-//                guard let _toolbar = self?.toolbarController, _toolbar is AppToolbarController else { return }
-//                _toolbar.toolbar.isUserInteractionEnabled = true
                 self?.customNaviBar.isUserInteractionEnabled = true
                 
                 if let chargerId = GlobalDefine.shared.sharedChargerIdFromDynamicLink {
