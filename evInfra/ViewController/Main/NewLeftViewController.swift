@@ -413,27 +413,39 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         
         moveMyInfoBtn.rx.tap
             .asDriver()
-            .drive(onNext: {
+            .drive(with: self, onNext: { owner, _ in
                 let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
                 let mypageVC = memberStoryboard.instantiateViewController(ofType: MyPageViewController.self)
                 GlobalDefine.shared.mainNavi?.push(viewController: mypageVC)
+                
+                if let _reactor = owner.reactor {
+                    owner.hideMenu(reactor: _reactor, isHide: true)
+                }
             })
             .disposed(by: self.disposeBag)
         
         moveLoginBtn.rx.tap
             .asDriver()
-            .drive(onNext: {
+            .drive(with: self, onNext: { owner, _ in
                 let loginStoryboard = UIStoryboard(name : "Login", bundle: nil)
                 let loginVC = loginStoryboard.instantiateViewController(ofType: LoginViewController.self)
                 GlobalDefine.shared.mainNavi?.push(viewController: loginVC)
+                
+                if let _reactor = owner.reactor {
+                    owner.hideMenu(reactor: _reactor, isHide: true)
+                }
             })
             .disposed(by: self.disposeBag)
         
         moveMyPointBtn.rx.tap
             .asDriver()
-            .drive(onNext: {
+            .drive(with: self, onNext: { owner, _ in
                 let viewcon = UIStoryboard(name : "Charge", bundle: nil).instantiateViewController(ofType: PointViewController.self)
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                
+                if let _reactor = owner.reactor {
+                    owner.hideMenu(reactor: _reactor, isHide: true)
+                }
             })
             .disposed(by: self.disposeBag)
     }
@@ -542,6 +554,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                                                 confirmBtnAction: {
                         let viewcon = MembershipGuideViewController()
                         GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                        self.hideMenu(reactor: reactor, isHide: true)
                     }, textAlignment: .center)
                         
                     let popup = VerticalConfirmPopupViewController(model: popupModel)
@@ -563,15 +576,17 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                                                     
                                 switch PaymentStatus(rawValue: payCode) {
                                 case .PAY_NO_CARD_USER, .PAY_NO_USER: // 카드등록 아니된 멤버
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: { [weak self] in
                                         let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPayinfoViewController.self)                                                                                                                        
                                         GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                                        self?.hideMenu(reactor: reactor, isHide: true)
                                     })
                                                         
                                 case .PAY_DEBTOR_USER: // 돈안낸 유저
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: { [weak self] in
                                         let viewcon = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: RepayListViewController.self)
                                         GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                                        self?.hideMenu(reactor: reactor, isHide: true)
                                     })
                                     
                                 default: self.dismiss(animated: true)
@@ -599,11 +614,11 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                                                 confirmBtnAction: {
                         let viewcon = MembershipGuideViewController()
                         GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                        self.hideMenu(reactor: reactor, isHide: true)
                     }, textAlignment: .center)
                         
                     let popup = VerticalConfirmPopupViewController(model: popupModel)
                     GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
-                    
                 case (true, true):
                     Observable.just(LeftViewReactor.Action.setIsAllBerry(!self.useAllMyBerrySw.isOn))
                         .bind(to: reactor.action)
@@ -618,6 +633,12 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
             .map { isUseAllBerry in  LeftViewReactor.Action.setIsAllBerry(isUseAllBerry) }
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
+    }
+    
+    private func hideMenu(reactor: LeftViewReactor, isHide: Bool) {
+        Observable.just(LeftViewReactor.Action.setOwnHide(isHide))
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
     
     private func createMenuTypeView(menuCategoryType: LeftViewReactor.MenuCategoryType, reactor: LeftViewReactor) -> UIView {
@@ -808,8 +829,12 @@ extension NewLeftViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView : UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let _reactor = self.reactor else { return }
         tableView.deselectRow(at: indexPath, animated: false)
+        
+        guard let _reactor = self.reactor else { return }
+        guard  _reactor.currentState.menuCategoryType != .settings || indexPath.row != 3 else { return }
+        
         _reactor.currentState.menuCategoryType.menuList[indexPath.section].moveViewController(index: indexPath)
+        hideMenu(reactor: _reactor, isHide: true)
     }
 }

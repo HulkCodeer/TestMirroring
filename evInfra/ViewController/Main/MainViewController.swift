@@ -1395,7 +1395,6 @@ extension MainViewController {
                     self?.selectChargerFromShared()
                     GlobalDefine.shared.sharedChargerIdFromDynamicLink = nil
                 }
-                self?.showMenu()
             }
             
             self?.checkFCM()
