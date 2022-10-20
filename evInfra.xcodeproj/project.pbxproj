@@ -1284,6 +1284,9 @@
 		82829BCF28ADC1330044AD6C /* UIImageView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */; };
 		82829BD128ADC2F20044AD6C /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */; };
 		82829BD228ADC2F20044AD6C /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */; };
+		8284047A290021FE0081567C /* SoftBerryTooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82840479290021FE0081567C /* SoftBerryTooltipView.swift */; };
+		8284047B290021FE0081567C /* SoftBerryTooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82840479290021FE0081567C /* SoftBerryTooltipView.swift */; };
+		8284047C290021FE0081567C /* SoftBerryTooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82840479290021FE0081567C /* SoftBerryTooltipView.swift */; };
 		82B3E7F42837D5A700B8ACF7 /* GlobalDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */; };
 		82C9A01728B0F0EE0003296B /* QRReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01628B0F0EE0003296B /* QRReaderView.swift */; };
 		82C9A01828B0F0EE0003296B /* QRReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01628B0F0EE0003296B /* QRReaderView.swift */; };
@@ -1813,6 +1816,7 @@
 		8261C8B428ECF6A20018E168 /* UIWindow+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow+Extension.swift"; sourceTree = "<group>"; };
 		82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Rx.swift"; sourceTree = "<group>"; };
 		82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
+		82840479290021FE0081567C /* SoftBerryTooltipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoftBerryTooltipView.swift; sourceTree = "<group>"; };
 		82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalDefine.swift; sourceTree = "<group>"; };
 		82C9A01628B0F0EE0003296B /* QRReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRReaderView.swift; sourceTree = "<group>"; };
 		82C9A01928B10A010003296B /* PaymentQRScanReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentQRScanReactor.swift; sourceTree = "<group>"; };
@@ -2545,13 +2549,13 @@
 		7312786220B7D81A00861B3E /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				59EC3B7828D32A04001A18B5 /* Constants */,
+				1969693328AB9A6B00FE47A7 /* Amplitude */,
+				82F3D9A92855EE2B0030C44B /* Component */,
 				6309C7A5290000FA00A52E4F /* CommonBaseCollectionViewCell.swift */,
 				6309C7AB2900011B00A52E4F /* AmplitudeManager+Extension.swift */,
 				6309C7A92900011B00A52E4F /* DBDelegate.swift */,
 				6309C7AA2900011B00A52E4F /* FCMDelegate.swift */,
-				59EC3B7828D32A04001A18B5 /* Constants */,
-				1969693328AB9A6B00FE47A7 /* Amplitude */,
-				82F3D9A92855EE2B0030C44B /* Component */,
 				63F3154E284F0809001713D2 /* Colors+Generated.swift */,
 				63F3154D284F0809001713D2 /* Icons+Generated.swift */,
 				73A7B427204E81A6002E975F /* Const.swift */,
@@ -2572,6 +2576,7 @@
 				63C7C8DF286D6F0B00A357D6 /* NewBottomSheetViewController.swift */,
 				63CAC17F289BAE3E00ADA809 /* CommonBaseTableViewCell.swift */,
 				824D5DC028BE1C2500EDC712 /* GlobalFunction.swift */,
+				82840479290021FE0081567C /* SoftBerryTooltipView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -4329,6 +4334,7 @@
 				63F31400284EC74F001713D2 /* MemberManager.swift in Sources */,
 				63F31401284EC74F001713D2 /* FilterCompanyView.swift in Sources */,
 				63F31402284EC74F001713D2 /* ReportCharger.swift in Sources */,
+				8284047B290021FE0081567C /* SoftBerryTooltipView.swift in Sources */,
 				63F31403284EC74F001713D2 /* MyCouponViewController.swift in Sources */,
 				63F31404284EC74F001713D2 /* CBT.swift in Sources */,
 				63F31405284EC74F001713D2 /* UIScrollView+Extension.swift in Sources */,
@@ -4647,6 +4653,7 @@
 				DBF3827B2304475900FAF772 /* CBT.swift in Sources */,
 				73CF041A20B2736500BEA9CF /* UIScrollView+Extension.swift in Sources */,
 				00C75C4D252EEB5300387559 /* RegisterResultViewController.swift in Sources */,
+				8284047A290021FE0081567C /* SoftBerryTooltipView.swift in Sources */,
 				DBE579B521A3E3CA005DD998 /* Snackbar.swift in Sources */,
 				902A11E2248F7A3A0049EF8E /* ChargerStationInfo.swift in Sources */,
 				63A4F3712872F88100601018 /* RectButton.swift in Sources */,
@@ -4965,6 +4972,7 @@
 				824D5C6228BDD89C00EDC712 /* MyCouponViewController.swift in Sources */,
 				824D5C6328BDD89C00EDC712 /* CBT.swift in Sources */,
 				824D5C6428BDD89C00EDC712 /* UIScrollView+Extension.swift in Sources */,
+				8284047C290021FE0081567C /* SoftBerryTooltipView.swift in Sources */,
 				824D5C6528BDD89C00EDC712 /* RegisterResultViewController.swift in Sources */,
 				824D5C6628BDD89C00EDC712 /* Snackbar.swift in Sources */,
 				5975BD5428D97CF000910F6F /* DateConstants.swift in Sources */,

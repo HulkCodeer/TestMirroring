@@ -92,6 +92,11 @@ extension NSLayoutConstraint {
         case horizontal
     }
     
+    var globalFrame: CGRect? {
+        let rootView = UIWindow.key?.rootViewController?.view
+        return self.superview?.convert(self.frame, to: rootView)
+    }
+    
     // MARK: - Added Stored Property
     @nonobjc static private var isGoneKey  = "isGone"
     @nonobjc static private var aspectRatioConstraintsKey = "aspectRatioConstraints"
