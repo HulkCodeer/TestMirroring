@@ -78,6 +78,7 @@ internal enum Icons {
   internal static let iconHighwayTop = ImageAsset(name: "icon_highway_top")
   internal static let iconInside = ImageAsset(name: "icon_inside")
   internal static let iconOutside = ImageAsset(name: "icon_outside")
+  internal static let iconProgressBtn = ImageAsset(name: "icon_progress_btn")
   internal static let iconGiftLg = ImageAsset(name: "icon_gift_lg")
   internal static let iconGiftMd = ImageAsset(name: "icon_gift_md")
   internal static let iconGiftSm = ImageAsset(name: "icon_gift_sm")

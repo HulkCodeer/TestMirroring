@@ -5,13 +5,11 @@
 //  Created by Keisuke Shoji on 2017/03/09.
 //
 //
-
 import UIKit
 
 @IBDesignable open class RangeSeekSlider: UIControl {
 
     // MARK: - initializers
-
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
 
@@ -31,7 +29,6 @@ import UIKit
 
 
     // MARK: - open stored properties
-
     open weak var delegate: RangeSeekSliderDelegate?
 
     /// The minimum possible value to select in the range
@@ -202,6 +199,38 @@ import UIKit
         }
     }
 
+    /// Handle shadow radius (default 0.0)
+    @IBInspectable open var handleShadowRadius: CGFloat = 0.0 {
+        didSet {
+            leftHandle.shadowRadius = handleShadowRadius
+            rightHandle.shadowRadius = handleShadowRadius
+        }
+    }
+
+    /// Handle shadow opacity (default 0.0)
+    @IBInspectable open var handleShadowOpacity: Float = 0.0 {
+        didSet {
+            leftHandle.shadowOpacity = handleShadowOpacity
+            rightHandle.shadowOpacity = handleShadowOpacity
+        }
+    }
+
+    /// Handle shadow offset (default CGSize.zero)
+    @IBInspectable open var handleShadowOffset: CGSize = .zero {
+        didSet {
+            leftHandle.shadowOffset = handleShadowOffset
+            rightHandle.shadowOffset = handleShadowOffset
+        }
+    }
+
+    /// Handle shadow color
+    @IBInspectable open var handleShadowColor: UIColor? {
+        didSet {
+            leftHandle.shadowColor = handleShadowColor?.cgColor
+            rightHandle.shadowColor = handleShadowColor?.cgColor
+        }
+    }
+
     /// Set padding between label and handle (default 8.0)
     @IBInspectable open var labelPadding: CGFloat = 8.0 {
         didSet {
@@ -223,7 +252,6 @@ import UIKit
 
 
     // MARK: - private stored properties
-
     private enum HandleTracking { case none, left, right }
     private var handleTracking: HandleTracking = .none
 
@@ -249,7 +277,6 @@ import UIKit
 
 
     // MARK: - private computed properties
-
     private var leftHandleAccessibilityElement: UIAccessibilityElement {
         let element: RangeSeekSliderLeftElement = RangeSeekSliderLeftElement(accessibilityContainer: self)
         element.isAccessibilityElement = true
@@ -274,7 +301,6 @@ import UIKit
 
 
     // MARK: - UIView
-
     open override func layoutSubviews() {
         super.layoutSubviews()
 
@@ -293,7 +319,6 @@ import UIKit
 
 
     // MARK: - UIControl
-
     open override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         let touchLocation: CGPoint = touch.location(in: self)
         let insetExpansion: CGFloat = -30.0
@@ -314,6 +339,8 @@ import UIKit
         } else {
             handleTracking = .right
         }
+        let handle: CALayer = (handleTracking == .left) ? leftHandle : rightHandle
+        animate(handle: handle, selected: true)
 
         delegate?.didStartTouches(in: self)
 
@@ -352,6 +379,8 @@ import UIKit
     }
 
     open override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
+        let handle: CALayer = (handleTracking == .left) ? leftHandle : rightHandle
+        animate(handle: handle, selected: false)
         handleTracking = .none
 
         delegate?.didEndTouches(in: self)
@@ -359,7 +388,6 @@ import UIKit
 
 
     // MARK: - UIAccessibility
-
     open override func accessibilityElementCount() -> Int {
         return accessibleElements.count
     }
@@ -375,13 +403,11 @@ import UIKit
 
 
     // MARK: - open methods
-
     /// When subclassing **RangeSeekSlider** and setting each item in **setupStyle()**, the design is reflected in Interface Builder as well.
     open func setupStyle() {}
 
 
     // MARK: - private methods
-
     private func setup() {
         isAccessibilityElement = false
         accessibleElements = [leftHandleAccessibilityElement, rightHandleAccessibilityElement]
@@ -494,22 +520,36 @@ import UIKit
     }
 
     private func updateColors() {
-        let tintCGColor: CGColor = tintColor.cgColor
-        minLabel.foregroundColor = minLabelColor?.cgColor ?? tintCGColor
-        maxLabel.foregroundColor = maxLabelColor?.cgColor ?? tintCGColor
-        sliderLineBetweenHandles.backgroundColor = colorBetweenHandles?.cgColor ?? tintCGColor
-        sliderLine.backgroundColor = tintCGColor
+        let isInitial: Bool = selectedMinValue == minValue && selectedMaxValue == maxValue
+        if let initialColor = initialColor?.cgColor, isInitial {
+            minLabel.foregroundColor = initialColor
+            maxLabel.foregroundColor = initialColor
+            sliderLineBetweenHandles.backgroundColor = initialColor
+            sliderLine.backgroundColor = initialColor
 
-        let color: CGColor
-        if let _ = handleImage {
-            color = UIColor.clear.cgColor
+            let color: CGColor = (handleImage == nil) ? initialColor : UIColor.clear.cgColor
+            leftHandle.backgroundColor = color
+            leftHandle.borderColor = color
+            rightHandle.backgroundColor = color
+            rightHandle.borderColor = color
         } else {
-            color = handleColor?.cgColor ?? tintCGColor
+            let tintCGColor: CGColor = tintColor.cgColor
+            minLabel.foregroundColor = minLabelColor?.cgColor ?? tintCGColor
+            maxLabel.foregroundColor = maxLabelColor?.cgColor ?? tintCGColor
+            sliderLineBetweenHandles.backgroundColor = colorBetweenHandles?.cgColor ?? tintCGColor
+            sliderLine.backgroundColor = tintCGColor
+
+            let color: CGColor
+            if let _ = handleImage {
+                color = UIColor.clear.cgColor
+            } else {
+                color = handleColor?.cgColor ?? tintCGColor
+            }
+            leftHandle.backgroundColor = color
+            leftHandle.borderColor = handleBorderColor.map { $0.cgColor }
+            rightHandle.backgroundColor = color
+            rightHandle.borderColor = handleBorderColor.map { $0.cgColor }
         }
-        leftHandle.backgroundColor = color
-        leftHandle.borderColor = handleBorderColor.map { $0.cgColor }
-        rightHandle.backgroundColor = color
-        rightHandle.borderColor = handleBorderColor.map { $0.cgColor }
     }
 
     private func updateAccessibilityElements() {
@@ -532,7 +572,6 @@ import UIKit
     
     private func updateLabelPositions() {
         // the center points for the labels are X = the same x position as the relevant handle. Y = the y position of the handle minus half the height of the text label, minus some padding.
-
         minLabel.frame.size = minLabelTextSize
         maxLabel.frame.size = maxLabelTextSize
 
@@ -662,11 +701,29 @@ import UIKit
             delegate.rangeSeekSlider(self, didChange: selectedMinValue, maxValue: selectedMaxValue)
         }
     }
+
+    private func animate(handle: CALayer, selected: Bool) {
+        let transform: CATransform3D
+        if selected {
+            transform = CATransform3DMakeScale(selectedHandleDiameterMultiplier, selectedHandleDiameterMultiplier, 1.0)
+        } else {
+            transform = CATransform3DIdentity
+        }
+
+        CATransaction.begin()
+        CATransaction.setAnimationDuration(0.3)
+        CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut))
+        handle.transform = transform
+
+        // the label above the handle will need to move too if the handle changes size
+        updateLabelPositions()
+
+        CATransaction.commit()
+    }
 }
 
 
 // MARK: - RangeSeekSliderLeftElement
-
 private final class RangeSeekSliderLeftElement: UIAccessibilityElement {
 
     override func accessibilityIncrement() {
@@ -684,7 +741,6 @@ private final class RangeSeekSliderLeftElement: UIAccessibilityElement {
 
 
 // MARK: - RangeSeekSliderRightElement
-
 private final class RangeSeekSliderRightElement: UIAccessibilityElement {
 
     override func accessibilityIncrement() {
@@ -704,7 +760,6 @@ private final class RangeSeekSliderRightElement: UIAccessibilityElement {
 
 
 // MARK: - CGRect
-
 private extension CGRect {
 
     var center: CGPoint {
@@ -714,7 +769,6 @@ private extension CGRect {
 
 
 // MARK: - CGPoint
-
 private extension CGPoint {
 
     func distance(to: CGPoint) -> CGFloat {
