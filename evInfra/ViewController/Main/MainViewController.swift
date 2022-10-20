@@ -118,7 +118,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         prepareMenuBtnLayer()
         
         prepareChargePrice()
-        requestStationInfo()
+//        requestStationInfo()
         
         prepareCalloutLayer()
         
@@ -139,6 +139,8 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 }
             }
             .disposed(by: self.disposeBag)
+        
+        GlobalDefine.shared.mainNavi?.view.makeToast("테스트다")        
     }
     
     override func viewWillAppear(_ animated: Bool) {

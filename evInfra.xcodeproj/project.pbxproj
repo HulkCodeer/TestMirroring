@@ -846,6 +846,9 @@
 		821A05E828627F3100EB1A91 /* ChevronArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05E028627F3000EB1A91 /* ChevronArrow.swift */; };
 		821A717528B2762700B13816 /* NewPaymentStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A717428B2762700B13816 /* NewPaymentStatusViewController.swift */; };
 		821A717628B2762700B13816 /* NewPaymentStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A717428B2762700B13816 /* NewPaymentStatusViewController.swift */; };
+		82373CD7290107C200C0B33D /* ToastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82373CD6290107C200C0B33D /* ToastManager.swift */; };
+		82373CD8290107C200C0B33D /* ToastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82373CD6290107C200C0B33D /* ToastManager.swift */; };
+		82373CD9290107C200C0B33D /* ToastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82373CD6290107C200C0B33D /* ToastManager.swift */; };
 		824D5BF228BDD89C00EDC712 /* NewEventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191FB60328A0CA40005248C8 /* NewEventDetailViewController.swift */; };
 		824D5BF328BDD89C00EDC712 /* AdsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B4C7D7289A420900C6BE84 /* AdsModel.swift */; };
 		824D5BF428BDD89C00EDC712 /* AmplitudeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A3D3252887F13400AE8280 /* AmplitudeManager.swift */; };
@@ -1807,6 +1810,7 @@
 		821A05DF28627F3000EB1A91 /* CommonNaviView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonNaviView.swift; sourceTree = "<group>"; };
 		821A05E028627F3000EB1A91 /* ChevronArrow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChevronArrow.swift; sourceTree = "<group>"; };
 		821A717428B2762700B13816 /* NewPaymentStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPaymentStatusViewController.swift; sourceTree = "<group>"; };
+		82373CD6290107C200C0B33D /* ToastManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastManager.swift; sourceTree = "<group>"; };
 		824D5DB828BDD89C00EDC712 /* evInfra_release.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = evInfra_release.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		824D5DBC28BE050A00EDC712 /* QROutletTypeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QROutletTypeModel.swift; sourceTree = "<group>"; };
 		824D5DC028BE1C2500EDC712 /* GlobalFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFunction.swift; sourceTree = "<group>"; };
@@ -2988,6 +2992,7 @@
 				636DB93F2876ED6A008BB27A /* IconTextRectButton.swift */,
 				82DD57DA28C5D41900C6C55E /* StickButton.swift */,
 				195C4E8128C5CE3F000B47F7 /* BannerPagerView.swift */,
+				82373CD6290107C200C0B33D /* ToastManager.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -4431,6 +4436,7 @@
 				63F3145A284EC74F001713D2 /* LinkShareManager.swift in Sources */,
 				63762F4A2869A8F000C951BF /* QuitAccountReactor.swift in Sources */,
 				821A05E828627F3100EB1A91 /* ChevronArrow.swift in Sources */,
+				82373CD8290107C200C0B33D /* ToastManager.swift in Sources */,
 				82829BCF28ADC1330044AD6C /* UIImageView+Rx.swift in Sources */,
 				63D723BA28AF723300D54A0D /* NewPaymentQRScanViewController.swift in Sources */,
 				63F3145B284EC74F001713D2 /* SearchAddressViewDelegate.swift in Sources */,
@@ -4749,6 +4755,7 @@
 				529659D227E9AD7200FC1E8B /* LinkShareManager.swift in Sources */,
 				63762F492869A8F000C951BF /* QuitAccountReactor.swift in Sources */,
 				821A05E728627F3100EB1A91 /* ChevronArrow.swift in Sources */,
+				82373CD7290107C200C0B33D /* ToastManager.swift in Sources */,
 				82829BCE28ADC1330044AD6C /* UIImageView+Rx.swift in Sources */,
 				63D723B928AF723300D54A0D /* NewPaymentQRScanViewController.swift in Sources */,
 				73D65D7A235C558E00F564A2 /* SearchAddressViewDelegate.swift in Sources */,
@@ -5067,6 +5074,7 @@
 				824D5CC128BDD89C00EDC712 /* LinkShareManager.swift in Sources */,
 				824D5CC228BDD89C00EDC712 /* QuitAccountReactor.swift in Sources */,
 				824D5CC328BDD89C00EDC712 /* ChevronArrow.swift in Sources */,
+				82373CD9290107C200C0B33D /* ToastManager.swift in Sources */,
 				824D5CC428BDD89C00EDC712 /* UIImageView+Rx.swift in Sources */,
 				824D5CC528BDD89C00EDC712 /* NewPaymentQRScanViewController.swift in Sources */,
 				824D5CC628BDD89C00EDC712 /* SearchAddressViewDelegate.swift in Sources */,
