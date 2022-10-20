@@ -529,6 +529,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
             .disposed(by: self.disposeBag)
                         
         useAllMyBerryBtn.rx.tap
+            .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
             .map { LeftViewReactor.Action.loadPaymentStatus }
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
