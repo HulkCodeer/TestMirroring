@@ -8,7 +8,6 @@
 // Material NavigationDrawerController 참고.
 
 import UIKit
-import Motion
 
 protocol LeftDrawerDelegate: AnyObject {
     func openLeftView(_ completion: (() -> Void)?)
@@ -17,20 +16,17 @@ protocol LeftDrawerDelegate: AnyObject {
 
 final class LeftDrawerController: UIViewController {
     private lazy var contentViewController = UIViewController()
-    internal var rootViewController: UINavigationController {
+    private var rootViewController: UINavigationController {
         didSet {
-            guard oldValue != rootViewController else {
-                return
-            }
+            guard oldValue != rootViewController else { return }
             
             removeViewController(viewController: oldValue)
-            
             prepare(viewController: rootViewController, in: container)
         }
     }
-    internal var leftViewController: NewLeftViewController
+    private var leftViewController: NewLeftViewController
     
-    var isUserInteractionEnabled: Bool {
+    internal var isUserInteractionEnabled: Bool {
         get {
             return rootViewController.view.isUserInteractionEnabled
         }
@@ -39,7 +35,7 @@ final class LeftDrawerController: UIViewController {
         }
     }
     
-    internal lazy var container = UIView().then {
+    private lazy var container = UIView().then {
         $0.frame = view.bounds
         $0.clipsToBounds = true
         $0.contentScaleFactor = UIScreen.main.scale
@@ -59,14 +55,7 @@ final class LeftDrawerController: UIViewController {
     private var leftPanGesture: UIPanGestureRecognizer?
     private var leftTapGesture: UITapGestureRecognizer?
     
-    internal var isLeftViewEnabled = false {
-        didSet {
-            isLeftPanGestureEnabled = isLeftViewEnabled
-            isLeftTapGestureEnabled = isLeftViewEnabled
-        }
-    }
-    
-    internal var isLeftPanGestureEnabled = false {
+    internal var isLeftPanGestureEnabled = true {
         didSet {
             if isLeftPanGestureEnabled {
                 prepareLeftPanGesture()
@@ -76,7 +65,7 @@ final class LeftDrawerController: UIViewController {
         }
     }
     
-    internal var isLeftTapGestureEnabled = false {
+    internal var isLeftTapGestureEnabled = true {
         didSet {
             if isLeftTapGestureEnabled {
                 prepareLeftTapGesture()
@@ -85,7 +74,7 @@ final class LeftDrawerController: UIViewController {
             }
         }
     }
-    internal var isLeftViewOpened: Bool {
+    private var isLeftViewOpened: Bool {
         return leftView.frame.origin.x != -leftViewWidth
     }
     
@@ -102,7 +91,7 @@ final class LeftDrawerController: UIViewController {
     }
     
     private let animationDuration: TimeInterval = 0.25
-    internal var leftViewWidth: CGFloat = 0
+    private var leftViewWidth: CGFloat = 0
     
     // MARK: - initializer
     init(rootViewController: UINavigationController, leftViewController: NewLeftViewController) {
@@ -163,47 +152,11 @@ final class LeftDrawerController: UIViewController {
         leftViewController.endAppearanceTransition()
     }
     
-    func transition(to viewController: UIViewController, completion: ((Bool) -> Void)? = nil) {
-        prepare(viewController: viewController, in: container)
-        
-        switch motionTransitionType {
-        case .auto:break
-        default:
-            switch viewController.motionTransitionType {
-            case .auto:
-                viewController.motionTransitionType = motionTransitionType
-            default:break
-            }
-        }
-        
-        view.isUserInteractionEnabled = false
-        MotionTransition.shared.transition(
-            from: rootViewController,
-            to: viewController,
-            in: container
-        ) { [weak self] (isFinishing) in
-            guard let self = self,
-                  let viewController = viewController as? UINavigationController
-            else { return }
-            
-            self.rootViewController = viewController
-            self.view.isUserInteractionEnabled = true
-            
-            self.view.sendSubviewToBack(self.contentViewController.view)
-        }
-        
-    }
-    
     // MARK: - prepare
     
     private func prepare() {
-        
         prepare(viewController: rootViewController, in: container)
-        
-        //      TranstionController prepareContainer()
-        //      prepareContentViewController()
-        //      prepareLeftView()
-        
+                
         view.addSubview(container)
         
         // content
@@ -212,8 +165,6 @@ final class LeftDrawerController: UIViewController {
         view.sendSubviewToBack(contentViewController.view)
         
         // leftView
-        isLeftViewEnabled = true
-        
         view.addSubview(leftView)
         
         prepare(viewController: leftViewController, in: leftView)
@@ -222,6 +173,7 @@ final class LeftDrawerController: UIViewController {
     private func prepare(viewController: UIViewController, in container: UIView) {
         addChild(viewController)
         container.addSubview(viewController.view)
+        
         viewController.didMove(toParent: self)
         viewController.view.frame = container.bounds
         viewController.view.clipsToBounds = true
@@ -231,26 +183,24 @@ final class LeftDrawerController: UIViewController {
     
     // MARK: - PanGestureAction
     private func prepareLeftPanGesture() {
-        guard nil == leftPanGesture else {
-            return
-        }
+        guard nil == leftPanGesture else { return }
         
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handleLeftViewPanGesture(recognizer:)))
         leftPanGesture = panGesture
         leftPanGesture?.delegate = self
         leftPanGesture?.cancelsTouchesInView = false
+        
         view.addGestureRecognizer(panGesture)
     }
     
     private func prepareLeftTapGesture() {
-        guard nil == leftTapGesture else {
-            return
-        }
+        guard nil == leftTapGesture else { return }
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleLeftViewTapGesture(recognizer:)))
         leftTapGesture = tapGesture
         leftTapGesture?.delegate = self
         leftTapGesture?.cancelsTouchesInView = false
+        
         view.addGestureRecognizer(tapGesture)
     }
     
@@ -261,9 +211,7 @@ final class LeftDrawerController: UIViewController {
     
     /// Removes the left pan gesture.
     private func removeLeftPanGesture() {
-        guard let v = leftPanGesture else {
-            return
-        }
+        guard let v = leftPanGesture else { return }
         
         view.removeGestureRecognizer(v)
         leftPanGesture = nil
@@ -271,9 +219,7 @@ final class LeftDrawerController: UIViewController {
     
     /// Removes the left tap gesture.
     private func removeLeftTapGesture() {
-        guard let _leftTapGesture = leftTapGesture else {
-            return
-        }
+        guard let _leftTapGesture = leftTapGesture else { return }
         
         view.removeGestureRecognizer(_leftTapGesture)
         leftTapGesture = nil
@@ -281,138 +227,52 @@ final class LeftDrawerController: UIViewController {
     
     // MARK: - setView Action
     
-    internal func setLeftViewWidth(width: CGFloat, animated: Bool, duration: TimeInterval = 0.5) {
-        
-        leftViewWidth = width
-        
-        if animated {
-            leftView.isShadowPathAutoSizing = false
-            
-            
-            UIView.animate(withDuration: duration,
-                           animations: { [weak self, leftViewWidth = leftViewWidth] in
-                guard let `self` = self else {
-                    return
-                }
-                
-                self.leftView.bounds.size.width = width
-                self.leftView.layer.position.x = -width / 2
-                self.rootViewController.view.alpha = 1
-                
-            }) { [weak self, leftView = leftView] _ in
-                guard let `self` = self else {
-                    return
-                }
-                
-                leftView.isShadowPathAutoSizing = true
-                self.layoutSubviews()
-                self.hideView(container: leftView)
-            }
-            
-        } else {
-            leftView.bounds.size.width = width
-            
-            hideView(container: leftView)
-            leftView.layer.position.x = -leftView.bounds.width / 2
-            rootViewController.view.alpha = 1
-            
-            layoutSubviews()
-        }
-    }
-    
     private func closeLeftView(velocity: CGFloat = 0) {
-        guard !isAnimating else {
-            return
-        }
-        
-        guard isLeftViewEnabled else {
-            return
-        }
+        guard !isAnimating else { return }
         
         isAnimating = true
         
         // willClose
         
-        UIView.animate(withDuration: TimeInterval(0 == velocity ? animationDuration : fmax(0.1, fmin(1, Double(leftView.frame.origin.x / velocity)))),
-                       animations: { [weak self, leftView = leftView] in
-            guard let `self` = self else {
-                return
-            }
+        UIView.animate(
+            withDuration: TimeInterval(0 == velocity ? animationDuration : fmax(0.1, fmin(1, Double(leftView.frame.origin.x / velocity)))),
+            animations: { [weak self, leftView = leftView] in
+                leftView.layer.position.x = -leftView.bounds.width / 2
+                self?.rootViewController.view.alpha = 1
+                
+            }) { [weak self] _ in
+                
+            self?.leftView.isHidden = true
             
-            leftView.layer.position.x = -leftView.bounds.width / 2
-            self.rootViewController.view.alpha = 1
-            
-        }) { [weak self, leftView = leftView] _ in
-            guard let `self` = self else {
-                return
-            }
-            
-            self.hideView(container: leftView)
-            //            self.toggleStatusBar()
-            
-            self.isAnimating = false
-            self.isUserInteractionEnabled = true
-            
+            self?.isAnimating = false
+            self?.isUserInteractionEnabled = true
             // didClose
         }
     }
     
     private func openLeftView(velocity: CGFloat = 0) {
-        guard !isAnimating else {
-            return
-        }
-        
-        guard isLeftViewEnabled else {
-            return
-        }
+        guard !isAnimating else { return }
         
         isAnimating = true
-        
-        //        hideStatusBar()
-        showView(container: leftView)
-        
+        leftView.isHidden = false
         isUserInteractionEnabled = false
         
         // willClose
         
-        UIView.animate(withDuration: TimeInterval(0 == velocity ? animationDuration : fmax(0.1, fmin(1, Double(leftView.frame.origin.x / velocity)))),
-                       animations: { [weak self, leftView = leftView] in
-            guard let `self` = self else {
-                return
-            }
+        UIView.animate(
+            withDuration: TimeInterval(0 == velocity ? animationDuration : fmax(0.1, fmin(1, Double(leftView.frame.origin.x / velocity)))),
+            animations: { [weak self, leftView = leftView] in
+                leftView.layer.position.x = leftView.bounds.width / 2
+                self?.rootViewController.view.alpha = 0.5
+                
+            }) { [weak self] _ in
             
-            leftView.layer.position.x = leftView.bounds.width / 2
-            self.rootViewController.view.alpha = 0.5
-            
-        }) { [weak self] _ in
-            guard let `self` = self else {
-                return
-            }
-            
-            self.isAnimating = false
+            self?.isAnimating = false
             // didClose
         }
     }
     
-    private func showView(container: UIView) {
-        //      container.depthPreset = depthPreset
-        container.isHidden = false
-    }
-    
-    private func hideView(container: UIView) {
-        //      container.depthPreset = .none
-        container.isHidden = true
-    }
-    
-    //    fileprivate func toggleStatusBar() {
-    //      if isLeftViewOpened {
-    //        hideStatusBar()
-    //      } else {
-    //        showStatusBar()
-    //      }
-    //    }
-    
-    func removeViewController(viewController: UIViewController) {
+    private func removeViewController(viewController: UIViewController) {
         viewController.willMove(toParent: nil)
         viewController.view.removeFromSuperview()
         viewController.removeFromParent()
@@ -421,28 +281,20 @@ final class LeftDrawerController: UIViewController {
     // MARK: - Action
     
     @objc private func handleLeftViewTapGesture(recognizer: UITapGestureRecognizer) {
-        guard isLeftViewOpened else {
-            return
-        }
-        
-        guard isLeftViewEnabled && isLeftViewOpened && !isPointContainedWithinView(container: leftView, point: recognizer.location(in: leftView)) else {
-            return
-        }
+        guard isLeftViewOpened && !isPointContainedWithinView(container: leftView, point: recognizer.location(in: leftView))
+        else { return }
         
         closeLeftView()
     }
     
     @objc private func handleLeftViewPanGesture(recognizer: UIPanGestureRecognizer) {
-        guard isLeftViewEnabled && (isLeftViewOpened || isPointContainedWithinLeftThreshold(point: recognizer.location(in: view)))
-        else {
-            return
-        }
+        guard isLeftViewOpened || isPointContainedWithinLeftThreshold(point: recognizer.location(in: view))
+        else { return }
         
-        // Animate the panel.
         switch recognizer.state {
         case .began:
             originalX = leftView.layer.position.x
-            showView(container: leftView)
+            leftView.isHidden = false
             
         case .changed:
             let w = leftView.bounds.width
@@ -452,11 +304,7 @@ final class LeftDrawerController: UIViewController {
             
             let a = 1 - leftView.layer.position.x / leftView.bounds.width
             rootViewController.view.alpha = 0.5 < a && leftView.layer.position.x <= leftView.bounds.width / 2 ? a : 0.5
-            
-            //        if translationX >= leftThreshold {
-            //          hideStatusBar()
-            //        }
-            
+
         case .ended, .cancelled, .failed:
             let p = recognizer.velocity(in: recognizer.view)
             let x = p.x >= 1000 || p.x <= -1000 ? p.x : 0
@@ -493,11 +341,15 @@ extension LeftDrawerController: UIGestureRecognizerDelegate {
 // MARK: - Delegate
 extension LeftDrawerController: LeftDrawerDelegate {
     func openLeftView(_ completion: (() -> Void)?) {
+        self.isLeftPanGestureEnabled = true
+        self.isLeftTapGestureEnabled = true
         self.openLeftView()
         completion?()
     }
     
     func closeLeftView(_ completion: (() -> Void)?) {
+        self.isLeftPanGestureEnabled = false
+        self.isLeftTapGestureEnabled = false
         self.closeLeftView()
         completion?()
     }
