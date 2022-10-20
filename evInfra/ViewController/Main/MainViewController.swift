@@ -96,7 +96,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     
     private var evPayTipView = EasyTipView(text: "")
     
-    private var tooltipView = SoftBerryTooltipView(configure: SoftBerryTooltipView.Configure(tipLeftMargin: 100, maxWidth: 240, leadingMargin: 20, topMargin: 200, font: .systemFont(ofSize: 16, weight: .regular), tipDirection: .top, color: Colors.backgroundAlwaysDark.color))
+    private var tooltipView = TooltipView(configure: TooltipView.Configure(tipLeftMargin: 20, maxWidth: 240, leadingMargin: 20, topMargin: 200, font: .systemFont(ofSize: 16, weight: .regular), tipDirection: .top, color: Colors.backgroundAlwaysDark.color))
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -202,11 +202,8 @@ internal final class MainViewController: UIViewController, StoryboardView {
         canIgnoreJejuPush = UserDefault().readBool(key: UserDefault.Key.JEJU_PUSH)// default : false
         
         self.view.addSubview(tooltipView)
-        tooltipView.snp.makeConstraints {
-            $0.center.equalToSuperview()
-        }
         
-        tooltipView.show(message: "전체메뉴를 열어서 내가 가진 베리를\n확인할 수 있어요.")
+        tooltipView.show(message: "전체메뉴를 열어서 내가 가진 베리를\n확인할 수 있어요.", forView: filterBarView.evPayView)
         
         if !MemberManager.shared.isShowEvPayTooltip, !FCMManager.sharedInstance.originalMemberId.isEmpty {
             var evPayPreferences = EasyTipView.Preferences()

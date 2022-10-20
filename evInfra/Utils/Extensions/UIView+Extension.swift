@@ -92,9 +92,12 @@ extension NSLayoutConstraint {
         case horizontal
     }
     
-    var globalFrame: CGRect? {
-        let rootView = UIWindow.key?.rootViewController?.view
-        return self.superview?.convert(self.frame, to: rootView)
+    internal var globalFrame: CGRect {
+        if let _window = UIWindow.key, let _rootView = _window.rootViewController {
+            let rootView = _rootView.view
+            return self.superview?.convert(self.frame, to: rootView) ?? .zero
+        }
+        return .zero
     }
     
     // MARK: - Added Stored Property
