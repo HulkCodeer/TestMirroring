@@ -118,7 +118,10 @@ internal final class SoftBerryTooltipView: UIView {
             frameHeight = totalheight
         }
                 
-        self.frame = CGRect(x: frameX, y: frameY, width: frameWidth, height: frameHeight)
+        self.frame = CGRect(x: frameX, y: frameY + 8, width: frameWidth, height: frameHeight)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        self.addGestureRecognizer(tap)
         
         let shape = CAShapeLayer()
         shape.path = path
@@ -139,5 +142,9 @@ internal final class SoftBerryTooltipView: UIView {
         messageLbl.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(8)
         }
+    }
+    
+    @objc func handleTap() {
+        self.removeFromSuperview()
     }
 }
