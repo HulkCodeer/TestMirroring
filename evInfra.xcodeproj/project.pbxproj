@@ -846,9 +846,9 @@
 		821A05E828627F3100EB1A91 /* ChevronArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05E028627F3000EB1A91 /* ChevronArrow.swift */; };
 		821A717528B2762700B13816 /* NewPaymentStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A717428B2762700B13816 /* NewPaymentStatusViewController.swift */; };
 		821A717628B2762700B13816 /* NewPaymentStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A717428B2762700B13816 /* NewPaymentStatusViewController.swift */; };
-		82373CDF29013D4600C0B33D /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 82373CDE29013D4600C0B33D /* Fonts */; };
-		82373CE029013D4600C0B33D /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 82373CDE29013D4600C0B33D /* Fonts */; };
-		82373CE129013D4600C0B33D /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 82373CDE29013D4600C0B33D /* Fonts */; };
+		82373CE329013F1100C0B33D /* Exo-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82373CE229013F1100C0B33D /* Exo-SemiBoldItalic.ttf */; };
+		82373CE429013F1100C0B33D /* Exo-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82373CE229013F1100C0B33D /* Exo-SemiBoldItalic.ttf */; };
+		82373CE529013F1100C0B33D /* Exo-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82373CE229013F1100C0B33D /* Exo-SemiBoldItalic.ttf */; };
 		824D5BF228BDD89C00EDC712 /* NewEventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191FB60328A0CA40005248C8 /* NewEventDetailViewController.swift */; };
 		824D5BF328BDD89C00EDC712 /* AdsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B4C7D7289A420900C6BE84 /* AdsModel.swift */; };
 		824D5BF428BDD89C00EDC712 /* AmplitudeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A3D3252887F13400AE8280 /* AmplitudeManager.swift */; };
@@ -1810,7 +1810,7 @@
 		821A05DF28627F3000EB1A91 /* CommonNaviView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonNaviView.swift; sourceTree = "<group>"; };
 		821A05E028627F3000EB1A91 /* ChevronArrow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChevronArrow.swift; sourceTree = "<group>"; };
 		821A717428B2762700B13816 /* NewPaymentStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPaymentStatusViewController.swift; sourceTree = "<group>"; };
-		82373CDE29013D4600C0B33D /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
+		82373CE229013F1100C0B33D /* Exo-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Exo-SemiBoldItalic.ttf"; path = "Fonts/Exo-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		824D5DB828BDD89C00EDC712 /* evInfra_release.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = evInfra_release.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		824D5DBC28BE050A00EDC712 /* QROutletTypeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QROutletTypeModel.swift; sourceTree = "<group>"; };
 		824D5DC028BE1C2500EDC712 /* GlobalFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFunction.swift; sourceTree = "<group>"; };
@@ -2539,7 +2539,7 @@
 		63F31554284F08A8001713D2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				82373CDE29013D4600C0B33D /* Fonts */,
+				82373CE229013F1100C0B33D /* Exo-SemiBoldItalic.ttf */,
 				63F31555284F08E2001713D2 /* Colors.xcassets */,
 				63F31556284F08E3001713D2 /* Icons.xcassets */,
 				732121C6203AC023000E105C /* Assets.xcassets */,
@@ -3340,6 +3340,7 @@
 				63F31512284EC74F001713D2 /* navi_personal_settings.png in Resources */,
 				63F31513284EC74F001713D2 /* thumbnail_mask_white.png in Resources */,
 				63F31514284EC74F001713D2 /* type_destination.png in Resources */,
+				82373CE429013F1100C0B33D /* Exo-SemiBoldItalic.ttf in Resources */,
 				63F31515284EC74F001713D2 /* FilterCompanyView.xib in Resources */,
 				63F31516284EC74F001713D2 /* ioniq.jpg in Resources */,
 				63F31517284EC74F001713D2 /* delete_normal.png in Resources */,
@@ -3349,7 +3350,6 @@
 				63F3151B284EC74F001713D2 /* SummaryView.xib in Resources */,
 				63F3155A284F08E3001713D2 /* Icons.xcassets in Resources */,
 				63F3151C284EC74F001713D2 /* navi_kakao.png in Resources */,
-				82373CE029013D4600C0B33D /* Fonts in Resources */,
 				63F3151D284EC74F001713D2 /* navi_bg.jpg in Resources */,
 				63F3151E284EC74F001713D2 /* Filter.storyboard in Resources */,
 				63F3151F284EC74F001713D2 /* KeyboardInputView.xib in Resources */,
@@ -3425,7 +3425,6 @@
 				00FDEAE826B3B6A2006617EE /* Charge.storyboard in Resources */,
 				00A3658D26C4E33100424E40 /* FilterSpeedView.xib in Resources */,
 				73A7B418204E3595002E975F /* reply_count_bg.png in Resources */,
-				82373CDF29013D4600C0B33D /* Fonts in Resources */,
 				73D65D822362D54000F564A2 /* MembershipTermView.xib in Resources */,
 				00A6A15B26C39F660023DAE3 /* FilterPriceView.xib in Resources */,
 				73A7B413204E3595002E975F /* type_dc_demo_dim.png in Resources */,
@@ -3457,6 +3456,7 @@
 				63F31557284F08E3001713D2 /* Colors.xcassets in Resources */,
 				73EF8B78203C85CC00D04494 /* TrackingDot@2x.png in Resources */,
 				73EF8B6F203C85CC00D04494 /* HeadingAngleSmall.png in Resources */,
+				82373CE329013F1100C0B33D /* Exo-SemiBoldItalic.ttf in Resources */,
 				73A7B420204E3595002E975F /* type_ac_three.png in Resources */,
 				73A7B41C204E3595002E975F /* reply_pressed.png in Resources */,
 				00B4F54926BA23B6009A904C /* TagListViewCell.xib in Resources */,
@@ -3549,6 +3549,7 @@
 				824D5D3528BDD89C00EDC712 /* delete_pressed.png in Resources */,
 				824D5D3728BDD89C00EDC712 /* ChargerTableViewCell.xib in Resources */,
 				824D5D3828BDD89C00EDC712 /* img_load_fail.png in Resources */,
+				82373CE529013F1100C0B33D /* Exo-SemiBoldItalic.ttf in Resources */,
 				824D5D3928BDD89C00EDC712 /* FilterTypeView.xib in Resources */,
 				824D5D3A28BDD89C00EDC712 /* type_dc_combo.png in Resources */,
 				824D5D3B28BDD89C00EDC712 /* TrackingDotHalo.png in Resources */,
@@ -3626,7 +3627,6 @@
 				824D5D8428BDD89C00EDC712 /* FilterCompanyView.xib in Resources */,
 				824D5D8528BDD89C00EDC712 /* ioniq.jpg in Resources */,
 				824D5D8628BDD89C00EDC712 /* delete_normal.png in Resources */,
-				82373CE129013D4600C0B33D /* Fonts in Resources */,
 				824D5D8728BDD89C00EDC712 /* Membership.storyboard in Resources */,
 				824D5D8828BDD89C00EDC712 /* GoogleService-Info.plist in Resources */,
 				824D5D8928BDD89C00EDC712 /* CommunityBoardTableViewCell.xib in Resources */,
