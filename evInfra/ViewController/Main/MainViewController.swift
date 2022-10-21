@@ -200,8 +200,8 @@ internal final class MainViewController: UIViewController, StoryboardView {
             self.selectChargerFromShared()
         }
         canIgnoreJejuPush = UserDefault().readBool(key: UserDefault.Key.JEJU_PUSH)// default : false
-        
-        self.view.addSubview(tooltipView)
+                                        
+        self.view.addSubview(tooltipView)        
         
         tooltipView.show(message: "전체메뉴를 열어서 내가 가진 베리를\n확인할 수 있어요.", forView: filterBarView.evPayView)
         

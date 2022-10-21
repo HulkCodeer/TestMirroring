@@ -137,20 +137,16 @@ internal final class TooltipView: UIView {
             frameHeight = totalheight
         }
         
-        printLog(out: "PARK TEST \(targetView?.globalFrame)")
-        
         // TEST CODE
         // MainViewcontroller filterbarView.evPay
 //        (x 56.0, y 81.0, width 91.0, height 30.0)
-        
+                                
         if let _targetView = targetView {
             let globalFrame = _targetView.globalFrame
             switch self.configure.tipDirection {
             case .top:
                 frameX = globalFrame.origin.x + (globalFrame.bounds.width / 2) - self.configure.tipLeftMargin - tipCenterPoint
-                frameY = globalFrame.origin.y + (globalFrame.bounds.height) + 8
-                
-                printLog(out: "PARK TEST frameY : \(frameY)")
+                frameY = -(globalFrame.origin.y + (globalFrame.bounds.height) + 8)                
                 
             case .bottom:
                 frameX = globalFrame.origin.x + (globalFrame.bounds.width / 2) - self.configure.tipLeftMargin - tipCenterPoint
@@ -163,8 +159,7 @@ internal final class TooltipView: UIView {
         } else {
             
         }
-        
-                                
+                                        
         self.frame = CGRect(x: frameX, y: frameY, width: frameWidth, height: frameHeight)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
