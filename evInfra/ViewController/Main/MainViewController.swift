@@ -688,10 +688,6 @@ extension MainViewController: NMFMapViewTouchDelegate {
     func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
         guard let _reactor = self.reactor else { return }
         
-        Observable.just(MainReactor.Action.setSelectedFilterInfo(MainReactor.SelectedFilterInfo(filterTagType: .speed, isSeleted: false)))
-            .bind(to: _reactor.action)
-            .disposed(by: self.disposeBag)
-        
         hideKeyboard()
         myLocationModeOff()
         setView(view: callOutLayer, hidden: true)

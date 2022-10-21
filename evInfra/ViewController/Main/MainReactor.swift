@@ -14,6 +14,7 @@ internal final class MainReactor: ViewModel, Reactor {
     typealias SelectedPlaceFilter = (placeType: PlaceType, isSelected: Bool)
     typealias SelectedRoadFilter = (roadType: RoadType, isSelected: Bool)
     typealias SelectedChargerTypeFilter = (chargerType: ChargerType, isSelected: Bool)
+    typealias SelectedSpeedFilter = (minSpeed: Int, maxSpeed: Int)
     
     enum Action {        
         case showMarketingPopup
@@ -22,6 +23,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case setSelectedPlaceFilter(SelectedPlaceFilter)
         case setSelectedRoadFilter(SelectedRoadFilter)
         case setSelectedChargerTypeFilter(SelectedChargerTypeFilter)
+        case setSelectedSpeedFilter(SelectedSpeedFilter)
         case swipeLeft
         case swipeRight
         case showFilterSetting
@@ -38,6 +40,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case setSelectedPlaceFilter(SelectedPlaceFilter)
         case setSelectedRoadFilter(SelectedRoadFilter)
         case setSelectedChargerTypeFilter(SelectedChargerTypeFilter)
+        case setSelectedSpeedFilter(SelectedSpeedFilter)
         case showFilterSetting
         case updateFilterBarTitle
         case setEvPayFilter(Bool)
@@ -52,6 +55,7 @@ internal final class MainReactor: ViewModel, Reactor {
         var selectedPlaceFilter: SelectedPlaceFilter?
         var selectedRoadFilter: SelectedRoadFilter?
         var selectedChargerTypeFilter: SelectedChargerTypeFilter?
+        var selectedSpeedFilter: SelectedSpeedFilter?
         var isShowFilterSetting: Bool?
         var isUpdateFilterBarTitle: Bool?
         var isEvPayFilter: Bool?
@@ -95,6 +99,9 @@ internal final class MainReactor: ViewModel, Reactor {
             
         case .setSelectedChargerTypeFilter(let selectedChargerTypeFilter):
             return .just(.setSelectedChargerTypeFilter(selectedChargerTypeFilter))
+            
+        case .setSelectedSpeedFilter(let selectedSpeedFilter):
+            return .just(.setSelectedSpeedFilter(selectedSpeedFilter))
             
         case .swipeLeft:
             let selectedFilterInfo: SelectedFilterInfo = (filterTagType: self.currentState.selectedFilterInfo?.filterTagType.swipeLeft() ?? .speed, isSeleted: true)
@@ -149,6 +156,10 @@ internal final class MainReactor: ViewModel, Reactor {
             
         case .setSelectedChargerTypeFilter(let selectedChargerTypeFilter):
             newState.selectedChargerTypeFilter = selectedChargerTypeFilter
+            newState.isUpdateFilterBarTitle = true
+            
+        case .setSelectedSpeedFilter(let selectedSpeedFilter):
+            newState.selectedSpeedFilter = selectedSpeedFilter
             newState.isUpdateFilterBarTitle = true
             
         case .showFilterSetting:
