@@ -846,6 +846,9 @@
 		821A05E828627F3100EB1A91 /* ChevronArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05E028627F3000EB1A91 /* ChevronArrow.swift */; };
 		821A717528B2762700B13816 /* NewPaymentStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A717428B2762700B13816 /* NewPaymentStatusViewController.swift */; };
 		821A717628B2762700B13816 /* NewPaymentStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A717428B2762700B13816 /* NewPaymentStatusViewController.swift */; };
+		82373CE329013F1100C0B33D /* Exo-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82373CE229013F1100C0B33D /* Exo-SemiBoldItalic.ttf */; };
+		82373CE429013F1100C0B33D /* Exo-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82373CE229013F1100C0B33D /* Exo-SemiBoldItalic.ttf */; };
+		82373CE529013F1100C0B33D /* Exo-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82373CE229013F1100C0B33D /* Exo-SemiBoldItalic.ttf */; };
 		824D5BF228BDD89C00EDC712 /* NewEventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191FB60328A0CA40005248C8 /* NewEventDetailViewController.swift */; };
 		824D5BF328BDD89C00EDC712 /* AdsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B4C7D7289A420900C6BE84 /* AdsModel.swift */; };
 		824D5BF428BDD89C00EDC712 /* AmplitudeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A3D3252887F13400AE8280 /* AmplitudeManager.swift */; };
@@ -1807,6 +1810,7 @@
 		821A05DF28627F3000EB1A91 /* CommonNaviView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonNaviView.swift; sourceTree = "<group>"; };
 		821A05E028627F3000EB1A91 /* ChevronArrow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChevronArrow.swift; sourceTree = "<group>"; };
 		821A717428B2762700B13816 /* NewPaymentStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPaymentStatusViewController.swift; sourceTree = "<group>"; };
+		82373CE229013F1100C0B33D /* Exo-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Exo-SemiBoldItalic.ttf"; path = "Fonts/Exo-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		824D5DB828BDD89C00EDC712 /* evInfra_release.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = evInfra_release.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		824D5DBC28BE050A00EDC712 /* QROutletTypeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QROutletTypeModel.swift; sourceTree = "<group>"; };
 		824D5DC028BE1C2500EDC712 /* GlobalFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFunction.swift; sourceTree = "<group>"; };
@@ -2247,10 +2251,10 @@
 			isa = PBXGroup;
 			children = (
 				52ADE50027969ED900FBBA25 /* ConfirmPopupViewController.swift */,
+				63D054E728ACCF9700074676 /* VerticalConfirmPopupViewController.swift */,
 				527165C227B2516D0078DF3A /* TransientAlertViewController.swift */,
 				527165C427B251820078DF3A /* AlertViewController.swift */,
 				527165C627B251E20078DF3A /* AlertView.swift */,
-				63D054E728ACCF9700074676 /* VerticalConfirmPopupViewController.swift */,
 			);
 			path = Alert;
 			sourceTree = "<group>";
@@ -2535,6 +2539,7 @@
 		63F31554284F08A8001713D2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				82373CE229013F1100C0B33D /* Exo-SemiBoldItalic.ttf */,
 				63F31555284F08E2001713D2 /* Colors.xcassets */,
 				63F31556284F08E3001713D2 /* Icons.xcassets */,
 				732121C6203AC023000E105C /* Assets.xcassets */,
@@ -3335,6 +3340,7 @@
 				63F31512284EC74F001713D2 /* navi_personal_settings.png in Resources */,
 				63F31513284EC74F001713D2 /* thumbnail_mask_white.png in Resources */,
 				63F31514284EC74F001713D2 /* type_destination.png in Resources */,
+				82373CE429013F1100C0B33D /* Exo-SemiBoldItalic.ttf in Resources */,
 				63F31515284EC74F001713D2 /* FilterCompanyView.xib in Resources */,
 				63F31516284EC74F001713D2 /* ioniq.jpg in Resources */,
 				63F31517284EC74F001713D2 /* delete_normal.png in Resources */,
@@ -3450,6 +3456,7 @@
 				63F31557284F08E3001713D2 /* Colors.xcassets in Resources */,
 				73EF8B78203C85CC00D04494 /* TrackingDot@2x.png in Resources */,
 				73EF8B6F203C85CC00D04494 /* HeadingAngleSmall.png in Resources */,
+				82373CE329013F1100C0B33D /* Exo-SemiBoldItalic.ttf in Resources */,
 				73A7B420204E3595002E975F /* type_ac_three.png in Resources */,
 				73A7B41C204E3595002E975F /* reply_pressed.png in Resources */,
 				00B4F54926BA23B6009A904C /* TagListViewCell.xib in Resources */,
@@ -3542,6 +3549,7 @@
 				824D5D3528BDD89C00EDC712 /* delete_pressed.png in Resources */,
 				824D5D3728BDD89C00EDC712 /* ChargerTableViewCell.xib in Resources */,
 				824D5D3828BDD89C00EDC712 /* img_load_fail.png in Resources */,
+				82373CE529013F1100C0B33D /* Exo-SemiBoldItalic.ttf in Resources */,
 				824D5D3928BDD89C00EDC712 /* FilterTypeView.xib in Resources */,
 				824D5D3A28BDD89C00EDC712 /* type_dc_combo.png in Resources */,
 				824D5D3B28BDD89C00EDC712 /* TrackingDotHalo.png in Resources */,
@@ -5235,7 +5243,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 10191922;
+				CURRENT_PROJECT_VERSION = 10201609;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5FA8TZGUDC;
@@ -5279,7 +5287,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 10191922;
+				CURRENT_PROJECT_VERSION = 10201609;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5FA8TZGUDC;
@@ -5446,7 +5454,7 @@
 				CURRENT_PROJECT_VERSION = 10181910;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -5488,7 +5496,7 @@
 				CURRENT_PROJECT_VERSION = 10181910;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",

@@ -449,10 +449,9 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
             let displayNickname = MemberManager.shared.memberNickName
             self.nicknameLbl.text = displayNickname.count > 10 ? "\(displayNickname.substring(to: 10))..." : displayNickname
             
-            guard _reactor.currentState.isAllBerry != nil else { return }
-            Observable.just(LeftViewReactor.Action.getMyBerryPoint)
+            Observable.just(LeftViewReactor.Action.isAllBerryReload)
                 .bind(to: _reactor.action)
-                .disposed(by: self.disposeBag)                        
+                .disposed(by: self.disposeBag)
         }
         
         profileImgView.sd_setImage(with: URL(string:"\(Const.urlProfileImage)\(MemberManager.shared.profileImage)"), placeholderImage: Icons.iconProfileEmpty.image)
@@ -530,6 +529,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
             .disposed(by: self.disposeBag)
                         
         useAllMyBerryBtn.rx.tap
+            .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
             .map { LeftViewReactor.Action.loadPaymentStatus }
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
