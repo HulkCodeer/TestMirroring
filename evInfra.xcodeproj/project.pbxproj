@@ -2550,10 +2550,6 @@
 		7312786220B7D81A00861B3E /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				6309C7A5290000FA00A52E4F /* CommonBaseCollectionViewCell.swift */,
-				6309C7AB2900011B00A52E4F /* AmplitudeManager+Extension.swift */,
-				6309C7A92900011B00A52E4F /* DBDelegate.swift */,
-				6309C7AA2900011B00A52E4F /* FCMDelegate.swift */,
 				59EC3B7828D32A04001A18B5 /* Constants */,
 				1969693328AB9A6B00FE47A7 /* Amplitude */,
 				82F3D9A92855EE2B0030C44B /* Component */,
@@ -2577,6 +2573,10 @@
 				63C7C8DF286D6F0B00A357D6 /* NewBottomSheetViewController.swift */,
 				63CAC17F289BAE3E00ADA809 /* CommonBaseTableViewCell.swift */,
 				824D5DC028BE1C2500EDC712 /* GlobalFunction.swift */,
+				6309C7A5290000FA00A52E4F /* CommonBaseCollectionViewCell.swift */,
+				6309C7AB2900011B00A52E4F /* AmplitudeManager+Extension.swift */,
+				6309C7A92900011B00A52E4F /* DBDelegate.swift */,
+				6309C7AA2900011B00A52E4F /* FCMDelegate.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
