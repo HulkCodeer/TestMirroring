@@ -48,7 +48,8 @@ internal final class MembershipCardViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-                        
+        
+        GlobalDefine.shared.mainNavi?.interactivePopGestureRecognizer?.isEnabled = false
         MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
             guard isLogin, let self = self else {
                 MemberManager.shared.showLoginAlert()

@@ -150,12 +150,13 @@ internal final class MainViewController: UIViewController, StoryboardView {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         MapEvent.viewMainPage.logEvent()
         self.navigationController?.navigationBar.isHidden = true
+        navigationController?.interactivePopGestureRecognizer?.delegate = nil
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         chargingStatus()
         updateClustering()
         if self.sharedChargerId != nil {
