@@ -35,18 +35,6 @@ class FavoriteViewController: BaseViewController {
         logEventWithFavoriteChargers()
     }
     
-    func prepareActionBar() {
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "nt-9")
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-        
-        navigationItem.leftViews = [backButton]
-        navigationItem.hidesBackButton = true
-        navigationItem.titleLabel.textColor = UIColor(named: "nt-9")
-        navigationItem.titleLabel.text = "즐겨찾기"
-        self.navigationController?.isNavigationBarHidden = false
-    }
-    
     @objc
     fileprivate func handleBackButton() {
         dismiss(animated: true, completion: nil)

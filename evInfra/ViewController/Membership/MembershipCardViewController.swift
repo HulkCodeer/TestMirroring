@@ -39,6 +39,10 @@ internal final class MembershipCardViewController: BaseViewController {
         super.viewDidLoad()
         
         prepareActionBar(with: "EV Pay 카드관리")
+        customNaviBar.backClosure = {
+            GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
+        }
+        
         checkPayStatus()
     }
     
