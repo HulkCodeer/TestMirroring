@@ -27,13 +27,15 @@ internal final class LeftViewReactor: ViewModel, Reactor {
         case refreshBerryPoint
         case setIsAllBerry(Bool)
         case loadPaymentStatus
+        case isAllBerryReload
     }
     
     enum Mutation {
         case setMenuCategoryType(MenuCategoryType)
         case setMyBerryPoint(String)
-        case setIsAllBerryFirst(Bool)
         case setIsAllBerry(Bool)
+        case setIsAllBerryReload(Bool)
+        case firstLoadIsAllBerry(Bool)
         case empty
     }
     
@@ -69,7 +71,7 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                 .convertData()
                 .compactMap(convertToIsUseAllBerry)
                 .map { isAll in
-                    return .setIsAllBerry(isAll)
+                    return .firstLoadIsAllBerry(isAll)
                 }
             ])
             
@@ -101,9 +103,9 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                     let _isAllBerry = self.currentState.isAllBerry                    
                     let hasPayment = isPaymentFineUser
                     let hasMembership = MemberManager.shared.hasMembership
-                    
                     switch (hasPayment, hasMembership) {
-                                                    
+                        // TEST CODE
+//                    switch (true, true) {
                     case (false, false): // 피그마 case 1
                         guard !_isAllBerry else {
                             Observable.just(LeftViewReactor.Action.setIsAllBerry(!_isAllBerry))
@@ -179,6 +181,15 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                     
                     return .empty
                 }
+            
+        case .isAllBerryReload:
+            return self.provider.postGetIsAllBerry()
+                .observe(on: self.backgroundScheduler)
+                .convertData()
+                .compactMap(convertToIsUseAllBerry)
+                .map { isAll in
+                    return .setIsAllBerryReload(isAll)
+                }
         }
     }
     
@@ -193,15 +204,19 @@ internal final class LeftViewReactor: ViewModel, Reactor {
             newState.myBerryPoint = point
             
         case .setIsAllBerry(let isAll):
-            guard isAll else { return newState }
+            newState.isAllBerry = isAll
+            
+            guard isAll else { return newState}
             let message = "0".equals(self.currentState.myBerryPoint) ? "베리가 적립되면 다음 충전 시 베리가 자동으로 전액 사용됩니다." : "다음 충전 후 결제 시 베리가 전액 사용됩니다."
             Snackbar().show(message: "\(message)")
+            
+        case .firstLoadIsAllBerry(let isAll):
+            newState.isAllBerry = isAll
+                                                    
+        case .setIsAllBerryReload(let isAll):
             newState.isAllBerry = isAll
             
         case .empty: break
-            
-        case .setIsAllBerryFirst(let isAll):
-            newState.isAllBerry = isAll
         }
         return newState
     }
