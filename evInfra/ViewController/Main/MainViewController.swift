@@ -139,8 +139,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 }
             }
             .disposed(by: self.disposeBag)
-        
-        GlobalDefine.shared.mainNavi?.view.makeToast("테스트다")        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -264,7 +262,8 @@ internal final class MainViewController: UIViewController, StoryboardView {
         
         reactor.state.compactMap { $0.isShowStartBanner }
             .asDriver(onErrorJustReturn: false)
-            .drive(with: self) { obj, _ in
+            .drive(with: self) { obj, _ in                
+                GlobalDefine.shared.mainNavi?.view.makeProgressToast("아이고성님 동상을 나가라고 하니 어느곳으로 가오리오 이 엄동 설한에 sdkfkdkfj")                
                 GlobalAdsReactor.sharedInstance.state.compactMap { $0.startBanner }
                     .asDriver(onErrorJustReturn: AdsInfo(JSON.null))
                     .drive(onNext: { adInfo in

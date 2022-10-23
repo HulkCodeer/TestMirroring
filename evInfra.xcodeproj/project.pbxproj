@@ -1290,6 +1290,9 @@
 		82829BCF28ADC1330044AD6C /* UIImageView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */; };
 		82829BD128ADC2F20044AD6C /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */; };
 		82829BD228ADC2F20044AD6C /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */; };
+		829C07312904BA9C008E2E6D /* ToastProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C07302904BA9C008E2E6D /* ToastProgressBarView.swift */; };
+		829C07322904BA9C008E2E6D /* ToastProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C07302904BA9C008E2E6D /* ToastProgressBarView.swift */; };
+		829C07332904BA9C008E2E6D /* ToastProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C07302904BA9C008E2E6D /* ToastProgressBarView.swift */; };
 		82B3E7F42837D5A700B8ACF7 /* GlobalDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */; };
 		82C9A01728B0F0EE0003296B /* QRReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01628B0F0EE0003296B /* QRReaderView.swift */; };
 		82C9A01828B0F0EE0003296B /* QRReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01628B0F0EE0003296B /* QRReaderView.swift */; };
@@ -1821,6 +1824,7 @@
 		8261C8B428ECF6A20018E168 /* UIWindow+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow+Extension.swift"; sourceTree = "<group>"; };
 		82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Rx.swift"; sourceTree = "<group>"; };
 		82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
+		829C07302904BA9C008E2E6D /* ToastProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastProgressBarView.swift; sourceTree = "<group>"; };
 		82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalDefine.swift; sourceTree = "<group>"; };
 		82C9A01628B0F0EE0003296B /* QRReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRReaderView.swift; sourceTree = "<group>"; };
 		82C9A01928B10A010003296B /* PaymentQRScanReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentQRScanReactor.swift; sourceTree = "<group>"; };
@@ -2998,6 +3002,7 @@
 				82DD57DA28C5D41900C6C55E /* StickButton.swift */,
 				195C4E8128C5CE3F000B47F7 /* BannerPagerView.swift */,
 				82373CD6290107C200C0B33D /* ToastManager.swift */,
+				829C07302904BA9C008E2E6D /* ToastProgressBarView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -4531,6 +4536,7 @@
 				63F314A2284EC74F001713D2 /* ChargePriceTableViewCell.swift in Sources */,
 				63F314A3284EC74F001713D2 /* EditViewController.swift in Sources */,
 				63F314A4284EC74F001713D2 /* ChargerModel.swift in Sources */,
+				829C07322904BA9C008E2E6D /* ToastProgressBarView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4850,6 +4856,7 @@
 				4262F01924BC4688002FE3A5 /* ChargePriceTableViewCell.swift in Sources */,
 				73450EFA2071EB01008516E9 /* EditViewController.swift in Sources */,
 				73C31BFF20A2B246005B6C53 /* ChargerModel.swift in Sources */,
+				829C07312904BA9C008E2E6D /* ToastProgressBarView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5169,6 +5176,7 @@
 				824D5D1228BDD89C00EDC712 /* ChargePriceTableViewCell.swift in Sources */,
 				824D5D1328BDD89C00EDC712 /* EditViewController.swift in Sources */,
 				824D5D1428BDD89C00EDC712 /* ChargerModel.swift in Sources */,
+				829C07332904BA9C008E2E6D /* ToastProgressBarView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
