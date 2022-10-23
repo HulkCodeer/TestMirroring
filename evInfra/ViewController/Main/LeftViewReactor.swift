@@ -647,8 +647,10 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                             let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)
                             viewcon = mbsStoryboard.instantiateViewController(ofType: MembershipCardViewController.self)
                         } else {
-                            AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "EV Pay 카드 신청 메뉴")
-                            viewcon = MembershipGuideViewController()
+//                            AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "EV Pay 카드 신청 메뉴")
+//                            viewcon = MembershipGuideViewController()
+                            let reacotr = MembershipIssuanceReactor(provider: RestApi())
+                            viewcon = MembershipIssuanceCompleteViewController(reactor: reacotr)
                         }
                         
                         GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
