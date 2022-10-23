@@ -9,6 +9,11 @@
 import ReactorKit
 import SwiftyJSON
 
+protocol LeftViewReactorDelegate: AnyObject {
+    func completeResiterMembershipCard()
+    func completeRegisterPayCard()
+}
+
 protocol MoveSmallCategoryView {
     var mediumCategory: LeftViewReactor.MediumCategoryType { get set }
     var smallMenuList: [String] { get set }
@@ -21,18 +26,23 @@ internal final class LeftViewReactor: ViewModel, Reactor {
         case getMyBerryPoint
         case refreshBerryPoint
         case setIsAllBerry(Bool)
+        case loadPaymentStatus
+        case isAllBerryReload
     }
     
     enum Mutation {
         case setMenuCategoryType(MenuCategoryType)
         case setMyBerryPoint(String)
         case setIsAllBerry(Bool)
+        case setIsAllBerryReload(Bool)
+        case firstLoadIsAllBerry(Bool)
+        case empty
     }
     
     struct State {
         var menuCategoryType: MenuCategoryType = .mypage
-        var myBerryPoint: String?
-        var isAllBerry: Bool?
+        var myBerryPoint: String = "0"
+        var isAllBerry: Bool = false
     }
     
     internal var initialState: State
@@ -56,13 +66,13 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                 .map { pointModel in
                     return .setMyBerryPoint(pointModel.displayPoint)
                 },
-                 self.provider.postGetIsAllBerry()
-                     .observe(on: self.backgroundScheduler)
-                     .convertData()
-                     .compactMap(convertToIsUseAllBerry)
-                     .map { isAll in
-                         return .setIsAllBerry(isAll)
-                     }
+             self.provider.postGetIsAllBerry()
+                .observe(on: self.backgroundScheduler)
+                .convertData()
+                .compactMap(convertToIsUseAllBerry)
+                .map { isAll in
+                    return .firstLoadIsAllBerry(isAll)
+                }
             ])
             
         case .refreshBerryPoint:
@@ -82,15 +92,110 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                 .map { isSuccess in
                     return .setIsAllBerry(isAll)
                 }
+            
+        case .loadPaymentStatus:
+            return self.provider.postPaymentStatus()
+                .convertData()
+                .compactMap(convertToPaymentStatus)
+                .compactMap { [weak self] isPaymentFineUser in
+                    guard let self = self else { return .empty }
+                    
+                    let _isAllBerry = self.currentState.isAllBerry                    
+                    let hasPayment = isPaymentFineUser
+                    let hasMembership = MemberManager.shared.hasMembership
+                    switch (hasPayment, hasMembership) {
+                        // TEST CODE
+//                    switch (true, true) {
+                    case (false, false): // 피그마 case 1
+                        guard !_isAllBerry else {
+                            Observable.just(LeftViewReactor.Action.setIsAllBerry(!_isAllBerry))
+                                .bind(to: self.action)
+                                .disposed(by: self.disposeBag)
+                            return .empty
+                        }
+                        let popupModel = PopupModel(title: "EV Pay카드를 발급하시겠어요?",
+                                                    message: "베리는 EV Pay카드 발급 후\n충전 시 베리로 할인 받을 수 있어요.",
+                                                    confirmBtnTitle: "네 발급할게요.", cancelBtnTitle: "다음에 할게요.",
+                                                    confirmBtnAction: {
+                            AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "좌측메뉴 상단 베리 팝업")
+                            let viewcon = MembershipGuideViewController()
+                            GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                        }, textAlignment: .center)
+                        
+                        let popup = VerticalConfirmPopupViewController(model: popupModel)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                            GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                        })
+                        
+                    case (false, true):
+                        let popupModel = PopupModel(title: "결제 카드를 확인해주세요",
+                                                    message: "현재 회원님의 결제정보에 오류가 있어\n다음 충전 시 베리를 사용할 수 없어요.",
+                                                    confirmBtnTitle: "결제정보 확인하러가기", cancelBtnTitle: "다음에 할게요.",
+                                                    confirmBtnAction: {
+                            AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "좌측메뉴 상단 베리 팝업")
+                            let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPayinfoViewController.self)
+                            viewcon.delegate = self
+                            GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                            
+                        }, textAlignment: .center)
+                                                
+                        let popup = VerticalConfirmPopupViewController(model: popupModel)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                            GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                        })
+                        
+                    case (true, false): // 피그마 case 3
+                        guard !_isAllBerry, !UserDefault().readBool(key: UserDefault.Key.IS_SHOW_BERRYSETTING_CASE3_POPUP) else {
+                            Observable.just(LeftViewReactor.Action.setIsAllBerry(!_isAllBerry))
+                                .bind(to: self.action)
+                                .disposed(by: self.disposeBag)
+                            return .empty
+                        }
+                        Observable.just(LeftViewReactor.Action.setIsAllBerry(!_isAllBerry))
+                            .bind(to: self.action)
+                            .disposed(by: self.disposeBag)
+                        
+                        UserDefault().saveBool(key: UserDefault.Key.IS_SHOW_BERRYSETTING_CASE3_POPUP, value: true)
+                        let popupModel = PopupModel(title: "더 많은 충전소에서\n베리를 적립해보세요!",
+                                                    message: "EV Pay카드 발급 시 환경부, 한국전력 등\n더 많은 충전소에서 적립할 수 있어요.",
+                                                    confirmBtnTitle: "EV Pay카드 안내 보러가기", cancelBtnTitle: "다음에 할게요.",
+                                                    confirmBtnAction: {
+                            AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "좌측메뉴 상단 베리 팝업")
+                            let viewcon = MembershipGuideViewController()
+                            GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                        }, textAlignment: .center)
+                        
+                        let popup = VerticalConfirmPopupViewController(model: popupModel)
+                        GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
+                        
+                    case (true, true): // 피그마 case 4
+                        Observable.just(LeftViewReactor.Action.setIsAllBerry(!_isAllBerry))
+                            .bind(to: self.action)
+                            .disposed(by: self.disposeBag)
+                        
+//                    default:
+//                        Observable.just(LeftViewReactor.Action.loadPaymentStatus)
+//                            .bind(to: self.action)
+//                            .disposed(by: self.disposeBag)
+                    }
+                    
+                    return .empty
+                }
+            
+        case .isAllBerryReload:
+            return self.provider.postGetIsAllBerry()
+                .observe(on: self.backgroundScheduler)
+                .convertData()
+                .compactMap(convertToIsUseAllBerry)
+                .map { isAll in
+                    return .setIsAllBerryReload(isAll)
+                }
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
-        
-        newState.myBerryPoint = nil
-        newState.isAllBerry = nil
-        
+                                
         switch mutation {
         case .setMenuCategoryType(let menuCategoryType):
             newState.menuCategoryType = menuCategoryType
@@ -101,8 +206,46 @@ internal final class LeftViewReactor: ViewModel, Reactor {
         case .setIsAllBerry(let isAll):
             newState.isAllBerry = isAll
             
+            guard isAll else { return newState}
+            let message = "0".equals(self.currentState.myBerryPoint) ? "베리가 적립되면 다음 충전 시 베리가 자동으로 전액 사용됩니다." : "다음 충전 후 결제 시 베리가 전액 사용됩니다."
+            Snackbar().show(message: "\(message)")
+            
+        case .firstLoadIsAllBerry(let isAll):
+            newState.isAllBerry = isAll
+                                                    
+        case .setIsAllBerryReload(let isAll):
+            newState.isAllBerry = isAll
+            
+        case .empty: break
         }
         return newState
+    }
+    
+    private func convertToPaymentStatus(with result: ApiResult<Data, ApiError>) -> Bool {
+        switch result {
+        case .success(let data):
+            let json = JSON(data)
+                        
+            let payCode = json["pay_code"].intValue
+                  
+            switch PaymentStatus(rawValue: payCode) {
+            case .PAY_FINE_USER:
+                return true
+                                                            
+            case .PAY_NO_USER, .PAY_NO_CARD_USER, .PAY_NO_VERIFY_USER, .PAY_DELETE_FAIL_USER:
+                return false
+                                                                                                                               
+            case .PAY_DEBTOR_USER: // 돈안낸 유저
+                return true
+                                                                            
+            default: return false
+            }
+                                        
+        case .failure(let errorMessage):
+            printLog(out: "error: \(errorMessage)")
+            Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 결제정보관리 페이지 종료후 재시도 바랍니다.")
+            return false
+        }
     }
     
     private func convertToData(with result: ApiResult<Data, ApiError> ) -> MyBerryPointModel? {
@@ -468,6 +611,16 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                     default: break
                     }
                 } else {
+                    switch index.row {
+                    case 0: // 내가 쓴 글 보기
+                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "내가 쓴 글 보기 메뉴")
+                        
+                    case 1: // 충전소 제보 내역
+                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "층전소 제보 내역 메뉴")
+                        
+                    default: break
+                    }
+                    
                     MemberManager.shared.showLoginAlert()
                 }
             }
@@ -483,6 +636,7 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                 if isLogin {
                     switch index.row {
                     case 0: // 개인정보 관리
+                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "결제 정보 등록 메뉴")
                         let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
                         let myPayInfoVC = memberStoryboard.instantiateViewController(ofType: MyPayinfoViewController.self)
                         GlobalDefine.shared.mainNavi?.push(viewController: myPayInfoVC)
@@ -493,6 +647,7 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                             let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)
                             viewcon = mbsStoryboard.instantiateViewController(ofType: MembershipCardViewController.self)
                         } else {
+                            AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "EV Pay 카드 신청 메뉴")
                             viewcon = MembershipGuideViewController()
                         }
                         
@@ -510,9 +665,39 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                     default: break
                     }
                 } else {
+                    switch index.row {
+                    case 0: // 개인정보 관리
+                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "결제 정보 등록 메뉴")
+                
+                    case 1: // 회원카드 관리
+                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "EV Pay카드 신청 메뉴")
+                        
+                    case 2: // 렌탈정보 관리
+                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "렌터카 정보 등록 메뉴")
+
+                    case 3: // 충전이력조회
+                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "충전이력 조회 메뉴")
+
+                    default: break
+                    }
+                    
                     MemberManager.shared.showLoginAlert()
                 }
             }
         }
+    }
+}
+
+extension LeftViewReactor: LeftViewReactorDelegate {
+    func completeResiterMembershipCard() {
+        Observable.just(LeftViewReactor.Action.setIsAllBerry(true))
+            .bind(to: self.action)
+            .disposed(by: self.disposeBag)
+    }
+    
+    func completeRegisterPayCard() {
+        Observable.just(LeftViewReactor.Action.setIsAllBerry(true))
+            .bind(to: self.action)
+            .disposed(by: self.disposeBag)
     }
 }

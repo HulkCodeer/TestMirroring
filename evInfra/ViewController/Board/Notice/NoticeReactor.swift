@@ -11,7 +11,7 @@ import Foundation
 import ReactorKit
 import RxSwift
 
-protocol NoticeReactorDelegate: class {
+protocol NoticeReactorDelegate: AnyObject {
     func unkownDetailData()
 }
 

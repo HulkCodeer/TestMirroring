@@ -39,8 +39,7 @@ class UserDefault {
         static let MB_PHONE = "mb_phone"
         static let MB_REG_DATE = "reg_date"
         static let MB_POINT = "point"
-        static let MB_HAS_REPRESENTED = "mb_has_represented"
-        static let IS_SHOW_QR_TOOLTIP = "is_show_qr_tooltip"
+        static let MB_HAS_REPRESENTED = "mb_has_represented"        
         static let IS_SHOW_EVPAY_TOOLTIP = "is_show_evpay_tooltip"
                 
         // 필터 - 개인 설정
@@ -101,11 +100,10 @@ class UserDefault {
         static let RECENT_KEYWORD = "keywords" // 게시글 검색 최근검색어
         static let IS_HIDDEN_DELEVERY_COMPLETE_TOOLTIP = "isDeleveryComplete" // 배송완료 툴팁 저장
                 
-        static let IS_FIRST_INSTALL = "is_first_install" // 앱 최초 설치인지 확인용        
-        
-        // 레프트 메뉴
-        
+        // 레프트 메뉴        
         static let IS_SHOW_BERRYSETTING_CASE3_POPUP = "is_show_berrysetting_case3_popup" // 항상 허용 권한 위치 팝업 띄웠는지 유무
+        static let IS_FIRST_INSTALL = "is_first_install" // 앱 최초 설치인지 확인용
+        static let IS_SHOW_PERMISSION = "IS_SHOW_PERMISSION" // 권한 관련 화면 보여졌는지 체크
     }
 
     func saveString(key:String, value: String) -> Void {
@@ -213,6 +211,13 @@ class UserDefault {
             return value as AnyObject
         } else {
             return nil
+        }
+    }
+    
+    func deleteNoUseKey() {
+        let deleteKeys: [String] = ["is_show_qr_tooltip"]
+        for keyStr in deleteKeys {
+            self.removeObjectForKey(key: keyStr)
         }
     }
 }

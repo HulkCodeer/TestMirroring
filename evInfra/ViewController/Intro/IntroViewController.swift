@@ -16,6 +16,7 @@ import RxCocoa
 import Alamofire
 import RealmSwift
 import ReactorKit
+import CoreLocation
 
 internal final class IntroViewController: UIViewController, StoryboardView {
 
@@ -147,9 +148,14 @@ internal final class IntroViewController: UIViewController, StoryboardView {
                     CLLocationManager().requestWhenInUseAuthorization()
                 }
                 .disposed(by: self.disposeBag)
-            
+                        
             if FCMManager.sharedInstance.originalMemberId.isEmpty {
-                self.movePerminssonsGuideView()                
+                if MemberManager.shared.isShowPermission {
+                    self.moveMainView()
+                } else {
+                    MemberManager.shared.isShowPermission = true
+                    self.movePerminssonsGuideView()
+                }
             } else {
                 self.moveMainView()
             }

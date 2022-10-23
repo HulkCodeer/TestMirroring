@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol ChargerTableViewDelegate: class {
+protocol ChargerTableViewDelegate: AnyObject {
     func didSelectRow(row: Int)
 }
 

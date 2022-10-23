@@ -221,6 +221,15 @@ internal final class MemberManager {
             return UserDefault().readBool(key: UserDefault.Key.IS_FIRST_INSTALL)
         }
     }
+           
+    internal var isShowPermission: Bool { // false일 경우 처음 설치, true일때 처음설치 아님
+        set {
+            UserDefault().saveBool(key: UserDefault.Key.IS_SHOW_PERMISSION, value: newValue)
+        }
+        get {
+            return UserDefault().readBool(key: UserDefault.Key.IS_SHOW_PERMISSION)
+        }
+    }
     
     // 로그인 상태 체크
     internal var isLogin: Bool {
@@ -231,17 +240,7 @@ internal final class MemberManager {
     internal var isKeeper: Bool {
         return UserDefault().readInt(key: UserDefault.Key.MB_LEVEL) == MemberLevel.keeper.rawValue
     }
-    
-    // QR 툴팁 체크
-    internal var isShowQrTooltip: Bool {
-        set {
-            UserDefault().saveBool(key: UserDefault.Key.IS_SHOW_QR_TOOLTIP, value: newValue)
-        }
-        get {
-            return UserDefault().readBool(key: UserDefault.Key.IS_SHOW_QR_TOOLTIP)
-        }
-    }
-    
+            
     // EV Pay 툴팁 체크
     internal var isShowEvPayTooltip: Bool {
         set {
@@ -328,7 +327,7 @@ internal final class MemberManager {
         case .kakao:
             KOSessionTask.userMeTask { (error, me) in
                 if (error as NSError?) != nil {
-                    Snackbar().show(message: "회원 탈퇴로 인해 로그아웃 되었습니다.")
+                    Snackbar().show(message: "로그아웃 되었습니다.")
                     MemberManager.shared.clearData()
                 } else {
                     success?(MemberManager.shared.isLogin)

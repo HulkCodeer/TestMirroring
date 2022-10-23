@@ -9,7 +9,7 @@
 import UIKit
 import Material
 
-protocol AppToolbarDelegate: class {
+protocol AppToolbarDelegate: AnyObject {
     func toolBar(didClick iconButton: IconButton, arg: Any?)
 }
 
