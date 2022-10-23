@@ -121,6 +121,9 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (7.7.0):
     - GoogleUtilities/Logger
+  - GRDB.swift (6.0.0):
+    - GRDB.swift/standard (= 6.0.0)
+  - GRDB.swift/standard (6.0.0)
   - HandyJSON (5.0.2)
   - JJFloatingActionButton (2.5.0)
   - KeychainSwift (13.0.0)
@@ -276,6 +279,7 @@ DEPENDENCIES:
   - Firebase/Messaging
   - FirebaseCrashlytics
   - FSPagerView
+  - GRDB.swift
   - HandyJSON
   - JJFloatingActionButton
   - KeychainSwift (~> 13.0)
@@ -327,6 +331,7 @@ SPEC REPOS:
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleUtilities
+    - GRDB.swift
     - HandyJSON
     - JJFloatingActionButton
     - KeychainSwift
@@ -398,6 +403,7 @@ SPEC CHECKSUMS:
   GoogleAppMeasurement: 5d69e04287fc2c10cc43724bfa4bf31fc12c3dff
   GoogleDataTransport: 1c8145da7117bd68bbbed00cf304edb6a24de00f
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
+  GRDB.swift: 931d12e8a347cce6b6609828d6150ab23d6f4e3f
   HandyJSON: 9e4e236f5d2dbefad5155a77417bbea438201c03
   JJFloatingActionButton: fdc3aefb0f28f04d0f988fa25d5fac97028a9ea7
   KeychainSwift: 23d6c16cbc33f20fafa30c3d783241b4b87d998c
@@ -431,6 +437,6 @@ SPEC CHECKSUMS:
   UIImageCropper: ab1c519018189af90b0780e1c7c9c900945b896e
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: 7796122fe3db29841891680de1e0c54de3a73969
+PODFILE CHECKSUM: b1e748fecb83e796e04c22fa15cdb000a8910713
 
 COCOAPODS: 1.11.2

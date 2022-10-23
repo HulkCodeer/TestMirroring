@@ -10,7 +10,9 @@ import RealmSwift
 
 protocol RealmDB: AnyObject {
     func writeCompanyInfoList(list: [CompanyInfoDB])
-    func readCompanyInfoList() -> [CompanyInfoDB]
+    func readCompanyInfoListBySortAsc() -> [CompanyInfoDB]
+    
+    func writeLastUpdateInfo(lastDate: String)
 }
 
 internal final class SoftberryDBWorker: RealmDB {
@@ -36,11 +38,26 @@ internal final class SoftberryDBWorker: RealmDB {
     
     func readCompanyInfoListBySortAsc() -> [CompanyInfoDB] {
         do {
-            let list = [CompanyInfoDB]()
-            for companyInfo in try realmManger.objects(CompanyInfoDB.self).filter("del = '0'").sorted(by: "sort") {
+            var list = [CompanyInfoDB]()
+            for companyInfo in try realmManger.objects(CompanyInfoDB.self).filter("del == 0").sorted(byKeyPath: "sort") {
                 list.append(companyInfo)
             }
             return list
+        } catch {
+            printLog(out: "SoftberryDBManager Error : \(error)")
+            return []
+        }
+    }
+    
+    func writeLastUpdateInfo(lastDate: String) {
+        guard !lastDate.isEmpty else { return }
+        do {
+            try self.realmManger.write {
+                var lastUpdateInfoDB = LastUpdateInfoDB()
+                lastUpdateInfoDB.mInfoType = "C"
+                lastUpdateInfoDB.mInfoLastUpdateDate = lastDate
+                try self.realmManger.add(lastUpdateInfoDB)
+            }
         } catch {
             printLog(out: "SoftberryDBManager Error : \(error)")
         }

@@ -70,6 +70,8 @@ def shared_pods
   
   pod 'Amplitude', '~> 8.8.0'
   
+  pod 'GRDB.swift'
+  
 end
 
 target 'evInfra' do

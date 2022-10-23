@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import GRDB
 
 class DataBaseHelper {
     static let sharedInstance = DataBaseHelper()
@@ -27,7 +28,7 @@ class DataBaseHelper {
                 //configuration.trace = nil //{ Log.d(tag: DataBaseHelper.TAG, msg: $0) }
                 mDbQueue = try DatabaseQueue(path: dbPath, configuration: configuration)
             }
-        }catch{            
+        }catch{
             printLog(out: "Error info: \(error.localizedDescription)")
         }
     }

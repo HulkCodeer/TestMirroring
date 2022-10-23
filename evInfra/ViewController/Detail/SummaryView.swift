@@ -155,7 +155,7 @@ class SummaryView: UIView {
                 }
                 // [충전소 필터]
                 // 속도
-                let powerTitle = self.charger!.getChargerPower(power: self.charger!.mPower, type: self.charger!.mTotalType)
+                let powerTitle = self.charger!.getChargerPower(power: self.charger!.mPower, type: (self.charger!.mTotalType)!)
                 self.filterPower.setTitle(powerTitle, for: .normal)
                 setBerryTag(btn: filterPower)
                 // 가격

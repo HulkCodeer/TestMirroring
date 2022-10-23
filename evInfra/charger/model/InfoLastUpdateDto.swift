@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import GRDB
 class InfoLastUpdateDto : Record{
     required init(row: Row) {
         mId = row["mId"]

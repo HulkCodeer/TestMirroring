@@ -33,6 +33,9 @@ internal final class IntroReactor: ViewModel, Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .chargerCompanyInfoList:
+            softberryDBWorker.readCompanyInfoListBySortAsc()
+            
+            
             return self.provider.getCompanyInfo(updateDate: "")
                             .convertData()
                             .compactMap(convertToData)
@@ -69,7 +72,8 @@ internal final class IntroReactor: ViewModel, Reactor {
                 return nil
             }
                                     
-            softberryDBManager.writeCompanyInfoList(list: jsonData["list"].arrayValue.map { CompanyInfoDB($0) })
+            softberryDBWorker.writeCompanyInfoList(list: jsonData["list"].arrayValue.map { CompanyInfoDB($0) })
+            softberryDBWorker.writeLastUpdateInfo(lastDate: jsonData["last"].stringValue))
             
             return true
                                                              

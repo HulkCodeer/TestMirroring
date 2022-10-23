@@ -65,7 +65,7 @@ class ChargerManager {
     }
 
     // charger company
-    public func getCompanyInfoListAll() -> [CompanyInfoDB]? {
+    public func getCompanyInfoListAll() -> [CompanyInfoDto]? {
         return try! mDb?.getCompanyInfoList()
     }
     
@@ -125,7 +125,26 @@ class ChargerManager {
         
         return companyVisibleList
     }
-    
+
+    private func updateCompanyInfoListFromServer(json : JSON) {
+        let code = json["code"]
+        let list = json["list"]
+        let last = json["last"]
+
+        if (code == 1000 && list.array!.count > 0) {
+            var companyList = [CompanyInfoDto]()
+            
+            for company in list.arrayValue {
+                let companyInfo = CompanyInfoDto()
+                companyInfo.setCompanyInfo(json: company)
+                companyList.append(companyInfo)
+            }
+            
+            try! mDb?.insertOrUpdateCompanyInfoList(list: companyList)
+            try! mDb?.insertOrUpdateInfoLastUpdate(info_type: ChargerConst.INFO_TYPE_COMPANY, lastUpdate: last.stringValue)
+        }
+    }
+
     public func updateCompanyVisibility(isVisible : Bool, companyID : String) {
         if let companyInfo = try! mDb?.getCompanyInfo(company_id: companyID)! {
             if companyInfo.is_visible != isVisible {
@@ -242,24 +261,13 @@ class ChargerManager {
         if let searchIndex = binarySearch(mChargerStationInfoList, chargerStationInfo) {
             if (searchIndex >= 0 && searchIndex < mChargerStationInfoList.count) {
                 return mChargerStationInfoList[searchIndex]
-            } else {                
+            } else {
                 printLog(out: "charger list size: \(mChargerStationInfoList.count), charger_id: \(charger_id), index: \(searchIndex)")
             }
         }
         return nil
     }
-
-    // from server or from db
-    public func getChargerCompanyInfo() -> String {
-        var updateDate = ""
-        if (try! (mDb?.getCompanyInfoList()!.count)! > 0) {
-            if let dto = try! mDb?.getCompanyInfoLastUpdate() {
-                updateDate = (dto.mInfoLastUpdateDate)!
-            }
-        }
-        return updateDate        
-    }
- 
+     
     // naver map
     public func getStations(completion: @escaping () -> Void) {
         var updateDate = ""
@@ -317,35 +325,7 @@ class ChargerManager {
             }
         }
     }
-
-//    public func getFavoriteList(listener : ChargerManagerListener?) {
-//        
-//        Server.getFavoriteList { (isSuccess, value) in
-//            if isSuccess {
-//                let json = JSON(value)
-//                let code = json["code"]
-//                let list = json["list"]
-//                
-//                if (code == 1000 && list.count > 0) {
-//                
-//                    for favorite in list.arrayValue {
-//                        let chargerId = favorite["id"].stringValue
-//                        let noti = favorite["noti"].boolValue
-//                        
-//                        if let chargerStationInfo = self.getChargerStationInfoById(charger_id: chargerId) {
-//                            chargerStationInfo.mFavorite = true
-//                            chargerStationInfo.mFavoriteNoti = noti
-//                        }
-//                    }
-//                    
-//                    if let chargerManagerListener = listener {
-//                        chargerManagerListener.onComplete()
-//                    }
-//                }
-//            }
-//        }
-//    }
-    
+        
     func getFavoriteCharger() {
         if MemberManager.shared.mbId > 0 {
             Server.getFavoriteList { (isSuccess, value) in

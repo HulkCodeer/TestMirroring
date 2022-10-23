@@ -23,6 +23,12 @@ internal final class CompanyInfoDB: Object {
     @Persisted var del : Bool?
     @Persisted var recommend : Bool?
     
+    internal func isChangeIcon() -> Bool {
+        let updateDate = UserDefault().readString(key: UserDefault.Key.COMPANY_ICON_UPDATE_DATE)
+        guard let _iconDate = self.iconDate else { return false }
+        return StringUtils.isNullOrEmpty(updateDate) || (updateDate.compare(_iconDate).rawValue < 1)
+    }
+    
     convenience init(_ json: JSON) {
         self.init()
         

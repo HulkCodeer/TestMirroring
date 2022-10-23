@@ -841,6 +841,15 @@
 		73F6B53A20F873110030D0B3 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F6B53920F873110030D0B3 /* IntroViewController.swift */; };
 		8204895D28A5F0520030B3BA /* VerticalConfirmPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8204895C28A5F0520030B3BA /* VerticalConfirmPopupViewController.swift */; };
 		8204895E28A5F0520030B3BA /* VerticalConfirmPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8204895C28A5F0520030B3BA /* VerticalConfirmPopupViewController.swift */; };
+		82124F9329052ADC009258F4 /* LastUpdateInfoDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82124F9229052ADC009258F4 /* LastUpdateInfoDB.swift */; };
+		82124F9429052ADC009258F4 /* LastUpdateInfoDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82124F9229052ADC009258F4 /* LastUpdateInfoDB.swift */; };
+		82124F9529052ADC009258F4 /* LastUpdateInfoDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82124F9229052ADC009258F4 /* LastUpdateInfoDB.swift */; };
+		82124F97290532BB009258F4 /* StationInfoDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82124F96290532BB009258F4 /* StationInfoDto.swift */; };
+		82124F98290532BB009258F4 /* StationInfoDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82124F96290532BB009258F4 /* StationInfoDto.swift */; };
+		82124F99290532BB009258F4 /* StationInfoDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82124F96290532BB009258F4 /* StationInfoDto.swift */; };
+		82124F9B2905333C009258F4 /* CompanyInfoDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82124F9A2905333C009258F4 /* CompanyInfoDto.swift */; };
+		82124F9C2905333C009258F4 /* CompanyInfoDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82124F9A2905333C009258F4 /* CompanyInfoDto.swift */; };
+		82124F9D2905333C009258F4 /* CompanyInfoDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82124F9A2905333C009258F4 /* CompanyInfoDto.swift */; };
 		821A05E128627F3100EB1A91 /* NavigationClose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05DD28627F3000EB1A91 /* NavigationClose.swift */; };
 		821A05E228627F3100EB1A91 /* NavigationClose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05DD28627F3000EB1A91 /* NavigationClose.swift */; };
 		821A05E328627F3100EB1A91 /* Arrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05DE28627F3000EB1A91 /* Arrow.swift */; };
@@ -1823,6 +1832,9 @@
 		73F0FE2F21E73F2000653BCB /* ClusterGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterGenerator.swift; sourceTree = "<group>"; };
 		73F6B53920F873110030D0B3 /* IntroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
 		8204895C28A5F0520030B3BA /* VerticalConfirmPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = VerticalConfirmPopupViewController.swift; path = ../../Common/Component/VerticalConfirmPopupViewController.swift; sourceTree = "<group>"; };
+		82124F9229052ADC009258F4 /* LastUpdateInfoDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastUpdateInfoDB.swift; sourceTree = "<group>"; };
+		82124F96290532BB009258F4 /* StationInfoDto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StationInfoDto.swift; sourceTree = "<group>"; };
+		82124F9A2905333C009258F4 /* CompanyInfoDto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyInfoDto.swift; sourceTree = "<group>"; };
 		821A05DD28627F3000EB1A91 /* NavigationClose.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationClose.swift; sourceTree = "<group>"; };
 		821A05DE28627F3000EB1A91 /* Arrow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arrow.swift; sourceTree = "<group>"; };
 		821A05DF28627F3000EB1A91 /* CommonNaviView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonNaviView.swift; sourceTree = "<group>"; };
@@ -3061,6 +3073,7 @@
 			children = (
 				82F938C228F980560000B602 /* CompanyInfoDB.swift */,
 				82B1EB6228FAF1ED00619311 /* StationInfoDB.swift */,
+				82124F9229052ADC009258F4 /* LastUpdateInfoDB.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -3077,6 +3090,8 @@
 		902A11CF248F4D9D0049EF8E /* model */ = {
 			isa = PBXGroup;
 			children = (
+				82124F9A2905333C009258F4 /* CompanyInfoDto.swift */,
+				82124F96290532BB009258F4 /* StationInfoDto.swift */,
 				902A11E1248F7A3A0049EF8E /* ChargerStationInfo.swift */,
 				9014C12624E55C4800CB6549 /* EIPOIItem.swift */,
 				902A11D2248F52B80049EF8E /* InfoLastUpdateDto.swift */,
@@ -3886,6 +3901,7 @@
 				"${BUILT_PRODUCTS_DIR}/FirebaseDynamicLinks/FirebaseDynamicLinks.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseInstallations/FirebaseInstallations.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseMessaging/FirebaseMessaging.framework",
+				"${BUILT_PRODUCTS_DIR}/GRDB.swift/GRDB.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleDataTransport/GoogleDataTransport.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/HandyJSON/HandyJSON.framework",
@@ -3941,6 +3957,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseDynamicLinks.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseInstallations.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseMessaging.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRDB.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleDataTransport.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HandyJSON.framework",
@@ -4062,6 +4079,7 @@
 				"${BUILT_PRODUCTS_DIR}/FirebaseDynamicLinks/FirebaseDynamicLinks.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseInstallations/FirebaseInstallations.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseMessaging/FirebaseMessaging.framework",
+				"${BUILT_PRODUCTS_DIR}/GRDB.swift/GRDB.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleDataTransport/GoogleDataTransport.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/HandyJSON/HandyJSON.framework",
@@ -4117,6 +4135,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseDynamicLinks.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseInstallations.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseMessaging.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRDB.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleDataTransport.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HandyJSON.framework",
@@ -4182,6 +4201,7 @@
 				"${BUILT_PRODUCTS_DIR}/FirebaseDynamicLinks/FirebaseDynamicLinks.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseInstallations/FirebaseInstallations.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseMessaging/FirebaseMessaging.framework",
+				"${BUILT_PRODUCTS_DIR}/GRDB.swift/GRDB.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleDataTransport/GoogleDataTransport.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/HandyJSON/HandyJSON.framework",
@@ -4237,6 +4257,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseDynamicLinks.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseInstallations.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseMessaging.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRDB.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleDataTransport.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HandyJSON.framework",
@@ -4576,13 +4597,16 @@
 				63762F4C2869A8F000C951BF /* QuitAccountReasonQuestionViewController.swift in Sources */,
 				63F31474284EC74F001713D2 /* EvDetailViewController.swift in Sources */,
 				63F31475284EC74F001713D2 /* CodableCluster.swift in Sources */,
+				82124F9429052ADC009258F4 /* LastUpdateInfoDB.swift in Sources */,
 				63F31476284EC74F001713D2 /* MyCouponContentsViewController.swift in Sources */,
 				63F31477284EC74F001713D2 /* Event.swift in Sources */,
 				63F31478284EC74F001713D2 /* BoardTableViewFooter.swift in Sources */,
 				82E1302928DEAE2A00E7983D /* Server.swift in Sources */,
+				82124F9C2905333C009258F4 /* CompanyInfoDto.swift in Sources */,
 				82DD57DC28C5D41900C6C55E /* StickButton.swift in Sources */,
 				63F3147A284EC74F001713D2 /* UIAlertController+Extension.swift in Sources */,
 				59317D1328B7702C00B1AE92 /* NewNoticeDetailViewController.swift in Sources */,
+				82124F98290532BB009258F4 /* StationInfoDto.swift in Sources */,
 				63F3147B284EC74F001713D2 /* RentalCarCardListView.swift in Sources */,
 				195C4E8328C5CE3F000B47F7 /* BannerPagerView.swift in Sources */,
 				633FF2FF28B342630041BDBB /* Radio.swift in Sources */,
@@ -4899,13 +4923,16 @@
 				821A717528B2762700B13816 /* NewPaymentStatusViewController.swift in Sources */,
 				63762F4B2869A8F000C951BF /* QuitAccountReasonQuestionViewController.swift in Sources */,
 				7357595720917C03008181E9 /* EvDetailViewController.swift in Sources */,
+				82124F9329052ADC009258F4 /* LastUpdateInfoDB.swift in Sources */,
 				73AF8FC321C77E1B003CB2CF /* CodableCluster.swift in Sources */,
 				733662D222FAB6720049AEFE /* MyCouponContentsViewController.swift in Sources */,
 				733662CC22EFECB80049AEFE /* Event.swift in Sources */,
 				DB87607420690B370095394B /* BoardTableViewFooter.swift in Sources */,
+				82124F9B2905333C009258F4 /* CompanyInfoDto.swift in Sources */,
 				82DD57DB28C5D41900C6C55E /* StickButton.swift in Sources */,
 				DBEE9AFA2117DBF000770D04 /* UIAlertController+Extension.swift in Sources */,
 				59317D1228B7702C00B1AE92 /* NewNoticeDetailViewController.swift in Sources */,
+				82124F97290532BB009258F4 /* StationInfoDto.swift in Sources */,
 				63DA0A05282E337F0021292C /* RentalCarCardListView.swift in Sources */,
 				195C4E8228C5CE3F000B47F7 /* BannerPagerView.swift in Sources */,
 				633FF2FE28B342630041BDBB /* Radio.swift in Sources */,
@@ -5222,13 +5249,16 @@
 				824D5CDD28BDD89C00EDC712 /* ServiceGuideViewController.swift in Sources */,
 				824D5CDE28BDD89C00EDC712 /* NewPaymentStatusViewController.swift in Sources */,
 				824D5CDF28BDD89C00EDC712 /* QuitAccountReasonQuestionViewController.swift in Sources */,
+				82124F9529052ADC009258F4 /* LastUpdateInfoDB.swift in Sources */,
 				824D5CE028BDD89C00EDC712 /* EvDetailViewController.swift in Sources */,
 				63A9DE4E28EECEC700A8BFBE /* AmpChargerStationModel.swift in Sources */,
 				824D5CE128BDD89C00EDC712 /* CodableCluster.swift in Sources */,
 				824D5CE228BDD89C00EDC712 /* MyCouponContentsViewController.swift in Sources */,
+				82124F9D2905333C009258F4 /* CompanyInfoDto.swift in Sources */,
 				824D5CE328BDD89C00EDC712 /* Event.swift in Sources */,
 				82E1302A28DEAE2A00E7983D /* Server.swift in Sources */,
 				824D5CE428BDD89C00EDC712 /* BoardTableViewFooter.swift in Sources */,
+				82124F99290532BB009258F4 /* StationInfoDto.swift in Sources */,
 				82DD57DD28C5D41900C6C55E /* StickButton.swift in Sources */,
 				824D5CE628BDD89C00EDC712 /* UIAlertController+Extension.swift in Sources */,
 				824D5CE728BDD89C00EDC712 /* RentalCarCardListView.swift in Sources */,
