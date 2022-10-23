@@ -20,7 +20,7 @@ internal final class LastUpdateInfoDB: Object {
     convenience init(_ json: JSON) {
         self.init()
         
-        self.mId = json["mId"].doubleValue
+        self.mId = json["mId"].stringValue
         self.mInfoLastUpdateDate = json["mInfoLastUpdateDate"].stringValue
         self.mInfoType = json["mInfoType"].stringValue
     }

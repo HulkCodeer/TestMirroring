@@ -108,7 +108,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     private func setupEntryController(_ scene: UIScene) {
         // init initial view controller
-        let introViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(ofType: IntroViewController.self)
+        let viewcon = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(ofType: IntroViewController.self)
         let reactor = IntroReactor(provider: RestApi())
         viewcon.reactor = reactor
         

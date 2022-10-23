@@ -31,6 +31,7 @@
 import UIKit
 import Material
 import SwiftyJSON
+import GRDB
 
 class SearchViewController: UIViewController {
     

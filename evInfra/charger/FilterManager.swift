@@ -120,9 +120,9 @@ internal final class FilterManager {
         }
     }
     
-    internal func saveIsMembershipCardChecked(_ isChecked: Bool) {        
+    internal func saveIsMembershipCardChecked(_ isChecked: Bool) {
         filter.isMembershipCardChecked = isChecked
-        defaults.saveBool(key: UserDefault.Key.FILTER_MEMBERSHIP_CARD, value: isChecked)                
+        defaults.saveBool(key: UserDefault.Key.FILTER_MEMBERSHIP_CARD, value: isChecked)
     }
     
     internal func getIsMembershipCardChecked() -> Bool {

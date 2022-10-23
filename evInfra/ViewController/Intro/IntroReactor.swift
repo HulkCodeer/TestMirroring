@@ -73,7 +73,7 @@ internal final class IntroReactor: ViewModel, Reactor {
             }
                                     
             softberryDBWorker.writeCompanyInfoList(list: jsonData["list"].arrayValue.map { CompanyInfoDB($0) })
-            softberryDBWorker.writeLastUpdateInfo(lastDate: jsonData["last"].stringValue))
+            softberryDBWorker.writeLastUpdateInfo(lastDate: jsonData["last"].stringValue)
             
             return true
                                                              

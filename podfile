@@ -70,7 +70,7 @@ def shared_pods
   
   pod 'Amplitude', '~> 8.8.0'
   
-  pod 'GRDB.swift'
+  pod 'GRDB.swift', '5.11.0'
   
 end
 

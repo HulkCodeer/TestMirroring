@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol DelegateFilterChange: AnyObject {    
+protocol DelegateFilterChange: AnyObject {
     func onChangedFilter(type: FilterType)
 }
 
@@ -39,7 +39,7 @@ class ChargerFilter {
     
     var isMembershipCardChecked = true
     
-    var companyDictionary: [String: CompanyInfoDB] = [:]
+    var companyDictionary: [String: CompanyInfoDto] = [:]
     
     func copy() -> ChargerFilter {
         let filter = ChargerFilter()
@@ -66,7 +66,7 @@ class ChargerFilter {
     }
     
     func getCompanySelected(companyId: String) -> Bool {
-        return companyDictionary[companyId]?.isVisible ?? false
+        return companyDictionary[companyId]?.is_visible ?? false
     }
     
     func isSame(filter : ChargerFilter?) -> Bool{
