@@ -19,7 +19,9 @@ internal class BaseViewController: UIViewController {
     internal var disposeBag = DisposeBag()
     internal let picker = UIImagePickerController()
     
-    internal lazy var customNaviBar = CommonNaviView()
+    internal lazy var customNaviBar = CommonNaviView().then {
+        $0.isHidden = true
+    }
 
     internal lazy var activityIndicator: UIActivityIndicatorView = {
        let activitiIndicator = UIActivityIndicatorView()
@@ -41,6 +43,17 @@ internal class BaseViewController: UIViewController {
     }()
     
     // MARK: SYSTEM FUNC
+    
+    override func loadView() {
+        super.loadView()
+        
+        view.addSubview(customNaviBar)
+        customNaviBar.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(Constants.view.naviBarHeight)
+        }
+    }
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -92,16 +105,11 @@ internal class BaseViewController: UIViewController {
     }
     
     internal func prepareActionBar(with title: String, backButtonCompletion: (() -> Void)? = nil) {
-        navigationController?.isNavigationBarHidden = true
         customNaviBar.naviTitleLbl.text = title
+ 
+        navigationController?.isNavigationBarHidden = true
+        customNaviBar.isHidden = false
 
-        view.addSubview(customNaviBar)
-        customNaviBar.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.height.equalTo(56)
-        }
-        
         if let _backButtonCompletion = backButtonCompletion {
             customNaviBar.backClosure = {
                 GlobalDefine.shared.mainNavi?.pop()
