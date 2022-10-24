@@ -276,15 +276,28 @@ extension SearchViewController: SearchTableViewViewDelegate {
 
 extension SearchViewController {
     func logEventWithSelectedCharger(_ index: Int) {
-        guard let charger = self.tableView.chargerList?[index] else { return }
         
+        var selectedStationName: String = ""
+        var searchTypeText: String = "충전소 검색"
+        
+        switch searchType {
+        case SearchViewController.TABLE_VIEW_TYPE_CHARGER:
+            guard let charger = self.tableView.chargerList?[index] else { return }
+            selectedStationName = charger.mStationInfoDto?.mSnm ?? ""
+        case SearchViewController.TABLE_VIEW_TYPE_ADDRESS:
+            guard let poi = self.addrTableView.poiList?[index] else { return }
+            selectedStationName = poi.name ?? ""
+            searchTypeText = "주소 검색"
+        default: break
+        }
+
         if let searchBar = searchBarController?.searchBar,
             let text = searchBar.textField.text {
 
             let property: [String: Any] = ["searchKeyword": text,
-                                           "selectedStation": charger.mStationInfoDto?.mSnm ?? "",
+                                           "selectedStation": selectedStationName,
                                            "result": "성공",
-                                           "stationOrAddress": "\(searchType == SearchViewController.TABLE_VIEW_TYPE_CHARGER ? "충전소 검색" : "주소 검색")"]                                                   
+                                           "stationOrAddress": searchTypeText]
             SearchEvent.clickSearchChooseStation.logEvent(property: property)
         }
     }

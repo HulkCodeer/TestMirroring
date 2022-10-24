@@ -215,6 +215,7 @@ class RepayListViewController: UIViewController, MyPayRegisterViewDelegate, Repa
     @IBAction func onClickChangeCard(_ sender: Any) {
         let dialogMessage = UIAlertController(title: "카드를 변경하시겠습니까?", message: "카드 변경 진행 시, 변경 완료 후 기존에 등록된 카드는 삭제됩니다. ", preferredStyle: .alert)
         let ok = UIAlertAction(title: "확인", style: .default, handler: {(ACTION) -> Void in
+            AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "미수금 화면")
             let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
             let payRegistVC = memberStoryboard.instantiateViewController(withIdentifier: "MyPayRegisterViewController") as! MyPayRegisterViewController
             payRegistVC.myPayRegisterViewDelegate = self

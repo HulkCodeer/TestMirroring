@@ -198,7 +198,7 @@ internal final class RestApi: SoftberryAPI {
             "member_id": MemberManager.shared.memberId,
             "mb_id": MemberManager.shared.mbId,
             "ad_id": eventId,
-            "action": action,
+            "action": String(action.rawValue),
             "page": page.rawValue,
             "layer": layer.rawValue
         ]
