@@ -33,10 +33,13 @@ internal final class IntroReactor: ViewModel, Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .chargerCompanyInfoList:
-            softberryDBWorker.readCompanyInfoListBySortAsc()
+            var updateDate: String = ""
+            let companyInfoList = softberryDBWorker.readCompanyInfoListBySortAsc()
+            if companyInfoList.count > 0 {
+                updateDate = softberryDBWorker.readCompanyUpdateLastDate()
+            }
             
-            
-            return self.provider.getCompanyInfo(updateDate: "")
+            return self.provider.getCompanyInfo(updateDate: updateDate)
                             .convertData()
                             .compactMap(convertToData)
                             .map { isComplete in

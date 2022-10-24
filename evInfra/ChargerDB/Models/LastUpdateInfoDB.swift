@@ -11,16 +11,16 @@ import SwiftyJSON
 
 internal final class LastUpdateInfoDB: Object {
     
-    @Persisted(primaryKey: true) var mId : String?
+    @Persisted(primaryKey: true) var mId: Int
     
-    @Persisted var mInfoLastUpdateDate : String?
-    @Persisted var mInfoType : String?
+    @Persisted var mInfoLastUpdateDate: String
+    @Persisted var mInfoType: String
     
     
     convenience init(_ json: JSON) {
         self.init()
         
-        self.mId = json["mId"].stringValue
+        self.mId = json["mId"].intValue
         self.mInfoLastUpdateDate = json["mInfoLastUpdateDate"].stringValue
         self.mInfoType = json["mInfoType"].stringValue
     }

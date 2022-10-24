@@ -13,6 +13,7 @@ protocol RealmDB: AnyObject {
     func readCompanyInfoListBySortAsc() -> [CompanyInfoDB]
     
     func writeLastUpdateInfo(lastDate: String)
+    func readCompanyUpdateLastDate() -> String
 }
 
 internal final class SoftberryDBWorker: RealmDB {
@@ -52,14 +53,33 @@ internal final class SoftberryDBWorker: RealmDB {
     func writeLastUpdateInfo(lastDate: String) {
         guard !lastDate.isEmpty else { return }
         do {
+            var idx = 0
+            if let lastInfoData = try self.realmManger.objects(LastUpdateInfoDB.self).last {
+                idx = lastInfoData.mId + 1
+            }
+            
             try self.realmManger.write {
-                var lastUpdateInfoDB = LastUpdateInfoDB()
+                let lastUpdateInfoDB = LastUpdateInfoDB()
+                lastUpdateInfoDB.mId = idx
                 lastUpdateInfoDB.mInfoType = "C"
                 lastUpdateInfoDB.mInfoLastUpdateDate = lastDate
                 try self.realmManger.add(lastUpdateInfoDB)
             }
         } catch {
             printLog(out: "SoftberryDBManager Error : \(error)")
+        }
+    }
+    
+    func readCompanyUpdateLastDate() -> String {
+        do {
+            var updateDate = ""
+            if let lastUpdateInfoDB = try self.realmManger.objects(LastUpdateInfoDB.self).filter("mInfoType == 'C'").last {
+                updateDate = lastUpdateInfoDB.mInfoLastUpdateDate
+            }
+            return updateDate
+        } catch {
+            printLog(out: "SoftberryDBManager Error : \(error)")
+            return ""
         }
     }
 }
