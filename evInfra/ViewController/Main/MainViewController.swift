@@ -589,19 +589,17 @@ internal final class MainViewController: UIViewController, StoryboardView {
     }
     
     @IBAction func onClickMainFavorite(_ sender: UIButton) {
-        GlobalDefine.shared.mainNavi?.view.makeToastBtn("안녕하세요 하하하하하하하하하하하하하하하하하하하", btnTitle: "아이고야")
-        
-//        MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
-//            guard let self = self else { return }
-//            if isLogin {
-//                let favoriteViewController = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: FavoriteViewController.self)
-//                favoriteViewController.delegate = self
-//                GlobalDefine.shared.mainNavi?.push(viewController: favoriteViewController, subtype: CATransitionSubtype.fromTop)
-//            } else {
-//                AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "즐겨찾기 리스트/버튼")
-//                MemberManager.shared.showLoginAlert()
-//            }
-//        }
+        MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
+            guard let self = self else { return }
+            if isLogin {
+                let favoriteViewController = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: FavoriteViewController.self)
+                favoriteViewController.delegate = self
+                GlobalDefine.shared.mainNavi?.push(viewController: favoriteViewController, subtype: CATransitionSubtype.fromTop)
+            } else {
+                AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "즐겨찾기 리스트/버튼")
+                MemberManager.shared.showLoginAlert()
+            }
+        }
     }
     
     private func hideFilter(){
@@ -1487,43 +1485,39 @@ extension MainViewController {
     }
     
     @IBAction func onClickMainCharge(_ sender: UIButton) {
-        GlobalDefine.shared.mainNavi?.view.makeToast("안녕하세요 하하하하하하하하하하하하하하하하하하하하하하하하하하하", type: .check)
-        
-//        MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
-//            guard let self = self else { return }
-//            if isLogin {
-//                Server.getChargingId { (isSuccess, responseData) in
-//                    if isSuccess {
-//                        let json = JSON(responseData)
-//                        self.responseGetChargingId(response: json)
-//                    }
-//                }
-//            } else {
-//                AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "QR충전")
-//                MemberManager.shared.showLoginAlert()
-//            }
-//        }
+        MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
+            guard let self = self else { return }
+            if isLogin {
+                Server.getChargingId { (isSuccess, responseData) in
+                    if isSuccess {
+                        let json = JSON(responseData)
+                        self.responseGetChargingId(response: json)
+                    }
+                }
+            } else {
+                AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "QR충전")
+                MemberManager.shared.showLoginAlert()
+            }
+        }
     }
     
     @IBAction func onClickCommunityBtn(_ sender: Any) {
-        GlobalDefine.shared.mainNavi?.view.makeToast("안녕하세요 하하하하하하하하하하하하하하하하하하하하하하하하하하하", type: .info)
-//        UserDefault().saveInt(key: UserDefault.Key.LAST_FREE_ID, value: Board.sharedInstance.freeBoardId)
-//
-//        let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
-//        let freeBoardViewController = boardStoryboard.instantiateViewController(ofType: CardBoardViewController.self)
-//        freeBoardViewController.category = .FREE
-//        GlobalDefine.shared.mainNavi?.push(viewController: freeBoardViewController)
+        UserDefault().saveInt(key: UserDefault.Key.LAST_FREE_ID, value: Board.sharedInstance.freeBoardId)
+
+        let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
+        let freeBoardViewController = boardStoryboard.instantiateViewController(ofType: CardBoardViewController.self)
+        freeBoardViewController.category = .FREE
+        GlobalDefine.shared.mainNavi?.push(viewController: freeBoardViewController)
     }
     
     @IBAction func onClickMainHelp(_ sender: UIButton) {
-        GlobalDefine.shared.mainNavi?.view.makeToast("안녕하세요 하하하하하하하하하하하하하하하하하하하하하하하하하하하", type: .lock)
-//        let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-//        let termsViewController = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
-//        termsViewController.tabIndex = .faqTop
-//        GlobalDefine.shared.mainNavi?.push(viewController: termsViewController)
-//        
-//        let property: [String: Any] = ["source": "메인 페이지"]
-//        BoardEvent.viewFAQ.logEvent(property: property)
+        let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
+        let termsViewController = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
+        termsViewController.tabIndex = .faqTop
+        GlobalDefine.shared.mainNavi?.push(viewController: termsViewController)
+        
+        let property: [String: Any] = ["source": "메인 페이지"]
+        BoardEvent.viewFAQ.logEvent(property: property)
     }
 }
 

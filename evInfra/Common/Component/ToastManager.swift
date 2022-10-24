@@ -55,8 +55,9 @@ extension UIView {
         }
     }
     
-    internal func makeToast(_ message: String?, completion: ((_ didTap: Bool) -> Void)? = nil) {
+    internal func makeToast(_ message: String?, toastBttomMargin: CGFloat = 0, completion: ((_ didTap: Bool) -> Void)? = nil) {
         do {
+            ToastManager.shared.style.toastBottomMargin = toastBttomMargin
             let toast = try toastViewForMessage(message, style: ToastManager.shared.style)
             showToast(toast, duration: ToastManager.shared.duration, position: ToastManager.shared.position, completion: completion)
         } catch ToastError.missingParameters {
@@ -64,8 +65,9 @@ extension UIView {
         } catch {}
     }
     
-    internal func makeToast(_ message: String?, type: ToastImageType? = nil, completion: ((_ didTap: Bool) -> Void)? = nil) {
+    internal func makeToast(_ message: String?, type: ToastImageType? = nil, toastBttomMargin: CGFloat = 0, completion: ((_ didTap: Bool) -> Void)? = nil) {
         do {
+            ToastManager.shared.style.toastBottomMargin = toastBttomMargin
             let toast = try toastViewForMessage(message, type: type, style: ToastManager.shared.style)
             showToast(toast, duration: ToastManager.shared.duration, position: ToastManager.shared.position, completion: completion)
         } catch ToastError.missingParameters {
@@ -73,17 +75,19 @@ extension UIView {
         } catch {}
     }
     
-    internal func makeToastBtn(_ message: String?, btnTitle: String, completion: ((_ didTap: Bool) -> Void)? = nil) {
+    internal func makeToastBtn(_ message: String?, btnTitle: String, toastBttomMargin: CGFloat = 0, btnClickClosure: @escaping (() -> Void), completion: ((_ didTap: Bool) -> Void)? = nil) {
         do {
-            let toast = try toastViewForMessageBtn(message, btnTitle: btnTitle, style: ToastManager.shared.style)
+            ToastManager.shared.style.toastBottomMargin = toastBttomMargin
+            let toast = try toastViewForMessageBtn(message, btnTitle: btnTitle, style: ToastManager.shared.style, btnClickClosure: btnClickClosure)
             showToast(toast, duration: ToastManager.shared.duration, position: ToastManager.shared.position, completion: completion)
         } catch ToastError.missingParameters {
             printLog(out: "Error: Message, Image all nil")
         } catch {}
     }
     
-    internal func makeProgressToast(_ message: String?, completion: ((_ didTap: Bool) -> Void)? = nil) {
+    internal func makeProgressToast(_ message: String?, toastBttomMargin: CGFloat = 0, completion: ((_ didTap: Bool) -> Void)? = nil) {
         do {
+            ToastManager.shared.style.toastBottomMargin = toastBttomMargin
             let toast = try toastViewForProgressMessage(message, style: ToastManager.shared.style)
             showToast(toast, duration: ToastManager.shared.duration, position: ToastManager.shared.position, completion: completion)
         } catch ToastError.missingParameters {
@@ -206,6 +210,12 @@ extension UIView {
     }
     
     // MARK: - Events
+    
+    @objc
+    private func buttonTapped() {
+        hideAllToasts(clearQueue: true)
+        ToastManager.shared.btnClickClosure?()
+    }
     
     @objc
     private func handleToastTapped(_ recognizer: UITapGestureRecognizer) {
@@ -336,15 +346,23 @@ extension UIView {
         return wrapperView
     }
     
-    internal func toastViewForMessageBtn(_ message: String?, btnTitle: String, style: ToastStyle) throws -> UIView {
+    internal func toastViewForMessageBtn(_ message: String?, btnTitle: String, style: ToastStyle, btnClickClosure: @escaping (() -> Void)) throws -> UIView {
         guard let _message = message else {
             throw ToastError.missingParameters
         }
         
+        ToastManager.shared.btnClickClosure = btnClickClosure
+        
+        var buttonRect: CGRect = CGRect(x: 0, y: style.verticalMargin, width: 0, height: 0)
+        
         let button = UIButton().then {
             $0.setTitle("\(btnTitle)", for: .normal)
             $0.setTitleColor(Colors.gr4.color, for: .normal)
+            $0.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
+            $0.addTarget(self, action: #selector(self.buttonTapped), for: .touchUpInside)
         }
+        
+        buttonRect.size = button.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
                                         
         let messageLbl = UILabel().then {
             $0.text = _message
@@ -355,7 +373,7 @@ extension UIView {
             $0.textColor = style.messageColor
             $0.backgroundColor = UIColor.clear
                                                             
-            let calcMessageSize = CGSize(width: (self.bounds.size.width - 32) - (style.noImgViewMessageLeadingMargin * 2) - button.frame.width, height: self.bounds.size.height * style.maxHeightPercentage)
+            let calcMessageSize = CGSize(width: (self.bounds.size.width - 32) - (style.messageTrailingMargin * 2) - buttonRect.width, height: self.bounds.size.height * style.maxHeightPercentage)
             let messageSize = $0.sizeThatFits(calcMessageSize)
             let actualWidth = messageSize.width
             let actualHeight = messageSize.height
@@ -363,12 +381,14 @@ extension UIView {
         }
         
         var messageRect = CGRect.zero
-        messageRect.origin.x = style.noImgViewMessageLeadingMargin
+        messageRect.origin.x = style.messageTrailingMargin
         messageRect.origin.y = style.verticalMargin
         messageRect.size.width = messageLbl.bounds.size.width
         messageRect.size.height = messageLbl.bounds.size.height
-                                
-        let wrapperWidth = messageRect.origin.x + messageRect.size.width + style.messageTrailingMargin
+        
+        buttonRect.origin.x = messageRect.origin.x + messageRect.size.width + style.noImgViewMessageLeadingMargin
+                                        
+        let wrapperWidth = messageRect.origin.x + messageRect.size.width + style.messageTrailingMargin + buttonRect.size.width + style.messageTrailingMargin
         let wrapperHeight = messageRect.origin.y + messageRect.size.height + style.verticalMargin
                 
         button.center.y = wrapperHeight / 2
@@ -387,6 +407,7 @@ extension UIView {
                                                                                    
         wrapperView.frame = CGRect(x: 0.0, y: 0.0, width: wrapperWidth, height: wrapperHeight)
         messageLbl.frame = messageRect
+        button.frame = buttonRect
         wrapperView.addSubview(messageLbl)
         wrapperView.addSubview(button)
                         
@@ -519,7 +540,7 @@ internal struct ToastStyle {
     fileprivate var fadeDuration: TimeInterval = 0.2
     fileprivate var activityIndicatorColor: UIColor = .white
     fileprivate var activityBackgroundColor: UIColor = UIColor.black.withAlphaComponent(0.8)
-    
+    fileprivate var toastBottomMargin: CGFloat = 0.0
 }
 
 internal final class ToastManager {
@@ -529,6 +550,7 @@ internal final class ToastManager {
     fileprivate var isQueueEnabled = false
     fileprivate var duration: TimeInterval = 3.0
     fileprivate var position: ToastPosition = .bottom
+    fileprivate var btnClickClosure: (() -> Void)?
 }
 
 internal enum ToastPosition {
@@ -538,7 +560,7 @@ internal enum ToastPosition {
     
     fileprivate func centerPoint(forToast toast: UIView, inSuperview superview: UIView) -> CGPoint {
         let topPadding: CGFloat = ToastManager.shared.style.messageBottomMargin + superview.csSafeAreaInsets.top
-        let bottomPadding: CGFloat = ToastManager.shared.style.messageBottomMargin + superview.csSafeAreaInsets.bottom
+        let bottomPadding: CGFloat = ToastManager.shared.style.messageBottomMargin + superview.csSafeAreaInsets.bottom + ToastManager.shared.style.toastBottomMargin
         
         switch self {
         case .top:
