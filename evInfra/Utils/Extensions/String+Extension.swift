@@ -48,9 +48,17 @@ extension String {
         return String(self[startIndex..<endIndex])
     }
     
-    func size(OfFont font: UIFont) -> CGSize {
+    func size(of font: UIFont) -> CGSize {
         let fontAttribute = [NSAttributedString.Key.font: font]
         return self.size(withAttributes: fontAttribute)  // for Single Line
+    }
+    
+    func toSizeRect(of font: UIFont, maxWidth: CGFloat) -> CGSize {
+        let attributes = [NSAttributedString.Key.font : font]
+        var textSize = self.boundingRect(with: CGSize(width: maxWidth, height: CGFloat.greatestFiniteMagnitude), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: attributes, context: nil).size        
+        textSize.width = ceil(textSize.width)
+        textSize.height = ceil(textSize.height)
+        return textSize
     }
     
     func parseDouble() -> Double? {
