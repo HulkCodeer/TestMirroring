@@ -54,11 +54,8 @@ internal final class MainReactor: ViewModel, Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .showMarketingPopup:
-            guard let _isShowMarketingPopup = MemberManager.shared.isAllowMarketingNoti else {
-                return .just(.setShowMarketingPopup(true))
-            }
-            
-            if !_isShowMarketingPopup {
+            let isShowMarketingPopup = UserDefault().readBool(key: UserDefault.Key.DID_SHOW_MARKETING_POPUP)
+            if !isShowMarketingPopup {
                 return .just(.setShowMarketingPopup(true))
             } else {
                 return .just(.setShowStartBanner(true))
