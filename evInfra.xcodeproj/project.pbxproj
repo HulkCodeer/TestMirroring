@@ -1293,6 +1293,9 @@
 		82829BCF28ADC1330044AD6C /* UIImageView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */; };
 		82829BD128ADC2F20044AD6C /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */; };
 		82829BD228ADC2F20044AD6C /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */; };
+		8284047A290021FE0081567C /* TooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82840479290021FE0081567C /* TooltipView.swift */; };
+		8284047B290021FE0081567C /* TooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82840479290021FE0081567C /* TooltipView.swift */; };
+		8284047C290021FE0081567C /* TooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82840479290021FE0081567C /* TooltipView.swift */; };
 		829C07352904D44E008E2E6D /* MembershipIssuanceCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C07342904D44E008E2E6D /* MembershipIssuanceCompleteViewController.swift */; };
 		829C07362904D44E008E2E6D /* MembershipIssuanceCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C07342904D44E008E2E6D /* MembershipIssuanceCompleteViewController.swift */; };
 		829C07372904D44E008E2E6D /* MembershipIssuanceCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C07342904D44E008E2E6D /* MembershipIssuanceCompleteViewController.swift */; };
@@ -1302,9 +1305,6 @@
 		829C073E2904DD0A008E2E6D /* ShipmentStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C073D2904DD0A008E2E6D /* ShipmentStatusView.swift */; };
 		829C073F2904DD0A008E2E6D /* ShipmentStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C073D2904DD0A008E2E6D /* ShipmentStatusView.swift */; };
 		829C07402904DD0A008E2E6D /* ShipmentStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C073D2904DD0A008E2E6D /* ShipmentStatusView.swift */; };
-		8284047A290021FE0081567C /* TooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82840479290021FE0081567C /* TooltipView.swift */; };
-		8284047B290021FE0081567C /* TooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82840479290021FE0081567C /* TooltipView.swift */; };
-		8284047C290021FE0081567C /* TooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82840479290021FE0081567C /* TooltipView.swift */; };
 		82B3E7F42837D5A700B8ACF7 /* GlobalDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */; };
 		82C9A01728B0F0EE0003296B /* QRReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01628B0F0EE0003296B /* QRReaderView.swift */; };
 		82C9A01828B0F0EE0003296B /* QRReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01628B0F0EE0003296B /* QRReaderView.swift */; };
@@ -1837,10 +1837,10 @@
 		8261C8B428ECF6A20018E168 /* UIWindow+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow+Extension.swift"; sourceTree = "<group>"; };
 		82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Rx.swift"; sourceTree = "<group>"; };
 		82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
+		82840479290021FE0081567C /* TooltipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipView.swift; sourceTree = "<group>"; };
 		829C07342904D44E008E2E6D /* MembershipIssuanceCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipIssuanceCompleteViewController.swift; sourceTree = "<group>"; };
 		829C07392904D4DD008E2E6D /* MembershipIssuanceReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipIssuanceReactor.swift; sourceTree = "<group>"; };
 		829C073D2904DD0A008E2E6D /* ShipmentStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipmentStatusView.swift; sourceTree = "<group>"; };
-		82840479290021FE0081567C /* TooltipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipView.swift; sourceTree = "<group>"; };
 		82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalDefine.swift; sourceTree = "<group>"; };
 		82C9A01628B0F0EE0003296B /* QRReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRReaderView.swift; sourceTree = "<group>"; };
 		82C9A01928B10A010003296B /* PaymentQRScanReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentQRScanReactor.swift; sourceTree = "<group>"; };
@@ -2607,10 +2607,8 @@
 				82D986802839BE080030F0FC /* ViewModel.swift */,
 				63EB0390283CB26500078D28 /* ServerResult.swift */,
 				523A3AF12797A9CA004C3C23 /* GroupViewController.swift */,
-				63C7C8DF286D6F0B00A357D6 /* NewBottomSheetViewController.swift */,
 				63CAC17F289BAE3E00ADA809 /* CommonBaseTableViewCell.swift */,
 				824D5DC028BE1C2500EDC712 /* GlobalFunction.swift */,
-				82840479290021FE0081567C /* TooltipView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -3039,6 +3037,8 @@
 				636DB93F2876ED6A008BB27A /* IconTextRectButton.swift */,
 				82DD57DA28C5D41900C6C55E /* StickButton.swift */,
 				195C4E8128C5CE3F000B47F7 /* BannerPagerView.swift */,
+				63C7C8DF286D6F0B00A357D6 /* NewBottomSheetViewController.swift */,
+				82840479290021FE0081567C /* TooltipView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
