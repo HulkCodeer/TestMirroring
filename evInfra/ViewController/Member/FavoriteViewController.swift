@@ -21,9 +21,9 @@ class FavoriteViewController: BaseViewController {
         printLog(out: "\(type(of: self)): Deinited")
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+    override func loadView() {
+        super.loadView()
+
         prepareActionBar(with: "즐겨찾기")
     }
     
@@ -51,11 +51,7 @@ extension FavoriteViewController: ChargerTableViewDelegate {
         })
         tableView.reloadData()
         
-        if (tableView.chargerList?.count == 0) {
-            emptyView.isHidden = false
-        }else{
-            emptyView.isHidden = true
-        }
+        emptyView.isHidden = tableView.chargerList?.count != 0
     }
     
     func logEventWithFavoriteChargers() {

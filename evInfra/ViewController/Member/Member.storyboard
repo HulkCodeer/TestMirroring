@@ -310,7 +310,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="djC-Dn-j6W" customClass="ChargerTableView" customModule="evInfra" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="56" width="375" height="611"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" red="0.08235294118" green="0.26274509800000001" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
                             </tableView>
@@ -354,7 +354,7 @@
                             <constraint firstItem="WXu-lN-4cT" firstAttribute="centerX" secondItem="JYm-AN-r6W" secondAttribute="centerX" id="4UQ-4t-en4"/>
                             <constraint firstItem="djC-Dn-j6W" firstAttribute="leading" secondItem="JYm-AN-r6W" secondAttribute="leading" id="7uS-y0-Hil"/>
                             <constraint firstItem="WXu-lN-4cT" firstAttribute="centerY" secondItem="JYm-AN-r6W" secondAttribute="centerY" id="7x5-oV-bwJ"/>
-                            <constraint firstItem="djC-Dn-j6W" firstAttribute="top" secondItem="EZu-b0-3pO" secondAttribute="top" id="MMU-ol-gfj"/>
+                            <constraint firstItem="djC-Dn-j6W" firstAttribute="top" secondItem="JYm-AN-r6W" secondAttribute="top" constant="56" id="MMU-ol-gfj"/>
                             <constraint firstItem="JYm-AN-r6W" firstAttribute="bottom" secondItem="djC-Dn-j6W" secondAttribute="bottom" id="VTM-bt-fI4"/>
                             <constraint firstItem="JYm-AN-r6W" firstAttribute="trailing" secondItem="djC-Dn-j6W" secondAttribute="trailing" id="e4a-WX-leJ"/>
                         </constraints>
