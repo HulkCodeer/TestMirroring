@@ -345,7 +345,7 @@ extension UIView {
             $0.setTitle("\(btnTitle)", for: .normal)
             $0.setTitleColor(Colors.gr4.color, for: .normal)
         }
-                        
+                                        
         let messageLbl = UILabel().then {
             $0.text = _message
             $0.numberOfLines = style.messageNumberOfLines
