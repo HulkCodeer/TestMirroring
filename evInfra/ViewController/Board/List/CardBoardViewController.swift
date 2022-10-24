@@ -16,6 +16,12 @@ import CoreMIDI
 class CardBoardViewController: BaseViewController {
     
     private lazy var boardTableView = BoardTableView()
+    private lazy var searchButton = UIButton().then {
+        $0.setImage(Icons.iconSearchMd.image, for: .normal)
+        $0.tintColor = Colors.nt9.color
+        
+        $0.addTarget(self, action: #selector(handleSearchButton), for: .touchUpInside)
+    }
     
     var category: Board.CommunityType = .FREE // default 자유게시판
     var bmId: Int = -1
@@ -30,10 +36,31 @@ class CardBoardViewController: BaseViewController {
     
     override func loadView() {
         super.loadView()
+                
+        switch self.category {
+        case .CHARGER:
+            prepareActionBar(with: "충전소 게시판")
+        case .CORP_GS, .CORP_JEV, .CORP_STC, .CORP_SBC:
+            prepareActionBar(with: "\(self.brdTitle) 게시판")
+        case .FREE:
+            prepareActionBar(with: "자유게시판")
+        default:
+            prepareActionBar(with: "게시판")
+        }
+        
         
         view.addSubview(boardTableView)
         boardTableView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(Constants.view.naviBarHeight)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        customNaviBar.addSubview(searchButton)
+        searchButton.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(Constants.view.naviBarItemPadding)
+            $0.size.equalTo(Constants.view.naviBarItemWidth)
+            
         }
         
         setConfiguration()
@@ -43,13 +70,13 @@ class CardBoardViewController: BaseViewController {
         super.viewDidLoad()
         
         boardListViewModel = BoardListViewModel(category)
-        prepareActionBar()
         fetchFirstBoard(mid: category.rawValue, sort: sortType, mode: mode.rawValue)
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateCompletion(_:)), name: Notification.Name("ReloadData"), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
     }
 }
 
@@ -62,35 +89,6 @@ extension CardBoardViewController {
     @objc func pullToRefresh(refresh: UIRefreshControl) {
         refresh.endRefreshing()
         fetchFirstBoard(mid: category.rawValue, sort: sortType, mode: mode.rawValue)
-    }
-    
-    func prepareActionBar() {
-        self.navigationController?.isNavigationBarHidden = false
-        
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "nt-9")
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-        
-        let searchButton = IconButton(image: UIImage(named: "iconSearchMd"))
-        searchButton.tintColor = UIColor(named: "nt-9")
-        searchButton.addTarget(self, action: #selector(handleSearchButton), for: .touchUpInside)
-        
-        navigationItem.hidesBackButton = true
-        navigationItem.leftViews = [backButton]
-        navigationItem.rightViews = [searchButton]
-        navigationItem.titleLabel.textColor = UIColor(named: "nt-9")
-        navigationItem.titleLabel.text = "게시판"
-        
-        switch self.category {
-        case .CHARGER:
-            navigationItem.titleLabel.text = "충전소 게시판"
-        case .CORP_GS, .CORP_JEV, .CORP_STC, .CORP_SBC:
-            navigationItem.titleLabel.text = self.brdTitle + " 게시판"
-        case .FREE:
-            navigationItem.titleLabel.text = "자유게시판"
-        default:
-            break
-        }
     }
     
     func setConfiguration() {
@@ -116,11 +114,6 @@ extension CardBoardViewController {
         }
         
         boardWriteButton.addTarget(self, action: #selector(handlePostButton), for: .touchUpInside)
-    }
-    
-    @objc
-    fileprivate func handleBackButton() {
-        self.navigationController?.pop()
     }
     
     @objc

@@ -12,6 +12,9 @@ import M13Checkbox
 
 class ChargesViewController: UIViewController {
 
+    private lazy var customNaviBar = CommonNaviView().then {
+        $0.naviTitleLbl.text = "충전이력 조회"
+    }
     @IBOutlet weak var textFieldStartDate: UITextField!
     @IBOutlet weak var textFieldEndDate: UITextField!
     
@@ -37,10 +40,21 @@ class ChargesViewController: UIViewController {
         printLog(out: "\(type(of: self)): Deinited")
     }
     
+    override func loadView() {
+        super.loadView()
+        
+        view.backgroundColor = Colors.backgroundPrimary.color
+        
+        view.addSubview(customNaviBar)
+        customNaviBar.snp.makeConstraints {
+            $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(Constants.view.naviBarHeight)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        prepareActionBar()
         prepareDatePicker()
         prepareCheckBox()
         prepareTableView()
@@ -52,18 +66,7 @@ class ChargesViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-    }
-    
-    func prepareActionBar() {
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "content-primary")
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-        
-        navigationItem.hidesBackButton = true
-        navigationItem.leftViews = [backButton]
-        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-        navigationItem.titleLabel.text = "충전이력 조회"
-        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.isNavigationBarHidden = true
     }
     
     @objc fileprivate func handleBackButton() {

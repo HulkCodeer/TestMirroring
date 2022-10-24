@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -33,7 +33,7 @@
                                 </constraints>
                             </activityIndicatorView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="TvW-UO-hsP">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="56" width="375" height="611"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="MyCouponTableViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MyCouponTableViewCell" rowHeight="275" id="nVI-7r-E0y" customClass="MyCouponTableViewCell" customModule="evInfra" customModuleProvider="target">
@@ -111,7 +111,7 @@
                             <constraint firstItem="TvW-UO-hsP" firstAttribute="leading" secondItem="tLR-iz-yvI" secondAttribute="leading" id="22o-6Z-Yml"/>
                             <constraint firstItem="OJD-Dt-HX3" firstAttribute="centerX" secondItem="tLR-iz-yvI" secondAttribute="centerX" id="9sk-AG-zTJ"/>
                             <constraint firstItem="hoB-rB-AzL" firstAttribute="centerX" secondItem="tLR-iz-yvI" secondAttribute="centerX" id="D4f-Wh-qqr"/>
-                            <constraint firstItem="TvW-UO-hsP" firstAttribute="top" secondItem="tLR-iz-yvI" secondAttribute="top" id="FmC-tY-D6E"/>
+                            <constraint firstItem="TvW-UO-hsP" firstAttribute="top" secondItem="tLR-iz-yvI" secondAttribute="top" constant="56" id="FmC-tY-D6E"/>
                             <constraint firstItem="OJD-Dt-HX3" firstAttribute="centerY" secondItem="zvd-c1-BEM" secondAttribute="centerY" id="S3F-Af-4uo"/>
                             <constraint firstItem="hoB-rB-AzL" firstAttribute="centerY" secondItem="zvd-c1-BEM" secondAttribute="centerY" id="ecq-kn-XFo"/>
                             <constraint firstItem="TvW-UO-hsP" firstAttribute="trailing" secondItem="tLR-iz-yvI" secondAttribute="trailing" id="hGD-wO-S1S"/>
@@ -240,10 +240,10 @@
     </scenes>
     <resources>
         <namedColor name="content-primary">
-            <color red="0.097999997437000275" green="0.097999997437000275" blue="0.097999997437000275" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.094117647058823528" green="0.094117647058823528" blue="0.098039215686274508" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="gr-5">
-            <color red="0.28200000524520874" green="0.83499997854232788" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.28235294117647058" green="0.83529411764705885" blue="0.59215686274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="gr-8">
             <color red="0.097999997437000275" green="0.43900001049041748" blue="0.28999999165534973" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

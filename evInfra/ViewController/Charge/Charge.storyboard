@@ -537,7 +537,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="pHs-oR-Eq4" userLabel="Easy Stack View">
-                                <rect key="frame" x="16" y="4" width="343" height="30"/>
+                                <rect key="frame" x="16" y="60" width="343" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Mb-EE-Vg6">
                                         <rect key="frame" x="0.0" y="0.0" width="80" height="30"/>
@@ -590,7 +590,7 @@
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="dfM-VD-NWi" userLabel="Duration Stack View">
-                                <rect key="frame" x="90" y="42" width="195.5" height="22"/>
+                                <rect key="frame" x="90" y="98" width="195.5" height="22"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="2019. 11. 1" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Olh-Cy-kMH">
                                         <rect key="frame" x="0.0" y="0.0" width="78" height="22"/>
@@ -619,7 +619,7 @@
                                 </subviews>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w16-3c-QiR" customClass="wwwwwww">
-                                <rect key="frame" x="16" y="80" width="106" height="18"/>
+                                <rect key="frame" x="16" y="136" width="106" height="18"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bzC-J3-fYx" customClass="M13Checkbox" customModule="M13Checkbox">
                                         <rect key="frame" x="0.0" y="1" width="16" height="16"/>
@@ -647,7 +647,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bUO-7h-a9I">
-                                <rect key="frame" x="278.5" y="74" width="80.5" height="30"/>
+                                <rect key="frame" x="278.5" y="130" width="80.5" height="30"/>
                                 <color key="backgroundColor" name="gr-5"/>
                                 <state key="normal" title="조회">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -657,7 +657,7 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cDq-Dv-kpn">
-                                <rect key="frame" x="16" y="112" width="343" height="65"/>
+                                <rect key="frame" x="16" y="168" width="343" height="65"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="총 충전시간" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Kp-3I-n07">
                                         <rect key="frame" x="8" y="8" width="78" height="20.5"/>
@@ -745,7 +745,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="zCs-tF-5ON">
-                                <rect key="frame" x="0.0" y="185" width="375" height="482"/>
+                                <rect key="frame" x="0.0" y="241" width="375" height="426"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="ChargesTableViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChargesTableViewCell" rowHeight="196" id="oQ7-33-l3T" customClass="ChargesTableViewCell" customModule="evInfra" customModuleProvider="target">
@@ -948,7 +948,7 @@
                             <constraint firstItem="vey-8j-wbT" firstAttribute="trailing" secondItem="bUO-7h-a9I" secondAttribute="trailing" constant="16" id="Eox-hR-HtK"/>
                             <constraint firstItem="pHs-oR-Eq4" firstAttribute="leading" secondItem="vey-8j-wbT" secondAttribute="leading" constant="16" id="J50-kJ-jrM"/>
                             <constraint firstItem="bUO-7h-a9I" firstAttribute="centerY" secondItem="w16-3c-QiR" secondAttribute="centerY" id="JUa-Ik-q33"/>
-                            <constraint firstItem="pHs-oR-Eq4" firstAttribute="top" secondItem="vey-8j-wbT" secondAttribute="top" constant="4" id="ObO-Ix-GwW"/>
+                            <constraint firstItem="pHs-oR-Eq4" firstAttribute="top" secondItem="vey-8j-wbT" secondAttribute="top" constant="60" id="ObO-Ix-GwW"/>
                             <constraint firstItem="dfM-VD-NWi" firstAttribute="top" secondItem="pHs-oR-Eq4" secondAttribute="bottom" constant="8" id="SEg-H8-jQl"/>
                             <constraint firstItem="zCs-tF-5ON" firstAttribute="trailing" secondItem="vey-8j-wbT" secondAttribute="trailing" id="dNx-QD-3E8"/>
                             <constraint firstItem="vey-8j-wbT" firstAttribute="trailing" secondItem="cDq-Dv-kpn" secondAttribute="trailing" constant="16" id="gqS-hx-QXg"/>
@@ -988,7 +988,7 @@
             <color red="0.95294117647058818" green="0.95294117647058818" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="border-opaque">
-            <color red="0.77300000190734863" green="0.77600002288818359" blue="0.78799998760223389" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.77254901960784317" green="0.77647058823529413" blue="0.78823529411764703" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="content-positive">
             <color red="0.28200000524520874" green="0.83499997854232788" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

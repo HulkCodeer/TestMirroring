@@ -64,6 +64,8 @@ internal final class NewNoticeDetailViewController: CommonBaseViewController, St
 
     override func loadView() {
         super.loadView()
+        
+        view.backgroundColor = Colors.backgroundPrimary.color
 
         contentView.addSubview(customNaviBar)
         contentView.addSubview(scrollView)

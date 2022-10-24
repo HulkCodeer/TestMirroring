@@ -18,6 +18,16 @@ class MyCouponViewController: UIViewController {
     private let STATUS_EVENT_CANCEL = 3
     private let STATUS_CANCELED = 4
     
+    private lazy var customNaviBar = CommonNaviView().then {
+        $0.naviTitleLbl.text = "보유쿠폰"
+    }
+    private lazy var couponRegisterButton = UIButton().then {
+        $0.setTitle("쿠폰 번호 등록", for: .normal)
+        $0.setTitleColor(Colors.contentPrimary.color, for: .normal)
+        $0.titleLabel?.font = .systemFont(ofSize: 15)
+        $0.addTarget(self, action: #selector(handlecouponCodeBtn), for: .touchUpInside)
+    }
+    
     @IBOutlet weak var emptyView: UILabel!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     @IBOutlet weak var tableView: UITableView!
@@ -28,10 +38,26 @@ class MyCouponViewController: UIViewController {
         printLog(out: "\(type(of: self)): Deinited")
     }
     
+    override func loadView() {
+        super.loadView()
+        
+        view.addSubview(customNaviBar)
+        customNaviBar.snp.makeConstraints {
+            $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(Constants.view.naviBarHeight)
+        }
+        
+        customNaviBar.addSubview(couponRegisterButton)
+        couponRegisterButton.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(Constants.view.naviBarItemPadding)
+            $0.width.equalTo(120)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        prepareActionBar()
         prepareTableView()
         
         getEventList()
@@ -39,30 +65,12 @@ class MyCouponViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        self.navigationController?.isNavigationBarHidden = true
     }
 }
 
 extension MyCouponViewController {
-    
-    func prepareActionBar() {
-        var backButton: IconButton!
-        backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "content-primary")
-        backButton.addTarget(self, action: #selector(onClickBackBtn), for: .touchUpInside)
-        
-        let couponCodeBtn = UIButton()
-        couponCodeBtn.setTitle("쿠폰 번호 등록", for: .normal)
-        couponCodeBtn.setTitleColor(UIColor(named: "content-primary")!, for: .normal)
-        couponCodeBtn.titleLabel?.font = .systemFont(ofSize: 15)
-        couponCodeBtn.addTarget(self, action: #selector(handlecouponCodeBtn), for: .touchUpInside)
-        
-        navigationItem.hidesBackButton = true
-        navigationItem.leftViews = [backButton]
-        navigationItem.rightViews = [couponCodeBtn]
-        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-        navigationItem.titleLabel.text = "보유쿠폰"
-        self.navigationController?.isNavigationBarHidden = false
-    }
     
     func prepareTableView() {
         tableView.delegate = self
@@ -105,11 +113,6 @@ extension MyCouponViewController {
         infoVC.couponId = list[index].couponId
         infoVC.couponTitle = list[index].title
         self.navigationController?.push(viewController:infoVC)
-    }
-    
-    @objc
-    fileprivate func onClickBackBtn() {
-        self.navigationController?.pop()
     }
     
     @objc

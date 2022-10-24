@@ -24,6 +24,22 @@ import RxViewController
 import RxCoreLocation
 import CoreLocation
 
+//뷰 연결확인
+//
+//- [ ] 안나오는거
+//    - [ ] 내가쓴글
+//    - [ ] 마이베리
+//    - [ ] 메인에서 즐겨찾기
+//    - [ ] 메인에서 자주묻는 질문
+//    - [ ] 메인에서 자유 게시판
+//    - [ ] 메인에서 충전요금 안내
+//
+//그외 확인 요망.
+// - 충전소제보
+
+//기존 머테리얼 제공 네비바였음. 커스텀 네비바.
+//- 임의로 네비바
+
 internal final class MainViewController: UIViewController, StoryboardView {
     
     // constant
@@ -112,7 +128,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-                        
+        
         configureLayer()
 
         routeDistanceView.isHidden = true
@@ -126,7 +142,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         prepareMenuBtnLayer()
         
         prepareChargePrice()
-        requestStationInfo()
+//        requestStationInfo()
         
         prepareCalloutLayer()
         

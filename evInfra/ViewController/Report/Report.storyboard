@@ -266,7 +266,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ycu-Nc-g7h">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="56" width="375" height="611"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                                 <prototypes>
@@ -352,7 +352,7 @@
                             <constraint firstItem="ycu-Nc-g7h" firstAttribute="trailing" secondItem="tgS-p9-Tao" secondAttribute="trailing" id="dbe-6Q-Dx5"/>
                             <constraint firstItem="tgS-p9-Tao" firstAttribute="leading" secondItem="6vZ-3M-utu" secondAttribute="leading" id="fsv-E0-eSp"/>
                             <constraint firstItem="6vZ-3M-utu" firstAttribute="trailing" secondItem="ycu-Nc-g7h" secondAttribute="trailing" id="n82-cK-3PB"/>
-                            <constraint firstItem="ycu-Nc-g7h" firstAttribute="top" secondItem="6vZ-3M-utu" secondAttribute="top" id="s7R-QW-fku"/>
+                            <constraint firstItem="ycu-Nc-g7h" firstAttribute="top" secondItem="6vZ-3M-utu" secondAttribute="top" constant="56" id="s7R-QW-fku"/>
                         </constraints>
                     </view>
                     <connections>
