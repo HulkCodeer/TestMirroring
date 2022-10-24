@@ -32,9 +32,12 @@ internal final class MembershipUseGuideViewController: BaseViewController, WKUID
         
         prepareActionBar(with: "EV Pay 카드 사용 안내")
                         
+        view.backgroundColor = Colors.backgroundPrimary.color
+        
         view.addSubview(self.webView)
         webView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.equalTo(customNaviBar.snp.bottom)
+            $0.leading.trailing.bottom.equalToSuperview()
         }
                                         
         guard let _url = URL(string: "\(Const.EV_PAY_SERVER)/docs/info/membership_card?osType=ios") else {

@@ -31,7 +31,8 @@ internal final class MembershipCardViewController: BaseViewController {
         
         view.addSubview(partnershipListView)
         partnershipListView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.equalTo(customNaviBar.snp.bottom)
+            $0.leading.trailing.bottom.equalToSuperview()
         }
     }
     

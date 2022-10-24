@@ -93,6 +93,8 @@ internal final class MembershipReissuanceViewController: BaseViewController, Sto
     override func loadView() {
         super.loadView()
         
+        view.backgroundColor = Colors.backgroundPrimary.color
+        
         view.addSubview(nextBtn)
         nextBtn.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
@@ -104,7 +106,7 @@ internal final class MembershipReissuanceViewController: BaseViewController, Sto
         view.addSubview(totalView)
         totalView.snp.makeConstraints {
             $0.bottom.equalTo(nextBtn.snp.top)
-            $0.top.equalToSuperview().offset(24)
+            $0.top.equalTo(customNaviBar.snp.bottom).offset(24)
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)
         }

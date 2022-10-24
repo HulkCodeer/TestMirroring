@@ -55,6 +55,7 @@ internal final class MembershipGuideViewController: BaseViewController, WKUIDele
         super.loadView()
         
         prepareActionBar(with: "EV Pay카드 안내")
+        view.backgroundColor = Colors.backgroundPrimary.color
         
         view.addSubview(self.membershipRegisterBtn)
         membershipRegisterBtn.snp.makeConstraints {
@@ -65,7 +66,8 @@ internal final class MembershipGuideViewController: BaseViewController, WKUIDele
         
         view.addSubview(self.webView)
         webView.snp.makeConstraints {
-            $0.leading.top.trailing.equalToSuperview()
+            $0.top.equalTo(customNaviBar.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(membershipRegisterBtn.snp.top)
         }
         

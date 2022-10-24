@@ -158,6 +158,9 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
     override func loadView() {
         super.loadView()
                 
+        prepareActionBar(with: "재발급 신청")
+        view.backgroundColor = Colors.backgroundPrimary.color
+
         let screenWidth = UIScreen.main.bounds.width
         let scrollViewWidth = screenWidth - 32 // 스크린 넓이 - 양쪽마진
         let halfWidth = (screenWidth / 2) - 32 // 스크린 넓이 / 2 - 양쪽마진
@@ -174,7 +177,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
         view.addSubview(totalScrollView)
         totalScrollView.snp.makeConstraints {
             $0.leading.equalToSuperview()
-            $0.top.equalToSuperview()
+            $0.top.equalTo(customNaviBar.snp.bottom)
             $0.bottom.equalTo(completeBtn.snp.top)
             $0.width.equalTo(screenWidth)
         }
@@ -353,9 +356,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        prepareActionBar(with: "재발급 신청")
-        
+                
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }

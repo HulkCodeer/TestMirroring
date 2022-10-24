@@ -28,6 +28,8 @@ internal final class EIImageViewerViewController : BaseViewController, UIScrollV
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        customNaviBar.backgroundColor = Colors.backgroundPrimary.color
+        
         guard let mImageURL = mImageURL else {
             mImageViewer.image = UIImage(named: "ic_person_base36")
             return

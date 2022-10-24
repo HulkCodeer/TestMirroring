@@ -67,7 +67,7 @@ private extension BoardSearchViewController {
         
         // Searchbar UI
         searchBarView.snp.makeConstraints {
-            $0.top.equalToSuperview()
+            $0.top.equalTo(customNaviBar.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(72)
         }
