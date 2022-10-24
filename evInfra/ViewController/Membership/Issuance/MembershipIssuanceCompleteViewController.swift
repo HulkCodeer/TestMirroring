@@ -40,6 +40,21 @@ internal final class MembershipIssuanceCompleteViewController: CommonBaseViewCon
     
     private lazy var shipmentStatusView = ShipmentStatusView(frame: .zero)
     
+    private lazy var buttonStackView = UIStackView().then {
+        $0.axis = .horizontal
+        $0.alignment = .fill
+        $0.distribution = .fillEqually
+        $0.spacing = 8
+    }
+    
+    private lazy var moveEventListBtn = RectButton(level: .secondary).then {
+        $0.setTitle("이벤트 보기", for: .normal)
+    }
+    
+    private lazy var moveMembershipCardBtn = RectButton(level: .primary).then {
+        $0.setTitle("확인", for: .normal)
+    }
+    
     // MARK: VARIABLE
     
     // MARK: SYSTEM FUNC
@@ -62,12 +77,24 @@ internal final class MembershipIssuanceCompleteViewController: CommonBaseViewCon
             $0.height.equalTo(56)
         }
         
+        self.contentView.addSubview(buttonStackView)
+        buttonStackView.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.bottom.equalToSuperview().offset(-19)
+            $0.height.equalTo(44)
+        }
+        
+        buttonStackView.addArrangedSubview(moveEventListBtn)
+        buttonStackView.addArrangedSubview(moveMembershipCardBtn)
+        
         self.contentView.addSubview(totalScrollView)
         totalScrollView.snp.makeConstraints {
             $0.top.equalTo(naviTotalView.snp.bottom)
-            $0.leading.trailing.bottom.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
             $0.width.equalToSuperview()
             $0.centerX.equalToSuperview()
+            $0.bottom.equalTo(buttonStackView.snp.top)
         }
         
         totalScrollView.addSubview(self.completeWelcomeGuideTotalView)
@@ -96,20 +123,20 @@ internal final class MembershipIssuanceCompleteViewController: CommonBaseViewCon
             $0.bottom.equalToSuperview().offset(-32)
         }
         
-        let lineView = self.createLineView()
+        let lineView = self.createLineView(color: Colors.backgroundSecondary.color)
         totalScrollView.addSubview(lineView)
         lineView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
+            $0.width.centerX.equalToSuperview()
             $0.height.equalTo(4)
             $0.top.equalTo(completeWelcomeGuideTotalView.snp.bottom)
         }
         
         totalScrollView.addSubview(shipmentStatusView)
         shipmentStatusView.snp.makeConstraints {
-            $0.top.equalTo(lineView.snp.bottom)
-            $0.width.equalToSuperview()
-            $0.centerX.bottom.equalToSuperview()
+            $0.top.equalTo(lineView.snp.bottom)            
+            $0.width.centerX.bottom.equalToSuperview()
         }
+            
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -120,7 +147,21 @@ internal final class MembershipIssuanceCompleteViewController: CommonBaseViewCon
     // MARK: FUNC
     
     func bind(reactor: MembershipIssuanceReactor) {
+        moveEventListBtn.rx.tap
+            .asDriver()
+            .drive(onNext: {
+                let viewcon = UIStoryboard(name : "Event", bundle: nil).instantiateViewController(ofType: EventViewController.self)
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+            })
+            .disposed(by: self.disposeBag)
         
+        moveMembershipCardBtn.rx.tap
+            .asDriver()
+            .drive(onNext: {
+                let viewcon = UIStoryboard(name : "Membership", bundle: nil).instantiateViewController(ofType: MembershipCardViewController.self)
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+            })
+            .disposed(by: self.disposeBag)
     }
     
 }

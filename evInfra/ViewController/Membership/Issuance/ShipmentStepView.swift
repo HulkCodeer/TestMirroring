@@ -1,19 +1,14 @@
 //
-//  ShipmentStatus .swift
+//  ShipmentStepView.swift
 //  evInfra
 //
-//  Created by 소프트베리 on 2022/10/23.
+//  Created by 박현진 on 2022/10/24.
 //  Copyright © 2022 soft-berry. All rights reserved.
 //
 
-
-internal final class ShipmentStatusView: UIView {
+internal final class ShipmentStepView: UIView {
     
     // MARK: UI
-    
-    private lazy var shipmentStatusGuideLbl = UILabel().then {
-        $0.text = "회원 카드 발송 현황"
-    }
     
     // MARK: SYSTEM FUNC
     
@@ -36,5 +31,3 @@ internal final class ShipmentStatusView: UIView {
         
     }
 }
-
-

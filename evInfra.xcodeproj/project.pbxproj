@@ -227,6 +227,12 @@
 		6309C7BA2900020F00A52E4F /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6309C7B62900020F00A52E4F /* UITableView+Extension.swift */; };
 		6309C7BB2900020F00A52E4F /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6309C7B62900020F00A52E4F /* UITableView+Extension.swift */; };
 		6309C7BC2900020F00A52E4F /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6309C7B62900020F00A52E4F /* UITableView+Extension.swift */; };
+		63310E2E290697A9004B393A /* ShipmentStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63310E2D290697A9004B393A /* ShipmentStepView.swift */; };
+		63310E2F290697A9004B393A /* ShipmentStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63310E2D290697A9004B393A /* ShipmentStepView.swift */; };
+		63310E30290697A9004B393A /* ShipmentStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63310E2D290697A9004B393A /* ShipmentStepView.swift */; };
+		63310E3329069D86004B393A /* MembershipCardInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63310E3229069D86004B393A /* MembershipCardInfo.swift */; };
+		63310E3429069D86004B393A /* MembershipCardInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63310E3229069D86004B393A /* MembershipCardInfo.swift */; };
+		63310E3529069D86004B393A /* MembershipCardInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63310E3229069D86004B393A /* MembershipCardInfo.swift */; };
 		633FF2FC28B342630041BDBB /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FA28B342630041BDBB /* CheckBox.swift */; };
 		633FF2FD28B342630041BDBB /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FA28B342630041BDBB /* CheckBox.swift */; };
 		633FF2FE28B342630041BDBB /* Radio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FB28B342630041BDBB /* Radio.swift */; };
@@ -1589,6 +1595,8 @@
 		6309C7AB2900011B00A52E4F /* AmplitudeManager+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AmplitudeManager+Extension.swift"; sourceTree = "<group>"; };
 		6309C7B52900020F00A52E4F /* Int+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		6309C7B62900020F00A52E4F /* UITableView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
+		63310E2D290697A9004B393A /* ShipmentStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipmentStepView.swift; sourceTree = "<group>"; };
+		63310E3229069D86004B393A /* MembershipCardInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipCardInfo.swift; sourceTree = "<group>"; };
 		63341582B387F91B5B9BDC49 /* Pods-evInfra_release.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra_release.release.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra_release/Pods-evInfra_release.release.xcconfig"; sourceTree = "<group>"; };
 		633FF2FA28B342630041BDBB /* CheckBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
 		633FF2FB28B342630041BDBB /* Radio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Radio.swift; sourceTree = "<group>"; };
@@ -2483,6 +2491,14 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		63310E3129069D78004B393A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				63310E3229069D86004B393A /* MembershipCardInfo.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		637247CF282A5E9F00595FCE /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -2977,9 +2993,11 @@
 		829C07382904D473008E2E6D /* Issuance */ = {
 			isa = PBXGroup;
 			children = (
+				63310E3129069D78004B393A /* Models */,
 				829C07342904D44E008E2E6D /* MembershipIssuanceCompleteViewController.swift */,
 				829C07392904D4DD008E2E6D /* MembershipIssuanceReactor.swift */,
 				829C073D2904DD0A008E2E6D /* ShipmentStatusView.swift */,
+				63310E2D290697A9004B393A /* ShipmentStepView.swift */,
 			);
 			path = Issuance;
 			sourceTree = "<group>";
@@ -4377,6 +4395,7 @@
 				596522DF28BE290400FD4025 /* NewNoticeTableViewCell.swift in Sources */,
 				63F3140F284EC74F001713D2 /* BaseViewController.swift in Sources */,
 				63F31410284EC74F001713D2 /* FindAllPOIListenerCallback.swift in Sources */,
+				63310E2F290697A9004B393A /* ShipmentStepView.swift in Sources */,
 				63F31411284EC74F001713D2 /* AppNavigationController.swift in Sources */,
 				63F31412284EC74F001713D2 /* CompanyInfoChecker.swift in Sources */,
 				193C95C5289906DB00CD61D6 /* GlobalAdsReactor.swift in Sources */,
@@ -4499,6 +4518,7 @@
 				63F31476284EC74F001713D2 /* MyCouponContentsViewController.swift in Sources */,
 				6309C7A02900006B00A52E4F /* LeftViewMenuItem.swift in Sources */,
 				63F31477284EC74F001713D2 /* Event.swift in Sources */,
+				63310E3429069D86004B393A /* MembershipCardInfo.swift in Sources */,
 				63F31478284EC74F001713D2 /* BoardTableViewFooter.swift in Sources */,
 				82E1302928DEAE2A00E7983D /* Server.swift in Sources */,
 				82DD57DC28C5D41900C6C55E /* StickButton.swift in Sources */,
@@ -4698,6 +4718,7 @@
 				596522DE28BE290400FD4025 /* NewNoticeTableViewCell.swift in Sources */,
 				732B929A20EDD0C60090E9FC /* CompanyInfoChecker.swift in Sources */,
 				902A11D1248F4DAC0049EF8E /* CompanyInfoDto.swift in Sources */,
+				63310E2E290697A9004B393A /* ShipmentStepView.swift in Sources */,
 				192A338327FE747E00EF1684 /* Marker.swift in Sources */,
 				193C95C4289906DB00CD61D6 /* GlobalAdsReactor.swift in Sources */,
 				73EF8B3F203ACB8500D04494 /* AppToolbarController.swift in Sources */,
@@ -4820,6 +4841,7 @@
 				73AF8FC321C77E1B003CB2CF /* CodableCluster.swift in Sources */,
 				6309C79F2900006B00A52E4F /* LeftViewMenuItem.swift in Sources */,
 				733662D222FAB6720049AEFE /* MyCouponContentsViewController.swift in Sources */,
+				63310E3329069D86004B393A /* MembershipCardInfo.swift in Sources */,
 				733662CC22EFECB80049AEFE /* Event.swift in Sources */,
 				DB87607420690B370095394B /* BoardTableViewFooter.swift in Sources */,
 				82DD57DB28C5D41900C6C55E /* StickButton.swift in Sources */,
@@ -5019,6 +5041,7 @@
 				824D5C7228BDD89C00EDC712 /* AppNavigationController.swift in Sources */,
 				824D5C7328BDD89C00EDC712 /* CompanyInfoChecker.swift in Sources */,
 				824D5C7428BDD89C00EDC712 /* GlobalAdsReactor.swift in Sources */,
+				63310E30290697A9004B393A /* ShipmentStepView.swift in Sources */,
 				824D5C7528BDD89C00EDC712 /* CompanyInfoDto.swift in Sources */,
 				824D5C7628BDD89C00EDC712 /* Marker.swift in Sources */,
 				824D5C7728BDD89C00EDC712 /* AppToolbarController.swift in Sources */,
@@ -5141,6 +5164,7 @@
 				824D5CE128BDD89C00EDC712 /* CodableCluster.swift in Sources */,
 				6309C7A12900006B00A52E4F /* LeftViewMenuItem.swift in Sources */,
 				824D5CE228BDD89C00EDC712 /* MyCouponContentsViewController.swift in Sources */,
+				63310E3529069D86004B393A /* MembershipCardInfo.swift in Sources */,
 				824D5CE328BDD89C00EDC712 /* Event.swift in Sources */,
 				82E1302A28DEAE2A00E7983D /* Server.swift in Sources */,
 				824D5CE428BDD89C00EDC712 /* BoardTableViewFooter.swift in Sources */,

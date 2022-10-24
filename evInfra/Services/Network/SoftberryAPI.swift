@@ -34,7 +34,9 @@ protocol SoftberryAPI: AnyObject {
     func getNoticeList() -> Observable<(HTTPURLResponse, Data)>
     func getNotice(id noticeID: Int) -> Observable<(HTTPURLResponse, Data)>
     func postChargingQR(qrCode: String, typeId: Int) -> Observable<(HTTPURLResponse, Data)>
-    func postChargingQR(qrCode: String, typeId: Int, tc: String) -> Observable<(HTTPURLResponse, Data)>    
+    func postChargingQR(qrCode: String, typeId: Int, tc: String) -> Observable<(HTTPURLResponse, Data)>
+    
+    func postMembershipCardInfo() -> Observable<(HTTPURLResponse, Data)>
 }
 
 internal final class RestApi: SoftberryAPI {
@@ -246,11 +248,23 @@ internal final class RestApi: SoftberryAPI {
     
     // MARK: - 공지사항 상세 조회
     func getNotice(id noticeID: Int) -> Observable<(HTTPURLResponse, Data)> {
-
         return NetworkWorker.shared.rxRequest(
             url: "\(Const.EV_PAY_SERVER)/board/board_notice/content_v2?id=\(noticeID)",
             httpMethod: .get,
             parameters: nil,
             headers: nil)
+    }
+    
+    // MARK: - 회원카드 정보 조회
+    
+    func postMembershipCardInfo() -> Observable<(HTTPURLResponse, Data)> {
+        let reqParam: Parameters = [
+            "mb_id": MemberManager.shared.mbId
+        ]
+        
+        return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/v2/membership_card/info",
+                                              httpMethod: .post,
+                                              parameters: reqParam,
+                                              headers: nil)
     }
 }
