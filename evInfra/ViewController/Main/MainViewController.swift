@@ -262,7 +262,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         
         reactor.state.compactMap { $0.isShowStartBanner }
             .asDriver(onErrorJustReturn: false)
-            .drive(with: self) { obj, _ in
+            .drive(with: self) { obj, _ in                                
                 GlobalAdsReactor.sharedInstance.state.compactMap { $0.startBanner }
                     .asDriver(onErrorJustReturn: AdsInfo(JSON.null))
                     .drive(onNext: { adInfo in
@@ -1503,7 +1503,7 @@ extension MainViewController {
     
     @IBAction func onClickCommunityBtn(_ sender: Any) {
         UserDefault().saveInt(key: UserDefault.Key.LAST_FREE_ID, value: Board.sharedInstance.freeBoardId)
-        
+
         let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
         let freeBoardViewController = boardStoryboard.instantiateViewController(ofType: CardBoardViewController.self)
         freeBoardViewController.category = .FREE
