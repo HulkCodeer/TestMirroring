@@ -203,6 +203,15 @@ internal final class MemberManager {
             return UserDefault().readBool(key: UserDefault.Key.MB_PAYMENT)
         }
     }
+    
+    internal var hasRentcar: Bool {
+        set {
+            UserDefault().saveBool(key: UserDefault.Key.MB_RENTCAR, value: newValue)
+        }
+        get {
+            return UserDefault().readBool(key: UserDefault.Key.MB_RENTCAR)
+        }
+    }
         
     internal var isFirstInstall: Bool { // false일 경우 처음 설치, true일때 처음설치 아님
         set {
@@ -212,7 +221,7 @@ internal final class MemberManager {
             return UserDefault().readBool(key: UserDefault.Key.IS_FIRST_INSTALL)
         }
     }
-                
+           
     internal var isShowPermission: Bool { // false일 경우 처음 설치, true일때 처음설치 아님
         set {
             UserDefault().saveBool(key: UserDefault.Key.IS_SHOW_PERMISSION, value: newValue)
@@ -224,21 +233,21 @@ internal final class MemberManager {
     
     // 로그인 상태 체크
     internal var isLogin: Bool {
-        return UserDefault().readInt(key: UserDefault.Key.MB_ID) >= 0
+        return UserDefault().readInt(key: UserDefault.Key.MB_ID) > 0
     }
     
     // 지킴이 체크
     internal var isKeeper: Bool {
         return UserDefault().readInt(key: UserDefault.Key.MB_LEVEL) == MemberLevel.keeper.rawValue
     }
-    
-    // QR 체크
-    internal var isShowQrTooltip: Bool {
+            
+    // EV Pay 툴팁 체크
+    internal var isShowEvPayTooltip: Bool {
         set {
-            UserDefault().saveBool(key: UserDefault.Key.IS_SHOW_QR_TOOLTIP, value: newValue)
+            UserDefault().saveBool(key: UserDefault.Key.IS_SHOW_EVPAY_TOOLTIP, value: newValue)
         }
         get {
-            return UserDefault().readBool(key: UserDefault.Key.IS_SHOW_QR_TOOLTIP)
+            return UserDefault().readBool(key: UserDefault.Key.IS_SHOW_EVPAY_TOOLTIP)
         }
     }
             
@@ -291,14 +300,11 @@ internal final class MemberManager {
         userDefault.saveString(key: UserDefault.Key.MB_AGE_RANGE, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_EMAIL, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_PHONE, value: "")
-//        userDefault.removeObjectForKey(key: UserDefault.Key.IS_FIRST_INSTALL)
-//        userDefault.removeObjectForKey(key: UserDefault.Key.IS_FIRST_LOCATION_POPUP)
                         
         AmplitudeManager.shared.setUser(with: nil)
     }
     
     func showLoginAlert(completion: ((Bool) -> ())? = nil) {
-        
         let popupModel = PopupModel(title: "로그인이 필요해요",
                                     message:"해당 서비스는 로그인 후 이용할 수 있어요.\n아래 버튼을 눌러 로그인을 해주세요.",
                                     confirmBtnTitle: "로그인 하기",
@@ -321,7 +327,7 @@ internal final class MemberManager {
         case .kakao:
             KOSessionTask.userMeTask { (error, me) in
                 if (error as NSError?) != nil {
-                    Snackbar().show(message: "회원 탈퇴로 인해 로그아웃 되었습니다.")
+                    Snackbar().show(message: "로그아웃 되었습니다.")
                     MemberManager.shared.clearData()
                 } else {
                     success?(MemberManager.shared.isLogin)

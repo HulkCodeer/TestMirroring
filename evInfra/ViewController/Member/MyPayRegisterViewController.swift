@@ -10,11 +10,14 @@ import UIKit
 import Material
 import WebKit
 import SwiftyJSON
+import RxSwift
 
 class MyPayRegisterViewController: UIViewController {
-
-    var mWebView: WKWebView!
     internal weak var myPayRegisterViewDelegate: MyPayRegisterViewDelegate?
+    
+    private let disposeBag = DisposeBag()
+    private var mWebView: WKWebView!
+    
     override func loadView() {
         super.loadView()
         initWebView()
@@ -177,5 +180,7 @@ extension MyPayRegisterViewController: WKScriptMessageHandler {
     func showRegisteredResult(json: JSON) {
         self.navigationController?.pop()
         myPayRegisterViewDelegate?.finishRegisterResult(json: json)
+        
+        GlobalDefine.shared.isUseAllBerry.onNext(true)
     }
 }

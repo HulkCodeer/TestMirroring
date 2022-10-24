@@ -251,6 +251,7 @@ internal final class FCMManager {
     }
     
     func getPointData() {
+        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "푸시 메시지")
         guard let _mainNavi = GlobalDefine.shared.mainNavi, let _visibleViewcon = _mainNavi.visibleViewController else { return }
         if _visibleViewcon.isKind(of: PointViewController.self) {
             _visibleViewcon.viewDidLoad()

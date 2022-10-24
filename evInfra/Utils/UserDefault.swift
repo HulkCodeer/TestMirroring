@@ -29,6 +29,7 @@ class UserDefault {
         static let MB_CAR_TYPE      = "mb_car_type"
         static let MB_PARTNERSHIP_CLIENT   = "mb_partnership_client"
         static let MB_PAYMENT       = "mb_payment"
+        static let MB_RENTCAR       = "mb_rentcar"
         static let MB_DEVICE_ID       = "mb_device_id"
         static let MB_HAS_MEMBERSHIP = "has_membership"
         static let APPLE_REFRESH_TOKEN = "apple_refresh_token"
@@ -38,8 +39,8 @@ class UserDefault {
         static let MB_PHONE = "mb_phone"
         static let MB_REG_DATE = "reg_date"
         static let MB_POINT = "point"
-        static let MB_HAS_REPRESENTED = "mb_has_represented"
-        static let IS_SHOW_QR_TOOLTIP = "is_show_qr_tooltip"
+        static let MB_HAS_REPRESENTED = "mb_has_represented"        
+        static let IS_SHOW_EVPAY_TOOLTIP = "is_show_evpay_tooltip"
                 
         // 필터 - 개인 설정
         static let FILTER_DC_DEMO       = "filter_dc_demo"
@@ -62,6 +63,7 @@ class UserDefault {
         static let FILTER_HIGHWAY_UP    = "filter_highway_up"
         static let FILTER_HIGHWAT_DOWN  = "filter_highway_down"
         static let FILTER_MYCAR         = "filter_mycar"
+        static let FILTER_MEMBERSHIP_CARD = "filter_membership_card"
         
         static let FILTER_ROAD          = "filter_road"
         static let FILTER_ST_KIND       = "filter_station_kind"
@@ -81,6 +83,8 @@ class UserDefault {
         
         static let HAS_FAILED_PAYMENT = "has_failed_payment"
         
+        static let FILTER_CHARGING_PROVIDER_LIST_SAVE = "filter_charging_provider_list_save"
+        
         // 전체설정
         static let SETTINGS_ALLOW_NOTIFICATION = "allow_notification"
         static let SETTINGS_ALLOW_JEJU_NOTIFICATION = "allow_jeju_notification"
@@ -96,6 +100,8 @@ class UserDefault {
         static let RECENT_KEYWORD = "keywords" // 게시글 검색 최근검색어
         static let IS_HIDDEN_DELEVERY_COMPLETE_TOOLTIP = "isDeleveryComplete" // 배송완료 툴팁 저장
                 
+        // 레프트 메뉴        
+        static let IS_SHOW_BERRYSETTING_CASE3_POPUP = "is_show_berrysetting_case3_popup" // 항상 허용 권한 위치 팝업 띄웠는지 유무
         static let IS_FIRST_INSTALL = "is_first_install" // 앱 최초 설치인지 확인용
         static let IS_SHOW_PERMISSION = "IS_SHOW_PERMISSION" // 권한 관련 화면 보여졌는지 체크
     }
@@ -189,6 +195,29 @@ class UserDefault {
             return value
         } else {
             return nil
+        }
+    }
+    
+    func setUserDefault(_ key: String?, value: Any?) {
+        let _key = key ?? ""
+        let userDefaults = UserDefaults.standard
+        userDefaults.set(value, forKey: _key)
+        userDefaults.synchronize()
+    }
+    
+    func getUserDefault(_ key: String?) -> AnyObject? {
+        let _key = key ?? ""
+        if let value = UserDefaults.standard.object(forKey: _key) {
+            return value as AnyObject
+        } else {
+            return nil
+        }
+    }
+    
+    func deleteNoUseKey() {
+        let deleteKeys: [String] = ["is_show_qr_tooltip"]
+        for keyStr in deleteKeys {
+            self.removeObjectForKey(key: keyStr)
         }
     }
 }

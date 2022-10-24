@@ -13,11 +13,12 @@ internal final class GlobalAdsReactor: ViewModel, Reactor {
     enum Action {
         case loadStartBanner
         case addEventClickCount(String)
-        case addEventViewCount(String)
+        case addEventViewCount(String)    
     }
     
     enum Mutation {
         case setAds([AdsInfo])
+        case none
     }
     
     struct State {
@@ -47,11 +48,11 @@ internal final class GlobalAdsReactor: ViewModel, Reactor {
             
         case .addEventClickCount(let eventId):
             _ = self.provider.logAds(adId: [eventId], action: Promotion.Action.click.toValue, page: .start, layer: .bottom)
-            return .empty()
+            return .just(.none)
             
         case .addEventViewCount(let eventId):
             _ = self.provider.logAds(adId: [eventId], action: Promotion.Action.view.toValue, page: .start, layer: .bottom)
-            return .empty()
+            return .just(.none)
             
         }
     }
@@ -64,6 +65,8 @@ internal final class GlobalAdsReactor: ViewModel, Reactor {
         case .setAds(let ads):
             guard let randomBanner = ads.randomElement() else { return newState }
             newState.startBanner = randomBanner
+            
+        case .none: break
         }
         
         return newState

@@ -78,6 +78,7 @@ internal final class RentalCarCardListViewController: UIViewController {
                     UserDefault().saveBool(key: UserDefault.Key.INTRO_SKR, value: false)
                     self.partnershipJoinView.showInfoView(infoList : self.partnershipInfoList)
                     isShowJoinView = true
+                    MemberManager.shared.hasRentcar = false
                 } else {
                     for jsonRow in json["list"].arrayValue {
                         let item : MemberPartnershipInfo = MemberPartnershipInfo(jsonRow)
@@ -85,6 +86,7 @@ internal final class RentalCarCardListViewController: UIViewController {
                     }
                     self.rentalCarCardList.showInfoView(infoList: self.partnershipInfoList)
                     isShowJoinView = false
+                    MemberManager.shared.hasRentcar = true
                 }
 
                 self.partnershipJoinView.isHidden = !isShowJoinView

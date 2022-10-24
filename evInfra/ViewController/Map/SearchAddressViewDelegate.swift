@@ -7,6 +7,7 @@
 //
 
 import Foundation
+
 protocol SearchAddressViewDelegate {
     func recieveAddressInfo(zonecode: String, fullRoadAddr: String)
 }

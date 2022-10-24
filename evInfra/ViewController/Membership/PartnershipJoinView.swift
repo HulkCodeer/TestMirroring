@@ -9,7 +9,7 @@
 import UIKit
 import SwiftyJSON
 
-protocol PartnershipJoinViewDelegate: class {
+protocol PartnershipJoinViewDelegate: AnyObject {
     func showMembershipIssuanceView()
     func showSKMemberQRView()
     func showLotteRentCertificateView()

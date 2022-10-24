@@ -258,7 +258,7 @@ extension ChargesViewController: UITableViewDelegate, UITableViewDataSource, Cha
     }
     
     func didSelectReceipt(charge: ChargingStatus) {
-        let window = UIApplication.shared.keyWindow!
+        let window = UIWindow.key!
         let receiptView = ReceiptView(frame: window.bounds)
         receiptView.update(status: charge)
         receiptView.tag = 100
@@ -270,7 +270,7 @@ extension ChargesViewController: UITableViewDelegate, UITableViewDataSource, Cha
     }
     
     @objc func removeSubview() {
-        let window = UIApplication.shared.keyWindow!
+        let window = UIWindow.key!
         if let receiptView = window.viewWithTag(100) {
             receiptView.removeFromSuperview()
         }

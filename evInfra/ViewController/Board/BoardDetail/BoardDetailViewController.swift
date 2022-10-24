@@ -133,6 +133,7 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
             
             MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
                 guard isLogin, let self = self else {
+                    AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "댓글 작성 버튼")
                     MemberManager.shared.showLoginAlert(completion: { [weak self] (result) -> Void in
                         guard let self = self else { return }
                         if !result {

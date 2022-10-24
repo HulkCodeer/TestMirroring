@@ -11,9 +11,8 @@ import Material
 import WebKit
 import SwiftyJSON
 
-class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, RepaymentListDelegate {
-    let DELETE_MODE = 0
-    let CHANGE_MODE = 1
+internal final class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, RepaymentListDelegate {
+    
     
     @IBOutlet weak var mPayInfoView: UIView!
     @IBOutlet weak var registerCardInfo: UIView!
@@ -34,6 +33,12 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
     @IBOutlet weak var deleteBtn: UIButton!
     @IBOutlet weak var changeBtn: UIButton!
     
+    // MARK: VARIABLE
+    internal weak var delegate: LeftViewReactorDelegate?
+    
+    let DELETE_MODE = 0
+    let CHANGE_MODE = 1
+            
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
     }
@@ -51,14 +56,8 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
                 MemberManager.shared.showLoginAlert()
             }
         }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+        
+        AmplitudeEvent.shared.fromViewSourceByLogEvent(eventType: .clickViewAddPaymentCard)
     }
     
     func checkRegisterPayment() {
@@ -118,66 +117,68 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
         let payCode = json1["pay_code"].intValue
         
         switch payCode {
-            case PaymentCard.PAY_REGISTER_SUCCESS:
-                self.registerInfo.isHidden = false
-                self.registerCardInfo.isHidden = false
-                
-                // 등록 완료 -> 확인버튼
-                self.showConfirmBtn(show: true)
-                
-                self.franchiseeLabel.text = "(주)소프트베리"
-                self.vanLabel.text = "스마트로(주)"
-                self.cardCoLabel.text = json["card_co"].stringValue
-                self.cardNoLabel.text = json["card_nm"].stringValue
-                self.regDateLabel.text = json["reg_date"].stringValue
-                
-                self.resultCodeLabel.text = "\(payCode)"
-                self.resultMsgLabel.text = json["ResultMsg"].stringValue
-                
-                PaymentEvent.completePaymentCard.logEvent()
+        case PaymentCard.PAY_REGISTER_SUCCESS:
+            self.registerInfo.isHidden = false
+            self.registerCardInfo.isHidden = false
             
-            case PaymentCard.PAY_REGISTER_FAIL, PaymentCard.PAY_REGISTER_FAIL_PG:
-                self.registerInfo.isHidden = false
-                self.registerCardInfo.isHidden = true
+            // 등록 완료 -> 확인버튼
+            self.showConfirmBtn(show: true)
             
-                // 등록 실패 -> 확인버튼
-                self.showConfirmBtn(show: true)
-                
-                self.resultCodeLabel.text = "\(payCode)"
-                self.resultMsgLabel.text = json["ResultMsg"].stringValue
+            self.franchiseeLabel.text = "(주)소프트베리"
+            self.vanLabel.text = "스마트로(주)"
+            self.cardCoLabel.text = json["card_co"].stringValue
+            self.cardNoLabel.text = json["card_nm"].stringValue
+            self.regDateLabel.text = json["reg_date"].stringValue
             
-            case PaymentCard.PAY_REGISTER_CANCEL_FROM_USER:
-                self.onCancelRegister()
+            self.resultCodeLabel.text = "\(payCode)"
+            self.resultMsgLabel.text = json["ResultMsg"].stringValue
+        
+            self.delegate?.completeRegisterPayCard()
             
-            case PaymentCard.PAY_MEMBER_DELETE_SUCESS, PaymentCard.PAY_MEMBER_DELETE_FAIL_NO_USER, PaymentCard.PAY_MEMBER_DELETE_FAIL, PaymentCard.PAY_MEMBER_DELETE_FAIL_DB:
-                self.registerInfo.isHidden = false
-                self.registerCardInfo.isHidden = true
-                // 삭제 -> 확인버튼
-                self.showConfirmBtn(show: true)
-                
-                self.resultCodeLabel.text = "\(payCode)"
-                self.resultMsgLabel.text = json["ResultMsg"].stringValue
+            PaymentEvent.completePaymentCard.logEvent()
+        
+        case PaymentCard.PAY_REGISTER_FAIL, PaymentCard.PAY_REGISTER_FAIL_PG:
+            self.registerInfo.isHidden = false
+            self.registerCardInfo.isHidden = true
+        
+            // 등록 실패 -> 확인버튼
+            self.showConfirmBtn(show: true)
             
-            case PaymentCard.PAY_FINE_USER:
-                self.registerInfo.isHidden = true
-                self.registerCardInfo.isHidden = false
+            self.resultCodeLabel.text = "\(payCode)"
+            self.resultMsgLabel.text = json["ResultMsg"].stringValue
+        
+        case PaymentCard.PAY_REGISTER_CANCEL_FROM_USER:
+            self.onCancelRegister()
+        
+        case PaymentCard.PAY_MEMBER_DELETE_SUCESS, PaymentCard.PAY_MEMBER_DELETE_FAIL_NO_USER, PaymentCard.PAY_MEMBER_DELETE_FAIL, PaymentCard.PAY_MEMBER_DELETE_FAIL_DB:
+            self.registerInfo.isHidden = false
+            self.registerCardInfo.isHidden = true
+            // 삭제 -> 확인버튼
+            self.showConfirmBtn(show: true)
             
-                // 조회 -> 삭제/변경 버튼
-                self.showConfirmBtn(show: false)
-                self.franchiseeLabel.text = "(주)소프트베리"
-                self.vanLabel.text = "스마트로(주)"
-                self.cardCoLabel.text = json["card_co"].stringValue
-                self.cardNoLabel.text = json["card_nm"].stringValue
-                self.regDateLabel.text = json["reg_date"].stringValue
-                
-                self.resultCodeLabel.text = "\(payCode)"
-                self.resultMsgLabel.text = json["ResultMsg"].stringValue
+            self.resultCodeLabel.text = "\(payCode)"
+            self.resultMsgLabel.text = json["ResultMsg"].stringValue
+        
+        case PaymentCard.PAY_FINE_USER:
+            self.registerInfo.isHidden = true
+            self.registerCardInfo.isHidden = false
+        
+            // 조회 -> 삭제/변경 버튼
+            self.showConfirmBtn(show: false)
+            self.franchiseeLabel.text = "(주)소프트베리"
+            self.vanLabel.text = "스마트로(주)"
+            self.cardCoLabel.text = json["card_co"].stringValue
+            self.cardNoLabel.text = json["card_nm"].stringValue
+            self.regDateLabel.text = json["reg_date"].stringValue
             
-            default:
-                self.registerCardInfo.isHidden = true
-                self.showConfirmBtn(show: true)
-                self.resultCodeLabel.text = "\(payCode)"
-                self.resultMsgLabel.text = json["ResultMsg"].stringValue
+            self.resultCodeLabel.text = "\(payCode)"
+            self.resultMsgLabel.text = json["ResultMsg"].stringValue
+        
+        default:
+            self.registerCardInfo.isHidden = true
+            self.showConfirmBtn(show: true)
+            self.resultCodeLabel.text = "\(payCode)"
+            self.resultMsgLabel.text = json["ResultMsg"].stringValue
         }
     }
 
@@ -255,7 +256,7 @@ class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, Repa
     
     @objc
     fileprivate func handleBackButton() {
-        guard let _navi = navigationController else { return }
+        guard let _navi = navigationController else { return }        
         for vc in _navi.viewControllers {
             if vc is MembershipCardViewController {
                 _navi.popToRootViewController(animated: true)

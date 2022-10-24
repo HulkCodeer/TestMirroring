@@ -14,6 +14,7 @@ import FLAnimatedImage
 import RxSwift
 import RxCocoa
 import Alamofire
+import CoreLocation
 
 internal final class IntroViewController: UIViewController {
 
@@ -47,26 +48,15 @@ internal final class IntroViewController: UIViewController {
         showProgressLayer(isShow: false)
         showIntro()
         
-        ChargerManager.sharedInstance.getChargerCompanyInfo(listener: {
-            
-            class chargerManagerListener: ChargerManagerListener {
-
-                var controller: IntroViewController?
-                
-                func onComplete() {
-                    controller?.checkCompanyInfo()
-                }
-                
-                func onError(errorMsg: String) {
-                }
-                
-                required init(_ controller : IntroViewController) {
-                    self.controller = controller
-                }
+        Server.getCompanyInfo(updateDate: ChargerManager.sharedInstance.getChargerCompanyInfo()) { (isSuccess, value) in
+            if isSuccess {
+                ChargerManager.sharedInstance.updateCompanyInfoListFromServer(json: JSON(value))
+                self.checkCompanyInfo()
+            } else {
+                Snackbar().show(message: "네트워크 오류")
+                fatalError("네트워크 오류")
             }
-            
-            return chargerManagerListener(self)
-        } ())
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -159,7 +149,7 @@ internal final class IntroViewController: UIViewController {
                     CLLocationManager().requestWhenInUseAuthorization()
                 }
                 .disposed(by: self.disposeBag)
-            
+                        
             if FCMManager.sharedInstance.originalMemberId.isEmpty {
                 if MemberManager.shared.isShowPermission {
                     self.moveMainView()
@@ -178,11 +168,12 @@ internal final class IntroViewController: UIViewController {
         let reactor = MainReactor(provider: RestApi())
         let mainViewcon = storyboard.instantiateViewController(ofType: MainViewController.self)
         mainViewcon.reactor = reactor
-        let letfViewcon = storyboard.instantiateViewController(ofType: LeftViewController.self)
+        let leftReactor = LeftViewReactor(provider: RestApi())
+        let leftViewcon = NewLeftViewController(reactor: leftReactor)        
         
         let appToolbarController = AppToolbarController(rootViewController: mainViewcon)
         appToolbarController.delegate = mainViewcon
-        let ndController = AppNavigationDrawerController(rootViewController: appToolbarController, leftViewController: letfViewcon)
+        let ndController = AppNavigationDrawerController(rootViewController: appToolbarController, leftViewController: leftViewcon)
         GlobalDefine.shared.mainNavi?.setViewControllers([ndController], animated: true)
     }
     

@@ -11,6 +11,7 @@ import Foundation
 import UIKit
 import Material
 import SwiftyJSON
+
 class PreUsePointViewController: UIViewController {
     
     @IBOutlet weak var tfUsePoint: UITextField!
@@ -147,7 +148,7 @@ class PreUsePointViewController: UIViewController {
     }
     
     func saveUsePoint() {
-        Server.setUsePoint (usePoint: preUsePoint, useNow: true) { [weak self] (isSuccess, value) in
+        Server.setUsePoint (usePoint: self.preUsePoint, useNow: true) { [weak self] (isSuccess, value) in
             guard let self = self else { return }
             if isSuccess {
                 let json = JSON(value)
@@ -163,7 +164,7 @@ class PreUsePointViewController: UIViewController {
             } else {
                 Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 페이지 종료 후 재시도 바랍니다.")
             }
-        }
+        }                
     }
     
     func addUsePoint(point: Int) {

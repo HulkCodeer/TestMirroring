@@ -159,7 +159,7 @@ internal enum CorpLoginEvent: String, EventTypeProtocol {
     }
 }
 
-// 지도화면 이벤트
+// MARK: 지도화면 이벤트
 internal enum MapEvent: String, EventTypeProtocol {
     case viewMainPage = "view_main_page"
     case clickMyLocation = "click_my_location"
@@ -178,7 +178,7 @@ internal enum MapEvent: String, EventTypeProtocol {
     }
 }
 
-// 경로찾기 이벤트
+// MARK: 경로찾기 이벤트
 internal enum RouteEvent: String, EventTypeProtocol {
     case clickStationSelectStarting = "click_station_select_starting"
     case clickStationSelectTransit = "click_station_select_transit"
@@ -194,7 +194,7 @@ internal enum RouteEvent: String, EventTypeProtocol {
     }
 }
 
-// 충전소 이벤트
+// MARK: 충전소 이벤트
 internal enum ChargerStationEvent: String, EventTypeProtocol {
     case viewStationDetail = "view_station_detail"
     case clickStationChargingPrice = "click_station_charging_price"
@@ -206,7 +206,7 @@ internal enum ChargerStationEvent: String, EventTypeProtocol {
     }
 }
 
-// 결제 이벤트
+// MARK: 결제 이벤트
 internal enum PaymentEvent: String, EventTypeProtocol {
     case viewMyBerry = "view_my_berry"
     case clickSetUpBerry = "click_set_up_berry"
@@ -223,7 +223,48 @@ internal enum PaymentEvent: String, EventTypeProtocol {
     }
 }
 
-// 이벤트/광고/배너 이벤트
+// MARK: 3.7.8 버전 앰플리튜드
+internal class AmplitudeEvent {
+    internal static let shared = AmplitudeEvent()
+    
+    private init() {}
+    
+    enum Event: String, EventTypeProtocol {
+        case clickViewAddPaymentCard = "view_add_payment_card"
+        case clickViewApplyEVICard = "view_apply_EVI_card"
+        case viewMyInfo = "view_my_info"
+        case clickSidemenuRenewBerry = "click_sidemenu_renew_berry"
+        case clickSidemenuSetUpBerryAll = "click_sidemenu_set_up_berry_all"
+        case clickSidemenuMyBerry = "click_sidemenu_my_berry"
+        case viewLogin = "view_login"
+        case none
+        
+        internal var toTypeDesc: String {
+            return self.rawValue
+        }
+    }
+         
+    private var fromViewDesc: String = ""
+        
+    func fromViewDescStr() -> String {
+        return fromViewDesc
+    }
+    
+    func setFromViewDesc(fromViewDesc: String) {
+        self.fromViewDesc = fromViewDesc
+    }
+            
+    func fromViewSourceByLogEvent(eventType: Event) {
+        DispatchQueue.global(qos: .background).async {
+            guard !self.fromViewDesc.isEmpty else { return }
+            let property: [String: Any] = ["source": "\(self.fromViewDesc)"]
+            Amplitude.instance().logEvent(eventType.toTypeDesc, withEventProperties: property)
+            self.fromViewDesc = ""
+        }
+    }    
+}
+
+// MARK: 이벤트/광고/배너 이벤트
 internal enum PromotionEvent: String, EventTypeProtocol {
     case clickEvent = "click_event"
     case clickBanner = "click_banner"
@@ -240,7 +281,7 @@ internal enum FilterEvent: String, EventTypeProtocol {
     case clickFilterCancel = "click_filter_cancel"
     case clickFilterReset = "click_filter_reset"
     case clickFilterSave = "click_filter_save"
-    case clickUpperFilter = "click_upper_filter"
+    case clickUpperFilter = "click_upper_filter"    
     
     internal var toTypeDesc: String {
         return self.rawValue
@@ -285,7 +326,6 @@ internal enum EnterViewType: String, EventTypeProtocol {
     case repayListViewController = "미수금 결제 내역 화면"
     case myPayinfoViewController = "결제정보관리 화면"
     case repayResultViewController = "미수금 결제 완료 화면"
-    case myPayRegisterViewController = "결제 정보 등록 화면"
     case myPageViewController = "개인정보관리 화면"
     case quitAccountCompleteViewController = "회원탈퇴 완료 화면"
     case quitAccountReasonQuestionViewController = "회원탈퇴 사유 선택화면"
@@ -321,7 +361,7 @@ internal enum EnterViewType: String, EventTypeProtocol {
         case "PaymentQRScanViewController": self = .paymentQRScanViewController
         case "PaymentStatusViewController": self = .paymentStatusViewController
         case "PaymentResultViewController": self = .paymentResultViewController
-        case "NoticeViewController": self = .noticeViewController
+        case "NewNoticeViewController": self = .noticeViewController
         case "EventViewController": self = .eventViewController
         case "RegisterResultViewController": self = .registerResultViewController
         case "LotteRentInfoViewController": self = .lotteRentInfoViewController
@@ -331,7 +371,6 @@ internal enum EnterViewType: String, EventTypeProtocol {
         case "RepayListViewController": self = .repayListViewController
         case "MyPayinfoViewController": self = .myPayinfoViewController
         case "RepayResultViewController": self = .repayResultViewController
-        case "MyPayRegisterViewController": self = .myPayRegisterViewController
         case "MyPageViewController": self = .myPageViewController
         case "QuitAccountCompleteViewController": self = .quitAccountCompleteViewController
         case "QuitAccountReasonQuestionViewController": self = .quitAccountReasonQuestionViewController

@@ -16,8 +16,7 @@ import RxSwift
 import RxCocoa
 import PanModal
 
-class BoardWriteViewController: BaseViewController, UINavigationControllerDelegate {
-
+internal final class BoardWriteViewController: BaseViewController, UINavigationControllerDelegate {
     @IBOutlet var chargeStationStackView: UIStackView!
     @IBOutlet var stationSearchButton: UIButton!
     @IBOutlet var titleTextView: UITextView!
@@ -67,6 +66,7 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
         MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
             guard let self = self else { return }
             if !isLogin {
+                AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: self.isFromDetailView ? "충전소 상세 게시글 작성 버튼": "커뮤니티 글쓰기 버튼")                
                 MemberManager.shared.showLoginAlert(completion: { (result) -> Void in
                     if !result {
                         self.navigationController?.pop()
@@ -255,7 +255,7 @@ class BoardWriteViewController: BaseViewController, UINavigationControllerDelega
     @objc private func keyboardWillShow(_ sender: NSNotification) {
         if let keyboardSize = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             let keyboardHeight = keyboardSize.height
-            let safeAreaInset = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
+            let safeAreaInset = UIWindow.key?.safeAreaInsets.bottom ?? 0
             completeButton.snp.updateConstraints {
                 $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-keyboardHeight+safeAreaInset)
             }
