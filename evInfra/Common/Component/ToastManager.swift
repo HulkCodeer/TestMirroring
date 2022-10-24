@@ -73,6 +73,15 @@ extension UIView {
         } catch {}
     }
     
+    internal func makeToastBtn(_ message: String?, btnTitle: String, completion: ((_ didTap: Bool) -> Void)? = nil) {
+        do {
+            let toast = try toastViewForMessageBtn(message, btnTitle: btnTitle, style: ToastManager.shared.style)
+            showToast(toast, duration: ToastManager.shared.duration, position: ToastManager.shared.position, completion: completion)
+        } catch ToastError.missingParameters {
+            printLog(out: "Error: Message, Image all nil")
+        } catch {}
+    }
+    
     internal func makeProgressToast(_ message: String?, completion: ((_ didTap: Bool) -> Void)? = nil) {
         do {
             let toast = try toastViewForProgressMessage(message, style: ToastManager.shared.style)
@@ -224,7 +233,7 @@ extension UIView {
             $0.textColor = style.messageColor
             $0.backgroundColor = UIColor.clear
                         
-            let calcMessageSize = CGSize(width: (self.bounds.size.width * style.maxWidthPercentage) - style.noImgViewMessageLeadingMargin - style.messageTrailingMargin, height: self.bounds.size.height * style.maxHeightPercentage)
+            let calcMessageSize = CGSize(width: (self.bounds.size.width - 32) - style.noImgViewMessageLeadingMargin - style.messageTrailingMargin, height: self.bounds.size.height * style.maxHeightPercentage)
             let messageSize = $0.sizeThatFits(calcMessageSize)
             let actualWidth = messageSize.width
             let actualHeight = messageSize.height
@@ -288,7 +297,7 @@ extension UIView {
             $0.textColor = style.messageColor
             $0.backgroundColor = UIColor.clear
                                                             
-            let calcMessageSize = CGSize(width: (self.bounds.size.width * style.maxWidthPercentage) - (imageRect.size.width + imageRect.origin.x) - style.imgViewTrailingMargin - style.messageTrailingMargin, height: self.bounds.size.height * style.maxHeightPercentage)
+            let calcMessageSize = CGSize(width: (self.bounds.size.width - 32) - (imageRect.size.width + imageRect.origin.x) - style.imgViewTrailingMargin - style.messageTrailingMargin, height: self.bounds.size.height * style.maxHeightPercentage)
             let messageSize = $0.sizeThatFits(calcMessageSize)
             let actualWidth = messageSize.width
             let actualHeight = messageSize.height
@@ -327,6 +336,63 @@ extension UIView {
         return wrapperView
     }
     
+    internal func toastViewForMessageBtn(_ message: String?, btnTitle: String, style: ToastStyle) throws -> UIView {
+        guard let _message = message else {
+            throw ToastError.missingParameters
+        }
+        
+        let button = UIButton().then {
+            $0.setTitle("\(btnTitle)", for: .normal)
+            $0.setTitleColor(Colors.gr4.color, for: .normal)
+        }
+                        
+        let messageLbl = UILabel().then {
+            $0.text = _message
+            $0.numberOfLines = style.messageNumberOfLines
+            $0.font = style.messageFont
+            $0.textAlignment = style.messageAlignment
+            $0.lineBreakMode = .byTruncatingTail
+            $0.textColor = style.messageColor
+            $0.backgroundColor = UIColor.clear
+                                                            
+            let calcMessageSize = CGSize(width: (self.bounds.size.width - 32) - (style.noImgViewMessageLeadingMargin * 2) - button.frame.width, height: self.bounds.size.height * style.maxHeightPercentage)
+            let messageSize = $0.sizeThatFits(calcMessageSize)
+            let actualWidth = messageSize.width
+            let actualHeight = messageSize.height
+            $0.frame = CGRect(x: 0.0, y: 0.0, width: actualWidth, height: actualHeight)
+        }
+        
+        var messageRect = CGRect.zero
+        messageRect.origin.x = style.noImgViewMessageLeadingMargin
+        messageRect.origin.y = style.verticalMargin
+        messageRect.size.width = messageLbl.bounds.size.width
+        messageRect.size.height = messageLbl.bounds.size.height
+                                
+        let wrapperWidth = messageRect.origin.x + messageRect.size.width + style.messageTrailingMargin
+        let wrapperHeight = messageRect.origin.y + messageRect.size.height + style.verticalMargin
+                
+        button.center.y = wrapperHeight / 2
+                
+        let wrapperView = UIView()
+        wrapperView.backgroundColor = style.backgroundColor
+        wrapperView.autoresizingMask = [.flexibleLeftMargin, .flexibleRightMargin, .flexibleTopMargin, .flexibleBottomMargin]
+        wrapperView.layer.cornerRadius = style.cornerRadius
+        
+        if style.displayShadow {
+            wrapperView.layer.shadowColor = UIColor.black.cgColor
+            wrapperView.layer.shadowOpacity = style.shadowOpacity
+            wrapperView.layer.shadowRadius = style.shadowRadius
+            wrapperView.layer.shadowOffset = style.shadowOffset
+        }
+                                                                                   
+        wrapperView.frame = CGRect(x: 0.0, y: 0.0, width: wrapperWidth, height: wrapperHeight)
+        messageLbl.frame = messageRect
+        wrapperView.addSubview(messageLbl)
+        wrapperView.addSubview(button)
+                        
+        return wrapperView
+    }
+    
     internal func toastViewForProgressMessage(_ message: String?, style: ToastStyle) throws -> UIView {
         guard let _message = message else {
             throw ToastError.missingParameters
@@ -344,7 +410,7 @@ extension UIView {
             $0.textColor = style.messageColor
             $0.backgroundColor = UIColor.clear
                                                             
-            let calcMessageSize = CGSize(width: (self.bounds.size.width * style.maxWidthPercentage) - (circleProgressBarView.frame.size.width + circleProgressBarView.frame.origin.x) - style.progressTrailingMargin - style.messageTrailingMargin, height: self.bounds.size.height * style.maxHeightPercentage)
+            let calcMessageSize = CGSize(width: (self.bounds.size.width - 32) - (circleProgressBarView.frame.size.width + circleProgressBarView.frame.origin.x) - style.progressTrailingMargin - style.messageTrailingMargin, height: self.bounds.size.height * style.maxHeightPercentage)
             let messageSize = $0.sizeThatFits(calcMessageSize)
             let actualWidth = messageSize.width
             let actualHeight = messageSize.height
@@ -414,11 +480,11 @@ internal struct ToastStyle {
     
     fileprivate var backgroundColor: UIColor = Colors.nt8.color    
     fileprivate var messageColor: UIColor = Colors.contentOnColor.color
-    fileprivate var maxWidthPercentage: CGFloat = 0.8 {
-        didSet {
-            maxWidthPercentage = max(min(maxWidthPercentage, 1.0), 0.0)
-        }
-    }
+//    fileprivate var maxWidthPercentage: CGFloat = 0.8 {
+//        didSet {
+//            maxWidthPercentage = max(min(maxWidthPercentage, 1.0), 0.0)
+//        }
+//    }
 
     fileprivate var maxHeightPercentage: CGFloat = 0.8 {
         didSet {
