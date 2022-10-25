@@ -1,15 +1,15 @@
 //
-//  ShipmentStepView.swift
+//  ShipmentInfoView.swift
 //  evInfra
 //
-//  Created by 박현진 on 2022/10/24.
+//  Created by 소프트베리 on 2022/10/25.
 //  Copyright © 2022 soft-berry. All rights reserved.
 //
 
 import RxSwift
 import RxCocoa
 
-internal final class ShipmentStepView: UIView {
+internal final class ShipmentInfoView: UIView {
     
     // MARK: UI
     
@@ -34,11 +34,11 @@ internal final class ShipmentStepView: UIView {
     
     // MARK: FUNC
     
-    func makeUI() {
+    private func makeUI() {
         
     }
     
-    internal func bind(model: MembershipCardInfo) {
+    internal func bind(model: MembershipCardInfo.Info) {
         
     }
 }

@@ -31,7 +31,7 @@ internal final class MembershipCardIssuanceCompleteReactor: ViewModel, Reactor {
         
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .postMembershipCardInfo:
+        case .membershipCardInfo:
             return self.provider.postMembershipCardInfo()
                             .convertData()
                             .compactMap(convertToData)

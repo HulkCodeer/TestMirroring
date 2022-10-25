@@ -59,7 +59,7 @@ internal final class MembershipCardIssuanceCompleteViewController: CommonBaseVie
     
     // MARK: SYSTEM FUNC
     
-    init(reactor: MembershipIssuanceReactor) {
+    init(reactor: MembershipCardIssuanceCompleteReactor) {
         super.init()
         self.reactor = reactor
     }
@@ -147,6 +147,8 @@ internal final class MembershipCardIssuanceCompleteViewController: CommonBaseVie
     // MARK: FUNC
     
     func bind(reactor: MembershipCardIssuanceCompleteReactor) {
+        self.shipmentStatusView.bind(reactor: reactor)
+        
         Observable.just(MembershipCardIssuanceCompleteReactor.Action.membershipCardInfo)
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
