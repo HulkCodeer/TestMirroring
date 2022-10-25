@@ -81,6 +81,15 @@
 		192A338527FED07C00EF1684 /* CLLocationCoordinate2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192A338427FED07C00EF1684 /* CLLocationCoordinate2D.swift */; };
 		192C31852907C19300465B3D /* AmplitudeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A3D3252887F13400AE8280 /* AmplitudeManager.swift */; };
 		192C31862907C1CB00465B3D /* NewFilterTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1946E4F428FE95AF00CC9156 /* NewFilterTypeView.swift */; };
+		192C31822907A2CF00465B3D /* NewFilterAccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192C31812907A2CF00465B3D /* NewFilterAccessView.swift */; };
+		192C31832907A2CF00465B3D /* NewFilterAccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192C31812907A2CF00465B3D /* NewFilterAccessView.swift */; };
+		192C31842907A2CF00465B3D /* NewFilterAccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192C31812907A2CF00465B3D /* NewFilterAccessView.swift */; };
+		19394CC729062F5B00385DB4 /* NewChargerFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19394CC629062F5B00385DB4 /* NewChargerFilterViewController.swift */; };
+		19394CC829062F5B00385DB4 /* NewChargerFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19394CC629062F5B00385DB4 /* NewChargerFilterViewController.swift */; };
+		19394CC929062F5B00385DB4 /* NewChargerFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19394CC629062F5B00385DB4 /* NewChargerFilterViewController.swift */; };
+		19394CCB29066C7E00385DB4 /* NewFilterSwitchesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19394CCA29066C7E00385DB4 /* NewFilterSwitchesView.swift */; };
+		19394CCC29066C7E00385DB4 /* NewFilterSwitchesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19394CCA29066C7E00385DB4 /* NewFilterSwitchesView.swift */; };
+		19394CCD29066C7E00385DB4 /* NewFilterSwitchesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19394CCA29066C7E00385DB4 /* NewFilterSwitchesView.swift */; };
 		193A4DAC27FAAEC000B604D3 /* NaverMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193A4DAB27FAAEC000B604D3 /* NaverMapView.swift */; };
 		193C95C4289906DB00CD61D6 /* GlobalAdsReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193C95C3289906DB00CD61D6 /* GlobalAdsReactor.swift */; };
 		193C95C5289906DB00CD61D6 /* GlobalAdsReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193C95C3289906DB00CD61D6 /* GlobalAdsReactor.swift */; };
@@ -1505,6 +1514,9 @@
 		191FB60328A0CA40005248C8 /* NewEventDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEventDetailViewController.swift; sourceTree = "<group>"; };
 		192A338227FE747E00EF1684 /* Marker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Marker.swift; sourceTree = "<group>"; };
 		192A338427FED07C00EF1684 /* CLLocationCoordinate2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocationCoordinate2D.swift; sourceTree = "<group>"; };
+		192C31812907A2CF00465B3D /* NewFilterAccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFilterAccessView.swift; sourceTree = "<group>"; };
+		19394CC629062F5B00385DB4 /* NewChargerFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChargerFilterViewController.swift; sourceTree = "<group>"; };
+		19394CCA29066C7E00385DB4 /* NewFilterSwitchesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFilterSwitchesView.swift; sourceTree = "<group>"; };
 		193A4DAB27FAAEC000B604D3 /* NaverMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverMapView.swift; sourceTree = "<group>"; };
 		193C95C3289906DB00CD61D6 /* GlobalAdsReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalAdsReactor.swift; sourceTree = "<group>"; };
 		1946E4F028FE312000CC9156 /* NewFilterRoadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFilterRoadView.swift; sourceTree = "<group>"; };
@@ -2064,11 +2076,14 @@
 			isa = PBXGroup;
 			children = (
 				00A7D5C726B7B0D100C5DBCC /* Filter.storyboard */,
+				19394CC629062F5B00385DB4 /* NewChargerFilterViewController.swift */,
 				00A7D5D126B7DA2100C5DBCC /* ChargerFilterViewController.swift */,
 				19D85C8428FCF016000B1BB1 /* NewFilterPlaceView.swift */,
 				1946E4F028FE312000CC9156 /* NewFilterRoadView.swift */,
 				1946E4F428FE95AF00CC9156 /* NewFilterTypeView.swift */,
 				195B2E6B28FFDF1300F0ED23 /* NewFilterSpeedView.swift */,
+				19394CCA29066C7E00385DB4 /* NewFilterSwitchesView.swift */,
+				192C31812907A2CF00465B3D /* NewFilterAccessView.swift */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -4283,6 +4298,7 @@
 				63F313C2284EC74F001713D2 /* AppSearchBarController.swift in Sources */,
 				63F313C3284EC74F001713D2 /* UINavigationController+Extension.swift in Sources */,
 				63F313C4284EC74F001713D2 /* BoardWriteButton.swift in Sources */,
+				19394CCC29066C7E00385DB4 /* NewFilterSwitchesView.swift in Sources */,
 				63F313C5284EC74F001713D2 /* FilterRoadView.swift in Sources */,
 				63F313C6284EC74F001713D2 /* MyPayinfoViewController.swift in Sources */,
 				63762F542869A91900C951BF /* NewSettingsViewController.swift in Sources */,
@@ -4355,6 +4371,7 @@
 				63762F482869A8F000C951BF /* QuitAccountReasonModel.swift in Sources */,
 				63F313F8284EC74F001713D2 /* RangeSeekSlider.swift in Sources */,
 				63F313F9284EC74F001713D2 /* BoardDetailTableViewCell.swift in Sources */,
+				192C31832907A2CF00465B3D /* NewFilterAccessView.swift in Sources */,
 				63F313FA284EC74F001713D2 /* InfoCollectionViewCell.swift in Sources */,
 				63F313FB284EC74F001713D2 /* UIImage+Extension.swift in Sources */,
 				63F313FC284EC74F001713D2 /* MembershipReissuanceInfoViewController.swift in Sources */,
@@ -4478,6 +4495,7 @@
 				63F3145E284EC74F001713D2 /* BoardSearchViewController.swift in Sources */,
 				6309C7B02900011B00A52E4F /* FCMDelegate.swift in Sources */,
 				63F31460284EC74F001713D2 /* SignUpViewController.swift in Sources */,
+				19394CC829062F5B00385DB4 /* NewChargerFilterViewController.swift in Sources */,
 				82E1303928DEAEC100E7983D /* PermissionsGuideViewController.swift in Sources */,
 				82E1303628DEAEC100E7983D /* PermissionsGuideReactor.swift in Sources */,
 				63F31461284EC74F001713D2 /* NavCenterButton.swift in Sources */,
@@ -4605,6 +4623,7 @@
 				00A3659126C4E36200424E40 /* FilterRoadView.swift in Sources */,
 				73C6A0FD2345F1B600349A86 /* MyPayinfoViewController.swift in Sources */,
 				63762F532869A91900C951BF /* NewSettingsViewController.swift in Sources */,
+				19394CCB29066C7E00385DB4 /* NewFilterSwitchesView.swift in Sources */,
 				73008459213687150001DBFA /* DetailViewController.swift in Sources */,
 				525E3A25278D728100F5C54D /* CommunityBoardTableViewCell.swift in Sources */,
 				52B709D02799287A006C5706 /* BoardDetailViewController.swift in Sources */,
@@ -4677,6 +4696,7 @@
 				7357595220916C11008181E9 /* InfoCollectionViewCell.swift in Sources */,
 				73344ABF207B3A9B00A6A9EC /* UIImage+Extension.swift in Sources */,
 				63DA0A0B282E600C0021292C /* MembershipReissuanceInfoViewController.swift in Sources */,
+				192C31822907A2CF00465B3D /* NewFilterAccessView.swift in Sources */,
 				00C75C56252EF40100387559 /* HSUnderLineTextField.swift in Sources */,
 				00B36C4126D4B33100749FFE /* CompanyTableViewCell.swift in Sources */,
 				73EE8FB52101B7920016F505 /* BedgeButton.swift in Sources */,
@@ -4801,6 +4821,7 @@
 				52B53D2727BCB6F300D446A9 /* BoardSearchViewController.swift in Sources */,
 				6309C7AF2900011B00A52E4F /* FCMDelegate.swift in Sources */,
 				194EEB5728BC723200280299 /* AmpBoardModel.swift in Sources */,
+				19394CC729062F5B00385DB4 /* NewChargerFilterViewController.swift in Sources */,
 				82E1303828DEAEC100E7983D /* PermissionsGuideViewController.swift in Sources */,
 				82E1303528DEAEC100E7983D /* PermissionsGuideReactor.swift in Sources */,
 				DBEE9AFC211842ED00770D04 /* SignUpViewController.swift in Sources */,
@@ -4931,6 +4952,7 @@
 				824D5C1828BDD89C00EDC712 /* BoardWriteButton.swift in Sources */,
 				824D5C1928BDD89C00EDC712 /* FilterRoadView.swift in Sources */,
 				824D5C1A28BDD89C00EDC712 /* MyPayinfoViewController.swift in Sources */,
+				19394CCD29066C7E00385DB4 /* NewFilterSwitchesView.swift in Sources */,
 				824D5C1B28BDD89C00EDC712 /* NewSettingsViewController.swift in Sources */,
 				824D5C1C28BDD89C00EDC712 /* DetailViewController.swift in Sources */,
 				824D5C1D28BDD89C00EDC712 /* CommunityBoardTableViewCell.swift in Sources */,
@@ -5000,6 +5022,7 @@
 				824D5C5728BDD89C00EDC712 /* BoardDetailTableViewCell.swift in Sources */,
 				824D5C5828BDD89C00EDC712 /* InfoCollectionViewCell.swift in Sources */,
 				824D5C5928BDD89C00EDC712 /* UIImage+Extension.swift in Sources */,
+				192C31842907A2CF00465B3D /* NewFilterAccessView.swift in Sources */,
 				824D5C5A28BDD89C00EDC712 /* MembershipReissuanceInfoViewController.swift in Sources */,
 				824D5C5B28BDD89C00EDC712 /* HSUnderLineTextField.swift in Sources */,
 				824D5C5C28BDD89C00EDC712 /* CompanyTableViewCell.swift in Sources */,
@@ -5125,6 +5148,7 @@
 				824D5CC828BDD89C00EDC712 /* LotteRentCertificateViewController.swift in Sources */,
 				6309C7B12900011B00A52E4F /* FCMDelegate.swift in Sources */,
 				824D5CC928BDD89C00EDC712 /* BoardSearchViewController.swift in Sources */,
+				19394CC929062F5B00385DB4 /* NewChargerFilterViewController.swift in Sources */,
 				82E1303A28DEAEC100E7983D /* PermissionsGuideViewController.swift in Sources */,
 				82E1303728DEAEC100E7983D /* PermissionsGuideReactor.swift in Sources */,
 				824D5CCA28BDD89C00EDC712 /* SignUpViewController.swift in Sources */,
