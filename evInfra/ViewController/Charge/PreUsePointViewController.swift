@@ -9,7 +9,6 @@
 import Foundation
 
 import UIKit
-import Material
 import SwiftyJSON
 
 class PreUsePointViewController: UIViewController {
