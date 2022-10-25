@@ -16,6 +16,11 @@ class MembershipIssuanceViewController: UIViewController,
     MembershipTermViewDelegate,
     SearchAddressViewDelegate, MyPayRegisterViewDelegate {
     
+    private lazy var customNaviBar = CommonNaviView().then {
+        $0.backgroundColor = Colors.backgroundPrimary.color
+        $0.naviTitleLbl.text = "EV Pay 카드 신청"
+    }
+    
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var viewSeperator: UIView!
     @IBOutlet var tfPassword: HSUnderLineTextField!
@@ -74,15 +79,26 @@ class MembershipIssuanceViewController: UIViewController,
         printLog(out: "\(type(of: self)): Deinited")
     }
     
+    override func loadView() {
+        super.loadView()
+        
+        view.addSubview(customNaviBar)
+        customNaviBar.snp.makeConstraints {
+            $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(Constants.view.naviBarHeight)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        prepareActionBar()
         initView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
+        
         if let result = payRegistResult {
             updateAfterPayRegist(json: result)
         } else {
@@ -301,23 +317,6 @@ class MembershipIssuanceViewController: UIViewController,
             checkAgree.checkState = .checked
             self.btnNext.isEnabled = true
         }
-    }
-    
-    func prepareActionBar() {
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "content-primary")
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-        
-        navigationItem.leftViews = [backButton]
-        navigationItem.hidesBackButton = true
-        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-        navigationItem.titleLabel.text = "EV Pay 카드 신청"
-        self.navigationController?.isNavigationBarHidden = false
-    }
-    
-    @objc
-    fileprivate func handleBackButton() {
-        self.navigationController?.pop()
     }
     
     @objc

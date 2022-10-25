@@ -94,7 +94,8 @@ internal final class MembershipReissuanceViewController: BaseViewController, Sto
         super.loadView()
         
         view.backgroundColor = Colors.backgroundPrimary.color
-        
+        prepareActionBar(with: "재발급 신청")
+
         view.addSubview(nextBtn)
         nextBtn.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
@@ -255,9 +256,7 @@ internal final class MembershipReissuanceViewController: BaseViewController, Sto
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        prepareActionBar(with: "재발급 신청")
-        
+                
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }

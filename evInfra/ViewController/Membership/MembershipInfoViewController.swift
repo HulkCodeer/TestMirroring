@@ -42,10 +42,15 @@ internal final class MembershipInfoViewController: BaseViewController {
     
     // MARK: SYSTEM FUNC
     
+    override func loadView() {
+        super.loadView()
+        
+        prepareActionBar(with: "EV Pay 카드 상세")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        prepareActionBar()
         initView()
         
         Observable.combineLatest(tfPwIn.rx.text,
@@ -90,23 +95,6 @@ internal final class MembershipInfoViewController: BaseViewController {
         btnModify.setTitleColor(Colors.contentPrimary.color, for: .normal)
         
         btnModify.isEnabled = false
-    }
-    
-    func prepareActionBar() {
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "content-primary")
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-        
-        navigationItem.leftViews = [backButton]
-        navigationItem.hidesBackButton = true
-        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-        navigationItem.titleLabel.text = "EV Pay 카드 상세"
-        self.navigationController?.isNavigationBarHidden = false
-    }
-    
-    @objc
-    fileprivate func handleBackButton() {
-        self.navigationController?.pop()
     }
     
     func setCardInfo(info : MemberPartnershipInfo) {

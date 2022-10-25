@@ -11,6 +11,12 @@ import UIKit
 import SwiftyJSON
 class LotteRentCertificateViewController : UIViewController,
         RegisterResultDelegate, MyPayRegisterViewDelegate {
+    
+    private lazy var customNaviBar = CommonNaviView().then {
+        $0.naviTitleLbl.text = "롯데회원 등록"
+        $0.backgroundColor = Colors.backgroundPrimary.color
+    }
+    
     @IBOutlet var tfCarNo: UITextField!
     @IBOutlet var btnRegister: UIButton!
     
@@ -47,14 +53,31 @@ class LotteRentCertificateViewController : UIViewController,
         printLog(out: "\(type(of: self)): Deinited")
     }
     
+    override func loadView() {
+        super.loadView()
+        
+        view.backgroundColor = Colors.backgroundPrimary.color
+        
+        customNaviBar.backClosure = { [weak self] in
+            self?.navigationController?.pop()
+        }
+        
+        view.addSubview(customNaviBar)
+        customNaviBar.snp.makeConstraints {
+            $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(Constants.view.naviBarHeight)
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        prepareActionBar()
+//        prepareActionBar()
         initView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
         if let result = payRegistResult {
             updateAfterPayRegist(json: result)
         } else {
@@ -90,18 +113,6 @@ class LotteRentCertificateViewController : UIViewController,
         self.view.endEditing(true)
     }
     
-    func prepareActionBar() {
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "content-primary")
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-        
-        navigationItem.leftViews = [backButton]
-        navigationItem.hidesBackButton = true
-        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-        navigationItem.titleLabel.text = "롯데회원 등록"
-        self.navigationController?.isNavigationBarHidden = false
-    }
-    
     private func certificateMember(carNo : String) {
         Server.certificateLotteRentaCar(carNo: carNo, completion: { [self](isSuccess, value) in
             if isSuccess {
@@ -127,11 +138,6 @@ class LotteRentCertificateViewController : UIViewController,
                 Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 결제정보관리 페이지 종료후 재시도 바랍니다.")
             }
         })
-    }
-    
-    @objc
-    fileprivate func handleBackButton() {
-        self.navigationController?.pop()
     }
     
     private func showResultView(code: Int, imgType: String, retry: Bool, callBtn: Bool, msg: String) {

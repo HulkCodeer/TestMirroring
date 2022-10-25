@@ -17,6 +17,11 @@ class MembershipQRViewController: UIViewController,
     var videoPreviewLayer:AVCaptureVideoPreviewLayer!
     var qrCodeFrameView: UIView?
 
+    private lazy var customNaviBar = CommonNaviView().then {
+        $0.naviTitleLbl.text = "SK Rent Car 카드 연동"
+        $0.backgroundColor = Colors.backgroundPrimary.color
+    }
+    
     @IBOutlet var scannerViewLayer: UIView!
     @IBOutlet var lbExplainScanner: UILabel!
     
@@ -24,9 +29,24 @@ class MembershipQRViewController: UIViewController,
         printLog(out: "\(type(of: self)): Deinited")
     }
     
+    override func loadView() {
+        super.loadView()
+        
+        view.backgroundColor = Colors.backgroundPrimary.color
+        
+        customNaviBar.backClosure = { [weak self] in
+            self?.navigationController?.pop()
+        }
+        
+        view.addSubview(customNaviBar)
+        customNaviBar.snp.makeConstraints {
+            $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(Constants.view.naviBarHeight)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        prepareActionBar()
         prepareView()
         
         checkPermission()
@@ -35,6 +55,8 @@ class MembershipQRViewController: UIViewController,
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
+        self.navigationController?.isNavigationBarHidden = true
         
         if (captureSession?.isRunning == true) {
             captureSession.stopRunning()
@@ -46,23 +68,6 @@ class MembershipQRViewController: UIViewController,
         if (captureSession?.isRunning == false) {
             captureSession.startRunning()
         }
-    }
-    
-    @objc
-    fileprivate func handleBackButton() {
-        self.navigationController?.pop()
-    }
-    
-    func prepareActionBar() {
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "content-primary")
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-        
-        navigationItem.leftViews = [backButton]
-        navigationItem.hidesBackButton = true
-        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-        navigationItem.titleLabel.text = "SK Rent Car 카드 연동"
-        self.navigationController?.isNavigationBarHidden = false
     }
     
     func prepareView() {
