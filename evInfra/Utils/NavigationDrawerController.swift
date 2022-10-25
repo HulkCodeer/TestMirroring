@@ -10,7 +10,7 @@ import Material
 import Motion
 
 extension NavigationDrawerController{
-    open func reShowStatusBar() {
+    public func reShowStatusBar() {
         Motion.async { [weak self] in
             guard let v = Application.keyWindow else {
                 return
@@ -27,7 +27,7 @@ extension NavigationDrawerController{
     }
     
     /// Hides the statusBar.
-    open func reHideStatusBar() {
+    public func reHideStatusBar() {
         guard isHiddenStatusBarEnabled else {
             return
         }

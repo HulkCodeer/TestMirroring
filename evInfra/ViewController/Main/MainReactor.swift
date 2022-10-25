@@ -10,11 +10,13 @@ import ReactorKit
 import SwiftyJSON
 
 internal final class MainReactor: ViewModel, Reactor {
+    typealias SelectedFilterInfo = (filterTagType: FilterTagType, isSeleted: Bool)
+    
     enum Action {        
         case showMarketingPopup
         case setAgreeMarketing(Bool)
         case setMenuBadge(Bool)
-        case setFilterType(FilterTagType?)
+        case setSelectedFilterInfo(SelectedFilterInfo)
         case swipeLeft
         case swipeRight
         case showFilterSetting
@@ -27,13 +29,14 @@ internal final class MainReactor: ViewModel, Reactor {
         case hideDestinationResult(Bool)
         case clearSearchWayData
         case clearSearchPoint(SearchWayPointType)
+        case setEvPayFilter(Bool)
+        case openEvPayTooltip
     }
     
     enum Mutation {
         case setShowMarketingPopup(Bool)
         case setShowStartBanner(Bool)
         case setMenuBadge(Bool)
-        case setFilterType(FilterTagType?)
         case showFilterSetting
         case updateFilterBarTitle
         case showSearchChargingStation
@@ -43,13 +46,15 @@ internal final class MainReactor: ViewModel, Reactor {
         case hideDestinationResult(Bool)
         case clearSearchWayData
         case clearSearchPoint(SearchWayPointType)
+        case setSelectedFilterInfo(SelectedFilterInfo)
+        case setEvPayFilter(Bool)
+        case openEvPayTooltip
     }
     
     struct State {
         var isShowMarketingPopup: Bool?
         var isShowStartBanner: Bool?
         var hasNewBoardContents: Bool?
-        var selectedFilterTagType: FilterTagType?
         var isShowFilterSetting: Bool?
         var isUpdateFilterBarTitle: Bool?
         var isShowSearchChargingStation: Bool?
@@ -59,6 +64,9 @@ internal final class MainReactor: ViewModel, Reactor {
         var isClearSearchWayData: Bool?
         var isClearSearchWayPoint: (Bool, SearchWayPointType)?
         var searchDetinationData: (SearchWayPointType, String)?
+        var selectedFilterInfo: SelectedFilterInfo?
+        var isEvPayFilter: Bool?
+        var isShowEvPayToolTip: Bool?
     }
     
     internal var initialState: State
@@ -87,18 +95,19 @@ internal final class MainReactor: ViewModel, Reactor {
                 .map { isShowStartBanner in
                     return .setShowStartBanner(isShowStartBanner)
                 }
-            
         case .setMenuBadge(let hasNewContents):
             return .just(.setMenuBadge(hasNewContents))
 
-        case .setFilterType(let filterTagType):
-            return .just(.setFilterType(filterTagType))
+        case .setSelectedFilterInfo(let selectedFilterInfo):
+            return .just(.setSelectedFilterInfo(selectedFilterInfo))
             
         case .swipeLeft:
-            return .just(.setFilterType(self.currentState.selectedFilterTagType?.swipeLeft()))
+            let selectedFilterInfo: SelectedFilterInfo = (filterTagType: self.currentState.selectedFilterInfo?.filterTagType.swipeLeft() ?? .price, isSeleted: true)
+            return .just(.setSelectedFilterInfo(selectedFilterInfo))
             
         case .swipeRight:
-            return .just(.setFilterType(self.currentState.selectedFilterTagType?.swipeRight()))
+            let selectedFilterInfo: SelectedFilterInfo = (filterTagType: self.currentState.selectedFilterInfo?.filterTagType.swipeRight() ?? .price, isSeleted: true)
+            return .just(.setSelectedFilterInfo(selectedFilterInfo))
             
         case .showFilterSetting:
             return .just(.showFilterSetting)
@@ -109,7 +118,6 @@ internal final class MainReactor: ViewModel, Reactor {
         case .showSearchChargingStation:
             return Observable.concat([
                 .just(.showSearchChargingStation),
-                .just(.setFilterType(currentState.selectedFilterTagType))
             ])
             
             // 메뉴화면.
@@ -126,12 +134,10 @@ internal final class MainReactor: ViewModel, Reactor {
                 .just(.hidSearchWay(isHide)),
                 .just(.clearSearchWayData),
                 .just(.hideDestinationResult(isHide)),
-                .just(.setFilterType(currentState.selectedFilterTagType))
             ])
         case .hideSearchWay(let isHide):
             return Observable.concat([
                 .just(.hidSearchWay(isHide)),
-                .just(.setFilterType(currentState.selectedFilterTagType))
             ])
             
         case let .searchDestination(_, text) where text == String():
@@ -156,6 +162,12 @@ internal final class MainReactor: ViewModel, Reactor {
                 .just(.hideDestinationResult(true))
             ])
 
+        case .setEvPayFilter(let isEvPayFilter):
+            return .just(.setEvPayFilter(isEvPayFilter))
+            
+        case .openEvPayTooltip:
+            return .just(.openEvPayTooltip)
+            
         }
     }
     
@@ -167,7 +179,6 @@ internal final class MainReactor: ViewModel, Reactor {
         newState.hasNewBoardContents = nil
         newState.isShowFilterSetting = nil
         newState.isUpdateFilterBarTitle = nil
-        newState.selectedFilterTagType = nil
         newState.isShowSearchChargingStation = nil
         newState.isShowMenu = nil
         newState.isHideSearchWay = nil
@@ -175,6 +186,7 @@ internal final class MainReactor: ViewModel, Reactor {
         newState.isClearSearchWayData = nil
         newState.isClearSearchWayPoint = nil
         newState.searchDetinationData = nil
+        newState.isShowEvPayToolTip = nil
         
         switch mutation {
         case .setShowMarketingPopup(let isShow):
@@ -186,8 +198,8 @@ internal final class MainReactor: ViewModel, Reactor {
         case .setMenuBadge(let hasNewContents):
             newState.hasNewBoardContents = hasNewContents
             
-        case .setFilterType(let filterTagType):
-            newState.selectedFilterTagType = filterTagType
+        case .setSelectedFilterInfo(let selectedFilterInfo):
+            newState.selectedFilterInfo = selectedFilterInfo
             newState.isUpdateFilterBarTitle = true
             
         case .showFilterSetting:
@@ -216,6 +228,12 @@ internal final class MainReactor: ViewModel, Reactor {
          
         case .clearSearchPoint(let pointType):
             newState.isClearSearchWayPoint = (true, pointType)
+
+        case .setEvPayFilter(let isEvPayFilter):
+            newState.isEvPayFilter = isEvPayFilter
+            
+        case .openEvPayTooltip:
+            newState.isShowEvPayToolTip = FCMManager.sharedInstance.originalMemberId.isEmpty
         }
         
         return newState

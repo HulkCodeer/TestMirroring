@@ -11,7 +11,7 @@ import RxSwift
 import SwiftyJSON
 import EasyTipView
 
-protocol PartnershipListViewDelegate: class {
+protocol PartnershipListViewDelegate: AnyObject {
     func addNewPartnership()
     func showEvinfraMembershipInfo(info : MemberPartnershipInfo)    
     func moveMembershipUseGuideView()
@@ -111,6 +111,7 @@ internal final class PartnershipListView : UIView {
                                                             confirmBtnTitle: "결제카드 변경하기",
                                                             confirmBtnAction: { [weak self] in
                                     guard let self = self else { return }
+                                    AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "EVI Pay카드 관리 결제카드 등록 오류")
                                     let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
                                     let myPayInfoVC = memberStoryboard.instantiateViewController(ofType: MyPayinfoViewController.self)
                                     self.navi.push(viewController: myPayInfoVC)

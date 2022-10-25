@@ -37,6 +37,11 @@ class MembershipIssuanceViewController: UIViewController,
     @IBOutlet var checkAgree: M13Checkbox!
     
     var membershipTermView : MembershipTermView? = nil
+    var payRegistResult: JSON?
+    var memberData: [String: Any]? = nil
+    var isConfirmTerm = false
+    
+    internal weak var delegate: LeftViewReactorDelegate?
     
     @IBOutlet var scrollview_bottom: NSLayoutConstraint!
     
@@ -70,11 +75,7 @@ class MembershipIssuanceViewController: UIViewController,
             showValidateFailMsg(msg: (error as! ValidationError).message)
         }
     }
-    
-    var payRegistResult: JSON?
-    var memberData: [String: Any]? = nil
-    var isConfirmTerm = false    
-    
+        
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
     }
@@ -166,6 +167,7 @@ class MembershipIssuanceViewController: UIViewController,
     }
     
     func moveToMyPayRegist() {
+        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "회원카드 신청 프로세스")
         let mainStoryboard = UIStoryboard(name : "Member", bundle: nil)
         let payRegistVC = mainStoryboard.instantiateViewController(withIdentifier: "MyPayRegisterViewController") as! MyPayRegisterViewController
         payRegistVC.myPayRegisterViewDelegate = self
@@ -251,7 +253,6 @@ class MembershipIssuanceViewController: UIViewController,
                 actions.append(ok)
                 switch json["code"].stringValue {
                     case "1000":
-                    
                         let popupModel = PopupModel(title: "알림",
                                                 message: "EV pay 카드는 일반 우편으로 발송되며 즉시\n충전을 원하실 경우 마이페이지 > EV Pay카\n드 관리에 있는 카드 번호를 충전기에 입력하시면 됩니다.\n\n감사합니다.\n(한전 이외의 사업자는 익일 반영됩니다.)",
                                                 confirmBtnTitle: "확인",
@@ -259,8 +260,7 @@ class MembershipIssuanceViewController: UIViewController,
                             UserDefault().saveBool(key: UserDefault.Key.IS_HIDDEN_DELEVERY_COMPLETE_TOOLTIP, value: false)
                             MemberManager.shared.hasMembership = true
                             MemberManager.shared.hasPayment = true
-                            
-                            let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)
+                                                        
                             guard let _mainNavi = GlobalDefine.shared.mainNavi else { return }
                             for vc in _mainNavi.viewControllers {
                                 if let _vc = vc as? NewPaymentQRScanViewController {
@@ -269,7 +269,18 @@ class MembershipIssuanceViewController: UIViewController,
                                     return
                                 }
                             }
-                                                
+                            
+                            guard let _mainNavi = GlobalDefine.shared.mainNavi, let _delegate = self.delegate else { return }
+                            for vc in _mainNavi.viewControllers {
+                                if let _vc = vc as? NewLeftViewController {
+                                    Snackbar().show(message: "EV Pay카드 발급이 완료되었어요.")
+                                    _delegate.completeResiterMembershipCard()
+                                    _ = _mainNavi.popToViewController(_vc, animated: true)
+                                    return
+                                }
+                            }
+                            
+                            let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)
                             let viewcon = mbsStoryboard.instantiateViewController(ofType: MembershipCardViewController.self)
                             GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                         }, textAlignment: .center)

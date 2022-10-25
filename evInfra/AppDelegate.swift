@@ -48,7 +48,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             printLog(out: exceptionStr)
         }
         #endif
-                
+        
+        // 안쓰는 UserDefaul Key 삭제
+        UserDefault().deleteNoUseKey()
+                                
         return true
     }
             
@@ -192,7 +195,8 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
 extension AppDelegate : MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         printLog(out: "Firebase registration token: \(fcmToken ?? "")")
-        fcmManager.registerId = fcmToken        
+        fcmManager.registerId = fcmToken
+        FCMManager.sharedInstance.registerUser()
     }
 }
 

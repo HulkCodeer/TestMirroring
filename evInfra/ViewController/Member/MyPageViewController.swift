@@ -121,6 +121,8 @@ internal final class MyPageViewController: UIViewController {
         prepareView()
         
         getMemberInfo()
+        
+        AmplitudeEvent.shared.fromViewSourceByLogEvent(eventType: .viewMyInfo)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -345,6 +347,8 @@ extension MyPageViewController {
             Server.updateMemberInfo(nickName: nickName, region: region, profile: profileName, carId: carId) { (isSuccess, value) in
                 if isSuccess {
                     self.responseUpdateMemberInfo(json: JSON(value))
+                    
+                    MemberManager.shared.memberNickName = nickName
                 }
             }
         }

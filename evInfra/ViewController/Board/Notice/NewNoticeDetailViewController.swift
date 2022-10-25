@@ -160,7 +160,6 @@ internal final class NewNoticeDetailViewController: CommonBaseViewController, St
                 owner.webView.loadHTMLString(html, baseURL: nil)
             }
             .disposed(by: disposeBag)
-        
     }
 
 }
@@ -180,11 +179,15 @@ extension NewNoticeDetailViewController: WKNavigationDelegate {
             url.scheme == "evinfra"
         {  // deeplink
             DeepLinkModel.shared.openSchemeURL(urlstring: url.absoluteString)
+        } else if url.scheme == "mailto" {
+            openUrl(url)
+        } else if url.scheme == "tel" {
+            openUrl(url)
         } else {
-            openSafari(url: url)
+            openSafari(url)
         }
 
-        decisionHandler(.cancel)
+        decisionHandler(.allow)
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
@@ -197,8 +200,11 @@ extension NewNoticeDetailViewController: WKNavigationDelegate {
     }
     
     // MARK: WebViewAction
+    private func openUrl(_ url: URL) {
+        UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
+    }
     
-    private func openSafari(url: URL) {
+    private func openSafari(_ url: URL) {
         let hasHost = url.host != nil
         let url = hasHost ? url : URL(string: "http://\(url)")
         guard let _url = url  else { return }
@@ -207,5 +213,4 @@ extension NewNoticeDetailViewController: WKNavigationDelegate {
         safariVC.modalPresentationStyle = .pageSheet
         GlobalDefine.shared.mainNavi?.present(safariVC, animated: true)
     }
-    
 }

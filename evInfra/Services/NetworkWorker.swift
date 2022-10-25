@@ -15,7 +15,7 @@ internal final class NetworkWorker {
     internal static var shared = NetworkWorker()
         
     func rxRequest(url: String, httpMethod: Alamofire.HTTPMethod, parameters: [String: Any]?, headers: HTTPHeaders?) -> Observable<(HTTPURLResponse, Data)> {
-        
+        // TEST CODE
         #if DEBUG
             let debugDesc = """
             <URL: \(httpMethod.rawValue)> \(url)
@@ -31,13 +31,14 @@ internal final class NetworkWorker {
     }
     
     func rxRequest(url: String, httpMethod: Alamofire.HTTPMethod, parameters: [String: Any]?, headers: HTTPHeaders?) -> Disposable {
-        
+        // TEST CODE
         #if DEBUG
             let debugDesc = """
             <URL: \(httpMethod.rawValue)> \(url)
             parameter: \(parameters ?? [:])
             """
             printLog(out: debugDesc)
+        // TEST CODE
         #endif
         
         
@@ -53,6 +54,7 @@ internal final class NetworkWorker {
 extension Observable where Element == (HTTPURLResponse, Data){
     internal func convertData() -> Observable<ApiResult<Data, ApiError>>{
         return self.map { (httpURLResponse, data) -> ApiResult<Data, ApiError> in
+            // TEST CODE
             #if DEBUG
                 var strResponse: String?
                 if let str = String(data: data, encoding: .utf8) {

@@ -18,6 +18,15 @@ struct EventData {
     var eventUrl: String = ""
     var promotionId: String = ""
     var mbId: String = ""
+    var carmoreParam: String = "" // 카모아 전용 파라미터
+    
+    init(naviTitle: String, eventUrl: String, promotionId: String, mbId: String, carmoreParam: String) {
+        self.naviTitle = naviTitle
+        self.eventUrl = eventUrl
+        self.promotionId = promotionId
+        self.mbId = mbId
+        self.carmoreParam = carmoreParam
+    }
     
     init(naviTitle: String, eventUrl: String, promotionId: String, mbId: String) {
         self.naviTitle = naviTitle
@@ -62,6 +71,10 @@ struct EventData {
         
         if !self.promotionId.isEmpty {
             result.append(URLQueryItem(name: "promotionId", value: self.promotionId))
+        }
+        
+        if !self.carmoreParam.isEmpty {
+            result.append(URLQueryItem(name: "param", value: self.carmoreParam))
         }
                         
         return result
@@ -130,7 +143,8 @@ internal final class NewEventDetailViewController: CommonBaseViewController {
             GlobalDefine.shared.mainNavi?.pop()
         }
                                 
-        var urlComponents = URLComponents(string: eventData.eventUrl)
+//        var urlComponents = URLComponents(string: eventData.eventUrl)
+        var urlComponents = URLComponents(string: "https://data.ev-infra.com/ev-infra/event/2022/tirefly/html/index.html")
         
         if !eventData.getQueryItems().isEmpty {
             urlComponents?.queryItems = eventData.getQueryItems()
@@ -191,6 +205,15 @@ extension NewEventDetailViewController: WKNavigationDelegate {
         }
         let credential = URLCredential(trust: serverTrust)
         completionHandler(.useCredential, credential)
+    }
+    
+    func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
+        let urlString = navigationAction.request.url?.absoluteString ?? ""
+        printLog(out: "createWebViewWith \(urlString)")
+        if navigationAction.targetFrame == nil {
+            self.webView.load(navigationAction.request)
+        }
+        return nil
     }
 }
 

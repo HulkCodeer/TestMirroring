@@ -10,18 +10,19 @@ import Foundation
 import SwiftyJSON
 
 internal struct AdsInfo {
-    var evtId: String = ""
-    var img: String = ""
-    var logo: String = ""
-    var extUrl: String = ""
-    var evtDesc: String = ""
-    var evtTitle: String = ""
+    var evtId: String
+    var img: String
+    var thumbNail: String
+    var logo: String
+    var extUrl: String
+    var evtDesc: String
+    var evtTitle: String
     var evtWeight: Int = 0
-    var clientName: String = ""
-    var evtType: String = ""
+    var clientName: String
+    var evtType: String
     var convertEvtType: Promotion.Types = .ad
-    var dpStart: String = ""
-    var dpEnd: String = ""
+    var dpStart: String
+    var dpEnd: String
     var dpState: Promotion.State = .end
     var promotionPage: Promotion.Page = .start
     var promotionLayer: Promotion.Layer = .none
@@ -42,6 +43,7 @@ internal struct AdsInfo {
         self.dpEnd = json["dpEnd"].stringValue
         self.dpState = Promotion.State.convert(with: json["dpState"].intValue)
         self.oldId = json["oldId"].intValue
+        self.thumbNail = json["thumbNail"].stringValue
     }
 }
 

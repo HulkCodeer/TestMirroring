@@ -580,6 +580,7 @@ extension DetailViewController {
                     self.present(AppNavigationController(rootViewController: reportChargeVC), animated: true, completion: nil)
                 }
             } else {
+                AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "충전소 상세 제보 작성 버튼")   
                 MemberManager.shared.showLoginAlert()
             }
         }        

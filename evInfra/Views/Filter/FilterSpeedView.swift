@@ -7,7 +7,7 @@
 //
 
 import Foundation
-protocol DelegateSlowSpeedChange: class {
+protocol DelegateSlowSpeedChange: AnyObject {
     func onChangeSlowSpeed(isSlow: Bool)
 }
 class FilterSpeedView: UIView {

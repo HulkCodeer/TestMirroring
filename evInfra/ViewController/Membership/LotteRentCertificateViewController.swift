@@ -190,6 +190,7 @@ class LotteRentCertificateViewController : UIViewController,
     }
     
     func moveToMyPayRegist() {
+        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "롯데 렌트카 화면")
         let mainStoryboard = UIStoryboard(name: "Member", bundle: nil)
         let payRegistVC = mainStoryboard.instantiateViewController(withIdentifier: "MyPayRegisterViewController") as! MyPayRegisterViewController
         payRegistVC.myPayRegisterViewDelegate = self

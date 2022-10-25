@@ -74,7 +74,8 @@ internal final class EventViewController: UIViewController {
                     switch result {
                     case .success(let data):
                         let json = JSON(data)
-                        let events = json["data"].arrayValue.map { AdsInfo($0) }                        
+                        let events = json["data"].arrayValue.map { AdsInfo($0) }
+                        printLog(out: "Events : \(events)")
                         guard !events.isEmpty else { return [] }
                         return events
                         
@@ -89,15 +90,12 @@ internal final class EventViewController: UIViewController {
                     self.eventList.removeAll()
                     
                     for event in adList {
-                        // TODO: externalEventID & externalEventParam 처리
-                        if self.externalEventID == event.oldId {
+                        if self.externalEventID == event.oldId, let _externalEventParam = self.externalEventParam {
                             guard let _externalEventParam = self.externalEventParam else { return }
                             let viewcon = NewEventDetailViewController()
-                            viewcon.eventData = EventData(eventUrl: event.extUrl)
-                            
+                            viewcon.eventData = EventData(naviTitle: event.evtTitle, eventUrl: event.extUrl, promotionId: event.evtId, mbId: MemberManager.shared.mbIdToStr, carmoreParam: _externalEventParam)
                             GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                         }
-                        
                         self.eventList.append(event)
                     }
                     
@@ -143,6 +141,7 @@ internal final class EventViewController: UIViewController {
                     viewcon.eventData = EventData(naviTitle: event.evtTitle, eventUrl: event.extUrl, promotionId: event.evtId, mbId: MemberManager.shared.mbIdToStr)
                     GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 } else {
+                    AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "이벤트 페이지")
                     MemberManager.shared.showLoginAlert()
                 }
             }

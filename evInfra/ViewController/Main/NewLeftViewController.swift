@@ -13,7 +13,7 @@ import ReusableKit
 
 internal final class NewLeftViewController: CommonBaseViewController, StoryboardView {
     private enum Reusable {
-        static let leftViewMenuItem = ReusableCell<LeftViewMenuItem>(nibName: LeftViewMenuItem.reuseID)        
+        static let leftViewMenuItem = ReusableCell<LeftViewMenuItem>(nibName: LeftViewMenuItem.reuseID)
     }
         
     enum ViewHeightConst {
@@ -23,13 +23,11 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     
     // MARK: UI
     
-    private lazy var menuContentView = UIView().then {
-        $0.backgroundColor = Colors.backgroundPrimary.color
-    }
-
     private lazy var userInfoTotalView = UIView()
     
-    private lazy var loginTotalView = UIView()
+    private lazy var loginTotalView = UIView().then {
+        $0.isHidden = true
+    }
     
     private lazy var profileTotalView = UIView()
     
@@ -103,7 +101,9 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     
     private lazy var useAllMyBerryBtn = UIButton()
     
-    private lazy var nonLoginTotalView = UIView()
+    private lazy var nonLoginTotalView = UIView().then {
+        $0.isHidden = true
+    }
     
     private lazy var nonLoginProfileImgView = UIImageView().then {
         $0.image = Icons.iconProfileEmpty.image
@@ -111,7 +111,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     
     private lazy var loginInduceLbl = UILabel().then {
         $0.text = "로그인을 해주세요"
-        $0.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        $0.font = .systemFont(ofSize: 16, weight: .semibold)
         $0.textColor = Colors.contentPrimary.color
         $0.textAlignment = .natural
         $0.numberOfLines = 1
@@ -181,26 +181,26 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     
     // MARK: SYSTEM FUNC
     
+    init(reactor: LeftViewReactor) {
+        super.init()
+        self.reactor = reactor
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
     override func loadView() {
         super.loadView()
-        
-        view.isOpaque = false
-        view.backgroundColor = .clear
-        
-        view.addSubview(menuContentView)
-        menuContentView.snp.makeConstraints {
-            $0.top.leading.bottom.equalToSuperview()
-            $0.width.equalTo(UIScreen.main.bounds.width * 0.7)
-        }
-        
-        menuContentView.addSubview(userInfoTotalView)
-        userInfoTotalView.snp.makeConstraints {            
+          
+        self.view.addSubview(userInfoTotalView)
+        userInfoTotalView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(UIScreen.main.bounds.height > 667 ? 45 : 18)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(ViewHeightConst.loginViewHeight)
         }
         
-        menuContentView.addSubview(menuListTotalView)
+        self.view.addSubview(menuListTotalView)
         menuListTotalView.snp.makeConstraints {
             $0.top.equalTo(userInfoTotalView.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
@@ -402,21 +402,17 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         }
                 
         profileImgView.IBcornerRadius = 32/2
-        profileImgView.sd_setImage(with: URL(string:"\(Const.urlProfileImage)\(MemberManager.shared.profileImage)"), placeholderImage: Icons.iconProfileEmpty.image)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let displayNickname = MemberManager.shared.memberNickName
-        nicknameLbl.text = displayNickname.count > 10 ? "\(displayNickname.substring(to: 10))..." : displayNickname
-        
         moveMyInfoBtn.rx.tap
             .asDriver()
             .drive(with: self, onNext: { owner, _ in
-                let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
-                let mypageVC = memberStoryboard.instantiateViewController(ofType: MyPageViewController.self)
-                GlobalDefine.shared.mainNavi?.push(viewController: mypageVC)
+                AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "전체메뉴 상단 베리 닉네임")
+                let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPageViewController.self)
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 
                 if let _reactor = owner.reactor {
                     owner.hideMenu(reactor: _reactor, isHide: true)
@@ -427,9 +423,9 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         moveLoginBtn.rx.tap
             .asDriver()
             .drive(with: self, onNext: { owner, _ in
-                let loginStoryboard = UIStoryboard(name : "Login", bundle: nil)
-                let loginVC = loginStoryboard.instantiateViewController(ofType: LoginViewController.self)
-                GlobalDefine.shared.mainNavi?.push(viewController: loginVC)
+                AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "비로그인 전체메뉴 상단 베리 닉네임")
+                let viewcon = UIStoryboard(name : "Login", bundle: nil).instantiateViewController(ofType: LoginViewController.self)
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 
                 if let _reactor = owner.reactor {
                     owner.hideMenu(reactor: _reactor, isHide: true)
@@ -440,6 +436,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         moveMyPointBtn.rx.tap
             .asDriver()
             .drive(with: self, onNext: { owner, _ in
+                AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "좌측메뉴 상단 MY베리 버튼")
                 let viewcon = UIStoryboard(name : "Charge", bundle: nil).instantiateViewController(ofType: PointViewController.self)
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 
@@ -460,12 +457,23 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                 $0.height.equalTo(isLogin ? ViewHeightConst.loginViewHeight : ViewHeightConst.nonLoginViewHeigt)
             }
             
-            guard isLogin else { return }
+            guard isLogin else {
+                self.myBerryLbl.text = "0"
+                return
+            }
+            let displayNickname = MemberManager.shared.memberNickName
+            self.nicknameLbl.text = displayNickname.count > 10 ? "\(displayNickname.substring(to: 10))..." : displayNickname
+            
+            Observable.just(LeftViewReactor.Action.isAllBerryReload)
+                .bind(to: _reactor.action)
+                .disposed(by: self.disposeBag)
+            
             Observable.just(LeftViewReactor.Action.getMyBerryPoint)
                 .bind(to: _reactor.action)
-                .disposed(by: self.disposeBag)                        
+                .disposed(by: self.disposeBag)
         }
         
+        profileImgView.sd_setImage(with: URL(string:"\(Const.urlProfileImage)\(MemberManager.shared.profileImage)"), placeholderImage: Icons.iconProfileEmpty.image)
         tableView.reloadData()
     }
     
@@ -501,133 +509,50 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         
         reactor.state.compactMap { $0.myBerryPoint }
             .asDriver(onErrorJustReturn: "")
-            .drive(onNext: { [weak self] point in
-                guard let self = self else { return }
+            .drive(with: self) { obj, point in
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.myBerryRefreshImgView.layer.removeAnimation(forKey: "transform.rotation.z")
+                    obj.myBerryRefreshImgView.layer.removeAnimation(forKey: "transform.rotation.z")
                 }
-                self.myBerryLbl.text = point
-            })
+                obj.myBerryLbl.text = point
+            }
             .disposed(by: self.disposeBag)
         
         reactor.state.compactMap { $0.isAllBerry }
-            .asDriver(onErrorJustReturn: false)
-            .drive(onNext: { [weak self] isOn in
-                guard let self = self else { return }
-                self.useAllMyBerrySw.isOn = isOn
-                guard isOn else { return }
-                let message = "0".equals(reactor.currentState.myBerryPoint ?? "") ? "베리가 적립되면 다음 충전 시 베리가 자동으로 전액 사용됩니다." : "다음 충전 후 결제 시 베리가 전액 사용됩니다."
-                Snackbar().show(message: "\(message)")
+            .do(onNext: { isOn in
+                let property: [String: Any] = ["berryAmount": "베리량",
+                                               "onOrOff": isOn]
+                AmplitudeEvent.Event.clickSidemenuSetUpBerryAll.logEvent(property: property)
             })
+            .asDriver(onErrorJustReturn: false)
+            .drive(self.useAllMyBerrySw.rx.isOn)
             .disposed(by: self.disposeBag)
         
         myBerryRefreshBtn.rx.tap
             .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
             .asDriver(onErrorJustReturn: ())
-            .drive(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                
+            .drive(with: self) { obj, _ in
                 let animation = CABasicAnimation(keyPath: "transform.rotation.z")
                 let direction = 1.0
                 animation.toValue = NSNumber(value: .pi * 2 * direction)
                 animation.duration = 1
                 animation.isCumulative = true
                 animation.repeatCount = .infinity
-                self.myBerryRefreshImgView.layer.add(animation, forKey: "transform.rotation.z")
+                obj.myBerryRefreshImgView.layer.add(animation, forKey: "transform.rotation.z")
+                
+                AmplitudeEvent.Event.clickSidemenuRenewBerry.logEvent()
                 
                 Observable.just(LeftViewReactor.Action.refreshBerryPoint)
                     .bind(to: reactor.action)
-                    .disposed(by: self.disposeBag)
-            })
+                    .disposed(by: obj.disposeBag)
+            }
             .disposed(by: self.disposeBag)
                         
         useAllMyBerryBtn.rx.tap
-            .asDriver()
-            .drive(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                switch (MemberManager.shared.hasPayment, MemberManager.shared.hasMembership) {
-                case (false, false):
-                    guard !self.useAllMyBerrySw.isOn else { return }
-                    let popupModel = PopupModel(title: "회원카드를 발급하시겠어요?",
-                                                message: "베리는 회원카드 발급 후\n충전 시 할인 받을 수 있어요.",
-                                                confirmBtnTitle: "네 발급할게요.", cancelBtnTitle: "다음에 할게요.",
-                                                confirmBtnAction: {
-                        let viewcon = MembershipGuideViewController()
-                        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-                        self.hideMenu(reactor: reactor, isHide: true)
-                    }, textAlignment: .center)
-                        
-                    let popup = VerticalConfirmPopupViewController(model: popupModel)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                        GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
-                    })
-                    
-                case (false, true):
-                    guard !self.useAllMyBerrySw.isOn else { return }
-                    let popupModel = PopupModel(title: "결제 카드를 확인해주세요",
-                                                message: "현재 회원님의 결제정보에 오류가 있어\n다음 충전 시 베리를 사용할 수 없어요.",
-                                                confirmBtnTitle: "결제정보 확인하러가기", cancelBtnTitle: "다음에 할게요.",
-                                                confirmBtnAction: {
-                        
-                        Server.getPayRegisterStatus { (isSuccess, value) in
-                            if isSuccess {
-                                let json = JSON(value)
-                                let payCode = json["pay_code"].intValue
-                                                    
-                                switch PaymentStatus(rawValue: payCode) {
-                                case .PAY_NO_CARD_USER, .PAY_NO_USER: // 카드등록 아니된 멤버
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: { [weak self] in
-                                        let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPayinfoViewController.self)                                                                                                                        
-                                        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-                                        self?.hideMenu(reactor: reactor, isHide: true)
-                                    })
-                                                        
-                                case .PAY_DEBTOR_USER: // 돈안낸 유저
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: { [weak self] in
-                                        let viewcon = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: RepayListViewController.self)
-                                        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-                                        self?.hideMenu(reactor: reactor, isHide: true)
-                                    })
-                                    
-                                default: self.dismiss(animated: true)
-                                }
-                            } else {
-                                self.dismiss(animated: true)
-                                Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 결제정보관리 페이지 종료후 재시도 바랍니다.")
-                            }
-                        }
-                        
-                    }, cancelBtnAction: {
-                        self.dismiss(animated: true)
-                    }, textAlignment: .center)
-                                            
-                    let popup = VerticalConfirmPopupViewController(model: popupModel)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                        GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
-                    })
-                    
-                case (true, false):
-                    guard !self.useAllMyBerrySw.isOn else { return }
-                    let popupModel = PopupModel(title: "더 많은 충전소에서\n베리를 적립해보세요!",
-                                                message: "회원카드 발급 시 환경부, 한국전력 등\n더 많은 충전소에서 적립할 수 있어요.",
-                                                confirmBtnTitle: "회원카드 안내 보러가기", cancelBtnTitle: "다음에 할게요.",
-                                                confirmBtnAction: {
-                        let viewcon = MembershipGuideViewController()
-                        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-                        self.hideMenu(reactor: reactor, isHide: true)
-                    }, textAlignment: .center)
-                        
-                    let popup = VerticalConfirmPopupViewController(model: popupModel)
-                    GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
-                case (true, true):
-                    Observable.just(LeftViewReactor.Action.setIsAllBerry(!self.useAllMyBerrySw.isOn))
-                        .bind(to: reactor.action)
-                        .disposed(by: self.disposeBag)
-                                
-                }
-            })
+            .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
+            .map { LeftViewReactor.Action.loadPaymentStatus }
+            .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
-        
+                             
         GlobalDefine.shared.isUseAllBerry
             .filter { $0 }
             .map { isUseAllBerry in  LeftViewReactor.Action.setIsAllBerry(isUseAllBerry) }
@@ -643,13 +568,11 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     
     private func createMenuTypeView(menuCategoryType: LeftViewReactor.MenuCategoryType, reactor: LeftViewReactor) -> UIView {
         let view = UIView().then {
-            $0.translatesAutoresizingMaskIntoConstraints = false
             $0.clipsToBounds = true
             $0.backgroundColor = menuCategoryType == reactor.currentState.menuCategoryType ? Colors.backgroundPrimary.color : .clear
         }
                        
         let menuImgView = UIImageView().then {
-            $0.translatesAutoresizingMaskIntoConstraints = false
             $0.image = menuCategoryType.menuImgView
             $0.tintColor = Colors.backgroundAlwaysDark.color
         }
@@ -662,7 +585,6 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         }
         
         let menuTitleLbl = UILabel().then {
-            $0.translatesAutoresizingMaskIntoConstraints = false
             $0.text = menuCategoryType.menuTitle
             $0.numberOfLines = 1
             $0.font = UIFont.systemFont(ofSize: 12, weight: .regular)
@@ -678,9 +600,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
             $0.bottom.equalToSuperview().offset(-9)
         }
         
-        let btn = UIButton().then {
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        }
+        let btn = UIButton()
         view.addSubview(btn)
         btn.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -693,11 +613,10 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         
         reactor.state.map { $0.menuCategoryType }
             .asDriver(onErrorJustReturn: LeftViewReactor.MenuCategoryType.mypage)
-            .drive(onNext: { [weak self] type in
-                guard let self = self else { return }
+            .drive(with: self) { obj, type in
                 view.backgroundColor = menuCategoryType == type ? Colors.backgroundPrimary.color : .clear
-                self.tableView.reloadData()
-            })
+                obj.tableView.reloadData()
+            }
             .disposed(by: self.disposeBag)
         
         return view
@@ -769,18 +688,14 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     }
 
     private func updateMyPageTitle(cell: LeftViewMenuItem, index: IndexPath) {
-        if index.row == 0 {
-            if MemberManager.shared.hasPayment {
-                cell.menuLabel.text = "결제 정보 관리"
-            } else {
-                cell.menuLabel.text = "결제 정보 등록"
-            }
-        } else if index.row == 1 {
-            if MemberManager.shared.hasMembership {
-                cell.menuLabel.text = "회원카드 관리"
-            } else {
-                cell.menuLabel.text = "회원카드 신청"
-            }
+        switch index.row {
+        case 0: // 결제 정보 관리
+            cell.menuLabel.text = MemberManager.shared.hasPayment ? "결제 정보 관리" : "결제 정보 등록"
+        case 1: // 회원카드 관리
+            cell.menuLabel.text = MemberManager.shared.hasMembership ? "EV Pay카드 관리" : "EV Pay카드 신청"
+        case 2: // 렌터카 정보 관리
+            cell.menuLabel.text = MemberManager.shared.hasRentcar ? "렌터카 정보 관리" : "렌터카 정보 등록"
+        default: break
         }
     }
 }

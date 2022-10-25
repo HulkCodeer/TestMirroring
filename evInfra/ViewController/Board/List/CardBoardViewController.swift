@@ -128,16 +128,16 @@ extension CardBoardViewController {
     @objc
     fileprivate func handlePostButton() {
         let storyboard = UIStoryboard.init(name: "BoardWriteViewController", bundle: nil)
-        guard let boardWriteViewController = storyboard.instantiateViewController(withIdentifier: "BoardWriteViewController") as? BoardWriteViewController else { return }
+        guard let viewcon = storyboard.instantiateViewController(withIdentifier: "BoardWriteViewController") as? BoardWriteViewController else { return }
         
-        boardWriteViewController.isFromDetailView = false
-        boardWriteViewController.category = self.category
-        boardWriteViewController.popCompletion = { [weak self] in
+        viewcon.isFromDetailView = false
+        viewcon.category = self.category
+        viewcon.popCompletion = { [weak self] in
             guard let self = self else { return }
             self.fetchFirstBoard(mid: self.category.rawValue, sort: self.sortType, mode: self.mode.rawValue)
-        }
+        }        
                 
-        self.navigationController?.push(viewController: boardWriteViewController)
+        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 
         BoardEvent.clickWriteBoardPost.logEvent()
     }

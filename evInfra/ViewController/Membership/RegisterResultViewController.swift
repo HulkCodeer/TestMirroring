@@ -113,7 +113,7 @@ class RegisterResultViewController : UIViewController {
         UIApplication.shared.open(number)
     }
 }
-protocol RegisterResultDelegate: class {
+protocol RegisterResultDelegate: AnyObject {
     func onConfirmBtnPressed(code : Int)
 }
 

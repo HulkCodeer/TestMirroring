@@ -77,10 +77,10 @@ internal final class FilterContainerView: UIView {
     func bind(reactor: MainReactor) {
         self.mainReactor = reactor
         
-        reactor.state.map { $0.selectedFilterTagType }
+        reactor.state.compactMap { $0.selectedFilterInfo }
             .asDriver(onErrorJustReturn: nil)
-            .drive(with: self) { obj, selectedFilterTagType in
-                switch selectedFilterTagType {
+            .drive(with: self) { obj, selectedFilterInfo in
+                switch selectedFilterInfo?.filterTagType {
                 case .price:
                     obj.filterContainerView.bringSubviewToFront(obj.filterPriceView)
                 case .speed:

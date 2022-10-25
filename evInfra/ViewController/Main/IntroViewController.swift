@@ -15,9 +15,10 @@ import FLAnimatedImage
 import RxSwift
 import RxCocoa
 import Alamofire
+import CoreLocation
 
 internal final class IntroViewController: UIViewController {
-
+    
     // MARK: UI
     
     @IBOutlet weak var progressLayer: UIView!
@@ -26,9 +27,9 @@ internal final class IntroViewController: UIViewController {
     
     @IBOutlet var imgIntroBackground: UIImageView!
     @IBOutlet var imgIntroFLAnimated: FLAnimatedImageView!
-        
+    
     // MARK: VARIABLE
-                    
+    
     private var maxCount = 0
     private let disposeBag = DisposeBag()
     
@@ -48,26 +49,15 @@ internal final class IntroViewController: UIViewController {
         showProgressLayer(isShow: false)
         showIntro()
         
-        ChargerManager.sharedInstance.getChargerCompanyInfo(listener: {
-            
-            class chargerManagerListener: ChargerManagerListener {
-
-                var controller: IntroViewController?
-                
-                func onComplete() {
-                    controller?.checkCompanyInfo()
-                }
-                
-                func onError(errorMsg: String) {
-                }
-                
-                required init(_ controller : IntroViewController) {
-                    self.controller = controller
-                }
+        Server.getCompanyInfo(updateDate: ChargerManager.sharedInstance.getChargerCompanyInfo()) { (isSuccess, value) in
+            if isSuccess {
+                ChargerManager.sharedInstance.updateCompanyInfoListFromServer(json: JSON(value))
+                self.checkCompanyInfo()
+            } else {
+                Snackbar().show(message: "네트워크 오류")
+                fatalError("네트워크 오류")
             }
-            
-            return chargerManagerListener(self)
-        } ())
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -99,7 +89,7 @@ internal final class IntroViewController: UIViewController {
             self.finishCheckIntro()
         }
     }
-                
+    
     private func finishCheckIntro(imgName : String, path : String){
         printLog(out: "\(imgName)")
         if imgName.hasSuffix(".gif"){
@@ -118,7 +108,8 @@ internal final class IntroViewController: UIViewController {
     }
     
     private func checkLastBoardId() {
-        Server.getBoardData { (isSuccess, value) in
+        Server.getBoardData { [weak self] (isSuccess, value) in
+            guard let self = self else { return }
             if isSuccess {
                 let json = JSON(value)
                 if json["code"].intValue == 1000 {
@@ -149,56 +140,37 @@ internal final class IntroViewController: UIViewController {
                         boardNewInfo.brdId = brdId
                         
                         Board.sharedInstance.brdNewInfo.append(boardNewInfo)
+                        
                     }
-                    
-                    if !MemberManager.shared.isFirstInstall {
-                        CLLocationManager().rx
-                            .status
-                            .subscribe(with: self) { obj, status in
-                                switch status {
-                                case .authorizedAlways, .authorizedWhenInUse:
-//                                    self.moveMainView()
-                                    self.presentMainView()
-                                    
-                                default: self.movePerminssonsGuideView()
-                                }
-                            }
-                            .disposed(by: self.disposeBag)
-
-                    } else {
-//                        self.moveMainView()
-                        self.presentMainView()
-                    }
-                    
-                    FCMManager.sharedInstance.registerUser()
                 }
                 
+                CLLocationManager().rx.isEnabled
+                    .subscribe(with: self) { obj, isEnable in
+                        guard !isEnable else { return }
+                        CLLocationManager().requestWhenInUseAuthorization()
+                    }
+                    .disposed(by: self.disposeBag)
+                
+                if FCMManager.sharedInstance.originalMemberId.isEmpty {
+                    if MemberManager.shared.isShowPermission {
+                        self.presentMainView()
+                    } else {
+                        MemberManager.shared.isShowPermission = true
+                        self.movePerminssonsGuideView()
+                    }
+                } else {
+                    self.presentMainView()
+                }
             }
         }
     }
-    
-//    private func moveMainView() {
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let reactor = MainReactor(provider: RestApi())
-//        let mainViewcon = storyboard.instantiateViewController(ofType: MainViewController.self)
-//        mainViewcon.reactor = reactor
-//        let letfViewcon = storyboard.instantiateViewController(ofType: LeftViewController.self)
-//
-//        // naviBar
-//        let appToolbarController = AppToolbarController(rootViewController: mainViewcon)
-//        appToolbarController.delegate = mainViewcon
-//
-//        let ndController = AppNavigationDrawerController(rootViewController: appToolbarController, leftViewController: letfViewcon)
-//
-//        GlobalDefine.shared.mainNavi?.setViewControllers([ndController], animated: true)
-//    }
-
     
     private func movePerminssonsGuideView() {
         let reactor = PermissionsGuideReactor(provider: RestApi())
         let viewcon = PermissionsGuideViewController(reactor: reactor)
         GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
     }
+    
 }
 
 extension FLAnimatedImage {
@@ -254,11 +226,11 @@ extension IntroViewController: PermissionGuideDelegate {
         let reactor = MainReactor(provider: RestApi())
         let mainViewcon = storyboard.instantiateViewController(ofType: MainViewController.self)
         
-        let menuVC = NewLeftViewController()
         let menuReactor = LeftViewReactor(provider: RestApi())
-
+        let menuVC = NewLeftViewController(reactor: menuReactor)
+        
         let rootVC = UINavigationController(rootViewController: mainViewcon)
-
+        
         mainViewcon.reactor = reactor
         menuVC.reactor = menuReactor
         
@@ -266,9 +238,9 @@ extension IntroViewController: PermissionGuideDelegate {
         
         reactor.leftDrawerDelegate = presentVC
         menuReactor.leftDrawerDelegate = presentVC
-                
+        
         GlobalDefine.shared.mainNavi = rootVC
-         
+        
         if let _window = UIWindow.key {
             _window.rootViewController = presentVC
             _window.makeKeyAndVisible()
