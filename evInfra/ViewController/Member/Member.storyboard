@@ -34,7 +34,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="TXN-yS-rk1">
-                                <rect key="frame" x="8" y="8" width="359" height="256"/>
+                                <rect key="frame" x="8" y="64" width="359" height="256"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tD2-9H-5Rj">
                                         <rect key="frame" x="0.0" y="0.0" width="359" height="82"/>
@@ -274,7 +274,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="aAU-bT-4br" firstAttribute="leading" secondItem="Fp3-S1-H4Q" secondAttribute="leading" constant="16" id="0qw-TK-wMp"/>
-                            <constraint firstItem="TXN-yS-rk1" firstAttribute="top" secondItem="Fp3-S1-H4Q" secondAttribute="top" constant="8" id="1ag-6v-kU3"/>
+                            <constraint firstItem="TXN-yS-rk1" firstAttribute="top" secondItem="Fp3-S1-H4Q" secondAttribute="top" constant="64" id="1ag-6v-kU3"/>
                             <constraint firstItem="Fp3-S1-H4Q" firstAttribute="trailing" secondItem="aAU-bT-4br" secondAttribute="trailing" constant="16" id="MuD-06-a4I"/>
                             <constraint firstItem="TXN-yS-rk1" firstAttribute="leading" secondItem="Fp3-S1-H4Q" secondAttribute="leading" constant="8" id="OmU-wK-9S3"/>
                             <constraint firstItem="Fp3-S1-H4Q" firstAttribute="trailing" secondItem="TXN-yS-rk1" secondAttribute="trailing" constant="8" id="OvX-lY-eLk"/>

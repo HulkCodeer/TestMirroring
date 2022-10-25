@@ -16,11 +16,28 @@ class MyPayRegisterViewController: UIViewController {
     internal weak var myPayRegisterViewDelegate: MyPayRegisterViewDelegate?
     
     private let disposeBag = DisposeBag()
+    
+    private lazy var customNavibar = CommonNaviView().then {
+        $0.backgroundColor = Colors.backgroundPrimary.color
+        $0.naviTitleLbl.text = "결제정보관리"
+    }
     private var mWebView: WKWebView!
     
     override func loadView() {
         super.loadView()
         initWebView()
+        
+        customNavibar.backClosure = { [weak self] in
+            self?.navigationController?.pop()
+            self?.myPayRegisterViewDelegate?.onCancelRegister()
+        }
+        
+        view.backgroundColor = Colors.backgroundPrimary.color
+        view.addSubview(customNavibar)
+        customNavibar.snp.makeConstraints {
+            $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(Constants.view.naviBarHeight)
+        }
     }
     
     deinit {
@@ -31,13 +48,13 @@ class MyPayRegisterViewController: UIViewController {
         super.viewDidLoad()
         PaymentEvent.clickAddPaymentCard.logEvent()
         
-        prepareActionBar()
         makePostRequest(url: Const.EV_PAY_SERVER + "/pay/evPay/registEvPay", payload: ["mb_id":"\(MemberManager.shared.mbId)"])
         // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
     }
 
     func initWebView() {
@@ -49,7 +66,9 @@ class MyPayRegisterViewController: UIViewController {
         
         webViewConfig.userContentController = webViewContentController
         
-        mWebView = WKWebView(frame: self.view.frame, configuration: webViewConfig)
+        let frame: CGRect = .init(x: view.frame.minX, y: view.frame.minY + Constants.view.naviBarHeight,
+                                  width: view.frame.width, height: view.frame.height)
+        mWebView = WKWebView(frame: frame, configuration: webViewConfig)
         mWebView.customUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 12_1_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16D57"
         mWebView.uiDelegate = self
         mWebView.navigationDelegate = self
@@ -57,18 +76,6 @@ class MyPayRegisterViewController: UIViewController {
         mWebView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         self.view.addSubview(mWebView)
         
-    }
-
-    func prepareActionBar() {
-       let backButton = IconButton(image: Icon.cm.arrowBack)
-       backButton.tintColor = UIColor(named: "content-primary")
-       backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-       
-       navigationItem.leftViews = [backButton]
-       navigationItem.hidesBackButton = true
-       navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-       navigationItem.titleLabel.text = "결제정보관리"
-       self.navigationController?.isNavigationBarHidden = false
     }
     
     func makePostRequest(url: String, payload: Dictionary<String, Any>) {
@@ -89,12 +96,6 @@ class MyPayRegisterViewController: UIViewController {
         return "<html><head><script>function post(path,params,method){method = method || 'post';var form=document.createElement('form');form.setAttribute('method', method);form.setAttribute('action',path);for(var key in params){if(params.hasOwnProperty(key)){var hiddenField=document.createElement('input');hiddenField.setAttribute('type', 'hidden');hiddenField.setAttribute('name', key);hiddenField.setAttribute('value', params[key]);form.appendChild(hiddenField);}}document.body.appendChild(form);form.submit();}</script></head><body></body></html><script>post('\(url)',\(payload),'post');</script>"
     }
     
-    @objc
-    fileprivate func handleBackButton() {
-        self.navigationController?.pop()
-        myPayRegisterViewDelegate?.onCancelRegister()
-    }
-       
 }
 
 extension MyPayRegisterViewController: WKUIDelegate {
