@@ -468,7 +468,7 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                         myWritingControllers.append(freeMineVC)
                         
                         let tabsController = AppTabsController(viewControllers: myWritingControllers)
-                        tabsController.actionTitle = "내가 쓴 글 보기"
+                        tabsController.customNavi.naviTitleLbl.text = "내가 쓴 글 보기"
                         for controller in myWritingControllers {
                             tabsController.appTabsControllerDelegates.append(controller)
                         }
