@@ -19,7 +19,7 @@ internal final class FilterContainerView: UIView {
     
     @IBOutlet var filterContainerView: UIView!
     @IBOutlet var filterTypeView: NewFilterTypeView!
-    @IBOutlet var filterSpeedView: FilterSpeedView!
+    @IBOutlet var filterSpeedView: NewFilterSpeedView!
     @IBOutlet var filterPriceView: FilterPriceView!
     @IBOutlet var filterRoadView: NewFilterRoadView!
     @IBOutlet var filterPlaceView: NewFilterPlaceView!
@@ -57,18 +57,18 @@ internal final class FilterContainerView: UIView {
         self.filterContainerView.addGestureRecognizer(swipeRight)
         
         filterTypeView.saveOnChange = true
-        filterSpeedView.saveOnChange = true
+//        filterSpeedView.saveOnChange = true
         filterRoadView.saveOnChange = true
         filterPlaceView.saveOnChange = true
         filterPriceView.saveOnChange = true
         
 //        filterTypeView.delegate = self
-        filterSpeedView.delegate = self
+//        filterSpeedView.delegate = self
         filterRoadView.delegate = self
         filterPlaceView.delegate = self
         filterPriceView.delegate = self
         
-        filterSpeedView.slowSpeedChangeDelegate = self
+//        filterSpeedView.slowSpeedChangeDelegate = self
 //        filterTypeView.slowTypeChangeDelegate = self
     }
     
@@ -77,6 +77,7 @@ internal final class FilterContainerView: UIView {
     func bind(reactor: MainReactor) {
         self.mainReactor = reactor
         
+        filterSpeedView.bind(reactor: reactor)
         filterPlaceView.bind(reactor: reactor)
         filterRoadView.bind(reactor: reactor)
         filterTypeView.bind(reactor: reactor)
@@ -138,7 +139,7 @@ internal final class FilterContainerView: UIView {
     
     internal func updateFilters() {
         filterPriceView.update()
-        filterSpeedView.update()
+//        filterSpeedView.update()
 //        filterPlaceView.update()
 //        filterRoadView.update()
 //        filterTypeView.update()
@@ -153,7 +154,7 @@ extension FilterContainerView: DelegateFilterChange{
 
 extension FilterContainerView : DelegateSlowTypeChange {
     func onChangeSlowType(slowOn: Bool) {
-        filterSpeedView.setSlowOn(slowOn: slowOn)
+//        filterSpeedView.setSlowOn(slowOn: slowOn)
     }
 }
 

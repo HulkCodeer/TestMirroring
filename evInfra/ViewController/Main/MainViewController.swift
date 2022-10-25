@@ -214,7 +214,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
 
             let evPayTiptext = "EV Pay 카드로 충전 가능한 충전소만\n볼 수 있어요"
             self.evPayTipView = EasyTipView(text: evPayTiptext, preferences: evPayPreferences)
-            self.evPayTipView.show(forView: self.filterBarView.evPayView, withinSuperview: self.view)
+//            self.evPayTipView.show(forView: self.filterBarView.evPayView, withinSuperview: self.view)
         }
     }
 
@@ -313,8 +313,11 @@ internal final class MainViewController: UIViewController, StoryboardView {
         reactor.state.compactMap { $0.isShowFilterSetting }
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { obj, isShow in
-                let chargerFilterViewController = UIStoryboard(name : "Filter", bundle: nil).instantiateViewController(ofType: ChargerFilterViewController.self)
-                chargerFilterViewController.delegate = obj
+                let chargerFilterViewController = NewChargerFilterViewController(reactor: reactor)
+//                chargerFilterViewController.bind(reactor: reactor)
+//                let chargerFilterViewController = UIStoryboard(name : "Filter", bundle: nil).instantiateViewController(ofType: ChargerFilterViewController.self)
+//                chargerFilterViewController.delegate = obj
+//                chargerFilterViewController.bind(reactor: reactor)
                 GlobalDefine.shared.mainNavi?.push(viewController: chargerFilterViewController)
             }
             .disposed(by: self.disposeBag)
@@ -338,7 +341,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
 
                 let evPayTiptext = "EV Pay 카드로 충전 가능한 충전소만\n볼 수 있어요"
                 self.evPayTipView = EasyTipView(text: evPayTiptext, preferences: evPayPreferences)
-                self.evPayTipView.show(forView: self.filterBarView.evPayView, withinSuperview: self.view)
+//                self.evPayTipView.show(forView: self.filterBarView.evPayView, withinSuperview: self.view)
             }
             .disposed(by: self.disposeBag)
     }

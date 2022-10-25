@@ -44,47 +44,53 @@ internal final class FilterManager {
         filter.minSpeed = defaults.readInt(key: UserDefault.Key.FILTER_MIN_SPEED)
         filter.maxSpeed = defaults.readInt(key: UserDefault.Key.FILTER_MAX_SPEED)
                         
-        var defValue = defaults.readString(key: UserDefault.Key.FILTER_DC_DEMO)
-        if defValue.isEmpty {
-            filter.dcDemo = true
-        } else {
-            filter.dcDemo = defValue.equals("Checked")
-        }
-            
-        defValue = defaults.readString(key: UserDefault.Key.FILTER_DC_COMBO)
-        if defValue.isEmpty {
-            filter.dcCombo = true
-        } else {
-            filter.dcCombo = defValue.equals("Checked")
-        }
-        
-        defValue = defaults.readString(key: UserDefault.Key.FILTER_AC)
-        if defValue.isEmpty {
-            filter.ac3 = true
-        } else {
-            filter.ac3 = defValue.equals("Checked")
-        }
-        
-        defValue = defaults.readString(key: UserDefault.Key.FILTER_SLOW)
-        if defValue.isEmpty {
-            filter.slow = false
-        } else {
-            filter.slow = defValue.equals("Checked")
-        }
-                
-        defValue = defaults.readString(key: UserDefault.Key.FILTER_SUPER_CHARGER)
-        if defValue.isEmpty {
-            filter.superCharger = true
-        } else {
-            filter.superCharger = defValue.equals("Checked")
-        }
-        
-        defValue = defaults.readString(key: UserDefault.Key.FILTER_DESTINATION)
-        if defValue.isEmpty {
-            filter.destination = false
-        } else {
-            filter.destination = defValue.equals("Checked")
-        }
+        filter.dcDemo = defaults.readBool(key: UserDefault.Key.FILTER_DC_DEMO)
+        filter.dcCombo = defaults.readBool(key: UserDefault.Key.FILTER_DC_COMBO)
+        filter.ac3 = defaults.readBool(key: UserDefault.Key.FILTER_AC)
+        filter.slow = defaults.readBool(key: UserDefault.Key.FILTER_SLOW)
+        filter.superCharger = defaults.readBool(key: UserDefault.Key.FILTER_SUPER_CHARGER)
+        filter.destination = defaults.readBool(key: UserDefault.Key.FILTER_DESTINATION)
+//        var defValue = defaults.readString(key: UserDefault.Key.FILTER_DC_DEMO)
+//        if defValue.isEmpty {
+//            filter.dcDemo = true
+//        } else {
+//            filter.dcDemo = defValue.equals("Checked")
+//        }
+//            
+//        defValue = defaults.readString(key: UserDefault.Key.FILTER_DC_COMBO)
+//        if defValue.isEmpty {
+//            filter.dcCombo = true
+//        } else {
+//            filter.dcCombo = defValue.equals("Checked")
+//        }
+//        
+//        defValue = defaults.readString(key: UserDefault.Key.FILTER_AC)
+//        if defValue.isEmpty {
+//            filter.ac3 = true
+//        } else {
+//            filter.ac3 = defValue.equals("Checked")
+//        }
+//        
+//        defValue = defaults.readString(key: UserDefault.Key.FILTER_SLOW)
+//        if defValue.isEmpty {
+//            filter.slow = false
+//        } else {
+//            filter.slow = defValue.equals("Checked")
+//        }
+//                
+//        defValue = defaults.readString(key: UserDefault.Key.FILTER_SUPER_CHARGER)
+//        if defValue.isEmpty {
+//            filter.superCharger = true
+//        } else {
+//            filter.superCharger = defValue.equals("Checked")
+//        }
+//        
+//        defValue = defaults.readString(key: UserDefault.Key.FILTER_DESTINATION)
+//        if defValue.isEmpty {
+//            filter.destination = false
+//        } else {
+//            filter.destination = defValue.equals("Checked")
+//        }
                                 
         filter.isGeneralWay = defaults.readBool(key: UserDefault.Key.FILTER_GENERAL_WAY)
         filter.isHighwayUp = defaults.readBool(key: UserDefault.Key.FILTER_HIGHWAY_UP)
@@ -157,7 +163,7 @@ internal final class FilterManager {
             defaults.saveBool(key: UserDefault.Key.FILTER_PAID, value: paid)
         }
     }
-
+    // 안씀
     func savePlaceFilter(indoor: Bool, outdoor:Bool, canopy:Bool) {
         if (filter.isIndoor != indoor){
             filter.isIndoor = indoor
@@ -193,7 +199,7 @@ internal final class FilterManager {
             defaults.saveBool(key: UserDefault.Key.FILTER_CANOPY, value: isSelect)
         }
     }
-    
+    // 안씀
     func saveRoadFilter(general: Bool, highUp:Bool, highDown:Bool) {
         if (filter.isGeneralWay != general){
             filter.isGeneralWay = general
@@ -229,7 +235,7 @@ internal final class FilterManager {
             defaults.saveBool(key: UserDefault.Key.FILTER_HIGHWAT_DOWN, value: isSelect)
         }
     }
-    
+    // 안씀
     func saveAccessFilter(isPublic: Bool, nonPublic:Bool) {
         if (filter.isPublic != isPublic){
             filter.isPublic = isPublic
@@ -239,6 +245,18 @@ internal final class FilterManager {
             filter.isNonPublic = nonPublic
             defaults.saveBool(key: UserDefault.Key.FILTER_NONPUBLIC, value: nonPublic)
         }
+    }
+    
+    internal func savePublic(with isSelect: Bool) {
+        guard filter.isPublic != isSelect else { return }
+        filter.isPublic = isSelect
+        defaults.saveBool(key: UserDefault.Key.FILTER_PUBLIC, value: isSelect)
+    }
+    
+    internal func saveNonPublic(with isSelect: Bool) {
+        guard filter.isNonPublic != isSelect else { return }
+        filter.isNonPublic = isSelect
+        defaults.saveBool(key: UserDefault.Key.FILTER_NONPUBLIC, value: isSelect)
     }
     
     func saveSpeedFilter(min: Int, max: Int) {
@@ -251,7 +269,7 @@ internal final class FilterManager {
             defaults.saveInt(key: UserDefault.Key.FILTER_MAX_SPEED, value: max)
         }
     }
-    
+    // 안씀
     func saveTypeFilter(index: Int, val: Bool){
         switch index {
         case Const.CHARGER_TYPE_DCCOMBO:
@@ -277,6 +295,30 @@ internal final class FilterManager {
         }
     }
     
+    func saveChargerType(index: Int, selected: Bool) {
+        switch index {
+        case Const.CHARGER_TYPE_DCCOMBO:
+            filter.dcCombo = selected
+            defaults.saveBool(key: UserDefault.Key.FILTER_DC_COMBO, value: selected)
+        case Const.CHARGER_TYPE_DCDEMO:
+            filter.dcDemo = selected
+            defaults.saveBool(key: UserDefault.Key.FILTER_DC_DEMO, value: selected)
+        case Const.CHARGER_TYPE_AC:
+            filter.ac3 = selected
+            defaults.saveBool(key: UserDefault.Key.FILTER_AC, value: selected)
+        case Const.CHARGER_TYPE_SLOW:
+            filter.slow = selected
+            defaults.saveBool(key: UserDefault.Key.FILTER_SLOW, value: selected)
+        case Const.CHARGER_TYPE_SUPER_CHARGER:
+            filter.superCharger = selected
+            defaults.saveBool(key: UserDefault.Key.FILTER_SUPER_CHARGER, value: selected)
+        case Const.CHARGER_TYPE_DESTINATION:
+            filter.destination = selected
+            defaults.saveBool(key: UserDefault.Key.FILTER_DESTINATION, value: selected)
+        default: break
+        }
+    }
+    
     func updateCompanyFilter() {
         let companyList = ChargerManager.sharedInstance.getCompanyInfoListAll()!
         for company in companyList {
@@ -294,29 +336,18 @@ internal final class FilterManager {
         }
     }
     
-    func getPriceTitle() -> String {
-        var title = ""
-        // 둘다 설정 or 해제 시 기본 타이틀
-        if ((filter.isPaid && filter.isFree) || !(filter.isPaid || filter.isFree)) {
-            title = "유료/무료"
-        } else {
-            title = filter.isPaid ? "유료" : "무료"
-        }
-        return title
-    }
-    
-    func getSpeedTitle() -> String {
+    internal func speedTitle() -> String {
         var title = ""
         if (filter.minSpeed == 0 && filter.maxSpeed == 350) {
             title = "충전속도"
-        } else if (filter.minSpeed == filter.maxSpeed){
-            if (filter.minSpeed == 0) {
+        } else if filter.minSpeed == filter.maxSpeed {
+            if filter.minSpeed == 0 {
                 title = "완속~완속"
             } else {
                 title = "\(filter.minSpeed)kW"
             }
         } else {
-            if (filter.minSpeed == 0) {
+            if filter.minSpeed == 0 {
                 title = "완속 ~ \(filter.maxSpeed)kW"
             } else {
                 title = "\(filter.minSpeed) ~ \(filter.maxSpeed)kW"
@@ -325,19 +356,24 @@ internal final class FilterManager {
         return title
     }
     
-    func getPlaceTitle() -> String {
+    internal func shouldSpeedChanged() -> Bool {
+        guard (filter.minSpeed == 0 && filter.maxSpeed == 350) else { return false}
+        return true
+    }
+    
+    internal func placeTitle() -> String {
         var title = ""
         if ((filter.isIndoor && filter.isOutdoor && filter.isCanopy)
                 || !(filter.isIndoor || filter.isOutdoor || filter.isCanopy)){
             title = "설치형태"
         } else {
-            if (filter.isIndoor) {
+            if filter.isIndoor {
                 title = "실내"
             }
-            if (filter.isOutdoor) {
+            if filter.isOutdoor {
                 title += title.isEmpty ? "실외" : ", 실외"
             }
-            if (filter.isCanopy) {
+            if filter.isCanopy {
                 title += title.isEmpty ? "캐노피" : ", 캐노피"
             }
         }
@@ -349,19 +385,19 @@ internal final class FilterManager {
         return true
     }
     
-    func getRoadTitle() -> String {
+    internal func roadTitle() -> String {
         var title = ""
         if ((filter.isGeneralWay && filter.isHighwayUp && filter.isHighwayDown)
                 || !(filter.isGeneralWay || filter.isHighwayUp || filter.isHighwayDown)){
             title = "도로"
         } else {
-            if (filter.isGeneralWay) {
+            if filter.isGeneralWay {
                 title = "일반도로"
             }
-            if (filter.isHighwayUp) {
+            if filter.isHighwayUp {
                 title += title.isEmpty ? "고속도로(상)" : ", 고속도로(상)"
             }
-            if (filter.isHighwayDown) {
+            if filter.isHighwayDown {
                 title += title.isEmpty ? "고속도로(하)" : ", 고속도로(하)"
             }
         }
@@ -373,31 +409,36 @@ internal final class FilterManager {
         return true
     }
     
-    func getTypeTitle() -> String {
+    internal func typeTitle() -> String {
         var title = ""
         if !filter.dcCombo, !filter.dcDemo, !filter.ac3, !filter.slow, !filter.superCharger, !filter.destination {
             title = "충전기타입"
         } else {
-            if (filter.dcCombo) {
+            if filter.dcCombo {
                 title = "DC콤보"
             }
-            if (filter.dcDemo) {
+            if filter.dcDemo {
                 title += title.isEmpty ? "DC차데모" : ", DC차데모"
             }
-            if (filter.ac3) {
+            if filter.ac3 {
                 title += title.isEmpty ? "AC 3상" : ", AC 3상"
             }
-            if (filter.slow) {
+            if filter.slow {
                 title += title.isEmpty ? "완속" : ", 완속"
             }
-            if (filter.superCharger) {
+            if filter.superCharger {
                 title += title.isEmpty ? "슈퍼차저" : ", 슈퍼차저"
             }
-            if (filter.destination) {
+            if filter.destination {
                 title += title.isEmpty ? "데스티네이션" : ", 데스티네이션"
             }
         }
         return title
+    }
+    
+    internal func shouldTypeChanged() -> Bool {
+        guard (filter.dcCombo || filter.dcDemo || filter.ac3 || filter.slow || filter.superCharger || filter.destination) else { return false }
+        return true
     }
     
     func saveTypeFilterForCarType() {
@@ -444,7 +485,7 @@ internal final class FilterManager {
     }
     
     internal func getSocketType() -> [String] {
-        let types = getTypeTitle().split(separator: ",").map { String($0) }
+        let types = typeTitle().split(separator: ",").map { String($0) }
         return types
     }
     
@@ -463,19 +504,19 @@ internal final class FilterManager {
         
     }
     
-    internal func getChargingSpeed() -> (Int, Int) {
+    internal func chargingSpeed() -> (Int, Int) {
         return (filter.minSpeed, filter.maxSpeed)
     }
     
-    internal func getLocationType() -> [String] {
-        return getPlaceTitle().split(separator: ",").map { String($0) }
+    internal func locationType() -> [String] {
+        return placeTitle().split(separator: ",").map { String($0) }
     }
     
-    internal func getRoadType() -> [String] {
-        return getRoadTitle().split(separator: ",").map { String($0) }
+    internal func roadType() -> [String] {
+        return roadTitle().split(separator: ",").map { String($0) }
     }
     
-    internal func getIsPaid() -> [String] {
+    internal func isPaid() -> [String] {
         var types: [String] = [String]()
         if filter.isPaid {
             types.append("유료")
@@ -486,7 +527,7 @@ internal final class FilterManager {
         return types
     }
     
-    internal func getChargingStations() -> [String] {
+    internal func chargingStations() -> [String] {
         return filter.companyDictionary.values.filter({ return $0.is_visible }).map { $0.name ?? "" }
     }
 }
@@ -496,12 +537,12 @@ extension FilterManager {
         let property: [String: Any] = ["selectedAccessibility": getAccessibility(),
                                        "selectedSocketType": getSocketType(),
                                        "filterMyCar": UserDefault().readBool(key: UserDefault.Key.FILTER_MYCAR),
-                                       "minChargingSpeed": getChargingSpeed().0 == 0 ? "완속" : getChargingSpeed().0,
-                                       "maxChargingSpeed": getChargingSpeed().1 == 0 ? "완속" : getChargingSpeed().1,
-                                       "setLocation": getLocationType(),
-                                       "road": getRoadType(),
-                                       "price": getIsPaid(),
-                                       "chargingStation": getChargingStations(),
+                                       "minChargingSpeed": chargingSpeed().0 == 0 ? "완속" : chargingSpeed().0,
+                                       "maxChargingSpeed": chargingSpeed().1 == 0 ? "완속" : chargingSpeed().1,
+                                       "setLocation": locationType(),
+                                       "road": roadType(),
+                                       "price": isPaid(),
+                                       "chargingStation": chargingStations(),
                                        "source": source]
         
        FilterEvent.clickFilterSave.logEvent(property: property)
