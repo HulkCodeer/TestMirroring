@@ -56,7 +56,6 @@ internal final class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        prepareActionBar()
         prepareLoginButton()
         LoginHelper.shared.delegate = self
         
@@ -67,18 +66,6 @@ internal final class LoginViewController: UIViewController {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
     }
-    
-//    func prepareActionBar() {
-//        let backButton = IconButton(image: Icon.cm.arrowBack)
-//        backButton.tintColor = UIColor(named: "content-primary")
-//        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-//
-//        navigationItem.leftViews = [backButton]
-//        navigationItem.hidesBackButton = true
-//        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-//        navigationItem.titleLabel.text = "로그인"
-//        self.navigationController?.isNavigationBarHidden = false
-//    }
     
     func prepareLoginButton() {
         // 카카오 로그인 버튼
@@ -116,11 +103,6 @@ internal final class LoginViewController: UIViewController {
             appleGuideTotalView.isHidden = true
         }
     }
-    
-//    @objc
-//    fileprivate func handleBackButton() {
-//        GlobalDefine.shared.mainNavi?.pop()
-//    }
     
     @objc
     fileprivate func handleKakaoButtonPress() {
