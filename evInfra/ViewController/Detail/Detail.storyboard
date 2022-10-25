@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" multipleTouchEnabled="YES" tag="100" contentMode="scaleToFill" canCancelContentTouches="NO" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="5nZ-Ka-bJr" customClass="BoardTableView" customModule="evInfra" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="610"/>
+                                <rect key="frame" x="0.0" y="56" width="375" height="554"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" placeholderIntrinsicWidth="414" placeholderIntrinsicHeight="830.5" preservesSuperviewLayoutMargins="YES" id="HgN-hh-5BP">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="1102"/>
@@ -628,7 +628,7 @@
                             <constraint firstItem="5nZ-Ka-bJr" firstAttribute="bottom" secondItem="OjV-np-JOe" secondAttribute="top" id="iT5-V4-HIE"/>
                             <constraint firstItem="AUt-l0-OVU" firstAttribute="leading" secondItem="Xk5-KC-9gd" secondAttribute="leading" id="mGe-IM-oAG"/>
                             <constraint firstItem="OjV-np-JOe" firstAttribute="leading" secondItem="Xk5-KC-9gd" secondAttribute="leading" id="pRD-3F-852"/>
-                            <constraint firstItem="5nZ-Ka-bJr" firstAttribute="top" secondItem="IdZ-hy-Xfh" secondAttribute="top" id="pRR-CK-map"/>
+                            <constraint firstItem="5nZ-Ka-bJr" firstAttribute="top" secondItem="Xk5-KC-9gd" secondAttribute="top" constant="56" id="pRR-CK-map"/>
                             <constraint firstItem="Xk5-KC-9gd" firstAttribute="trailing" secondItem="AUt-l0-OVU" secondAttribute="trailing" id="vTU-MT-wZu"/>
                             <constraint firstItem="AUt-l0-OVU" firstAttribute="top" secondItem="OjV-np-JOe" secondAttribute="bottom" id="ww1-is-YCR"/>
                         </constraints>
