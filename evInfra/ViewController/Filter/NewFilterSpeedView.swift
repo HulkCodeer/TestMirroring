@@ -86,8 +86,6 @@ internal final class NewFilterSpeedView: UIView {
         $0.maxValue = 5
         $0.lineHeight = 4
         $0.hideLabels = true
-        $0.selectedMinValue = CGFloat(FilterManager.sharedInstance.filter.minSpeed)
-        $0.selectedMaxValue = CGFloat(FilterManager.sharedInstance.filter.maxSpeed)
         $0.handleImage = Icons.iconProgressBtn.image
         $0.handleShadowOpacity = 0.15
         $0.handleShadowColor = Colors.backgroundAlwaysDark.color
@@ -112,16 +110,17 @@ internal final class NewFilterSpeedView: UIView {
     
     // MARK: VARIABLES
     private var disposeBag = DisposeBag()
-    private var speeds: [CGFloat: String] = [1: "완속",
-                                             2: "50",
-                                             3: "100",
-                                             4: "200",
-                                             5: "300"]
     private weak var mainReactor: MainReactor?
     internal var saveOnChange: Bool = false
     
     override func awakeFromNib() {
         super.awakeFromNib()
+    }
+    
+    // MARK: FUNC
+    internal func bind(reactor: MainReactor) {
+        self.mainReactor = reactor
+        
         self.addSubview(totalView)
         totalView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -151,7 +150,7 @@ internal final class NewFilterSpeedView: UIView {
             $0.top.equalTo(rangeSlider.snp.bottom)
             $0.leading.equalTo(totalView.snp.leading).offset(34)
             $0.trailing.equalTo(totalView.snp.trailing).offset(-34)
-            $0.bottom.equalTo(totalView.snp.bottom)
+            $0.bottom.equalTo(totalView.snp.bottom).offset(-16)
             $0.height.equalTo(32)
         }
         
@@ -163,11 +162,11 @@ internal final class NewFilterSpeedView: UIView {
             }
             stepHorizontalStackView.addArrangedSubview(stepView)
         }
-    }
-    
-    // MARK: FUNC
-    internal func bind(reactor: MainReactor) {
-        self.mainReactor = reactor
+        
+        let cancelGesture = UIPanGestureRecognizer(target: nil, action: nil)
+        cancelGesture.cancelsTouchesInView = false
+        self.rangeSlider.addGestureRecognizer(cancelGesture)
+        
         let minSpeed: Int = FilterManager.sharedInstance.filter.minSpeed
         let maxSpeed: Int = FilterManager.sharedInstance.filter.maxSpeed
         
@@ -231,5 +230,7 @@ extension NewFilterSpeedView: RangeSeekSliderDelegate {
         Observable.just(MainReactor.Action.setSelectedSpeedFilter((minSpeed: minSpeed, maxSpeed: maxSpeed)))
             .bind(to: _reactor.action)
             .disposed(by: self.disposeBag)
+        
+        speedLbl.text = FilterManager.sharedInstance.speedTitle()
     }
 }

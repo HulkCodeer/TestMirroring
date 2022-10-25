@@ -59,6 +59,7 @@ internal final class NewFilterPlaceView: UIView {
         $0.spacing = 0
     }
     
+    // MARK: VARIABLES
     private var disposeBag = DisposeBag()
     internal weak var delegate: DelegateFilterChange?
     internal var saveOnChange: Bool = false
@@ -89,6 +90,7 @@ internal final class NewFilterPlaceView: UIView {
             $0.top.equalTo(filterTitleLbl.snp.bottom).offset(8)
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)
+            $0.bottom.equalToSuperview().offset(-16)
             $0.height.equalTo(68)
         }
         

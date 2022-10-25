@@ -34,7 +34,6 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
     private lazy var scrollView = UIScrollView().then {
         $0.showsVerticalScrollIndicator = true
         $0.showsHorizontalScrollIndicator = false
-        $0.isScrollEnabled = true
     }
     private lazy var filterStackView = UIStackView().then {
         $0.axis = .vertical
@@ -47,6 +46,7 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
     private var placeFilterView = NewFilterPlaceView()
     private var speedFilterView = NewFilterSpeedView()
     private var roadFilterView = NewFilterRoadView()
+    private var accessFilterView = NewFilterAccessView()
     private lazy var saveBtn = StickButton(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 32, height: 80),
                                            level: .primary).then {
         $0.rectBtn.setTitle("필터 설정 저장하기", for: .normal)
@@ -93,13 +93,16 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
         scrollView.snp.makeConstraints {
             $0.top.equalTo(naviTotalView.snp.bottom)
             $0.leading.trailing.equalToSuperview()
+            $0.width.equalToSuperview()
+            $0.centerX.equalToSuperview()
             $0.bottom.equalTo(saveBtn.snp.top)
         }
         
         scrollView.addSubview(filterStackView)
         filterStackView.snp.makeConstraints {
-            $0.leading.trailing.top.equalToSuperview()
+            $0.top.bottom.equalToSuperview()
             $0.width.equalToSuperview()
+            $0.centerX.equalToSuperview()
         }
 
         filterStackView.addArrangedSubview(switchFilterView)
@@ -107,6 +110,7 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
         filterStackView.addArrangedSubview(lineView)
         filterStackView.addArrangedSubview(speedFilterView)
         filterStackView.addArrangedSubview(typeFilterView)
+        filterStackView.addArrangedSubview(accessFilterView)
         filterStackView.addArrangedSubview(roadFilterView)
         filterStackView.addArrangedSubview(placeFilterView)
         switchFilterView.snp.makeConstraints {
@@ -116,16 +120,19 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
             $0.height.equalTo(1)
         }
         speedFilterView.snp.makeConstraints {
-            $0.height.equalTo(112)
-        }
-        typeFilterView.snp.makeConstraints {
             $0.height.equalTo(128)
         }
+        typeFilterView.snp.makeConstraints {
+            $0.height.equalTo(116)
+        }
+        accessFilterView.snp.makeConstraints {
+            $0.height.equalTo(116)
+        }
         roadFilterView.snp.makeConstraints {
-            $0.height.equalTo(110)
+            $0.height.equalTo(116)
         }
         placeFilterView.snp.makeConstraints {
-            $0.height.equalTo(110)
+            $0.height.equalTo(116)
         }
     }
     
@@ -140,5 +147,6 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
         speedFilterView.bind(reactor: reactor)
         roadFilterView.bind(reactor: reactor)
         placeFilterView.bind(reactor: reactor)
+        accessFilterView.bind(reactor: reactor)
     }
 }

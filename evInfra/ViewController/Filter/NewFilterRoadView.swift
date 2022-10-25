@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import ReactorKit
 import RxSwift
 import RxCocoa
 import SnapKit
@@ -70,12 +70,20 @@ internal final class NewFilterRoadView: UIView {
         printLog(out: "\(type(of: self)): Deinited")
     }
     
+//    override init(frame: CGRect) {
+//        super.init(frame: frame)
+//    }
+//
+//    required init?(coder: NSCoder) {
+//        super.init(coder: coder)
+//    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }
     
-    func bind(reactor: MainReactor) {
-        addSubview(totalView)
+    internal func bind(reactor: MainReactor) {
+        self.addSubview(totalView)
         totalView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -91,6 +99,7 @@ internal final class NewFilterRoadView: UIView {
             $0.top.equalTo(filterTitleLbl.snp.bottom).offset(8)
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)
+            $0.bottom.equalToSuperview().offset(-16)
             $0.height.equalTo(68)
         }
         

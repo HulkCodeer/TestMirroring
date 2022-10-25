@@ -35,17 +35,25 @@ internal final class NewFilterSwitchesView: UIView {
     }
     
     // MARK: VARIABLES
-    private weak var mainReactor: MainReactor?
+//    private weak var mainReactor: MainReactor?
+    private var disposeBag = DisposeBag()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    internal func bind(reactor: MainReactor) {        
         self.addSubview(verticalStackView)
         verticalStackView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         
         for switchType in SwitchType.allCases {
-            let view = self.createSwitchViews(switchType: switchType)
+            let view = self.createSwitchViews(switchType: switchType, reactor: reactor)
             verticalStackView.addArrangedSubview(view)
             view.snp.makeConstraints {
                 $0.height.equalTo(56)
@@ -53,15 +61,7 @@ internal final class NewFilterSwitchesView: UIView {
         }
     }
     
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-    
-    internal func bind(reactor: MainReactor) {
-        self.mainReactor = reactor
-    }
-    
-    private func createSwitchViews(switchType: SwitchType) -> UIView {
+    private func createSwitchViews(switchType: SwitchType, reactor: MainReactor) -> UIView {
         let view = UIView()
         
         let stackView = UIStackView().then {
@@ -130,11 +130,67 @@ internal final class NewFilterSwitchesView: UIView {
         
         view.addSubview(switchView)
         switchView.snp.makeConstraints {
-            $0.top.equalTo(view.snp.top).offset(18)
             $0.centerY.equalToSuperview()
             $0.trailing.equalTo(view.snp.trailing).offset(-21)
             $0.leading.greaterThanOrEqualTo(stackView.snp.trailing).offset(30)
         }
+        
+        let isOn: Bool
+        switch switchType {
+        case .evpay:
+            isOn = reactor.currentState.isEvPayFilter ?? false
+            
+            switchView.rx.isOn
+                .changed
+                .throttle(.milliseconds(800), scheduler: MainScheduler.instance)
+                .distinctUntilChanged()
+                .asDriver(onErrorJustReturn: false)
+                .drive(with: self) { obj, isOn in
+                    Observable.just(MainReactor.Action.setEvPayFilter(isOn))
+                        .bind(to: reactor.action)
+                        .disposed(by: obj.disposeBag)
+                }.disposed(by: self.disposeBag)
+            
+            reactor.state.compactMap { $0.isEvPayFilter }
+                .bind(to: switchView.rx.isOn)
+                .disposed(by: self.disposeBag)
+        case .favorite:
+            isOn = reactor.currentState.isFavoriteFilter ?? false
+            
+            switchView.rx.isOn
+                .changed
+                .throttle(.milliseconds(800), scheduler: MainScheduler.instance)
+                .distinctUntilChanged()
+                .asDriver(onErrorJustReturn: false)
+                .drive(with: self) { obj, isOn in
+                    Observable.just(MainReactor.Action.setFavoriteFilter(isOn))
+                        .bind(to: reactor.action)
+                        .disposed(by: obj.disposeBag)
+                }.disposed(by: self.disposeBag)
+            
+            reactor.state.compactMap { $0.isFavoriteFilter }
+                .bind(to: switchView.rx.isOn)
+                .disposed(by: self.disposeBag)
+        case .representCar:
+            isOn = reactor.currentState.isRepresentCarFilter ?? false
+            
+            switchView.rx.isOn
+                .changed
+                .throttle(.milliseconds(800), scheduler: MainScheduler.instance)
+                .distinctUntilChanged()
+                .asDriver(onErrorJustReturn: false)
+                .drive(with: self) { obj, isOn in
+                    Observable.just(MainReactor.Action.setRepresentCarFilter(isOn))
+                        .bind(to: reactor.action)
+                        .disposed(by: obj.disposeBag)
+                }.disposed(by: self.disposeBag)
+            
+            reactor.state.compactMap { $0.isRepresentCarFilter }
+                .bind(to: switchView.rx.isOn)
+                .disposed(by: self.disposeBag)
+        }
+        
+        switchView.isOn = isOn
         
         return view
     }

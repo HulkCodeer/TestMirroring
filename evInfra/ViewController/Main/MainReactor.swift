@@ -15,6 +15,7 @@ internal final class MainReactor: ViewModel, Reactor {
     typealias SelectedRoadFilter = (roadType: RoadType, isSelected: Bool)
     typealias SelectedChargerTypeFilter = (chargerType: ChargerType, isSelected: Bool)
     typealias SelectedSpeedFilter = (minSpeed: Int, maxSpeed: Int)
+    typealias SelectedAccessFilter = (accessType: AccessType, isSelected: Bool)
     
     enum Action {        
         case showMarketingPopup
@@ -24,12 +25,14 @@ internal final class MainReactor: ViewModel, Reactor {
         case setSelectedRoadFilter(SelectedRoadFilter)
         case setSelectedChargerTypeFilter(SelectedChargerTypeFilter)
         case setSelectedSpeedFilter(SelectedSpeedFilter)
+        case setSelectedAccessFilter(SelectedAccessFilter)
         case swipeLeft
         case swipeRight
         case showFilterSetting
         case updateFilterBarTitle
         case setEvPayFilter(Bool)
         case setFavoriteFilter(Bool)
+        case setRepresentCarFilter(Bool)
         case openEvPayTooltip
     }
     
@@ -41,10 +44,12 @@ internal final class MainReactor: ViewModel, Reactor {
         case setSelectedRoadFilter(SelectedRoadFilter)
         case setSelectedChargerTypeFilter(SelectedChargerTypeFilter)
         case setSelectedSpeedFilter(SelectedSpeedFilter)
+        case setSelectedAccessFilter(SelectedAccessFilter)
         case showFilterSetting
         case updateFilterBarTitle
         case setEvPayFilter(Bool)
         case setFavoriteFilter(Bool)
+        case setRepresentCarFilter(Bool)
         case openEvPayTooltip
     }
     
@@ -56,10 +61,12 @@ internal final class MainReactor: ViewModel, Reactor {
         var selectedRoadFilter: SelectedRoadFilter?
         var selectedChargerTypeFilter: SelectedChargerTypeFilter?
         var selectedSpeedFilter: SelectedSpeedFilter?
+        var selectedAccessFilter: SelectedAccessFilter?
         var isShowFilterSetting: Bool?
         var isUpdateFilterBarTitle: Bool?
-        var isEvPayFilter: Bool?
-        var isFavoriteFilter: Bool?
+        var isEvPayFilter: Bool? = FilterManager.sharedInstance.getIsMembershipCardChecked()
+        var isFavoriteFilter: Bool? = FilterManager.sharedInstance.getIsFavoriteChecked()
+        var isRepresentCarFilter: Bool?
         var isShowEvPayToolTip: Bool?
     }
     
@@ -103,6 +110,9 @@ internal final class MainReactor: ViewModel, Reactor {
         case .setSelectedSpeedFilter(let selectedSpeedFilter):
             return .just(.setSelectedSpeedFilter(selectedSpeedFilter))
             
+        case .setSelectedAccessFilter(let selectedAccessFilter):
+            return .just(.setSelectedAccessFilter(selectedAccessFilter))
+            
         case .swipeLeft:
             let selectedFilterInfo: SelectedFilterInfo = (filterTagType: self.currentState.selectedFilterInfo?.filterTagType.swipeLeft() ?? .speed, isSeleted: true)
             return .just(.setSelectedFilterInfo(selectedFilterInfo))
@@ -118,10 +128,15 @@ internal final class MainReactor: ViewModel, Reactor {
             return .just(.updateFilterBarTitle)
             
         case .setEvPayFilter(let isEvPayFilter):
+            FilterManager.sharedInstance.saveIsMembershipCardChecked(isEvPayFilter)
             return .just(.setEvPayFilter(isEvPayFilter))
             
         case .setFavoriteFilter(let isFavoriteFilter):
+            FilterManager.sharedInstance.saveIsFavoriteChecked(isFavoriteFilter)
             return .just(.setFavoriteFilter(isFavoriteFilter))
+            
+        case .setRepresentCarFilter(let isRepresentCarFilter):
+            return .just(.setRepresentCarFilter(isRepresentCarFilter))
             
         case .openEvPayTooltip:
             return .just(.openEvPayTooltip)
@@ -162,6 +177,9 @@ internal final class MainReactor: ViewModel, Reactor {
             newState.selectedSpeedFilter = selectedSpeedFilter
             newState.isUpdateFilterBarTitle = true
             
+        case .setSelectedAccessFilter(let selectedAccessFilter):
+            newState.selectedAccessFilter = selectedAccessFilter
+            
         case .showFilterSetting:
             newState.isShowFilterSetting = true
             
@@ -173,6 +191,9 @@ internal final class MainReactor: ViewModel, Reactor {
             
         case .setFavoriteFilter(let isFavoriteFilter):
             newState.isFavoriteFilter = isFavoriteFilter
+            
+        case .setRepresentCarFilter(let isRepresentCarFilter):
+            newState.isRepresentCarFilter = isRepresentCarFilter
             
         case .openEvPayTooltip:
             newState.isShowEvPayToolTip = FCMManager.sharedInstance.originalMemberId.isEmpty

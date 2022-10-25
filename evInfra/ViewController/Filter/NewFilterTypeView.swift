@@ -103,6 +103,7 @@ internal final class NewFilterTypeView: UIView {
     internal var saveOnChange: Bool = false
     
     // MARK: SYSTEM FUNC
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }
@@ -126,6 +127,7 @@ internal final class NewFilterTypeView: UIView {
             $0.top.equalTo(filterTitleLbl.snp.bottom).offset(8)
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)
+            $0.bottom.equalToSuperview().offset(-16)
             $0.height.equalTo(68)
         }
         
