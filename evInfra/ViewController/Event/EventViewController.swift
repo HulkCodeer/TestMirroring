@@ -141,6 +141,7 @@ internal final class EventViewController: UIViewController {
                     viewcon.eventData = EventData(naviTitle: event.evtTitle, eventUrl: event.extUrl, promotionId: event.evtId, mbId: MemberManager.shared.mbIdToStr)
                     GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 } else {
+                    AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "이벤트 페이지")
                     MemberManager.shared.showLoginAlert()
                 }
             }

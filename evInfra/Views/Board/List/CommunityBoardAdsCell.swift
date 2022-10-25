@@ -65,7 +65,7 @@ class CommunityBoardAdsCell: UITableViewCell {
             if UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 let page: Promotion.Page = Board.CommunityType.convertToEventKey(communityType: category)
-                EIAdManager.sharedInstance.logEvent(adIds: [adId ?? ""], action: Promotion.Action.click, page: page, layer: .mid)
+                EIAdManager.sharedInstance.logEvent(adIds: [adId ?? ""], action: .click, page: page, layer: .mid)
                 
                 guard let item = self.item else { return }
                 let property: [String: Any] = ["bannerType": "게시판 배너",

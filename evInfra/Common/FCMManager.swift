@@ -251,6 +251,7 @@ internal final class FCMManager {
     }
     
     func getPointData() {
+        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "푸시 메시지")
         guard let _mainNavi = GlobalDefine.shared.mainNavi, let _visibleViewcon = _mainNavi.visibleViewController else { return }
         if _visibleViewcon.isKind(of: PointViewController.self) {
             _visibleViewcon.viewDidLoad()
@@ -398,7 +399,11 @@ internal final class FCMManager {
             guard let self = self else { return }
             if isSuccess {
                 let json = JSON(value)
-                FCMManager.sharedInstance.originalMemberId = MemberManager.shared.memberId
+                
+                // 이곳을 여러번 탈 수 있는 조건이 있음, FCM 토큰이 변경 된 경우
+                if MemberManager.shared.memberId.isEmpty {
+                    FCMManager.sharedInstance.originalMemberId = MemberManager.shared.memberId
+                }
                 
                 MemberManager.shared.memberId = json["member_id"].stringValue
                 UserDefault().saveBool(key: UserDefault.Key.SETTINGS_ALLOW_NOTIFICATION, value: json["receive_push"].boolValue)

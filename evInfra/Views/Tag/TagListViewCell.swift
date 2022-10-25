@@ -32,7 +32,7 @@ open class TagValue {
     }
 }
 
-protocol DelegateTagListViewCell: class {
+protocol DelegateTagListViewCell: AnyObject {
     func tagClicked(index: Int, value: Bool)
 }
 class TagListViewCell : UICollectionViewCell {

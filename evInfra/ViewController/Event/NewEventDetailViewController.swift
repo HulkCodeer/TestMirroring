@@ -140,7 +140,8 @@ internal final class NewEventDetailViewController: CommonBaseViewController {
             GlobalDefine.shared.mainNavi?.pop()
         }
                                 
-        var urlComponents = URLComponents(string: eventData.eventUrl)
+//        var urlComponents = URLComponents(string: eventData.eventUrl)
+        var urlComponents = URLComponents(string: "https://data.ev-infra.com/ev-infra/event/2022/tirefly/html/index.html")
         
         if !eventData.getQueryItems().isEmpty {
             urlComponents?.queryItems = eventData.getQueryItems()
@@ -201,6 +202,15 @@ extension NewEventDetailViewController: WKNavigationDelegate {
         }
         let credential = URLCredential(trust: serverTrust)
         completionHandler(.useCredential, credential)
+    }
+    
+    func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
+        let urlString = navigationAction.request.url?.absoluteString ?? ""
+        printLog(out: "createWebViewWith \(urlString)")
+        if navigationAction.targetFrame == nil {
+            self.webView.load(navigationAction.request)
+        }
+        return nil
     }
 }
 

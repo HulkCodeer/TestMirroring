@@ -94,8 +94,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     private var summaryView: SummaryView!
     internal var disposeBag = DisposeBag()
     
-    private var evPayTipView = EasyTipView(text: "")
-    private var qrTipView = EasyTipView(text: "")
+    private var evPayTipView = EasyTipView(text: "")    
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -119,7 +118,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         prepareMenuBtnLayer()
         
         prepareChargePrice()
-        requestStationInfo()
+//        requestStationInfo()
         
         prepareCalloutLayer()
         
@@ -199,8 +198,8 @@ internal final class MainViewController: UIViewController, StoryboardView {
             self.selectChargerFromShared()
         }
         canIgnoreJejuPush = UserDefault().readBool(key: UserDefault.Key.JEJU_PUSH)// default : false
-                  
-        if !MemberManager.shared.isShowEvPayTooltip {
+        
+        if !MemberManager.shared.isShowEvPayTooltip, !FCMManager.sharedInstance.originalMemberId.isEmpty {
             var evPayPreferences = EasyTipView.Preferences()
                     
             evPayPreferences.drawing.backgroundColor = Colors.backgroundAlwaysDark.color
@@ -215,28 +214,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
 
             let evPayTiptext = "EV Pay 카드로 충전 가능한 충전소만\n볼 수 있어요"
             self.evPayTipView = EasyTipView(text: evPayTiptext, preferences: evPayPreferences)
-            self.evPayTipView.show(forView: self.filterBarView, withinSuperview: self.view)
-            self.evPayTipView.isHidden = true
-        }
-                        
-        if !MemberManager.shared.isShowQrTooltip {
-            var qrTipPreferences = EasyTipView.Preferences()
-            
-            qrTipPreferences.drawing.backgroundColor = Colors.backgroundAlwaysDark.color
-            qrTipPreferences.drawing.foregroundColor = Colors.backgroundSecondary.color
-            qrTipPreferences.drawing.textAlignment = NSTextAlignment.center
-            
-            qrTipPreferences.drawing.arrowPosition = .top
-            
-            qrTipPreferences.animating.dismissTransform = CGAffineTransform(translationX: -30, y: -100)
-            qrTipPreferences.animating.showInitialTransform = CGAffineTransform(translationX: 30, y: 100)
-            qrTipPreferences.animating.showInitialAlpha = 1
-            qrTipPreferences.animating.showDuration = 1
-            qrTipPreferences.animating.dismissDuration = 1
-            
-            let qrTipText = "한국전력과 GS칼텍스에서\nQR충전을 할 수 있어요!"
-            self.qrTipView = EasyTipView(text: qrTipText, preferences: qrTipPreferences)
-            self.qrTipView.show(forView: self.btn_main_charge, withinSuperview: self.view)
+            self.evPayTipView.show(forView: self.filterBarView.evPayView, withinSuperview: self.view)
         }
     }
 
@@ -244,14 +222,9 @@ internal final class MainViewController: UIViewController, StoryboardView {
         super.viewWillDisappear(true)
         // removeObserver 하면 안됨. addObserver를 viewdidload에서 함
         
-        if !MemberManager.shared.isShowEvPayTooltip {
+        if !MemberManager.shared.isShowEvPayTooltip && !FCMManager.sharedInstance.originalMemberId.isEmpty {
             self.evPayTipView.dismiss()
             MemberManager.shared.isShowEvPayTooltip = true
-        }
-        
-        if !MemberManager.shared.isShowQrTooltip {
-            self.qrTipView.dismiss()
-            MemberManager.shared.isShowQrTooltip = true
         }
     }
     
@@ -289,8 +262,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         
         reactor.state.compactMap { $0.isShowStartBanner }
             .asDriver(onErrorJustReturn: false)
-            .drive(with: self) { obj, isShow in
-                guard !isShow else { return }
+            .drive(with: self) { obj, _ in                                
                 GlobalAdsReactor.sharedInstance.state.compactMap { $0.startBanner }
                     .asDriver(onErrorJustReturn: AdsInfo(JSON.null))
                     .drive(onNext: { adInfo in
@@ -307,7 +279,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                             GlobalDefine.shared.mainNavi?.present(viewcon, animated: false, completion: nil)
                         }
                     })
-                    .disposed(by: self.disposeBag)                                
+                    .disposed(by: obj.disposeBag)
             }
             .disposed(by: self.disposeBag)
         
@@ -349,7 +321,25 @@ internal final class MainViewController: UIViewController, StoryboardView {
         
         reactor.state.compactMap { $0.isShowEvPayToolTip }
             .asDriver(onErrorJustReturn: false)
-            .drive(self.evPayTipView.rx.isHidden)
+            .drive(with: self) { obj, isShow in
+                guard isShow else { return }
+                
+                var evPayPreferences = EasyTipView.Preferences()
+                        
+                evPayPreferences.drawing.backgroundColor = Colors.backgroundAlwaysDark.color
+                evPayPreferences.drawing.foregroundColor = Colors.backgroundSecondary.color
+                evPayPreferences.drawing.textAlignment = NSTextAlignment.left
+
+                evPayPreferences.drawing.arrowPosition = .top
+                evPayPreferences.animating.showInitialAlpha = 1
+                evPayPreferences.animating.showDuration = 1
+                evPayPreferences.animating.dismissDuration = 1
+                evPayPreferences.positioning.maxWidth = 227
+
+                let evPayTiptext = "EV Pay 카드로 충전 가능한 충전소만\n볼 수 있어요"
+                self.evPayTipView = EasyTipView(text: evPayTiptext, preferences: evPayPreferences)
+                self.evPayTipView.show(forView: self.filterBarView.evPayView, withinSuperview: self.view)
+            }
             .disposed(by: self.disposeBag)
     }
     
@@ -526,11 +516,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
             self.evPayTipView.dismiss()
             MemberManager.shared.isShowEvPayTooltip = true
         }
-        
-        if !MemberManager.shared.isShowQrTooltip {
-            self.qrTipView.dismiss()
-            MemberManager.shared.isShowQrTooltip = true
-        }
     }
     
     // MARK: - Action for button
@@ -620,6 +605,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 favoriteViewController.delegate = self
                 GlobalDefine.shared.mainNavi?.push(viewController: favoriteViewController, subtype: CATransitionSubtype.fromTop)
             } else {
+                AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "즐겨찾기 리스트/버튼")
                 MemberManager.shared.showLoginAlert()
             }
         }
@@ -1254,7 +1240,8 @@ extension MainViewController {
                 CBT.checkCBT(vc: self!)
             }
             
-            DeepLinkPath.sharedInstance.runDeepLink()
+            DeepLinkPath.sharedInstance.runDeepLink()            
+            self?.markerIndicator.stopAnimating()
         }
     }
     
@@ -1513,6 +1500,7 @@ extension MainViewController {
                     }
                 }
             } else {
+                AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "QR충전")
                 MemberManager.shared.showLoginAlert()
             }
         }
@@ -1520,7 +1508,7 @@ extension MainViewController {
     
     @IBAction func onClickCommunityBtn(_ sender: Any) {
         UserDefault().saveInt(key: UserDefault.Key.LAST_FREE_ID, value: Board.sharedInstance.freeBoardId)
-        
+
         let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
         let freeBoardViewController = boardStoryboard.instantiateViewController(ofType: CardBoardViewController.self)
         freeBoardViewController.category = .FREE

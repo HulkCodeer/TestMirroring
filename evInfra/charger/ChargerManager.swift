@@ -11,7 +11,7 @@ import SwiftyJSON
 import RxCocoa
 
 
-protocol MarkerTouchDelegate: class {
+protocol MarkerTouchDelegate: AnyObject {
     func touchHandler(with charger: ChargerStationInfo)
 }
 
@@ -333,6 +333,8 @@ class ChargerManager {
                     self?.mIsReady = true
                     completion()
                 }
+            } else {
+                
             }
         }
     }

@@ -48,7 +48,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             printLog(out: exceptionStr)
         }
         #endif
-                
+        
+        // 안쓰는 UserDefaul Key 삭제
+        UserDefault().deleteNoUseKey()
+                                
         return true
     }
             

@@ -76,6 +76,7 @@ internal final class PointViewController: UIViewController {
                 
         let property: [String: Any] = ["berryAmount": "\(MemberManager.shared.berryPoint)"]
         PaymentEvent.viewMyBerry.logEvent(property: property)
+        AmplitudeEvent.shared.fromViewSourceByLogEvent(eventType: .clickSidemenuMyBerry)
 
         // 오늘 포인트 이력 가져오기
         btnAllBerry.isSelected = true

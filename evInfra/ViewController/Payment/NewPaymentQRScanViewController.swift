@@ -317,6 +317,7 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
                                         message: "EV Pay카드를 발급 해야 한국전력, GS칼텍스의 QR 충전을 이용할 수 있어요.",
                                         confirmBtnTitle: "EV Pay 발급하기", cancelBtnTitle: "닫기",
                                         confirmBtnAction: {
+                AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "QR 팝업")
                 let viewcon = MembershipGuideViewController()
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             }, cancelBtnAction: {
@@ -408,6 +409,7 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
                 .asDriver()
                 .drive(onNext: {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "QR 팝업")
                         let viewcon = MembershipGuideViewController()
                         GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                     })
