@@ -47,6 +47,8 @@ internal final class MainNavigationBar: UIView {
     }
     
     // 길찾기 button
+    private lazy var searchWayContentView = UIView()
+    
     internal lazy var searchWayButton = UIButton().then {
         let image = UIImage(asset: Icons.iconMapCourseMd)?
             .withTintColor(Colors.contentPrimary.color)
@@ -88,12 +90,14 @@ internal final class MainNavigationBar: UIView {
         
         contentStackView.addArrangedSubview(menuButton)
         contentStackView.addArrangedSubview(searchChargeContentsView)
-        contentStackView.addArrangedSubview(searchWayButton)
-        contentStackView.addArrangedSubview(cancelSearchWayButton)
+        contentStackView.addArrangedSubview(searchWayContentView)
         
         searchChargeContentsView.addSubview(searchChargeIcon)
         searchChargeContentsView.addSubview(searchChargeText)
         searchChargeContentsView.addSubview(searchChargeButton)
+        
+        searchWayContentView.addSubview(searchWayButton)
+        searchWayContentView.addSubview(cancelSearchWayButton)
     }
     
     private func setConstraints() {
@@ -112,11 +116,15 @@ internal final class MainNavigationBar: UIView {
         menuButton.snp.makeConstraints {
             $0.width.equalTo(itemSize)
         }
-        searchWayButton.snp.makeConstraints {
+
+        searchWayContentView.snp.makeConstraints {
             $0.width.equalTo(itemSize)
         }
+        searchWayButton.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         cancelSearchWayButton.snp.makeConstraints {
-            $0.width.equalTo(itemSize)
+            $0.edges.equalToSuperview()
         }
         
         searchChargeIcon.snp.makeConstraints {
