@@ -9,9 +9,9 @@
 import ReactorKit
 import SwiftyJSON
 
-internal final class MembershipIssuanceReactor: ViewModel, Reactor {
+internal final class MembershipCardIssuanceCompleteReactor: ViewModel, Reactor {
     enum Action {
-        case postMembershipCardInfo
+        case membershipCardInfo
     }
     
     enum Mutation {

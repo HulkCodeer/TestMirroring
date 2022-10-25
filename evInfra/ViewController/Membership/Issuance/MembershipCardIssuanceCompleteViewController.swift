@@ -8,7 +8,7 @@
 
 import ReactorKit
 
-internal final class MembershipIssuanceCompleteViewController: CommonBaseViewController, StoryboardView {
+internal final class MembershipCardIssuanceCompleteViewController: CommonBaseViewController, StoryboardView {
     // MARK: UI
     
     private lazy var naviTotalView = CommonNaviView().then {
@@ -146,7 +146,11 @@ internal final class MembershipIssuanceCompleteViewController: CommonBaseViewCon
     
     // MARK: FUNC
     
-    func bind(reactor: MembershipIssuanceReactor) {
+    func bind(reactor: MembershipCardIssuanceCompleteReactor) {
+        Observable.just(MembershipCardIssuanceCompleteReactor.Action.membershipCardInfo)
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
+        
         moveEventListBtn.rx.tap
             .asDriver()
             .drive(onNext: {

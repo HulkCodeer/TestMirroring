@@ -1290,12 +1290,12 @@
 		8284047A290021FE0081567C /* TooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82840479290021FE0081567C /* TooltipView.swift */; };
 		8284047B290021FE0081567C /* TooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82840479290021FE0081567C /* TooltipView.swift */; };
 		8284047C290021FE0081567C /* TooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82840479290021FE0081567C /* TooltipView.swift */; };
-		829C07352904D44E008E2E6D /* MembershipIssuanceCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C07342904D44E008E2E6D /* MembershipIssuanceCompleteViewController.swift */; };
-		829C07362904D44E008E2E6D /* MembershipIssuanceCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C07342904D44E008E2E6D /* MembershipIssuanceCompleteViewController.swift */; };
-		829C07372904D44E008E2E6D /* MembershipIssuanceCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C07342904D44E008E2E6D /* MembershipIssuanceCompleteViewController.swift */; };
-		829C073A2904D4DD008E2E6D /* MembershipIssuanceReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C07392904D4DD008E2E6D /* MembershipIssuanceReactor.swift */; };
-		829C073B2904D4DD008E2E6D /* MembershipIssuanceReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C07392904D4DD008E2E6D /* MembershipIssuanceReactor.swift */; };
-		829C073C2904D4DD008E2E6D /* MembershipIssuanceReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C07392904D4DD008E2E6D /* MembershipIssuanceReactor.swift */; };
+		829C07352904D44E008E2E6D /* MembershipCardIssuanceCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C07342904D44E008E2E6D /* MembershipCardIssuanceCompleteViewController.swift */; };
+		829C07362904D44E008E2E6D /* MembershipCardIssuanceCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C07342904D44E008E2E6D /* MembershipCardIssuanceCompleteViewController.swift */; };
+		829C07372904D44E008E2E6D /* MembershipCardIssuanceCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C07342904D44E008E2E6D /* MembershipCardIssuanceCompleteViewController.swift */; };
+		829C073A2904D4DD008E2E6D /* MembershipCardIssuanceCompleteReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C07392904D4DD008E2E6D /* MembershipCardIssuanceCompleteReactor.swift */; };
+		829C073B2904D4DD008E2E6D /* MembershipCardIssuanceCompleteReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C07392904D4DD008E2E6D /* MembershipCardIssuanceCompleteReactor.swift */; };
+		829C073C2904D4DD008E2E6D /* MembershipCardIssuanceCompleteReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C07392904D4DD008E2E6D /* MembershipCardIssuanceCompleteReactor.swift */; };
 		829C073E2904DD0A008E2E6D /* ShipmentStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C073D2904DD0A008E2E6D /* ShipmentStatusView.swift */; };
 		829C073F2904DD0A008E2E6D /* ShipmentStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C073D2904DD0A008E2E6D /* ShipmentStatusView.swift */; };
 		829C07402904DD0A008E2E6D /* ShipmentStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C073D2904DD0A008E2E6D /* ShipmentStatusView.swift */; };
@@ -1830,8 +1830,8 @@
 		82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Rx.swift"; sourceTree = "<group>"; };
 		82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		82840479290021FE0081567C /* TooltipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipView.swift; sourceTree = "<group>"; };
-		829C07342904D44E008E2E6D /* MembershipIssuanceCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipIssuanceCompleteViewController.swift; sourceTree = "<group>"; };
-		829C07392904D4DD008E2E6D /* MembershipIssuanceReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipIssuanceReactor.swift; sourceTree = "<group>"; };
+		829C07342904D44E008E2E6D /* MembershipCardIssuanceCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipCardIssuanceCompleteViewController.swift; sourceTree = "<group>"; };
+		829C07392904D4DD008E2E6D /* MembershipCardIssuanceCompleteReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipCardIssuanceCompleteReactor.swift; sourceTree = "<group>"; };
 		829C073D2904DD0A008E2E6D /* ShipmentStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipmentStatusView.swift; sourceTree = "<group>"; };
 		82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalDefine.swift; sourceTree = "<group>"; };
 		82C9A01628B0F0EE0003296B /* QRReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRReaderView.swift; sourceTree = "<group>"; };
@@ -2987,8 +2987,8 @@
 			isa = PBXGroup;
 			children = (
 				63310E3129069D78004B393A /* Models */,
-				829C07342904D44E008E2E6D /* MembershipIssuanceCompleteViewController.swift */,
-				829C07392904D4DD008E2E6D /* MembershipIssuanceReactor.swift */,
+				829C07342904D44E008E2E6D /* MembershipCardIssuanceCompleteViewController.swift */,
+				829C07392904D4DD008E2E6D /* MembershipCardIssuanceCompleteReactor.swift */,
 				829C073D2904DD0A008E2E6D /* ShipmentStatusView.swift */,
 				63310E2D290697A9004B393A /* ShipmentStepView.swift */,
 			);
@@ -4459,7 +4459,7 @@
 				821A05E228627F3100EB1A91 /* NavigationClose.swift in Sources */,
 				63F3144B284EC74F001713D2 /* GroupViewController.swift in Sources */,
 				63F3144C284EC74F001713D2 /* ClusterGenerator.swift in Sources */,
-				829C07362904D44E008E2E6D /* MembershipIssuanceCompleteViewController.swift in Sources */,
+				829C07362904D44E008E2E6D /* MembershipCardIssuanceCompleteViewController.swift in Sources */,
 				63F3144D284EC74F001713D2 /* ChargesTableViewCell.swift in Sources */,
 				63F3144E284EC74F001713D2 /* UILabel+Extension.swift in Sources */,
 				63F3144F284EC74F001713D2 /* MembershipReissuanceViewController.swift in Sources */,
@@ -4558,7 +4558,7 @@
 				63F3149B284EC74F001713D2 /* ViewModel.swift in Sources */,
 				63F3149C284EC74F001713D2 /* ReportBoardTableViewCell.swift in Sources */,
 				63F3149D284EC74F001713D2 /* PaymentQRScanViewController.swift in Sources */,
-				829C073B2904D4DD008E2E6D /* MembershipIssuanceReactor.swift in Sources */,
+				829C073B2904D4DD008E2E6D /* MembershipCardIssuanceCompleteReactor.swift in Sources */,
 				63F3149F284EC74F001713D2 /* BottomSheetViewController.swift in Sources */,
 				63F314A0284EC74F001713D2 /* BoardListItem.swift in Sources */,
 				63F314A1284EC74F001713D2 /* evInfra.xcdatamodeld in Sources */,
@@ -4781,7 +4781,7 @@
 				19A3D3262887F13400AE8280 /* AmplitudeManager.swift in Sources */,
 				523A3AF22797A9CA004C3C23 /* GroupViewController.swift in Sources */,
 				73F0FE3021E73F2000653BCB /* ClusterGenerator.swift in Sources */,
-				829C07352904D44E008E2E6D /* MembershipIssuanceCompleteViewController.swift in Sources */,
+				829C07352904D44E008E2E6D /* MembershipCardIssuanceCompleteViewController.swift in Sources */,
 				DB39688D22D5B93E00170F2E /* ChargesTableViewCell.swift in Sources */,
 				00EB85D226BA8C6100D1606F /* UILabel+Extension.swift in Sources */,
 				63B23744282CCB8300E8A3F8 /* MembershipReissuanceViewController.swift in Sources */,
@@ -4880,7 +4880,7 @@
 				82D986812839BE080030F0FC /* ViewModel.swift in Sources */,
 				CE93309921511AD4006B7EF6 /* ReportBoardTableViewCell.swift in Sources */,
 				739171E122C4A209007369F9 /* PaymentQRScanViewController.swift in Sources */,
-				829C073A2904D4DD008E2E6D /* MembershipIssuanceReactor.swift in Sources */,
+				829C073A2904D4DD008E2E6D /* MembershipCardIssuanceCompleteReactor.swift in Sources */,
 				00CD36C827900E04005413A6 /* BottomSheetViewController.swift in Sources */,
 				52B2594A278E5E5C0042B22C /* BoardListItem.swift in Sources */,
 				732121C5203AC023000E105C /* evInfra.xcdatamodeld in Sources */,
@@ -5102,7 +5102,7 @@
 				824D5CB328BDD89C00EDC712 /* ClusterGenerator.swift in Sources */,
 				824D5CB428BDD89C00EDC712 /* ChargesTableViewCell.swift in Sources */,
 				824D5CB528BDD89C00EDC712 /* UILabel+Extension.swift in Sources */,
-				829C07372904D44E008E2E6D /* MembershipIssuanceCompleteViewController.swift in Sources */,
+				829C07372904D44E008E2E6D /* MembershipCardIssuanceCompleteViewController.swift in Sources */,
 				824D5CB628BDD89C00EDC712 /* MembershipReissuanceViewController.swift in Sources */,
 				824D5CB728BDD89C00EDC712 /* CommunityChargeStationTableViewCell.swift in Sources */,
 				824D5CB828BDD89C00EDC712 /* AppNavigationDrawerController.swift in Sources */,
@@ -5201,7 +5201,7 @@
 				824D5D0A28BDD89C00EDC712 /* ChargesViewController.swift in Sources */,
 				824D5D0B28BDD89C00EDC712 /* ViewModel.swift in Sources */,
 				824D5D0C28BDD89C00EDC712 /* ReportBoardTableViewCell.swift in Sources */,
-				829C073C2904D4DD008E2E6D /* MembershipIssuanceReactor.swift in Sources */,
+				829C073C2904D4DD008E2E6D /* MembershipCardIssuanceCompleteReactor.swift in Sources */,
 				824D5D0D28BDD89C00EDC712 /* PaymentQRScanViewController.swift in Sources */,
 				824D5D0F28BDD89C00EDC712 /* BottomSheetViewController.swift in Sources */,
 				824D5D1028BDD89C00EDC712 /* BoardListItem.swift in Sources */,
