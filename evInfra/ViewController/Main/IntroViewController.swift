@@ -266,10 +266,13 @@ extension IntroViewController: PermissionGuideDelegate {
         
         reactor.leftDrawerDelegate = presentVC
         menuReactor.leftDrawerDelegate = presentVC
-        
-        presentVC.modalPresentationStyle = .fullScreen
-        self.present(presentVC, animated: true)
-        
+                
         GlobalDefine.shared.mainNavi = rootVC
+         
+        if let _window = UIWindow.key {
+            _window.rootViewController = presentVC
+            _window.makeKeyAndVisible()
+        }
+        
     }
 }
