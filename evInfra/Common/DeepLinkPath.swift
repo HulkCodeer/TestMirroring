@@ -142,29 +142,25 @@ internal final class DeepLinkPath {
                 }
                 _mainNavi.push(viewController: termsViewControll)
             }
-              
-        case DynamicLinkUrlPathType.event_detail.value:
-            if let _mainNav = GlobalDefine.shared.mainNavi {
-                if _mainNav.containsViewController(ofKind: EventViewController.self) ||
-                    _mainNav.containsViewController(ofKind: NewEventDetailViewController.self) {
-                    let _viewControllers = _mainNav.viewControllers
-//                    for vc in _viewControllers.reversed() {
-//                        if let _vc = vc as? AppNavigationDrawerController {
-//                            _mainNav.popToViewControllerWithHandler(vc: _vc, completion: { [weak self] in
-//                                guard let self = self else { return }
-//                                self.moveEventViewController()
-//                            })
-//                            return
-//                        }
-                        
-                        // permissionVC 에서 main 진입한 경우
-                        // self.moveEventVC()
-                        
-//                    }
-                } else {
-                    self.moveEventViewController()
+  
+        case DynamicLinkUrlPathType.event_detail.value where GlobalDefine.shared.mainNavi != nil:
+            guard let _mainNav = GlobalDefine.shared.mainNavi else { fallthrough }
+            
+            if _mainNav.containsViewController(ofKind: EventViewController.self) ||
+                _mainNav.containsViewController(ofKind: NewEventDetailViewController.self) {
+                let _viewControllers = _mainNav.viewControllers
+                for vc in _viewControllers.reversed() {
+                    if let _vc = vc as? UINavigationController {
+                        _mainNav.popToViewControllerWithHandler(vc: _vc, completion: { [weak self] in
+                            self?.moveEventViewController()
+                        })
+                        return
+                    }
                 }
             }
+            
+        case DynamicLinkUrlPathType.event_detail.value:
+            self.moveEventViewController()
             
         case DynamicLinkUrlPathType.kakaolink(.board).value:
             guard let paramItems = linkParameter else { return }
