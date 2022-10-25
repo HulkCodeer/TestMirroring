@@ -445,11 +445,18 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                 $0.height.equalTo(isLogin ? ViewHeightConst.loginViewHeight : ViewHeightConst.nonLoginViewHeigt)
             }
             
-            guard isLogin else { return }
+            guard isLogin else {
+                self.myBerryLbl.text = "0"
+                return
+            }
             let displayNickname = MemberManager.shared.memberNickName
             self.nicknameLbl.text = displayNickname.count > 10 ? "\(displayNickname.substring(to: 10))..." : displayNickname
             
             Observable.just(LeftViewReactor.Action.isAllBerryReload)
+                .bind(to: _reactor.action)
+                .disposed(by: self.disposeBag)
+            
+            Observable.just(LeftViewReactor.Action.getMyBerryPoint)
                 .bind(to: _reactor.action)
                 .disposed(by: self.disposeBag)
         }

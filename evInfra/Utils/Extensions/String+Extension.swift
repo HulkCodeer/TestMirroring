@@ -21,7 +21,7 @@ extension String {
         }
     }
     
-    func toDate(dateFormat: DateConstants) -> Date? {
+    func toDate(dateFormat: Constants.DateConstants) -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = dateFormat.rawValue
         let date: Date? = dateFormatter.date(from: self)
