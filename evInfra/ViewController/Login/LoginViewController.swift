@@ -18,6 +18,10 @@ internal final class LoginViewController: UIViewController {
         case new = "새로운 간편 로그인"
     }
     
+    private lazy var customNaviBar = CommonNaviView().then {
+        $0.naviTitleLbl.text = "로그인"
+        $0.backgroundColor = Colors.backgroundPrimary.color
+    }
     @IBOutlet weak var loginButtonStackView: UIStackView!
     @IBOutlet weak var btnKakaoLogin: KOLoginButton!
     @IBOutlet weak var btnCorpLogin: UIButton!
@@ -37,29 +41,42 @@ internal final class LoginViewController: UIViewController {
         printLog(out: "\(type(of: self)): Deinited")
     }
             
+    override func loadView() {
+        super.loadView()
+        
+        view.backgroundColor = Colors.backgroundPrimary.color
+        
+        view.addSubview(customNaviBar)
+        customNaviBar.snp.makeConstraints {
+            $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(Constants.view.naviBarHeight)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        prepareActionBar()
+//        prepareActionBar()
         prepareLoginButton()
         LoginHelper.shared.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
     }
     
-    func prepareActionBar() {
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "content-primary")
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-        
-        navigationItem.leftViews = [backButton]
-        navigationItem.hidesBackButton = true
-        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-        navigationItem.titleLabel.text = "로그인"
-        self.navigationController?.isNavigationBarHidden = false
-    }
+//    func prepareActionBar() {
+//        let backButton = IconButton(image: Icon.cm.arrowBack)
+//        backButton.tintColor = UIColor(named: "content-primary")
+//        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
+//
+//        navigationItem.leftViews = [backButton]
+//        navigationItem.hidesBackButton = true
+//        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
+//        navigationItem.titleLabel.text = "로그인"
+//        self.navigationController?.isNavigationBarHidden = false
+//    }
     
     func prepareLoginButton() {
         // 카카오 로그인 버튼
@@ -98,10 +115,10 @@ internal final class LoginViewController: UIViewController {
         }
     }
     
-    @objc
-    fileprivate func handleBackButton() {
-        GlobalDefine.shared.mainNavi?.pop()
-    }
+//    @objc
+//    fileprivate func handleBackButton() {
+//        GlobalDefine.shared.mainNavi?.pop()
+//    }
     
     @objc
     fileprivate func handleKakaoButtonPress() {
