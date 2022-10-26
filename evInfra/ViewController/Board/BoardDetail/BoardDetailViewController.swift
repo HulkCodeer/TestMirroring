@@ -476,9 +476,7 @@ extension BoardDetailViewController: ButtonClickDelegate {
                         self.dismiss(animated: true) {
                             switch index {
                             case 0:
-                                // 공유하기
-                                AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "커뮤니티 공유하기 버튼")
-                                AmplitudeEvent.shared.fromViewSourceByLogEvent(eventType: .viewLogin)
+                                // 공유하기                                
                                 self.prepareSharingForKakao(with: document)
                             default:
                                 break
