@@ -236,12 +236,16 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
         
         let mainViewcon = storyboard.instantiateViewController(ofType: MainViewController.self)
         let rootVC = UINavigationController(rootViewController: mainViewcon)
-        let menuVC = NewLeftViewController(reactor: LeftViewReactor(provider: RestApi()))
+        
+        let menuReactor = LeftViewReactor(provider: RestApi())
+        let menuVC = NewLeftViewController(reactor: menuReactor)
         
         mainViewcon.reactor = reactor
         
         let presentVC = LeftDrawerController(rootViewController: rootVC, leftViewController: menuVC)
         
+        reactor.leftDrawerDelegate = presentVC
+        menuReactor.leftDrawerDelegate = presentVC
         GlobalDefine.shared.mainNavi = rootVC
          
         if let _window = UIWindow.key {

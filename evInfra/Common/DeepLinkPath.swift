@@ -144,7 +144,7 @@ internal final class DeepLinkPath {
             }
   
         case DynamicLinkUrlPathType.event_detail.value where GlobalDefine.shared.mainNavi != nil:
-            guard let _mainNav = GlobalDefine.shared.mainNavi else { fallthrough }
+            guard let _mainNav = GlobalDefine.shared.mainNavi else { break }
             
             if _mainNav.containsViewController(ofKind: EventViewController.self) ||
                 _mainNav.containsViewController(ofKind: NewEventDetailViewController.self) {

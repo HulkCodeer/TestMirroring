@@ -192,7 +192,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     
     override func loadView() {
         super.loadView()
-          
+        
         self.view.addSubview(userInfoTotalView)
         userInfoTotalView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(UIScreen.main.bounds.height > 667 ? 45 : 18)
@@ -750,6 +750,5 @@ extension NewLeftViewController: UITableViewDelegate, UITableViewDataSource {
         guard  _reactor.currentState.menuCategoryType != .settings || indexPath.row != 3 else { return }
         
         _reactor.currentState.menuCategoryType.menuList[indexPath.section].moveViewController(index: indexPath)
-        hideMenu(reactor: _reactor, isHide: true)
     }
 }

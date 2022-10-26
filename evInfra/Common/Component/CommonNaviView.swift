@@ -78,7 +78,6 @@ internal final class CommonNaviView: UIView {
             .drive(with: self) { obj, _ in
                 guard let _backClosure = obj.backClosure else {
                     GlobalDefine.shared.mainNavi?.pop()
-                    GlobalDefine.shared.mainNavi?.navigationBar.isHidden = false
                     return
                 }
                 _backClosure()
