@@ -57,7 +57,7 @@ internal final class FilterContainerView: UIView {
         self.filterContainerView.addGestureRecognizer(swipeRight)
         
         filterTypeView.saveOnChange = true
-//        filterSpeedView.saveOnChange = true
+        filterSpeedView.saveOnChange = true
         filterRoadView.saveOnChange = true
         filterPlaceView.saveOnChange = true
         filterPriceView.saveOnChange = true

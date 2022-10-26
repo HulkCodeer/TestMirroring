@@ -35,7 +35,7 @@ internal final class NewFilterSwitchesView: UIView {
     }
     
     // MARK: VARIABLES
-//    private weak var mainReactor: MainReactor?
+    private weak var mainReactor: MainReactor?
     private var disposeBag = DisposeBag()
     
     override init(frame: CGRect) {
@@ -46,12 +46,13 @@ internal final class NewFilterSwitchesView: UIView {
         super.init(coder: coder)
     }
     
-    internal func bind(reactor: MainReactor) {        
+    func bind(reactor: MainReactor) {
         self.addSubview(verticalStackView)
         verticalStackView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+            $0.height.equalTo(168)
         }
-        
+
         for switchType in SwitchType.allCases {
             let view = self.createSwitchViews(switchType: switchType, reactor: reactor)
             verticalStackView.addArrangedSubview(view)

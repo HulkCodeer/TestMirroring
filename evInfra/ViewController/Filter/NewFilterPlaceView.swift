@@ -68,29 +68,39 @@ internal final class NewFilterPlaceView: UIView {
         printLog(out: "\(type(of: self)): Deinited")
     }
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }
     
     // MARK: FUNC
-    func bind(reactor: MainReactor) {
+    internal func bind(reactor: MainReactor) {
         self.addSubview(totalView)
         totalView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+            $0.height.equalTo(128)
         }
         
         totalView.addSubview(filterTitleLbl)
         filterTitleLbl.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(10)
+            $0.top.equalToSuperview().offset(8)
             $0.leading.equalToSuperview().offset(16)
+            $0.height.equalTo(16)
         }
         
         totalView.addSubview(stackView)
         stackView.snp.makeConstraints {
-            $0.top.equalTo(filterTitleLbl.snp.bottom).offset(8)
+            $0.top.equalTo(filterTitleLbl.snp.bottom).offset(16)
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)
-            $0.bottom.equalToSuperview().offset(-16)
+            $0.bottom.equalToSuperview().offset(-20)
             $0.height.equalTo(68)
         }
         
@@ -128,6 +138,7 @@ internal final class NewFilterPlaceView: UIView {
                 $0.top.equalTo(imgView.snp.bottom).offset(4)
                 $0.centerX.equalToSuperview()
                 $0.bottom.equalToSuperview()
+                $0.height.equalTo(16)
             }
 
             $0.addSubview(btn)

@@ -52,7 +52,6 @@ enum Speed: CGFloat, CaseIterable {
     }
 }
 
-
 internal final class NewFilterSpeedView: UIView {
     
     // MARK: UI
@@ -69,7 +68,7 @@ internal final class NewFilterSpeedView: UIView {
     
     private lazy var filterTitleLbl = UILabel().then {
         $0.text = "충전속도"
-        $0.font = .systemFont(ofSize: 16, weight: .bold)
+        $0.font = .systemFont(ofSize: 14, weight: .bold)
         $0.textAlignment = .left
     }
     
@@ -113,22 +112,29 @@ internal final class NewFilterSpeedView: UIView {
     private weak var mainReactor: MainReactor?
     internal var saveOnChange: Bool = false
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }
     
     // MARK: FUNC
     internal func bind(reactor: MainReactor) {
-        self.mainReactor = reactor
-        
         self.addSubview(totalView)
         totalView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+            $0.height.equalTo(128)
         }
         
         totalView.addSubview(stackView)
         stackView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(6)
+            $0.top.equalToSuperview().offset(8)
             $0.height.equalTo(20)
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)

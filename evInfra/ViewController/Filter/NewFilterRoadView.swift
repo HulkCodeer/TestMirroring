@@ -60,7 +60,8 @@ internal final class NewFilterRoadView: UIView {
     }
   
     // MARK: VARIABLES
-    private var disposeBag = DisposeBag()
+    var disposeBag = DisposeBag()
+    private weak var mainReactor: MainReactor?
     internal weak var delegate: DelegateFilterChange?
     internal var saveOnChange: Bool = false
     
@@ -70,36 +71,38 @@ internal final class NewFilterRoadView: UIView {
         printLog(out: "\(type(of: self)): Deinited")
     }
     
-//    override init(frame: CGRect) {
-//        super.init(frame: frame)
-//    }
-//
-//    required init?(coder: NSCoder) {
-//        super.init(coder: coder)
-//    }
-    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
     }
     
-    internal func bind(reactor: MainReactor) {
+    func bind(reactor: MainReactor) {
         self.addSubview(totalView)
         totalView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.leading.trailing.bottom.equalToSuperview()
+            $0.height.equalTo(128)
         }
         
         totalView.addSubview(filterTitleLbl)
         filterTitleLbl.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(10)
+            $0.top.equalToSuperview().offset(8)
             $0.leading.equalToSuperview().offset(16)
+            $0.height.equalTo(16)
         }
         
         totalView.addSubview(stackView)
         stackView.snp.makeConstraints {
-            $0.top.equalTo(filterTitleLbl.snp.bottom).offset(8)
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.equalToSuperview().offset(-16)
-            $0.bottom.equalToSuperview().offset(-16)
+            $0.top.equalTo(filterTitleLbl.snp.bottom).offset(16)
+            $0.leading.equalTo(totalView.snp.leading).offset(16)
+            $0.trailing.equalTo(totalView.snp.trailing).offset(-16)
+            $0.bottom.equalTo(totalView.snp.bottom).offset(-20)
             $0.height.equalTo(68)
         }
         
@@ -137,6 +140,7 @@ internal final class NewFilterRoadView: UIView {
                 $0.top.equalTo(imgView.snp.bottom).offset(4)
                 $0.centerX.equalToSuperview()
                 $0.bottom.equalToSuperview()
+                $0.height.equalTo(16)
             }
 
             $0.addSubview(btn)
@@ -158,11 +162,11 @@ internal final class NewFilterRoadView: UIView {
                 .asDriver()
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
-                    if obj.saveOnChange {
-                        Observable.just(MainReactor.Action.setSelectedRoadFilter((.general, btn.isSelected)))
-                            .bind(to: reactor.action)
-                            .disposed(by: obj.disposeBag)
-                    }
+                    
+                    Observable.just(MainReactor.Action.setSelectedRoadFilter((.general, btn.isSelected)))
+                        .bind(to: reactor.action)
+                        .disposed(by: obj.disposeBag)
+                    
                     obj.delegate?.onChangedFilter(type: .road)
                 }
                 .disposed(by: self.disposeBag)
@@ -186,11 +190,11 @@ internal final class NewFilterRoadView: UIView {
                 .asDriver()
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
-                    if obj.saveOnChange {
-                        Observable.just(MainReactor.Action.setSelectedRoadFilter((.highwayUp, btn.isSelected)))
-                            .bind(to: reactor.action)
-                            .disposed(by: obj.disposeBag)
-                    }
+                    
+                    Observable.just(MainReactor.Action.setSelectedRoadFilter((.highwayUp, btn.isSelected)))
+                        .bind(to: reactor.action)
+                        .disposed(by: obj.disposeBag)
+                    
                     obj.delegate?.onChangedFilter(type: .road)
                 }
                 .disposed(by: self.disposeBag)
@@ -214,11 +218,10 @@ internal final class NewFilterRoadView: UIView {
                 .asDriver()
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
-                    if obj.saveOnChange {
-                        Observable.just(MainReactor.Action.setSelectedRoadFilter((.highwayDown, btn.isSelected)))
-                            .bind(to: reactor.action)
-                            .disposed(by: obj.disposeBag)
-                    }
+                    Observable.just(MainReactor.Action.setSelectedRoadFilter((.highwayDown, btn.isSelected)))
+                        .bind(to: reactor.action)
+                        .disposed(by: obj.disposeBag)
+                    
                     obj.delegate?.onChangedFilter(type: .road)
                 }
                 .disposed(by: self.disposeBag)

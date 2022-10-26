@@ -250,9 +250,9 @@ internal final class NewFilterBarView: UIView {
             reactor.state.compactMap { $0.isEvPayFilter }
                 .asDriver(onErrorJustReturn: false)
                 .drive(with: self) { obj, isEvPayFilter in
-//                    let property: [String: Any] = ["filterName": "EV Pay",
-//                                                   "filterValue": isEvPayFilter ? "On":"Off"]
-//                    FilterEvent.clickUpperFilter.logEvent(property: property)
+                    let property: [String: Any] = ["filterName": "EV Pay",
+                                                   "filterValue": isEvPayFilter ? "On":"Off"]
+                    FilterEvent.clickUpperFilter.logEvent(property: property)
                 
                     view.IBborderColor = isEvPayFilter ? Colors.borderPositive.color : Colors.nt1.color
                     titleLbl.textColor = isEvPayFilter ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor

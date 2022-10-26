@@ -13,12 +13,6 @@ import RxCocoa
 import SnapKit
 import Then
 
-enum SwitchViews: CaseIterable {
-    case evpay
-    case favorite
-    case representCar
-}
-
 internal final class NewChargerFilterViewController: CommonBaseViewController, StoryboardView {
     
     // MARK: UI
@@ -34,6 +28,7 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
     private lazy var scrollView = UIScrollView().then {
         $0.showsVerticalScrollIndicator = true
         $0.showsHorizontalScrollIndicator = false
+        $0.isUserInteractionEnabled = true
     }
     private lazy var filterStackView = UIStackView().then {
         $0.axis = .vertical
@@ -47,7 +42,7 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
     private var speedFilterView = NewFilterSpeedView()
     private var roadFilterView = NewFilterRoadView()
     private var accessFilterView = NewFilterAccessView()
-    private lazy var saveBtn = StickButton(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 32, height: 80),
+    private var saveBtn = StickButton(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 32, height: 80),
                                            level: .primary).then {
         $0.rectBtn.setTitle("필터 설정 저장하기", for: .normal)
         $0.rectBtn.isSelected = false
@@ -58,10 +53,6 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
         super.init()
         self.reactor = reactor
     }
-//
-//    override init() {
-//        super.init()
-//    }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -88,7 +79,7 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
             $0.leading.trailing.bottom.equalToSuperview()
             $0.height.equalTo(80)
         }
-        
+
         self.contentView.addSubview(scrollView)
         scrollView.snp.makeConstraints {
             $0.top.equalTo(naviTotalView.snp.bottom)
@@ -97,43 +88,31 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
             $0.centerX.equalToSuperview()
             $0.bottom.equalTo(saveBtn.snp.top)
         }
-        
+
         scrollView.addSubview(filterStackView)
         filterStackView.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview()
-            $0.width.equalToSuperview()
-            $0.centerX.equalToSuperview()
+            $0.top.equalTo(scrollView.snp.top)
+            $0.bottom.equalTo(scrollView.snp.bottom)
+            $0.width.equalTo(scrollView.snp.width)
+            $0.centerX.equalTo(scrollView.snp.centerX)
         }
 
-        filterStackView.addArrangedSubview(switchFilterView)
         let lineView = self.createLineView(color: Colors.nt1.color)
+        lineView.snp.makeConstraints {
+            $0.height.equalTo(1)
+        }
+        
+        filterStackView.addArrangedSubview(switchFilterView)
         filterStackView.addArrangedSubview(lineView)
         filterStackView.addArrangedSubview(speedFilterView)
         filterStackView.addArrangedSubview(typeFilterView)
         filterStackView.addArrangedSubview(accessFilterView)
         filterStackView.addArrangedSubview(roadFilterView)
         filterStackView.addArrangedSubview(placeFilterView)
-        switchFilterView.snp.makeConstraints {
-            $0.height.equalTo(168)
-        }
-        lineView.snp.makeConstraints {
-            $0.height.equalTo(1)
-        }
-        speedFilterView.snp.makeConstraints {
-            $0.height.equalTo(128)
-        }
-        typeFilterView.snp.makeConstraints {
-            $0.height.equalTo(116)
-        }
-        accessFilterView.snp.makeConstraints {
-            $0.height.equalTo(116)
-        }
-        roadFilterView.snp.makeConstraints {
-            $0.height.equalTo(116)
-        }
-        placeFilterView.snp.makeConstraints {
-            $0.height.equalTo(116)
-        }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -141,7 +120,7 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
         GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
     }
     
-    internal func bind(reactor: MainReactor) {
+    func bind(reactor: MainReactor) {
         switchFilterView.bind(reactor: reactor)
         typeFilterView.bind(reactor: reactor)
         speedFilterView.bind(reactor: reactor)

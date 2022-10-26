@@ -178,13 +178,18 @@ internal final class NewFilterAccessView: UIView {
             }
         }
         
-        let isSelectedPublic = FilterManager.sharedInstance.filter.isPublic
-        let isSelectedNonPublic = FilterManager.sharedInstance.filter.isNonPublic
+        guard let selectedAccessFilter = reactor.currentState.selectedAccessFilter else { return view }
         
-        switch accessType {
+        let isSelectedPublic = selectedAccessFilter.accessType == .publicCharger ? selectedAccessFilter.isSelected : false
+        let isSelectedNonPublic = selectedAccessFilter.accessType == .nonePublicCharger ? selectedAccessFilter.isSelected : false
+        let access = selectedAccessFilter.accessType
+        
+        switch access {
         case .publicCharger:
             imgView.tintColor = isSelectedPublic ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
             titleLbl.textColor = isSelectedPublic ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+            
+            btn.isSelected = isSelectedPublic
             
             btn.rx.tap
                 .asDriver()
@@ -210,6 +215,8 @@ internal final class NewFilterAccessView: UIView {
         case .nonePublicCharger:
             imgView.tintColor = isSelectedNonPublic ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
             titleLbl.textColor = isSelectedNonPublic ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+            
+            btn.isSelected = isSelectedNonPublic
             
             btn.rx.tap
                 .asDriver()
