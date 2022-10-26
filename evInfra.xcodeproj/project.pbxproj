@@ -1302,6 +1302,9 @@
 		829C073E2904DD0A008E2E6D /* ShipmentStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C073D2904DD0A008E2E6D /* ShipmentStatusView.swift */; };
 		829C073F2904DD0A008E2E6D /* ShipmentStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C073D2904DD0A008E2E6D /* ShipmentStatusView.swift */; };
 		829C07402904DD0A008E2E6D /* ShipmentStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C073D2904DD0A008E2E6D /* ShipmentStatusView.swift */; };
+		8284047A290021FE0081567C /* TooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82840479290021FE0081567C /* TooltipView.swift */; };
+		8284047B290021FE0081567C /* TooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82840479290021FE0081567C /* TooltipView.swift */; };
+		8284047C290021FE0081567C /* TooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82840479290021FE0081567C /* TooltipView.swift */; };
 		82B3E7F42837D5A700B8ACF7 /* GlobalDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */; };
 		82C9A01728B0F0EE0003296B /* QRReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01628B0F0EE0003296B /* QRReaderView.swift */; };
 		82C9A01828B0F0EE0003296B /* QRReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01628B0F0EE0003296B /* QRReaderView.swift */; };
@@ -1837,6 +1840,7 @@
 		829C07342904D44E008E2E6D /* MembershipIssuanceCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipIssuanceCompleteViewController.swift; sourceTree = "<group>"; };
 		829C07392904D4DD008E2E6D /* MembershipIssuanceReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipIssuanceReactor.swift; sourceTree = "<group>"; };
 		829C073D2904DD0A008E2E6D /* ShipmentStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipmentStatusView.swift; sourceTree = "<group>"; };
+		82840479290021FE0081567C /* TooltipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipView.swift; sourceTree = "<group>"; };
 		82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalDefine.swift; sourceTree = "<group>"; };
 		82C9A01628B0F0EE0003296B /* QRReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRReaderView.swift; sourceTree = "<group>"; };
 		82C9A01928B10A010003296B /* PaymentQRScanReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentQRScanReactor.swift; sourceTree = "<group>"; };
@@ -2582,6 +2586,10 @@
 				59EC3B7828D32A04001A18B5 /* Constants */,
 				1969693328AB9A6B00FE47A7 /* Amplitude */,
 				82F3D9A92855EE2B0030C44B /* Component */,
+				6309C7A5290000FA00A52E4F /* CommonBaseCollectionViewCell.swift */,
+				6309C7AB2900011B00A52E4F /* AmplitudeManager+Extension.swift */,
+				6309C7A92900011B00A52E4F /* DBDelegate.swift */,
+				6309C7AA2900011B00A52E4F /* FCMDelegate.swift */,
 				63F3154E284F0809001713D2 /* Colors+Generated.swift */,
 				63F3154D284F0809001713D2 /* Icons+Generated.swift */,
 				73A7B427204E81A6002E975F /* Const.swift */,
@@ -2602,10 +2610,7 @@
 				63C7C8DF286D6F0B00A357D6 /* NewBottomSheetViewController.swift */,
 				63CAC17F289BAE3E00ADA809 /* CommonBaseTableViewCell.swift */,
 				824D5DC028BE1C2500EDC712 /* GlobalFunction.swift */,
-				6309C7A5290000FA00A52E4F /* CommonBaseCollectionViewCell.swift */,
-				6309C7AB2900011B00A52E4F /* AmplitudeManager+Extension.swift */,
-				6309C7A92900011B00A52E4F /* DBDelegate.swift */,
-				6309C7AA2900011B00A52E4F /* FCMDelegate.swift */,
+				82840479290021FE0081567C /* TooltipView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -4378,6 +4383,7 @@
 				63F31400284EC74F001713D2 /* MemberManager.swift in Sources */,
 				63F31401284EC74F001713D2 /* FilterCompanyView.swift in Sources */,
 				63F31402284EC74F001713D2 /* ReportCharger.swift in Sources */,
+				8284047B290021FE0081567C /* TooltipView.swift in Sources */,
 				63F31403284EC74F001713D2 /* MyCouponViewController.swift in Sources */,
 				63F31404284EC74F001713D2 /* CBT.swift in Sources */,
 				63F31405284EC74F001713D2 /* UIScrollView+Extension.swift in Sources */,
@@ -4701,6 +4707,7 @@
 				DBF3827B2304475900FAF772 /* CBT.swift in Sources */,
 				73CF041A20B2736500BEA9CF /* UIScrollView+Extension.swift in Sources */,
 				00C75C4D252EEB5300387559 /* RegisterResultViewController.swift in Sources */,
+				8284047A290021FE0081567C /* TooltipView.swift in Sources */,
 				DBE579B521A3E3CA005DD998 /* Snackbar.swift in Sources */,
 				902A11E2248F7A3A0049EF8E /* ChargerStationInfo.swift in Sources */,
 				63A4F3712872F88100601018 /* RectButton.swift in Sources */,
@@ -5024,6 +5031,7 @@
 				824D5C6228BDD89C00EDC712 /* MyCouponViewController.swift in Sources */,
 				824D5C6328BDD89C00EDC712 /* CBT.swift in Sources */,
 				824D5C6428BDD89C00EDC712 /* UIScrollView+Extension.swift in Sources */,
+				8284047C290021FE0081567C /* TooltipView.swift in Sources */,
 				824D5C6528BDD89C00EDC712 /* RegisterResultViewController.swift in Sources */,
 				824D5C6628BDD89C00EDC712 /* Snackbar.swift in Sources */,
 				5975BD5428D97CF000910F6F /* DateConstants.swift in Sources */,
@@ -5299,7 +5307,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 10241352;
+				CURRENT_PROJECT_VERSION = 10251050;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5FA8TZGUDC;
@@ -5343,7 +5351,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 10241352;
+				CURRENT_PROJECT_VERSION = 10251050;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5FA8TZGUDC;
@@ -5507,7 +5515,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 10181910;
+				CURRENT_PROJECT_VERSION = 10251334;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				ENABLE_BITCODE = YES;
@@ -5521,7 +5529,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.7.7;
+				MARKETING_VERSION = 3.7.8;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -5549,7 +5557,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 10181910;
+				CURRENT_PROJECT_VERSION = 10251334;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				ENABLE_BITCODE = YES;
@@ -5563,7 +5571,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.7.7;
+				MARKETING_VERSION = 3.7.8;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -5632,7 +5640,7 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 10241411;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -5661,7 +5669,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.soft-berry.ev-infra";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = EvInfra_20220627_debug;
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = EvInfra_20220627_adhoc;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = EvInfra_20220627_debug;
 				SWIFT_OBJC_BRIDGING_HEADER = "evInfra/evInfra-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
