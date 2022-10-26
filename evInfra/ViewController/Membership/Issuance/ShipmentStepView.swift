@@ -10,6 +10,8 @@ internal final class ShipmentStepView: UIView {
     
     // MARK: UI
     
+    private lazy var
+    
     // MARK: SYSTEM FUNC
     
     deinit {

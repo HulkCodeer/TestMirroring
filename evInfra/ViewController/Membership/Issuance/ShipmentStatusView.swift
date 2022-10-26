@@ -15,6 +15,8 @@ internal final class ShipmentStatusView: UIView {
         $0.text = "회원 카드 발송 현황"
     }
     
+    private lazy var shipmentStepView = ShipmentStepView(frame: .zero)
+    
     // MARK: SYSTEM FUNC
     
     deinit {
@@ -33,7 +35,11 @@ internal final class ShipmentStatusView: UIView {
     // MARK: FUNC
     
     func makeUI() {
-        
+        self.addSubview(shipmentStatusGuideLbl)
+        shipmentStatusGuideLbl.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(20)
+            $0.leading.equalToSuperview().offset(16)
+        }
     }
 }
 
