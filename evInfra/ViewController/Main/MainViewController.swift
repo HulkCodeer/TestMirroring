@@ -644,8 +644,14 @@ extension MainViewController: DelegateChargerFilterView {
 }
 
 extension MainViewController: DelegateFilterContainerView {
-    func changedFilter(type: FilterType) {
+    func changedFilter(type: FilterType) {        
         // refresh marker
+        
+        guard let _reactor = self.reactor else { return }
+        Observable.just(MainReactor.Action.updateFilterBarTitle)
+            .bind(to: _reactor.action)
+            .disposed(by: self.disposeBag)
+        
         drawMapMarker()
     }
 }

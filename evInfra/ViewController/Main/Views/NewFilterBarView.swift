@@ -149,7 +149,8 @@ internal final class NewFilterBarView: UIView {
         
         filterTagScrollView.addSubview(filterTagStackView)
         filterTagStackView.snp.makeConstraints {
-            $0.leading.trailing.centerY.equalToSuperview()
+            $0.leading.centerY.equalToSuperview()
+            $0.trailing.equalToSuperview().offset(-10)
             $0.height.equalTo(30)
         }
         
