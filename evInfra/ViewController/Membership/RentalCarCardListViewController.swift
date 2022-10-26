@@ -39,9 +39,7 @@ internal final class RentalCarCardListViewController: UIViewController {
     
     override func loadView() {
         super.loadView()
-        
-        view.backgroundColor = Colors.backgroundPrimary.color
-        
+                
         view.addSubview(customNaviBar)
         customNaviBar.snp.makeConstraints {
             $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)

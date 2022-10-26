@@ -80,8 +80,6 @@ internal final class PointViewController: UIViewController {
     override func loadView() {
         super.loadView()
         
-        view.backgroundColor = Colors.backgroundPrimary.color
-
         settingButton.addTarget(self, action: #selector(handleSettingButton), for: .touchUpInside)
         customNaviBar.backClosure = { [weak self] in
             self?.navigationController?.pop()

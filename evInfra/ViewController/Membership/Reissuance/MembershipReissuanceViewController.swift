@@ -93,7 +93,6 @@ internal final class MembershipReissuanceViewController: BaseViewController, Sto
     override func loadView() {
         super.loadView()
         
-        view.backgroundColor = Colors.backgroundPrimary.color
         prepareActionBar(with: "재발급 신청")
 
         view.addSubview(nextBtn)

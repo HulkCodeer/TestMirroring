@@ -55,8 +55,6 @@ final class NewNoticeViewController: CommonBaseViewController, StoryboardView {
     
     override func loadView() {
         super.loadView()
-        
-        view.backgroundColor = Colors.backgroundPrimary.color
 
         contentView.addSubview(customNaviBar)
         customNaviBar.snp.makeConstraints {

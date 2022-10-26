@@ -159,7 +159,6 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
         super.loadView()
                 
         prepareActionBar(with: "재발급 신청")
-        view.backgroundColor = Colors.backgroundPrimary.color
 
         let screenWidth = UIScreen.main.bounds.width
         let scrollViewWidth = screenWidth - 32 // 스크린 넓이 - 양쪽마진

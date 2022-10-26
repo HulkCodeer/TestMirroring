@@ -31,9 +31,7 @@ internal final class MembershipUseGuideViewController: BaseViewController, WKUID
         super.loadView()
         
         prepareActionBar(with: "EV Pay 카드 사용 안내")
-                        
-        view.backgroundColor = Colors.backgroundPrimary.color
-        
+                                
         view.addSubview(self.webView)
         webView.snp.makeConstraints {
             $0.top.equalTo(customNaviBar.snp.bottom)

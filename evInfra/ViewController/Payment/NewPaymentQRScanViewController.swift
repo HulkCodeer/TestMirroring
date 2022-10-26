@@ -82,9 +82,7 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
     
     override func loadView() {
         super.loadView()
-        
-        view.backgroundColor = Colors.backgroundPrimary.color
-        
+                
         self.contentView.addSubview(naviTotalView)
         naviTotalView.snp.makeConstraints {
             $0.leading.top.trailing.equalToSuperview()

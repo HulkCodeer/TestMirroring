@@ -88,9 +88,7 @@ internal final class MyPageViewController: UIViewController {
         super.loadView()
         
         logoutButton.addTarget(self, action: #selector(handlelogoutButton), for: .touchUpInside)
-        
-        view.backgroundColor = Colors.backgroundPrimary.color
-        
+                
         customNaviBar.backClosure = { [weak self] in
             self?.navigationController?.pop()
         }

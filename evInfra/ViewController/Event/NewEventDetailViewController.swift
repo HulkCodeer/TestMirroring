@@ -111,9 +111,7 @@ internal final class NewEventDetailViewController: CommonBaseViewController {
     
     override func loadView() {
         super.loadView()
-        
-        view.backgroundColor = Colors.backgroundPrimary.color
-        
+                
         self.contentView.addSubview(naviTotalView)
         naviTotalView.snp.makeConstraints {
             $0.leading.top.trailing.equalToSuperview()

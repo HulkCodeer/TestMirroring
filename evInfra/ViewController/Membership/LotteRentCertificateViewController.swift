@@ -55,9 +55,7 @@ class LotteRentCertificateViewController : UIViewController,
     
     override func loadView() {
         super.loadView()
-        
-        view.backgroundColor = Colors.backgroundPrimary.color
-        
+                
         customNaviBar.backClosure = { [weak self] in
             self?.navigationController?.pop()
         }

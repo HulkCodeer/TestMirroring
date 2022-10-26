@@ -28,7 +28,6 @@ internal final class PointUseGuideViewController: BaseViewController {
         super.loadView()
         
         prepareActionBar(with: "베리 사용 안내")
-        view.backgroundColor = Colors.backgroundPrimary.color
         
         view.addSubview(self.webView)
         webView.snp.makeConstraints {

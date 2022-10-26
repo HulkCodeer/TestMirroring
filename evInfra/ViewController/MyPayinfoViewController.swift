@@ -62,7 +62,6 @@ internal final class MyPayinfoViewController: UIViewController, MyPayRegisterVie
             _navi.pop()
         }
         
-        view.backgroundColor = Colors.backgroundPrimary.color
         view.addSubview(customNavibar)
         customNavibar.snp.makeConstraints {
             $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)

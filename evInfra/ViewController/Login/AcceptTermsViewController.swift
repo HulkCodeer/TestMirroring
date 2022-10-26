@@ -36,7 +36,6 @@ class AcceptTermsViewController: UIViewController {
     
     override func loadView() {
         super.loadView()
-        view.backgroundColor = Colors.backgroundPrimary.color
         
         view.addSubview(customNaviBar)
         customNaviBar.snp.makeConstraints {

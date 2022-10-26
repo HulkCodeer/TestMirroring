@@ -57,7 +57,6 @@ internal final class MembershipGuideViewController: BaseViewController, WKUIDele
         super.loadView()
         
         prepareActionBar(with: "EV Pay카드 안내")
-        view.backgroundColor = Colors.backgroundPrimary.color
         
         view.addSubview(self.membershipRegisterBtn)
         membershipRegisterBtn.snp.makeConstraints {
