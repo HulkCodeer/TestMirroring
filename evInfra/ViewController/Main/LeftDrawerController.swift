@@ -125,7 +125,23 @@ final class LeftDrawerController: UIViewController {
     
     override func loadView() {
         super.loadView()
-        prepare()
+        
+        view.backgroundColor = Colors.backgroundPrimary.color
+        rootViewController.view.backgroundColor = Colors.backgroundPrimary.color
+        
+        prepare(viewController: rootViewController, in: container)
+                
+        view.addSubview(container)
+        
+        // content
+        contentViewController.view.backgroundColor = .black
+        prepare(viewController: contentViewController, in: view)
+        view.sendSubviewToBack(contentViewController.view)
+        
+        // leftView
+        view.addSubview(leftView)
+        
+        prepare(viewController: leftViewController, in: leftView)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -153,23 +169,7 @@ final class LeftDrawerController: UIViewController {
     }
     
     // MARK: - prepare
-    
-    private func prepare() {
-        prepare(viewController: rootViewController, in: container)
-                
-        view.addSubview(container)
-        
-        // content
-        contentViewController.view.backgroundColor = .black
-        prepare(viewController: contentViewController, in: view)
-        view.sendSubviewToBack(contentViewController.view)
-        
-        // leftView
-        view.addSubview(leftView)
-        
-        prepare(viewController: leftViewController, in: leftView)
-    }
-    
+
     private func prepare(viewController: UIViewController, in container: UIView) {
         addChild(viewController)
         container.addSubview(viewController.view)
