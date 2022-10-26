@@ -44,6 +44,20 @@ internal final class ShipmentStatusView: UIView {
     // MARK: FUNC
     
     private func makeUI() {
+        self.addSubview(shipmentStepView)
+        shipmentStepView.snp.makeConstraints {
+            $0.leading.equalTo(22)
+            $0.trailing.equalToSuperview()
+            $0.height.equalTo(328)
+        }
+        
+        let lineView = self.createLineView()
+        
+        self.addSubview(lineView)
+        lineView.snp.makeConstraints {
+            $0.top.equalTo(shipmentStepView.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+        }
         
     }
     
@@ -54,6 +68,12 @@ internal final class ShipmentStatusView: UIView {
                 
             }
             .disposed(by: self.disposebag)
+    }
+    
+    internal func createLineView(color: UIColor? = Colors.backgroundSecondary.color) -> UIView {
+        return UIView().then {
+            $0.backgroundColor = color
+        }
     }
 }
 
