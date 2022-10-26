@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 
 /// 취소버튼, highlight 선 보유한 TextField
-class UnderLineTextField: UITextField {
+internal final class UnderLineTextField: UITextField {
     lazy var clearButton = UIButton().then {
         let image = UIImage(asset: Icons.iconCloseSm)
         $0.setImage(image, for: .normal)

@@ -12,7 +12,7 @@ import RxCocoa
 import Then
 import SnapKit
 
-final class MainSearchWayView: UIView {
+internal final class MainSearchWayView: UIView {
     internal lazy var startTextField = UnderLineTextField().then {
         $0.placeholder = "출발지를 입력하세요."
     }
