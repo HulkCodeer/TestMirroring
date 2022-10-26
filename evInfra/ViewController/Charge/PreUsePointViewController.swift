@@ -19,7 +19,7 @@ class PreUsePointViewController: UIViewController {
     }
     private lazy var settingButton = UIButton().then {
         $0.setTitle("초기화", for: .normal)
-        $0.setTitleColor(UIColor(named: "content-primary")!, for: .normal)
+        $0.setTitleColor(Colors.contentPrimary.color, for: .normal)
         $0.titleLabel?.font = .systemFont(ofSize: 14)
     }
     

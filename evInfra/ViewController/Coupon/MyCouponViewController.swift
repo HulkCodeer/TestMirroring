@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Material
 import SwiftyJSON
 
 class MyCouponViewController: UIViewController {

@@ -31,8 +31,8 @@ class MyArticleViewController: UIViewController {
     override func loadView() {
         super.loadView()
         
-        customNavibar.backClosure = { [weak self] in
-            self?.navigationController?.pop()
+        customNavibar.backClosure = {
+            GlobalDefine.shared.mainNavi?.pop()
         }
         
         view.addSubview(customNavibar)

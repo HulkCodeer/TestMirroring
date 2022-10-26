@@ -110,14 +110,8 @@ internal class BaseViewController: UIViewController {
         navigationController?.isNavigationBarHidden = true
         customNaviBar.isHidden = false
 
-        if let _backButtonCompletion = backButtonCompletion {
-            customNaviBar.backClosure = {
-                GlobalDefine.shared.mainNavi?.pop()
-                GlobalDefine.shared.mainNavi?.navigationBar.isHidden = false
-            }
-            
-            _backButtonCompletion()
-        }
+        customNaviBar.backClosure = backButtonCompletion
+        
     }
     
     @objc

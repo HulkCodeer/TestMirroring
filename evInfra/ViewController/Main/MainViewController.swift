@@ -623,7 +623,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
         
         reactor.state.compactMap { $0.searchDetinationData }
             .compactMap { self.tMapPathData.requestFindAllPOI($0.1) as? [TMapPOIItem] }
-            .debug()
             .asDriver(onErrorJustReturn: [])
             .drive(with: self) { owner, poiList in
                 owner.destinationResultTableView.setPOI(list: poiList)
