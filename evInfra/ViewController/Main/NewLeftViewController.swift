@@ -13,7 +13,7 @@ import ReusableKit
 
 internal final class NewLeftViewController: CommonBaseViewController, StoryboardView {
     private enum Reusable {
-        static let leftViewMenuItem = ReusableCell<LeftViewMenuItem>(nibName: LeftViewMenuItem.reuseID)        
+        static let leftViewMenuItem = ReusableCell<LeftViewMenuItem>(nibName: LeftViewMenuItem.reuseID)
     }
         
     enum ViewHeightConst {
@@ -183,7 +183,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     
     init(reactor: LeftViewReactor) {
         super.init()
-        self.reactor = reactor        
+        self.reactor = reactor
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -194,7 +194,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         super.loadView()
                 
         self.view.addSubview(userInfoTotalView)
-        userInfoTotalView.snp.makeConstraints {            
+        userInfoTotalView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(UIScreen.main.bounds.height > 667 ? 45 : 18)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(ViewHeightConst.loginViewHeight)
@@ -509,7 +509,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
             .do(onNext: { isOn in
                 let property: [String: Any] = ["berryAmount": "베리량",
                                                "onOrOff": isOn]
-                AmplitudeEvent.Event.clickSidemenuSetUpBerryAll.logEvent(property: property)                
+                AmplitudeEvent.Event.clickSidemenuSetUpBerryAll.logEvent(property: property)
             })
             .asDriver(onErrorJustReturn: false)
             .drive(self.useAllMyBerrySw.rx.isOn)

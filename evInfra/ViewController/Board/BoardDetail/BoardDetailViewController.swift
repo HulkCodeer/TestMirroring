@@ -45,6 +45,7 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "")
     }
     
     private func fetchData() {
@@ -444,6 +445,7 @@ extension BoardDetailViewController {
                                     confirmBtnAction: { [weak self] in
             guard let self = self else { return }
             self.boardDetailViewModel.reportComment(commentSrl: comment.comment_srl!) { (_, message) in
+                AmplitudeEvent.shared.fromViewSourceByLogEvent(eventType: .viewLogin)
                 Snackbar().show(message: message)
                 self.fetchData()
             }
@@ -463,7 +465,6 @@ extension BoardDetailViewController: ButtonClickDelegate {
         let rowVC = GroupViewController()
                 
         if isHeader {
-            
             MemberManager.shared.tryToLoginCheck { [weak self] isLogin in
                 guard isLogin, let self = self else {
                     rowVC.members = ["공유하기"]
@@ -475,7 +476,7 @@ extension BoardDetailViewController: ButtonClickDelegate {
                         self.dismiss(animated: true) {
                             switch index {
                             case 0:
-                                // 공유하기
+                                // 공유하기                                
                                 self.prepareSharingForKakao(with: document)
                             default:
                                 break
@@ -534,6 +535,7 @@ extension BoardDetailViewController: ButtonClickDelegate {
         } else {
             MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
                 guard isLogin, let self = self else {
+                    AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "커뮤니티 신고하기 버튼")
                     MemberManager.shared.showLoginAlert()
                     return
                 }
@@ -586,6 +588,7 @@ extension BoardDetailViewController: ButtonClickDelegate {
     func likeButtonCliked(isLiked: Bool, isComment: Bool, srl: String) {
         MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
             guard isLogin, let self = self else {
+                AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "커뮤니티 좋아요 버튼")
                 MemberManager.shared.showLoginAlert()
                 return
             }
@@ -606,6 +609,7 @@ extension BoardDetailViewController: ButtonClickDelegate {
                 guard let self = self else { return }
                 self.boardDetailViewModel.setLikeCount(srl: srl, isComment: isComment) { (isSuccess, message) in
                     if isSuccess {
+                        AmplitudeEvent.shared.fromViewSourceByLogEvent(eventType: .viewLogin)
                         if let message = message as? String {
                             Snackbar().show(message: message)
                         } else {
