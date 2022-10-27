@@ -93,7 +93,7 @@ final class LeftDrawerController: UIViewController {
     }
     
     private let animationDuration: TimeInterval = 0.25
-    private var leftViewWidth: CGFloat = 0
+    private lazy var leftViewWidth: CGFloat = .phone == UIDevice.current.userInterfaceIdiom ? 280 : 320
     
     // MARK: - initializer
     init() {
@@ -109,8 +109,6 @@ final class LeftDrawerController: UIViewController {
         
         super.init(nibName: nil, bundle: nil)
         
-        GlobalDefine.shared.mainNavi = mainViewController
-        GlobalDefine.shared.rootVC = self
     }
     
     required init?(coder: NSCoder) {
@@ -138,23 +136,48 @@ final class LeftDrawerController: UIViewController {
     override func loadView() {
         super.loadView()
         
+        
+        GlobalDefine.shared.mainNavi = mainViewController
+        GlobalDefine.shared.rootVC = self
+        
+        GlobalDefine.shared.mainNavi?.setNavigationBarHidden(true, animated: false)
+        
         view.backgroundColor = Colors.backgroundPrimary.color
         mainViewController.view.backgroundColor = Colors.backgroundPrimary.color
         
-        prepare(viewController: rootViewController, in: container)
-                
+//        prepare(viewController: rootViewController, in: container)
+//        view.addSubview(container)
+//
+//        // content
+        // 딤뷰 역할.
+//        contentViewController.view.backgroundColor = .black
+//        prepare(viewController: contentViewController, in: view)
+//        view.sendSubviewToBack(contentViewController.view)
+//
+//        // leftView
+//        prepare(viewController: menuViewController, in: leftView)
+//        view.addSubview(leftView)
+        
+// ---------------------------------기존코드 수정.--------------------------------------------------------
+
+        
+        prepare(viewController: mainViewController, in: container)
         view.addSubview(container)
         
-        // content
-        contentViewController.view.backgroundColor = .black
-        prepare(viewController: contentViewController, in: view)
-        view.sendSubviewToBack(contentViewController.view)
+//        mainViewController.addChild(menuViewController)     // addchild 안하면 중간에 낌.
+        menuView.addSubview(menuViewController.view)
+
+        menuViewController.didMove(toParent: self)
+        menuViewController.view.frame = menuView.bounds
+        menuViewController.view.clipsToBounds = true
+        menuViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        menuViewController.view.contentScaleFactor = UIScreen.main.scale
         
-        // leftView
-        view.addSubview(leftView)
-        GlobalDefine.shared.mainViewcon?.view.addSubview(menuView)
+//        GlobalDefine.shared.mainViewcon?.view.addSubview(menuView)    // 안먹어..
+//        mainViewController.view.addSubview(menuView)    // 먹어 근데 블러 처먹고 먹어
+        container.addSubview(menuView)        // 먹어
         
-        prepare(viewController: leftViewController, in: leftView)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
