@@ -12,7 +12,7 @@ internal final class MembershipCardIssuanceCompleteViewController: CommonBaseVie
     // MARK: UI
     
     private lazy var naviTotalView = CommonNaviView().then {
-        $0.naviTitleLbl.text = "회원카드 신청 완료"
+        $0.naviTitleLbl.text = "EV Pay 카드 신청 완료"
     }
     
     private lazy var totalScrollView = UIScrollView().then {
@@ -39,7 +39,7 @@ internal final class MembershipCardIssuanceCompleteViewController: CommonBaseVie
     }
     
     private lazy var shipmentStatusView = ShipmentStatusView(frame: .zero)
-    
+                    
     private lazy var buttonStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.alignment = .fill
@@ -136,7 +136,6 @@ internal final class MembershipCardIssuanceCompleteViewController: CommonBaseVie
             $0.top.equalTo(lineView.snp.bottom)            
             $0.width.centerX.bottom.equalToSuperview()
         }
-            
     }
     
     override func viewWillAppear(_ animated: Bool) {

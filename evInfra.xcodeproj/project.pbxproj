@@ -1303,6 +1303,12 @@
 		82B0EF6C2907B33100D6EE70 /* ShipmentInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B0EF6A2907B33100D6EE70 /* ShipmentInfoView.swift */; };
 		82B0EF6D2907B33100D6EE70 /* ShipmentInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B0EF6A2907B33100D6EE70 /* ShipmentInfoView.swift */; };
 		82B3E7F42837D5A700B8ACF7 /* GlobalDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */; };
+		82BDA374290A20B300CCD0B7 /* ToastProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BDA372290A20B200CCD0B7 /* ToastProgressBarView.swift */; };
+		82BDA375290A20B300CCD0B7 /* ToastProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BDA372290A20B200CCD0B7 /* ToastProgressBarView.swift */; };
+		82BDA376290A20B300CCD0B7 /* ToastProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BDA372290A20B200CCD0B7 /* ToastProgressBarView.swift */; };
+		82BDA377290A20B300CCD0B7 /* ToastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BDA373290A20B200CCD0B7 /* ToastManager.swift */; };
+		82BDA378290A20B300CCD0B7 /* ToastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BDA373290A20B200CCD0B7 /* ToastManager.swift */; };
+		82BDA379290A20B300CCD0B7 /* ToastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BDA373290A20B200CCD0B7 /* ToastManager.swift */; };
 		82C9A01728B0F0EE0003296B /* QRReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01628B0F0EE0003296B /* QRReaderView.swift */; };
 		82C9A01828B0F0EE0003296B /* QRReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01628B0F0EE0003296B /* QRReaderView.swift */; };
 		82C9A01A28B10A010003296B /* PaymentQRScanReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01928B10A010003296B /* PaymentQRScanReactor.swift */; };
@@ -1838,6 +1844,8 @@
 		829C073D2904DD0A008E2E6D /* ShipmentStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipmentStatusView.swift; sourceTree = "<group>"; };
 		82B0EF6A2907B33100D6EE70 /* ShipmentInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipmentInfoView.swift; sourceTree = "<group>"; };
 		82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalDefine.swift; sourceTree = "<group>"; };
+		82BDA372290A20B200CCD0B7 /* ToastProgressBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastProgressBarView.swift; sourceTree = "<group>"; };
+		82BDA373290A20B200CCD0B7 /* ToastManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastManager.swift; sourceTree = "<group>"; };
 		82C9A01628B0F0EE0003296B /* QRReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRReaderView.swift; sourceTree = "<group>"; };
 		82C9A01928B10A010003296B /* PaymentQRScanReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentQRScanReactor.swift; sourceTree = "<group>"; };
 		82D9867E2839BD790030F0FC /* MembershipReissuanceReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceReactor.swift; sourceTree = "<group>"; };
@@ -3034,6 +3042,8 @@
 				195C4E8128C5CE3F000B47F7 /* BannerPagerView.swift */,
 				63C7C8DF286D6F0B00A357D6 /* NewBottomSheetViewController.swift */,
 				82840479290021FE0081567C /* TooltipView.swift */,
+				82BDA373290A20B200CCD0B7 /* ToastManager.swift */,
+				82BDA372290A20B200CCD0B7 /* ToastProgressBarView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -4312,6 +4322,7 @@
 				6309C7A32900006B00A52E4F /* LeftViewTableHeader.swift in Sources */,
 				82C9A01B28B10A010003296B /* PaymentQRScanReactor.swift in Sources */,
 				63F313D1284EC74F001713D2 /* PaymentCard.swift in Sources */,
+				82BDA378290A20B300CCD0B7 /* ToastManager.swift in Sources */,
 				63F313D2284EC74F001713D2 /* CompanyInfo.swift in Sources */,
 				63F313D3284EC74F001713D2 /* AddressSearchCell.swift in Sources */,
 				63F313D4284EC74F001713D2 /* UIColor+Extension.swift in Sources */,
@@ -4513,6 +4524,7 @@
 				821A717628B2762700B13816 /* NewPaymentStatusViewController.swift in Sources */,
 				63762F4C2869A8F000C951BF /* QuitAccountReasonQuestionViewController.swift in Sources */,
 				63F31474284EC74F001713D2 /* EvDetailViewController.swift in Sources */,
+				82BDA375290A20B300CCD0B7 /* ToastProgressBarView.swift in Sources */,
 				63F31475284EC74F001713D2 /* CodableCluster.swift in Sources */,
 				6309C7B82900020F00A52E4F /* Int+Extension.swift in Sources */,
 				829C073F2904DD0A008E2E6D /* ShipmentStatusView.swift in Sources */,
@@ -4635,6 +4647,7 @@
 				6309C7A22900006B00A52E4F /* LeftViewTableHeader.swift in Sources */,
 				73EF8B43203BC71100D04494 /* UIColor+Extension.swift in Sources */,
 				637247D1282A5EBE00595FCE /* UIStoryboard+Extension.swift in Sources */,
+				82BDA377290A20B300CCD0B7 /* ToastManager.swift in Sources */,
 				63EB0391283CB26500078D28 /* ServerResult.swift in Sources */,
 				DB0E4695205FC4D8002DD05D /* ChargerFilter.swift in Sources */,
 				59317D1528B7781B00B1AE92 /* NewNoticeViewController.swift in Sources */,
@@ -4836,6 +4849,7 @@
 				DB48E1F622E08B07003FFA08 /* ServiceGuideViewController.swift in Sources */,
 				821A717528B2762700B13816 /* NewPaymentStatusViewController.swift in Sources */,
 				63762F4B2869A8F000C951BF /* QuitAccountReasonQuestionViewController.swift in Sources */,
+				82BDA374290A20B300CCD0B7 /* ToastProgressBarView.swift in Sources */,
 				7357595720917C03008181E9 /* EvDetailViewController.swift in Sources */,
 				6309C7B72900020F00A52E4F /* Int+Extension.swift in Sources */,
 				829C073E2904DD0A008E2E6D /* ShipmentStatusView.swift in Sources */,
@@ -4958,6 +4972,7 @@
 				6309C7A42900006B00A52E4F /* LeftViewTableHeader.swift in Sources */,
 				824D5C2628BDD89C00EDC712 /* PaymentQRScanReactor.swift in Sources */,
 				824D5C2728BDD89C00EDC712 /* PaymentCard.swift in Sources */,
+				82BDA379290A20B300CCD0B7 /* ToastManager.swift in Sources */,
 				824D5C2828BDD89C00EDC712 /* CompanyInfo.swift in Sources */,
 				824D5C2928BDD89C00EDC712 /* AddressSearchCell.swift in Sources */,
 				824D5C2A28BDD89C00EDC712 /* UIColor+Extension.swift in Sources */,
@@ -5159,6 +5174,7 @@
 				824D5CDE28BDD89C00EDC712 /* NewPaymentStatusViewController.swift in Sources */,
 				824D5CDF28BDD89C00EDC712 /* QuitAccountReasonQuestionViewController.swift in Sources */,
 				824D5CE028BDD89C00EDC712 /* EvDetailViewController.swift in Sources */,
+				82BDA376290A20B300CCD0B7 /* ToastProgressBarView.swift in Sources */,
 				6309C7B92900020F00A52E4F /* Int+Extension.swift in Sources */,
 				829C07402904DD0A008E2E6D /* ShipmentStatusView.swift in Sources */,
 				824D5CE128BDD89C00EDC712 /* CodableCluster.swift in Sources */,
