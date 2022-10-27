@@ -14,10 +14,6 @@ internal final class ShipmentStatusView: UIView {
     
     // MARK: UI
     
-    private lazy var shipmentStatusGuideLbl = UILabel().then {
-        $0.text = "EV Pay 카드 발송 현황"
-    }
-    
     private lazy var shipmentStepView = ShipmentStepView(frame: .zero)
     
     private lazy var shipmentInfoView = ShipmentInfoView(frame: .zero)
@@ -44,19 +40,9 @@ internal final class ShipmentStatusView: UIView {
     // MARK: FUNC
     
     private func makeUI() {
-        self.addSubview(shipmentStatusGuideLbl)
-        shipmentStatusGuideLbl.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(20)
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.equalToSuperview()
-            $0.height.equalTo(26)
-        }
-        
         self.addSubview(shipmentStepView)
         shipmentStepView.snp.makeConstraints {
-            $0.top.equalTo(shipmentStatusGuideLbl.snp.bottom)
-            $0.leading.equalTo(22)
-            $0.trailing.equalToSuperview()
+            $0.leading.top.trailing.equalToSuperview()            
             $0.height.equalTo(328)
         }
         

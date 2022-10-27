@@ -13,6 +13,13 @@ internal final class ShipmentInfoView: UIView {
     
     // MARK: UI
     
+    private lazy var guideLbl = UILabel().then {
+        $0.text = "EV Pay 카드 발송 현황"
+        $0.font = .systemFont(ofSize: 18, weight: .semibold)
+        $0.textColor = .black
+        $0.textAlignment = .natural
+    }
+    
     // MARK: VARIABLE
     
     private var disposebag = DisposeBag()
