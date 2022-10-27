@@ -9,11 +9,6 @@
 
 import UIKit
 
-protocol LeftDrawerDelegate: AnyObject {
-    func openLeftView(_ completion: (() -> Void)?)
-    func closeLeftView(_ completion: (() -> Void)?)
-}
-
 final class LeftDrawerController: UIViewController {
     private lazy var contentViewController = UIViewController()
     private var mainViewController: UINavigationController {
@@ -21,10 +16,7 @@ final class LeftDrawerController: UIViewController {
             guard oldValue != mainViewController else { return }
             
             removeViewController(viewController: oldValue)
-//            prepare(viewController: mainViewController, in: container)
-            
-            addChild(mainViewController)
-            container.addSubview(mainViewController.view)
+            prepare(viewController: mainViewController, in: container)
             
             mainViewController.didMove(toParent: self)
             mainViewController.view.frame = container.bounds
@@ -53,6 +45,7 @@ final class LeftDrawerController: UIViewController {
     }
     
     private lazy var menuView = UIView().then {
+        let leftViewWidth: CGFloat = .phone == UIDevice.current.userInterfaceIdiom ? 280 : 320
         $0.frame = CGRect(x: 0, y: 0, width: leftViewWidth, height: view.bounds.height)
         $0.backgroundColor = .white
         $0.isHidden = true
@@ -103,11 +96,21 @@ final class LeftDrawerController: UIViewController {
     private var leftViewWidth: CGFloat = 0
     
     // MARK: - initializer
-    init(rootViewController: UINavigationController, leftViewController: NewLeftViewController) {
-        self.rootViewController = rootViewController
-        self.leftViewController = leftViewController
+    init() {
+        let mainReactor = MainReactor(provider: RestApi())
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let mainVC = storyboard.instantiateViewController(ofType: MainViewController.self)
+        mainVC.reactor = mainReactor
+
+        let menuReactor = LeftViewReactor(provider: RestApi())
+        
+        self.mainViewController = UINavigationController(rootViewController: mainVC)
+        self.menuViewController = NewLeftViewController(reactor: menuReactor)
+        
         super.init(nibName: nil, bundle: nil)
         
+        GlobalDefine.shared.mainNavi = mainViewController
+        GlobalDefine.shared.rootVC = self
     }
     
     required init?(coder: NSCoder) {
@@ -149,6 +152,7 @@ final class LeftDrawerController: UIViewController {
         
         // leftView
         view.addSubview(leftView)
+        GlobalDefine.shared.mainViewcon?.view.addSubview(menuView)
         
         prepare(viewController: leftViewController, in: leftView)
     }
@@ -234,7 +238,22 @@ final class LeftDrawerController: UIViewController {
         leftTapGesture = nil
     }
     
-    // MARK: - setView Action
+    // MARK: Action
+    
+    func showLeftView(_ isShow: Bool, completion: (() -> Void)? = nil) {
+        self.isLeftPanGestureEnabled = isShow
+        self.isLeftTapGestureEnabled = isShow
+        
+        if isShow {
+            self.openLeftView()
+        } else {
+            self.closeLeftView()
+        }
+        
+        completion?()
+    }
+    
+    // MARK: - private Action
     
     private func closeLeftView(velocity: CGFloat = 0) {
         guard !isAnimating else { return }
@@ -286,9 +305,7 @@ final class LeftDrawerController: UIViewController {
         viewController.view.removeFromSuperview()
         viewController.removeFromParent()
     }
-    
-    // MARK: - Action
-    
+        
     @objc private func handleLeftViewTapGesture(recognizer: UITapGestureRecognizer) {
         guard isLeftViewOpened && !isPointContainedWithinView(container: menuView, point: recognizer.location(in: menuView))
         else { return }
@@ -345,21 +362,4 @@ extension LeftDrawerController: UIGestureRecognizerDelegate {
         return false
     }
     
-}
-
-// MARK: - Delegate
-extension LeftDrawerController: LeftDrawerDelegate {
-    func openLeftView(_ completion: (() -> Void)?) {
-        self.isLeftPanGestureEnabled = true
-        self.isLeftTapGestureEnabled = true
-        self.openLeftView()
-        completion?()
-    }
-    
-    func closeLeftView(_ completion: (() -> Void)?) {
-        self.isLeftPanGestureEnabled = false
-        self.isLeftTapGestureEnabled = false
-        self.closeLeftView()
-        completion?()
-    }
 }

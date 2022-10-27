@@ -14,6 +14,7 @@ internal final class GlobalDefine: NSObject {
     
     internal weak var mainNavi: UINavigationController?
     internal weak var mainViewcon: MainViewController?
+    internal weak var rootVC: LeftDrawerController?
 
     internal var isUseAllBerry = PublishSubject<Bool>()
     internal var sharedChargerIdFromDynamicLink: String?

@@ -47,7 +47,6 @@ internal final class LeftViewReactor: ViewModel, Reactor {
     }
     
     internal var initialState: State
-    weak var leftDrawerDelegate: LeftDrawerDelegate?
 
     override init(provider: SoftberryAPI) {
         self.initialState = State()
@@ -96,11 +95,7 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                 }
             
         case .setOwnHide(let isHideMenu):
-            if isHideMenu {
-                self.leftDrawerDelegate?.closeLeftView(nil)
-            } else {
-                self.leftDrawerDelegate?.openLeftView(nil)
-            }
+            GlobalDefine.shared.rootVC?.showLeftView(!isHideMenu)
             return .empty()
             
         case .loadPaymentStatus:

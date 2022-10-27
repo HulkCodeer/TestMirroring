@@ -231,25 +231,11 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
     }
     
     private func moveMainViewcon() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let reactor = MainReactor(provider: RestApi())
-        
-        let mainViewcon = storyboard.instantiateViewController(ofType: MainViewController.self)
-        let rootVC = UINavigationController(rootViewController: mainViewcon)
-        
-        let menuReactor = LeftViewReactor(provider: RestApi())
-        let menuVC = NewLeftViewController(reactor: menuReactor)
-        
-        mainViewcon.reactor = reactor
-        
-        let presentVC = LeftDrawerController(rootViewController: rootVC, leftViewController: menuVC)
-        
-        reactor.leftDrawerDelegate = presentVC
-        menuReactor.leftDrawerDelegate = presentVC
-        GlobalDefine.shared.mainNavi = rootVC
+        let rootVC = LeftDrawerController()
+        GlobalDefine.shared.rootVC = rootVC
          
         if let _window = UIWindow.key {
-            _window.rootViewController = presentVC
+            _window.rootViewController = rootVC
             _window.makeKeyAndVisible()
         }
     }

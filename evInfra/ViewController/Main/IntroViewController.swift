@@ -222,27 +222,11 @@ extension IntroViewController: CompanyInfoCheckerDelegate {
 
 extension IntroViewController: PermissionGuideDelegate {
     func presentMainView() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let reactor = MainReactor(provider: RestApi())
-        let mainViewcon = storyboard.instantiateViewController(ofType: MainViewController.self)
-        
-        let menuReactor = LeftViewReactor(provider: RestApi())
-        let menuVC = NewLeftViewController(reactor: menuReactor)
-        
-        let rootVC = UINavigationController(rootViewController: mainViewcon)
-        
-        mainViewcon.reactor = reactor
-        menuVC.reactor = menuReactor
-        
-        let presentVC = LeftDrawerController(rootViewController: rootVC, leftViewController: menuVC)
-        
-        reactor.leftDrawerDelegate = presentVC
-        menuReactor.leftDrawerDelegate = presentVC
-        
-        GlobalDefine.shared.mainNavi = rootVC
+        let rootviewController = LeftDrawerController()
+        GlobalDefine.shared.rootVC = rootviewController
         
         if let _window = UIWindow.key {
-            _window.rootViewController = presentVC
+            _window.rootViewController = rootviewController
             _window.makeKeyAndVisible()
         }
         

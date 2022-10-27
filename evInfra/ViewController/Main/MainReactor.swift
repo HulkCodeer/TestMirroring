@@ -70,7 +70,6 @@ internal final class MainReactor: ViewModel, Reactor {
     }
     
     internal var initialState: State
-    weak var leftDrawerDelegate: LeftDrawerDelegate?
 
     override init(provider: SoftberryAPI) {
         self.initialState = State()
@@ -122,11 +121,11 @@ internal final class MainReactor: ViewModel, Reactor {
             
             // 메뉴화면.
         case .showMenu:
-            self.leftDrawerDelegate?.openLeftView(nil)
+            GlobalDefine.shared.rootVC?.showLeftView(true)
             return .just(.setIsShowMenu(true))
-            
+
         case .closeMenu:
-            self.leftDrawerDelegate?.closeLeftView(nil)
+            GlobalDefine.shared.rootVC?.showLeftView(false)
             return .just(.setIsShowMenu(false))
             
         case .hideSearchWay(let isHide) where isHide == true:
