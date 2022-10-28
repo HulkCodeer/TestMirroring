@@ -192,9 +192,9 @@
 		59970A242907CD6000FF9A67 /* NaverMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59970A192907CD4600FF9A67 /* NaverMapView.swift */; };
 		59970A252907CD6200FF9A67 /* UnderLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59970A172907CD4600FF9A67 /* UnderLineTextField.swift */; };
 		59970A262907CD6300FF9A67 /* UnderLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59970A172907CD4600FF9A67 /* UnderLineTextField.swift */; };
-		59BAB70728FD373B00077872 /* LeftDrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB70628FD373B00077872 /* LeftDrawerController.swift */; };
-		59BAB70828FD4ED400077872 /* LeftDrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB70628FD373B00077872 /* LeftDrawerController.swift */; };
-		59BAB70928FD4ED400077872 /* LeftDrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB70628FD373B00077872 /* LeftDrawerController.swift */; };
+		59BAB70728FD373B00077872 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB70628FD373B00077872 /* RootViewController.swift */; };
+		59BAB70828FD4ED400077872 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB70628FD373B00077872 /* RootViewController.swift */; };
+		59BAB70928FD4ED400077872 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB70628FD373B00077872 /* RootViewController.swift */; };
 		59EC3B7128D18CD8001A18B5 /* NewNoticeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59317D1128B7702C00B1AE92 /* NewNoticeDetailViewController.swift */; };
 		59EC3B7A28D32A1D001A18B5 /* ViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7928D32A1D001A18B5 /* ViewConstants.swift */; };
 		59EC3B7C28D32A33001A18B5 /* DateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7B28D32A33001A18B5 /* DateConstants.swift */; };
@@ -1584,7 +1584,7 @@
 		59970A1A2907CD4600FF9A67 /* MainSearchWayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainSearchWayView.swift; sourceTree = "<group>"; };
 		59BAB6FA28F0346300077872 /* MainSearchWayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSearchWayView.swift; sourceTree = "<group>"; };
 		59BAB6FE28F50B7500077872 /* UnderLineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderLineTextField.swift; sourceTree = "<group>"; };
-		59BAB70628FD373B00077872 /* LeftDrawerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftDrawerController.swift; sourceTree = "<group>"; };
+		59BAB70628FD373B00077872 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		59EC3B7928D32A1D001A18B5 /* ViewConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewConstants.swift; sourceTree = "<group>"; };
 		59EC3B7B28D32A33001A18B5 /* DateConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConstants.swift; sourceTree = "<group>"; };
 		59EC3B7D28D32A49001A18B5 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -2103,7 +2103,7 @@
 				82E1303428DEAEC100E7983D /* PermissionsGuideViewController.swift */,
 				82E1302F28DEAEB200E7983D /* MainReactor.swift */,
 				73F6B53920F873110030D0B3 /* IntroViewController.swift */,
-				59BAB70628FD373B00077872 /* LeftDrawerController.swift */,
+				59BAB70628FD373B00077872 /* RootViewController.swift */,
 				732ED1F921EEFA960012C67B /* MainViewController.swift */,
 				736813B3204513D50035FC66 /* Main.storyboard */,
 				192A338227FE747E00EF1684 /* Marker.swift */,
@@ -4456,7 +4456,7 @@
 				63F31442284EC74F001713D2 /* IntroViewController.swift in Sources */,
 				633FF2FD28B342630041BDBB /* CheckBox.swift in Sources */,
 				63F31443284EC74F001713D2 /* EventTableViewCell.swift in Sources */,
-				59BAB70828FD4ED400077872 /* LeftDrawerController.swift in Sources */,
+				59BAB70828FD4ED400077872 /* RootViewController.swift in Sources */,
 				63F31444284EC74F001713D2 /* CidTableView.swift in Sources */,
 				63F31445284EC74F001713D2 /* PoiTableView.swift in Sources */,
 				63F31447284EC74F001713D2 /* AddressToLocationController.swift in Sources */,
@@ -4777,7 +4777,7 @@
 				73F6B53A20F873110030D0B3 /* IntroViewController.swift in Sources */,
 				CE33B4BF2191BD0900B6C632 /* EventTableViewCell.swift in Sources */,
 				633FF2FC28B342630041BDBB /* CheckBox.swift in Sources */,
-				59BAB70728FD373B00077872 /* LeftDrawerController.swift in Sources */,
+				59BAB70728FD373B00077872 /* RootViewController.swift in Sources */,
 				DB0E4693205B6F1F002DD05D /* CidTableView.swift in Sources */,
 				DB3B858020874788005454F5 /* PoiTableView.swift in Sources */,
 				CE5242362182FD9000FF6AB1 /* AddressToLocationController.swift in Sources */,
@@ -5086,7 +5086,7 @@
 				824D5C9A28BDD89C00EDC712 /* ReportChargerList.swift in Sources */,
 				824D5C9B28BDD89C00EDC712 /* PointUseGuideViewController.swift in Sources */,
 				824D5C9C28BDD89C00EDC712 /* TagFlowLayout.swift in Sources */,
-				59BAB70928FD4ED400077872 /* LeftDrawerController.swift in Sources */,
+				59BAB70928FD4ED400077872 /* RootViewController.swift in Sources */,
 				824D5C9D28BDD89C00EDC712 /* PreUsePointViewController.swift in Sources */,
 				824D5C9E28BDD89C00EDC712 /* UIButton+Extension.swift in Sources */,
 				824D5C9F28BDD89C00EDC712 /* JSON+Extension.swift in Sources */,

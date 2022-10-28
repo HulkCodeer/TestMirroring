@@ -231,7 +231,7 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
     }
     
     private func moveMainViewcon() {
-        let rootVC = LeftDrawerController()
+        let rootVC = RootViewController()
         GlobalDefine.shared.rootVC = rootVC
          
         if let _window = UIWindow.key {

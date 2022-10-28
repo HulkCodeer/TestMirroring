@@ -1,3 +1,6 @@
+
+
+
 //
 //  LeftDrawerController.swift
 //  evInfra
@@ -9,31 +12,30 @@
 
 import UIKit
 
-final class LeftDrawerController: UIViewController {
-    private lazy var contentViewController = UIViewController()
-    private var mainViewController: UINavigationController {
+internal final class RootViewController: UIViewController {
+    private var mainNaviViewController: UINavigationController {
         didSet {
-            guard oldValue != mainViewController else { return }
+            guard oldValue != mainNaviViewController else { return }
             
             removeViewController(viewController: oldValue)
-            prepare(viewController: mainViewController, in: container)
+            prepare(viewController: mainNaviViewController, in: container)
             
-            mainViewController.didMove(toParent: self)
-            mainViewController.view.frame = container.bounds
-            mainViewController.view.clipsToBounds = true
-            mainViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            mainViewController.view.contentScaleFactor = UIScreen.main.scale
+            mainNaviViewController.didMove(toParent: self)
+            mainNaviViewController.view.frame = container.bounds
+            mainNaviViewController.view.clipsToBounds = true
+            mainNaviViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            mainNaviViewController.view.contentScaleFactor = UIScreen.main.scale
             
         }
     }
-    private var menuViewController: NewLeftViewController
+    private var leftViewController: NewLeftViewController
     
     internal var isUserInteractionEnabled: Bool {
         get {
-            return mainViewController.view.isUserInteractionEnabled
+            return mainNaviViewController.view.isUserInteractionEnabled
         }
         set(value) {
-            mainViewController.view.isUserInteractionEnabled = value
+            mainNaviViewController.view.isUserInteractionEnabled = value
         }
     }
     
@@ -44,7 +46,13 @@ final class LeftDrawerController: UIViewController {
         $0.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     }
     
-    private lazy var menuView = UIView().then {
+    private lazy var leftBackView = UIView().then {
+        $0.frame = view.bounds
+        $0.contentScaleFactor = UIScreen.main.scale
+        $0.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    }
+    
+    private lazy var leftView = UIView().then {
         let leftViewWidth: CGFloat = .phone == UIDevice.current.userInterfaceIdiom ? 280 : 320
         $0.frame = CGRect(x: 0, y: 0, width: leftViewWidth, height: view.bounds.height)
         $0.backgroundColor = .white
@@ -77,7 +85,7 @@ final class LeftDrawerController: UIViewController {
         }
     }
     private var isLeftViewOpened: Bool {
-        return menuView.frame.origin.x != -leftViewWidth
+        return leftView.frame.origin.x != -leftViewWidth
     }
     
     private func isPointContainedWithinView(container: UIView, point: CGPoint) -> Bool {
@@ -104,8 +112,10 @@ final class LeftDrawerController: UIViewController {
 
         let menuReactor = LeftViewReactor(provider: RestApi())
         
-        self.mainViewController = UINavigationController(rootViewController: mainVC)
-        self.menuViewController = NewLeftViewController(reactor: menuReactor)
+        self.mainNaviViewController = UINavigationController(rootViewController: mainVC)
+        self.leftViewController = NewLeftViewController(reactor: menuReactor)
+        
+        GlobalDefine.shared.mainViewcon = mainVC
         
         super.init(nibName: nil, bundle: nil)
         
@@ -121,87 +131,61 @@ final class LeftDrawerController: UIViewController {
     }
     
     private func layoutSubviews() {
-        menuView.frame.size.width = leftViewWidth
-        menuView.frame.size.height = view.bounds.height
+        leftView.frame.size.width = leftViewWidth
+        leftView.frame.size.height = view.bounds.height
         leftViewThreshold = leftViewWidth / 2
         
-        menuViewController.view.frame = menuView.bounds
-        menuViewController.view.frame.size.width = leftViewWidth
+        leftViewController.view.frame = leftView.bounds
+        leftViewController.view.frame.size.width = leftViewWidth
         
-        mainViewController.view.frame = container.bounds
+        mainNaviViewController.view.frame = container.bounds
     }
     
     // MARK: - life cycle
     
     override func loadView() {
         super.loadView()
-        
-        
-        GlobalDefine.shared.mainNavi = mainViewController
+                
+        GlobalDefine.shared.mainNavi = mainNaviViewController
         GlobalDefine.shared.rootVC = self
         
         GlobalDefine.shared.mainNavi?.setNavigationBarHidden(true, animated: false)
         
         view.backgroundColor = Colors.backgroundPrimary.color
-        mainViewController.view.backgroundColor = Colors.backgroundPrimary.color
+        mainNaviViewController.view.backgroundColor = Colors.backgroundPrimary.color
         
-//        prepare(viewController: rootViewController, in: container)
-//        view.addSubview(container)
-//
-//        // content
-        // 딤뷰 역할.
-//        contentViewController.view.backgroundColor = .black
-//        prepare(viewController: contentViewController, in: view)
-//        view.sendSubviewToBack(contentViewController.view)
-//
-//        // leftView
-//        prepare(viewController: menuViewController, in: leftView)
-//        view.addSubview(leftView)
-        
-// ---------------------------------기존코드 수정.--------------------------------------------------------
-
-        
-        prepare(viewController: mainViewController, in: container)
+        prepare(viewController: self.mainNaviViewController, in: container)
         view.addSubview(container)
-        
-//        mainViewController.addChild(menuViewController)     // addchild 안하면 중간에 낌.
-        menuView.addSubview(menuViewController.view)
+                
+        // leftView
+        GlobalDefine.shared.mainViewcon?.view.addSubview(leftBackView)
+        GlobalDefine.shared.mainViewcon?.view.addSubview(leftView)
 
-        menuViewController.didMove(toParent: self)
-        menuViewController.view.frame = menuView.bounds
-        menuViewController.view.clipsToBounds = true
-        menuViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        menuViewController.view.contentScaleFactor = UIScreen.main.scale
-        
-//        GlobalDefine.shared.mainViewcon?.view.addSubview(menuView)    // 안먹어..
-//        mainViewController.view.addSubview(menuView)    // 먹어 근데 블러 처먹고 먹어
-        container.addSubview(menuView)        // 먹어
-        
-        
+        prepare(viewController: leftViewController, in: leftView)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        mainViewController.beginAppearanceTransition(true, animated: animated)
-        menuViewController.beginAppearanceTransition(true, animated: animated)
+        mainNaviViewController.beginAppearanceTransition(true, animated: animated)
+        leftViewController.beginAppearanceTransition(true, animated: animated)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        mainViewController.endAppearanceTransition()
-        menuViewController.endAppearanceTransition()
+        mainNaviViewController.endAppearanceTransition()
+        leftViewController.endAppearanceTransition()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        mainViewController.beginAppearanceTransition(false, animated: animated)
-        menuViewController.beginAppearanceTransition(false, animated: animated)
+        mainNaviViewController.beginAppearanceTransition(false, animated: animated)
+        leftViewController.beginAppearanceTransition(false, animated: animated)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        mainViewController.endAppearanceTransition()
-        menuViewController.endAppearanceTransition()
+        mainNaviViewController.endAppearanceTransition()
+        leftViewController.endAppearanceTransition()
     }
     
     // MARK: - prepare
@@ -286,14 +270,14 @@ final class LeftDrawerController: UIViewController {
         // willClose
         
         UIView.animate(
-            withDuration: TimeInterval(0 == velocity ? animationDuration : fmax(0.1, fmin(1, Double(menuView.frame.origin.x / velocity)))),
-            animations: { [weak self, leftView = menuView] in
+            withDuration: TimeInterval(0 == velocity ? animationDuration : fmax(0.1, fmin(1, Double(leftView.frame.origin.x / velocity)))),
+            animations: { [weak self, leftView = leftView] in
                 leftView.layer.position.x = -leftView.bounds.width / 2
-                self?.mainViewController.view.alpha = 1
+                self?.mainNaviViewController.view.alpha = 1
                 
             }) { [weak self] _ in
                 
-            self?.menuView.isHidden = true
+            self?.leftView.isHidden = true
             
             self?.isAnimating = false
             self?.isUserInteractionEnabled = true
@@ -305,16 +289,15 @@ final class LeftDrawerController: UIViewController {
         guard !isAnimating else { return }
         
         isAnimating = true
-        menuView.isHidden = false
-        isUserInteractionEnabled = false
+        leftView.isHidden = false
+//        isUserInteractionEnabled = false
         
         // willClose
-        
         UIView.animate(
-            withDuration: TimeInterval(0 == velocity ? animationDuration : fmax(0.1, fmin(1, Double(menuView.frame.origin.x / velocity)))),
-            animations: { [weak self, leftView = menuView] in
+            withDuration: TimeInterval(0 == velocity ? animationDuration : fmax(0.1, fmin(1, Double(leftView.frame.origin.x / velocity)))),
+            animations: { [weak self, leftView = leftView] in
                 leftView.layer.position.x = leftView.bounds.width / 2
-                self?.mainViewController.view.alpha = 0.5
+                self?.mainNaviViewController.view.alpha = 0.5
                 
             }) { [weak self] _ in
             
@@ -330,7 +313,7 @@ final class LeftDrawerController: UIViewController {
     }
         
     @objc private func handleLeftViewTapGesture(recognizer: UITapGestureRecognizer) {
-        guard isLeftViewOpened && !isPointContainedWithinView(container: menuView, point: recognizer.location(in: menuView))
+        guard isLeftViewOpened && !isPointContainedWithinView(container: leftView, point: recognizer.location(in: leftView))
         else { return }
         
         closeLeftView()
@@ -342,23 +325,23 @@ final class LeftDrawerController: UIViewController {
         
         switch recognizer.state {
         case .began:
-            originalX = menuView.layer.position.x
-            menuView.isHidden = false
+            originalX = leftView.layer.position.x
+            leftView.isHidden = false
             
         case .changed:
-            let w = menuView.bounds.width
-            let translationX = recognizer.translation(in: menuView).x
+            let w = leftView.bounds.width
+            let translationX = recognizer.translation(in: leftView).x
             
-            menuView.layer.position.x = originalX + translationX > (w / 2) ? (w / 2) : originalX + translationX
+            leftView.layer.position.x = originalX + translationX > (w / 2) ? (w / 2) : originalX + translationX
             
-            let a = 1 - menuView.layer.position.x / menuView.bounds.width
-            mainViewController.view.alpha = 0.5 < a && menuView.layer.position.x <= menuView.bounds.width / 2 ? a : 0.5
+            let a = 1 - leftView.layer.position.x / leftView.bounds.width
+            mainNaviViewController.view.alpha = 0.5 < a && leftView.layer.position.x <= leftView.bounds.width / 2 ? a : 0.5
 
         case .ended, .cancelled, .failed:
             let p = recognizer.velocity(in: recognizer.view)
             let x = p.x >= 1000 || p.x <= -1000 ? p.x : 0
             
-            if menuView.frame.origin.x <= -leftViewWidth + leftViewThreshold || x < -1000 {
+            if leftView.frame.origin.x <= -leftViewWidth + leftViewThreshold || x < -1000 {
                 closeLeftView(velocity: x)
             } else {
                 openLeftView(velocity: x)
@@ -371,7 +354,7 @@ final class LeftDrawerController: UIViewController {
 }
 
 // MARK: - UIGestrue Recognizer Delegate
-extension LeftDrawerController: UIGestureRecognizerDelegate {
+extension RootViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         
         if gestureRecognizer == leftPanGesture

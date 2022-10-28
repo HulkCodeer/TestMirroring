@@ -222,7 +222,7 @@ extension IntroViewController: CompanyInfoCheckerDelegate {
 
 extension IntroViewController: PermissionGuideDelegate {
     func presentMainView() {
-        let rootviewController = LeftDrawerController()
+        let rootviewController = RootViewController()
         GlobalDefine.shared.rootVC = rootviewController
         
         if let _window = UIWindow.key {
