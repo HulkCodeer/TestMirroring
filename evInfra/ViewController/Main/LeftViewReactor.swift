@@ -649,8 +649,8 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                         } else {
 //                            AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "EV Pay 카드 신청 메뉴")
 //                            viewcon = MembershipGuideViewController()
-                            let reacotr = MembershipIssuanceReactor(provider: RestApi())
-                            viewcon = MembershipIssuanceCompleteViewController(reactor: reacotr)
+                            let reacotr = MembershipCardIssuanceCompleteReactor(provider: RestApi())
+                            viewcon = MembershipCardIssuanceCompleteViewController(reactor: reacotr)
                         }
                         
                         GlobalDefine.shared.mainNavi?.push(viewController: viewcon)

@@ -173,20 +173,14 @@
 		596522E728C877F000FD4025 /* NoticeCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522E528C877F000FD4025 /* NoticeCellReactor.swift */; };
 		5975BD4F28D97C0C00910F6F /* NoticeDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522D328BC7B9A00FD4025 /* NoticeDetailReactor.swift */; };
 		5975BD5128D97CB200910F6F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7D28D32A49001A18B5 /* Constants.swift */; };
-		5975BD5228D97CBA00910F6F /* ViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7928D32A1D001A18B5 /* ViewConstants.swift */; };
 		5975BD5328D97CD100910F6F /* Notice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522D628BC8B1C00FD4025 /* Notice.swift */; };
-		5975BD5428D97CF000910F6F /* DateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7B28D32A33001A18B5 /* DateConstants.swift */; };
 		5975BD5528D97D0500910F6F /* NewNoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59317D1428B7781B00B1AE92 /* NewNoticeViewController.swift */; };
 		5975BD5628D97D1800910F6F /* NoticeReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522D928BE0D0600FD4025 /* NoticeReactor.swift */; };
 		5975BD5728D97DAA00910F6F /* NewNoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522DC28BE290400FD4025 /* NewNoticeTableViewCell.swift */; };
 		5975BD5828D97DBB00910F6F /* NoticeCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522E528C877F000FD4025 /* NoticeCellReactor.swift */; };
 		5975BD5928D97DC900910F6F /* NoticeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596522E228BEF3E800FD4025 /* NoticeList.swift */; };
 		59EC3B7128D18CD8001A18B5 /* NewNoticeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59317D1128B7702C00B1AE92 /* NewNoticeDetailViewController.swift */; };
-		59EC3B7A28D32A1D001A18B5 /* ViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7928D32A1D001A18B5 /* ViewConstants.swift */; };
-		59EC3B7C28D32A33001A18B5 /* DateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7B28D32A33001A18B5 /* DateConstants.swift */; };
 		59EC3B7E28D32A49001A18B5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7D28D32A49001A18B5 /* Constants.swift */; };
-		59EC3B7F28D33568001A18B5 /* ViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7928D32A1D001A18B5 /* ViewConstants.swift */; };
-		59EC3B8028D3356B001A18B5 /* DateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7B28D32A33001A18B5 /* DateConstants.swift */; };
 		59EC3B8128D3356D001A18B5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7D28D32A49001A18B5 /* Constants.swift */; };
 		6309C78928FFFDE700A52E4F /* NewLeftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6309C78728FFFDE700A52E4F /* NewLeftViewController.swift */; };
 		6309C78A28FFFDE700A52E4F /* NewLeftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6309C78728FFFDE700A52E4F /* NewLeftViewController.swift */; };
@@ -1293,19 +1287,28 @@
 		82829BCF28ADC1330044AD6C /* UIImageView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */; };
 		82829BD128ADC2F20044AD6C /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */; };
 		82829BD228ADC2F20044AD6C /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */; };
-		829C07352904D44E008E2E6D /* MembershipIssuanceCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C07342904D44E008E2E6D /* MembershipIssuanceCompleteViewController.swift */; };
-		829C07362904D44E008E2E6D /* MembershipIssuanceCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C07342904D44E008E2E6D /* MembershipIssuanceCompleteViewController.swift */; };
-		829C07372904D44E008E2E6D /* MembershipIssuanceCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C07342904D44E008E2E6D /* MembershipIssuanceCompleteViewController.swift */; };
-		829C073A2904D4DD008E2E6D /* MembershipIssuanceReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C07392904D4DD008E2E6D /* MembershipIssuanceReactor.swift */; };
-		829C073B2904D4DD008E2E6D /* MembershipIssuanceReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C07392904D4DD008E2E6D /* MembershipIssuanceReactor.swift */; };
-		829C073C2904D4DD008E2E6D /* MembershipIssuanceReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C07392904D4DD008E2E6D /* MembershipIssuanceReactor.swift */; };
-		829C073E2904DD0A008E2E6D /* ShipmentStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C073D2904DD0A008E2E6D /* ShipmentStatusView.swift */; };
-		829C073F2904DD0A008E2E6D /* ShipmentStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C073D2904DD0A008E2E6D /* ShipmentStatusView.swift */; };
-		829C07402904DD0A008E2E6D /* ShipmentStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C073D2904DD0A008E2E6D /* ShipmentStatusView.swift */; };
 		8284047A290021FE0081567C /* TooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82840479290021FE0081567C /* TooltipView.swift */; };
 		8284047B290021FE0081567C /* TooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82840479290021FE0081567C /* TooltipView.swift */; };
 		8284047C290021FE0081567C /* TooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82840479290021FE0081567C /* TooltipView.swift */; };
+		829C07352904D44E008E2E6D /* MembershipCardIssuanceCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C07342904D44E008E2E6D /* MembershipCardIssuanceCompleteViewController.swift */; };
+		829C07362904D44E008E2E6D /* MembershipCardIssuanceCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C07342904D44E008E2E6D /* MembershipCardIssuanceCompleteViewController.swift */; };
+		829C07372904D44E008E2E6D /* MembershipCardIssuanceCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C07342904D44E008E2E6D /* MembershipCardIssuanceCompleteViewController.swift */; };
+		829C073A2904D4DD008E2E6D /* MembershipCardIssuanceCompleteReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C07392904D4DD008E2E6D /* MembershipCardIssuanceCompleteReactor.swift */; };
+		829C073B2904D4DD008E2E6D /* MembershipCardIssuanceCompleteReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C07392904D4DD008E2E6D /* MembershipCardIssuanceCompleteReactor.swift */; };
+		829C073C2904D4DD008E2E6D /* MembershipCardIssuanceCompleteReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C07392904D4DD008E2E6D /* MembershipCardIssuanceCompleteReactor.swift */; };
+		829C073E2904DD0A008E2E6D /* ShipmentStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C073D2904DD0A008E2E6D /* ShipmentStatusView.swift */; };
+		829C073F2904DD0A008E2E6D /* ShipmentStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C073D2904DD0A008E2E6D /* ShipmentStatusView.swift */; };
+		829C07402904DD0A008E2E6D /* ShipmentStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829C073D2904DD0A008E2E6D /* ShipmentStatusView.swift */; };
+		82B0EF6B2907B33100D6EE70 /* ShipmentInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B0EF6A2907B33100D6EE70 /* ShipmentInfoView.swift */; };
+		82B0EF6C2907B33100D6EE70 /* ShipmentInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B0EF6A2907B33100D6EE70 /* ShipmentInfoView.swift */; };
+		82B0EF6D2907B33100D6EE70 /* ShipmentInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B0EF6A2907B33100D6EE70 /* ShipmentInfoView.swift */; };
 		82B3E7F42837D5A700B8ACF7 /* GlobalDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */; };
+		82BDA374290A20B300CCD0B7 /* ToastProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BDA372290A20B200CCD0B7 /* ToastProgressBarView.swift */; };
+		82BDA375290A20B300CCD0B7 /* ToastProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BDA372290A20B200CCD0B7 /* ToastProgressBarView.swift */; };
+		82BDA376290A20B300CCD0B7 /* ToastProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BDA372290A20B200CCD0B7 /* ToastProgressBarView.swift */; };
+		82BDA377290A20B300CCD0B7 /* ToastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BDA373290A20B200CCD0B7 /* ToastManager.swift */; };
+		82BDA378290A20B300CCD0B7 /* ToastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BDA373290A20B200CCD0B7 /* ToastManager.swift */; };
+		82BDA379290A20B300CCD0B7 /* ToastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82BDA373290A20B200CCD0B7 /* ToastManager.swift */; };
 		82C9A01728B0F0EE0003296B /* QRReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01628B0F0EE0003296B /* QRReaderView.swift */; };
 		82C9A01828B0F0EE0003296B /* QRReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01628B0F0EE0003296B /* QRReaderView.swift */; };
 		82C9A01A28B10A010003296B /* PaymentQRScanReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C9A01928B10A010003296B /* PaymentQRScanReactor.swift */; };
@@ -1581,8 +1584,6 @@
 		596522DD28BE290400FD4025 /* NewNoticeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewNoticeTableViewCell.xib; sourceTree = "<group>"; };
 		596522E228BEF3E800FD4025 /* NoticeList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeList.swift; sourceTree = "<group>"; };
 		596522E528C877F000FD4025 /* NoticeCellReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeCellReactor.swift; sourceTree = "<group>"; };
-		59EC3B7928D32A1D001A18B5 /* ViewConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewConstants.swift; sourceTree = "<group>"; };
-		59EC3B7B28D32A33001A18B5 /* DateConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConstants.swift; sourceTree = "<group>"; };
 		59EC3B7D28D32A49001A18B5 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		5A9EB64F5FC750CFC2ACAD5A /* Pods-evInfra_dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra_dev.debug.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra_dev/Pods-evInfra_dev.debug.xcconfig"; sourceTree = "<group>"; };
 		6309C78728FFFDE700A52E4F /* NewLeftViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewLeftViewController.swift; sourceTree = "<group>"; };
@@ -1837,11 +1838,14 @@
 		8261C8B428ECF6A20018E168 /* UIWindow+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow+Extension.swift"; sourceTree = "<group>"; };
 		82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Rx.swift"; sourceTree = "<group>"; };
 		82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
-		829C07342904D44E008E2E6D /* MembershipIssuanceCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipIssuanceCompleteViewController.swift; sourceTree = "<group>"; };
-		829C07392904D4DD008E2E6D /* MembershipIssuanceReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipIssuanceReactor.swift; sourceTree = "<group>"; };
-		829C073D2904DD0A008E2E6D /* ShipmentStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipmentStatusView.swift; sourceTree = "<group>"; };
 		82840479290021FE0081567C /* TooltipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipView.swift; sourceTree = "<group>"; };
+		829C07342904D44E008E2E6D /* MembershipCardIssuanceCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipCardIssuanceCompleteViewController.swift; sourceTree = "<group>"; };
+		829C07392904D4DD008E2E6D /* MembershipCardIssuanceCompleteReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipCardIssuanceCompleteReactor.swift; sourceTree = "<group>"; };
+		829C073D2904DD0A008E2E6D /* ShipmentStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipmentStatusView.swift; sourceTree = "<group>"; };
+		82B0EF6A2907B33100D6EE70 /* ShipmentInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShipmentInfoView.swift; sourceTree = "<group>"; };
 		82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalDefine.swift; sourceTree = "<group>"; };
+		82BDA372290A20B200CCD0B7 /* ToastProgressBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastProgressBarView.swift; sourceTree = "<group>"; };
+		82BDA373290A20B200CCD0B7 /* ToastManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastManager.swift; sourceTree = "<group>"; };
 		82C9A01628B0F0EE0003296B /* QRReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRReaderView.swift; sourceTree = "<group>"; };
 		82C9A01928B10A010003296B /* PaymentQRScanReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentQRScanReactor.swift; sourceTree = "<group>"; };
 		82D9867E2839BD790030F0FC /* MembershipReissuanceReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceReactor.swift; sourceTree = "<group>"; };
@@ -2460,8 +2464,6 @@
 		59EC3B7828D32A04001A18B5 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
-				59EC3B7928D32A1D001A18B5 /* ViewConstants.swift */,
-				59EC3B7B28D32A33001A18B5 /* DateConstants.swift */,
 				59EC3B7D28D32A49001A18B5 /* Constants.swift */,
 			);
 			path = Constants;
@@ -2607,10 +2609,8 @@
 				82D986802839BE080030F0FC /* ViewModel.swift */,
 				63EB0390283CB26500078D28 /* ServerResult.swift */,
 				523A3AF12797A9CA004C3C23 /* GroupViewController.swift */,
-				63C7C8DF286D6F0B00A357D6 /* NewBottomSheetViewController.swift */,
 				63CAC17F289BAE3E00ADA809 /* CommonBaseTableViewCell.swift */,
 				824D5DC028BE1C2500EDC712 /* GlobalFunction.swift */,
-				82840479290021FE0081567C /* TooltipView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -2999,10 +2999,11 @@
 			isa = PBXGroup;
 			children = (
 				63310E3129069D78004B393A /* Models */,
-				829C07342904D44E008E2E6D /* MembershipIssuanceCompleteViewController.swift */,
-				829C07392904D4DD008E2E6D /* MembershipIssuanceReactor.swift */,
+				829C07342904D44E008E2E6D /* MembershipCardIssuanceCompleteViewController.swift */,
+				829C07392904D4DD008E2E6D /* MembershipCardIssuanceCompleteReactor.swift */,
 				829C073D2904DD0A008E2E6D /* ShipmentStatusView.swift */,
 				63310E2D290697A9004B393A /* ShipmentStepView.swift */,
+				82B0EF6A2907B33100D6EE70 /* ShipmentInfoView.swift */,
 			);
 			path = Issuance;
 			sourceTree = "<group>";
@@ -3039,6 +3040,10 @@
 				636DB93F2876ED6A008BB27A /* IconTextRectButton.swift */,
 				82DD57DA28C5D41900C6C55E /* StickButton.swift */,
 				195C4E8128C5CE3F000B47F7 /* BannerPagerView.swift */,
+				63C7C8DF286D6F0B00A357D6 /* NewBottomSheetViewController.swift */,
+				82840479290021FE0081567C /* TooltipView.swift */,
+				82BDA373290A20B200CCD0B7 /* ToastManager.swift */,
+				82BDA372290A20B200CCD0B7 /* ToastProgressBarView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -4317,9 +4322,9 @@
 				6309C7A32900006B00A52E4F /* LeftViewTableHeader.swift in Sources */,
 				82C9A01B28B10A010003296B /* PaymentQRScanReactor.swift in Sources */,
 				63F313D1284EC74F001713D2 /* PaymentCard.swift in Sources */,
+				82BDA378290A20B300CCD0B7 /* ToastManager.swift in Sources */,
 				63F313D2284EC74F001713D2 /* CompanyInfo.swift in Sources */,
 				63F313D3284EC74F001713D2 /* AddressSearchCell.swift in Sources */,
-				59EC3B8028D3356B001A18B5 /* DateConstants.swift in Sources */,
 				63F313D4284EC74F001713D2 /* UIColor+Extension.swift in Sources */,
 				59317D1628B7781B00B1AE92 /* NewNoticeViewController.swift in Sources */,
 				63F313D5284EC74F001713D2 /* UIStoryboard+Extension.swift in Sources */,
@@ -4470,13 +4475,14 @@
 				821A05E228627F3100EB1A91 /* NavigationClose.swift in Sources */,
 				63F3144B284EC74F001713D2 /* GroupViewController.swift in Sources */,
 				63F3144C284EC74F001713D2 /* ClusterGenerator.swift in Sources */,
-				829C07362904D44E008E2E6D /* MembershipIssuanceCompleteViewController.swift in Sources */,
+				829C07362904D44E008E2E6D /* MembershipCardIssuanceCompleteViewController.swift in Sources */,
 				63F3144D284EC74F001713D2 /* ChargesTableViewCell.swift in Sources */,
 				63F3144E284EC74F001713D2 /* UILabel+Extension.swift in Sources */,
 				63F3144F284EC74F001713D2 /* MembershipReissuanceViewController.swift in Sources */,
 				63F31450284EC74F001713D2 /* CommunityChargeStationTableViewCell.swift in Sources */,
 				63F31451284EC74F001713D2 /* AppNavigationDrawerController.swift in Sources */,
 				63F31452284EC74F001713D2 /* BoardSearchViewModel.swift in Sources */,
+				82B0EF6C2907B33100D6EE70 /* ShipmentInfoView.swift in Sources */,
 				63F31453284EC74F001713D2 /* PopUpDialog.swift in Sources */,
 				63F31454284EC74F001713D2 /* UIView+Extension.swift in Sources */,
 				63F31455284EC74F001713D2 /* ChargerFilterViewController.swift in Sources */,
@@ -4518,6 +4524,7 @@
 				821A717628B2762700B13816 /* NewPaymentStatusViewController.swift in Sources */,
 				63762F4C2869A8F000C951BF /* QuitAccountReasonQuestionViewController.swift in Sources */,
 				63F31474284EC74F001713D2 /* EvDetailViewController.swift in Sources */,
+				82BDA375290A20B300CCD0B7 /* ToastProgressBarView.swift in Sources */,
 				63F31475284EC74F001713D2 /* CodableCluster.swift in Sources */,
 				6309C7B82900020F00A52E4F /* Int+Extension.swift in Sources */,
 				829C073F2904DD0A008E2E6D /* ShipmentStatusView.swift in Sources */,
@@ -4569,9 +4576,8 @@
 				63F3149B284EC74F001713D2 /* ViewModel.swift in Sources */,
 				63F3149C284EC74F001713D2 /* ReportBoardTableViewCell.swift in Sources */,
 				63F3149D284EC74F001713D2 /* PaymentQRScanViewController.swift in Sources */,
-				829C073B2904D4DD008E2E6D /* MembershipIssuanceReactor.swift in Sources */,
+				829C073B2904D4DD008E2E6D /* MembershipCardIssuanceCompleteReactor.swift in Sources */,
 				63F3149F284EC74F001713D2 /* BottomSheetViewController.swift in Sources */,
-				59EC3B7F28D33568001A18B5 /* ViewConstants.swift in Sources */,
 				63F314A0284EC74F001713D2 /* BoardListItem.swift in Sources */,
 				63F314A1284EC74F001713D2 /* evInfra.xcdatamodeld in Sources */,
 				63F314A2284EC74F001713D2 /* ChargePriceTableViewCell.swift in Sources */,
@@ -4641,9 +4647,9 @@
 				6309C7A22900006B00A52E4F /* LeftViewTableHeader.swift in Sources */,
 				73EF8B43203BC71100D04494 /* UIColor+Extension.swift in Sources */,
 				637247D1282A5EBE00595FCE /* UIStoryboard+Extension.swift in Sources */,
+				82BDA377290A20B300CCD0B7 /* ToastManager.swift in Sources */,
 				63EB0391283CB26500078D28 /* ServerResult.swift in Sources */,
 				DB0E4695205FC4D8002DD05D /* ChargerFilter.swift in Sources */,
-				59EC3B7C28D32A33001A18B5 /* DateConstants.swift in Sources */,
 				59317D1528B7781B00B1AE92 /* NewNoticeViewController.swift in Sources */,
 				DB4395EE22DC4C380092E0A5 /* Date+Extension.swift in Sources */,
 				522AF73427A25D3D00DBEAD6 /* KeyboardInputView.swift in Sources */,
@@ -4794,13 +4800,14 @@
 				19A3D3262887F13400AE8280 /* AmplitudeManager.swift in Sources */,
 				523A3AF22797A9CA004C3C23 /* GroupViewController.swift in Sources */,
 				73F0FE3021E73F2000653BCB /* ClusterGenerator.swift in Sources */,
-				829C07352904D44E008E2E6D /* MembershipIssuanceCompleteViewController.swift in Sources */,
+				829C07352904D44E008E2E6D /* MembershipCardIssuanceCompleteViewController.swift in Sources */,
 				DB39688D22D5B93E00170F2E /* ChargesTableViewCell.swift in Sources */,
 				00EB85D226BA8C6100D1606F /* UILabel+Extension.swift in Sources */,
 				63B23744282CCB8300E8A3F8 /* MembershipReissuanceViewController.swift in Sources */,
 				52B2594E278EBBC90042B22C /* CommunityChargeStationTableViewCell.swift in Sources */,
 				73AD13C8203AC57A00ADD19A /* AppNavigationDrawerController.swift in Sources */,
 				529148B327BE14670011021F /* BoardSearchViewModel.swift in Sources */,
+				82B0EF6B2907B33100D6EE70 /* ShipmentInfoView.swift in Sources */,
 				006C90992554EFD100F7C6D7 /* PopUpDialog.swift in Sources */,
 				7308559D206350890008497E /* UIView+Extension.swift in Sources */,
 				00A7D5D226B7DA2100C5DBCC /* ChargerFilterViewController.swift in Sources */,
@@ -4842,6 +4849,7 @@
 				DB48E1F622E08B07003FFA08 /* ServiceGuideViewController.swift in Sources */,
 				821A717528B2762700B13816 /* NewPaymentStatusViewController.swift in Sources */,
 				63762F4B2869A8F000C951BF /* QuitAccountReasonQuestionViewController.swift in Sources */,
+				82BDA374290A20B300CCD0B7 /* ToastProgressBarView.swift in Sources */,
 				7357595720917C03008181E9 /* EvDetailViewController.swift in Sources */,
 				6309C7B72900020F00A52E4F /* Int+Extension.swift in Sources */,
 				829C073E2904DD0A008E2E6D /* ShipmentStatusView.swift in Sources */,
@@ -4893,9 +4901,8 @@
 				82D986812839BE080030F0FC /* ViewModel.swift in Sources */,
 				CE93309921511AD4006B7EF6 /* ReportBoardTableViewCell.swift in Sources */,
 				739171E122C4A209007369F9 /* PaymentQRScanViewController.swift in Sources */,
-				829C073A2904D4DD008E2E6D /* MembershipIssuanceReactor.swift in Sources */,
+				829C073A2904D4DD008E2E6D /* MembershipCardIssuanceCompleteReactor.swift in Sources */,
 				00CD36C827900E04005413A6 /* BottomSheetViewController.swift in Sources */,
-				59EC3B7A28D32A1D001A18B5 /* ViewConstants.swift in Sources */,
 				52B2594A278E5E5C0042B22C /* BoardListItem.swift in Sources */,
 				732121C5203AC023000E105C /* evInfra.xcdatamodeld in Sources */,
 				4262F01924BC4688002FE3A5 /* ChargePriceTableViewCell.swift in Sources */,
@@ -4965,6 +4972,7 @@
 				6309C7A42900006B00A52E4F /* LeftViewTableHeader.swift in Sources */,
 				824D5C2628BDD89C00EDC712 /* PaymentQRScanReactor.swift in Sources */,
 				824D5C2728BDD89C00EDC712 /* PaymentCard.swift in Sources */,
+				82BDA379290A20B300CCD0B7 /* ToastManager.swift in Sources */,
 				824D5C2828BDD89C00EDC712 /* CompanyInfo.swift in Sources */,
 				824D5C2928BDD89C00EDC712 /* AddressSearchCell.swift in Sources */,
 				824D5C2A28BDD89C00EDC712 /* UIColor+Extension.swift in Sources */,
@@ -4998,7 +5006,6 @@
 				824D5C4328BDD89C00EDC712 /* NaverMapView.swift in Sources */,
 				824D5C4428BDD89C00EDC712 /* Icons+Generated.swift in Sources */,
 				6309C7B42900011B00A52E4F /* AmplitudeManager+Extension.swift in Sources */,
-				5975BD5228D97CBA00910F6F /* ViewConstants.swift in Sources */,
 				824D5C4528BDD89C00EDC712 /* AmpChargerStationModel.swift in Sources */,
 				824D5C4628BDD89C00EDC712 /* StationStatusDto.swift in Sources */,
 				824D5C4728BDD89C00EDC712 /* Arrow.swift in Sources */,
@@ -5034,7 +5041,6 @@
 				8284047C290021FE0081567C /* TooltipView.swift in Sources */,
 				824D5C6528BDD89C00EDC712 /* RegisterResultViewController.swift in Sources */,
 				824D5C6628BDD89C00EDC712 /* Snackbar.swift in Sources */,
-				5975BD5428D97CF000910F6F /* DateConstants.swift in Sources */,
 				824D5C6728BDD89C00EDC712 /* RectButton.swift in Sources */,
 				824D5C6828BDD89C00EDC712 /* ChargerStationInfo.swift in Sources */,
 				824D5C6928BDD89C00EDC712 /* Login.swift in Sources */,
@@ -5118,7 +5124,7 @@
 				824D5CB328BDD89C00EDC712 /* ClusterGenerator.swift in Sources */,
 				824D5CB428BDD89C00EDC712 /* ChargesTableViewCell.swift in Sources */,
 				824D5CB528BDD89C00EDC712 /* UILabel+Extension.swift in Sources */,
-				829C07372904D44E008E2E6D /* MembershipIssuanceCompleteViewController.swift in Sources */,
+				829C07372904D44E008E2E6D /* MembershipCardIssuanceCompleteViewController.swift in Sources */,
 				824D5CB628BDD89C00EDC712 /* MembershipReissuanceViewController.swift in Sources */,
 				824D5CB728BDD89C00EDC712 /* CommunityChargeStationTableViewCell.swift in Sources */,
 				824D5CB828BDD89C00EDC712 /* AppNavigationDrawerController.swift in Sources */,
@@ -5126,6 +5132,7 @@
 				824D5CBA28BDD89C00EDC712 /* PopUpDialog.swift in Sources */,
 				824D5CBB28BDD89C00EDC712 /* UIView+Extension.swift in Sources */,
 				824D5CBC28BDD89C00EDC712 /* ChargerFilterViewController.swift in Sources */,
+				82B0EF6D2907B33100D6EE70 /* ShipmentInfoView.swift in Sources */,
 				824D5CBD28BDD89C00EDC712 /* FCMManager.swift in Sources */,
 				5975BD5528D97D0500910F6F /* NewNoticeViewController.swift in Sources */,
 				82E1303228DEAEB200E7983D /* MainReactor.swift in Sources */,
@@ -5167,6 +5174,7 @@
 				824D5CDE28BDD89C00EDC712 /* NewPaymentStatusViewController.swift in Sources */,
 				824D5CDF28BDD89C00EDC712 /* QuitAccountReasonQuestionViewController.swift in Sources */,
 				824D5CE028BDD89C00EDC712 /* EvDetailViewController.swift in Sources */,
+				82BDA376290A20B300CCD0B7 /* ToastProgressBarView.swift in Sources */,
 				6309C7B92900020F00A52E4F /* Int+Extension.swift in Sources */,
 				829C07402904DD0A008E2E6D /* ShipmentStatusView.swift in Sources */,
 				824D5CE128BDD89C00EDC712 /* CodableCluster.swift in Sources */,
@@ -5217,7 +5225,7 @@
 				824D5D0A28BDD89C00EDC712 /* ChargesViewController.swift in Sources */,
 				824D5D0B28BDD89C00EDC712 /* ViewModel.swift in Sources */,
 				824D5D0C28BDD89C00EDC712 /* ReportBoardTableViewCell.swift in Sources */,
-				829C073C2904D4DD008E2E6D /* MembershipIssuanceReactor.swift in Sources */,
+				829C073C2904D4DD008E2E6D /* MembershipCardIssuanceCompleteReactor.swift in Sources */,
 				824D5D0D28BDD89C00EDC712 /* PaymentQRScanViewController.swift in Sources */,
 				824D5D0F28BDD89C00EDC712 /* BottomSheetViewController.swift in Sources */,
 				824D5D1028BDD89C00EDC712 /* BoardListItem.swift in Sources */,
