@@ -11,7 +11,7 @@ import SwiftyJSON
 import AuthenticationServices // apple login
 import RxSwift
 
-protocol LoginHelperDelegate: class {
+protocol LoginHelperDelegate: AnyObject {
     var loginViewController: UIViewController { get }
     
     func successLogin()
@@ -434,6 +434,8 @@ extension LoginHelper: ASAuthorizationControllerDelegate {
         case .failed: // authorization failed
             print("didCompleteWithError - Failed")
             
+        case .notInteractive:
+            print("notInteractive - Failed")
         @unknown default:
             print("didCompleteWithError - Default")
         }

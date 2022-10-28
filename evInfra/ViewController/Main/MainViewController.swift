@@ -1339,7 +1339,7 @@ extension MainViewController {
     }
     
     @objc func directionStartPoint(_ notification: NSNotification) {
-        guard let selectCharger = notification.object as? ChargerStationInfo else { return }
+        guard notification.object is ChargerStationInfo else { return }
         
         self.naverMapView.startMarker?.mapView = nil
         self.naverMapView.startMarker = nil
@@ -1370,7 +1370,7 @@ extension MainViewController {
     }
     
     @objc func directionEnd(_ notification: NSNotification) {
-        guard let selectCharger = notification.object as? ChargerStationInfo else { return }
+        guard notification.object is ChargerStationInfo else { return }
         
         self.naverMapView.endMarker?.mapView = nil
         self.naverMapView.endMarker = nil
@@ -1570,6 +1570,8 @@ extension MainViewController {
                     self.movePaymentQRScan()
                     
                 case .restricted: break
+                @unknown default:
+                    fatalError("MainViewController AVCaptureDevice Unknown Error")
                 }
             }
             

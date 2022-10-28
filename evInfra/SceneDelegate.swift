@@ -166,7 +166,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func runLinkDirectly(url: URL) {
-        let path = url.path        
         DeepLinkPath.sharedInstance.linkPath = url.path
         if let component = URLComponents(url: url, resolvingAgainstBaseURL: false) {
             DeepLinkPath.sharedInstance.linkParameter = component.queryItems

@@ -218,10 +218,9 @@ extension BoardDetailViewController: MediaButtonTappedDelegate {
 
 // MARK: - UIImagePickerControllerDelegate
 extension BoardDetailViewController: UIImagePickerControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        
-        let originalImage = info[UIImagePickerController.InfoKey.originalImage.rawValue] as! UIImage
-        let editedImage = info[UIImagePickerController.InfoKey.editedImage.rawValue] as? UIImage
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        let originalImage = info[UIImagePickerController.InfoKey(rawValue: UIImagePickerController.InfoKey.originalImage.rawValue)] as! UIImage
+        let editedImage = info[UIImagePickerController.InfoKey(rawValue: UIImagePickerController.InfoKey.editedImage.rawValue)] as? UIImage
         let selectedImage = editedImage ?? originalImage
         
         keyboardInputView?.selectedImageView.isHidden = false
@@ -231,7 +230,7 @@ extension BoardDetailViewController: UIImagePickerControllerDelegate {
         
         picker.dismiss(animated: true, completion: nil)
     }
-    
+                
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
