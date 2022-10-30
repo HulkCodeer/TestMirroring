@@ -40,31 +40,15 @@ internal final class ShipmentStatusView: UIView {
     // MARK: FUNC
     
     private func makeUI() {
-        self.addSubview(shipmentStatusGuideLbl)
-        shipmentStatusGuideLbl.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(20)
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.equalToSuperview()
-            $0.height.equalTo(26)
-        }
-        
         self.addSubview(shipmentStepView)
         shipmentStepView.snp.makeConstraints {
             $0.leading.top.trailing.equalToSuperview()            
             $0.height.equalTo(328)
         }
-        
-        let lineView = self.createLineView()
-        
-        self.addSubview(lineView)
-        lineView.snp.makeConstraints {
-            $0.top.equalTo(shipmentStepView.snp.bottom)
-            $0.leading.trailing.equalToSuperview()
-        }
-        
+                        
         self.addSubview(shipmentInfoView)
         shipmentInfoView.snp.makeConstraints {
-            $0.top.equalTo(lineView.snp.bottom)
+            $0.top.equalTo(shipmentStepView.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview().offset(-28)
         }
@@ -75,7 +59,7 @@ internal final class ShipmentStatusView: UIView {
         reactor.state.compactMap { $0.membershipCardInfo }
             .asDriver(onErrorJustReturn: MembershipCardInfo(JSON.null))
             .drive(with: self) { obj, model in
-                
+                obj.shipmentStepView.bind(model: model)
             }
             .disposed(by: self.disposebag)
     }

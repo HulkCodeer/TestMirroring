@@ -10,21 +10,10 @@ import RxSwift
 import RxCocoa
 
 internal final class ShipmentStepView: UIView {
-    
-    enum ShipmentStatusType: Int, CaseIterable {
-        case sendReady = 0
-        case sending = 1
-        case sendComplete = 2
-        
-        internal var toString: String {
-            switch self {
-            case .sendReady: return "발송 준비중"
-            case .sending: return "발송중"
-            case .sendComplete: return "우편함 확인"
-            }
-        }
+    enum DotConstant {
+        static let size: CGFloat = 12
     }
-    
+        
     // MARK: UI
     
     private lazy var shipmentStatusGuideLbl = UILabel().then {
@@ -77,36 +66,43 @@ internal final class ShipmentStepView: UIView {
             $0.trailing.equalToSuperview()
             $0.bottom.equalToSuperview().offset(-39)
         }
+        
+        let lineView = self.createLineView()
+        self.addSubview(lineView)
+        lineView.snp.makeConstraints {
+            $0.height.equalTo(4)
+            $0.leading.bottom.trailing.equalToSuperview()
+        }
     }
     
     internal func bind(model: MembershipCardInfo) {
-        for type in ShipmentStatusType.allCases {
-            let view = self.makeStepView(type: type)
+        for convertStatus in model.convertStatusArr {
+            let view = self.makeStepView(statusInfo: convertStatus)
             totalStackView.addArrangedSubview(view)
         }
     }
     
-    private func makeStepView(type: ShipmentStatusType) -> UIView {
+    private func makeStepView(statusInfo: MembershipCardInfo.ConvertStatus) -> UIView {
         
         let totalView = UIView()
         
         let dotView = UIView()
-        dotView.layer.addSublayer(self.makeDotView(type: type))
+        dotView.layer.addSublayer(self.makeDotView(statusInfo: statusInfo))
         
         totalView.addSubview(dotView)
         dotView.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(22)
             $0.top.equalToSuperview()
-            $0.width.height.equalTo(12)
+            $0.width.height.equalTo(DotConstant.size)
         }
         
         return totalView
     }
     
-    private func makeDotView(type: ShipmentStatusType) -> CAShapeLayer {
-        let center = CGPoint(x: frame.width/2, y: frame.height/2)
+    private func makeDotView(statusInfo: MembershipCardInfo.ConvertStatus) -> CAShapeLayer {
+        let center = CGPoint(x: DotConstant.size/2, y: DotConstant.size/2)
         let path = UIBezierPath(arcCenter: center,
-                                radius: frame.width/2,
+                                radius: DotConstant.size/2,
                                 startAngle: -CGFloat.pi/2,
                                 endAngle: 2*CGFloat.pi-CGFloat.pi/2,
                                 clockwise: true)
@@ -114,10 +110,16 @@ internal final class ShipmentStepView: UIView {
         let circleLayer = CAShapeLayer()
         circleLayer.frame = bounds
         circleLayer.path = path.cgPath
-        circleLayer.fillColor = UIColor.clear.cgColor
+        circleLayer.fillColor = statusInfo.passType == .current ? UIColor.clear.cgColor : Colors.contentPrimary.color.cgColor
         circleLayer.lineCap = CAShapeLayerLineCap(rawValue: "round")
-        circleLayer.strokeColor = Colors.backgroundSecondary.color.cgColor
+        circleLayer.strokeColor = Colors.contentPrimary.color.cgColor
         circleLayer.lineWidth = 2
         return circleLayer
+    }
+    
+    internal func createLineView(color: UIColor? = Colors.backgroundSecondary.color) -> UIView {
+        return UIView().then {
+            $0.backgroundColor = color
+        }
     }
 }

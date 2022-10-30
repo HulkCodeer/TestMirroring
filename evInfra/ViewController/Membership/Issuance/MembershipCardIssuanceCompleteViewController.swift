@@ -7,6 +7,7 @@
 //
 
 import ReactorKit
+import SwiftyJSON
 
 internal final class MembershipCardIssuanceCompleteViewController: CommonBaseViewController, StoryboardView {
     // MARK: UI
@@ -166,7 +167,7 @@ internal final class MembershipCardIssuanceCompleteViewController: CommonBaseVie
                 let viewcon = UIStoryboard(name : "Membership", bundle: nil).instantiateViewController(ofType: MembershipCardViewController.self)
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             })
-            .disposed(by: self.disposeBag)
+            .disposed(by: self.disposeBag)                
     }
     
 }
