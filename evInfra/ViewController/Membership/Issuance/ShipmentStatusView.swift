@@ -40,6 +40,14 @@ internal final class ShipmentStatusView: UIView {
     // MARK: FUNC
     
     private func makeUI() {
+        self.addSubview(shipmentStatusGuideLbl)
+        shipmentStatusGuideLbl.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(20)
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview()
+            $0.height.equalTo(26)
+        }
+        
         self.addSubview(shipmentStepView)
         shipmentStepView.snp.makeConstraints {
             $0.leading.top.trailing.equalToSuperview()            
