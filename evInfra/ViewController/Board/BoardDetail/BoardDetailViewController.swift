@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import PanModal
 
-internal final class BoardDetailViewController: CommonBaseViewController, UINavigationControllerDelegate {
+internal final class BoardDetailViewController: BaseViewController, UINavigationControllerDelegate {
     
     @IBOutlet var detailTableView: UITableView!
     
@@ -91,7 +91,7 @@ internal final class BoardDetailViewController: CommonBaseViewController, UINavi
     }
 
     private func setConfiguration() {
-        self.contentView.addSubview(activityIndicator)
+        self.view.addSubview(activityIndicator)
         keyboardInputView = KeyboardInputView()
         keyboardInputView?.delegate = self
         picker.delegate = self

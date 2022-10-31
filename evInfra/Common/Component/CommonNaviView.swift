@@ -43,11 +43,15 @@ internal final class CommonNaviView: UIView {
             
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        self.makeUI()
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+        self.makeUI()
+    }
+    
+    private func makeUI() {
         self.addSubview(totalView)
         totalView.snp.makeConstraints {
             $0.edges.equalToSuperview()

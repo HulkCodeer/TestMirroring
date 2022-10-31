@@ -9,7 +9,7 @@
 import UIKit
 import SwiftyJSON
 
-internal final class EvInfoViewController: CommonBaseViewController {
+internal final class EvInfoViewController: BaseViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
     private var evModels = [EVModel]()
@@ -17,9 +17,7 @@ internal final class EvInfoViewController: CommonBaseViewController {
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
     }
-    
-    
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         

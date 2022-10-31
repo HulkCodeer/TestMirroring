@@ -12,6 +12,10 @@ import Material
 import AVFoundation
 import RxSwift
 
+/**
+ * 코드 베이스로 그리지 않을때는 CommonBaseViewController 말고 이 클래스를 상속 받아야 한다.
+ */
+
 internal class BaseViewController: UIViewController {
     
     // MARK: VARIABLE

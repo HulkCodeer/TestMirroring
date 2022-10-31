@@ -87,7 +87,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="detailTableView" destination="2qD-uk-uFN" id="zfx-rM-JDD"/>
+                        <outlet property="detailTableView" destination="2qD-uk-uFN" id="A2x-9H-DKU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

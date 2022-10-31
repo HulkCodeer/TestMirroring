@@ -18,8 +18,7 @@ internal final class MembershipCardViewController: CommonBaseViewController {
         $0.naviTitleLbl.text = "EV Pay 카드관리"
     }
     
-    private lazy var partnershipListView = PartnershipListView(frame: .zero).then {
-        
+    private lazy var partnershipListView = PartnershipListView(frame: .zero).then {        
         $0.delegate = self
         $0.navi = self.navigationController ?? UINavigationController()
     }

@@ -143,9 +143,8 @@ internal final class MembershipReissuanceInfoViewController: CommonBaseViewContr
     }
     
     private lazy var completeBtn = NextButton().then {
-        
         $0.setTitle("재발급 신청 완료", for: .normal)
-        $0.setTitleColor(UIColor(named: "content-primary"), for: .normal)
+        $0.setTitleColor(Colors.contentPrimary.color, for: .normal)
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         $0.isEnabled = false
     }

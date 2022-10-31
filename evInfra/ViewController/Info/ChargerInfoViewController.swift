@@ -9,7 +9,7 @@
 import UIKit
 import SwiftyJSON
 
-internal final class ChargerInfoViewController: CommonBaseViewController {
+internal final class ChargerInfoViewController: BaseViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
     private let chargerJson: JSON = ["lists": [

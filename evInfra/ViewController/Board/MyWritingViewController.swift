@@ -12,11 +12,6 @@ import Motion
 import SwiftyJSON
 
 internal final class MyWritingViewController: CommonBaseViewController {
-    
-    private lazy var commonNaviView = CommonNaviView().then {
-        $0.naviTitleLbl.text = ""
-    }
-    
     private lazy var boardTableView = BoardTableView()
     
     var currentPage = 0
@@ -27,16 +22,9 @@ internal final class MyWritingViewController: CommonBaseViewController {
     
     override func loadView() {
         super.loadView()
-        
-        self.contentView.addSubview(commonNaviView)
-        commonNaviView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
-            $0.height.equalTo(Constants.view.naviBarHeight)
-        }
-        
         self.contentView.addSubview(boardTableView)
         boardTableView.snp.makeConstraints {
-            $0.top.equalTo(commonNaviView.snp.bottom)
+            $0.top.equalToSuperview()
             $0.leading.trailing.bottom.equalToSuperview()
         }                
     }
@@ -52,11 +40,6 @@ internal final class MyWritingViewController: CommonBaseViewController {
         boardTableView.isNoneHeader = true
         boardTableView.category = boardCategory
         boardTableView.contentInset = UIEdgeInsets(top: Constants.view.naviBarHeight - 20, left: 0, bottom: 0, right: 0)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -169,7 +152,7 @@ extension MyWritingViewController: BoardTableViewDelegate {
         boardDetailTableViewController.document_srl = documentSRL
         boardDetailTableViewController.isFromStationDetailView = false
         
-        self.navigationController?.push(viewController: boardDetailTableViewController)
+        GlobalDefine.shared.mainNavi?.push(viewController: boardDetailTableViewController)
     }
     
     func showImageViewer(url: URL, isProfileImageMode: Bool) { }
