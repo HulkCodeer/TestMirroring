@@ -192,6 +192,9 @@
 		59970A242907CD6000FF9A67 /* NaverMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59970A192907CD4600FF9A67 /* NaverMapView.swift */; };
 		59970A252907CD6200FF9A67 /* UnderLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59970A172907CD4600FF9A67 /* UnderLineTextField.swift */; };
 		59970A262907CD6300FF9A67 /* UnderLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59970A172907CD4600FF9A67 /* UnderLineTextField.swift */; };
+		5997DABC290EB98900476B72 /* BottomMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5997DABB290EB98900476B72 /* BottomMenuView.swift */; };
+		5997DABD290F5D4600476B72 /* BottomMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5997DABB290EB98900476B72 /* BottomMenuView.swift */; };
+		5997DABE290F5D4700476B72 /* BottomMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5997DABB290EB98900476B72 /* BottomMenuView.swift */; };
 		59BAB70728FD373B00077872 /* LeftDrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB70628FD373B00077872 /* LeftDrawerController.swift */; };
 		59BAB70828FD4ED400077872 /* LeftDrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB70628FD373B00077872 /* LeftDrawerController.swift */; };
 		59BAB70928FD4ED400077872 /* LeftDrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB70628FD373B00077872 /* LeftDrawerController.swift */; };
@@ -1582,6 +1585,7 @@
 		59970A182907CD4600FF9A67 /* MainNavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainNavigationBar.swift; sourceTree = "<group>"; };
 		59970A192907CD4600FF9A67 /* NaverMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NaverMapView.swift; sourceTree = "<group>"; };
 		59970A1A2907CD4600FF9A67 /* MainSearchWayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainSearchWayView.swift; sourceTree = "<group>"; };
+		5997DABB290EB98900476B72 /* BottomMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomMenuView.swift; sourceTree = "<group>"; };
 		59BAB6FA28F0346300077872 /* MainSearchWayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSearchWayView.swift; sourceTree = "<group>"; };
 		59BAB6FE28F50B7500077872 /* UnderLineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderLineTextField.swift; sourceTree = "<group>"; };
 		59BAB70628FD373B00077872 /* LeftDrawerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftDrawerController.swift; sourceTree = "<group>"; };
@@ -2494,6 +2498,7 @@
 				59970A192907CD4600FF9A67 /* NaverMapView.swift */,
 				59970A172907CD4600FF9A67 /* UnderLineTextField.swift */,
 				6309C7902900000100A52E4F /* NewFilterBarView.swift */,
+				5997DABB290EB98900476B72 /* BottomMenuView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -4423,6 +4428,7 @@
 				63F31424284EC74F001713D2 /* EditViewDelegate.swift in Sources */,
 				63F31425284EC74F001713D2 /* SearchTableView.swift in Sources */,
 				63762F4E2869A8F000C951BF /* QuitAccountViewController.swift in Sources */,
+				5997DABD290F5D4600476B72 /* BottomMenuView.swift in Sources */,
 				63F31426284EC74F001713D2 /* ReportBoardViewController.swift in Sources */,
 				63F31427284EC74F001713D2 /* EVModel.swift in Sources */,
 				63F31428284EC74F001713D2 /* CarModels.swift in Sources */,
@@ -4746,6 +4752,7 @@
 				CE24840220A59E3000611E24 /* CarModels.swift in Sources */,
 				63B2373E282C970900E8A3F8 /* MembershipUseGuideViewController.swift in Sources */,
 				529148AF27BE0A000011021F /* SearchHeaderView.swift in Sources */,
+				5997DABC290EB98900476B72 /* BottomMenuView.swift in Sources */,
 				191FB60428A0CA40005248C8 /* NewEventDetailViewController.swift in Sources */,
 				73A7B430204F8A72002E975F /* CidInfo.swift in Sources */,
 				421569D7259B629100D018DC /* BoardInfo.swift in Sources */,
@@ -5069,6 +5076,7 @@
 				824D5C8A28BDD89C00EDC712 /* ReportBoardViewController.swift in Sources */,
 				824D5C8B28BDD89C00EDC712 /* EVModel.swift in Sources */,
 				824D5C8C28BDD89C00EDC712 /* CarModels.swift in Sources */,
+				5997DABE290F5D4700476B72 /* BottomMenuView.swift in Sources */,
 				824D5C8D28BDD89C00EDC712 /* MembershipUseGuideViewController.swift in Sources */,
 				824D5C8E28BDD89C00EDC712 /* SearchHeaderView.swift in Sources */,
 				824D5C8F28BDD89C00EDC712 /* CidInfo.swift in Sources */,
