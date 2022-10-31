@@ -9,7 +9,7 @@
 import UIKit
 import SwiftyJSON
 
-internal final class ChargerInfoViewController: BaseViewController {
+internal final class ChargerInfoViewController: CommonBaseViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
     private let chargerJson: JSON = ["lists": [
@@ -78,9 +78,7 @@ internal final class ChargerInfoViewController: BaseViewController {
     }
 
     override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        prepareActionBar(with: "충전기 정보")
+        super.viewDidLoad()                
         getchargerModels()
     }
     

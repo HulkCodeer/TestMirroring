@@ -19,10 +19,6 @@ internal class BaseViewController: UIViewController {
     internal var disposeBag = DisposeBag()
     internal let picker = UIImagePickerController()
     
-    internal lazy var customNaviBar = CommonNaviView().then {
-        $0.isHidden = true
-    }
-
     internal lazy var activityIndicator: UIActivityIndicatorView = {
        let activitiIndicator = UIActivityIndicatorView()
         activitiIndicator.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
@@ -43,17 +39,6 @@ internal class BaseViewController: UIViewController {
     }()
     
     // MARK: SYSTEM FUNC
-    
-    override func loadView() {
-        super.loadView()
-        
-        view.addSubview(customNaviBar)
-        customNaviBar.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.height.equalTo(Constants.view.naviBarHeight)
-        }
-    }
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -102,20 +87,5 @@ internal class BaseViewController: UIViewController {
         actions.append(openAction)
         
         UIAlertController.showAlert(title: "카메라 기능이 활성화되지 않았습니다.", message: "사진추가를 위해 카메라 권한이 필요합니다.", actions: actions)
-    }
-    
-    internal func prepareActionBar(with title: String, backButtonCompletion: (() -> Void)? = nil) {
-        customNaviBar.naviTitleLbl.text = title
- 
-        navigationController?.isNavigationBarHidden = true
-        customNaviBar.isHidden = false
-
-        customNaviBar.backClosure = backButtonCompletion
-        
-    }
-    
-    @objc
-    internal func backButtonTapped() {
-        self.navigationController?.pop()
     }
 }

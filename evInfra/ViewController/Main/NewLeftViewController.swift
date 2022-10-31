@@ -413,10 +413,6 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                 AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "전체메뉴 상단 베리 닉네임")
                 let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPageViewController.self)
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-                
-                if let _reactor = owner.reactor {
-                    owner.hideMenu(reactor: _reactor, isHide: true)
-                }
             })
             .disposed(by: self.disposeBag)
         
@@ -426,10 +422,6 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                 AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "비로그인 전체메뉴 상단 베리 닉네임")
                 let viewcon = UIStoryboard(name : "Login", bundle: nil).instantiateViewController(ofType: LoginViewController.self)
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-                
-                if let _reactor = owner.reactor {
-                    owner.hideMenu(reactor: _reactor, isHide: true)
-                }
             })
             .disposed(by: self.disposeBag)
         
@@ -439,10 +431,6 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                 AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "좌측메뉴 상단 MY베리 버튼")
                 let viewcon = UIStoryboard(name : "Charge", bundle: nil).instantiateViewController(ofType: PointViewController.self)
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-                
-                if let _reactor = owner.reactor {
-                    owner.hideMenu(reactor: _reactor, isHide: true)
-                }
             })
             .disposed(by: self.disposeBag)
     }
@@ -558,12 +546,6 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
             .map { isUseAllBerry in  LeftViewReactor.Action.setIsAllBerry(isUseAllBerry) }
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
-    }
-    
-    private func hideMenu(reactor: LeftViewReactor, isHide: Bool) {
-        Observable.just(LeftViewReactor.Action.setOwnHide(isHide))
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
     }
     
     private func createMenuTypeView(menuCategoryType: LeftViewReactor.MenuCategoryType, reactor: LeftViewReactor) -> UIView {

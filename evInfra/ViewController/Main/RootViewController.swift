@@ -1,43 +1,14 @@
-
-
-
-//
-//  LeftDrawerController.swift
-//  evInfra
-//
-//  Created by youjin kim on 2022/10/17.
-//  Copyright © 2022 soft-berry. All rights reserved.
-//
-// Material NavigationDrawerController 참고.
-
 import UIKit
+import RxSwift
+import RxCocoa
 
-internal final class RootViewController: UIViewController {
-    private var mainNaviViewController: UINavigationController {
-        didSet {
-            guard oldValue != mainNaviViewController else { return }
-            
-            removeViewController(viewController: oldValue)
-            prepare(viewController: mainNaviViewController, in: container)
-            
-            mainNaviViewController.didMove(toParent: self)
-            mainNaviViewController.view.frame = container.bounds
-            mainNaviViewController.view.clipsToBounds = true
-            mainNaviViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            mainNaviViewController.view.contentScaleFactor = UIScreen.main.scale
-            
-        }
-    }
-    private var leftViewController: NewLeftViewController
+internal final class RootViewController: TransitionController {
     
-    internal var isUserInteractionEnabled: Bool {
-        get {
-            return mainNaviViewController.view.isUserInteractionEnabled
-        }
-        set(value) {
-            mainNaviViewController.view.isUserInteractionEnabled = value
-        }
-    }
+    // MARK: UI
+    
+    private var contentViewController = UIViewController()
+    
+    private var leftViewController: NewLeftViewController
     
     private lazy var container = UIView().then {
         $0.frame = view.bounds
@@ -46,26 +17,29 @@ internal final class RootViewController: UIViewController {
         $0.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     }
     
-    private lazy var leftBackView = UIView().then {
-        $0.frame = view.bounds
-        $0.contentScaleFactor = UIScreen.main.scale
-        $0.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-    }
-    
     private lazy var leftView = UIView().then {
         let leftViewWidth: CGFloat = .phone == UIDevice.current.userInterfaceIdiom ? 280 : 320
         $0.frame = CGRect(x: 0, y: 0, width: leftViewWidth, height: view.bounds.height)
         $0.backgroundColor = .white
-        $0.isHidden = true
-        
         $0.layer.position.x = -leftViewWidth / 2
         $0.layer.zPosition = 2000
+        $0.isHidden = true
     }
+    
+    // MARK: LeftPanGesture
     
     private var leftPanGesture: UIPanGestureRecognizer?
     private var leftTapGesture: UITapGestureRecognizer?
     
-    internal var isLeftPanGestureEnabled = true {
+    private var isLeftViewEnabled = false {
+        didSet {
+            
+            isLeftPanGestureEnabled = isLeftViewEnabled
+            isLeftTapGestureEnabled = isLeftViewEnabled
+        }
+    }
+    
+    private var isLeftPanGestureEnabled = false {
         didSet {
             if isLeftPanGestureEnabled {
                 prepareLeftPanGesture()
@@ -75,7 +49,7 @@ internal final class RootViewController: UIViewController {
         }
     }
     
-    internal var isLeftTapGestureEnabled = true {
+    private var isLeftTapGestureEnabled = false {
         didSet {
             if isLeftTapGestureEnabled {
                 prepareLeftTapGesture()
@@ -84,6 +58,7 @@ internal final class RootViewController: UIViewController {
             }
         }
     }
+    
     private var isLeftViewOpened: Bool {
         return leftView.frame.origin.x != -leftViewWidth
     }
@@ -91,6 +66,9 @@ internal final class RootViewController: UIViewController {
     private func isPointContainedWithinView(container: UIView, point: CGPoint) -> Bool {
         return container.bounds.contains(point)
     }
+    
+    // MARK: Left Menu Congiguration
+    
     private var isAnimating = false
     private var originalX: CGFloat = 0
     
@@ -103,26 +81,43 @@ internal final class RootViewController: UIViewController {
     private let animationDuration: TimeInterval = 0.25
     private lazy var leftViewWidth: CGFloat = .phone == UIDevice.current.userInterfaceIdiom ? 280 : 320
     
-    // MARK: - initializer
-    init() {
-        let mainReactor = MainReactor(provider: RestApi())
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let mainVC = storyboard.instantiateViewController(ofType: MainViewController.self)
-        mainVC.reactor = mainReactor
-
-        let menuReactor = LeftViewReactor(provider: RestApi())
+    private var disposeBag = DisposeBag()
+    
+    // MARK: - SYSTEM FUNC
+    
+    required init?(coder aDecoder: NSCoder) {
+        let leftReactor = LeftViewReactor(provider: RestApi())
+        self.leftViewController = NewLeftViewController(reactor: leftReactor)
         
-        self.mainNaviViewController = UINavigationController(rootViewController: mainVC)
-        self.leftViewController = NewLeftViewController(reactor: menuReactor)
-        
-        GlobalDefine.shared.mainViewcon = mainVC
-        
-        super.init(nibName: nil, bundle: nil)
-        
+        super.init(coder: aDecoder)
+        prepare()
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        let leftReactor = LeftViewReactor(provider: RestApi())
+        self.leftViewController = NewLeftViewController(reactor: leftReactor)
+        
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        
+        prepare()
+    }
+    
+    init() {
+        let mainReactor = MainReactor(provider: RestApi())
+        let mainVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(ofType: MainViewController.self)
+        mainVC.reactor = mainReactor
+        
+        let leftReactor = LeftViewReactor(provider: RestApi())
+        self.leftViewController = NewLeftViewController(reactor: leftReactor)
+        
+        super.init(rootViewController: mainVC)
+        
+        mainReactor.state.compactMap { $0.isShowMenu }
+            .asDriver(onErrorJustReturn: false)
+            .drive(with: self) { obj, isShowMenu in
+                obj.isLeftViewOpened ? obj.closeLeftView(velocity: 0) : obj.openLeftView(velocity: 0)
+            }
+            .disposed(by: disposeBag)
     }
     
     override func viewWillLayoutSubviews() {
@@ -138,67 +133,57 @@ internal final class RootViewController: UIViewController {
         leftViewController.view.frame = leftView.bounds
         leftViewController.view.frame.size.width = leftViewWidth
         
-        mainNaviViewController.view.frame = container.bounds
+        rootViewController.view.frame = container.bounds
     }
     
     // MARK: - life cycle
     
     override func loadView() {
         super.loadView()
-                
-        GlobalDefine.shared.mainNavi = mainNaviViewController
-        GlobalDefine.shared.rootVC = self
         
-        GlobalDefine.shared.mainNavi?.setNavigationBarHidden(true, animated: false)
+        contentViewController.view.backgroundColor = .black
+        prepare(viewController: contentViewController, in: view)
+        view.sendSubviewToBack(contentViewController.view)
         
-        view.backgroundColor = Colors.backgroundPrimary.color
-        mainNaviViewController.view.backgroundColor = Colors.backgroundPrimary.color
-        
-        prepare(viewController: self.mainNaviViewController, in: container)
-        view.addSubview(container)
-                
-        // leftView
-        GlobalDefine.shared.mainViewcon?.view.addSubview(leftBackView)
-        GlobalDefine.shared.mainViewcon?.view.addSubview(leftView)
-
         prepare(viewController: leftViewController, in: leftView)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        mainNaviViewController.beginAppearanceTransition(true, animated: animated)
+        rootViewController.beginAppearanceTransition(true, animated: animated)
         leftViewController.beginAppearanceTransition(true, animated: animated)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        mainNaviViewController.endAppearanceTransition()
+        rootViewController.endAppearanceTransition()
         leftViewController.endAppearanceTransition()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        mainNaviViewController.beginAppearanceTransition(false, animated: animated)
+        rootViewController.beginAppearanceTransition(false, animated: animated)
         leftViewController.beginAppearanceTransition(false, animated: animated)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        mainNaviViewController.endAppearanceTransition()
+        rootViewController.endAppearanceTransition()
         leftViewController.endAppearanceTransition()
     }
     
     // MARK: - prepare
-
-    private func prepare(viewController: UIViewController, in container: UIView) {
-        addChild(viewController)
-        container.addSubview(viewController.view)
+    
+    override func prepare() {
+        super.prepare()
         
-        viewController.didMove(toParent: self)
-        viewController.view.frame = container.bounds
-        viewController.view.clipsToBounds = true
-        viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        viewController.view.contentScaleFactor = UIScreen.main.scale
+        contentViewController.view.backgroundColor = .black
+        prepare(viewController: contentViewController, in: view)
+        view.sendSubviewToBack(contentViewController.view)
+        
+        isLeftViewEnabled = true
+        view.addSubview(leftView)
+        prepare(viewController: leftViewController, in: leftView)
     }
     
     // MARK: - PanGestureAction
@@ -224,11 +209,6 @@ internal final class RootViewController: UIViewController {
         view.addGestureRecognizer(tapGesture)
     }
     
-    private func removeLeftViewGestures() {
-        removeLeftPanGesture()
-        removeLeftTapGesture()
-    }
-    
     /// Removes the left pan gesture.
     private func removeLeftPanGesture() {
         guard let v = leftPanGesture else { return }
@@ -245,21 +225,6 @@ internal final class RootViewController: UIViewController {
         leftTapGesture = nil
     }
     
-    // MARK: Action
-    
-    func showLeftView(_ isShow: Bool, completion: (() -> Void)? = nil) {
-        self.isLeftPanGestureEnabled = isShow
-        self.isLeftTapGestureEnabled = isShow
-        
-        if isShow {
-            self.openLeftView()
-        } else {
-            self.closeLeftView()
-        }
-        
-        completion?()
-    }
-    
     // MARK: - private Action
     
     private func closeLeftView(velocity: CGFloat = 0) {
@@ -267,22 +232,17 @@ internal final class RootViewController: UIViewController {
         
         isAnimating = true
         
-        // willClose
-        
         UIView.animate(
             withDuration: TimeInterval(0 == velocity ? animationDuration : fmax(0.1, fmin(1, Double(leftView.frame.origin.x / velocity)))),
-            animations: { [weak self, leftView = leftView] in
-                leftView.layer.position.x = -leftView.bounds.width / 2
-                self?.mainNaviViewController.view.alpha = 1
-                
+            animations: { [weak self] in
+                guard let self = self else { return }
+                self.leftView.layer.position.x = -self.leftView.bounds.width / 2
+                self.rootViewController.view.alpha = 1
             }) { [weak self] _ in
-                
-            self?.leftView.isHidden = true
-            
-            self?.isAnimating = false
-            self?.isUserInteractionEnabled = true
-            // didClose
-        }
+                self?.leftView.isHidden = true
+                self?.isAnimating = false
+                self?.isUserInteractionEnabled = true
+            }
     }
     
     private func openLeftView(velocity: CGFloat = 0) {
@@ -290,28 +250,21 @@ internal final class RootViewController: UIViewController {
         
         isAnimating = true
         leftView.isHidden = false
-//        isUserInteractionEnabled = false
         
-        // willClose
+        isUserInteractionEnabled = false
+        
         UIView.animate(
             withDuration: TimeInterval(0 == velocity ? animationDuration : fmax(0.1, fmin(1, Double(leftView.frame.origin.x / velocity)))),
-            animations: { [weak self, leftView = leftView] in
-                leftView.layer.position.x = leftView.bounds.width / 2
-                self?.mainNaviViewController.view.alpha = 0.5
-                
+            animations: { [weak self] in
+                guard let self = self else { return }
+                self.leftView.layer.position.x = self.leftView.bounds.width / 2
+                self.rootViewController.view.alpha = 0.5
             }) { [weak self] _ in
-            
-            self?.isAnimating = false
-            // didClose
-        }
+                
+                self?.isAnimating = false
+            }
     }
     
-    private func removeViewController(viewController: UIViewController) {
-        viewController.willMove(toParent: nil)
-        viewController.view.removeFromSuperview()
-        viewController.removeFromParent()
-    }
-        
     @objc private func handleLeftViewTapGesture(recognizer: UITapGestureRecognizer) {
         guard isLeftViewOpened && !isPointContainedWithinView(container: leftView, point: recognizer.location(in: leftView))
         else { return }
@@ -335,8 +288,8 @@ internal final class RootViewController: UIViewController {
             leftView.layer.position.x = originalX + translationX > (w / 2) ? (w / 2) : originalX + translationX
             
             let a = 1 - leftView.layer.position.x / leftView.bounds.width
-            mainNaviViewController.view.alpha = 0.5 < a && leftView.layer.position.x <= leftView.bounds.width / 2 ? a : 0.5
-
+            rootViewController.view.alpha = 0.5 < a && leftView.layer.position.x <= leftView.bounds.width / 2 ? a : 0.5
+            
         case .ended, .cancelled, .failed:
             let p = recognizer.velocity(in: recognizer.view)
             let x = p.x >= 1000 || p.x <= -1000 ? p.x : 0

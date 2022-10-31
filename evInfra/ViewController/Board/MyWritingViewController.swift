@@ -11,7 +11,11 @@ import Material
 import Motion
 import SwiftyJSON
 
-class MyWritingViewController: BaseViewController {
+internal final class MyWritingViewController: CommonBaseViewController {
+    
+    private lazy var commonNaviView = CommonNaviView().then {
+        $0.naviTitleLbl.text = ""
+    }
     
     private lazy var boardTableView = BoardTableView()
     
@@ -24,9 +28,16 @@ class MyWritingViewController: BaseViewController {
     override func loadView() {
         super.loadView()
         
-        view.addSubview(boardTableView)
+        self.contentView.addSubview(commonNaviView)
+        commonNaviView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalTo(Constants.view.naviBarHeight)
+        }
+        
+        self.contentView.addSubview(boardTableView)
         boardTableView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.equalTo(commonNaviView.snp.bottom)
+            $0.leading.trailing.bottom.equalToSuperview()
         }                
     }
     
@@ -64,16 +75,11 @@ extension MyWritingViewController {
         if boardCategory == .FREE {
             tabItem.title = "자유게시판"
         } else if boardCategory == .CHARGER {
-            tabItem.title = "충전소게시판"
+            tabItem.title = "충전소게시판"            
         }
         
-        tabItem.setTitleColor(UIColor(named: "content-primary")!, for: .selected)
+        tabItem.setTitleColor(Colors.contentPrimary.color, for: .selected)
         tabItem.setTitleColor(Color.grey.base, for: .normal)
-    }
-    
-    @objc
-    fileprivate func handleBackButton() {
-        self.navigationController?.pop()
     }
 }
 

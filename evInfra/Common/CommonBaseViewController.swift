@@ -56,6 +56,7 @@ internal class CommonBaseViewController: UIViewController {
     
     init() {
         super.init(nibName: nil, bundle: nil)
+        self.view.backgroundColor = Colors.backgroundAlwaysLight.color
     }
 
     required init?(coder aDecoder: NSCoder) {

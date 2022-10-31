@@ -9,7 +9,7 @@
 import UIKit
 import SwiftyJSON
 
-internal final class EvInfoViewController: BaseViewController {
+internal final class EvInfoViewController: CommonBaseViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
     private var evModels = [EVModel]()
@@ -18,14 +18,11 @@ internal final class EvInfoViewController: BaseViewController {
         printLog(out: "\(type(of: self)): Deinited")
     }
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        prepareActionBar(with: "전기차 정보")
-        getEvModels()
-    }
-    
-    private func prepareCollectionView() {
         let cellwidth: CGFloat = (view.bounds.width - 2) / 3
         let layout = UICollectionViewFlowLayout()
         
@@ -39,6 +36,11 @@ internal final class EvInfoViewController: BaseViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.showsHorizontalScrollIndicator = false
+                
+        getEvModels()
+    }
+    
+    private func prepareCollectionView() {
         collectionView.reloadData()
     }
     

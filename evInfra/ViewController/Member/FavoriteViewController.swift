@@ -9,24 +9,14 @@
 import UIKit
 import Material
 
-class FavoriteViewController: BaseViewController {
+internal final class FavoriteViewController: CommonBaseViewController {
 
     @IBOutlet weak var tableView: ChargerTableView!
     @IBOutlet var emptyView: UIView!
     
     internal weak var delegate: ChargerSelectDelegate?
     private var favoriteChargers: [ChargerStationInfo] = []
-    
-    deinit {
-        printLog(out: "\(type(of: self)): Deinited")
-    }
-    
-    override func loadView() {
-        super.loadView()
-
-        prepareActionBar(with: "즐겨찾기")
-    }
-    
+            
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         

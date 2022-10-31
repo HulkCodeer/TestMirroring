@@ -17,12 +17,15 @@ protocol MembershipReissuanceInfoDelegate {
     func reissuanceComplete()
 }
 
-internal final class MembershipReissuanceInfoViewController: BaseViewController, StoryboardView {
+internal final class MembershipReissuanceInfoViewController: CommonBaseViewController, StoryboardView {
     
     // MARK: UI
     
-    private lazy var totalScrollView = UIScrollView().then {
-        
+    private lazy var commonNaviView = CommonNaviView().then {
+        $0.naviTitleLbl.text = "재발급 신청"
+    }
+    
+    private lazy var totalScrollView = UIScrollView().then {        
         $0.showsVerticalScrollIndicator = false
         $0.showsHorizontalScrollIndicator = false
     }
@@ -157,15 +160,19 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
             
     override func loadView() {
         super.loadView()
-                
-        prepareActionBar(with: "재발급 신청")
-
+                        
         let screenWidth = UIScreen.main.bounds.width
         let scrollViewWidth = screenWidth - 32 // 스크린 넓이 - 양쪽마진
         let halfWidth = (screenWidth / 2) - 32 // 스크린 넓이 / 2 - 양쪽마진
         let tfHeight = 40
+        
+        self.contentView.addSubview(commonNaviView)
+        commonNaviView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalTo(Constants.view.naviBarHeight)
+        }
                 
-        view.addSubview(completeBtn)
+        self.contentView.addSubview(completeBtn)
         completeBtn.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview().offset(0)
@@ -173,10 +180,10 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
             $0.height.equalTo(60 + safeAreaBottonInset)
         }
         
-        view.addSubview(totalScrollView)
+        self.contentView.addSubview(totalScrollView)
         totalScrollView.snp.makeConstraints {
             $0.leading.equalToSuperview()
-            $0.top.equalTo(customNaviBar.snp.bottom)
+            $0.top.equalTo(commonNaviView.snp.bottom)
             $0.bottom.equalTo(completeBtn.snp.top)
             $0.width.equalTo(screenWidth)
         }
@@ -298,13 +305,13 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
         
         reactor.state.compactMap { $0.serverResult }
             .asDriver(onErrorJustReturn: ServerResult(JSON.null))
-            .drive(onNext: { [weak self] serverResult in
+            .drive(onNext: { [weak self] serverCode in
                 guard let self = self else { return }
                                                 
-                switch serverResult.code {
+                switch serverCode.code {
                 case 1000:
                     self.delegate?.reissuanceComplete()
-                    self.backButtonTapped()
+                    self.actionBack()
                 default: break
                 }
             })
@@ -316,6 +323,11 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(recognizer:)))
         self.view.addGestureRecognizer(tap)
+        
+        self.commonNaviView.backClosure = { [weak self] in
+            guard let self = self else { return }
+            self.actionBack()
+        }
         
         totalSearchAddressBtn.rx.tap
             .asDriver()
@@ -393,18 +405,7 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
             $0.bottom.equalToSuperview().offset(0)
         }
     }
-    
-    @objc
-    override func backButtonTapped() {
-        guard let _navi = navigationController else { return }
-        for vc in _navi.viewControllers {
-            if let _vc = vc as? MembershipCardViewController {
-                _ = navigationController?.popToViewController(_vc, animated: true)
-                return
-            }
-        }
-    }
-    
+            
     @objc
     fileprivate func handleTap(recognizer: UITapGestureRecognizer) {
         self.view.endEditing(true)
@@ -420,6 +421,16 @@ internal final class MembershipReissuanceInfoViewController: BaseViewController,
         detailAddressTf.text = reissuanceModel.addressDetail
         
         completeBtn.isEnabled = !reissuanceModel.mbName.isEmpty && !reissuanceModel.phoneNo.isEmpty && !reissuanceModel.zipCode.isEmpty && !reissuanceModel.address.isEmpty && !reissuanceModel.addressDetail.isEmpty
+    }
+    
+    private func actionBack() {
+        guard let _navi = GlobalDefine.shared.mainNavi else { return }
+        for vc in _navi.viewControllers {
+            if let _vc = vc as? MembershipCardViewController {
+                _ = _navi.popToViewController(_vc, animated: true)
+                return
+            }
+        }
     }
 }
 

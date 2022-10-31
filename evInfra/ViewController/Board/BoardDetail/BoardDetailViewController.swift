@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import PanModal
 
-class BoardDetailViewController: BaseViewController, UINavigationControllerDelegate {
+internal final class BoardDetailViewController: CommonBaseViewController, UINavigationControllerDelegate {
     
     @IBOutlet var detailTableView: UITableView!
     
@@ -33,7 +33,6 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
         
         fetchData()
         setConfiguration()
-        prepareActionBar(with: "")
         setKeyboardInputView()
         setKeyboardTapGesture()
         setSendButtonCompletion()
@@ -92,7 +91,7 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
     }
 
     private func setConfiguration() {
-        view.addSubview(activityIndicator)
+        self.contentView.addSubview(activityIndicator)
         keyboardInputView = KeyboardInputView()
         keyboardInputView?.delegate = self
         picker.delegate = self
