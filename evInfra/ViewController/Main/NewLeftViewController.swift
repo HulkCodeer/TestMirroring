@@ -673,7 +673,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         switch index.row {
         case 0: // 결제 정보 관리
             cell.menuLabel.text = MemberManager.shared.hasPayment ? "결제 정보 관리" : "결제 정보 등록"
-        case 1: // 회원카드 관리
+        case 1: // 회원카드 관리            
             cell.menuLabel.text = MemberManager.shared.hasMembership ? "EV Pay카드 관리" : "EV Pay카드 신청"
         case 2: // 렌터카 정보 관리
             cell.menuLabel.text = MemberManager.shared.hasRentcar ? "렌터카 정보 관리" : "렌터카 정보 등록"

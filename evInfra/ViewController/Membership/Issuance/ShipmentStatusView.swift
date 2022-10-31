@@ -43,7 +43,7 @@ internal final class ShipmentStatusView: UIView {
         self.addSubview(shipmentStepView)
         shipmentStepView.snp.makeConstraints {
             $0.leading.top.trailing.equalToSuperview()            
-            $0.height.equalTo(328)
+            $0.height.greaterThanOrEqualTo(320)
         }
                         
         self.addSubview(shipmentInfoView)

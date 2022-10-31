@@ -96,6 +96,90 @@ internal final class ShipmentStepView: UIView {
             $0.width.height.equalTo(DotConstant.size)
         }
         
+        let lineView = self.createLineView(color: Colors.contentDisabled.color)
+        totalView.addSubview(lineView)
+        lineView.snp.makeConstraints {
+            $0.top.equalTo(dotView.snp.bottom)
+            $0.center.equalTo(dotView)
+            $0.width.equalTo(2)
+            $0.bottom.equalToSuperview()
+        }
+        
+        let statusDescTotalView = UIView().then {
+            $0.IBcornerRadius = 15
+            $0.backgroundColor = Colors.backgroundSecondary.color
+        }
+        
+        totalView.addSubview(statusDescTotalView)
+        statusDescTotalView.snp.makeConstraints {
+            $0.leading.equalTo(lineView.snp.trailing).offset(26)
+            $0.top.equalTo(dotView.snp.bottom).offset(14)
+            $0.height.equalTo(120)
+        }
+        
+        let statusDescLbl = UILabel().then {
+            $0.text = "신청 내용을 확인중입니다.\n영업일 기준 2~3일내로 발송 예정입니다."
+            $0.textAlignment = .natural
+            $0.textColor = Colors.contentPrimary.color
+            $0.font = .systemFont(ofSize: 14, weight: .regular)
+        }
+        
+        statusDescTotalView.addSubview(statusDescLbl)
+        statusDescLbl.snp.makeConstraints {
+            $0.leading.top.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().offset(-16)
+        }
+        
+        let moveChargingHelpGuideTotalView = UIView().then {
+            $0.backgroundColor = .white
+            $0.IBcornerRadius = 18
+        }
+        
+        statusDescTotalView.addSubview(moveChargingHelpGuideTotalView)
+        moveChargingHelpGuideTotalView.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(16)
+            $0.top.equalTo(statusDescLbl.snp.bottom).offset(8)
+            $0.bottom.equalToSuperview().offset(-16)
+        }
+        
+        let moveChargingHelpGuideLbl = UILabel().then {
+            $0.text = "카드 받기 전 충전 방법"
+            $0.textAlignment = .center
+            $0.textColor = Colors.contentPrimary.color
+            $0.font = .systemFont(ofSize: 14, weight: .regular)
+        }
+        
+        moveChargingHelpGuideTotalView.addSubview(moveChargingHelpGuideLbl)
+        moveChargingHelpGuideLbl.snp.makeConstraints {
+            $0.leading.top.equalToSuperview().offset(16)
+            $0.centerY.equalToSuperview()
+        }
+        
+        let arrowImgView = ChevronArrow.init(.size16(.right))
+        
+        moveChargingHelpGuideTotalView.addSubview(arrowImgView)
+        arrowImgView.snp.makeConstraints {
+            $0.leading.equalTo(moveChargingHelpGuideLbl.snp.trailing)
+            $0.width.height.equalTo(16)
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.centerY.equalToSuperview()
+        }
+        
+        let moveChargingHelpBtn = UIButton()
+        
+        moveChargingHelpGuideTotalView.addSubview(moveChargingHelpBtn)
+        moveChargingHelpBtn.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        moveChargingHelpBtn.rx.tap
+            .asDriver()
+            .drive(onNext: {
+                let viewcon = ChargingGuideWebViewController()                
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+            })
+            .disposed(by: self.disposebag)
+        
         return totalView
     }
     
