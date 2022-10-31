@@ -105,6 +105,10 @@ internal final class ShipmentStepView: UIView {
             $0.bottom.equalToSuperview()
         }
         
+        guard statusInfo.passType == .current &&
+                (statusInfo.shipmentStatusType == .sendReady || statusInfo.shipmentStatusType == .sending)
+        else { return totalView }
+        
         let statusDescTotalView = UIView().then {
             $0.IBcornerRadius = 15
             $0.backgroundColor = Colors.backgroundSecondary.color
@@ -122,6 +126,7 @@ internal final class ShipmentStepView: UIView {
             $0.textAlignment = .natural
             $0.textColor = Colors.contentPrimary.color
             $0.font = .systemFont(ofSize: 14, weight: .regular)
+            $0.numberOfLines = 2
         }
         
         statusDescTotalView.addSubview(statusDescLbl)
