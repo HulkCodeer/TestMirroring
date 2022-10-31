@@ -223,7 +223,7 @@ extension BoardDetailViewController: UIImagePickerControllerDelegate {
         let originalImage = info[UIImagePickerController.InfoKey.originalImage.rawValue] as! UIImage
         let editedImage = info[UIImagePickerController.InfoKey.editedImage.rawValue] as? UIImage
         let selectedImage = editedImage ?? originalImage
-        
+                        
         keyboardInputView?.selectedImageView.isHidden = false
         keyboardInputView?.selectedImageView.image = selectedImage
         keyboardInputView?.trashButton.isHidden = false
