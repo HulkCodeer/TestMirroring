@@ -13,29 +13,10 @@ import RxCocoa
 import SnapKit
 
 internal final class BottomMenuView: UIView {
-    /*
-     @IBOutlet var btn_menu_layer: UIView!
-     @IBOutlet var btn_main_charge: UIButton!
-     @IBOutlet var btn_main_community: UIButton!
-     @IBOutlet var btn_main_help: UIButton!             // 삭제 evPay 버튼으로 변경.
-     @IBOutlet var btn_main_favorite: UIButton!
-     
-     @IBOutlet weak var btnChargePrice: UIButton!
-     */
-    
-    private lazy var btn_menu_layer = UIView().then {
-        $0.backgroundColor = Colors.backgroundPrimary.color
-        $0.layer.cornerRadius = 8
-        $0.clipsToBounds = true
-        $0.layer.shadowRadius = 5
-        $0.layer.shadowColor = UIColor.gray.cgColor
-        $0.layer.shadowOpacity = 0.5
-        $0.layer.shadowOffset = CGSize(width: 0.5, height: 2)
-//        $0.layer.masksToBounds = false
-    }
+
     private lazy var menuStackView = UIStackView().then {
         $0.axis = .horizontal
-        $0.distribution = .fill
+        $0.distribution = .fillEqually
         $0.alignment = .fill
         $0.spacing = 8
     }
@@ -92,20 +73,6 @@ internal final class BottomMenuView: UIView {
     }
     internal lazy var btn_main_favorite = UIButton()
     
-    // 따로.
-//    private lazy var chargePriceLayer = UIView().then {
-//        $0.backgroundColor = Colors.backgroundPrimary.color
-//    }
-//    private lazy var chargePriceIcon = UIImageView().then {
-//        $0.image = Icons.iconCoinFill.image
-//        $0.tintColor = Colors.nt6.color
-//    }
-//    private lazy var chargePriceLabel = UILabel().then {
-//        $0.text = "충전 요금 안내"
-//        $0.textColor = Colors.nt6.color
-//    }
-//    internal lazy var btnChargePrice = UIButton()
-    
     // MARK: System func
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -116,14 +83,17 @@ internal final class BottomMenuView: UIView {
         let iconWidth: CGFloat = 32
         let iconHeight: CGFloat = 24
         
-        self.addSubview(btn_menu_layer)
-        btn_menu_layer.snp.makeConstraints {
-            $0.bottom.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(16)
-            $0.height.equalTo(62)
-        }
+        self.backgroundColor = Colors.backgroundPrimary.color
+        self.layer.cornerRadius = 8
+        self.clipsToBounds = true
+        self.layer.shadowRadius = 5
+        self.layer.shadowColor = UIColor.gray.cgColor
+        self.layer.shadowOpacity = 0.5
+        self.layer.shadowOffset = CGSize(width: 0.5, height: 2)
+        self.layer.masksToBounds = false
         
-        btn_menu_layer.addSubview(menuStackView)
+        
+        self.addSubview(menuStackView)
         menuStackView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
             $0.leading.trailing.equalToSuperview().inset(8)
