@@ -21,7 +21,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case showFilterSetting
         case updateFilterBarTitle
         case setEvPayFilter(Bool)
-        case openEvPayTooltip
+        case openEvPayTooltip    
     }
     
     enum Mutation {
