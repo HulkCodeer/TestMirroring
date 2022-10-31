@@ -58,6 +58,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     // Callout View
     @IBOutlet weak var callOutLayer: UIView!
     // Menu Button Layer
+    private lazy var bottomMenuView = BottomMenuView()
     @IBOutlet var btn_menu_layer: UIView!
     @IBOutlet var btn_main_charge: UIButton!
     @IBOutlet var btn_main_community: UIButton!
@@ -131,9 +132,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         prepareNotificationCenter()
         prepareRouteView()
         prepareClustering()
-        prepareMenuBtnLayer()
         
-        prepareChargePrice()
         requestStationInfo()
         
         prepareCalloutLayer()
@@ -256,8 +255,14 @@ internal final class MainViewController: UIViewController, StoryboardView {
         view.insertSubview(naverMapView, at: 0)
         view.addSubview(filterStackView)
         view.addSubview(customNaviBar)
-        
+
         view.addSubview(destinationResultTableView)
+        view.addSubview(bottomMenuView)
+        bottomMenuView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(8)
+            $0.height.equalTo(62)
+        }
         
         filterStackView.addArrangedSubview(searchWayView)
         filterStackView.addArrangedSubview(filterBarView)
@@ -638,7 +643,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                     
                 owner.setView(view: owner.routeDistanceView, hidden: true)
                 owner.btnChargePrice.isHidden = false
-                owner.btn_menu_layer.isHidden = false
+                owner.bottomMenuView.isHidden = false
                 
                 owner.searchWayView.startTextField.text = String()
                 owner.searchWayView.endTextField.text = String()
@@ -752,32 +757,11 @@ internal final class MainViewController: UIViewController, StoryboardView {
         reNewButton.layer.shadowOpacity = 0.3
                 
         updateMyLocationButton()
-                        
-        btn_menu_layer.layer.cornerRadius = 5
-        btn_menu_layer.clipsToBounds = true
-        btn_menu_layer.layer.shadowRadius = 5
-        btn_menu_layer.layer.shadowColor = UIColor.gray.cgColor
-        btn_menu_layer.layer.shadowOpacity = 0.5
-        btn_menu_layer.layer.shadowOffset = CGSize(width: 0.5, height: 2)
-        btn_menu_layer.layer.masksToBounds = false
     }
     
     private func prepareTmapAPI() {
         tMapView = TMapView()
         tMapView?.setSKTMapApiKey(Const.TMAP_APP_KEY)
-    }
-    
-    // btnChargePrice radius, color, shadow
-    private func prepareChargePrice() {
-        btnChargePrice.layer.cornerRadius = 16
-        btnChargePrice.layer.shadowRadius = 5
-        btnChargePrice.layer.shadowColor = UIColor.black.cgColor
-        btnChargePrice.layer.shadowOpacity = 0.3
-        btnChargePrice.layer.shadowOffset = CGSize(width: 0.5, height: 2)
-        btnChargePrice.layer.masksToBounds = false
-        
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(self.onClickChargePrice))
-        btnChargePrice.addGestureRecognizer(gesture)
     }
     
     func setStartPoint() {
@@ -1068,7 +1052,7 @@ extension MainViewController {
             setView(view: callOutLayer, hidden: true)
             
             self.btnChargePrice.isHidden = true
-            self.btn_menu_layer.isHidden = true
+            self.bottomMenuView.isHidden = true
             
             let bounds = NMGLatLngBounds(southWestLat: startPoint.getLatitude(),
                                          southWestLng: startPoint.getLongitude(),
@@ -1608,20 +1592,7 @@ extension MainViewController {
 }
 
 extension MainViewController {
-    private func prepareMenuBtnLayer() {
-        btn_main_community.alignTextUnderImage()
-        btn_main_community.tintColor = UIColor(named: "gr-8")
-        btn_main_community.setImage(UIImage(named: "ic_comment")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        
-        btn_main_help.alignTextUnderImage()
-        btn_main_help.tintColor = UIColor(named: "gr-8")
-        btn_main_help.setImage(UIImage(named: "icon_main_faq")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        
-        btn_main_favorite.alignTextUnderImage()
-        btn_main_favorite.tintColor = UIColor(named: "gr-8")
-        btn_main_favorite.setImage(UIImage(named: "ic_line_favorite")?.withRenderingMode(.alwaysTemplate), for: .normal)
-    }
-    
+
     @IBAction func onClickMainCharge(_ sender: UIButton) {
         MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
             guard let self = self else { return }
@@ -1747,10 +1718,7 @@ extension MainViewController {
                 }
             } else {
                 // 진행중인 충전이 없음
-                self.btn_main_charge.alignTextUnderImage()
-                self.btn_main_charge.tintColor = Colors.gr8.color
-                self.btn_main_charge.setImage(Icons.iconQr.image, for: .normal)
-                self.btn_main_charge.setTitle("QR충전", for: .normal)
+                self.bottomMenuView.setQRButton(.basic)
             }
         }
     }
@@ -1758,10 +1726,11 @@ extension MainViewController {
     private func getChargingStatus(response: JSON) {
         if response["pay_code"].stringValue.equals("8804") {
             defaults.saveBool(key: UserDefault.Key.HAS_FAILED_PAYMENT, value: true)
-            ivMainChargeNew.isHidden = false
+            bottomMenuView.setEvPayButton(.badge)
+            
         } else {
             defaults.saveBool(key: UserDefault.Key.HAS_FAILED_PAYMENT, value: false)
-            ivMainChargeNew.isHidden = true
+            bottomMenuView.setEvPayButton(.basic)
         }
         
         if let reactor = reactor {
@@ -1771,11 +1740,7 @@ extension MainViewController {
         switch (response["code"].intValue) {
         case 1000:
             // 충전중
-            self.btn_main_charge.alignTextUnderImage()
-            self.btn_main_charge.setImage(UIImage(named: "ic_line_charging")?.withRenderingMode(.alwaysTemplate), for: .normal)
-            self.btn_main_charge.tintColor = UIColor(named: "gr-8")
-            self.btn_main_charge.setTitle("충전중", for: .normal)
-            break
+            bottomMenuView.setQRButton(.charging)
             
         case 2002:
             switch response["status"].stringValue {
@@ -1793,10 +1758,7 @@ extension MainViewController {
             }
             
             // 진행중인 충전이 없음
-            self.btn_main_charge.alignTextUnderImage()
-            self.btn_main_charge.tintColor = UIColor(named: "gr-8")
-            self.btn_main_charge.setImage(Icons.iconQr.image, for: .normal)
-            self.btn_main_charge.setTitle("QR충전", for: .normal)
+            bottomMenuView.setQRButton(.basic)
             
         default: break
         }
