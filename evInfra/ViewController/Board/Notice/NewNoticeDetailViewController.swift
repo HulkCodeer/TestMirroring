@@ -64,7 +64,7 @@ internal final class NewNoticeDetailViewController: CommonBaseViewController, St
 
     override func loadView() {
         super.loadView()
-
+        
         contentView.addSubview(customNaviBar)
         contentView.addSubview(scrollView)
         scrollView.addSubview(scrollContentView)

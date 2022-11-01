@@ -8,6 +8,9 @@
 #elseif os(tvOS) || os(watchOS)
   import UIKit
 #endif
+#if canImport(SwiftUI)
+  import SwiftUI
+#endif
 
 // Deprecated typealiases
 @available(*, deprecated, renamed: "ImageAsset.Image", message: "This typealias will be removed in SwiftGen 7.0")
@@ -70,6 +73,10 @@ internal enum Icons {
   internal static let iconInfoMd = ImageAsset(name: "icon_info_md")
   internal static let iconInfoSm = ImageAsset(name: "icon_info_sm")
   internal static let iconInfoXs = ImageAsset(name: "icon_info_xs")
+  internal static let iconMapCourseLg = ImageAsset(name: "icon_map-course_lg")
+  internal static let iconMapCourseMd = ImageAsset(name: "icon_map-course_md")
+  internal static let iconMapCourseSm = ImageAsset(name: "icon_map-course_sm")
+  internal static let iconMapCourseXs = ImageAsset(name: "icon_map-course_xs")
   internal static let iconLockLg = ImageAsset(name: "icon_lock_lg")
   internal static let iconLockMd = ImageAsset(name: "icon_lock_md")
   internal static let iconLockSm = ImageAsset(name: "icon_lock_sm")
@@ -78,6 +85,9 @@ internal enum Icons {
   internal static let iconMapMd = ImageAsset(name: "icon_map_md")
   internal static let iconMapSm = ImageAsset(name: "icon_map_sm")
   internal static let iconMapXs = ImageAsset(name: "icon_map_xs")
+  internal static let iconMenuBadge = ImageAsset(name: "icon_menu_badge")
+  internal static let iconMenuMd = ImageAsset(name: "icon_menu_md")
+  internal static let iconSearchMd = ImageAsset(name: "icon_search_md")
   internal static let iconProfileEmpty = ImageAsset(name: "icon_profile_empty")
   internal static let iconQr = ImageAsset(name: "icon_qr")
   internal static let iconRadioSelected = ImageAsset(name: "iconRadioSelected")
@@ -186,6 +196,13 @@ internal struct ImageAsset {
     return result
   }
   #endif
+
+  #if canImport(SwiftUI)
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  internal var swiftUIImage: SwiftUI.Image {
+    SwiftUI.Image(asset: self)
+  }
+  #endif
 }
 
 internal extension ImageAsset.Image {
@@ -203,6 +220,26 @@ internal extension ImageAsset.Image {
     #endif
   }
 }
+
+#if canImport(SwiftUI)
+@available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+internal extension SwiftUI.Image {
+  init(asset: ImageAsset) {
+    let bundle = BundleToken.bundle
+    self.init(asset.name, bundle: bundle)
+  }
+
+  init(asset: ImageAsset, label: Text) {
+    let bundle = BundleToken.bundle
+    self.init(asset.name, bundle: bundle, label: label)
+  }
+
+  init(decorative asset: ImageAsset) {
+    let bundle = BundleToken.bundle
+    self.init(decorative: asset.name, bundle: bundle)
+  }
+}
+#endif
 
 // swiftlint:disable convenience_type
 private final class BundleToken {

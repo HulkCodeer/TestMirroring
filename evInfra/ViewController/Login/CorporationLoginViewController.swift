@@ -13,6 +13,10 @@ protocol CorporationLoginViewControllerDelegate {
     func successSignUp()
 }
 class CorporationLoginViewController: UIViewController {
+    private lazy var customNaviBar = CommonNaviView().then {
+        $0.naviTitleLbl.text = ""
+        $0.backgroundColor = Colors.backgroundPrimary.color
+    }
     @IBOutlet weak var tfCorpId: UITextField!
     @IBOutlet weak var tfCorpPwd: UITextField!
     
@@ -20,6 +24,17 @@ class CorporationLoginViewController: UIViewController {
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
+    }
+    
+    override func loadView() {
+        super.loadView()
+                
+        view.addSubview(customNaviBar)
+        customNaviBar.snp.makeConstraints {
+            $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(Constants.view.naviBarHeight)
+        }
+        
     }
     
     override func viewDidLoad() {
@@ -40,6 +55,7 @@ class CorporationLoginViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
     }
     
     @IBAction func onClickLogin(_ sender: Any) {

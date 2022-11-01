@@ -13,9 +13,17 @@ import SwiftyJSON
 import SnapKit
 import CoreMIDI
 
-class CardBoardViewController: BaseViewController {
-    
+internal final class CardBoardViewController: CommonBaseViewController {
+    private lazy var commonNaviView = CommonNaviView().then {
+        $0.naviTitleLbl.text = ""
+    }
     private lazy var boardTableView = BoardTableView()
+    private lazy var searchButton = UIButton().then {
+        $0.setImage(Icons.iconSearchMd.image, for: .normal)
+        $0.tintColor = Colors.nt9.color
+        
+        $0.addTarget(self, action: #selector(handleSearchButton), for: .touchUpInside)
+    }
     
     var category: Board.CommunityType = .FREE // default 자유게시판
     var bmId: Int = -1
@@ -31,25 +39,71 @@ class CardBoardViewController: BaseViewController {
     override func loadView() {
         super.loadView()
         
-        view.addSubview(boardTableView)
-        boardTableView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+        boardTableView.tableViewDelegate = self
+        boardTableView.category = self.category
+        boardTableView.screenType = self.mode
+        boardTableView.refreshControl = UIRefreshControl()
+        boardTableView.refreshControl?.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
+        boardTableView.refreshControl?.attributedTitle = NSAttributedString(string: "새로고침")
+        boardTableView.separatorColor = UIColor(rgb: 0xE4E4E4)
+        boardTableView.separatorInset = .zero
+        boardTableView.separatorStyle = .none
+        boardTableView.allowsSelection = true
+                
+        switch self.category {
+        case .CHARGER:
+            self.commonNaviView.naviTitleLbl.text = "충전소 게시판"
+        case .CORP_GS, .CORP_JEV, .CORP_STC, .CORP_SBC:
+            self.commonNaviView.naviTitleLbl.text = "\(self.brdTitle) 게시판"
+        case .FREE:
+            self.commonNaviView.naviTitleLbl.text = "자유게시판"
+        default:
+            self.commonNaviView.naviTitleLbl.text = "게시판"
+        }
+                
+        self.contentView.addSubview(commonNaviView)
+        commonNaviView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalTo(Constants.view.naviBarHeight)
         }
         
-        setConfiguration()
+        self.contentView.addSubview(boardTableView)
+        boardTableView.snp.makeConstraints {
+            $0.top.equalTo(commonNaviView.snp.bottom)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        commonNaviView.addSubview(searchButton)
+        searchButton.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(Constants.view.naviBarItemPadding)
+            $0.size.equalTo(Constants.view.naviBarItemWidth)
+        }
+                        
+        self.contentView.addSubview(boardWriteButton)
+        self.contentView.addSubview(activityIndicator)
+        
+        boardWriteButton.snp.makeConstraints {
+            $0.bottom.equalToSuperview().offset(-74)
+            $0.trailing.equalToSuperview().offset(-24)
+            $0.width.equalTo(101)
+            $0.height.equalTo(36)
+        }
+        
+        boardWriteButton.addTarget(self, action: #selector(handlePostButton), for: .touchUpInside)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         boardListViewModel = BoardListViewModel(category)
-        prepareActionBar()
         fetchFirstBoard(mid: category.rawValue, sort: sortType, mode: mode.rawValue)
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateCompletion(_:)), name: Notification.Name("ReloadData"), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
     }
 }
 
@@ -63,66 +117,7 @@ extension CardBoardViewController {
         refresh.endRefreshing()
         fetchFirstBoard(mid: category.rawValue, sort: sortType, mode: mode.rawValue)
     }
-    
-    func prepareActionBar() {
-        self.navigationController?.isNavigationBarHidden = false
-        
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "nt-9")
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-        
-        let searchButton = IconButton(image: UIImage(named: "iconSearchMd"))
-        searchButton.tintColor = UIColor(named: "nt-9")
-        searchButton.addTarget(self, action: #selector(handleSearchButton), for: .touchUpInside)
-        
-        navigationItem.hidesBackButton = true
-        navigationItem.leftViews = [backButton]
-        navigationItem.rightViews = [searchButton]
-        navigationItem.titleLabel.textColor = UIColor(named: "nt-9")
-        navigationItem.titleLabel.text = "게시판"
-        
-        switch self.category {
-        case .CHARGER:
-            navigationItem.titleLabel.text = "충전소 게시판"
-        case .CORP_GS, .CORP_JEV, .CORP_STC, .CORP_SBC:
-            navigationItem.titleLabel.text = self.brdTitle + " 게시판"
-        case .FREE:
-            navigationItem.titleLabel.text = "자유게시판"
-        default:
-            break
-        }
-    }
-    
-    func setConfiguration() {
-        boardTableView.tableViewDelegate = self
-        boardTableView.category = self.category
-        boardTableView.screenType = self.mode
-        boardTableView.refreshControl = UIRefreshControl()
-        boardTableView.refreshControl?.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
-        boardTableView.refreshControl?.attributedTitle = NSAttributedString(string: "새로고침")
-        boardTableView.separatorColor = UIColor(rgb: 0xE4E4E4)
-        boardTableView.separatorInset = .zero
-        boardTableView.separatorStyle = .none
-        boardTableView.allowsSelection = true
-        
-        self.view.addSubview(boardWriteButton)
-        self.view.addSubview(activityIndicator)
-        
-        boardWriteButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().offset(-74)
-            $0.trailing.equalToSuperview().offset(-24)
-            $0.width.equalTo(101)
-            $0.height.equalTo(36)
-        }
-        
-        boardWriteButton.addTarget(self, action: #selector(handlePostButton), for: .touchUpInside)
-    }
-    
-    @objc
-    fileprivate func handleBackButton() {
-        self.navigationController?.pop()
-    }
-    
+            
     @objc
     fileprivate func handleSearchButton() {
         let storyboard = UIStoryboard.init(name: "BoardSearchViewController", bundle: nil)

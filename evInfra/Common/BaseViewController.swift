@@ -12,6 +12,10 @@ import Material
 import AVFoundation
 import RxSwift
 
+/**
+ * 코드 베이스로 그리지 않을때는 CommonBaseViewController 말고 이 클래스를 상속 받아야 한다.
+ */
+
 internal class BaseViewController: UIViewController {
     
     // MARK: VARIABLE
@@ -87,22 +91,5 @@ internal class BaseViewController: UIViewController {
         actions.append(openAction)
         
         UIAlertController.showAlert(title: "카메라 기능이 활성화되지 않았습니다.", message: "사진추가를 위해 카메라 권한이 필요합니다.", actions: actions)
-    }
-    
-    internal func prepareActionBar(with title: String) {
-        navigationController?.isNavigationBarHidden = false
-        
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "nt-9")
-        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-        
-        navigationItem.hidesBackButton = true
-        navigationItem.leftViews = [backButton]
-        navigationItem.titleLabel.text = title
-    }
-    
-    @objc
-    internal func backButtonTapped() {
-        self.navigationController?.pop()
     }
 }

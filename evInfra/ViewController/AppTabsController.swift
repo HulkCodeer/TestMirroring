@@ -14,14 +14,44 @@ class AppTabsController: TabsController {
     var appTabsControllerDelegates = [AppTabsControllerDelegate]()
     var actionTitle: String? = ""
     
+    private lazy var safelayoutView = UIView().then {
+        $0.backgroundColor = Colors.backgroundPrimary.color
+    }
+    internal lazy var customNavi = CommonNaviView().then {
+        $0.backgroundColor = Colors.backgroundPrimary.color
+    }
+    
     open override func prepare() {
         super.prepare()
         view.backgroundColor = Color.blueGrey.lighten5
         self.isUserInteractionEnabled = true
-        prepareActionBar()
         preparePageTabBar()
         delegate = self
+  
+        let containerHeight = UIScreen.main.bounds.height - (tabBar.frame.height + Constants.view.naviBarHeight)
+        container.frame.size.height = containerHeight
+        container.frame.origin.y = Constants.view.naviBarHeight
+        rootViewController.view.frame = container.bounds
+        
+        view.addSubview(safelayoutView)
+        safelayoutView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.top).offset(Constants.view.naviBarHeight)
+        }
+        
+        view.addSubview(customNavi)
+        customNavi.snp.makeConstraints {
+            $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(Constants.view.naviBarHeight)
+        }
+        
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
+    }
+    
 }
 
 extension AppTabsController: TabsControllerDelegate {
@@ -44,21 +74,6 @@ extension AppTabsController {
 }
 
 extension AppTabsController {
-    
-    func prepareActionBar() {
-        var backButton: IconButton!
-        backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "content-primary")
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-        
-        navigationItem.hidesBackButton = true
-        navigationItem.leftViews = [backButton]
-        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-        if let titleText = actionTitle{
-            navigationItem.titleLabel.text = titleText
-        }
-        self.navigationController?.isNavigationBarHidden = false
-    }
     
     @objc
     fileprivate func handleBackButton() {

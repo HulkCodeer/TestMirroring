@@ -10,12 +10,15 @@ import UIKit
 import Material
 import SwiftyJSON
 
-internal final class MembershipCardViewController: BaseViewController {
+internal final class MembershipCardViewController: CommonBaseViewController {
 
     // MARK: UI
     
-    private lazy var partnershipListView = PartnershipListView(frame: .zero).then {
-        
+    private lazy var commonNaviView = CommonNaviView().then {
+        $0.naviTitleLbl.text = "EV Pay 카드관리"
+    }
+    
+    private lazy var partnershipListView = PartnershipListView(frame: .zero).then {        
         $0.delegate = self
         $0.navi = self.navigationController ?? UINavigationController()
     }
@@ -29,22 +32,28 @@ internal final class MembershipCardViewController: BaseViewController {
     override func loadView() {
         super.loadView()
         
-        view.addSubview(partnershipListView)
+        self.contentView.addSubview(commonNaviView)
+        commonNaviView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalTo(Constants.view.naviBarHeight)
+        }
+        
+        self.contentView.addSubview(partnershipListView)
         partnershipListView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.equalTo(commonNaviView.snp.bottom)
+            $0.leading.trailing.bottom.equalToSuperview()
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        prepareActionBar(with: "EV Pay 카드관리")
         checkPayStatus()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-                        
+        
+        GlobalDefine.shared.mainNavi?.interactivePopGestureRecognizer?.isEnabled = false
         MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
             guard isLogin, let self = self else {
                 MemberManager.shared.showLoginAlert()
@@ -106,11 +115,7 @@ internal final class MembershipCardViewController: BaseViewController {
                 Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 결제정보관리 페이지 종료후 재시도 바랍니다.")
             }
         }
-    }
-    
-    override func backButtonTapped() {
-        GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
-    }
+    }    
 }
 
 extension MembershipCardViewController: MembershipReissuanceInfoDelegate {

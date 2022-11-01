@@ -34,9 +34,9 @@ import Material
 class AppSearchBarController: SearchBarController {
     private var menuButton: IconButton!
     private var moreButton: IconButton!
-    
+
     internal var backbuttonTappedDelegate: (() -> Void)?
-    
+
     open override func prepare() {
         super.prepare()
         prepareBackButton()
@@ -44,25 +44,25 @@ class AppSearchBarController: SearchBarController {
         prepareStatusBar()
         prepareSearchBar()
     }
-    
+
     private func prepareBackButton() {
         menuButton = IconButton(image: Icon.cm.arrowBack)
         menuButton.tintColor = UIColor(named: "content-primary")
         menuButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
     }
-    
+
     private func prepareMoreButton() {
         moreButton = IconButton(image: Icon.cm.moreVertical)
         menuButton.tintColor = UIColor(named: "content-primary")
     }
-    
+
     private func prepareStatusBar() {
         statusBarStyle = .lightContent
-        
+
         // Access the statusBar.
         //        statusBar.backgroundColor = Color.grey.base
     }
-    
+
     private func prepareSearchBar() {
         searchBar.leftViews = [menuButton]
 //        searchBar.rightViews = [moreButton]
