@@ -423,6 +423,8 @@ internal final class MainViewController: UIViewController, StoryboardView {
         self.rx.viewDidAppear
             .subscribe(with: self) { owner, _ in
                 owner.setMenuBadge(reactor: reactor)
+                
+                owner.setChargingStatus(reactor: reactor)
             }
             .disposed(by: disposeBag)
                 
@@ -681,7 +683,41 @@ internal final class MainViewController: UIViewController, StoryboardView {
             }
             .disposed(by: disposeBag)
         
-        // 하단메뉴
+        // check
+        reactor.state.compactMap { $0.chargingStatus }
+            .filter { $0.isQR == false }
+            .map { return $0.chargingType }
+            .asDriver(onErrorJustReturn: (.none))
+            .drive(with: self) { owner, chargingType in
+                var isAccount = false
+                var isCharging = false
+                
+                switch chargingType {
+                case .charging:
+                    isCharging = true
+                
+                case .accountsReceivable:
+                    isAccount = true
+                    
+                case .leave:
+                    LoginHelper.shared.logout(completion: { [weak self] success in
+                        if success {
+                            self?.closeMenu()
+                            Snackbar().show(message: "회원 탈퇴로 인해 로그아웃 되었습니다.")
+                        } else {
+                            Snackbar().show(message: "다시 시도해 주세요.")
+                        }
+                    })
+                    
+                default: break
+                }
+                
+                owner.defaults.saveBool(key: UserDefault.Key.HAS_FAILED_PAYMENT, value: isAccount)
+                owner.bottomMenuView.setEvPayButton(isAccount == true ? .badge : .basic)
+                
+                owner.bottomMenuView.setQRButton(isCharging ? .charging : .basic)
+            }
+            .disposed(by: disposeBag)
         
         // qr idcheck
         reactor.state.compactMap { $0.chargingStatus }
@@ -734,6 +770,17 @@ internal final class MainViewController: UIViewController, StoryboardView {
     }
     
     // MARK: FUNC
+    
+    private func setChargingStatus(reactor: MainReactor) {
+        MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
+            guard let self = self else { return }
+            if isLogin {
+                Observable.just(MainReactor.Action.setChargingID(isQR: false))
+                    .bind(to: reactor.action)
+                    .disposed(by: self.disposeBag)
+            }
+        }
+    }
     
     private func setMenuBadge(reactor: MainReactor) {
         let hasBadge = Board.sharedInstance.hasNew() || defaults.readBool(key: UserDefault.Key.HAS_FAILED_PAYMENT)
@@ -1682,6 +1729,9 @@ extension MainViewController: LoginHelperDelegate {
     }
     
     func successLogin() {
+        if let reactor = reactor {
+            self.setChargingStatus(reactor: reactor)
+        }
     }
     
     func needSignUp(user: Login) {
