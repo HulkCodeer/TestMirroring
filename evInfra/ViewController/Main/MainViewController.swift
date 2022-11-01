@@ -59,13 +59,13 @@ internal final class MainViewController: UIViewController, StoryboardView {
     @IBOutlet weak var callOutLayer: UIView!
     // Menu Button Layer
     private lazy var bottomMenuView = BottomMenuView()
-    @IBOutlet var btn_menu_layer: UIView!
-    @IBOutlet var btn_main_charge: UIButton!
-    @IBOutlet var btn_main_community: UIButton!
-    @IBOutlet var btn_main_help: UIButton!
-    @IBOutlet var btn_main_favorite: UIButton!
-    // 미수금
-    @IBOutlet weak var ivMainChargeNew: UIImageView!
+//    @IBOutlet var btn_menu_layer: UIView!
+//    @IBOutlet var btn_main_charge: UIButton!
+//    @IBOutlet var btn_main_community: UIButton!
+//    @IBOutlet var btn_main_help: UIButton!
+//    @IBOutlet var btn_main_favorite: UIButton!
+//    // 미수금
+//    @IBOutlet weak var ivMainChargeNew: UIImageView!
     
     //경로찾기시 거리표시 뷰 (call out)
     @IBOutlet weak var routeDistanceView: UIView!

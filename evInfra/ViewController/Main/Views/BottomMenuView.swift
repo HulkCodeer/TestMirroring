@@ -32,7 +32,7 @@ internal final class BottomMenuView: UIView {
         $0.textColor = Colors.contentTertiary.color
         $0.font = .systemFont(ofSize: 11)
     }
-    internal lazy var btn_main_charge = UIButton()
+    internal lazy var qrChargeButton = UIButton()
 
     private lazy var communityLayer = UIView()
     private lazy var communityIcon = UIImageView().then {
@@ -45,7 +45,7 @@ internal final class BottomMenuView: UIView {
         $0.textColor = Colors.contentTertiary.color
         $0.font = .systemFont(ofSize: 11)
     }
-    internal lazy var btn_main_community = UIButton()
+    internal lazy var communityButton = UIButton()
     
     private lazy var evPayLayer = UIView()
     private lazy var evPayIcon = UIImageView().then {
@@ -71,7 +71,7 @@ internal final class BottomMenuView: UIView {
         $0.textColor = Colors.contentTertiary.color
         $0.font = .systemFont(ofSize: 11)
     }
-    internal lazy var btn_main_favorite = UIButton()
+    internal lazy var favoriteButton = UIButton()
     
     // MARK: System func
     override init(frame: CGRect) {
@@ -116,8 +116,8 @@ internal final class BottomMenuView: UIView {
             $0.top.equalTo(qrChargeIcon.snp.bottom).offset(labelTopPadding)
             $0.centerX.equalToSuperview()
         }
-        qrChargeLayer.addSubview(btn_main_charge)
-        btn_main_charge.snp.makeConstraints {
+        qrChargeLayer.addSubview(qrChargeButton)
+        qrChargeButton.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         
@@ -133,8 +133,8 @@ internal final class BottomMenuView: UIView {
             $0.top.equalTo(communityIcon.snp.bottom).offset(labelTopPadding)
             $0.centerX.equalToSuperview()
         }
-        communityLayer.addSubview(btn_main_community)
-        btn_main_charge.snp.makeConstraints {
+        communityLayer.addSubview(communityButton)
+        qrChargeButton.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         
@@ -167,8 +167,8 @@ internal final class BottomMenuView: UIView {
             $0.top.equalTo(favoriteIcon.snp.bottom).offset(labelTopPadding)
             $0.centerX.equalToSuperview()
         }
-        favoriteLayer.addSubview(btn_main_favorite)
-        btn_main_favorite.snp.makeConstraints {
+        favoriteLayer.addSubview(favoriteButton)
+        favoriteButton.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         
