@@ -11,6 +11,7 @@ import SwiftyJSON
 
 internal final class MainReactor: ViewModel, Reactor {
     typealias SelectedFilterInfo = (filterTagType: FilterTagType, isSeleted: Bool)
+    typealias ChargingData = (chargingType: ChargeShowType, chargingData: ChargingID?)
     
     enum Action {
         case showMarketingPopup
@@ -30,6 +31,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case clearSearchPoint(SearchWayPointType)
         case setEvPayFilter(Bool)
         case openEvPayTooltip    
+        case showQRCharge
     }
     
     enum Mutation {
@@ -48,6 +50,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case setSelectedFilterInfo(SelectedFilterInfo)
         case setEvPayFilter(Bool)
         case openEvPayTooltip
+        case showQRCharge(ChargingData)
     }
     
     struct State {
@@ -66,6 +69,7 @@ internal final class MainReactor: ViewModel, Reactor {
         var selectedFilterInfo: SelectedFilterInfo?
         var isEvPayFilter: Bool?
         var isShowEvPayToolTip: Bool?
+        var chargingData: ChargingData?
     }
     
     internal var initialState: State
@@ -161,6 +165,12 @@ internal final class MainReactor: ViewModel, Reactor {
         case .openEvPayTooltip:
             return .just(.openEvPayTooltip)
             
+        case .showQRCharge:
+            return self.provider.getChargingID()
+                .convertData()
+                .compactMap(convertToChargingData)
+                .map { return .showQRCharge($0) }
+            
         }
     }
     
@@ -180,6 +190,7 @@ internal final class MainReactor: ViewModel, Reactor {
         newState.isClearSearchWayPoint = nil
         newState.searchDetinationData = nil
         newState.isShowEvPayToolTip = nil
+        newState.chargingData = nil
         
         switch mutation {
         case .setShowMarketingPopup(let isShow):
@@ -227,6 +238,9 @@ internal final class MainReactor: ViewModel, Reactor {
             
         case .openEvPayTooltip:
             newState.isShowEvPayToolTip = FCMManager.sharedInstance.originalMemberId.isEmpty
+            
+        case .showQRCharge(let chargingData):
+            newState.chargingData = chargingData
         }
         
         return newState
@@ -263,8 +277,44 @@ internal final class MainReactor: ViewModel, Reactor {
         }
     }
     
+    private func convertToChargingData(with result: ApiResult<Data, ApiError>) -> ChargingData? {
+        switch result {
+        case .success(let data):
+            let jsonData = JSON(data)
+            printLog("--> convertToChargingData \(jsonData), \(jsonData["pay_code"])")
+            let code = jsonData["code"]
+            
+            switch code {
+            case 1000: // 충전중
+                let chargingData = try? JSONDecoder().decode(ChargingID.self, from: data)
+                return (.charging, chargingData)
+                
+            case 2002 where jsonData["pay_code"].stringValue == "8804": // 미수금
+                return ( .accountsReceivable, nil)
+                
+            case 2002:      // 충전 x
+                return (.none, nil)
+                
+            default:
+                return nil
+            }
+ 
+        case .failure(let error):
+            printLog(out: "Error Message : \(error)")
+            Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
+            return nil
+        }
+    }
+    
     enum SearchWayPointType {
         case startPoint
         case endPoint
     }
+
+    enum ChargeShowType {
+        case charging
+        case none
+        case accountsReceivable
+    }
+    
 }

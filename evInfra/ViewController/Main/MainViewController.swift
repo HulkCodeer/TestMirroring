@@ -527,6 +527,25 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 owner.hideDestinationResult(reactor: reactor, hide: true)
             }
             .disposed(by: disposeBag)
+        
+        // MARK: 메인 하단메뉴 bindAction
+        bottomMenuView.qrChargeButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                MemberManager.shared.tryToLoginCheck { [weak self] isLogin in
+                    if isLogin {
+                        Observable.just(MainReactor.Action.showQRCharge)
+                            .bind(to: reactor.action)
+                            .disposed(by: owner.disposeBag)
+                    } else {
+                        // 비로그인시 로그인 플로우 확인용
+                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "QR충전")
+                        MemberManager.shared.showLoginAlert()
+                    }
+                }
+            }
+            .disposed(by: disposeBag)
+        
     }
     
     // MARK: - bindState
@@ -659,6 +678,51 @@ internal final class MainViewController: UIViewController, StoryboardView {
 
                 self.clusterManager?.isRouteMode = false
                 owner.summaryView.layoutAddPathSummary(hiddenAddBtn: !self.clusterManager!.isRouteMode)
+            }
+            .disposed(by: disposeBag)
+        
+        // 하단메뉴
+        
+        reactor.state.compactMap { $0.chargingData }
+            .asDriver(onErrorJustReturn: (.none, nil))
+            .drive(with: self) { owner, chargingData in
+                let (type, chargingID) = chargingData
+                switch type {
+                case .charging:
+                    guard let _chargingID = chargingID else { break }
+                    
+                    let paymentReactor = PaymentStatusReactor(provider: RestApi())
+                    let paymentVC = NewPaymentStatusViewController(reactor: paymentReactor)
+                    paymentVC.chargingId = "\(_chargingID)"
+                    
+                    GlobalDefine.shared.mainNavi?.push(viewController: paymentVC)
+                    
+                case .none:
+                    let status = AVCaptureDevice.authorizationStatus(for: .video)
+                    switch status {
+                    case .notDetermined, .denied:
+                        AVCaptureDevice.requestAccess(for: .video) { [weak self] grated in
+                            if grated {
+                                self?.movePaymentQRScan()
+                            } else {
+                                self?.showAuthAlert()
+                            }
+                        }
+                    case .authorized:
+                        self.movePaymentQRScan()
+                        
+                    default: break
+                    }
+                    
+                case .accountsReceivable:
+                    let paymentStoryboard = UIStoryboard(name : "Payment", bundle: nil)
+                    let repayListViewController = paymentStoryboard.instantiateViewController(ofType: RepayListViewController.self)
+                    repayListViewController.delegate = self
+                    
+                    GlobalDefine.shared.mainNavi?.push(viewController: repayListViewController)
+                    
+                }
+                
             }
             .disposed(by: disposeBag)
     }
@@ -1567,55 +1631,6 @@ extension MainViewController {
 
 extension MainViewController {
 
-    private func responseGetChargingId(response: JSON) {
-        if response.isEmpty {
-            return
-        }
-        
-        let paymentStoryboard = UIStoryboard(name : "Payment", bundle: nil)
-        let code = response["code"].intValue
-        switch code {
-        case 1000:
-//            defaults.saveString(key: UserDefault.Key.CHARGING_ID, value: response["charging_id"].stringValue)
-//            let viewcon = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: PaymentStatusViewController.self)
-//            viewcon.cpId = "GS00002204"
-//            viewcon.connectorId = "1"
-            
-            let reactor = PaymentStatusReactor(provider: RestApi())
-            let viewcon = NewPaymentStatusViewController(reactor: reactor)
-//            viewcon.cpId = response["cp_id"].stringValue
-//            viewcon.connectorId = response["connector_id"].stringValue
-            viewcon.chargingId = response["charging_id"].stringValue
-            
-            GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-                                    
-        case 2002:
-            if response["pay_code"].stringValue.equals("8804") {
-                let repayListViewController = paymentStoryboard.instantiateViewController(ofType: RepayListViewController.self)
-                repayListViewController.delegate = self
-                GlobalDefine.shared.mainNavi?.push(viewController: repayListViewController)
-            } else {
-                let status = AVCaptureDevice.authorizationStatus(for: .video)
-                switch status {
-                case .notDetermined, .denied:
-                    AVCaptureDevice.requestAccess(for: .video) { grated in
-                        if grated {
-                            self.movePaymentQRScan()
-                        } else {
-                            self.showAuthAlert()
-                        }
-                    }
-                case .authorized:
-                    self.movePaymentQRScan()
-                    
-                case .restricted: break
-                }
-            }
-            
-        default: break
-        }
-    }
-    
     private func movePaymentQRScan() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             let reactor = PaymentQRScanReactor(provider: RestApi())
