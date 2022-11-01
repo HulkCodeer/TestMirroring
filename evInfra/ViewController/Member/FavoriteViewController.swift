@@ -9,7 +9,7 @@
 import UIKit
 import Material
 
-internal final class FavoriteViewController: CommonBaseViewController {
+internal final class FavoriteViewController: BaseViewController {
 
     @IBOutlet weak var tableView: ChargerTableView!
     @IBOutlet var emptyView: UIView!

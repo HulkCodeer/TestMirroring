@@ -133,7 +133,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         prepareMenuBtnLayer()
         
         prepareChargePrice()
-//        requestStationInfo()
+        requestStationInfo()
         
         prepareCalloutLayer()
         
@@ -1622,11 +1622,9 @@ extension MainViewController {
     
     @IBAction func onClickCommunityBtn(_ sender: Any) {
         UserDefault().saveInt(key: UserDefault.Key.LAST_FREE_ID, value: Board.sharedInstance.freeBoardId)
-
-        let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
-        let freeBoardViewController = boardStoryboard.instantiateViewController(ofType: CardBoardViewController.self)
-        freeBoardViewController.category = .FREE
-        GlobalDefine.shared.mainNavi?.push(viewController: freeBoardViewController)
+        let viewcon = CardBoardViewController()
+        viewcon.category = .FREE
+        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
     }
     
     @IBAction func onClickMainHelp(_ sender: UIButton) {

@@ -409,6 +409,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         
         moveMyInfoBtn.rx.tap
             .asDriver()
+            .debug()
             .drive(with: self, onNext: { owner, _ in
                 AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "전체메뉴 상단 베리 닉네임")
                 let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPageViewController.self)
@@ -418,6 +419,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         
         moveLoginBtn.rx.tap
             .asDriver()
+            .debug()
             .drive(with: self, onNext: { owner, _ in
                 AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "비로그인 전체메뉴 상단 베리 닉네임")
                 let viewcon = UIStoryboard(name : "Login", bundle: nil).instantiateViewController(ofType: LoginViewController.self)
@@ -506,11 +508,6 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
             .disposed(by: self.disposeBag)
         
         reactor.state.compactMap { $0.isAllBerry }
-            .do(onNext: { isOn in
-                let property: [String: Any] = ["berryAmount": "베리량",
-                                               "onOrOff": isOn]
-                AmplitudeEvent.Event.clickSidemenuSetUpBerryAll.logEvent(property: property)
-            })
             .asDriver(onErrorJustReturn: false)
             .drive(self.useAllMyBerrySw.rx.isOn)
             .disposed(by: self.disposeBag)
@@ -518,6 +515,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         myBerryRefreshBtn.rx.tap
             .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
             .asDriver(onErrorJustReturn: ())
+            .debug()
             .drive(with: self) { obj, _ in
                 let animation = CABasicAnimation(keyPath: "transform.rotation.z")
                 let direction = 1.0
@@ -536,6 +534,11 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
             .disposed(by: self.disposeBag)
                         
         useAllMyBerryBtn.rx.tap
+            .do(onNext: { isOn in
+                let property: [String: Any] = ["berryAmount": "베리량",
+                                               "onOrOff": isOn]
+                AmplitudeEvent.Event.clickSidemenuSetUpBerryAll.logEvent(property: property)
+            })
             .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
             .map { LeftViewReactor.Action.loadPaymentStatus }
             .bind(to: reactor.action)
