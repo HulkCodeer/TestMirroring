@@ -531,12 +531,13 @@ internal final class MainViewController: UIViewController, StoryboardView {
         // MARK: 메인 하단메뉴 bindAction
         bottomMenuView.qrChargeButton.rx.tap
             .asDriver()
-            .drive(with: self) { owner, _ in
+            .drive { _ in
                 MemberManager.shared.tryToLoginCheck { [weak self] isLogin in
+                    guard let self = self else { return }
                     if isLogin {
                         Observable.just(MainReactor.Action.showQRCharge)
                             .bind(to: reactor.action)
-                            .disposed(by: owner.disposeBag)
+                            .disposed(by: self.disposeBag)
                     } else {
                         // 비로그인시 로그인 플로우 확인용
                         AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "QR충전")
@@ -683,7 +684,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         
         // 하단메뉴
         
-        reactor.state.compactMap { $0.chargingData }
+        reactor.state.compactMap { $0.qrChargingData }
             .asDriver(onErrorJustReturn: (.none, nil))
             .drive(with: self) { owner, chargingData in
                 let (type, chargingID) = chargingData

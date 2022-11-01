@@ -69,7 +69,7 @@ internal final class MainReactor: ViewModel, Reactor {
         var selectedFilterInfo: SelectedFilterInfo?
         var isEvPayFilter: Bool?
         var isShowEvPayToolTip: Bool?
-        var chargingData: ChargingData?
+        var qrChargingData: ChargingData?
     }
     
     internal var initialState: State
@@ -168,7 +168,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case .showQRCharge:
             return self.provider.getChargingID()
                 .convertData()
-                .compactMap(convertToChargingData)
+                .compactMap(convertToQRChargingData)
                 .map { return .showQRCharge($0) }
             
         }
@@ -190,7 +190,7 @@ internal final class MainReactor: ViewModel, Reactor {
         newState.isClearSearchWayPoint = nil
         newState.searchDetinationData = nil
         newState.isShowEvPayToolTip = nil
-        newState.chargingData = nil
+        newState.qrChargingData = nil
         
         switch mutation {
         case .setShowMarketingPopup(let isShow):
@@ -240,7 +240,7 @@ internal final class MainReactor: ViewModel, Reactor {
             newState.isShowEvPayToolTip = FCMManager.sharedInstance.originalMemberId.isEmpty
             
         case .showQRCharge(let chargingData):
-            newState.chargingData = chargingData
+            newState.qrChargingData = chargingData
         }
         
         return newState
@@ -277,22 +277,23 @@ internal final class MainReactor: ViewModel, Reactor {
         }
     }
     
-    private func convertToChargingData(with result: ApiResult<Data, ApiError>) -> ChargingData? {
+    private func convertToQRChargingData(with result: ApiResult<Data, ApiError>) -> ChargingData? {
         switch result {
         case .success(let data):
             let jsonData = JSON(data)
             printLog("--> convertToChargingData \(jsonData), \(jsonData["pay_code"])")
             let code = jsonData["code"]
+            let payCode = jsonData["pay_code"].stringValue
             
-            switch code {
-            case 1000: // 충전중
-                let chargingData = try? JSONDecoder().decode(ChargingID.self, from: data)
-                return (.charging, chargingData)
-                
-            case 2002 where jsonData["pay_code"].stringValue == "8804": // 미수금
+            switch (code, payCode) {
+            case (_, "8804") :  // 미수금
                 return ( .accountsReceivable, nil)
                 
-            case 2002:      // 충전 x
+            case (1000, _) :    // 충전중
+                let chargingData = try? JSONDecoder().decode(ChargingID.self, from: data)
+                return (.charging, chargingData)
+
+            case (2002, _):      // 충전 x
                 return (.none, nil)
                 
             default:
