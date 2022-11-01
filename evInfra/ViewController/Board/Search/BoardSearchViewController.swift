@@ -9,8 +9,11 @@
 import UIKit
 import SnapKit
 
-class BoardSearchViewController: BaseViewController {
+internal final class BoardSearchViewController: CommonBaseViewController {
 
+    private lazy var commonNaviView = CommonNaviView().then {
+        $0.naviTitleLbl.text = "게시글 검색"
+    }
     private var searchBarView = SearchBarView()
     private var searchTypeSelectView = SearchTypeSelectView()
     private var tableView = UITableView()
@@ -24,12 +27,52 @@ class BoardSearchViewController: BaseViewController {
     var category: Board.CommunityType = .FREE
     var page: String = "1"
     
+    override func loadView() {
+        super.loadView()
+        
+        searchBarView.searchBar.delegate = self
+        
+        self.contentView.addSubview(commonNaviView)
+        commonNaviView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalTo(Constants.view.naviBarHeight)
+        }
+                
+        self.contentView.addSubview(searchBarView)
+        searchBarView.snp.makeConstraints {
+            $0.top.equalTo(commonNaviView.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(72)
+        }
+                
+        self.contentView.addSubview(searchTypeSelectView)
+        searchTypeSelectView.snp.makeConstraints {
+            $0.top.equalTo(searchBarView.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(56)
+        }
+        
+        self.contentView.addSubview(tableView)
+        tableView.snp.makeConstraints {
+            $0.top.equalTo(searchTypeSelectView.snp.bottom)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        tableView.register(RecentKeywordTableViewCell.classForCoder(), forCellReuseIdentifier: "RecentKeywordTableViewCell")
+        tableView.register(EmptyTableViewCell.classForCoder(), forCellReuseIdentifier: "EmptyTableViewCell")
+        tableView.register(SearchHeaderView.classForCoder(), forHeaderFooterViewReuseIdentifier: "SearchHeaderView")
+        tableView.keyboardDismissMode = .onDrag
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.separatorStyle = .none
+        
+        if #available(iOS 15.0, *) {
+            tableView.sectionHeaderTopPadding = 0
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setUI()
-        prepareActionBar(with: "게시글 검색")
-        
         boardSearchViewModel.fetchKeywords { [weak self] keywords in
             guard let self = self else { return }
             self.recentKeywords = keywords
@@ -58,44 +101,6 @@ class BoardSearchViewController: BaseViewController {
 
 // MARK: - Private Extension
 private extension BoardSearchViewController {
-    func setUI() {
-        view.addSubview(searchBarView)
-        view.addSubview(searchTypeSelectView)
-        view.addSubview(tableView)
-        
-        searchBarView.searchBar.delegate = self
-        
-        // Searchbar UI
-        searchBarView.snp.makeConstraints {
-            $0.top.equalTo(customNaviBar.snp.bottom)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(72)
-        }
-        
-        // SearchTypeSelecteView UI
-        searchTypeSelectView.snp.makeConstraints {
-            $0.top.equalTo(searchBarView.snp.bottom)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(56)
-        }
-        
-        tableView.snp.makeConstraints {
-            $0.top.equalTo(searchTypeSelectView.snp.bottom)
-            $0.leading.trailing.bottom.equalToSuperview()
-        }
-        
-        tableView.register(RecentKeywordTableViewCell.classForCoder(), forCellReuseIdentifier: "RecentKeywordTableViewCell")
-        tableView.register(EmptyTableViewCell.classForCoder(), forCellReuseIdentifier: "EmptyTableViewCell")
-        tableView.register(SearchHeaderView.classForCoder(), forHeaderFooterViewReuseIdentifier: "SearchHeaderView")
-        tableView.keyboardDismissMode = .onDrag
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.separatorStyle = .none
-        
-        if #available(iOS 15.0, *) {
-            tableView.sectionHeaderTopPadding = 0
-        }
-    }
     
     func fetchSearchResultList(page: String) {
         let mid = self.category

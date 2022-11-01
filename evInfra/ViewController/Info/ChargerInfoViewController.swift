@@ -78,9 +78,7 @@ internal final class ChargerInfoViewController: BaseViewController {
     }
 
     override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        prepareActionBar(with: "충전기 정보")
+        super.viewDidLoad()                
         getchargerModels()
     }
     

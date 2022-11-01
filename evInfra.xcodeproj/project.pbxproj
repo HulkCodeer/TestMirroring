@@ -195,9 +195,9 @@
 		5997DABC290EB98900476B72 /* BottomMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5997DABB290EB98900476B72 /* BottomMenuView.swift */; };
 		5997DABD290F5D4600476B72 /* BottomMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5997DABB290EB98900476B72 /* BottomMenuView.swift */; };
 		5997DABE290F5D4700476B72 /* BottomMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5997DABB290EB98900476B72 /* BottomMenuView.swift */; };
-		59BAB70728FD373B00077872 /* LeftDrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB70628FD373B00077872 /* LeftDrawerController.swift */; };
-		59BAB70828FD4ED400077872 /* LeftDrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB70628FD373B00077872 /* LeftDrawerController.swift */; };
-		59BAB70928FD4ED400077872 /* LeftDrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB70628FD373B00077872 /* LeftDrawerController.swift */; };
+		59BAB70728FD373B00077872 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB70628FD373B00077872 /* RootViewController.swift */; };
+		59BAB70828FD4ED400077872 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB70628FD373B00077872 /* RootViewController.swift */; };
+		59BAB70928FD4ED400077872 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB70628FD373B00077872 /* RootViewController.swift */; };
 		59EC3B7128D18CD8001A18B5 /* NewNoticeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59317D1128B7702C00B1AE92 /* NewNoticeDetailViewController.swift */; };
 		59EC3B7A28D32A1D001A18B5 /* ViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7928D32A1D001A18B5 /* ViewConstants.swift */; };
 		59EC3B7C28D32A33001A18B5 /* DateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7B28D32A33001A18B5 /* DateConstants.swift */; };
@@ -278,6 +278,12 @@
 		63B2373E282C970900E8A3F8 /* MembershipUseGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B2373D282C970900E8A3F8 /* MembershipUseGuideViewController.swift */; };
 		63B23740282CA4B400E8A3F8 /* PointUseGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B2373F282CA4B400E8A3F8 /* PointUseGuideViewController.swift */; };
 		63B23744282CCB8300E8A3F8 /* MembershipReissuanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B23743282CCB8300E8A3F8 /* MembershipReissuanceViewController.swift */; };
+		63BDD2C1290F7B66007F557D /* TransitionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BDD2C0290F7B66007F557D /* TransitionController.swift */; };
+		63BDD2C2290F7B66007F557D /* TransitionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BDD2C0290F7B66007F557D /* TransitionController.swift */; };
+		63BDD2C3290F7B66007F557D /* TransitionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BDD2C0290F7B66007F557D /* TransitionController.swift */; };
+		63BDD2C5290F7B87007F557D /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BDD2C4290F7B87007F557D /* MainNavigationController.swift */; };
+		63BDD2C6290F7B87007F557D /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BDD2C4290F7B87007F557D /* MainNavigationController.swift */; };
+		63BDD2C7290F7B87007F557D /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BDD2C4290F7B87007F557D /* MainNavigationController.swift */; };
 		63BEAC5E28338ADA00E797DD /* ReissuanceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BEAC5D28338ADA00E797DD /* ReissuanceModel.swift */; };
 		63BEAC602833965A00E797DD /* Observable+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BEAC5F2833965A00E797DD /* Observable+Operators.swift */; };
 		63C7C8E0286D6F0B00A357D6 /* NewBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C7C8DF286D6F0B00A357D6 /* NewBottomSheetViewController.swift */; };
@@ -1588,7 +1594,7 @@
 		5997DABB290EB98900476B72 /* BottomMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomMenuView.swift; sourceTree = "<group>"; };
 		59BAB6FA28F0346300077872 /* MainSearchWayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSearchWayView.swift; sourceTree = "<group>"; };
 		59BAB6FE28F50B7500077872 /* UnderLineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderLineTextField.swift; sourceTree = "<group>"; };
-		59BAB70628FD373B00077872 /* LeftDrawerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftDrawerController.swift; sourceTree = "<group>"; };
+		59BAB70628FD373B00077872 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		59EC3B7928D32A1D001A18B5 /* ViewConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewConstants.swift; sourceTree = "<group>"; };
 		59EC3B7B28D32A33001A18B5 /* DateConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConstants.swift; sourceTree = "<group>"; };
 		59EC3B7D28D32A49001A18B5 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -1628,6 +1634,8 @@
 		63B2373D282C970900E8A3F8 /* MembershipUseGuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipUseGuideViewController.swift; sourceTree = "<group>"; };
 		63B2373F282CA4B400E8A3F8 /* PointUseGuideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointUseGuideViewController.swift; sourceTree = "<group>"; };
 		63B23743282CCB8300E8A3F8 /* MembershipReissuanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceViewController.swift; sourceTree = "<group>"; };
+		63BDD2C0290F7B66007F557D /* TransitionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionController.swift; sourceTree = "<group>"; };
+		63BDD2C4290F7B87007F557D /* MainNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
 		63BEAC5D28338ADA00E797DD /* ReissuanceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReissuanceModel.swift; sourceTree = "<group>"; };
 		63BEAC5F2833965A00E797DD /* Observable+Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Observable+Operators.swift"; sourceTree = "<group>"; };
 		63C7C8DF286D6F0B00A357D6 /* NewBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBottomSheetViewController.swift; sourceTree = "<group>"; };
@@ -2107,8 +2115,10 @@
 				82E1303428DEAEC100E7983D /* PermissionsGuideViewController.swift */,
 				82E1302F28DEAEB200E7983D /* MainReactor.swift */,
 				73F6B53920F873110030D0B3 /* IntroViewController.swift */,
-				59BAB70628FD373B00077872 /* LeftDrawerController.swift */,
+				59BAB70628FD373B00077872 /* RootViewController.swift */,
+				63BDD2C0290F7B66007F557D /* TransitionController.swift */,
 				732ED1F921EEFA960012C67B /* MainViewController.swift */,
+				63BDD2C4290F7B87007F557D /* MainNavigationController.swift */,
 				736813B3204513D50035FC66 /* Main.storyboard */,
 				192A338227FE747E00EF1684 /* Marker.swift */,
 			);
@@ -4308,6 +4318,7 @@
 				59970A212907CD5C00FF9A67 /* MainSearchWayView.swift in Sources */,
 				63762F542869A91900C951BF /* NewSettingsViewController.swift in Sources */,
 				63F313C7284EC74F001713D2 /* DetailViewController.swift in Sources */,
+				63BDD2C6290F7B87007F557D /* MainNavigationController.swift in Sources */,
 				63F313C8284EC74F001713D2 /* CommunityBoardTableViewCell.swift in Sources */,
 				63F313C9284EC74F001713D2 /* BoardDetailViewController.swift in Sources */,
 				63F313CA284EC74F001713D2 /* FavoriteViewController.swift in Sources */,
@@ -4434,6 +4445,7 @@
 				63F31428284EC74F001713D2 /* CarModels.swift in Sources */,
 				63F31429284EC74F001713D2 /* MembershipUseGuideViewController.swift in Sources */,
 				63F3142A284EC74F001713D2 /* SearchHeaderView.swift in Sources */,
+				63BDD2C2290F7B66007F557D /* TransitionController.swift in Sources */,
 				63F7C2FD28E1CD2B00019CE0 /* NetworkWorker.swift in Sources */,
 				63F3142B284EC74F001713D2 /* CidInfo.swift in Sources */,
 				6309C7A7290000FA00A52E4F /* CommonBaseCollectionViewCell.swift in Sources */,
@@ -4462,7 +4474,7 @@
 				63F31442284EC74F001713D2 /* IntroViewController.swift in Sources */,
 				633FF2FD28B342630041BDBB /* CheckBox.swift in Sources */,
 				63F31443284EC74F001713D2 /* EventTableViewCell.swift in Sources */,
-				59BAB70828FD4ED400077872 /* LeftDrawerController.swift in Sources */,
+				59BAB70828FD4ED400077872 /* RootViewController.swift in Sources */,
 				63F31444284EC74F001713D2 /* CidTableView.swift in Sources */,
 				63F31445284EC74F001713D2 /* PoiTableView.swift in Sources */,
 				63F31447284EC74F001713D2 /* AddressToLocationController.swift in Sources */,
@@ -4632,6 +4644,7 @@
 				DB49A77F206CC32D002448E6 /* SearchViewController.swift in Sources */,
 				00EAB7C427225108004E78D2 /* SceneDelegate.swift in Sources */,
 				90CBCC6626EAD64D002B2591 /* EIImageViewerViewController.swift in Sources */,
+				63BDD2C5290F7B87007F557D /* MainNavigationController.swift in Sources */,
 				73D65D7E23605D1000F564A2 /* MyPayRegisterViewDelegate.swift in Sources */,
 				63DA0A07282E35780021292C /* RentalCarCardListViewController.swift in Sources */,
 				73D65D7C2360299700F564A2 /* PaymentCard.swift in Sources */,
@@ -4758,6 +4771,7 @@
 				421569D7259B629100D018DC /* BoardInfo.swift in Sources */,
 				63F7C2FC28E1CD2B00019CE0 /* NetworkWorker.swift in Sources */,
 				52C0782727CC982A00DEFEBE /* BoardListViewModel.swift in Sources */,
+				63BDD2C1290F7B66007F557D /* TransitionController.swift in Sources */,
 				6309C7A6290000FA00A52E4F /* CommonBaseCollectionViewCell.swift in Sources */,
 				0033CBC426C631970084B212 /* FilterManager.swift in Sources */,
 				DB6EBE31217078750000F442 /* ChargerSelectDelegate.swift in Sources */,
@@ -4784,7 +4798,7 @@
 				73F6B53A20F873110030D0B3 /* IntroViewController.swift in Sources */,
 				CE33B4BF2191BD0900B6C632 /* EventTableViewCell.swift in Sources */,
 				633FF2FC28B342630041BDBB /* CheckBox.swift in Sources */,
-				59BAB70728FD373B00077872 /* LeftDrawerController.swift in Sources */,
+				59BAB70728FD373B00077872 /* RootViewController.swift in Sources */,
 				DB0E4693205B6F1F002DD05D /* CidTableView.swift in Sources */,
 				DB3B858020874788005454F5 /* PoiTableView.swift in Sources */,
 				CE5242362182FD9000FF6AB1 /* AddressToLocationController.swift in Sources */,
@@ -4956,6 +4970,7 @@
 				59970A222907CD5D00FF9A67 /* MainSearchWayView.swift in Sources */,
 				824D5C1B28BDD89C00EDC712 /* NewSettingsViewController.swift in Sources */,
 				824D5C1C28BDD89C00EDC712 /* DetailViewController.swift in Sources */,
+				63BDD2C7290F7B87007F557D /* MainNavigationController.swift in Sources */,
 				824D5C1D28BDD89C00EDC712 /* CommunityBoardTableViewCell.swift in Sources */,
 				824D5C1E28BDD89C00EDC712 /* BoardDetailViewController.swift in Sources */,
 				824D5C1F28BDD89C00EDC712 /* FavoriteViewController.swift in Sources */,
@@ -5082,6 +5097,7 @@
 				824D5C8F28BDD89C00EDC712 /* CidInfo.swift in Sources */,
 				824D5C9028BDD89C00EDC712 /* BoardInfo.swift in Sources */,
 				824D5C9128BDD89C00EDC712 /* BoardListViewModel.swift in Sources */,
+				63BDD2C3290F7B66007F557D /* TransitionController.swift in Sources */,
 				63F7C2FE28E1CD2B00019CE0 /* NetworkWorker.swift in Sources */,
 				824D5C9228BDD89C00EDC712 /* FilterManager.swift in Sources */,
 				6309C7A8290000FA00A52E4F /* CommonBaseCollectionViewCell.swift in Sources */,
@@ -5094,7 +5110,7 @@
 				824D5C9A28BDD89C00EDC712 /* ReportChargerList.swift in Sources */,
 				824D5C9B28BDD89C00EDC712 /* PointUseGuideViewController.swift in Sources */,
 				824D5C9C28BDD89C00EDC712 /* TagFlowLayout.swift in Sources */,
-				59BAB70928FD4ED400077872 /* LeftDrawerController.swift in Sources */,
+				59BAB70928FD4ED400077872 /* RootViewController.swift in Sources */,
 				824D5C9D28BDD89C00EDC712 /* PreUsePointViewController.swift in Sources */,
 				824D5C9E28BDD89C00EDC712 /* UIButton+Extension.swift in Sources */,
 				824D5C9F28BDD89C00EDC712 /* JSON+Extension.swift in Sources */,
@@ -5307,7 +5323,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 10251050;
+				CURRENT_PROJECT_VERSION = 10261556;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5FA8TZGUDC;
@@ -5322,7 +5338,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.7.8;
+				MARKETING_VERSION = 3.7.9;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -5351,7 +5367,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 10251050;
+				CURRENT_PROJECT_VERSION = 10261556;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5FA8TZGUDC;
@@ -5366,7 +5382,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.7.8;
+				MARKETING_VERSION = 3.7.9;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -5515,7 +5531,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 10251334;
+				CURRENT_PROJECT_VERSION = 10311035;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				ENABLE_BITCODE = YES;
@@ -5529,7 +5545,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.7.8;
+				MARKETING_VERSION = 3.8.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -5557,7 +5573,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 10251334;
+				CURRENT_PROJECT_VERSION = 10311035;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				ENABLE_BITCODE = YES;
@@ -5571,7 +5587,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.7.8;
+				MARKETING_VERSION = 3.8.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -5599,7 +5615,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 10241411;
+				CURRENT_PROJECT_VERSION = 10310922;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				ENABLE_BITCODE = NO;
@@ -5613,7 +5629,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.7.8;
+				MARKETING_VERSION = 3.8.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -5640,9 +5656,9 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 10241411;
+				CURRENT_PROJECT_VERSION = 10310922;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5FA8TZGUDC;
@@ -5657,7 +5673,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.7.8;
+				MARKETING_VERSION = 3.8.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -5669,7 +5685,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.soft-berry.ev-infra";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = EvInfra_20220627_debug;
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = EvInfra_20220627_debug;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = EvInfra_20220627_adhoc;
 				SWIFT_OBJC_BRIDGING_HEADER = "evInfra/evInfra-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

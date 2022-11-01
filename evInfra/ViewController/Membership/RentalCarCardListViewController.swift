@@ -9,11 +9,11 @@
 import Material
 import SwiftyJSON
 
-internal final class RentalCarCardListViewController: UIViewController {
+internal final class RentalCarCardListViewController: CommonBaseViewController {
     
     // MARK: UI
     
-    private lazy var customNaviBar = CommonNaviView().then {
+    private lazy var commonNaviView = CommonNaviView().then {
         $0.naviTitleLbl.text = "회원카드 관리"
     }
     private lazy var partnershipJoinView = PartnershipJoinView(frame: .zero).then {
@@ -33,28 +33,24 @@ internal final class RentalCarCardListViewController: UIViewController {
     
     // MARK: SYSTEM FUNC
     
-    deinit {
-        printLog(out: "\(type(of: self)): Deinited")
-    }
-    
     override func loadView() {
         super.loadView()
                 
-        view.addSubview(customNaviBar)
-        customNaviBar.snp.makeConstraints {
-            $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+        self.contentView.addSubview(commonNaviView)
+        commonNaviView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
             $0.height.equalTo(Constants.view.naviBarHeight)
         }
         
-        view.addSubview(partnershipJoinView)
+        self.contentView.addSubview(partnershipJoinView)
         partnershipJoinView.snp.makeConstraints {
-            $0.top.equalTo(customNaviBar.snp.bottom)
+            $0.top.equalTo(commonNaviView.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
         }
         
-        view.addSubview(rentalCarCardList)
+        self.contentView.addSubview(rentalCarCardList)
         rentalCarCardList.snp.makeConstraints {
-            $0.top.equalTo(customNaviBar.snp.bottom)
+            $0.top.equalTo(commonNaviView.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
         }
     }

@@ -9,9 +9,13 @@
 import WebKit
 import RxSwift
 
-internal final class MembershipUseGuideViewController: BaseViewController, WKUIDelegate {
+internal final class MembershipUseGuideViewController: CommonBaseViewController, WKUIDelegate {
     
     // MARK: UI
+    
+    private lazy var commonNaviView = CommonNaviView().then {
+        $0.naviTitleLbl.text = "EV Pay 카드 사용 안내"
+    }
     
     private let config = WKWebViewConfiguration().then {
         let contentController = WKUserContentController()
@@ -29,12 +33,16 @@ internal final class MembershipUseGuideViewController: BaseViewController, WKUID
     
     override func loadView() {
         super.loadView()
+                
+        self.contentView.addSubview(commonNaviView)
+        commonNaviView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalTo(Constants.view.naviBarHeight)
+        }
         
-        prepareActionBar(with: "EV Pay 카드 사용 안내")
-                                
-        view.addSubview(self.webView)
+        self.contentView.addSubview(self.webView)
         webView.snp.makeConstraints {
-            $0.top.equalTo(customNaviBar.snp.bottom)
+            $0.top.equalTo(commonNaviView.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
         }
                                         

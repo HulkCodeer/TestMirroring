@@ -12,7 +12,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-internal final class MembershipInfoViewController: BaseViewController {
+internal final class MembershipInfoViewController: CommonBaseViewController {
     
     // MARK: UI
     
@@ -41,13 +41,7 @@ internal final class MembershipInfoViewController: BaseViewController {
     internal var memberInfo : MemberPartnershipInfo?
     
     // MARK: SYSTEM FUNC
-    
-    override func loadView() {
-        super.loadView()
         
-        prepareActionBar(with: "EV Pay 카드 상세")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         

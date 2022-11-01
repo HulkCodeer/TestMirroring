@@ -9,9 +9,13 @@
 import RxSwift
 
 
-internal final class FindPasswordViewController: BaseViewController {
+internal final class FindPasswordViewController: CommonBaseViewController {
     
     // MARK: UI
+    
+    private lazy var commonNaviView = CommonNaviView().then {
+        $0.naviTitleLbl.text = "비밀번호 찾기"
+    }
     
     private lazy var contentTotalView = UIView()
     private lazy var callCenterImgView = UIImageView().then {        
@@ -68,11 +72,17 @@ internal final class FindPasswordViewController: BaseViewController {
     override func loadView() {
         super.loadView()
         
-        view.addSubview(contentTotalView)
+        self.contentView.addSubview(commonNaviView)
+        commonNaviView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalTo(Constants.view.naviBarHeight)
+        }
+        
+        self.contentView.addSubview(contentTotalView)
         contentTotalView.snp.makeConstraints {
+            $0.top.equalTo(commonNaviView.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview().offset(-56)
             $0.height.greaterThanOrEqualTo(348)
         }
         
@@ -135,11 +145,5 @@ internal final class FindPasswordViewController: BaseViewController {
                 UIApplication.shared.open(number)
             })
             .disposed(by: self.disposebag)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        prepareActionBar(with: "비밀번호 찾기")
     }
 }

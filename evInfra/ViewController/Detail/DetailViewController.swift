@@ -12,8 +12,9 @@ import Motion
 import SwiftyJSON
 import JJFloatingActionButton
 
-internal final class DetailViewController: BaseViewController {
+internal final class DetailViewController: CommonBaseViewController {
 
+    @IBOutlet weak var commonNaviView: CommonNaviView!
     @IBOutlet weak var detailView: UIView!
     
     @IBOutlet weak var summaryLayout: UIView!
@@ -386,14 +387,11 @@ internal final class DetailViewController: BaseViewController {
     private func prepareActionBar() {
         guard let chargerData = charger, let stationDto = chargerData.mStationInfoDto else { return }
         
-        customNaviBar.naviTitleLbl.text = stationDto.mSnm ?? String()
-        customNaviBar.backClosure = {
+        commonNaviView.naviTitleLbl.text = stationDto.mSnm ?? String()
+        commonNaviView.backClosure = {
             ChargerStationEvent.viewStationReview.logEvent()
-            self.navigationController?.pop(transitionType: CATransitionType.reveal, subtype: CATransitionSubtype.fromBottom)
+            GlobalDefine.shared.mainNavi?.pop(transitionType: CATransitionType.reveal, subtype: CATransitionSubtype.fromBottom)
         }
-        
-        navigationController?.isNavigationBarHidden = true
-        customNaviBar.isHidden = false
     }
 }
 

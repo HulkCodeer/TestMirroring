@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import PanModal
 
-class BoardDetailViewController: BaseViewController, UINavigationControllerDelegate {
+internal final class BoardDetailViewController: BaseViewController, UINavigationControllerDelegate {
     
     @IBOutlet var detailTableView: UITableView!
     
@@ -33,7 +33,6 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
         
         fetchData()
         setConfiguration()
-        prepareActionBar(with: "")
         setKeyboardInputView()
         setKeyboardTapGesture()
         setSendButtonCompletion()
@@ -92,7 +91,7 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
     }
 
     private func setConfiguration() {
-        view.addSubview(activityIndicator)
+        self.view.addSubview(activityIndicator)
         keyboardInputView = KeyboardInputView()
         keyboardInputView?.delegate = self
         picker.delegate = self
@@ -223,7 +222,7 @@ extension BoardDetailViewController: UIImagePickerControllerDelegate {
         let originalImage = info[UIImagePickerController.InfoKey.originalImage.rawValue] as! UIImage
         let editedImage = info[UIImagePickerController.InfoKey.editedImage.rawValue] as? UIImage
         let selectedImage = editedImage ?? originalImage
-        
+                        
         keyboardInputView?.selectedImageView.isHidden = false
         keyboardInputView?.selectedImageView.image = selectedImage
         keyboardInputView?.trashButton.isHidden = false
@@ -476,9 +475,7 @@ extension BoardDetailViewController: ButtonClickDelegate {
                         self.dismiss(animated: true) {
                             switch index {
                             case 0:
-                                // 공유하기
-                                AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "커뮤니티 공유하기 버튼")
-                                AmplitudeEvent.shared.fromViewSourceByLogEvent(eventType: .viewLogin)
+                                // 공유하기                                
                                 self.prepareSharingForKakao(with: document)
                             default:
                                 break

@@ -10,9 +10,13 @@ import WebKit
 import Then
 import RxSwift
 
-internal final class PointUseGuideViewController: BaseViewController {
+internal final class PointUseGuideViewController: CommonBaseViewController {
     
     // MARK: UI
+    
+    private lazy var commonNaviView = CommonNaviView().then {
+        $0.naviTitleLbl.text = "베리 사용 안내"
+    }
     
     private let config = WKWebViewConfiguration().then {
         let contentController = WKUserContentController()
@@ -27,11 +31,15 @@ internal final class PointUseGuideViewController: BaseViewController {
     override func loadView() {
         super.loadView()
         
-        prepareActionBar(with: "베리 사용 안내")
-        
-        view.addSubview(self.webView)
+        self.contentView.addSubview(commonNaviView)
+        commonNaviView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalTo(Constants.view.naviBarHeight)
+        }
+                        
+        self.contentView.addSubview(self.webView)
         webView.snp.makeConstraints {
-            $0.top.equalTo(customNaviBar.snp.bottom)
+            $0.top.equalTo(commonNaviView.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
         }
                                         

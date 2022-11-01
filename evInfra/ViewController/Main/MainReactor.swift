@@ -12,7 +12,7 @@ import SwiftyJSON
 internal final class MainReactor: ViewModel, Reactor {
     typealias SelectedFilterInfo = (filterTagType: FilterTagType, isSeleted: Bool)
     
-    enum Action {        
+    enum Action {
         case showMarketingPopup
         case setAgreeMarketing(Bool)
         case setMenuBadge(Bool)
@@ -22,15 +22,14 @@ internal final class MainReactor: ViewModel, Reactor {
         case showFilterSetting
         case updateFilterBarTitle
         case showSearchChargingStation
-        case showMenu
-        case closeMenu
+        case toggleLeftMenu
         case hideSearchWay(Bool)
         case searchDestination(SearchWayPointType, String)
         case hideDestinationResult(Bool)
         case clearSearchWayData
         case clearSearchPoint(SearchWayPointType)
         case setEvPayFilter(Bool)
-        case openEvPayTooltip
+        case openEvPayTooltip    
     }
     
     enum Mutation {
@@ -40,7 +39,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case showFilterSetting
         case updateFilterBarTitle
         case showSearchChargingStation
-        case setIsShowMenu(Bool)
+        case toggleLeftMenu
         case hidSearchWay(Bool)
         case searchDestination(SearchWayPointType, String)
         case hideDestinationResult(Bool)
@@ -70,7 +69,6 @@ internal final class MainReactor: ViewModel, Reactor {
     }
     
     internal var initialState: State
-    weak var leftDrawerDelegate: LeftDrawerDelegate?
 
     override init(provider: SoftberryAPI) {
         self.initialState = State()
@@ -121,14 +119,9 @@ internal final class MainReactor: ViewModel, Reactor {
             ])
             
             // 메뉴화면.
-        case .showMenu:
-            self.leftDrawerDelegate?.openLeftView(nil)
-            return .just(.setIsShowMenu(true))
-            
-        case .closeMenu:
-            self.leftDrawerDelegate?.closeLeftView(nil)
-            return .just(.setIsShowMenu(false))
-            
+        case .toggleLeftMenu:
+            return .just(.toggleLeftMenu)
+                    
         case .hideSearchWay(let isHide) where isHide == true:
             return Observable.concat([
                 .just(.hidSearchWay(isHide)),
@@ -211,8 +204,8 @@ internal final class MainReactor: ViewModel, Reactor {
         case .showSearchChargingStation:
             newState.isShowSearchChargingStation = true
             
-        case .setIsShowMenu(let isShowMenu):
-            newState.isShowMenu = isShowMenu
+        case .toggleLeftMenu:
+            newState.isShowMenu = true
             
         case .hidSearchWay(let isHideSearchWay):
             newState.isHideSearchWay = isHideSearchWay
@@ -252,7 +245,7 @@ internal final class MainReactor: ViewModel, Reactor {
                                                 
             let receive = jsonData["receive"].boolValue
             
-            MemberManager.shared.isAllowMarketingNoti = receive                        
+            MemberManager.shared.isAllowMarketingNoti = receive
             UserDefault().saveBool(key: UserDefault.Key.DID_SHOW_MARKETING_POPUP, value: true)
             let currDate = DateUtils.getFormattedCurrentDate(format: "yyyy년 MM월 dd일")
             

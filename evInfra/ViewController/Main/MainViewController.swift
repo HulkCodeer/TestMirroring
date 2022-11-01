@@ -107,7 +107,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
     private var canIgnoreJejuPush = true
 
     internal var disposeBag = DisposeBag()
-
     
     private var evPayTipView = EasyTipView(text: "")
     
@@ -216,7 +215,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         }
         canIgnoreJejuPush = UserDefault().readBool(key: UserDefault.Key.JEJU_PUSH)// default : false
                                         
-        self.view.addSubview(tooltipView)        
+        self.view.addSubview(tooltipView)
         
         tooltipView.show(message: "전체메뉴를 열어서 내가 가진 베리를\n확인할 수 있어요.", forView: filterBarView.evPayView)
         
@@ -352,7 +351,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         
         reactor.state.compactMap { $0.isShowStartBanner }
             .asDriver(onErrorJustReturn: false)
-            .drive(with: self) { obj, _ in                                
+            .drive(with: self) { obj, _ in
                 GlobalAdsReactor.sharedInstance.state.compactMap { $0.startBanner }
                     .asDriver(onErrorJustReturn: AdsInfo(JSON.null))
                     .drive(onNext: { adInfo in
@@ -427,28 +426,17 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 owner.setMenuBadge(reactor: reactor)
             }
             .disposed(by: disposeBag)
-        
-        Observable.just(MainReactor.Action.closeMenu)
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
+                
         // MARK: - 네비바 bindAction
         customNaviBar.searchChargeButton.rx.tap
-            .asDriver()
-            .drive(with: self) { owner, _ in
-                Observable.just(MainReactor.Action.showSearchChargingStation)
-                    .bind(to: reactor.action)
-                    .disposed(by: owner.disposeBag)
-            }
-            .disposed(by: disposeBag)
+            .map { MainReactor.Action.showSearchChargingStation }
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
         
         customNaviBar.menuButton.rx.tap
-            .asDriver()
-            .drive(with: self) { owner, _ in
-                Observable.just(MainReactor.Action.showMenu)
-                    .bind(to: reactor.action)
-                    .disposed(by: owner.disposeBag)
-            }
+            .observe(on: MainScheduler.asyncInstance)
+            .map { MainReactor.Action.toggleLeftMenu }
+            .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         customNaviBar.searchWayButton.rx.tap
@@ -692,14 +680,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     
     private func closeMenu() {
         guard let _reactor = reactor else { return }
-        Observable.just(MainReactor.Action.closeMenu)
-            .bind(to: _reactor.action)
-            .disposed(by: disposeBag)
-    }
-    
-    private func showMenu() {
-        guard let _reactor = reactor else { return }
-        Observable.just(MainReactor.Action.showMenu)
+        Observable.just(MainReactor.Action.toggleLeftMenu)
             .bind(to: _reactor.action)
             .disposed(by: disposeBag)
     }
@@ -954,8 +935,14 @@ extension MainViewController: DelegateChargerFilterView {
 }
 
 extension MainViewController: DelegateFilterContainerView {
-    func changedFilter(type: FilterType) {
+    func changedFilter(type: FilterType) {        
         // refresh marker
+        
+        guard let _reactor = self.reactor else { return }
+        Observable.just(MainReactor.Action.updateFilterBarTitle)
+            .bind(to: _reactor.action)
+            .disposed(by: self.disposeBag)
+        
         drawMapMarker()
     }
 }
@@ -1364,7 +1351,7 @@ extension MainViewController {
                 CBT.checkCBT(vc: self!)
             }
             
-            DeepLinkPath.sharedInstance.runDeepLink()            
+            DeepLinkPath.sharedInstance.runDeepLink()
             self?.markerIndicator.stopAnimating()
         }
     }
@@ -1579,6 +1566,7 @@ extension MainViewController {
 }
 
 extension MainViewController {
+
     private func responseGetChargingId(response: JSON) {
         if response.isEmpty {
             return

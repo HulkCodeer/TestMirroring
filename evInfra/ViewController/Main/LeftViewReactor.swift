@@ -26,7 +26,6 @@ internal final class LeftViewReactor: ViewModel, Reactor {
         case getMyBerryPoint
         case refreshBerryPoint
         case setIsAllBerry(Bool)
-        case setOwnHide(Bool)
         case loadPaymentStatus
         case isAllBerryReload
     }
@@ -47,7 +46,6 @@ internal final class LeftViewReactor: ViewModel, Reactor {
     }
     
     internal var initialState: State
-    weak var leftDrawerDelegate: LeftDrawerDelegate?
 
     override init(provider: SoftberryAPI) {
         self.initialState = State()
@@ -95,14 +93,6 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                     return .setIsAllBerry(isAll)
                 }
             
-        case .setOwnHide(let isHideMenu):
-            if isHideMenu {
-                self.leftDrawerDelegate?.closeLeftView(nil)
-            } else {
-                self.leftDrawerDelegate?.openLeftView(nil)
-            }
-            return .empty()
-            
         case .loadPaymentStatus:
             return self.provider.postPaymentStatus()
                 .convertData()
@@ -110,7 +100,7 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                 .compactMap { [weak self] isPaymentFineUser in
                     guard let self = self else { return .empty }
                     
-                    let _isAllBerry = self.currentState.isAllBerry                    
+                    let _isAllBerry = self.currentState.isAllBerry
                     let hasPayment = isPaymentFineUser
                     let hasMembership = MemberManager.shared.hasMembership
                     switch (hasPayment, hasMembership) {
@@ -538,13 +528,12 @@ internal final class LeftViewReactor: ViewModel, Reactor {
             if !title.isEmpty {
                 if let boardInfo = Board.sharedInstance.getBoardNewInfo(title: title) {
                     UserDefault().saveInt(key: boardInfo.shardKey!, value: boardInfo.brdId!)
-                    let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
-                    let companyBoardVC = boardStoryboard.instantiateViewController(ofType: CardBoardViewController.self)
-                    companyBoardVC.category = Board.CommunityType.getCompanyType(key: boardInfo.shardKey ?? "")
-                    companyBoardVC.bmId = boardInfo.bmId!
-                    companyBoardVC.brdTitle = title
-                    companyBoardVC.mode = Board.ScreenType.FEED
-                    GlobalDefine.shared.mainNavi?.push(viewController: companyBoardVC)
+                    let viewcon = CardBoardViewController()
+                    viewcon.category = Board.CommunityType.getCompanyType(key: boardInfo.shardKey ?? "")
+                    viewcon.bmId = boardInfo.bmId!
+                    viewcon.brdTitle = title
+                    viewcon.mode = Board.ScreenType.FEED
+                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 }
             }
         }
@@ -565,20 +554,18 @@ internal final class LeftViewReactor: ViewModel, Reactor {
             case 1: // 자유 게시판
                 UserDefault().saveInt(key: UserDefault.Key.LAST_FREE_ID, value: Board.sharedInstance.freeBoardId)
                 
-                let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
-                let freeBoardVC = boardStoryboard.instantiateViewController(ofType: CardBoardViewController.self)
-                freeBoardVC.category = Board.CommunityType.FREE
-                freeBoardVC.mode = Board.ScreenType.FEED
-                GlobalDefine.shared.mainNavi?.push(viewController: freeBoardVC)
+                let viewcon = CardBoardViewController()
+                viewcon.category = Board.CommunityType.FREE
+                viewcon.mode = Board.ScreenType.FEED
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             
             case 2: // 충전소 게시판
                 UserDefault().saveInt(key: UserDefault.Key.LAST_CHARGER_ID, value: Board.sharedInstance.chargeBoardId)
                 
-                let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
-                let stationBoardVC = boardStoryboard.instantiateViewController(ofType: CardBoardViewController.self)
-                stationBoardVC.category = Board.CommunityType.CHARGER
-                stationBoardVC.mode = Board.ScreenType.FEED
-                GlobalDefine.shared.mainNavi?.push(viewController: stationBoardVC)
+                let viewcon = CardBoardViewController()
+                viewcon.category = Board.CommunityType.CHARGER
+                viewcon.mode = Board.ScreenType.FEED
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 
             default: break
             }
@@ -595,12 +582,11 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                     switch index.row {
                     case 0: // 내가 쓴 글 보기
                         var myWritingControllers = [MyWritingViewController]()
-                        let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
-                        let freeMineVC = boardStoryboard.instantiateViewController(ofType: MyWritingViewController.self)
+                        let freeMineVC = MyWritingViewController()
                         freeMineVC.boardCategory = Board.CommunityType.FREE
                         freeMineVC.screenType = .LIST
                                             
-                        let chargerMineVC = boardStoryboard.instantiateViewController(ofType: MyWritingViewController.self)
+                        let chargerMineVC = MyWritingViewController()
                         chargerMineVC.boardCategory = Board.CommunityType.CHARGER
                         chargerMineVC.screenType = .FEED
                         

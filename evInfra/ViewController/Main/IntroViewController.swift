@@ -153,15 +153,23 @@ internal final class IntroViewController: UIViewController {
                 
                 if FCMManager.sharedInstance.originalMemberId.isEmpty {
                     if MemberManager.shared.isShowPermission {
-                        self.presentMainView()
+                        self.moveMainView()
                     } else {
                         MemberManager.shared.isShowPermission = true
                         self.movePerminssonsGuideView()
                     }
                 } else {
-                    self.presentMainView()
+                    self.moveMainView()
                 }
             }
+        }
+    }
+    
+    private func moveMainView() {
+        if UIWindow.key != nil {
+            let rootVC = RootViewController()
+            printLog(out: "PARK TEST \(String(describing: GlobalDefine.shared.mainNavi))")
+            GlobalDefine.shared.mainNavi?.setViewControllers([rootVC], animated: false)
         }
     }
     
@@ -217,34 +225,5 @@ extension IntroViewController: CompanyInfoCheckerDelegate {
         self.progressLayer.isHidden = !isShow
         self.progressBar.isHidden = !isShow
         self.progressLabel.isHidden = !isShow
-    }
-}
-
-extension IntroViewController: PermissionGuideDelegate {
-    func presentMainView() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let reactor = MainReactor(provider: RestApi())
-        let mainViewcon = storyboard.instantiateViewController(ofType: MainViewController.self)
-        
-        let menuReactor = LeftViewReactor(provider: RestApi())
-        let menuVC = NewLeftViewController(reactor: menuReactor)
-        
-        let rootVC = UINavigationController(rootViewController: mainViewcon)
-        
-        mainViewcon.reactor = reactor
-        menuVC.reactor = menuReactor
-        
-        let presentVC = LeftDrawerController(rootViewController: rootVC, leftViewController: menuVC)
-        
-        reactor.leftDrawerDelegate = presentVC
-        menuReactor.leftDrawerDelegate = presentVC
-        
-        GlobalDefine.shared.mainNavi = rootVC
-        
-        if let _window = UIWindow.key {
-            _window.rootViewController = presentVC
-            _window.makeKeyAndVisible()
-        }
-        
     }
 }

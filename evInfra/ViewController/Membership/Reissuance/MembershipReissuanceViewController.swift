@@ -10,9 +10,12 @@ import RxSwift
 import SwiftyJSON
 import ReactorKit
 
-internal final class MembershipReissuanceViewController: BaseViewController, StoryboardView {
+internal final class MembershipReissuanceViewController: CommonBaseViewController, StoryboardView {
     
     // MARK: UI
+    private lazy var commonNaviView = CommonNaviView().then {
+        $0.naviTitleLbl.text = "재발급 신청"
+    }
     
     private lazy var totalView = UIView()
     
@@ -93,9 +96,13 @@ internal final class MembershipReissuanceViewController: BaseViewController, Sto
     override func loadView() {
         super.loadView()
         
-        prepareActionBar(with: "재발급 신청")
-
-        view.addSubview(nextBtn)
+        self.contentView.addSubview(commonNaviView)
+        commonNaviView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalTo(Constants.view.naviBarHeight)
+        }
+                
+        self.contentView.addSubview(nextBtn)
         nextBtn.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview().offset(0)
@@ -103,10 +110,10 @@ internal final class MembershipReissuanceViewController: BaseViewController, Sto
             $0.height.equalTo(60 + safeAreaBottonInset)
         }
         
-        view.addSubview(totalView)
+        self.contentView.addSubview(totalView)
         totalView.snp.makeConstraints {
             $0.bottom.equalTo(nextBtn.snp.top)
-            $0.top.equalTo(customNaviBar.snp.bottom).offset(24)
+            $0.top.equalTo(commonNaviView.snp.bottom).offset(24)
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)
         }

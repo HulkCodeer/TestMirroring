@@ -10,7 +10,7 @@ import WebKit
 import Then
 import RxSwift
 
-internal final class MembershipGuideViewController: BaseViewController, WKUIDelegate {
+internal final class MembershipGuideViewController: CommonBaseViewController, WKUIDelegate {
     
     // MARK: VARIABLE
     
@@ -19,6 +19,10 @@ internal final class MembershipGuideViewController: BaseViewController, WKUIDele
     internal weak var delegate: LeftViewReactorDelegate?
     
     // MARK: UI
+    
+    private lazy var commonNaviView = CommonNaviView().then {
+        $0.naviTitleLbl.text = "EV Pay카드 안내"
+    }
     
     private let config = WKWebViewConfiguration().then {
         let contentController = WKUserContentController()
@@ -55,19 +59,23 @@ internal final class MembershipGuideViewController: BaseViewController, WKUIDele
     
     override func loadView() {
         super.loadView()
+                
+        self.contentView.addSubview(commonNaviView)
+        commonNaviView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalTo(Constants.view.naviBarHeight)
+        }
         
-        prepareActionBar(with: "EV Pay카드 안내")
-        
-        view.addSubview(self.membershipRegisterBtn)
+        self.contentView.addSubview(self.membershipRegisterBtn)
         membershipRegisterBtn.snp.makeConstraints {
             $0.leading.trailing.bottom.equalToSuperview()
             let safeAreaBottomHeight = UIWindow.key?.safeAreaInsets.bottom ?? 0
             $0.height.equalTo(64 + safeAreaBottomHeight)
         }
         
-        view.addSubview(self.webView)
+        self.contentView.addSubview(self.webView)
         webView.snp.makeConstraints {
-            $0.top.equalTo(customNaviBar.snp.bottom)
+            $0.top.equalTo(commonNaviView.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(membershipRegisterBtn.snp.top)
         }
