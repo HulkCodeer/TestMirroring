@@ -195,6 +195,9 @@
 		5997DABC290EB98900476B72 /* BottomMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5997DABB290EB98900476B72 /* BottomMenuView.swift */; };
 		5997DABD290F5D4600476B72 /* BottomMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5997DABB290EB98900476B72 /* BottomMenuView.swift */; };
 		5997DABE290F5D4700476B72 /* BottomMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5997DABB290EB98900476B72 /* BottomMenuView.swift */; };
+		599A64F529110447008448DC /* ChargingID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599A64F429110447008448DC /* ChargingID.swift */; };
+		599A64F629110511008448DC /* ChargingID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599A64F429110447008448DC /* ChargingID.swift */; };
+		599A64F729110512008448DC /* ChargingID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599A64F429110447008448DC /* ChargingID.swift */; };
 		59BAB70728FD373B00077872 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB70628FD373B00077872 /* RootViewController.swift */; };
 		59BAB70828FD4ED400077872 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB70628FD373B00077872 /* RootViewController.swift */; };
 		59BAB70928FD4ED400077872 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB70628FD373B00077872 /* RootViewController.swift */; };
@@ -1592,6 +1595,7 @@
 		59970A192907CD4600FF9A67 /* NaverMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NaverMapView.swift; sourceTree = "<group>"; };
 		59970A1A2907CD4600FF9A67 /* MainSearchWayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainSearchWayView.swift; sourceTree = "<group>"; };
 		5997DABB290EB98900476B72 /* BottomMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomMenuView.swift; sourceTree = "<group>"; };
+		599A64F429110447008448DC /* ChargingID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargingID.swift; sourceTree = "<group>"; };
 		59BAB6FA28F0346300077872 /* MainSearchWayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSearchWayView.swift; sourceTree = "<group>"; };
 		59BAB6FE28F50B7500077872 /* UnderLineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderLineTextField.swift; sourceTree = "<group>"; };
 		59BAB70628FD373B00077872 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
@@ -2107,6 +2111,7 @@
 		00B2E8BB26C0FE76005D017C /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				599A64F32911043A008448DC /* Model */,
 				6309C7942900006A00A52E4F /* Cells */,
 				6309C78F2900000100A52E4F /* Views */,
 				6309C78828FFFDE700A52E4F /* LeftViewReactor.swift */,
@@ -2456,6 +2461,14 @@
 				59F6229828E12095004CE1FC /* MainNavigationBar.swift */,
 			);
 			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+		599A64F32911043A008448DC /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				599A64F429110447008448DC /* ChargingID.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		59EC3B7028D18CC4001A18B5 /* Notice */ = {
@@ -4297,6 +4310,7 @@
 				63F313B3284EC74F001713D2 /* SummaryView.swift in Sources */,
 				63F313B4284EC74F001713D2 /* Chronometer.swift in Sources */,
 				63F313B5284EC74F001713D2 /* ChargerTableView.swift in Sources */,
+				599A64F629110511008448DC /* ChargingID.swift in Sources */,
 				63F313B6284EC74F001713D2 /* ChargerTableViewCell.swift in Sources */,
 				63F313B7284EC74F001713D2 /* UserDefault.swift in Sources */,
 				63F313B8284EC74F001713D2 /* InfoLastUpdateDto.swift in Sources */,
@@ -4864,6 +4878,7 @@
 				73AF8FC321C77E1B003CB2CF /* CodableCluster.swift in Sources */,
 				6309C79F2900006B00A52E4F /* LeftViewMenuItem.swift in Sources */,
 				733662D222FAB6720049AEFE /* MyCouponContentsViewController.swift in Sources */,
+				599A64F529110447008448DC /* ChargingID.swift in Sources */,
 				733662CC22EFECB80049AEFE /* Event.swift in Sources */,
 				DB87607420690B370095394B /* BoardTableViewFooter.swift in Sources */,
 				82DD57DB28C5D41900C6C55E /* StickButton.swift in Sources */,
@@ -4949,6 +4964,7 @@
 				824D5C0528BDD89C00EDC712 /* EmptyTableViewCell.swift in Sources */,
 				824D5C0628BDD89C00EDC712 /* SummaryView.swift in Sources */,
 				824D5C0728BDD89C00EDC712 /* Chronometer.swift in Sources */,
+				599A64F729110512008448DC /* ChargingID.swift in Sources */,
 				824D5C0828BDD89C00EDC712 /* ChargerTableView.swift in Sources */,
 				824D5C0928BDD89C00EDC712 /* ChargerTableViewCell.swift in Sources */,
 				824D5C0A28BDD89C00EDC712 /* UserDefault.swift in Sources */,
