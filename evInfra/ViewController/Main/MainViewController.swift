@@ -535,7 +535,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 MemberManager.shared.tryToLoginCheck { [weak self] isLogin in
                     guard let self = self else { return }
                     if isLogin {
-                        Observable.just(MainReactor.Action.showQRCharge)
+                        Observable.just(MainReactor.Action.setChargingID(isQR: true))
                             .bind(to: reactor.action)
                             .disposed(by: self.disposeBag)
                     } else {
@@ -684,7 +684,10 @@ internal final class MainViewController: UIViewController, StoryboardView {
         
         // 하단메뉴
         
-        reactor.state.compactMap { $0.qrChargingData }
+        // qr idcheck
+        reactor.state.compactMap { $0.chargingStatus }
+            .filter { $0.isQR == true }
+            .map { return ($0.chargingType, $0.chargingData) }
             .asDriver(onErrorJustReturn: (.none, nil))
             .drive(with: self) { owner, chargingData in
                 let (type, chargingID) = chargingData
@@ -722,8 +725,11 @@ internal final class MainViewController: UIViewController, StoryboardView {
                     
                     GlobalDefine.shared.mainNavi?.push(viewController: repayListViewController)
                     
+                default: break
                 }
                 
+                let qrType: BottomMenuView.ChargeType = (type == .charging) ? .charging : .basic
+                owner.bottomMenuView.setQRButton(qrType)
             }
             .disposed(by: disposeBag)
     }

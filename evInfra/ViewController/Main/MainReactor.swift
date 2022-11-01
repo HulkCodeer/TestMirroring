@@ -12,6 +12,7 @@ import SwiftyJSON
 internal final class MainReactor: ViewModel, Reactor {
     typealias SelectedFilterInfo = (filterTagType: FilterTagType, isSeleted: Bool)
     typealias ChargingData = (chargingType: ChargeShowType, chargingData: ChargingID?)
+    typealias ChargingStatus = (isQR: Bool, chargingType: ChargeShowType, chargingData: ChargingID?)
     
     enum Action {
         case showMarketingPopup
@@ -30,8 +31,8 @@ internal final class MainReactor: ViewModel, Reactor {
         case clearSearchWayData
         case clearSearchPoint(SearchWayPointType)
         case setEvPayFilter(Bool)
-        case openEvPayTooltip    
-        case showQRCharge
+        case openEvPayTooltip
+        case setChargingID(isQR: Bool)
     }
     
     enum Mutation {
@@ -50,7 +51,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case setSelectedFilterInfo(SelectedFilterInfo)
         case setEvPayFilter(Bool)
         case openEvPayTooltip
-        case showQRCharge(ChargingData)
+        case setChargingData(ChargingStatus)
     }
     
     struct State {
@@ -69,7 +70,7 @@ internal final class MainReactor: ViewModel, Reactor {
         var selectedFilterInfo: SelectedFilterInfo?
         var isEvPayFilter: Bool?
         var isShowEvPayToolTip: Bool?
-        var qrChargingData: ChargingData?
+        var chargingStatus: ChargingStatus?
     }
     
     internal var initialState: State
@@ -165,11 +166,15 @@ internal final class MainReactor: ViewModel, Reactor {
         case .openEvPayTooltip:
             return .just(.openEvPayTooltip)
             
-        case .showQRCharge:
+        case .setChargingID(let isQR):
             return self.provider.getChargingID()
                 .convertData()
-                .compactMap(convertToQRChargingData)
-                .map { return .showQRCharge($0) }
+                .compactMap(convertToChargingData)
+                .map {
+                    let status = ChargingStatus(isQR, $0.chargingType, $0.chargingData)
+                    return .setChargingData(status)
+                }
+            
             
         }
     }
@@ -190,7 +195,7 @@ internal final class MainReactor: ViewModel, Reactor {
         newState.isClearSearchWayPoint = nil
         newState.searchDetinationData = nil
         newState.isShowEvPayToolTip = nil
-        newState.qrChargingData = nil
+        newState.chargingStatus = nil
         
         switch mutation {
         case .setShowMarketingPopup(let isShow):
@@ -238,9 +243,9 @@ internal final class MainReactor: ViewModel, Reactor {
             
         case .openEvPayTooltip:
             newState.isShowEvPayToolTip = FCMManager.sharedInstance.originalMemberId.isEmpty
-            
-        case .showQRCharge(let chargingData):
-            newState.qrChargingData = chargingData
+
+        case .setChargingData(let chargingStatus):
+            newState.chargingStatus = chargingStatus
         }
         
         return newState
@@ -277,7 +282,7 @@ internal final class MainReactor: ViewModel, Reactor {
         }
     }
     
-    private func convertToQRChargingData(with result: ApiResult<Data, ApiError>) -> ChargingData? {
+    private func convertToChargingData(with result: ApiResult<Data, ApiError>) -> ChargingData? {
         switch result {
         case .success(let data):
             let jsonData = JSON(data)
@@ -293,6 +298,9 @@ internal final class MainReactor: ViewModel, Reactor {
                 let chargingData = try? JSONDecoder().decode(ChargingID.self, from: data)
                 return (.charging, chargingData)
 
+            case (2002, _) where jsonData["status"].stringValue == "delete":      // 탈퇴 회원
+                return (.leave, nil)
+                
             case (2002, _):      // 충전 x
                 return (.none, nil)
                 
@@ -316,6 +324,8 @@ internal final class MainReactor: ViewModel, Reactor {
         case charging
         case none
         case accountsReceivable
+        
+        case leave
     }
     
 }
