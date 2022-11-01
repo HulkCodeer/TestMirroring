@@ -25,7 +25,7 @@ internal final class BottomMenuView: UIView {
     private lazy var qrChargeIcon = UIImageView().then {
         $0.image = ChargeType.basic.value.icon
         $0.tintColor = Colors.contentTertiary.color
-        $0.contentMode = .scaleAspectFit
+        $0.contentMode = .scaleAspectFill
     }
     private lazy var qrChargeLabel = UILabel().then {
         $0.text = ChargeType.basic.value.title
@@ -36,9 +36,9 @@ internal final class BottomMenuView: UIView {
 
     private lazy var communityLayer = UIView()
     private lazy var communityIcon = UIImageView().then {
-        $0.image = Icons.iconCommentSm.image
+        $0.image = Icons.iconComment.image
         $0.tintColor = Colors.contentTertiary.color
-        $0.contentMode = .scaleAspectFit
+        $0.contentMode = .scaleAspectFill
     }
     private lazy var communityLabel = UILabel().then {
         $0.text = "자유게시판"
@@ -51,7 +51,7 @@ internal final class BottomMenuView: UIView {
     private lazy var evPayIcon = UIImageView().then {
         $0.image = EvPayType.basic.icon
         $0.tintColor = Colors.contentTertiary.color
-        $0.contentMode = .scaleAspectFit
+        $0.contentMode = .scaleAspectFill
     }
     private lazy var evPayLabel = UILabel().then {
         $0.text = "EV Pay 관리"
@@ -62,9 +62,9 @@ internal final class BottomMenuView: UIView {
 
     private lazy var favoriteLayer = UIView()
     private lazy var favoriteIcon = UIImageView().then {
-        $0.image = Icons.iconStarSm.image
+        $0.image = Icons.iconFavorite.image
         $0.tintColor = Colors.contentTertiary.color
-        $0.contentMode = .scaleAspectFit
+        $0.contentMode = .scaleAspectFill
     }
     private lazy var favoriteLabel = UILabel().then {
         $0.text = "즐겨찾기"
