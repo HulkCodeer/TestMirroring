@@ -88,87 +88,7 @@
                                     <constraint firstAttribute="trailing" secondItem="Bp2-BV-hd6" secondAttribute="trailing" id="pPM-Bg-6T4"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hUZ-Py-Zxk">
-                                <rect key="frame" x="16" y="595" width="343" height="64"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rx1-ZB-nqj">
-                                        <rect key="frame" x="8" y="0.0" width="82" height="64"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                        <color key="tintColor" name="gr-8"/>
-                                        <state key="normal" title="QR충전" image="icon_qr">
-                                            <color key="titleColor" name="gr-8"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="onClickMainCharge:" destination="Dkt-CM-WPs" eventType="touchUpInside" id="rKO-IU-zOm"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xBg-t6-57T">
-                                        <rect key="frame" x="90" y="0.0" width="81.5" height="64"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                        <color key="tintColor" name="gr-8"/>
-                                        <state key="normal" title="자유게시판" image="ic_comment">
-                                            <color key="titleColor" name="gr-8"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="onClickCommunityBtn:" destination="Dkt-CM-WPs" eventType="touchUpInside" id="2fv-3d-bKr"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Z2-jd-MHp">
-                                        <rect key="frame" x="171.5" y="0.0" width="82" height="64"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                        <color key="tintColor" name="gr-8"/>
-                                        <state key="normal" title="자주묻는질문" image="icon_main_faq">
-                                            <color key="titleColor" name="gr-8"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="onClickMainHelp:" destination="Dkt-CM-WPs" eventType="touchUpInside" id="BtA-kK-eI1"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9yb-v3-RaX">
-                                        <rect key="frame" x="253.5" y="0.0" width="81.5" height="64"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                        <color key="tintColor" name="gr-8"/>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="-10" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="즐겨찾기" image="ic_line_favorite">
-                                            <color key="titleColor" name="gr-8"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="onClickMainFavorite:" destination="Dkt-CM-WPs" eventType="touchUpInside" id="nds-sb-8Q8"/>
-                                        </connections>
-                                    </button>
-                                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="botton_new_dot" translatesAutoresizingMaskIntoConstraints="NO" id="a8S-mJ-l4p">
-                                        <rect key="frame" x="64" y="10" width="6" height="6"/>
-                                        <color key="tintColor" name="background-negative"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="6" id="6WY-gN-JGh"/>
-                                            <constraint firstAttribute="height" constant="6" id="un5-Gy-FAf"/>
-                                        </constraints>
-                                    </imageView>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstItem="0Z2-jd-MHp" firstAttribute="leading" secondItem="xBg-t6-57T" secondAttribute="trailing" id="0lk-bc-3MQ"/>
-                                    <constraint firstItem="9yb-v3-RaX" firstAttribute="top" secondItem="hUZ-Py-Zxk" secondAttribute="top" id="3ha-ca-4Dp"/>
-                                    <constraint firstAttribute="height" constant="64" id="4v8-xw-LEd"/>
-                                    <constraint firstAttribute="bottom" secondItem="xBg-t6-57T" secondAttribute="bottom" id="8vf-AU-QB2"/>
-                                    <constraint firstAttribute="trailing" secondItem="9yb-v3-RaX" secondAttribute="trailing" constant="8" id="9Os-kv-ZAw"/>
-                                    <constraint firstItem="rx1-ZB-nqj" firstAttribute="width" secondItem="xBg-t6-57T" secondAttribute="width" id="Eg6-nI-yF1"/>
-                                    <constraint firstItem="a8S-mJ-l4p" firstAttribute="top" secondItem="rx1-ZB-nqj" secondAttribute="top" constant="10" id="GUC-NQ-Ynr"/>
-                                    <constraint firstItem="rx1-ZB-nqj" firstAttribute="top" secondItem="hUZ-Py-Zxk" secondAttribute="top" id="Mts-Ep-PJ5"/>
-                                    <constraint firstAttribute="bottom" secondItem="rx1-ZB-nqj" secondAttribute="bottom" id="NUa-ft-4ML"/>
-                                    <constraint firstItem="0Z2-jd-MHp" firstAttribute="top" secondItem="hUZ-Py-Zxk" secondAttribute="top" id="Qas-St-LJG"/>
-                                    <constraint firstItem="xBg-t6-57T" firstAttribute="top" secondItem="hUZ-Py-Zxk" secondAttribute="top" id="ST2-G0-gOa"/>
-                                    <constraint firstItem="rx1-ZB-nqj" firstAttribute="leading" secondItem="hUZ-Py-Zxk" secondAttribute="leading" constant="8" id="Vms-kA-G40"/>
-                                    <constraint firstAttribute="bottom" secondItem="9yb-v3-RaX" secondAttribute="bottom" id="XH3-Kq-3Uy"/>
-                                    <constraint firstItem="xBg-t6-57T" firstAttribute="width" secondItem="0Z2-jd-MHp" secondAttribute="width" id="bVs-d5-OTH"/>
-                                    <constraint firstItem="xBg-t6-57T" firstAttribute="leading" secondItem="rx1-ZB-nqj" secondAttribute="trailing" id="moP-v6-Cgg"/>
-                                    <constraint firstItem="9yb-v3-RaX" firstAttribute="leading" secondItem="0Z2-jd-MHp" secondAttribute="trailing" id="qio-FB-1uc"/>
-                                    <constraint firstAttribute="bottom" secondItem="0Z2-jd-MHp" secondAttribute="bottom" id="tVT-8Y-vo7"/>
-                                    <constraint firstItem="0Z2-jd-MHp" firstAttribute="width" secondItem="9yb-v3-RaX" secondAttribute="width" id="vwW-N6-V02"/>
-                                    <constraint firstItem="a8S-mJ-l4p" firstAttribute="trailing" secondItem="rx1-ZB-nqj" secondAttribute="trailing" constant="-20" id="wJt-Ed-IuQ"/>
-                                </constraints>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XSe-Va-su3" customClass="Button" customModule="Material">
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XSe-Va-su3" customClass="Button" customModule="Material">
                                 <rect key="frame" x="118" y="547" width="139.5" height="32"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="electric_icon" translatesAutoresizingMaskIntoConstraints="NO" id="LnQ-p2-sZa">
@@ -362,10 +282,8 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="aV6-BG-3jX" firstAttribute="trailing" secondItem="SHM-kf-rAr" secondAttribute="trailing" constant="16" id="0AX-mf-Ebv"/>
-                            <constraint firstItem="hUZ-Py-Zxk" firstAttribute="leading" secondItem="aV6-BG-3jX" secondAttribute="leading" constant="16" id="0gG-oe-Qo5"/>
                             <constraint firstItem="Ueo-lF-S8F" firstAttribute="centerY" secondItem="heY-bS-hgo" secondAttribute="centerY" id="4p6-hI-itT"/>
                             <constraint firstItem="SHM-kf-rAr" firstAttribute="leading" secondItem="aV6-BG-3jX" secondAttribute="leading" constant="16" id="65j-wd-FWJ"/>
-                            <constraint firstItem="aV6-BG-3jX" firstAttribute="bottom" secondItem="hUZ-Py-Zxk" secondAttribute="bottom" constant="8" id="DcU-Cj-Izb"/>
                             <constraint firstItem="XSe-Va-su3" firstAttribute="centerX" secondItem="heY-bS-hgo" secondAttribute="centerX" id="Jy0-sR-JRA"/>
                             <constraint firstItem="aV6-BG-3jX" firstAttribute="trailing" secondItem="MjX-0u-Kq9" secondAttribute="trailing" id="Kcc-zq-egO"/>
                             <constraint firstItem="aV6-BG-3jX" firstAttribute="trailing" secondItem="5EV-dN-PRm" secondAttribute="trailing" id="LGN-Bz-By8"/>
@@ -374,8 +292,6 @@
                             <constraint firstItem="5EV-dN-PRm" firstAttribute="leading" secondItem="aV6-BG-3jX" secondAttribute="leading" id="QFx-7u-ZLH"/>
                             <constraint firstAttribute="bottom" secondItem="5EV-dN-PRm" secondAttribute="bottom" id="Rh4-UC-nF6"/>
                             <constraint firstItem="MjX-0u-Kq9" firstAttribute="top" secondItem="heY-bS-hgo" secondAttribute="top" constant="-84" id="Ruc-sK-Uw3"/>
-                            <constraint firstItem="hUZ-Py-Zxk" firstAttribute="top" secondItem="XSe-Va-su3" secondAttribute="bottom" constant="16" id="STo-Xw-tUw"/>
-                            <constraint firstItem="aV6-BG-3jX" firstAttribute="trailing" secondItem="hUZ-Py-Zxk" secondAttribute="trailing" constant="16" id="V8z-m9-QOU"/>
                             <constraint firstItem="0Z5-Ng-0pM" firstAttribute="top" secondItem="SJq-gl-PDQ" secondAttribute="bottom" constant="12" id="WJx-Fe-0DS"/>
                             <constraint firstItem="SJq-gl-PDQ" firstAttribute="top" secondItem="MjX-0u-Kq9" secondAttribute="bottom" constant="12" id="ZVK-jJ-v0U"/>
                             <constraint firstItem="aV6-BG-3jX" firstAttribute="bottom" secondItem="SHM-kf-rAr" secondAttribute="bottom" constant="18" id="ZeW-S1-s4D"/>
@@ -393,16 +309,10 @@
                     </userDefinedRuntimeAttributes>
                     <connections>
                         <outlet property="btnChargePrice" destination="XSe-Va-su3" id="U16-F0-QGQ"/>
-                        <outlet property="btn_main_charge" destination="rx1-ZB-nqj" id="Sah-ce-kgd"/>
-                        <outlet property="btn_main_community" destination="xBg-t6-57T" id="cAy-pV-jdF"/>
-                        <outlet property="btn_main_favorite" destination="9yb-v3-RaX" id="vTk-DY-RUP"/>
-                        <outlet property="btn_main_help" destination="0Z2-jd-MHp" id="xlV-wl-3LX"/>
-                        <outlet property="btn_menu_layer" destination="hUZ-Py-Zxk" id="nnN-qe-zVg"/>
                         <outlet property="callOutLayer" destination="5EV-dN-PRm" id="23s-gK-5Qu"/>
                         <outlet property="filterBarView" destination="Bp2-BV-hd6" id="c1c-Gf-Wof"/>
                         <outlet property="filterContainerView" destination="oUv-17-AnI" id="6ar-By-MNM"/>
                         <outlet property="filterHeight" destination="G3d-Ad-3DT" id="aqD-Y6-pHJ"/>
-                        <outlet property="ivMainChargeNew" destination="a8S-mJ-l4p" id="koZ-ke-hm4"/>
                         <outlet property="markerIndicator" destination="Ueo-lF-S8F" id="Lei-Aj-f8J"/>
                         <outlet property="myLocationButton" destination="0Z5-Ng-0pM" id="XEy-OS-WK7"/>
                         <outlet property="reNewButton" destination="SJq-gl-PDQ" id="gHA-ki-9fC"/>
@@ -502,31 +412,16 @@
     </designables>
     <color key="tintColor" red="0.082352941176470587" green="0.2627450980392157" blue="0.36078431372549019" alpha="1" colorSpace="calibratedRGB"/>
     <resources>
-        <image name="botton_new_dot" width="6" height="6"/>
         <image name="electric_icon" width="11.729000091552734" height="17.047000885009766"/>
         <image name="go_navi_icon_white" width="16" height="16"/>
-        <image name="ic_comment" width="32" height="24"/>
-        <image name="ic_line_favorite" width="32" height="24"/>
-        <image name="ic_line_payment" width="32" height="24"/>
-        <image name="ic_newbadge" width="20" height="20"/>
-        <image name="icon_battery" width="32" height="32"/>
-        <image name="icon_comment_lg" width="32" height="32"/>
         <image name="icon_current_location_md" width="24" height="24"/>
-        <image name="icon_main_faq" width="32" height="24"/>
-        <image name="icon_qr" width="32" height="24"/>
         <image name="icon_refresh_md" width="24" height="24"/>
         <image name="intro_bg.jpg" width="1440" height="3200"/>
-        <namedColor name="background-negative">
-            <color red="0.93300002813339233" green="0.15299999713897705" blue="0.21600000560283661" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <namedColor name="content-positive">
             <color red="0.28200000524520874" green="0.83499997854232788" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="content-primary">
             <color red="0.094117647058823528" green="0.094117647058823528" blue="0.098039215686274508" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="gr-8">
-            <color red="0.097999997437000275" green="0.43900001049041748" blue="0.28999999165534973" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="nt-white">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
