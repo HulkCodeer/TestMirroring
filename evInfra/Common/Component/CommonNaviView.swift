@@ -78,8 +78,7 @@ internal final class CommonNaviView: UIView {
         }
         
         naviBackBtn.btn.rx.tap
-            .asDriver()
-            .debug()
+            .asDriver()            
             .drive(with: self) { obj, _ in
                 guard let _backClosure = obj.backClosure else {
                     GlobalDefine.shared.mainNavi?.pop()

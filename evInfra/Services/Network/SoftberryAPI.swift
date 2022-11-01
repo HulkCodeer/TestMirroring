@@ -259,8 +259,7 @@ internal final class RestApi: SoftberryAPI {
     
     func postMembershipCardInfo() -> Observable<(HTTPURLResponse, Data)> {
         let reqParam: Parameters = [
-//            "mb_id": MemberManager.shared.mbId
-            "mb_id": "402"
+            "mb_id": MemberManager.shared.mbId            
         ]
         
         return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/v2/membership_card/info",

@@ -10,8 +10,8 @@ import SwiftyJSON
 
 internal enum ShipmentStatusType: Int, CaseIterable {
     case sendReady = 0
-    case sending = 1
-    case sendComplete = 2
+    case sending = 4
+    case sendComplete = 1
     
     internal var toString: String {
         switch self {
@@ -19,22 +19,33 @@ internal enum ShipmentStatusType: Int, CaseIterable {
         case .sending: return "발송중"
         case .sendComplete: return "우편함 확인"
         }
-    }    
+    }
+    
+    internal var toMessage: String {
+        switch self {
+        case .sendReady:
+            return "신청 내용을 확인중입니다.\n영업일 기준 2~3일내로 발송 예정입니다."
+        case .sending:
+            return "EV Pay 카드가 회원님께 가고 있어요! ✉️\n영업일 기준 약 7일 뒤 도착할거에요.\n우편 발송되어 도착 날짜가 정확하지 않을 수 있으니\n양해 부탁드려요."
+        case .sendComplete: return ""
+        }
+    }
 }
 
 internal struct MembershipCardInfo {
     enum PassType {
-        case pass
+        case nextStep
         case complete
         case current
+        case none
     }
     
     struct ConvertStatus {
         internal var shipmentStatusType: ShipmentStatusType
         internal var passType: PassType
         
-        init(status: Int, passType: PassType) {
-            self.shipmentStatusType = ShipmentStatusType(rawValue: status) ?? .sendReady
+        init(shipmentStatusType: ShipmentStatusType, passType: PassType) {
+            self.shipmentStatusType = shipmentStatusType
             self.passType = passType
         }
     }
@@ -53,19 +64,20 @@ internal struct MembershipCardInfo {
         self.date = json["date"].stringValue
         self.info = Info(json["info"])
         
-        var passType: PassType = .pass
-        var statusValue: Int = json["status"].intValue
-        for type in ShipmentStatusType.allCases {            
+        var passType: PassType = .complete
+        let statusValue: Int = json["status"].intValue
+        for type in ShipmentStatusType.allCases {
+                                    
             if passType == .current {
-                passType = .complete
+                passType = .nextStep
             }
             
             if type == ShipmentStatusType(rawValue: statusValue)  {
                 passType = .current
             }
                                     
-            self.convertStatusArr.append(ConvertStatus(status: json["status"].intValue, passType: passType))
-        }
+            self.convertStatusArr.append(ConvertStatus(shipmentStatusType: type, passType: passType))
+        }                
     }
     
     internal struct Info {

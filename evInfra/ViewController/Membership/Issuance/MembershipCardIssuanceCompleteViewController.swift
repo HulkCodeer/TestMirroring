@@ -17,7 +17,7 @@ internal final class MembershipCardIssuanceCompleteViewController: CommonBaseVie
     }
     
     private lazy var totalScrollView = UIScrollView().then {
-        $0.showsVerticalScrollIndicator = true
+        $0.showsVerticalScrollIndicator = false
         $0.showsHorizontalScrollIndicator = false
     }
     
