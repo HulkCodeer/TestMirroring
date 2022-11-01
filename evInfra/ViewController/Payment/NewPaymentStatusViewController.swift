@@ -881,8 +881,9 @@ internal final class NewPaymentStatusViewController: CommonBaseViewController, S
         chargeElapsedTimeLbl.stop()
         removeNotificationCenter()
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
     }
     

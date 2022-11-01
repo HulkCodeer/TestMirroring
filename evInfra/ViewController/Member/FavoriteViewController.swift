@@ -9,42 +9,20 @@
 import UIKit
 import Material
 
-class FavoriteViewController: BaseViewController {
+internal final class FavoriteViewController: BaseViewController {
 
     @IBOutlet weak var tableView: ChargerTableView!
     @IBOutlet var emptyView: UIView!
     
     internal weak var delegate: ChargerSelectDelegate?
     private var favoriteChargers: [ChargerStationInfo] = []
-    
-    deinit {
-        printLog(out: "\(type(of: self)): Deinited")
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        prepareActionBar(with: "즐겨찾기")
-    }
-    
+            
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         favoriteChargers = ChargerManager.sharedInstance.getChargerStationInfoList()
         prepareTableView()
         logEventWithFavoriteChargers()
-    }
-    
-    func prepareActionBar() {
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "nt-9")
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-        
-        navigationItem.leftViews = [backButton]
-        navigationItem.hidesBackButton = true
-        navigationItem.titleLabel.textColor = UIColor(named: "nt-9")
-        navigationItem.titleLabel.text = "즐겨찾기"
-        self.navigationController?.isNavigationBarHidden = false
     }
     
     @objc
@@ -63,11 +41,7 @@ extension FavoriteViewController: ChargerTableViewDelegate {
         })
         tableView.reloadData()
         
-        if (tableView.chargerList?.count == 0) {
-            emptyView.isHidden = false
-        }else{
-            emptyView.isHidden = true
-        }
+        emptyView.isHidden = tableView.chargerList?.count != 0
     }
     
     func logEventWithFavoriteChargers() {

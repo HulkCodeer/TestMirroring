@@ -15,6 +15,15 @@ import UIImageCropper
 
 internal final class MyPageViewController: UIViewController {
 
+    private lazy var customNaviBar = CommonNaviView().then {
+        $0.naviTitleLbl.text = "개인정보관리"
+        $0.backgroundColor = Colors.backgroundPrimary.color
+    }
+    private lazy var logoutButton = UIButton().then {
+        $0.setTitle("로그아웃", for: .normal)
+        $0.setTitleColor(UIColor(named: "content-primary")!, for: .normal)
+        $0.titleLabel?.font = .systemFont(ofSize: 16)
+    }
     @IBOutlet weak var nickNameField: TextField!
     @IBOutlet weak var locationSpinnerBtn: UIButton!
     @IBOutlet weak var carKindSpinnerBtn: UIButton!
@@ -75,6 +84,29 @@ internal final class MyPageViewController: UIViewController {
         printLog(out: "\(type(of: self)): Deinited")
     }
     
+    override func loadView() {
+        super.loadView()
+        
+        logoutButton.addTarget(self, action: #selector(handlelogoutButton), for: .touchUpInside)
+                
+        customNaviBar.backClosure = { [weak self] in
+            self?.navigationController?.pop()
+        }
+        
+        view.addSubview(customNaviBar)
+        customNaviBar.snp.makeConstraints {
+            $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(Constants.view.naviBarHeight)
+        }
+        
+        customNaviBar.addSubview(logoutButton)
+        logoutButton.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(Constants.view.naviBarItemPadding)
+            $0.width.equalTo(80)
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         nickNameField.delegate = self
@@ -83,7 +115,6 @@ internal final class MyPageViewController: UIViewController {
         self.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(endEditing)))
         
         keyboardViewMove()
-        prepareActionBar()
         prepareSpinnerView()
         prepareView()
         
@@ -94,6 +125,8 @@ internal final class MyPageViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
+
     }
     
     @objc func endEditing() {
@@ -200,30 +233,7 @@ internal final class MyPageViewController: UIViewController {
 }
 
 extension MyPageViewController {
-    func prepareActionBar() {
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "content-primary")
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-        
-        let logoutButton = UIButton()
-        logoutButton.setTitle("로그아웃", for: .normal)
-        logoutButton.setTitleColor(UIColor(named: "content-primary")!, for: .normal)
-        logoutButton.titleLabel?.font = .systemFont(ofSize: 16)
-        logoutButton.addTarget(self, action: #selector(handlelogoutButton), for: .touchUpInside)
-        
-        navigationItem.hidesBackButton = true
-        navigationItem.leftViews = [backButton]
-        navigationItem.rightViews = [logoutButton]
-        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-        navigationItem.titleLabel.text = "개인정보관리"
-        self.navigationController?.isNavigationBarHidden = false
-    }
-    
-    @objc
-    fileprivate func handleBackButton() {
-        self.navigationController?.pop()
-    }
-    
+
     @objc
     fileprivate func handlelogoutButton() {
         var actions = Array<UIAlertAction>()

@@ -393,19 +393,15 @@
                     </userDefinedRuntimeAttributes>
                     <connections>
                         <outlet property="btnChargePrice" destination="XSe-Va-su3" id="U16-F0-QGQ"/>
-                        <outlet property="btnRoute" destination="nUo-2a-WfK" id="zBL-Qd-ohE"/>
-                        <outlet property="btnRouteCancel" destination="3ai-r8-BQA" id="5rO-1o-jry"/>
                         <outlet property="btn_main_charge" destination="rx1-ZB-nqj" id="Sah-ce-kgd"/>
                         <outlet property="btn_main_community" destination="xBg-t6-57T" id="cAy-pV-jdF"/>
                         <outlet property="btn_main_favorite" destination="9yb-v3-RaX" id="vTk-DY-RUP"/>
                         <outlet property="btn_main_help" destination="0Z2-jd-MHp" id="xlV-wl-3LX"/>
                         <outlet property="btn_menu_layer" destination="hUZ-Py-Zxk" id="nnN-qe-zVg"/>
                         <outlet property="callOutLayer" destination="5EV-dN-PRm" id="23s-gK-5Qu"/>
-                        <outlet property="endField" destination="V0k-eg-psY" id="yii-3c-jxj"/>
                         <outlet property="filterBarView" destination="Bp2-BV-hd6" id="c1c-Gf-Wof"/>
                         <outlet property="filterContainerView" destination="oUv-17-AnI" id="6ar-By-MNM"/>
                         <outlet property="filterHeight" destination="G3d-Ad-3DT" id="aqD-Y6-pHJ"/>
-                        <outlet property="filterView" destination="MjX-0u-Kq9" id="X9m-BT-AXY"/>
                         <outlet property="ivMainChargeNew" destination="a8S-mJ-l4p" id="koZ-ke-hm4"/>
                         <outlet property="markerIndicator" destination="Ueo-lF-S8F" id="Lei-Aj-f8J"/>
                         <outlet property="myLocationButton" destination="0Z5-Ng-0pM" id="XEy-OS-WK7"/>
@@ -413,8 +409,6 @@
                         <outlet property="routeDistanceBtn" destination="xxr-DK-neS" id="wxA-1T-BVd"/>
                         <outlet property="routeDistanceLabel" destination="k0s-5e-MTS" id="yvt-wc-yxu"/>
                         <outlet property="routeDistanceView" destination="SHM-kf-rAr" id="ZEf-45-1CT"/>
-                        <outlet property="routeView" destination="3RR-82-jR6" id="Tc8-mf-E0A"/>
-                        <outlet property="startField" destination="Vjd-ZG-9S9" id="3Gc-8h-hYu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sL6-Ap-rJh" userLabel="First Responder" sceneMemberID="firstResponder"/>

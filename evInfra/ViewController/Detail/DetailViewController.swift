@@ -12,8 +12,9 @@ import Motion
 import SwiftyJSON
 import JJFloatingActionButton
 
-internal final class DetailViewController: BaseViewController {
+internal final class DetailViewController: CommonBaseViewController {
 
+    @IBOutlet weak var commonNaviView: CommonNaviView!
     @IBOutlet weak var detailView: UIView!
     
     @IBOutlet weak var summaryLayout: UIView!
@@ -382,28 +383,15 @@ internal final class DetailViewController: BaseViewController {
         ChargerStationEvent.clickStationChargingPrice.logEvent()
         self.navigationController?.push(viewController: termsViewControll)
     }
-}
 
-extension DetailViewController {
-    func prepareActionBar() {
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "content-primary")
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
+    private func prepareActionBar() {
+        guard let chargerData = charger, let stationDto = chargerData.mStationInfoDto else { return }
         
-        if let chargerData = charger {
-            if let stationDto = chargerData.mStationInfoDto {
-                navigationItem.hidesBackButton = true
-                navigationItem.titleLabel.text = (stationDto.mSnm)!
-                navigationItem.leftViews = [backButton]
-                navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-            }
+        commonNaviView.naviTitleLbl.text = stationDto.mSnm ?? String()
+        commonNaviView.backClosure = {
+            ChargerStationEvent.viewStationReview.logEvent()
+            GlobalDefine.shared.mainNavi?.pop(transitionType: CATransitionType.reveal, subtype: CATransitionSubtype.fromBottom)
         }
-    }
-    
-    @objc
-    fileprivate func handleBackButton() {
-        ChargerStationEvent.viewStationReview.logEvent()
-        self.navigationController?.pop(transitionType: CATransitionType.reveal, subtype: CATransitionSubtype.fromBottom)
     }
 }
 

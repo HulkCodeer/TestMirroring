@@ -7,11 +7,14 @@
 //
 
 import UIKit
-import Material
 import Motion
 import SwiftyJSON
 
 class ReportBoardViewController: UIViewController {
+    
+    private lazy var customNavibar = CommonNaviView().then {
+        $0.naviTitleLbl.text = "나의 제보 내역"
+    }
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var emptyLabel: UILabel!
@@ -22,15 +25,24 @@ class ReportBoardViewController: UIViewController {
         printLog(out: "\(type(of: self)): Deinited")
     }
     
+    override func loadView() {
+        super.loadView()
+        view.addSubview(customNavibar)
+        customNavibar.snp.makeConstraints {
+            $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(Constants.view.naviBarHeight)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        prepareActionBar()
         prepareInitView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -43,18 +55,6 @@ class ReportBoardViewController: UIViewController {
             }
         }
     }
-
-    func prepareActionBar() {
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "content-primary")
-        backButton.addTarget(self, action: #selector(onClickBackBtn), for: .touchUpInside)
-        
-        navigationItem.hidesBackButton = true
-        navigationItem.leftViews = [backButton]
-        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-        navigationItem.titleLabel.text = "나의 제보 내역"
-        navigationController?.isNavigationBarHidden = false
-    }
     
     func prepareInitView() {
         self.tableView.delegate = self
@@ -65,11 +65,6 @@ class ReportBoardViewController: UIViewController {
         self.tableView.tableFooterView = UIView() // empty list의 separator 보이지 않도록 함
         self.emptyLabel.isHidden = true
         self.tableView.isHidden = true
-    }
-    
-    @objc
-    fileprivate func onClickBackBtn() {
-        self.navigationController?.pop()
     }
 
     func getReportList(reportId: Int) {
@@ -110,7 +105,6 @@ extension ReportBoardViewController: ReportChargeViewDelegate {
         reportChargeVC.info.charger_id = self.reportList[index].charger_id        
         
         self.present(AppNavigationController(rootViewController: reportChargeVC), animated: true)
-//        self.present(AppSearchBarController(rootViewController: reportChargeVC), animated: true, completion: nil)
     }
     
     func getReportInfo() {

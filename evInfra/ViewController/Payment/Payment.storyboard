@@ -71,7 +71,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jBb-V8-qtD">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="551"/>
+                                <rect key="frame" x="0.0" y="56" width="375" height="495"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="551" translatesAutoresizingMaskIntoConstraints="NO" id="aXY-At-VpG">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="655.5"/>
@@ -443,7 +443,7 @@
                             <constraint firstItem="p2x-7b-0KV" firstAttribute="bottom" secondItem="qBU-ga-j3h" secondAttribute="top" id="Me2-JS-NxM"/>
                             <constraint firstItem="ybT-de-L2V" firstAttribute="top" secondItem="Gtj-lM-k9w" secondAttribute="top" id="SlJ-oL-Vbw"/>
                             <constraint firstItem="Gtj-lM-k9w" firstAttribute="trailing" secondItem="jBb-V8-qtD" secondAttribute="trailing" id="W8Y-as-QL1"/>
-                            <constraint firstItem="jBb-V8-qtD" firstAttribute="top" secondItem="Gtj-lM-k9w" secondAttribute="top" id="Xpg-US-ygz"/>
+                            <constraint firstItem="jBb-V8-qtD" firstAttribute="top" secondItem="Gtj-lM-k9w" secondAttribute="top" constant="56" id="Xpg-US-ygz"/>
                             <constraint firstItem="ybT-de-L2V" firstAttribute="leading" secondItem="Gtj-lM-k9w" secondAttribute="leading" id="ese-8R-PJD"/>
                             <constraint firstItem="jBb-V8-qtD" firstAttribute="leading" secondItem="Gtj-lM-k9w" secondAttribute="leading" id="mon-X0-Esp"/>
                             <constraint firstItem="Gtj-lM-k9w" firstAttribute="trailing" secondItem="ybT-de-L2V" secondAttribute="trailing" id="scj-yo-Xqj"/>
@@ -1762,7 +1762,7 @@
         <image name="icon_refresh_sm" width="20" height="20"/>
         <image name="qr_box" width="285" height="284"/>
         <namedColor name="background-positive">
-            <color red="0.28200000524520874" green="0.83499997854232788" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.28235294117647058" green="0.83529411764705885" blue="0.59215686274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="background-primary">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -7,10 +7,12 @@
 //
 
 import UIKit
-import Material
 
 class ServiceGuideViewController: UIViewController , UITableViewDelegate, UITableViewDataSource {
     
+    private lazy var customNaviBar = CommonNaviView().then {
+        $0.naviTitleLbl.text = "이용 안내"
+    }
     @IBOutlet weak var listTableView: UITableView!
     
     // sub menu - 이용안내
@@ -28,34 +30,26 @@ class ServiceGuideViewController: UIViewController , UITableViewDelegate, UITabl
         printLog(out: "\(type(of: self)): Deinited")
     }
     
+    override func loadView() {
+        super.loadView()
+        
+        view.addSubview(customNaviBar)
+        customNaviBar.snp.makeConstraints {
+            $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(Constants.view.naviBarHeight)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        prepareActionBar()
-        
+                
         self.listTableView.delegate = self
         self.listTableView.dataSource = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-    }
-    
-    func prepareActionBar() {
-        var backButton: IconButton!
-        backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "content-primary")
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-        
-        navigationItem.hidesBackButton = true
-        navigationItem.leftViews = [backButton]
-        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-        navigationItem.titleLabel.text = "이용 안내"
-        self.navigationController?.isNavigationBarHidden = false
-    }
-    
-    @objc fileprivate func handleBackButton() {
-        self.navigationController?.pop()
+        self.navigationController?.isNavigationBarHidden = true
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -16,6 +16,11 @@ protocol RepaymentListDelegate: AnyObject {
     func onRepayFail()
 }
 class RepayListViewController: UIViewController, MyPayRegisterViewDelegate, RepaymentResultDelegate {
+    
+    private lazy var customNaviBar = CommonNaviView().then {
+        $0.backgroundColor = Colors.backgroundPrimary.color
+        $0.naviTitleLbl.text = "미수금 안내"
+    }
     @IBOutlet weak var lbCardInfo: UILabel!
     @IBOutlet weak var lbCardStatus: UILabel!
     @IBOutlet weak var lbFailedListCnt: UILabel!
@@ -48,7 +53,6 @@ class RepayListViewController: UIViewController, MyPayRegisterViewDelegate, Repa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         prepareActionBar()
         prepareView()
         prepareTableView()
@@ -56,6 +60,7 @@ class RepayListViewController: UIViewController, MyPayRegisterViewDelegate, Repa
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
             guard let self = self else { return }
             if isLogin {
@@ -102,38 +107,33 @@ class RepayListViewController: UIViewController, MyPayRegisterViewDelegate, Repa
         btnChangeCard.layer.cornerRadius = 6
     }
     
-    func prepareActionBar() {
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "content-primary")
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
+    private func prepareActionBar() {
+        self.navigationController?.isNavigationBarHidden = true
+        customNaviBar.backClosure = { [weak self] in
+            guard let `self` = self, let _navi = self.navigationController else { return }
+            for vc in _navi.viewControllers {
+                if vc is MembershipCardViewController {
+                    _navi.popToRootViewController(animated: true)
+                    return
+                } else {
+                    _navi.pop()
+                }
+            }
+            
+            self.delegate?.onRepayFail()
+        }
         
-        navigationItem.leftViews = [backButton]
-        navigationItem.hidesBackButton = true
-        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-        navigationItem.titleLabel.text = "미수금 안내"
-        self.navigationController?.isNavigationBarHidden = false
+        view.addSubview(customNaviBar)
+        customNaviBar.snp.makeConstraints {
+            $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(Constants.view.naviBarHeight)
+        }
     }
     
     func prepareView() {
         let tapTouch = UITapGestureRecognizer(target: self, action: #selector(self.onTouchUsePoint))
         viewUsePoint.addGestureRecognizer(tapTouch)
         cbUsePoint.tintColor = UIColor(named: "content-primary")
-    }
-    
-    @objc
-    fileprivate func handleBackButton() {
-        guard let _navi = navigationController else { return }                        
-        for vc in _navi.viewControllers {
-            if vc is MembershipCardViewController {
-                _navi.popToRootViewController(animated: true)
-                return
-            } else {
-                _navi.pop()
-            }
-        }
-        if let del = self.delegate {
-            del.onRepayFail()
-        }// result code false
     }
     
     func requestFailedPayList() {

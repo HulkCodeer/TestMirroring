@@ -62,7 +62,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         printLog(out: "scene:userActivity")
         // Dynamic Link
         self.handleUserActivity(userActivity: userActivity)
-    }        
+    }
             
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         printLog(out: "scene:openURLContexts")
@@ -108,7 +108,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     private func setupEntryController(_ scene: UIScene) {
         // init initial view controller
-        let introViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(ofType: IntroViewController.self)
+        
         if !MemberManager.shared.memberId.isEmpty {
             FCMManager.sharedInstance.originalMemberId = MemberManager.shared.memberId
         }
@@ -116,18 +116,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let _ = (scene as? UIWindowScene) else { return }
         if let windowScene = scene as? UIWindowScene {
             window = UIWindow(windowScene: windowScene)
-            let navigationController = AppNavigationController(rootViewController: introViewController)
-            GlobalDefine.shared.mainNavi = navigationController
-            navigationController.navigationBar.isHidden = true
             
-            let appearance = UINavigationBarAppearance()
-            appearance.backgroundColor = UIColor(named: "nt-white")
-            appearance.shadowColor = nil
-            navigationController.navigationBar.standardAppearance = appearance
-            navigationController.navigationBar.compactAppearance = appearance
-            navigationController.navigationBar.scrollEdgeAppearance = appearance
+            let viewcon = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(ofType: IntroViewController.self)
+            let mainNavi = MainNavigationController(rootViewController: viewcon)
             
-            window!.rootViewController = navigationController
+            window!.rootViewController = mainNavi
             window!.makeKeyAndVisible()
         }
     }
@@ -166,11 +159,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func runLinkDirectly(url: URL) {
-        let path = url.path        
+        let path = url.path
         DeepLinkPath.sharedInstance.linkPath = url.path
         if let component = URLComponents(url: url, resolvingAgainstBaseURL: false) {
             DeepLinkPath.sharedInstance.linkParameter = component.queryItems
         }
         DeepLinkPath.sharedInstance.runDeepLink()
-    }        
+    }
 }

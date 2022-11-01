@@ -17,15 +17,10 @@ internal final class EvInfoViewController: BaseViewController {
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
     }
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        prepareActionBar(with: "전기차 정보")
-        getEvModels()
-    }
-    
-    private func prepareCollectionView() {
         let cellwidth: CGFloat = (view.bounds.width - 2) / 3
         let layout = UICollectionViewFlowLayout()
         
@@ -39,6 +34,11 @@ internal final class EvInfoViewController: BaseViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.showsHorizontalScrollIndicator = false
+                
+        getEvModels()
+    }
+    
+    private func prepareCollectionView() {
         collectionView.reloadData()
     }
     

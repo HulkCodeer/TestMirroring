@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Material
 import WebKit
 import JavaScriptCore
 import SwiftyJSON
@@ -31,11 +30,20 @@ internal class TermsViewController: UIViewController, WKUIDelegate, WKNavigation
         case BatteryInfo       // SK Battery
     }
 
+    private lazy var customNaviBar = CommonNaviView()
+    
     var tabIndex:Request = .UsingTerms
     var subParams:String = "" // POST parameter
     var subURL:String = "" // GET parameter
     var header: [String: String] = ["Content-Type":"application/x-www-form-urlencoded"]
-    var webView: WKWebView!
+    private lazy var webView = WKWebView().then {
+        $0.uiDelegate = self
+        $0.navigationDelegate = self
+        $0.translatesAutoresizingMaskIntoConstraints = true
+        $0.autoresizingMask = [.flexibleHeight]
+        $0.allowsBackForwardNavigationGestures = true
+        
+    }
 
     @IBOutlet weak var fixWebView: UIView!
     @IBOutlet weak var termsTitle: UILabel!
@@ -64,73 +72,58 @@ internal class TermsViewController: UIViewController, WKUIDelegate, WKNavigation
     override func loadView() {
         super.loadView()
         
-        webView = WKWebView(frame: self.view.frame)
-        webView.uiDelegate = self
-        webView.navigationDelegate = self
-        webView.translatesAutoresizingMaskIntoConstraints = true
-        webView.autoresizingMask = [.flexibleHeight]
-        webView.allowsBackForwardNavigationGestures = true
-        
-        self.view = webView
+        view.addSubview(webView)
+        webView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(Constants.view.naviBarHeight)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
     }
     
     func prepareActionBar() {
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "content-primary")
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
+        navigationController?.isNavigationBarHidden = true
         
-        navigationItem.leftViews = [backButton]
-        navigationItem.hidesBackButton = true
-        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-
-        switch tabIndex {
-        case .UsingTerms:
-            navigationItem.titleLabel.text = "서비스 이용약관"
-//            self.title = "서비스 이용약관 화면"
-        case .PersonalInfoTerms:
-            navigationItem.titleLabel.text = "개인정보 취급방침"
-//            self.title = "개인정보 취급방침 화면"
-        case .LocationTerms:
-            navigationItem.titleLabel.text = "위치기반서비스 이용약관"
-//            self.title = "위치기반서비스 이용약관 화면"
-        case .MembershipTerms:
-            navigationItem.titleLabel.text = "회원카드 이용약관"
-//            self.title = "회원카드 이용약관 화면"
-        case .Licence:
-            navigationItem.titleLabel.text = "라이센스"
-//            self.title = "라이센스 화면"
-        case .Contact:
-            navigationItem.titleLabel.text = "제휴문의"
-//            self.title = "제휴문의 화면"
-        case .EvBonusGuide:
-            navigationItem.titleLabel.text = "보조금 안내"
-//            self.title = "보조금 안내 화면"
-        case .priceInfo:
-            navigationItem.titleLabel.text = "충전요금 안내"
-//            self.title = "충전요금 안내 화면"
-        case .EvBonusStatus:
-            navigationItem.titleLabel.text = "보조금 현황"
-//            self.title = "보조금 현황 화면"
-        case .BusinessInfo:
-            navigationItem.titleLabel.text = "사업자 정보"
-//            self.title = "사업자 정보 화면"
-        case .StationPrice:
-            navigationItem.titleLabel.text = "충전소 가격정보"
-//            self.title = "충전소 가격정보 화면"
-        case .faqDetail, .faqTop:
-            navigationItem.titleLabel.text = "자주묻는 질문"
-//            self.title = "자주묻는 질문 화면"
-        case .BatteryInfo:
-            navigationItem.titleLabel.text = "내 차 배터리 관리"
-//            self.title = "내 차 배터리 관리 화면"
+        customNaviBar.backClosure = {
+            if self.webView.canGoBack {
+                self.webView.goBack()
+            } else {
+                GlobalDefine.shared.mainNavi?.pop()
+            }
+        }
+        view.addSubview(customNaviBar)
+        customNaviBar.snp.makeConstraints {
+            $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(Constants.view.naviBarHeight)
         }
         
-        self.navigationController?.isNavigationBarHidden = false
-    }
-    
-    @objc
-    fileprivate func handleBackButton() {
-        backKeyEvent()
+        switch tabIndex {
+        case .UsingTerms:
+            customNaviBar.naviTitleLbl.text = "서비스 이용약관"
+        case .PersonalInfoTerms:
+            customNaviBar.naviTitleLbl.text = "개인정보 취급방침"
+        case .LocationTerms:
+            customNaviBar.naviTitleLbl.text = "위치기반서비스 이용약관"
+        case .MembershipTerms:
+            customNaviBar.naviTitleLbl.text = "회원카드 이용약관"
+        case .Licence:
+            customNaviBar.naviTitleLbl.text = "라이센스"
+        case .Contact:
+            customNaviBar.naviTitleLbl.text = "제휴문의"
+        case .EvBonusGuide:
+            customNaviBar.naviTitleLbl.text = "보조금 안내"
+        case .priceInfo:
+            customNaviBar.naviTitleLbl.text = "충전요금 안내"
+        case .EvBonusStatus:
+            customNaviBar.naviTitleLbl.text = "보조금 현황"
+        case .BusinessInfo:
+            customNaviBar.naviTitleLbl.text = "사업자 정보"
+        case .StationPrice:
+            customNaviBar.naviTitleLbl.text = "충전소 가격정보"
+        case .faqDetail, .faqTop:
+            customNaviBar.naviTitleLbl.text = "자주묻는 질문"
+        case .BatteryInfo:
+            customNaviBar.naviTitleLbl.text = "내 차 배터리 관리"
+        }
+        
     }
     
     @objc

@@ -35,10 +35,22 @@ import GRDB
 
 class SearchViewController: UIViewController {
     
-    public static let TABLE_VIEW_TYPE_CHARGER = 1
-    public static let TABLE_VIEW_TYPE_ADDRESS = 2
+    enum SearchType {
+        case charger
+        case address
+        
+        var title: String {
+            switch self {
+            case .charger:
+                return "충전소 검색"
+                
+            case .address:
+                return "주소 검색"
+            }
+        }
+    }
     
-    var searchType:Int?
+    var searchType: SearchType = .charger
     internal weak var delegate: ChargerSelectDelegate?
     
     let koreanTextMatcher = KoreanTextMatcher.init()
@@ -60,7 +72,7 @@ class SearchViewController: UIViewController {
     var removeAddressButton: Bool = false
     
     @IBAction func onClickChargerBtn(_ sender: UIButton) {
-        searchType = SearchViewController.TABLE_VIEW_TYPE_CHARGER
+        searchType = .charger
         
         if self.addrRadioBtn.isSelected {
             self.addrRadioBtn.isSelected = false
@@ -76,7 +88,7 @@ class SearchViewController: UIViewController {
     }
     
     @IBAction func onClickAddressBtn(_ sender: UIButton) {
-        searchType = SearchViewController.TABLE_VIEW_TYPE_ADDRESS
+        searchType = .address
         
         if self.chargerRadioBtn.isSelected {
             self.chargerRadioBtn.isSelected = false
@@ -117,7 +129,7 @@ class SearchViewController: UIViewController {
         addrTableView.isHidden = true
         tableView.isHidden = false
         
-        searchType = SearchViewController.TABLE_VIEW_TYPE_CHARGER
+        searchType = .charger
         
         tableView.chargerTableDelegate = self
         tableView.isHiddenAlertFavoriteIcon = true
@@ -132,12 +144,14 @@ class SearchViewController: UIViewController {
     }
     
     internal func reloadData() {
-        if searchType != SearchViewController.TABLE_VIEW_TYPE_ADDRESS {
+        switch searchType {
+        case .charger:
             tableView.reloadData()
             
             tableView.isHidden = false
             addrTableView.isHidden = true
-        } else {
+            
+        case .address:
             addrTableView.reloadData()
             
             addrTableView.isHidden = false
@@ -225,11 +239,13 @@ extension SearchViewController: SearchBarDelegate {
     }
 
     func searchBar(searchBar: SearchBar, didChange textField: UITextField, with text: String?) {
-        if self.searchType != SearchViewController.TABLE_VIEW_TYPE_ADDRESS {
+        switch searchType {
+        case .charger:
             // space 제거, 소문자로 변경 후 비교
             self.mQueryValue = text
             refreshCursorAdapter()
-        } else {
+            
+        case .address:
             DispatchQueue.global(qos: .background).async {
                 var searchWord = self.INIT_KEYWORD
                 if !StringUtils.isNullOrEmpty(text) {
@@ -267,7 +283,7 @@ extension SearchViewController: SearchTableViewViewDelegate {
         guard let poi = self.addrTableView.poiList?[row] else {
             return
         }
-        logEventWithSelectedCharger(row)
+//        logEventWithSelectedCharger(row)
         delegate?.moveToSelected(chargerId: poi.getPOID()!)
         delegate?.moveToSelectLocation(lat: poi.getPOIPoint().getLatitude() , lon: poi.getPOIPoint().getLongitude() )
         dismiss(animated: true, completion: nil)
@@ -278,17 +294,17 @@ extension SearchViewController {
     func logEventWithSelectedCharger(_ index: Int) {
         
         var selectedStationName: String = ""
-        var searchTypeText: String = "충전소 검색"
         
         switch searchType {
-        case SearchViewController.TABLE_VIEW_TYPE_CHARGER:
+        case .charger:
             guard let charger = self.tableView.chargerList?[index] else { return }
             selectedStationName = charger.mStationInfoDto?.mSnm ?? ""
-        case SearchViewController.TABLE_VIEW_TYPE_ADDRESS:
+            
+        case .address:
             guard let poi = self.addrTableView.poiList?[index] else { return }
             selectedStationName = poi.name ?? ""
-            searchTypeText = "주소 검색"
-        default: break
+        default:
+            break
         }
 
         if let searchBar = searchBarController?.searchBar,
@@ -297,7 +313,7 @@ extension SearchViewController {
             let property: [String: Any] = ["searchKeyword": text,
                                            "selectedStation": selectedStationName,
                                            "result": "성공",
-                                           "stationOrAddress": searchTypeText]
+                                           "stationOrAddress": "\(searchType.title)"]
             SearchEvent.clickSearchChooseStation.logEvent(property: property)
         }
     }

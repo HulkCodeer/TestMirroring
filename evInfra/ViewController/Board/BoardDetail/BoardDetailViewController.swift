@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import PanModal
 
-class BoardDetailViewController: BaseViewController, UINavigationControllerDelegate {
+internal final class BoardDetailViewController: BaseViewController, UINavigationControllerDelegate {
     
     @IBOutlet var detailTableView: UITableView!
     
@@ -33,7 +33,6 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
         
         fetchData()
         setConfiguration()
-        prepareActionBar(with: "")
         setKeyboardInputView()
         setKeyboardTapGesture()
         setSendButtonCompletion()
@@ -92,7 +91,7 @@ class BoardDetailViewController: BaseViewController, UINavigationControllerDeleg
     }
 
     private func setConfiguration() {
-        view.addSubview(activityIndicator)
+        self.view.addSubview(activityIndicator)
         keyboardInputView = KeyboardInputView()
         keyboardInputView?.delegate = self
         picker.delegate = self
@@ -223,7 +222,7 @@ extension BoardDetailViewController: UIImagePickerControllerDelegate {
         let originalImage = info[UIImagePickerController.InfoKey.originalImage.rawValue] as! UIImage
         let editedImage = info[UIImagePickerController.InfoKey.editedImage.rawValue] as? UIImage
         let selectedImage = editedImage ?? originalImage
-        
+                        
         keyboardInputView?.selectedImageView.isHidden = false
         keyboardInputView?.selectedImageView.image = selectedImage
         keyboardInputView?.trashButton.isHidden = false

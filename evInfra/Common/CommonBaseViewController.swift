@@ -13,6 +13,10 @@ import AVFoundation
 import SnapKit
 import Then
 
+/**
+ * 코드 베이스로 그릴때만  CommonBaseViewController 상속 받아야 한다.
+ */
+
 internal class CommonBaseViewController: UIViewController {
     // MARK: UI
     
@@ -56,15 +60,20 @@ internal class CommonBaseViewController: UIViewController {
     
     init() {
         super.init(nibName: nil, bundle: nil)
+        viewSettings()
     }
 
     required init?(coder aDecoder: NSCoder) {
         super.init(nibName: nil, bundle: nil)
+        viewSettings()
+    }
+    
+    private func viewSettings() {
+        self.view.backgroundColor = Colors.backgroundAlwaysLight.color
     }
         
     // MARK: FUNC
-    
-    // 공통
+        
     internal func openPhotoLib() {
         picker.sourceType = .photoLibrary
         self.present(picker, animated: false, completion: nil)

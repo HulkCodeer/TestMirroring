@@ -7,10 +7,11 @@
 //
 
 import UIKit
+
 import DropDown
-import Material
 import M13Checkbox
 import SwiftyJSON
+import Then
 import NMapsMap
 import SnapKit
 import RxSwift
@@ -31,6 +32,8 @@ internal final class MainViewController: UIViewController, StoryboardView {
     // user Default
     let defaults = UserDefault()
     
+    private lazy var customNaviBar = MainNavigationBar()
+    
     @IBOutlet weak var myLocationButton: UIButton!
     @IBOutlet weak var reNewButton: UIButton!
     @IBOutlet weak var btnChargePrice: UIButton!
@@ -39,18 +42,18 @@ internal final class MainViewController: UIViewController, StoryboardView {
     @IBOutlet weak var markerIndicator: UIActivityIndicatorView!
     
     // Filter View
-    @IBOutlet weak var filterView: UIView!
-    @IBOutlet weak var routeView: UIView!
-    
+    private lazy var filterStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.alignment = .fill
+        $0.distribution = .equalSpacing
+        $0.spacing = 0
+    }
+    private lazy var searchWayView = MainSearchWayView().then {
+        $0.isHidden = true
+    }
     @IBOutlet weak var filterBarView: NewFilterBarView!
     @IBOutlet weak var filterContainerView: FilterContainerView!
     @IBOutlet weak var filterHeight: NSLayoutConstraint!
-    
-    @IBOutlet weak var startField: TextField!
-    @IBOutlet weak var endField: TextField!
-    
-    @IBOutlet weak var btnRouteCancel: UIButton!
-    @IBOutlet weak var btnRoute: UIButton!
     
     // Callout View
     @IBOutlet weak var callOutLayer: UIView!
@@ -60,13 +63,13 @@ internal final class MainViewController: UIViewController, StoryboardView {
     @IBOutlet var btn_main_community: UIButton!
     @IBOutlet var btn_main_help: UIButton!
     @IBOutlet var btn_main_favorite: UIButton!
+    // 미수금
+    @IBOutlet weak var ivMainChargeNew: UIImageView!
     
     //경로찾기시 거리표시 뷰 (call out)
     @IBOutlet weak var routeDistanceView: UIView!
     @IBOutlet weak var routeDistanceLabel: UILabel!
     @IBOutlet var routeDistanceBtn: UIView!
-    
-    @IBOutlet weak var ivMainChargeNew: UIImageView!
     
     // MARK: VARIABLE
     
@@ -76,22 +79,32 @@ internal final class MainViewController: UIViewController, StoryboardView {
     private var tMapPathData: TMapPathData = TMapPathData.init()
     private var routeStartPoint: TMapPoint? = nil
     private var routeEndPoint: TMapPoint? = nil
-    private var resultTableView: PoiTableView?
-    
-    var naverMapView: NaverMapView!
+    private lazy var destinationResultTableView = PoiTableView().then {
+        $0.poiTableDelegate = self
+        $0.isHidden = true
+    }
+
+    private lazy var naverMapView = NaverMapView(frame: .zero).then {
+        $0.mapView.addCameraDelegate(delegate: self)
+        $0.mapView.touchDelegate = self
+        ChargerManager.sharedInstance.delegate = self
+    }
     var mapView: NMFMapView { naverMapView.mapView }
+    private var summaryView: SummaryView!
+    
     private var locationManager = CLLocationManager()
     private var chargerManager = ChargerManager.sharedInstance
     internal var selectCharger: ChargerStationInfo? = nil
     private var viaCharger: ChargerStationInfo? = nil
     
+    // MARK: VARIABLE
+
     var sharedChargerId: String? = nil
     
     private var loadedChargers = false
     private var clusterManager: ClusterManager? = nil
     private var canIgnoreJejuPush = true
-    
-    private var summaryView: SummaryView!
+
     internal var disposeBag = DisposeBag()
     
     private var evPayTipView = EasyTipView(text: "")
@@ -103,14 +116,14 @@ internal final class MainViewController: UIViewController, StoryboardView {
     }
     
     // MARK: - View Life Cycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
-                        
-        configureLayer()
-        configureNaverMapView()
         
-        prepareRouteField()
-        preparePOIResultView()
+        configureLayer()
+
+        routeDistanceView.isHidden = true
+        
         prepareTmapAPI()
         
         prepareSummaryView()
@@ -145,7 +158,11 @@ internal final class MainViewController: UIViewController, StoryboardView {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         MapEvent.viewMainPage.logEvent()
+        
+        self.navigationController?.navigationBar.isHidden = true
+        navigationController?.interactivePopGestureRecognizer?.delegate = nil
         
         let isProcessing = GlobalDefine.shared.tempDeepLink.isEmpty
         if !isProcessing {
@@ -192,16 +209,14 @@ internal final class MainViewController: UIViewController, StoryboardView {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         chargingStatus()
-        menuBadgeAdd()
         updateClustering()
         if self.sharedChargerId != nil {
             self.selectChargerFromShared()
         }
         canIgnoreJejuPush = UserDefault().readBool(key: UserDefault.Key.JEJU_PUSH)// default : false
                                         
-        self.view.addSubview(tooltipView)        
+        self.view.addSubview(tooltipView)
         
         tooltipView.show(message: "전체메뉴를 열어서 내가 가진 베리를\n확인할 수 있어요.", forView: filterBarView.evPayView)
         
@@ -234,9 +249,72 @@ internal final class MainViewController: UIViewController, StoryboardView {
         }
     }
     
+    // MARK: UI
+    
+    private func setUI() {
+        view.insertSubview(naverMapView, at: 0)
+        view.addSubview(filterStackView)
+        view.addSubview(customNaviBar)
+        
+        view.addSubview(destinationResultTableView)
+        
+        filterStackView.addArrangedSubview(searchWayView)
+        filterStackView.addArrangedSubview(filterBarView)
+        filterStackView.addArrangedSubview(filterContainerView)
+    }
+    
+    private func setConstraints() {
+        let searchWayViewHeight: CGFloat = 72
+        let filterBarViewHeight: CGFloat = 54
+        let filterContainerViewHeight: CGFloat = 116
+        
+        customNaviBar.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.top).offset(customNaviBar.height)
+        }
+        
+        filterStackView.snp.makeConstraints {
+            $0.top.equalTo(customNaviBar.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+        }
+        searchWayView.snp.makeConstraints {
+            $0.height.equalTo(searchWayViewHeight)
+        }
+        filterBarView.snp.makeConstraints {
+            $0.height.equalTo(filterBarViewHeight)
+        }
+        filterContainerView.snp.makeConstraints {
+            $0.height.equalTo(filterContainerViewHeight)
+        }
+        
+        reNewButton.snp.makeConstraints {
+            $0.top.equalTo(filterStackView.snp.bottom).offset(12)
+            $0.trailing.equalToSuperview().inset(10)
+            $0.size.equalTo(40)
+        }
+
+        naverMapView.snp.makeConstraints {
+            $0.top.equalTo(customNaviBar)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        destinationResultTableView.snp.makeConstraints {
+            $0.top.equalTo(filterBarView.snp.bottom)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+    }
+    
     // MARK: REACTORKIT
     
     internal func bind(reactor: MainReactor) {
+        // 스토리보드 제거 후 loadView 이동 요망. setUI, setConstraints
+        setUI()
+        setConstraints()
+        
+        bindAction(reactor: reactor)
+        bindState(reactor: reactor)
+
         filterBarView.bind(reactor: reactor)
         filterContainerView.bind(reactor: reactor)
                                         
@@ -268,7 +346,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         
         reactor.state.compactMap { $0.isShowStartBanner }
             .asDriver(onErrorJustReturn: false)
-            .drive(with: self) { obj, _ in                                
+            .drive(with: self) { obj, _ in
                 GlobalAdsReactor.sharedInstance.state.compactMap { $0.startBanner }
                     .asDriver(onErrorJustReturn: AdsInfo(JSON.null))
                     .drive(onNext: { adInfo in
@@ -292,11 +370,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         reactor.state.compactMap { $0.selectedFilterInfo }
             .asDriver(onErrorJustReturn: (filterTagType: .price, isSeleted: false))
             .drive(with: self) { obj, selectedFilterInfo in
-                if selectedFilterInfo.isSeleted {
-                    obj.showFilter()
-                } else {
-                    obj.hideFilter()
-                }
+                obj.filterContainerView.isHidden = !selectedFilterInfo.isSeleted
             }
             .disposed(by: self.disposeBag)
         
@@ -340,7 +414,271 @@ internal final class MainViewController: UIViewController, StoryboardView {
             .disposed(by: self.disposeBag)
     }
     
+    // MARK: - bindAction
+    private func bindAction(reactor: MainReactor) {
+        self.rx.viewDidAppear
+            .subscribe(with: self) { owner, _ in
+                owner.setMenuBadge(reactor: reactor)
+            }
+            .disposed(by: disposeBag)
+                
+        // MARK: - 네비바 bindAction
+        customNaviBar.searchChargeButton.rx.tap
+            .map { MainReactor.Action.showSearchChargingStation }
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
+        
+        customNaviBar.menuButton.rx.tap
+            .observe(on: MainScheduler.asyncInstance)
+            .map { MainReactor.Action.toggleLeftMenu }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        customNaviBar.searchWayButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                Observable.just(MainReactor.Action.hideSearchWay(false))
+                    .bind(to: reactor.action)
+                    .disposed(by: owner.disposeBag)
+            }
+            .disposed(by: disposeBag)
+
+        customNaviBar.cancelSearchWayButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                Observable.just(MainReactor.Action.hideSearchWay(true))
+                    .bind(to: reactor.action)
+                    .disposed(by: owner.disposeBag)
+            }
+            .disposed(by: disposeBag)
+        
+        // MARK: - 길찾기 bindAction
+        searchWayView.startTextField.rx.controlEvent([.editingChanged])
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                Observable.just(MainReactor.Action
+                    .searchDestination(.startPoint, owner.searchWayView.startTextField.text ?? String()))
+                .bind(to: reactor.action)
+                .disposed(by: owner.disposeBag)
+            }
+            .disposed(by: disposeBag)
+        
+        searchWayView.startTextField.rx.controlEvent([.editingDidBegin])
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.destinationResultTableView.tag = owner.ROUTE_START
+            }
+            .disposed(by: disposeBag)
+        
+        searchWayView.startTextClearButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                Observable.just(MainReactor.Action.clearSearchPoint(.startPoint))
+                    .bind(to: reactor.action)
+                    .disposed(by: owner.disposeBag)
+            }
+            .disposed(by: disposeBag)
+        
+        searchWayView.endTextField.rx.controlEvent([.editingChanged])
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                Observable.just(MainReactor.Action
+                    .searchDestination(.endPoint, owner.searchWayView.endTextField.text ?? String()))
+                .bind(to: reactor.action)
+                .disposed(by: owner.disposeBag)
+            }
+            .disposed(by: disposeBag)
+        
+        searchWayView.endTextField.rx.controlEvent([.editingDidBegin])
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.destinationResultTableView.tag = owner.ROUTE_END
+            }
+            .disposed(by: disposeBag)
+        
+        searchWayView.endTextClearButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                Observable.just(MainReactor.Action.clearSearchPoint(.endPoint))
+                    .bind(to: reactor.action)
+                    .disposed(by: owner.disposeBag)
+            }
+            .disposed(by: disposeBag)
+        
+        searchWayView.removeButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                Observable.just(MainReactor.Action.clearSearchWayData)
+                    .bind(to: reactor.action)
+                    .disposed(by: owner.disposeBag)
+                RouteEvent.clickNavigationFindway.logEvent()
+            }
+            .disposed(by: disposeBag)
+        
+        searchWayView.searchButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                owner.findPath(passList: [])
+                owner.hideDestinationResult(reactor: reactor, hide: true)
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    // MARK: - bindState
+    private func bindState(reactor: MainReactor) {
+        reactor.state.compactMap { $0.hasNewBoardContents }
+            .asDriver(onErrorJustReturn: false)
+            .drive(with: self) { owner, hasBadge in
+//                let toolbarController = owner.toolbarController as? AppToolbarController
+//                toolbarController?.setMenuIcon(hasBadge: hasBadge)
+                owner.customNaviBar.setMenuBadge(hasBadge: hasBadge)
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state.compactMap { $0.isShowSearchChargingStation }
+            .asDriver(onErrorJustReturn: false)
+            .drive(with: self) { owenr, isShowSearchView in
+                let mapStoryboard = UIStoryboard(name : "Map", bundle: nil)
+                guard let searchVC = mapStoryboard
+                    .instantiateViewController(withIdentifier: "SearchViewController") as? SearchViewController
+                else { return }
+                
+                searchVC.delegate = self
+                
+                let appSearchBarController = AppSearchBarController(rootViewController: searchVC)
+                appSearchBarController.backbuttonTappedDelegate = {
+                    let property: [String: Any] = ["result": "실패",
+                                                   "stationOrAddress": "\(searchVC.searchType.title)",
+                                                   "searchKeyword": "\(searchVC.searchBarController?.searchBar.textField.text ?? "")",
+                                                   "selectedStation": ""]
+                    SearchEvent.clickSearchChooseStation.logEvent(property: property)
+                    
+                }
+                self.present(appSearchBarController, animated: true, completion: nil)
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state.compactMap { $0.isHideSearchWay }
+            .asDriver(onErrorJustReturn: true)
+            .drive(with: self) { owner, isHideSearchWay in
+                owner.clusterManager?.isRouteMode = !isHideSearchWay
+                owner.customNaviBar.hideSearchWayMode(isHideSearchWay)
+                
+                RouteEvent.clickNavigation.logEvent(property: ["onOrOff": "\(!isHideSearchWay ? "On" : "Off")"])
+                
+                UIView.animate(
+                    withDuration: 0.2, delay: 0.0,
+                    options: UIView.AnimationOptions.curveEaseOut,
+                    animations: {() -> Void in
+                        owner.searchWayView.isHidden = isHideSearchWay
+                    })
+                
+            }
+            .disposed(by: disposeBag)
+        
+
+        reactor.state.compactMap { $0.isClearSearchWayPoint }
+            .filter { $0.1 == .startPoint }
+            .map { _ in return String() }
+            .bind(to: searchWayView.startTextField.rx.text)
+            .disposed(by: disposeBag)
+        reactor.state.compactMap { $0.isClearSearchWayPoint }
+            .filter { $0.1 == .endPoint }
+            .map { _ in return String() }
+            .bind(to: searchWayView.endTextField.rx.text)
+            .disposed(by: disposeBag)
+        
+        
+        reactor.state.compactMap { $0.isHideDestinationResult }
+            .filter { $0 == true }
+            .asDriver(onErrorJustReturn: true)
+            .drive(with: self) { owner, isHideDestination in
+                UIView.animate(withDuration: 0.5, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, animations: {() -> Void in
+                    self.destinationResultTableView.isHidden = true
+                }, completion: nil)
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state.compactMap { $0.isHideDestinationResult }
+            .filter { $0 == false }
+            .asDriver(onErrorJustReturn: false)
+            .drive(with: self) { owner, isHideDestination in
+                UIView.animate(withDuration: 0.5, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: {() -> Void in
+                    owner.destinationResultTableView.isHidden = false
+                }, completion: nil)
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state.compactMap { $0.searchDetinationData }
+            .compactMap { self.tMapPathData.requestFindAllPOI($0.1) as? [TMapPOIItem] }
+            .asDriver(onErrorJustReturn: [])
+            .drive(with: self) { owner, poiList in
+                owner.destinationResultTableView.setPOI(list: poiList)
+                owner.destinationResultTableView.reloadData()
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state.compactMap { $0.isClearSearchWayData }
+            .asDriver(onErrorJustReturn: true)
+            .drive(with: self) { owner, _ in
+                // 기존 clearResult
+                owner.hideKeyboard()
+                    
+                owner.setView(view: owner.routeDistanceView, hidden: true)
+                owner.btnChargePrice.isHidden = false
+                owner.btn_menu_layer.isHidden = false
+                
+                owner.searchWayView.startTextField.text = String()
+                owner.searchWayView.endTextField.text = String()
+                
+                owner.routeStartPoint = nil
+                owner.routeEndPoint = nil
+                        
+                owner.naverMapView.startMarker?.mapView = nil
+                owner.naverMapView.midMarker?.mapView = nil
+                owner.naverMapView.endMarker?.mapView = nil
+                owner.naverMapView.startMarker = nil
+                owner.naverMapView.midMarker = nil
+                owner.naverMapView.endMarker = nil
+                owner.naverMapView.start = nil
+                owner.naverMapView.destination = nil
+                owner.naverMapView.viaList = []
+                owner.naverMapView.path?.mapView = nil
+                
+                // 경로 주변 충전소 초기화
+                for charger in ChargerManager.sharedInstance.getChargerStationInfoList() {
+                    charger.isAroundPath = true
+                }
+                
+                owner.updateClustering()
+
+                self.clusterManager?.isRouteMode = false
+                owner.summaryView.layoutAddPathSummary(hiddenAddBtn: !self.clusterManager!.isRouteMode)
+            }
+            .disposed(by: disposeBag)
+    }
+    
     // MARK: FUNC
+    
+    private func setMenuBadge(reactor: MainReactor) {
+        let hasBadge = Board.sharedInstance.hasNew() || defaults.readBool(key: UserDefault.Key.HAS_FAILED_PAYMENT)
+        Observable.just(MainReactor.Action.setMenuBadge(hasBadge))
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+    }
+    
+    private func hideDestinationResult(reactor: MainReactor, hide: Bool) {
+        Observable.just(MainReactor.Action.hideDestinationResult(hide))
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+    }
+    
+    private func closeMenu() {
+        guard let _reactor = reactor else { return }
+        Observable.just(MainReactor.Action.toggleLeftMenu)
+            .bind(to: _reactor.action)
+            .disposed(by: disposeBag)
+    }
     
     private func askPermission() {
         let alertController = UIAlertController(title: "위치정보가 활성화되지 않았습니다", message: "EV Infra의 원활한 서비스를 이용하시려면 [설정] > [개인정보보호]에서 위치 서비스를 켜주세요.", preferredStyle: UIAlertController.Style.alert)
@@ -379,15 +717,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
     private func prepareRouteView() {
         let findPath = UITapGestureRecognizer(target: self, action:  #selector (self.onClickShowNavi(_:)))
         self.routeDistanceBtn.addGestureRecognizer(findPath)
-    }
-    
-    private func configureNaverMapView() {
-        naverMapView = NaverMapView(frame: view.frame)
-        naverMapView.mapView.addCameraDelegate(delegate: self)
-        naverMapView.mapView.touchDelegate = self
-        view.insertSubview(naverMapView, at: 0)
-        
-        ChargerManager.sharedInstance.delegate = self
     }
     
     private func configureLayer() {
@@ -432,23 +761,16 @@ internal final class MainViewController: UIViewController, StoryboardView {
         btnChargePrice.addGestureRecognizer(gesture)
     }
     
-    private func handleError(error: Error?) -> Void {
-        if let error = error as NSError? {
-            print(error)
-            let alert = UIAlertController(title: self.title!, message: error.localizedFailureReason, preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "확인", style: UIAlertAction.Style.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }
-    }
-    
     func setStartPoint() {
         guard let selectCharger = selectCharger else { return }
-        guard let tc = toolbarController,
-              let appTc = tc as? AppToolbarController else { return }
-
-        appTc.enableRouteMode(isRoute: true)
         
-        startField.text = selectCharger.mStationInfoDto?.mSnm
+        if let reactor = reactor {
+            Observable.just(MainReactor.Action.hideSearchWay(false))
+                .bind(to: reactor.action)
+                .disposed(by: disposeBag)
+        }
+        
+        searchWayView.startTextField.text = selectCharger.mStationInfoDto?.mSnm
         routeStartPoint = selectCharger.getTMapPoint()
         naverMapView.start = POIObject(name: selectCharger.mStationInfoDto?.mSnm ?? "",
                                              lat: selectCharger.mStationInfoDto?.mLatitude ?? .zero,
@@ -462,12 +784,14 @@ internal final class MainViewController: UIViewController, StoryboardView {
     
     func setEndPoint() {
         guard let selectCharger = selectCharger else { return }
-        guard let tc = toolbarController,
-              let appTc = tc as? AppToolbarController else { return }
 
-        appTc.enableRouteMode(isRoute: true)
-        
-        endField.text = selectCharger.mStationInfoDto?.mSnm
+        if let reactor = reactor {
+            Observable.just(MainReactor.Action.hideSearchWay(false))
+                .bind(to: reactor.action)
+                .disposed(by: disposeBag)
+        }
+            
+        searchWayView.endTextField.text = selectCharger.mStationInfoDto?.mSnm
         routeEndPoint = selectCharger.getTMapPoint()
         naverMapView.destination = POIObject(name: selectCharger.mStationInfoDto?.mSnm ?? "",
                                              lat: selectCharger.mStationInfoDto?.mLatitude ?? .zero,
@@ -495,10 +819,24 @@ internal final class MainViewController: UIViewController, StoryboardView {
         }
         
         findPath(passList: passList)
+        
+        if let reactor = reactor {
+            hideDestinationResult(reactor: reactor, hide: true)
+        }
     }
     
-    private func showNavigation(start: POIObject, destination: POIObject, via: [POIObject]) {
-        UtilNavigation().showNavigation(vc: self, startPoint: start, endPoint: destination, viaList: via)
+    private func showNavigation(start: POIObject?, destination: POIObject, via: [POIObject]) {
+        if let _start = start {
+            UtilNavigation().showNavigation(vc: self, startPoint: _start, endPoint: destination, viaList: via)
+        } else {
+            let currentPoint = locationManager.getCurrentCoordinate()
+            let point = TMapPoint(coordinate: currentPoint)
+
+            let positionName = tMapPathData.convertGpsToAddress(at: point) ?? ""
+            let start = POIObject(name: positionName, lat: currentPoint.latitude, lng: currentPoint.longitude)
+            
+            UtilNavigation().showNavigation(vc: self, startPoint: start, endPoint: destination, viaList: via)
+        }
     }
     
     @objc func onClickChargePrice(sender: UITapGestureRecognizer) {
@@ -580,17 +918,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     @objc func onClickShowNavi(_ sender: Any) {
         guard let destination = naverMapView.destination else { return }
         
-        if let start = naverMapView.start {
-            self.showNavigation(start: start, destination: destination, via: naverMapView.viaList)
-        } else {
-            let currentPoint = locationManager.getCurrentCoordinate()
-            let point = TMapPoint(coordinate: currentPoint)
-            
-            let positionName = tMapPathData.convertGpsToAddress(at: point) ?? ""
-            let start = POIObject(name: positionName, lat: currentPoint.latitude, lng: currentPoint.longitude)
-            
-            self.showNavigation(start: start, destination: destination, via: naverMapView.viaList)
-        }
+        showNavigation(start: naverMapView.start, destination: destination, via: naverMapView.viaList)
         RouteEvent.clickNavigationFindway.logEvent()
     }
     
@@ -606,20 +934,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 MemberManager.shared.showLoginAlert()
             }
         }
-    }
-    
-    private func hideFilter(){
-        filterContainerView.isHidden = true
-        filterHeight.constant = routeView.layer.height + filterBarView.layer.height
-        filterView.sizeToFit()
-        filterView.layoutIfNeeded()
-    }
-    
-    private func showFilter(){
-        filterContainerView.isHidden = false
-        filterHeight.constant = routeView.layer.height + filterBarView.layer.height + filterContainerView.layer.height
-        filterView.sizeToFit()
-        filterView.layoutIfNeeded()
     }
 }
 
@@ -650,8 +964,14 @@ extension MainViewController: DelegateChargerFilterView {
 }
 
 extension MainViewController: DelegateFilterContainerView {
-    func changedFilter(type: FilterType) {
+    func changedFilter(type: FilterType) {        
         // refresh marker
+        
+        guard let _reactor = self.reactor else { return }
+        Observable.just(MainReactor.Action.updateFilterBarTitle)
+            .bind(to: _reactor.action)
+            .disposed(by: self.disposeBag)
+        
         drawMapMarker()
     }
 }
@@ -712,148 +1032,15 @@ extension MainViewController {
     }
 }
 
-// MARK: - Delegate
-extension MainViewController: AppToolbarDelegate {
-    func toolBar(didClick iconButton: IconButton, arg: Any?) {
-        switch iconButton.tag {
-        case 1: // 충전소 검색 버튼
-            let mapStoryboard = UIStoryboard(name : "Map", bundle: nil)
-            let searchVC:SearchViewController = mapStoryboard.instantiateViewController(withIdentifier: "SearchViewController") as! SearchViewController
-            searchVC.delegate = self
-            let appSearchBarController: AppSearchBarController = AppSearchBarController(rootViewController: searchVC)
-            appSearchBarController.backbuttonTappedDelegate = {
-                let property: [String: Any] = ["result": "실패",
-                                               "stationOrAddress": "\(searchVC.searchType == SearchViewController.TABLE_VIEW_TYPE_CHARGER ? "충전소 검색" : "주소 검색")",
-                                               "searchKeyword": "\(searchVC.searchBarController?.searchBar.textField.text ?? "")",
-                                               "selectedStation": ""]
-                SearchEvent.clickSearchChooseStation.logEvent(property: property)
-                
-            }
-            self.present(appSearchBarController, animated: true, completion: nil)
-        case 2: // 경로 찾기 버튼
-            if let isRouteMode = arg as? Bool {
-                showRouteView(isShow: isRouteMode)
-                RouteEvent.clickNavigation.logEvent(property: ["onOrOff": "\(isRouteMode ? "On" : "Off")"])
-            }
-        default:
-            break
-        }
-    }
-    
-    func showRouteView(isShow: Bool) {
-        if isShow {
-            UIView.animate(withDuration: 0.2, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: {() -> Void in
-                self.filterView.transform = CGAffineTransform( translationX: 0.0, y: self.routeView.bounds.height )
-                self.myLocationButton.transform = CGAffineTransform( translationX: 0.0, y: self.routeView.bounds.height )
-                self.reNewButton.transform = CGAffineTransform( translationX: 0.0, y: self.routeView.bounds.height )
-            }, completion: nil)
-        } else {
-            UIView.animate(withDuration: 0.2, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: {() -> Void in
-                self.filterView.transform = CGAffineTransform( translationX: 0.0, y: 0.0 )
-                self.myLocationButton.transform = CGAffineTransform( translationX: 0.0, y: 0.0)
-                self.reNewButton.transform = CGAffineTransform( translationX: 0.0, y: 0.0)
-            }, completion: nil)
-            clearSearchResult()
-        }
-    }
-}
+extension MainViewController {
 
-extension MainViewController: TextFieldDelegate {
-    func prepareRouteField() {
-        startField.tag = ROUTE_START
-        startField.delegate = self
-        if startField.placeholder == nil {
-            startField.placeholder = "출발지를 입력하세요"
-        }
-        startField.placeholderAnimation = .hidden
-        startField.isClearIconButtonEnabled = true
-        startField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-        
-        endField.tag = ROUTE_END
-        endField.delegate = self
-        endField.placeholder = "도착지를 입력하세요"
-        endField.placeholderAnimation = .hidden
-        endField.isClearIconButtonEnabled = true
-        endField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-        
-        btnRouteCancel.addTarget(self, action: #selector(onClickRouteCancel(_:)), for: .touchUpInside)
-        btnRoute.addTarget(self, action: #selector(onClickRoute(_:)), for: .touchUpInside)
-        
-        routeDistanceView.isHidden = true
-    }
-    
-    @objc func textFieldDidChange(_ textField: UITextField) {
-        guard let searchKeyword = textField.text,
-                !searchKeyword.isEmpty else {
-            hideResultView()
-            return
-        }
-        
-        DispatchQueue.global(qos: .background).async { [weak self] in
-            guard let poiList = self?.tMapPathData.requestFindAllPOI(searchKeyword) else { return }
-            DispatchQueue.main.async {
-                self?.showResultView()
-                self?.resultTableView?.setPOI(list: poiList as! [TMapPOIItem])
-                self?.resultTableView?.reloadData()
-            }
-        }
-    }
-    
-    @objc func onClickRouteCancel(_ sender: UIButton) {
-        clearSearchResult()
-        RouteEvent.clickNavigationFindway.logEvent()
-    }
-            
-    @objc func onClickRoute(_ sender: UIButton) {
-        findPath(passList: [])
-    }
-    
-    func clearSearchResult() {
-        
-        hideKeyboard()
-        hideResultView()
-        
-        setView(view: routeDistanceView, hidden: true)
-        self.btnChargePrice.isHidden = false
-        self.btn_menu_layer.isHidden = false
-        
-        startField.text = ""
-        endField.text = ""
-        
-        routeStartPoint = nil
-        routeEndPoint = nil
-        
-        btnRouteCancel.setTitle("지우기", for: .normal)
-        
-        naverMapView.startMarker?.mapView = nil
-        naverMapView.midMarker?.mapView = nil
-        naverMapView.endMarker?.mapView = nil
-        naverMapView.startMarker = nil
-        naverMapView.midMarker = nil
-        naverMapView.endMarker = nil
-        naverMapView.start = nil
-        naverMapView.destination = nil
-        naverMapView.viaList = []
-        naverMapView.path?.mapView = nil
-        
-        // 경로 주변 충전소 초기화
-        for charger in ChargerManager.sharedInstance.getChargerStationInfoList() {
-            charger.isAroundPath = true
-        }
-        
-        updateClustering()
-
-        self.clusterManager?.isRouteMode = false
-        summaryView.layoutAddPathSummary(hiddenAddBtn: !self.clusterManager!.isRouteMode)
-    }
-    
     func findPath(passList: [TMapPoint]) {
         // 경로찾기: 시작 위치가 없을때
         if routeStartPoint == nil {
             let currentPoint = locationManager.getCurrentCoordinate()
             let point = TMapPoint(coordinate: currentPoint)
 
-            startField.text = tMapPathData.convertGpsToAddress(at: point)
+            searchWayView.startTextField.text = tMapPathData.convertGpsToAddress(at: point)
             routeStartPoint = point
         }
         
@@ -863,9 +1050,6 @@ extension MainViewController: TextFieldDelegate {
             
             // 키보드 숨기기
             hideKeyboard()
-            
-            // 검색 결과창 숨기기
-            hideResultView()
             
             // 하단 충전소 정보 숨기기
             setView(view: callOutLayer, hidden: true)
@@ -986,56 +1170,14 @@ extension MainViewController: TextFieldDelegate {
     }
     
     func hideKeyboard() {
-        startField.endEditing(true)
-        endField.endEditing(true)
+        searchWayView.startTextField.endEditing(true)
+        searchWayView.endTextField.endEditing(true)
     }
-    
-    func hideResultView() {
-        UIView.animate(withDuration: 0.5, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, animations: {() -> Void in
-            self.resultTableView?.isHidden = true
-        }, completion: nil)
-    }
-    
-    func showResultView() {
-        UIView.animate(withDuration: 0.5, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: {() -> Void in
-            self.resultTableView?.isHidden = false
-        }, completion: nil)
-    }
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        // text filed가 선택되었을 때 result view의 종류(start, end) 설정
-        resultTableView?.tag = textField.tag
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        print("textFieldDidEndEditing")
-    }
-    
-    func textFieldShouldClear(_ textField: UITextField) -> Bool {
-        hideResultView()
-        return true
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        print("textFieldShouldReturn")
-        return true
-    }
+
 }
 
 extension MainViewController: PoiTableViewDelegate {
-    func preparePOIResultView() {
-        let screenSize: CGRect = UIScreen.main.bounds
-        let screenWidth = screenSize.width
-        let screenHeight = screenSize.height
-        let frame = CGRect(x: 0, y: filterView.frame.height, width: screenWidth, height: screenHeight - filterView.frame.height)
-        
-        resultTableView = PoiTableView.init(frame: frame, style: .plain)
-        resultTableView?.poiTableDelegate = self
-        view.addSubview(resultTableView!)
-        resultTableView?.isHidden = true
-        hideResultView()
-    }
-    
+
     func didSelectRow(poiItem: TMapPOIItem) {
         // 선택한 주소로 지도 이동
         let latitude = poiItem.coordinate.latitude
@@ -1044,11 +1186,13 @@ extension MainViewController: PoiTableViewDelegate {
         let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: latitude, lng: longitude), zoomTo: 15)
         self.mapView.moveCamera(cameraUpdate)
         
-        hideResultView()
+        if let reactor = reactor {
+            hideDestinationResult(reactor: reactor, hide: true)
+        }
         
         // 출발지, 도착지 설정
-        if resultTableView?.tag == ROUTE_START {
-            startField.text = poiItem.name
+        if destinationResultTableView.tag == ROUTE_START {
+            searchWayView.startTextField.text = poiItem.name
             routeStartPoint = poiItem.getPOIPoint()
             
             naverMapView.startMarker?.mapView = nil
@@ -1056,7 +1200,7 @@ extension MainViewController: PoiTableViewDelegate {
             naverMapView.startMarker?.mapView = self.mapView
             naverMapView.start = POIObject(name: poiItem.name, lat: latitude, lng: longitude)
         } else {
-            endField.text = poiItem.name
+            searchWayView.endTextField.text = poiItem.name
             routeEndPoint = poiItem.getPOIPoint()
             
             naverMapView.endMarker?.mapView = nil
@@ -1128,10 +1272,7 @@ extension MainViewController: ChargerSelectDelegate {
     
     func prepareCalloutLayer() {
         callOutLayer.isHidden = true
-        addCalloutClickListener()
-    }
-    
-    func addCalloutClickListener() {
+        
         let gesture = UITapGestureRecognizer(target: self, action:  #selector (self.onClickCalloutLayer (_:)))
         self.callOutLayer.addGestureRecognizer(gesture)
     }
@@ -1209,10 +1350,9 @@ extension MainViewController {
     func requestStationInfo() {
         LoginHelper.shared.delegate = self
         
-        DispatchQueue.main.async {
-            self.markerIndicator.startAnimating()
-            guard let _toolbar = self.toolbarController, _toolbar is AppToolbarController else { return }
-            _toolbar.toolbar.isUserInteractionEnabled = false
+        DispatchQueue.main.async { [weak self] in
+            self?.markerIndicator.startAnimating()
+            self?.customNaviBar.isUserInteractionEnabled = false
         }
         
         ChargerManager.sharedInstance.getStations { [weak self] in
@@ -1223,10 +1363,9 @@ extension MainViewController {
             
             self?.drawMapMarker()
             
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
                 self?.markerIndicator.stopAnimating()
-                guard let _toolbar = self?.toolbarController, _toolbar is AppToolbarController else { return }
-                _toolbar.toolbar.isUserInteractionEnabled = true
+                self?.customNaviBar.isUserInteractionEnabled = true
                 
                 if let chargerId = GlobalDefine.shared.sharedChargerIdFromDynamicLink {
                     self?.sharedChargerId = chargerId
@@ -1241,7 +1380,7 @@ extension MainViewController {
                 CBT.checkCBT(vc: self!)
             }
             
-            DeepLinkPath.sharedInstance.runDeepLink()            
+            DeepLinkPath.sharedInstance.runDeepLink()
             self?.markerIndicator.stopAnimating()
         }
     }
@@ -1310,7 +1449,7 @@ extension MainViewController {
     
     @objc func showSelectCharger(_ notification: NSNotification) {
         defer {
-            navigationDrawerController?.toggleLeftView()
+            closeMenu()
         }
         
         guard let chargerId = notification.object as? String else { return }
@@ -1345,9 +1484,8 @@ extension MainViewController {
         self.naverMapView.startMarker = nil
         self.naverMapView.midMarker?.mapView = nil
         
-        if navigationDrawerController?.isOpened == true {
-            navigationDrawerController?.toggleLeftView()
-        }
+        closeMenu()
+        
         self.navigationController?.popToRootViewController(animated: true)
         self.setStartPoint()
     }
@@ -1362,9 +1500,8 @@ extension MainViewController {
         naverMapView.viaList.removeAll()
         naverMapView.viaList.append(via)
         
-        if navigationDrawerController?.isOpened == true {
-            navigationDrawerController?.toggleLeftView()
-        }
+        closeMenu()
+        
         self.navigationController?.popToRootViewController(animated: true)
         self.setStartPath()
     }
@@ -1376,9 +1513,8 @@ extension MainViewController {
         self.naverMapView.endMarker = nil
         self.naverMapView.midMarker?.mapView = nil
         
-        if navigationDrawerController?.isOpened == true {
-            navigationDrawerController?.toggleLeftView()
-        }
+        closeMenu()
+        
         self.navigationController?.popToRootViewController(animated: true)
         self.setEndPoint()
     }
@@ -1389,18 +1525,7 @@ extension MainViewController {
                                     lat: selectCharger.mStationInfoDto?.mLatitude ?? .zero,
                                     lng: selectCharger.mStationInfoDto?.mLongitude ?? .zero)
         
-        guard let start = naverMapView.start  else {
-            let currentPoint = locationManager.getCurrentCoordinate()
-            let point = TMapPoint(coordinate: currentPoint)
-            
-            let positionName = tMapPathData.convertGpsToAddress(at: point) ?? ""
-            let start = POIObject(name: positionName, lat: currentPoint.latitude, lng: currentPoint.longitude)
-            
-            self.showNavigation(start: start, destination: destination, via: [])
-            return
-        }
-        
-        self.showNavigation(start: start, destination: destination, via: [])
+        showNavigation(start: naverMapView.start, destination: destination, via: [])
     }
     
     @objc func requestLogIn(_ notification: NSNotification) {
@@ -1456,12 +1581,6 @@ extension MainViewController {
         }
     }
     
-    private func menuBadgeAdd() {
-        let hasBadge = Board.sharedInstance.hasNew() || UserDefault().readBool(key: UserDefault.Key.HAS_FAILED_PAYMENT)
-        guard let _toolbar = self.toolbarController, let _appToolbar = _toolbar as? AppToolbarController else { return }
-        _appToolbar.setMenuIcon(hasBadge: hasBadge)
-    }
-    
     private func prepareClustering() {
         clusterManager = ClusterManager(mapView: mapView)
         clusterManager?.isClustering = defaults.readBool(key: UserDefault.Key.SETTINGS_CLUSTER)
@@ -1509,11 +1628,9 @@ extension MainViewController {
     
     @IBAction func onClickCommunityBtn(_ sender: Any) {
         UserDefault().saveInt(key: UserDefault.Key.LAST_FREE_ID, value: Board.sharedInstance.freeBoardId)
-
-        let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
-        let freeBoardViewController = boardStoryboard.instantiateViewController(ofType: CardBoardViewController.self)
-        freeBoardViewController.category = .FREE
-        GlobalDefine.shared.mainNavi?.push(viewController: freeBoardViewController)
+        let viewcon = CardBoardViewController()
+        viewcon.category = .FREE
+        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
     }
     
     @IBAction func onClickMainHelp(_ sender: UIButton) {
@@ -1631,7 +1748,11 @@ extension MainViewController {
             defaults.saveBool(key: UserDefault.Key.HAS_FAILED_PAYMENT, value: false)
             ivMainChargeNew.isHidden = true
         }
-        menuBadgeAdd()
+        
+        if let reactor = reactor {
+            setMenuBadge(reactor: reactor)
+        }
+            
         switch (response["code"].intValue) {
         case 1000:
             // 충전중
@@ -1644,9 +1765,9 @@ extension MainViewController {
         case 2002:
             switch response["status"].stringValue {
                 case "delete":
-                    LoginHelper.shared.logout(completion: { success in
+                    LoginHelper.shared.logout(completion: { [weak self] success in
                         if success {
-                            self.navigationDrawerController?.toggleLeftView()
+                            self?.closeMenu()
                             Snackbar().show(message: "회원 탈퇴로 인해 로그아웃 되었습니다.")
                         } else {
                             Snackbar().show(message: "다시 시도해 주세요.")
