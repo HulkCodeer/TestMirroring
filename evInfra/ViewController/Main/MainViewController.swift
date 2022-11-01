@@ -208,7 +208,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        chargingStatus()
         updateClustering()
         if self.sharedChargerId != nil {
             self.selectChargerFromShared()
@@ -1663,64 +1662,7 @@ extension MainViewController {
             GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
         })
     }
-    
-    private func chargingStatus() {
-        MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
-            guard let self = self else { return }
-            if isLogin {
-                Server.getChargingId { (isSuccess, responseData) in
-                    if isSuccess {
-                        let json = JSON(responseData)
-                        self.getChargingStatus(response: json)
-                    }
-                }
-            } else {
-                // 진행중인 충전이 없음
-                self.bottomMenuView.setQRButton(.basic)
-            }
-        }
-    }
-    
-    private func getChargingStatus(response: JSON) {
-        if response["pay_code"].stringValue.equals("8804") {
-            defaults.saveBool(key: UserDefault.Key.HAS_FAILED_PAYMENT, value: true)
-            bottomMenuView.setEvPayButton(.badge)
-            
-        } else {
-            defaults.saveBool(key: UserDefault.Key.HAS_FAILED_PAYMENT, value: false)
-            bottomMenuView.setEvPayButton(.basic)
-        }
-        
-        if let reactor = reactor {
-            setMenuBadge(reactor: reactor)
-        }
-            
-        switch (response["code"].intValue) {
-        case 1000:
-            // 충전중
-            bottomMenuView.setQRButton(.charging)
-            
-        case 2002:
-            switch response["status"].stringValue {
-                case "delete":
-                    LoginHelper.shared.logout(completion: { [weak self] success in
-                        if success {
-                            self?.closeMenu()
-                            Snackbar().show(message: "회원 탈퇴로 인해 로그아웃 되었습니다.")
-                        } else {
-                            Snackbar().show(message: "다시 시도해 주세요.")
-                        }
-                    })
-                    
-                default: break
-            }
-            
-            // 진행중인 충전이 없음
-            bottomMenuView.setQRButton(.basic)
-            
-        default: break
-        }
-    }
+ 
 }
 
 extension MainViewController: RepaymentListDelegate {
@@ -1740,7 +1682,6 @@ extension MainViewController: LoginHelperDelegate {
     }
     
     func successLogin() {
-        self.chargingStatus()
     }
     
     func needSignUp(user: Login) {
