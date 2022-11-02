@@ -218,8 +218,14 @@ internal final class NewFilterCompanyView: UIView {
                 obj.companyTableView.reloadData()
             }.disposed(by: self.disposeBag)
     }
+}
+
+extension NewFilterCompanyView: FilterButtonAction {
+    func saveFilter() {
+        
+    }
     
-    internal func resetFilter() {
+    func resetFilter() {
         for group in groups {
             for company in group.companies {
                 company.selected = true

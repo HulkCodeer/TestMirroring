@@ -238,7 +238,7 @@ internal final class NewFilterRoadView: UIView {
     }
 }
 
-extension NewFilterRoadView: FilterButtnAction {
+extension NewFilterRoadView: FilterButtonAction {
     func saveFilter() {
         Observable.just(GlobalFilterReactor.Action.setRoadFilter((.general, GlobalFilterReactor.sharedInstance.currentState.isGeneralRoad)))
             .bind(to: GlobalFilterReactor.sharedInstance.action)

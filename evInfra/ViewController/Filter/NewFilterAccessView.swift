@@ -240,8 +240,10 @@ internal final class NewFilterAccessView: UIView {
         
         return view
     }
-    
-    internal func saveAccessFilter() {
+}
+
+extension NewFilterAccessView: FilterButtonAction {
+    func saveFilter() {
         Observable.just(GlobalFilterReactor.Action.setAccessFilter((.publicCharger, GlobalFilterReactor.sharedInstance.currentState.isPublic)))
             .bind(to: GlobalFilterReactor.sharedInstance.action)
             .disposed(by: self.disposeBag)
@@ -251,7 +253,7 @@ internal final class NewFilterAccessView: UIView {
             .disposed(by: self.disposeBag)
     }
     
-    internal func resetRoadFilter() {
+    func resetFilter() {
         Observable.just(GlobalFilterReactor.Action.changedAccessFilter((.publicCharger, true)))
             .bind(to: GlobalFilterReactor.sharedInstance.action)
             .disposed(by: self.disposeBag)
