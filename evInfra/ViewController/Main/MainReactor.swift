@@ -33,6 +33,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case setEvPayFilter(Bool)
         case openEvPayTooltip
         case setChargingID(isQR: Bool)
+        case selectedBottomMenu(BottomMenuType)
     }
     
     enum Mutation {
@@ -167,6 +168,9 @@ internal final class MainReactor: ViewModel, Reactor {
             return .just(.openEvPayTooltip)
             
         case .setChargingID(let isQR):
+        case .selectedBottomMenu(let bottomType):
+            return .empty()
+            
             return self.provider.getChargingID()
                 .convertData()
                 .compactMap(convertToChargingData)
@@ -320,6 +324,42 @@ internal final class MainReactor: ViewModel, Reactor {
         case endPoint
     }
 
+    enum BottomMenuType: CaseIterable {
+        case qrCharging
+        case community
+        case evPay
+        case favorite
+        
+        var value: (icon: UIImage, title: String) {
+            switch self {
+            case .qrCharging:
+                return (Icons.iconQr.image, "QR충전")
+                
+            case .community:
+                return (Icons.iconComment.image, "자유게시판")
+                
+            case .evPay:
+                return (Icons.iconEvpay.image, "EV Pay 관리")
+                
+            case .favorite:
+                return (Icons.iconFavorite.image, "즐겨찾기")
+            }
+        }
+        
+//        var specificValue: (UIImage, String)? {
+//            switch self{
+//            case .qrCharging:
+//                return (Icons.icLineCharging.image, "충전중")
+//
+//            case .evPay:
+//                return (Icons.iconEvpayNew.image, "EV Pay 관리")
+//
+//            default:
+//                return nil
+//            }
+//        }
+    }
+    
     enum ChargeShowType {
         case charging
         case none

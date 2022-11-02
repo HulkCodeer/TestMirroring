@@ -58,11 +58,23 @@ internal final class MainViewController: UIViewController, StoryboardView {
     // Callout View
     @IBOutlet weak var callOutLayer: UIView!
     // Menu Button Layer
-//    @IBOutlet var btn_menu_layer: UIView!
-//    @IBOutlet var btn_main_charge: UIButton!
-//    @IBOutlet var btn_main_community: UIButton!
-//    @IBOutlet var btn_main_help: UIButton!
-//    @IBOutlet var btn_main_favorite: UIButton!
+    private lazy var bottomMenuView = UIView().then {
+        $0.backgroundColor = Colors.backgroundPrimary.color
+        $0.layer.cornerRadius = 8
+        $0.clipsToBounds = true
+        $0.layer.shadowRadius = 5
+        $0.layer.shadowColor = UIColor.gray.cgColor
+        $0.layer.shadowOpacity = 0.5
+        $0.layer.shadowOffset = CGSize(width: 0.5, height: 2)
+        $0.layer.masksToBounds = false
+    }
+    private lazy var bottomMenuStackView = UIStackView().then {
+        $0.axis = .horizontal
+        $0.distribution = .fillEqually
+        $0.alignment = .fill
+        $0.spacing = 8
+    }
+
 //    // 미수금
 //    @IBOutlet weak var ivMainChargeNew: UIImageView!
     
@@ -254,9 +266,17 @@ internal final class MainViewController: UIViewController, StoryboardView {
         view.addSubview(customNaviBar)
 
         view.addSubview(destinationResultTableView)
+        view.addSubview(bottomMenuView)
+        bottomMenuView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(8)
             $0.height.equalTo(62)
+        }
+        
+        bottomMenuView.addSubview(bottomMenuStackView)
+        bottomMenuStackView.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(8)
         }
         
         filterStackView.addArrangedSubview(searchWayView)
@@ -312,6 +332,26 @@ internal final class MainViewController: UIViewController, StoryboardView {
         // 스토리보드 제거 후 loadView 이동 요망. setUI, setConstraints
         setUI()
         setConstraints()
+        
+        for bottomMenuType in MainReactor.BottomMenuType.allCases {
+            let item = BottomMenuItem(
+                icon: bottomMenuType.value.icon,
+                title: bottomMenuType.value.title)
+            bottomMenuStackView.addArrangedSubview(item)
+            
+            item.button.rx.tap
+                .asDriver()
+                .drive(with: self) { owner, _ in
+                    Observable.just(MainReactor.Action.selectedBottomMenu(bottomMenuType))
+                        .bind(to: reactor.action)
+                        .disposed(by: owner.disposeBag)
+                }
+                .disposed(by: disposeBag)
+            
+            
+            
+            // reactor
+        }
         
         bindAction(reactor: reactor)
         bindState(reactor: reactor)
@@ -526,8 +566,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
             }
             .disposed(by: disposeBag)
         
-        // MARK: 메인 하단메뉴 bindAction
-        
     }
     
     // MARK: - bindState
@@ -631,7 +669,8 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 owner.hideKeyboard()
                     
                 owner.setView(view: owner.routeDistanceView, hidden: true)
-                owner.btnChargePrice.isHidden = false
+//                owner.btnChargePrice.isHidden = false
+                owner.bottomMenuStackView.isHidden = false
                 
                 owner.searchWayView.startTextField.text = String()
                 owner.searchWayView.endTextField.text = String()
@@ -663,89 +702,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
             .disposed(by: disposeBag)
         
         // check
-        reactor.state.compactMap { $0.chargingStatus }
-            .filter { $0.isQR == false }
-            .map { return $0.chargingType }
-            .asDriver(onErrorJustReturn: (.none))
-            .drive(with: self) { owner, chargingType in
-                var isAccount = false
-                var isCharging = false
-                
-                switch chargingType {
-                case .charging:
-                    isCharging = true
-                
-                case .accountsReceivable:
-                    isAccount = true
-                    
-                case .leave:
-                    LoginHelper.shared.logout(completion: { [weak self] success in
-                        if success {
-                            self?.closeMenu()
-                            Snackbar().show(message: "회원 탈퇴로 인해 로그아웃 되었습니다.")
-                        } else {
-                            Snackbar().show(message: "다시 시도해 주세요.")
-                        }
-                    })
-                    
-                default: break
-                }
-                
-                owner.defaults.saveBool(key: UserDefault.Key.HAS_FAILED_PAYMENT, value: isAccount)
-                owner.bottomMenuView.setEvPayButton(isAccount == true ? .badge : .basic)
-                
-                owner.bottomMenuView.setQRButton(isCharging ? .charging : .basic)
-            }
-            .disposed(by: disposeBag)
-        
-        // qr idcheck
-        reactor.state.compactMap { $0.chargingStatus }
-            .filter { $0.isQR == true }
-            .map { return ($0.chargingType, $0.chargingData) }
-            .asDriver(onErrorJustReturn: (.none, nil))
-            .drive(with: self) { owner, chargingData in
-                let (type, chargingID) = chargingData
-                switch type {
-                case .charging:
-                    guard let _chargingID = chargingID else { break }
-                    
-                    let paymentReactor = PaymentStatusReactor(provider: RestApi())
-                    let paymentVC = NewPaymentStatusViewController(reactor: paymentReactor)
-                    paymentVC.chargingId = "\(_chargingID)"
-                    
-                    GlobalDefine.shared.mainNavi?.push(viewController: paymentVC)
-                    
-                case .none:
-                    let status = AVCaptureDevice.authorizationStatus(for: .video)
-                    switch status {
-                    case .notDetermined, .denied:
-                        AVCaptureDevice.requestAccess(for: .video) { [weak self] grated in
-                            if grated {
-                                self?.movePaymentQRScan()
-                            } else {
-                                self?.showAuthAlert()
-                            }
-                        }
-                    case .authorized:
-                        self.movePaymentQRScan()
-                        
-                    default: break
-                    }
-                    
-                case .accountsReceivable:
-                    let paymentStoryboard = UIStoryboard(name : "Payment", bundle: nil)
-                    let repayListViewController = paymentStoryboard.instantiateViewController(ofType: RepayListViewController.self)
-                    repayListViewController.delegate = self
-                    
-                    GlobalDefine.shared.mainNavi?.push(viewController: repayListViewController)
-                    
-                default: break
-                }
-                
-                let qrType: BottomMenuView.ChargeType = (type == .charging) ? .charging : .basic
-                owner.bottomMenuView.setQRButton(qrType)
-            }
-            .disposed(by: disposeBag)
     }
     
     // MARK: FUNC
@@ -1121,7 +1077,8 @@ extension MainViewController {
             // 하단 충전소 정보 숨기기
             setView(view: callOutLayer, hidden: true)
             
-            self.btnChargePrice.isHidden = true
+//            self.btnChargePrice.isHidden = true
+            self.bottomMenuStackView.isHidden = true
             
             let bounds = NMGLatLngBounds(southWestLat: startPoint.getLatitude(),
                                          southWestLng: startPoint.getLongitude(),
