@@ -36,6 +36,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case selectedBottomMenu(BottomMenuType)
         case actionBottomQR
         case actionBottomMenu(BottomMenuType)
+        case setIsAccountsReceivable(Bool)
     }
     
     enum Mutation {
@@ -57,6 +58,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case setChargingData(ChargeShowType)
         case setQRMenu(ChargingData)
         case setSelectedBottomMenu(BottomMenuType)
+        case setIsAccountsReceivable(Bool)
     }
     
     struct State {
@@ -78,6 +80,8 @@ internal final class MainReactor: ViewModel, Reactor {
         var chargingType: ChargeShowType?
         var qrMenuChargingData: ChargingData?
         var bottomItemType: BottomMenuType?
+        
+        var isAccountsReceivable: Bool? = false
     }
     
     internal var initialState: State
@@ -176,7 +180,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case .setChargingID:
             return self.provider.getChargingID()
                 .convertData()
-                .compactMap(MainReactor.convertToChargingData)
+                .compactMap(convertToChargingData)
                 .map { return .setChargingData($0.chargingType) }
 
         case .selectedBottomMenu(let bottomType):
@@ -186,11 +190,14 @@ internal final class MainReactor: ViewModel, Reactor {
         case .actionBottomQR:
             return self.provider.getChargingID()
                 .convertData()
-                .compactMap(MainReactor.convertToChargingData)
+                .compactMap(convertToChargingData)
                 .map { return .setQRMenu($0) }
             
         case .actionBottomMenu(let menuType):
             return .just(.setSelectedBottomMenu(menuType) )
+            
+        case .setIsAccountsReceivable(let isReceivable):
+            return .just(.setIsAccountsReceivable(isReceivable))
         }
     }
     
@@ -213,6 +220,7 @@ internal final class MainReactor: ViewModel, Reactor {
         newState.chargingType = nil
         newState.qrMenuChargingData = nil
         newState.bottomItemType = nil
+        newState.isAccountsReceivable = nil
         
         switch mutation {
         case .setShowMarketingPopup(let isShow):
@@ -269,6 +277,9 @@ internal final class MainReactor: ViewModel, Reactor {
             
         case .setSelectedBottomMenu(let itemType):
             newState.bottomItemType = itemType
+            
+        case .setIsAccountsReceivable(let isReceivable):
+            newState.isAccountsReceivable = isReceivable
         }
         
         return newState
@@ -305,7 +316,7 @@ internal final class MainReactor: ViewModel, Reactor {
         }
     }
     
-    static func convertToChargingData(with result: ApiResult<Data, ApiError>) -> ChargingData? {
+    private func convertToChargingData(with result: ApiResult<Data, ApiError>) -> ChargingData? {
         switch result {
         case .success(let data):
             let jsonData = JSON(data)
@@ -315,6 +326,9 @@ internal final class MainReactor: ViewModel, Reactor {
             
             switch (code, payCode) {
             case (_, "8804") :  // 미수금
+                Observable.just(MainReactor.Action.setIsAccountsReceivable(true))
+                    .bind(to: self.action)
+                    .disposed(by: disposeBag)
                 return ( .accountsReceivable, nil)
                 
             case (1000, _) :    // 충전중
