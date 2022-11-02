@@ -374,7 +374,11 @@ internal final class MainReactor: ViewModel, Reactor {
                 }
                 
             case .community:
-                break
+                UserDefault().saveInt(key: UserDefault.Key.LAST_FREE_ID, value: Board.sharedInstance.freeBoardId)
+                
+                let communityBoardViewController = CardBoardViewController()
+                communityBoardViewController.category = .FREE
+                GlobalDefine.shared.mainNavi?.push(viewController: communityBoardViewController)
                 
             case .evPay:
                 break
