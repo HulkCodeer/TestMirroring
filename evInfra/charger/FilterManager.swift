@@ -356,6 +356,25 @@ internal final class FilterManager {
         return title
     }
     
+    internal func speedTitle(min minSpeed: Int, max maxSpeed: Int) -> String {
+        var title = ""        
+        if minSpeed == maxSpeed {
+            if minSpeed == 0 {
+                title = "완속"
+            } else {
+                title = "\(minSpeed)kW"
+            }
+        } else {
+            if minSpeed == 0 {
+                title = "완속 ~ \(maxSpeed)kW"
+            } else {
+                title = "\(minSpeed) ~ \(maxSpeed)kW"
+            }
+        }
+        
+        return title
+    }
+    
     internal func shouldSpeedChanged() -> Bool {
         guard (filter.minSpeed == 0 && filter.maxSpeed == 350) else { return false}
         return true

@@ -13,6 +13,11 @@ import RxCocoa
 import SnapKit
 import Then
 
+protocol FilterButtonAction {
+    func saveFilter()
+    func resetFilter()
+}
+
 internal final class NewChargerFilterViewController: CommonBaseViewController, StoryboardView {
     
     // MARK: UI
@@ -130,7 +135,7 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
     func bind(reactor: MainReactor) {
         switchFilterView.bind(reactor: reactor)
         typeFilterView.bind(reactor: reactor)
-        speedFilterView.bind(reactor: reactor)
+        speedFilterView.bind(reactor: GlobalFilterReactor.sharedInstance)
         roadFilterView.bind(reactor: reactor)
         placeFilterView.bind(reactor: reactor)
         accessFilterView.bind(reactor: reactor)
@@ -147,7 +152,10 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
                     FilterEvent.clickFilterReset.logEvent()
                     // TODO: 각 필터 초기화
                     
-                    obj.roadFilterView.resetRoadFilter()
+                    obj.speedFilterView.resetFilter()
+                    obj.accessFilterView.resetFilter()
+                    obj.roadFilterView.resetFilter()
+                    obj.placeFilterView.resetFilter()
                     obj.companyFilterView.resetFilter()
                 }
                 var actions = [UIAlertAction]()
@@ -169,8 +177,11 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
                 
                 
                 // TODO: 각 필터 저장
-                obj.roadFilterView.saveRoadFilter()
-                obj.accessFilterView.saveAccessFilter()
+                obj.speedFilterView.saveFilter()
+                obj.accessFilterView.saveFilter()
+                obj.roadFilterView.saveFilter()
+                obj.placeFilterView.saveFilter()
+                
                 FilterManager.sharedInstance.logEventWithFilter("필터")
                 GlobalDefine.shared.mainNavi?.pop()
             }.disposed(by: self.disposeBag)

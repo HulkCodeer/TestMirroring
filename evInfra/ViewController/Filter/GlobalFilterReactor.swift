@@ -9,6 +9,7 @@
 import ReactorKit
 
 internal final class GlobalFilterReactor: ViewModel, Reactor {
+    typealias SelectedSpeedFilter = (minSpeed: Int, maxSpeed: Int)
     typealias SelectedPlaceFilter = (placeType: PlaceType, isSelected: Bool)
     typealias SelectedRoadFilter = (roadType: RoadType, isSelected: Bool)
     typealias SelectedAccessFilter = (accessType: AccessType, isSelected: Bool)
@@ -23,6 +24,8 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         case setRoadFilter(SelectedRoadFilter)
         case changedPlaceFilter(SelectedPlaceFilter)
         case setPlaceFilter(SelectedPlaceFilter)
+        case changedSpeedFilter(SelectedSpeedFilter)
+        case setSpeedFilter(SelectedSpeedFilter)
     }
     
     enum Mutation {
@@ -32,6 +35,7 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         case changedAccessFilter(SelectedAccessFilter)
         case changedRoadFilter(SelectedRoadFilter)
         case changedPlaceFilter(SelectedPlaceFilter)
+        case changedSpeedFilter(SelectedSpeedFilter)
     }
 
     struct State {
@@ -47,6 +51,8 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         var isIndoor: Bool = FilterManager.sharedInstance.filter.isIndoor
         var isOutdoor: Bool = FilterManager.sharedInstance.filter.isOutdoor
         var isCanopy: Bool = FilterManager.sharedInstance.filter.isCanopy
+        var minSpeed: Int = FilterManager.sharedInstance.filter.minSpeed
+        var maxSpeed: Int = FilterManager.sharedInstance.filter.maxSpeed
     }
     
     internal var initialState: State
@@ -99,6 +105,11 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
                 FilterManager.sharedInstance.saveCanopy(with: placeFilter.isSelected)
             }
             return .empty()
+        case .changedSpeedFilter(let selectedSpeedFilter):
+            return .just(.changedSpeedFilter(selectedSpeedFilter))
+        case .setSpeedFilter(let speedFilter):
+            FilterManager.sharedInstance.saveSpeedFilter(min: speedFilter.minSpeed, max: speedFilter.maxSpeed)
+            return .empty()
         }
     }
     
@@ -137,6 +148,9 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
             case .canopy:
                 newState.isCanopy = selectedPlaceFilter.isSelected
             }
+        case .changedSpeedFilter(let selectedSpeedFilter):
+            newState.maxSpeed = selectedSpeedFilter.maxSpeed
+            newState.minSpeed = selectedSpeedFilter.minSpeed
         }
         
         return newState

@@ -77,7 +77,7 @@ internal final class FilterContainerView: UIView {
     func bind(reactor: MainReactor) {
         self.mainReactor = reactor
         
-        filterSpeedView.bind(reactor: reactor)
+        filterSpeedView.bind(reactor: GlobalFilterReactor.sharedInstance)
         filterPlaceView.bind(reactor: reactor)
         filterRoadView.bind(reactor: reactor)
         filterTypeView.bind(reactor: reactor)
