@@ -200,7 +200,7 @@ internal final class NewFilterAccessView: UIView {
                         .disposed(by: obj.disposeBag)
                     
                     Observable.just(GlobalFilterReactor.Action.changedFilter(true))
-                        .bind(to: reactor.action)
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                 }.disposed(by: self.disposeBag)
             
@@ -222,11 +222,11 @@ internal final class NewFilterAccessView: UIView {
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
                     Observable.just(GlobalFilterReactor.Action.changedAccessFilter((.nonePublicCharger, btn.isSelected)))
-                        .bind(to: reactor.action)
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                     
                     Observable.just(GlobalFilterReactor.Action.changedFilter(true))
-                        .bind(to: reactor.action)
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                 }.disposed(by: self.disposeBag)
             
@@ -247,6 +247,16 @@ internal final class NewFilterAccessView: UIView {
             .disposed(by: self.disposeBag)
 
         Observable.just(GlobalFilterReactor.Action.setAccessFilter((.nonePublicCharger, GlobalFilterReactor.sharedInstance.currentState.isNonPublic)))
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
+    }
+    
+    internal func resetRoadFilter() {
+        Observable.just(GlobalFilterReactor.Action.changedAccessFilter((.publicCharger, true)))
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
+        
+        Observable.just(GlobalFilterReactor.Action.changedAccessFilter((.nonePublicCharger, true)))
             .bind(to: GlobalFilterReactor.sharedInstance.action)
             .disposed(by: self.disposeBag)
     }
