@@ -236,8 +236,10 @@ internal final class NewFilterRoadView: UIView {
         
         return view
     }
-    
-    internal func saveRoadFilter() {
+}
+
+extension NewFilterRoadView: FilterButtnAction {
+    func saveFilter() {
         Observable.just(GlobalFilterReactor.Action.setRoadFilter((.general, GlobalFilterReactor.sharedInstance.currentState.isGeneralRoad)))
             .bind(to: GlobalFilterReactor.sharedInstance.action)
             .disposed(by: self.disposeBag)
@@ -251,7 +253,7 @@ internal final class NewFilterRoadView: UIView {
             .disposed(by: self.disposeBag)
     }
     
-    internal func resetRoadFilter() {
+    func resetFilter() {
         Observable.just(GlobalFilterReactor.Action.changedRoadFilter((.general, true)))
             .bind(to: GlobalFilterReactor.sharedInstance.action)
             .disposed(by: self.disposeBag)

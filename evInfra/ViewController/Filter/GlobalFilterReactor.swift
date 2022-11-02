@@ -9,6 +9,7 @@
 import ReactorKit
 
 internal final class GlobalFilterReactor: ViewModel, Reactor {
+    typealias SelectedPlaceFilter = (placeType: PlaceType, isSelected: Bool)
     typealias SelectedRoadFilter = (roadType: RoadType, isSelected: Bool)
     typealias SelectedAccessFilter = (accessType: AccessType, isSelected: Bool)
     
@@ -20,6 +21,8 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         case setAccessFilter(SelectedAccessFilter)
         case changedRoadFilter(SelectedRoadFilter)
         case setRoadFilter(SelectedRoadFilter)
+        case changedPlaceFilter(SelectedPlaceFilter)
+        case setPlaceFilter(SelectedPlaceFilter)
     }
     
     enum Mutation {
@@ -28,6 +31,7 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         case changedFilter(Bool)
         case changedAccessFilter(SelectedAccessFilter)
         case changedRoadFilter(SelectedRoadFilter)
+        case changedPlaceFilter(SelectedPlaceFilter)
     }
 
     struct State {
@@ -40,6 +44,9 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         var isGeneralRoad: Bool = FilterManager.sharedInstance.filter.isGeneralWay
         var isHighwayDown: Bool = FilterManager.sharedInstance.filter.isHighwayDown
         var isHighwayUp: Bool = FilterManager.sharedInstance.filter.isHighwayUp
+        var isIndoor: Bool = FilterManager.sharedInstance.filter.isIndoor
+        var isOutdoor: Bool = FilterManager.sharedInstance.filter.isOutdoor
+        var isCanopy: Bool = FilterManager.sharedInstance.filter.isCanopy
     }
     
     internal var initialState: State
@@ -80,6 +87,18 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
                 FilterManager.sharedInstance.saveHighwayDown(with: roadFilter.isSelected)
             }
             return .empty()
+        case .changedPlaceFilter(let selectedPlaceFilter):
+            return .just(.changedPlaceFilter(selectedPlaceFilter))
+        case .setPlaceFilter(let placeFilter):
+            switch placeFilter.placeType {
+            case .indoor:
+                FilterManager.sharedInstance.saveIndoor(with: placeFilter.isSelected)
+            case .outdoor:
+                FilterManager.sharedInstance.saveOutdoor(with: placeFilter.isSelected)
+            case .canopy:
+                FilterManager.sharedInstance.saveCanopy(with: placeFilter.isSelected)
+            }
+            return .empty()
         }
     }
     
@@ -108,6 +127,15 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
                 newState.isHighwayDown = selectedRoadFilter.isSelected
             case .highwayUp:
                 newState.isHighwayUp = selectedRoadFilter.isSelected
+            }
+        case .changedPlaceFilter(let selectedPlaceFilter):
+            switch selectedPlaceFilter.placeType {
+            case .indoor:
+                newState.isIndoor = selectedPlaceFilter.isSelected
+            case .outdoor:
+                newState.isOutdoor = selectedPlaceFilter.isSelected
+            case .canopy:
+                newState.isCanopy = selectedPlaceFilter.isSelected
             }
         }
         
