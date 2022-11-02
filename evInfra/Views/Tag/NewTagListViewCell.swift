@@ -87,14 +87,27 @@ internal final class NewTagListViewCell: UICollectionViewCell {
     internal func getInteresticSize(text: String, cv: UICollectionView) -> CGSize {
         let font = (name: titleLbl.font.fontName, size: titleLbl.font.pointSize)
         let textSize = titleLbl.textSize(font: UIFont(name: font.name, size: font.size)!, text: text)
-        let leftPaddingSize = 12 + 16 + 4 // 아이콘 leading + 아이콘 width + 아이콘 trailing
-        
-        if textSize.width + CGFloat(leftPaddingSize) >= cv.frame.size.width {
-            let height = titleLbl.heightForView(text: text, font: UIFont(name: font.name, size: font.size)!, width: cv.frame.size.width)
-            return CGSize(width: cv.frame.size.width + CGFloat(leftPaddingSize), height: height + 8)
-        } else {
-            return CGSize(width: textSize.width + 12 + CGFloat(leftPaddingSize), height: textSize.height + 8)
-        }
+        let leftPaddingSize = 12 + 16 + 4 + 2 // 아이콘 leading + 아이콘 width + 아이콘 trailing
+
+//        if textSize.width + CGFloat(leftPaddingSize) >= cv.frame.size.width {
+//            let height = titleLbl.heightForView(text: text, font: UIFont(name: font.name, size: font.size)!, width: cv.frame.size.width)
+//            return CGSize(width: cv.frame.size.width + CGFloat(leftPaddingSize), height: height + 8)
+//        } else {
+//            return CGSize(width: ceil(textSize.width) + 12 + CGFloat(leftPaddingSize), height: 34)
+//        }
+        return CGSize(width: textSize.width + 12 + CGFloat(leftPaddingSize), height: 34)
     }
+    
+//    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+//        layoutIfNeeded()
+//
+//        let size = contentView.systemLayoutSizeFitting(layoutAttributes.size)
+//        var frame = layoutAttributes.frame
+////        frame.size.width = ceil(size.width)
+//        frame.size.height = ceil(size.height)
+//
+//        layoutAttributes.frame = frame
+//        return layoutAttributes
+//    }
 }
 
