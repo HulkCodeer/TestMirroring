@@ -34,7 +34,8 @@ internal final class MainReactor: ViewModel, Reactor {
         case openEvPayTooltip
         case setChargingID
         case selectedBottomMenu(BottomMenuType)
-        case setQR
+        case actionBottomQR
+        case actionBottomMenu(BottomMenuType)
     }
     
     enum Mutation {
@@ -55,6 +56,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case openEvPayTooltip
         case setChargingData(ChargeShowType)
         case setQRMenu(ChargingData)
+        case setSelectedBottomMenu(BottomMenuType)
     }
     
     struct State {
@@ -75,7 +77,7 @@ internal final class MainReactor: ViewModel, Reactor {
         var isShowEvPayToolTip: Bool?
         var chargingType: ChargeShowType?
         var qrMenuChargingData: ChargingData?
-        
+        var bottomItemType: BottomMenuType?
     }
     
     internal var initialState: State
@@ -181,11 +183,14 @@ internal final class MainReactor: ViewModel, Reactor {
             bottomType.action(reactor: self, provider: provider)
             return .empty()
             
-        case .setQR:
+        case .actionBottomQR:
             return self.provider.getChargingID()
                 .convertData()
                 .compactMap(MainReactor.convertToChargingData)
                 .map { return .setQRMenu($0) }
+            
+        case .actionBottomMenu(let menuType):
+            return .just(.setSelectedBottomMenu(menuType) )
         }
     }
     
@@ -207,6 +212,7 @@ internal final class MainReactor: ViewModel, Reactor {
         newState.isShowEvPayToolTip = nil
         newState.chargingType = nil
         newState.qrMenuChargingData = nil
+        newState.bottomItemType = nil
         
         switch mutation {
         case .setShowMarketingPopup(let isShow):
@@ -260,6 +266,9 @@ internal final class MainReactor: ViewModel, Reactor {
             
         case .setQRMenu(let chargingData):
             newState.qrMenuChargingData = chargingData
+            
+        case .setSelectedBottomMenu(let itemType):
+            newState.bottomItemType = itemType
         }
         
         return newState
@@ -357,34 +366,36 @@ internal final class MainReactor: ViewModel, Reactor {
         }
         
         func action(reactor: MainReactor, provider: SoftberryAPI) {
-            
             switch self {
             case .qrCharging:
                 MemberManager.shared.tryToLoginCheck { isLogin in
                     if isLogin {
-                        Observable.just(MainReactor.Action.setQR)
+                        Observable.just(MainReactor.Action.actionBottomQR)
                             .bind(to: reactor.action)
                             .disposed(by: reactor.disposeBag)
                         
-                    } else {
-                        // 비로그인시 로그인 플로우 확인용
+                    } else {    // 비로그인시 로그인 플로우 확인용
                         AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "QR충전")
                         MemberManager.shared.showLoginAlert()
                     }
                 }
                 
-            case .community:
-                UserDefault().saveInt(key: UserDefault.Key.LAST_FREE_ID, value: Board.sharedInstance.freeBoardId)
-                
-                let communityBoardViewController = CardBoardViewController()
-                communityBoardViewController.category = .FREE
-                GlobalDefine.shared.mainNavi?.push(viewController: communityBoardViewController)
-                
-            case .evPay:
-                break
-                
             case .favorite:
-                break
+                MemberManager.shared.tryToLoginCheck { isLogin in
+                    if isLogin {
+                        Observable.just(MainReactor.Action.actionBottomMenu(.favorite))
+                            .bind(to: reactor.action)
+                            .disposed(by: reactor.disposeBag)
+                    } else {    // 비로그인시 로그인 플로우 확인용
+                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "즐겨찾기 리스트/버튼")
+                        MemberManager.shared.showLoginAlert()
+                    }
+                }
+                
+            default:
+                Observable.just(MainReactor.Action.actionBottomMenu(self))
+                    .bind(to: reactor.action)
+                    .disposed(by: reactor.disposeBag)
             }
         }
         

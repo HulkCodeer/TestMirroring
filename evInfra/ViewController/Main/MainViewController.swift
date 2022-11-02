@@ -772,6 +772,29 @@ internal final class MainViewController: UIViewController, StoryboardView {
             }
             .disposed(by: disposeBag)
 
+        reactor.state.compactMap { $0.bottomItemType }
+            .asDriver(onErrorJustReturn: .community)
+            .drive(with: self) { owner, bottomType in
+                switch bottomType {
+                case .community:
+                    UserDefault().saveInt(key: UserDefault.Key.LAST_FREE_ID, value: Board.sharedInstance.freeBoardId)
+                    
+                    let communityBoardViewController = CardBoardViewController()
+                    communityBoardViewController.category = .FREE
+                    GlobalDefine.shared.mainNavi?.push(viewController: communityBoardViewController)
+                    
+                case .favorite:
+                    let favoriteViewController = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: FavoriteViewController.self)
+                    favoriteViewController.delegate = self
+                    GlobalDefine.shared.mainNavi?.push(viewController: favoriteViewController, subtype: CATransitionSubtype.fromTop)
+                        
+                case .evPay:
+                    break
+                default:
+                    break
+                }
+            }
+            .disposed(by: disposeBag)
     }
     
     // MARK: FUNC
