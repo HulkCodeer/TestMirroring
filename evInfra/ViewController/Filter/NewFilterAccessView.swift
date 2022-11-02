@@ -86,12 +86,14 @@ internal final class NewFilterAccessView: UIView {
         self.addSubview(totalView)
         totalView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+            $0.height.equalTo(128)
         }
         
         totalView.addSubview(filterTitleLbl)
         filterTitleLbl.snp.makeConstraints {
             $0.top.equalToSuperview().offset(10)
             $0.leading.equalToSuperview().offset(16)
+            $0.height.equalTo(16)
         }
         
         totalView.addSubview(infoBtn)
@@ -103,15 +105,15 @@ internal final class NewFilterAccessView: UIView {
         
         totalView.addSubview(stackView)
         stackView.snp.makeConstraints {
-            $0.top.equalTo(filterTitleLbl.snp.bottom).offset(8)
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.equalToSuperview().offset(-16)
-            $0.bottom.equalToSuperview().offset(-16)
+            $0.top.equalTo(filterTitleLbl.snp.bottom).offset(16)
+            $0.leading.equalTo(totalView.snp.leading).offset(16)
+            $0.trailing.equalTo(totalView.snp.trailing).offset(-16)
+            $0.bottom.equalTo(totalView.snp.bottom).offset(-20)
             $0.height.equalTo(68)
         }
         
         for accessType in AccessType.allCases {
-            stackView.addArrangedSubview(self.createAccessTypeView(accessType, reactor: reactor))
+            stackView.addArrangedSubview(self.createAccessTypeView(accessType, reactor: GlobalFilterReactor.sharedInstance))
         }
         
         infoBtn.rx.tap
@@ -141,7 +143,7 @@ internal final class NewFilterAccessView: UIView {
             }.disposed(by: self.disposeBag)
     }
     
-    private func createAccessTypeView(_ accessType: AccessType, reactor: MainReactor) -> UIView {
+    private func createAccessTypeView(_ accessType: AccessType, reactor: GlobalFilterReactor) -> UIView {
         let typeImageProperty = accessType.typeImageProperty ?? (image: nil, imgUnSelectColor: nil, imgSelectColor: nil)
         let imgView = UIImageView().then {
             $0.image = typeImageProperty.image
@@ -170,6 +172,7 @@ internal final class NewFilterAccessView: UIView {
                 $0.top.equalTo(imgView.snp.bottom).offset(4)
                 $0.centerX.equalToSuperview()
                 $0.bottom.equalToSuperview()
+                $0.height.equalTo(16)
             }
 
             $0.addSubview(btn)
@@ -177,70 +180,74 @@ internal final class NewFilterAccessView: UIView {
                 $0.edges.equalToSuperview()
             }
         }
+
+        let isPublic = GlobalFilterReactor.sharedInstance.initialState.isPublic
+        let isNonPublic = GlobalFilterReactor.sharedInstance.initialState.isNonPublic
         
-        guard let selectedAccessFilter = reactor.currentState.selectedAccessFilter else { return view }
-        
-        let isSelectedPublic = selectedAccessFilter.accessType == .publicCharger ? selectedAccessFilter.isSelected : false
-        let isSelectedNonPublic = selectedAccessFilter.accessType == .nonePublicCharger ? selectedAccessFilter.isSelected : false
-        let access = selectedAccessFilter.accessType
-        
-        switch access {
+        switch accessType {
         case .publicCharger:
-            imgView.tintColor = isSelectedPublic ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-            titleLbl.textColor = isSelectedPublic ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+            imgView.tintColor = isPublic ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+            titleLbl.textColor = isPublic ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
             
-            btn.isSelected = isSelectedPublic
+            btn.isSelected = isPublic
             
             btn.rx.tap
                 .asDriver()
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
-                    if obj.saveOnChange {
-                        Observable.just(MainReactor.Action.setSelectedAccessFilter((.publicCharger, btn.isSelected)))
-                            .bind(to: reactor.action)
-                            .disposed(by: obj.disposeBag)
-                    }
+                    Observable.just(GlobalFilterReactor.Action.changedAccessFilter((.publicCharger, btn.isSelected)))
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+                        .disposed(by: obj.disposeBag)
+                    
+                    Observable.just(GlobalFilterReactor.Action.changedFilter(true))
+                        .bind(to: reactor.action)
+                        .disposed(by: obj.disposeBag)
                 }.disposed(by: self.disposeBag)
             
-            reactor.state.compactMap { $0.selectedAccessFilter }
-                .asDriver(onErrorJustReturn: MainReactor.SelectedAccessFilter(accessType: .publicCharger, isSelected: false))
-                .drive(with: self) { obj, selectedFilter in
-                    guard selectedFilter.accessType == .publicCharger else { return }
-                    let isSelected = selectedFilter.isSelected
+            reactor.state.compactMap { $0.isPublic }
+                .asDriver(onErrorJustReturn: false)
+                .drive(with: self) { obj, isSelected in
                     imgView.tintColor = isSelected ? accessType.typeImageProperty?.imgSelectColor : accessType.typeImageProperty?.imgUnSelectColor
                     titleLbl.textColor = isSelected ? accessType.typeImageProperty?.imgSelectColor : accessType.typeImageProperty?.imgUnSelectColor
-                    
-                    FilterManager.sharedInstance.savePublic(with: isSelected)
                 }.disposed(by: self.disposeBag)
+            
         case .nonePublicCharger:
-            imgView.tintColor = isSelectedNonPublic ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-            titleLbl.textColor = isSelectedNonPublic ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+            imgView.tintColor = isNonPublic ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+            titleLbl.textColor = isNonPublic ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
             
-            btn.isSelected = isSelectedNonPublic
+            btn.isSelected = isNonPublic
             
             btn.rx.tap
                 .asDriver()
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
-                    if obj.saveOnChange {
-                        Observable.just(MainReactor.Action.setSelectedAccessFilter((.nonePublicCharger, btn.isSelected)))
-                            .bind(to: reactor.action)
-                            .disposed(by: obj.disposeBag)
-                    }
+                    Observable.just(GlobalFilterReactor.Action.changedAccessFilter((.nonePublicCharger, btn.isSelected)))
+                        .bind(to: reactor.action)
+                        .disposed(by: obj.disposeBag)
+                    
+                    Observable.just(GlobalFilterReactor.Action.changedFilter(true))
+                        .bind(to: reactor.action)
+                        .disposed(by: obj.disposeBag)
                 }.disposed(by: self.disposeBag)
             
-            reactor.state.compactMap { $0.selectedAccessFilter }
-                .asDriver(onErrorJustReturn: MainReactor.SelectedAccessFilter(accessType: .nonePublicCharger, isSelected: false))
-                .drive(with: self) { obj, selectedFilter in
-                    guard selectedFilter.accessType == .nonePublicCharger else { return }
-                    let isSelected = selectedFilter.isSelected
+            reactor.state.compactMap { $0.isNonPublic }
+                .asDriver(onErrorJustReturn: false)
+                .drive(with: self) { obj, isSelected in
                     imgView.tintColor = isSelected ? accessType.typeImageProperty?.imgSelectColor : accessType.typeImageProperty?.imgUnSelectColor
                     titleLbl.textColor = isSelected ? accessType.typeImageProperty?.imgSelectColor : accessType.typeImageProperty?.imgUnSelectColor
-                    
-                    FilterManager.sharedInstance.saveNonPublic(with: isSelected)
                 }.disposed(by: self.disposeBag)
         }
         
         return view
+    }
+    
+    internal func saveAccessFilter() {
+        Observable.just(GlobalFilterReactor.Action.setAccessFilter((.publicCharger, GlobalFilterReactor.sharedInstance.currentState.isPublic)))
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
+
+        Observable.just(GlobalFilterReactor.Action.setAccessFilter((.nonePublicCharger, GlobalFilterReactor.sharedInstance.currentState.isNonPublic)))
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
     }
 }
