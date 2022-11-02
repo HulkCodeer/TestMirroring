@@ -362,48 +362,51 @@ internal final class NewFilterBarView: UIView {
         reactor.state.compactMap { $0.selectedFilterInfo }
             .asDriver(onErrorJustReturn: (.speed, false))
             .drive(with: self) { obj, selectedFilter in
-                guard selectedFilter.filterTagType == filterTagType else { return }
-                let isSelected = selectedFilter.isSeleted
-                
-                if isSelected {
-                    view.IBborderColor = Colors.borderPositive.color
-                    view.backgroundColor = Colors.backgroundPositiveLight.color
-                    titleLbl.textColor = Colors.gr7.color
-                    imgView.image = selectedFilter.filterTagType.typeImageProperty?.imgSelect
-                    imgView.tintColor = filterTagType.typeImageProperty?.imgSelectColor
-                } else {
-                    view.IBborderColor = Colors.nt1.color
-                    view.backgroundColor = Colors.backgroundPrimary.color
-                    titleLbl.textColor = Colors.contentSecondary.color
-                    imgView.image = filterTagType.typeImageProperty?.imgUnSelect
-                    imgView.tintColor = filterTagType.typeImageProperty?.imgUnSelectColor
+                switch filterTagType {
+                case .evpay, .favorite: break
+                default:
+                    let isSelected = selectedFilter.filterTagType == filterTagType ? selectedFilter.isSeleted : false
                     
-                    switch filterTagType {
-                    case .speed:
-                        let isChanged = FilterManager.sharedInstance.shouldSpeedChanged()
-                        titleLbl.textColor = isChanged ? Colors.gr6.color : Colors.contentSecondary.color
-                        view.IBborderColor = isChanged ? Colors.borderPositive.color : Colors.nt1.color
-                        imgView.tintColor = isChanged ? Colors.gr6.color : Colors.contentTertiary.color
-                    case .place:
-                        let isChanged = FilterManager.sharedInstance.shouldPlaceChanged()
-                        titleLbl.textColor = isChanged ? Colors.gr6.color : Colors.contentSecondary.color
-                        view.IBborderColor = isChanged ? Colors.borderPositive.color : Colors.nt1.color
-                        imgView.tintColor = isChanged ? Colors.gr6.color : Colors.contentTertiary.color
-                    case .road:
-                        let isChanged = FilterManager.sharedInstance.shouldRoadChanged()
-                        titleLbl.textColor = isChanged ? Colors.gr6.color : Colors.contentSecondary.color
-                        view.IBborderColor = isChanged ? Colors.borderPositive.color : Colors.nt1.color
-                        imgView.tintColor = isChanged ? Colors.gr6.color : Colors.contentTertiary.color
-                    case .type:
-                        let isChanged = FilterManager.sharedInstance.shouldTypeChanged()
-                        titleLbl.textColor = isChanged ? Colors.gr6.color : Colors.contentSecondary.color
-                        view.IBborderColor = isChanged ? Colors.borderPositive.color : Colors.nt1.color
-                        imgView.tintColor = isChanged ? Colors.gr6.color : Colors.contentTertiary.color
-                    default: break
+                    if isSelected {
+                        view.IBborderColor = Colors.borderPositive.color
+                        view.backgroundColor = Colors.backgroundPositiveLight.color
+                        titleLbl.textColor = Colors.gr7.color
+                        imgView.image = selectedFilter.filterTagType.typeImageProperty?.imgSelect
+                        imgView.tintColor = filterTagType.typeImageProperty?.imgSelectColor
+                    } else {
+                        view.IBborderColor = Colors.nt1.color
+                        view.backgroundColor = Colors.backgroundPrimary.color
+                        titleLbl.textColor = Colors.contentSecondary.color
+                        imgView.image = filterTagType.typeImageProperty?.imgUnSelect
+                        imgView.tintColor = filterTagType.typeImageProperty?.imgUnSelectColor
+                        
+                        switch filterTagType {
+                        case .speed:
+                            let isChanged = FilterManager.sharedInstance.shouldSpeedChanged()
+                            titleLbl.textColor = isChanged ? Colors.gr6.color : Colors.contentSecondary.color
+                            view.IBborderColor = isChanged ? Colors.borderPositive.color : Colors.nt1.color
+                            imgView.tintColor = isChanged ? Colors.gr6.color : Colors.contentTertiary.color
+                        case .place:
+                            let isChanged = FilterManager.sharedInstance.shouldPlaceChanged()
+                            titleLbl.textColor = isChanged ? Colors.gr6.color : Colors.contentSecondary.color
+                            view.IBborderColor = isChanged ? Colors.borderPositive.color : Colors.nt1.color
+                            imgView.tintColor = isChanged ? Colors.gr6.color : Colors.contentTertiary.color
+                        case .road:
+                            let isChanged = FilterManager.sharedInstance.shouldRoadChanged()
+                            titleLbl.textColor = isChanged ? Colors.gr6.color : Colors.contentSecondary.color
+                            view.IBborderColor = isChanged ? Colors.borderPositive.color : Colors.nt1.color
+                            imgView.tintColor = isChanged ? Colors.gr6.color : Colors.contentTertiary.color
+                        case .type:
+                            let isChanged = FilterManager.sharedInstance.shouldTypeChanged()
+                            titleLbl.textColor = isChanged ? Colors.gr6.color : Colors.contentSecondary.color
+                            view.IBborderColor = isChanged ? Colors.borderPositive.color : Colors.nt1.color
+                            imgView.tintColor = isChanged ? Colors.gr6.color : Colors.contentTertiary.color
+                        default: break
+                        }
                     }
+                    
+                    btn.isSelected = isSelected
                 }
-                
-                btn.isSelected = isSelected
             }.disposed(by: self.disposeBag)
         return view
     }

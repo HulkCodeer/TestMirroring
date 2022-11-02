@@ -111,6 +111,7 @@ internal final class MainReactor: ViewModel, Reactor {
             return .just(.setSelectedSpeedFilter(selectedSpeedFilter))
             
         case .setSelectedAccessFilter(let selectedAccessFilter):
+            selectedAccessFilter.accessType == .publicCharger ? FilterManager.sharedInstance.savePublic(with: selectedAccessFilter.isSelected) : FilterManager.sharedInstance.saveNonPublic(with: selectedAccessFilter.isSelected)
             return .just(.setSelectedAccessFilter(selectedAccessFilter))
             
         case .swipeLeft:

@@ -121,7 +121,7 @@ internal final class NewFilterTypeView: UIView {
         self.addSubview(totalView)
         totalView.snp.makeConstraints {
             $0.edges.equalToSuperview()
-            $0.height.equalTo(128)
+            $0.height.equalTo(138)
         }
         
         totalView.addSubview(filterTitleLbl)
@@ -137,7 +137,7 @@ internal final class NewFilterTypeView: UIView {
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)
             $0.bottom.equalToSuperview().offset(-20)
-            $0.height.equalTo(68)
+            $0.height.equalTo(76)
         }
         
         for chargerType in ChargerType.allCases {
@@ -145,12 +145,6 @@ internal final class NewFilterTypeView: UIView {
         }
         
         chargerTypesCollectionView.reloadData()
-    }
-}
-
-extension NewFilterTypeView: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        printLog(out: "PKH TEST:: selected row - \(indexPath.row)")
     }
 }
 
@@ -189,11 +183,9 @@ extension NewFilterTypeView: UICollectionViewDataSource {
                 .asDriver()
                 .drive(with: self) { obj, _ in
                     cell.btn.isSelected = !cell.btn.isSelected
-                    if obj.saveOnChange {
-                        Observable.just(MainReactor.Action.setSelectedChargerTypeFilter((obj.types[index], cell.btn.isSelected)))
-                            .bind(to: _reactor.action)
-                            .disposed(by: obj.disposeBag)
-                    }
+                    Observable.just(MainReactor.Action.setSelectedChargerTypeFilter((obj.types[index], cell.btn.isSelected)))
+                        .bind(to: _reactor.action)
+                        .disposed(by: obj.disposeBag)
                 }.disposed(by: self.disposeBag)
             
             _reactor.state.compactMap { $0.selectedChargerTypeFilter }
