@@ -58,7 +58,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
     // Callout View
     @IBOutlet weak var callOutLayer: UIView!
     // Menu Button Layer
-    private lazy var bottomMenuView = BottomMenuView()
 //    @IBOutlet var btn_menu_layer: UIView!
 //    @IBOutlet var btn_main_charge: UIButton!
 //    @IBOutlet var btn_main_community: UIButton!
@@ -255,8 +254,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
         view.addSubview(customNaviBar)
 
         view.addSubview(destinationResultTableView)
-        view.addSubview(bottomMenuView)
-        bottomMenuView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(8)
             $0.height.equalTo(62)
@@ -530,23 +527,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
             .disposed(by: disposeBag)
         
         // MARK: 메인 하단메뉴 bindAction
-        bottomMenuView.qrChargeButton.rx.tap
-            .asDriver()
-            .drive { _ in
-                MemberManager.shared.tryToLoginCheck { [weak self] isLogin in
-                    guard let self = self else { return }
-                    if isLogin {
-                        Observable.just(MainReactor.Action.setChargingID(isQR: true))
-                            .bind(to: reactor.action)
-                            .disposed(by: self.disposeBag)
-                    } else {
-                        // 비로그인시 로그인 플로우 확인용
-                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "QR충전")
-                        MemberManager.shared.showLoginAlert()
-                    }
-                }
-            }
-            .disposed(by: disposeBag)
         
     }
     
@@ -652,7 +632,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
                     
                 owner.setView(view: owner.routeDistanceView, hidden: true)
                 owner.btnChargePrice.isHidden = false
-                owner.bottomMenuView.isHidden = false
                 
                 owner.searchWayView.startTextField.text = String()
                 owner.searchWayView.endTextField.text = String()
@@ -1143,7 +1122,6 @@ extension MainViewController {
             setView(view: callOutLayer, hidden: true)
             
             self.btnChargePrice.isHidden = true
-            self.bottomMenuView.isHidden = true
             
             let bounds = NMGLatLngBounds(southWestLat: startPoint.getLatitude(),
                                          southWestLng: startPoint.getLongitude(),
