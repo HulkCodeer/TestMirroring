@@ -726,6 +726,51 @@ internal final class MainViewController: UIViewController, StoryboardView {
 
             }
             .disposed(by: disposeBag)
+        
+        reactor.state.compactMap { $0.qrMenuChargingData }
+            .asDriver(onErrorJustReturn: (.none, nil))
+            .drive(with: self) { owner, chargingData in
+                let (type, chargingID) = chargingData
+                
+                switch type {
+                case .charging:
+                    guard let _chargingID = chargingID?.chargingID else { break }
+                    
+                    let paymentReactor = PaymentStatusReactor(provider: RestApi())
+                    let paymentVC = NewPaymentStatusViewController(reactor: paymentReactor)
+                    paymentVC.chargingId = _chargingID
+                    
+                    GlobalDefine.shared.mainNavi?.push(viewController: paymentVC)
+                    
+                case .none:
+                    let status = AVCaptureDevice.authorizationStatus(for: .video)
+                    switch status {
+                    case .notDetermined, .denied:
+                        AVCaptureDevice.requestAccess(for: .video) { [weak self] grated in
+                            if grated {
+                                self?.movePaymentQRScan()
+                            } else {
+                                self?.showAuthAlert()
+                            }
+                        }
+                    case .authorized:
+                        self.movePaymentQRScan()
+                        
+                    default: break
+                    }
+                    
+                case .accountsReceivable:
+                    let paymentStoryboard = UIStoryboard(name : "Payment", bundle: nil)
+                    let repayListViewController = paymentStoryboard.instantiateViewController(ofType: RepayListViewController.self)
+                    repayListViewController.delegate = self
+                    
+                    GlobalDefine.shared.mainNavi?.push(viewController: repayListViewController)
+                    
+                default: break
+                }
+                
+            }
+            .disposed(by: disposeBag)
 
     }
     

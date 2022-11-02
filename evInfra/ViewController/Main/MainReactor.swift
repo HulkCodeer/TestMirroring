@@ -32,8 +32,9 @@ internal final class MainReactor: ViewModel, Reactor {
         case clearSearchPoint(SearchWayPointType)
         case setEvPayFilter(Bool)
         case openEvPayTooltip
-        case selectedBottomMenu(BottomMenuType)
         case setChargingID
+        case selectedBottomMenu(BottomMenuType)
+        case setQR
     }
     
     enum Mutation {
@@ -52,7 +53,8 @@ internal final class MainReactor: ViewModel, Reactor {
         case setSelectedFilterInfo(SelectedFilterInfo)
         case setEvPayFilter(Bool)
         case openEvPayTooltip
-        case setChargingData(ChargingData)
+        case setChargingData(ChargeShowType)
+        case setQRMenu(ChargingData)
     }
     
     struct State {
@@ -72,6 +74,8 @@ internal final class MainReactor: ViewModel, Reactor {
         var isEvPayFilter: Bool?
         var isShowEvPayToolTip: Bool?
         var chargingType: ChargeShowType?
+        var qrMenuChargingData: ChargingData?
+        
     }
     
     internal var initialState: State
@@ -167,15 +171,21 @@ internal final class MainReactor: ViewModel, Reactor {
         case .openEvPayTooltip:
             return .just(.openEvPayTooltip)
             
-        case .selectedBottomMenu(let bottomType):
-            return .empty()
-            
         case .setChargingID:
             return self.provider.getChargingID()
                 .convertData()
-                .compactMap(convertToChargingData)
+                .compactMap(MainReactor.convertToChargingData)
                 .map { return .setChargingData($0.chargingType) }
 
+        case .selectedBottomMenu(let bottomType):
+            bottomType.action(reactor: self, provider: provider)
+            return .empty()
+            
+        case .setQR:
+            return self.provider.getChargingID()
+                .convertData()
+                .compactMap(MainReactor.convertToChargingData)
+                .map { return .setQRMenu($0) }
         }
     }
     
@@ -196,6 +206,7 @@ internal final class MainReactor: ViewModel, Reactor {
         newState.searchDetinationData = nil
         newState.isShowEvPayToolTip = nil
         newState.chargingType = nil
+        newState.qrMenuChargingData = nil
         
         switch mutation {
         case .setShowMarketingPopup(let isShow):
@@ -246,6 +257,9 @@ internal final class MainReactor: ViewModel, Reactor {
 
         case .setChargingData(let chargingType):
             newState.chargingType = chargingType
+            
+        case .setQRMenu(let chargingData):
+            newState.qrMenuChargingData = chargingData
         }
         
         return newState
@@ -282,7 +296,7 @@ internal final class MainReactor: ViewModel, Reactor {
         }
     }
     
-    private func convertToChargingData(with result: ApiResult<Data, ApiError>) -> ChargingData? {
+    static func convertToChargingData(with result: ApiResult<Data, ApiError>) -> ChargingData? {
         switch result {
         case .success(let data):
             let jsonData = JSON(data)
@@ -339,6 +353,34 @@ internal final class MainReactor: ViewModel, Reactor {
                 
             case .favorite:
                 return (Icons.iconFavorite.image, "즐겨찾기")
+            }
+        }
+        
+        func action(reactor: MainReactor, provider: SoftberryAPI) {
+            
+            switch self {
+            case .qrCharging:
+                MemberManager.shared.tryToLoginCheck { isLogin in
+                    if isLogin {
+                        Observable.just(MainReactor.Action.setQR)
+                            .bind(to: reactor.action)
+                            .disposed(by: reactor.disposeBag)
+                        
+                    } else {
+                        // 비로그인시 로그인 플로우 확인용
+                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "QR충전")
+                        MemberManager.shared.showLoginAlert()
+                    }
+                }
+                
+            case .community:
+                break
+                
+            case .evPay:
+                break
+                
+            case .favorite:
+                break
             }
         }
         
