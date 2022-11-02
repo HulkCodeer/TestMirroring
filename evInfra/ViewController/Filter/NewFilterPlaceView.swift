@@ -105,11 +105,11 @@ internal final class NewFilterPlaceView: UIView {
         }
         
         for placeType in PlaceType.allCases {
-            stackView.addArrangedSubview(self.createPlaceTypeView(placeType, reactor: reactor))
+            stackView.addArrangedSubview(self.createPlaceTypeView(placeType, reactor: GlobalFilterReactor.sharedInstance))
         }
     }
     
-    private func createPlaceTypeView(_ placeType: PlaceType, reactor: MainReactor) -> UIView {
+    private func createPlaceTypeView(_ placeType: PlaceType, reactor: GlobalFilterReactor) -> UIView {
         let typeImageProperty = placeType.typeImageProperty ?? (image: nil, imgUnSelectColor: nil, imgSelectColor: nil)
         let imgView = UIImageView().then {
             $0.image = typeImageProperty.image
@@ -146,96 +146,90 @@ internal final class NewFilterPlaceView: UIView {
                 $0.edges.equalToSuperview()
             }
         }
-        
-        let isSelectedIndoor = FilterManager.sharedInstance.filter.isIndoor
-        let isSelectedOutdoor = FilterManager.sharedInstance.filter.isOutdoor
-        let isSelectedCanopy = FilterManager.sharedInstance.filter.isCanopy
+
+        let isIndoor = GlobalFilterReactor.sharedInstance.initialState.isIndoor
+        let isOutdoor = GlobalFilterReactor.sharedInstance.initialState.isOutdoor
+        let isCanopy = GlobalFilterReactor.sharedInstance.initialState.isCanopy
         
         switch placeType {
         case .indoor:
-            imgView.tintColor = isSelectedIndoor ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-            titleLbl.textColor = isSelectedIndoor ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+            imgView.tintColor = isIndoor ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+            titleLbl.textColor = isIndoor ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+            
+            btn.isSelected = isIndoor
             
             btn.rx.tap
                 .asDriver()
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
-                    if obj.saveOnChange {
-                        Observable.just(MainReactor.Action.setSelectedPlaceFilter((.indoor, btn.isSelected)))
-                            .bind(to: reactor.action)
-                            .disposed(by: obj.disposeBag)
-                    }
-                    obj.delegate?.onChangedFilter(type: .place)
+                    Observable.just(GlobalFilterReactor.Action.changedPlaceFilter((.indoor, btn.isSelected)))
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+                        .disposed(by: obj.disposeBag)
+                    
+                    Observable.just(GlobalFilterReactor.Action.changedFilter(true))
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+                        .disposed(by: obj.disposeBag)
                 }
                 .disposed(by: self.disposeBag)
             
-            reactor.state.compactMap { $0.selectedPlaceFilter }
-                .asDriver(onErrorJustReturn: MainReactor.SelectedPlaceFilter(placeType: .indoor, isSelected: false))
-                .drive(with: self) { obj, selectedPlaceFilter in
-                    guard selectedPlaceFilter.placeType == .indoor else { return }
-                    let isSelected = selectedPlaceFilter.isSelected
+            reactor.state.compactMap { $0.isIndoor }
+                .asDriver(onErrorJustReturn: false)
+                .drive(with: self) { obj, isSelected in
                     imgView.tintColor = isSelected ? placeType.typeImageProperty?.imgSelectColor : placeType.typeImageProperty?.imgUnSelectColor
                     titleLbl.textColor = isSelected ? placeType.typeImageProperty?.imgSelectColor : placeType.typeImageProperty?.imgUnSelectColor
-
-                    FilterManager.sharedInstance.saveIndoor(with: isSelected)
-                }
-                .disposed(by: self.disposeBag)
+                }.disposed(by: self.disposeBag)
         case .outdoor:
-            imgView.tintColor = isSelectedOutdoor ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-            titleLbl.textColor = isSelectedOutdoor ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+            imgView.tintColor = isOutdoor ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+            titleLbl.textColor = isOutdoor ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+            
+            btn.isSelected = isOutdoor
             
             btn.rx.tap
                 .asDriver()
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
-                    if obj.saveOnChange {
-                        Observable.just(MainReactor.Action.setSelectedPlaceFilter((.outdoor, btn.isSelected)))
-                            .bind(to: reactor.action)
-                            .disposed(by: obj.disposeBag)
-                    }
-                    obj.delegate?.onChangedFilter(type: .place)
+                    Observable.just(GlobalFilterReactor.Action.changedPlaceFilter((.outdoor, btn.isSelected)))
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+                        .disposed(by: obj.disposeBag)
+                    
+                    Observable.just(GlobalFilterReactor.Action.changedFilter(true))
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+                        .disposed(by: obj.disposeBag)
                 }
                 .disposed(by: self.disposeBag)
             
-            reactor.state.compactMap { $0.selectedPlaceFilter }
-                .asDriver(onErrorJustReturn: MainReactor.SelectedPlaceFilter(placeType: .outdoor, isSelected: false))
-                .drive(with: self) { obj, selectedPlaceFilter in
-                    guard selectedPlaceFilter.placeType == .outdoor else { return }
-                    let isSelected = selectedPlaceFilter.isSelected
+            reactor.state.compactMap { $0.isOutdoor }
+                .asDriver(onErrorJustReturn: false)
+                .drive(with: self) { obj, isSelected in
                     imgView.tintColor = isSelected ? placeType.typeImageProperty?.imgSelectColor : placeType.typeImageProperty?.imgUnSelectColor
                     titleLbl.textColor = isSelected ? placeType.typeImageProperty?.imgSelectColor : placeType.typeImageProperty?.imgUnSelectColor
-
-                    FilterManager.sharedInstance.saveOutdoor(with: isSelected)
-                }
-                .disposed(by: self.disposeBag)
+                }.disposed(by: self.disposeBag)
         case .canopy:
-            imgView.tintColor = isSelectedCanopy ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-            titleLbl.textColor = isSelectedCanopy ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+            imgView.tintColor = isCanopy ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+            titleLbl.textColor = isCanopy ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+            
+            btn.isSelected = isCanopy
             
             btn.rx.tap
                 .asDriver()
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
-                    if obj.saveOnChange {
-                        Observable.just(MainReactor.Action.setSelectedPlaceFilter((.canopy, btn.isSelected)))
-                            .bind(to: reactor.action)
-                            .disposed(by: obj.disposeBag)
-                    }
-                    obj.delegate?.onChangedFilter(type: .place)
+                    Observable.just(GlobalFilterReactor.Action.changedPlaceFilter((.canopy, btn.isSelected)))
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+                        .disposed(by: obj.disposeBag)
+                    
+                    Observable.just(GlobalFilterReactor.Action.changedFilter(true))
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+                        .disposed(by: obj.disposeBag)
                 }
                 .disposed(by: self.disposeBag)
             
-            reactor.state.compactMap { $0.selectedPlaceFilter }
-                .asDriver(onErrorJustReturn: MainReactor.SelectedPlaceFilter(placeType: .canopy, isSelected: false))
-                .drive(with: self) { obj, selectedPlaceFilter in
-                    guard selectedPlaceFilter.placeType == .canopy else { return }
-                    let isSelected = selectedPlaceFilter.isSelected
+            reactor.state.compactMap { $0.isCanopy }
+                .asDriver(onErrorJustReturn: false)
+                .drive(with: self) { obj, isSelected in
                     imgView.tintColor = isSelected ? placeType.typeImageProperty?.imgSelectColor : placeType.typeImageProperty?.imgUnSelectColor
                     titleLbl.textColor = isSelected ? placeType.typeImageProperty?.imgSelectColor : placeType.typeImageProperty?.imgUnSelectColor
-
-                    FilterManager.sharedInstance.saveCanopy(with: isSelected)
-                }
-                .disposed(by: self.disposeBag)
+                }.disposed(by: self.disposeBag)
         }
         
         return view
@@ -256,5 +250,35 @@ internal final class NewFilterPlaceView: UIView {
         let property: [String: Any] = ["filterName": "설치 형태",
                                        "filterValue": values]
         FilterEvent.clickUpperFilter.logEvent(property: property)
+    }
+}
+
+extension NewFilterPlaceView: FilterButtonAction {
+    func saveFilter() {
+        Observable.just(GlobalFilterReactor.Action.setPlaceFilter((.indoor, GlobalFilterReactor.sharedInstance.currentState.isIndoor)))
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
+        
+        Observable.just(GlobalFilterReactor.Action.setPlaceFilter((.outdoor, GlobalFilterReactor.sharedInstance.currentState.isOutdoor)))
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
+        
+        Observable.just(GlobalFilterReactor.Action.setPlaceFilter((.canopy, GlobalFilterReactor.sharedInstance.currentState.isCanopy)))
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
+    }
+    
+    func resetFilter() {
+        Observable.just(GlobalFilterReactor.Action.changedPlaceFilter((.indoor, true)))
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
+        
+        Observable.just(GlobalFilterReactor.Action.changedPlaceFilter((.outdoor, true)))
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
+        
+        Observable.just(GlobalFilterReactor.Action.changedPlaceFilter((.canopy, true)))
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
     }
 }
