@@ -42,6 +42,7 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
     private var speedFilterView = NewFilterSpeedView()
     private var roadFilterView = NewFilterRoadView()
     private var accessFilterView = NewFilterAccessView()
+    private var companyFilterView = NewFilterCompanyView()
     private var saveBtn = StickButton(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 32, height: 80),
                                            level: .primary).then {
         $0.rectBtn.setTitle("필터 설정 저장하기", for: .normal)
@@ -95,6 +96,7 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
             $0.bottom.equalTo(scrollView.snp.bottom)
             $0.width.equalTo(scrollView.snp.width)
             $0.centerX.equalTo(scrollView.snp.centerX)
+            $0.height.equalTo(scrollView.snp.height).priority(250)
         }
 
         let lineView = self.createLineView(color: Colors.nt1.color)
@@ -109,10 +111,15 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
         filterStackView.addArrangedSubview(accessFilterView)
         filterStackView.addArrangedSubview(roadFilterView)
         filterStackView.addArrangedSubview(placeFilterView)
+        filterStackView.addArrangedSubview(companyFilterView)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        Observable.just(GlobalFilterReactor.Action.changedFilter(false))
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -127,5 +134,46 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
         roadFilterView.bind(reactor: reactor)
         placeFilterView.bind(reactor: reactor)
         accessFilterView.bind(reactor: reactor)
+        companyFilterView.bind(reactor: GlobalFilterReactor.sharedInstance)
+        
+        // 초기화 버튼
+        resetBtn.rx.tap
+            .asDriver(onErrorJustReturn: ())
+            .drive(with: self) { obj, _ in
+                obj.resetBtn.isSelected = !obj.resetBtn.isSelected
+                
+                let cancelBtn = UIAlertAction(title: "취소", style: .default)
+                let okBtn = UIAlertAction(title: "초기화", style: .default) { _ in
+                    FilterEvent.clickFilterReset.logEvent()
+                    // TODO: 각 필터 초기화
+                    
+                    obj.roadFilterView.resetRoadFilter()
+                    obj.companyFilterView.resetFilter()
+                }
+                var actions = [UIAlertAction]()
+                actions.append(cancelBtn)
+                actions.append(okBtn)
+                UIAlertController.showAlert(title: "필터 초기화", message: "필터를 초기화 하시겠습니까?", actions: actions)
+            }.disposed(by: self.disposeBag)
+        
+        // 필터 저장 버튼 bind
+        GlobalFilterReactor.sharedInstance.state.compactMap { $0.isChangedFilter }
+            .bind(to: saveBtn.rectBtn.rx.isEnabled)
+            .disposed(by: self.disposeBag)
+        
+        saveBtn.rectBtn.rx.tap
+            .asDriver(onErrorJustReturn: ())
+            .drive(with: self) { obj, _ in
+                obj.saveBtn.rectBtn.isSelected = !obj.saveBtn.rectBtn.isSelected
+                printLog(out: "\(obj.saveBtn.rectBtn.isSelected)")
+                
+                
+                // TODO: 각 필터 저장
+                obj.roadFilterView.saveRoadFilter()
+                obj.accessFilterView.saveAccessFilter()
+                FilterManager.sharedInstance.logEventWithFilter("필터")
+                GlobalDefine.shared.mainNavi?.pop()
+            }.disposed(by: self.disposeBag)
+            
     }
 }

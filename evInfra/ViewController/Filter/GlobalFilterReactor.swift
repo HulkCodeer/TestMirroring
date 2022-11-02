@@ -9,6 +9,7 @@
 import ReactorKit
 
 internal final class GlobalFilterReactor: ViewModel, Reactor {
+    typealias SelectedRoadFilter = (roadType: RoadType, isSelected: Bool)
     typealias SelectedAccessFilter = (accessType: AccessType, isSelected: Bool)
     
     enum Action {
@@ -17,6 +18,8 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         case changedFilter(Bool)
         case changedAccessFilter(SelectedAccessFilter)
         case setAccessFilter(SelectedAccessFilter)
+        case changedRoadFilter(SelectedRoadFilter)
+        case setRoadFilter(SelectedRoadFilter)
     }
     
     enum Mutation {
@@ -24,6 +27,7 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         case setAllCompanies(Bool)
         case changedFilter(Bool)
         case changedAccessFilter(SelectedAccessFilter)
+        case changedRoadFilter(SelectedRoadFilter)
     }
 
     struct State {
@@ -33,6 +37,9 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         var selectedAccessFilter: SelectedAccessFilter?
         var isPublic: Bool = FilterManager.sharedInstance.filter.isPublic
         var isNonPublic: Bool = FilterManager.sharedInstance.filter.isNonPublic
+        var isGeneralRoad: Bool = FilterManager.sharedInstance.filter.isGeneralWay
+        var isHighwayDown: Bool = FilterManager.sharedInstance.filter.isHighwayDown
+        var isHighwayUp: Bool = FilterManager.sharedInstance.filter.isHighwayUp
     }
     
     internal var initialState: State
@@ -61,6 +68,18 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         case .setAccessFilter(let accessFilter):
             accessFilter.accessType == .publicCharger ? FilterManager.sharedInstance.savePublic(with: accessFilter.isSelected) : FilterManager.sharedInstance.saveNonPublic(with: accessFilter.isSelected)
             return .empty()
+        case .changedRoadFilter(let selectedRoadFilter):
+            return .just(.changedRoadFilter(selectedRoadFilter))
+        case .setRoadFilter(let roadFilter):
+            switch roadFilter.roadType {
+            case .general:
+                FilterManager.sharedInstance.saveGeneralRoad(with: roadFilter.isSelected)
+            case .highwayUp:
+                FilterManager.sharedInstance.saveHighwayUp(with: roadFilter.isSelected)
+            case .highwayDown:
+                FilterManager.sharedInstance.saveHighwayDown(with: roadFilter.isSelected)
+            }
+            return .empty()
         }
     }
     
@@ -80,6 +99,15 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
                 newState.isPublic = selectedAccessFilter.isSelected
             case .nonePublicCharger:
                 newState.isNonPublic = selectedAccessFilter.isSelected
+            }
+        case .changedRoadFilter(let selectedRoadFilter):
+            switch selectedRoadFilter.roadType {
+            case .general:
+                newState.isGeneralRoad = selectedRoadFilter.isSelected
+            case .highwayDown:
+                newState.isHighwayDown = selectedRoadFilter.isSelected
+            case .highwayUp:
+                newState.isHighwayUp = selectedRoadFilter.isSelected
             }
         }
         
