@@ -702,6 +702,30 @@ internal final class MainViewController: UIViewController, StoryboardView {
             .disposed(by: disposeBag)
         
         // check
+        reactor.state.compactMap { $0.chargingType }
+            .asDriver(onErrorJustReturn: (.none))
+            .drive(with: self) { owner, chargingType in
+                owner.defaults.saveBool(
+                    key: UserDefault.Key.HAS_FAILED_PAYMENT,
+                    value: (chargingType == .accountsReceivable))
+                
+                switch chargingType {
+                case .leave:
+                    LoginHelper.shared.logout(completion: { [weak self] success in
+                        if success {
+                            self?.closeMenu()
+                            Snackbar().show(message: "회원 탈퇴로 인해 로그아웃 되었습니다.")
+                        } else {
+                            Snackbar().show(message: "다시 시도해 주세요.")
+                        }
+                    })
+
+                default:
+                    break
+                }
+
+            }
+            .disposed(by: disposeBag)
 
     }
     
