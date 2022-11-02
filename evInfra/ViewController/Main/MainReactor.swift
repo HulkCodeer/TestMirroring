@@ -8,11 +8,11 @@
 
 import ReactorKit
 import SwiftyJSON
+import UIKit
 
 internal final class MainReactor: ViewModel, Reactor {
     typealias SelectedFilterInfo = (filterTagType: FilterTagType, isSeleted: Bool)
     typealias ChargingData = (chargingType: ChargeShowType, chargingData: ChargingID?)
-    typealias ChargingStatus = (isQR: Bool, chargingType: ChargeShowType, chargingData: ChargingID?)
     
     enum Action {
         case showMarketingPopup
@@ -32,8 +32,8 @@ internal final class MainReactor: ViewModel, Reactor {
         case clearSearchPoint(SearchWayPointType)
         case setEvPayFilter(Bool)
         case openEvPayTooltip
-        case setChargingID(isQR: Bool)
         case selectedBottomMenu(BottomMenuType)
+        case setChargingID
     }
     
     enum Mutation {
@@ -52,7 +52,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case setSelectedFilterInfo(SelectedFilterInfo)
         case setEvPayFilter(Bool)
         case openEvPayTooltip
-        case setChargingData(ChargingStatus)
+        case setChargingData(ChargingData)
     }
     
     struct State {
@@ -71,7 +71,7 @@ internal final class MainReactor: ViewModel, Reactor {
         var selectedFilterInfo: SelectedFilterInfo?
         var isEvPayFilter: Bool?
         var isShowEvPayToolTip: Bool?
-        var chargingStatus: ChargingStatus?
+        var chargingType: ChargeShowType?
     }
     
     internal var initialState: State
@@ -167,19 +167,15 @@ internal final class MainReactor: ViewModel, Reactor {
         case .openEvPayTooltip:
             return .just(.openEvPayTooltip)
             
-        case .setChargingID(let isQR):
         case .selectedBottomMenu(let bottomType):
             return .empty()
             
+        case .setChargingID:
             return self.provider.getChargingID()
                 .convertData()
                 .compactMap(convertToChargingData)
-                .map {
-                    let status = ChargingStatus(isQR, $0.chargingType, $0.chargingData)
-                    return .setChargingData(status)
-                }
-            
-            
+                .map { return .setChargingData($0.chargingType) }
+
         }
     }
     
@@ -199,7 +195,7 @@ internal final class MainReactor: ViewModel, Reactor {
         newState.isClearSearchWayPoint = nil
         newState.searchDetinationData = nil
         newState.isShowEvPayToolTip = nil
-        newState.chargingStatus = nil
+        newState.chargingType = nil
         
         switch mutation {
         case .setShowMarketingPopup(let isShow):
@@ -248,8 +244,8 @@ internal final class MainReactor: ViewModel, Reactor {
         case .openEvPayTooltip:
             newState.isShowEvPayToolTip = FCMManager.sharedInstance.originalMemberId.isEmpty
 
-        case .setChargingData(let chargingStatus):
-            newState.chargingStatus = chargingStatus
+        case .setChargingData(let chargingType):
+            newState.chargingType = chargingType
         }
         
         return newState
