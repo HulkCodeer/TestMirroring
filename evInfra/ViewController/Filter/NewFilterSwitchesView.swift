@@ -127,6 +127,7 @@ internal final class NewFilterSwitchesView: UIView {
             $0.tintColor = Colors.backgroundTertiary.color
             $0.thumbTintColor = .white
             $0.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
+            $0.onTintColor = Colors.backgroundPositive.color
         }
         
         view.addSubview(switchView)
