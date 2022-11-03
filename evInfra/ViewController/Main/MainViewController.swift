@@ -36,7 +36,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
     
     @IBOutlet weak var myLocationButton: UIButton!
     @IBOutlet weak var reNewButton: UIButton!
-    @IBOutlet weak var btnChargePrice: UIButton!
     
     // Indicator View
     @IBOutlet weak var markerIndicator: UIActivityIndicatorView!
@@ -688,7 +687,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 owner.hideKeyboard()
                     
                 owner.setView(view: owner.routeDistanceView, hidden: true)
-//                owner.btnChargePrice.isHidden = false
                 owner.bottomMenuStackView.isHidden = false
                 
                 owner.searchWayView.startTextField.text = String()
@@ -1210,7 +1208,6 @@ extension MainViewController {
             // 하단 충전소 정보 숨기기
             setView(view: callOutLayer, hidden: true)
             
-//            self.btnChargePrice.isHidden = true
             self.bottomMenuStackView.isHidden = true
             
             let bounds = NMGLatLngBounds(southWestLat: startPoint.getLatitude(),

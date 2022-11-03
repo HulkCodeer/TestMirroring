@@ -88,37 +88,6 @@
                                     <constraint firstAttribute="trailing" secondItem="Bp2-BV-hd6" secondAttribute="trailing" id="pPM-Bg-6T4"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XSe-Va-su3" customClass="Button" customModule="Material">
-                                <rect key="frame" x="118" y="547" width="139.5" height="32"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="electric_icon" translatesAutoresizingMaskIntoConstraints="NO" id="LnQ-p2-sZa">
-                                        <rect key="frame" x="12" y="7" width="12" height="18"/>
-                                        <color key="tintColor" name="content-positive"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="18" id="6Oy-4R-3u3"/>
-                                            <constraint firstAttribute="width" constant="12" id="Sct-AC-QZ6"/>
-                                        </constraints>
-                                    </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="충전 요금 안내" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bVe-Jr-mMc">
-                                        <rect key="frame" x="32" y="6.5" width="91.5" height="19.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <color key="textColor" name="content-positive"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <accessibility key="accessibilityConfiguration">
-                                    <accessibilityTraits key="traits" button="YES"/>
-                                </accessibility>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="bVe-Jr-mMc" secondAttribute="trailing" constant="16" id="5AR-bA-3TK"/>
-                                    <constraint firstItem="bVe-Jr-mMc" firstAttribute="leading" secondItem="LnQ-p2-sZa" secondAttribute="trailing" constant="8" id="DDX-Sp-AtZ"/>
-                                    <constraint firstItem="LnQ-p2-sZa" firstAttribute="leading" secondItem="XSe-Va-su3" secondAttribute="leading" constant="12" id="I9g-CB-HDb"/>
-                                    <constraint firstItem="bVe-Jr-mMc" firstAttribute="centerY" secondItem="XSe-Va-su3" secondAttribute="centerY" id="P6e-tC-xeo"/>
-                                    <constraint firstItem="LnQ-p2-sZa" firstAttribute="centerY" secondItem="XSe-Va-su3" secondAttribute="centerY" id="pvc-od-4N3"/>
-                                    <constraint firstAttribute="height" constant="32" id="xGQ-wW-tvO"/>
-                                </constraints>
-                            </view>
                             <view hidden="YES" alpha="0.90000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SHM-kf-rAr" userLabel="RouteDistanceView">
                                 <rect key="frame" x="16" y="569" width="343" height="80"/>
                                 <subviews>
@@ -284,7 +253,6 @@
                             <constraint firstItem="aV6-BG-3jX" firstAttribute="trailing" secondItem="SHM-kf-rAr" secondAttribute="trailing" constant="16" id="0AX-mf-Ebv"/>
                             <constraint firstItem="Ueo-lF-S8F" firstAttribute="centerY" secondItem="heY-bS-hgo" secondAttribute="centerY" id="4p6-hI-itT"/>
                             <constraint firstItem="SHM-kf-rAr" firstAttribute="leading" secondItem="aV6-BG-3jX" secondAttribute="leading" constant="16" id="65j-wd-FWJ"/>
-                            <constraint firstItem="XSe-Va-su3" firstAttribute="centerX" secondItem="heY-bS-hgo" secondAttribute="centerX" id="Jy0-sR-JRA"/>
                             <constraint firstItem="aV6-BG-3jX" firstAttribute="trailing" secondItem="MjX-0u-Kq9" secondAttribute="trailing" id="Kcc-zq-egO"/>
                             <constraint firstItem="aV6-BG-3jX" firstAttribute="trailing" secondItem="5EV-dN-PRm" secondAttribute="trailing" id="LGN-Bz-By8"/>
                             <constraint firstItem="aV6-BG-3jX" firstAttribute="trailing" secondItem="SJq-gl-PDQ" secondAttribute="trailing" constant="10" id="NN1-nf-sPT"/>
@@ -308,7 +276,6 @@
                         <userDefinedRuntimeAttribute type="boolean" keyPath="isMotionEnabled" value="NO"/>
                     </userDefinedRuntimeAttributes>
                     <connections>
-                        <outlet property="btnChargePrice" destination="XSe-Va-su3" id="U16-F0-QGQ"/>
                         <outlet property="callOutLayer" destination="5EV-dN-PRm" id="23s-gK-5Qu"/>
                         <outlet property="filterBarView" destination="Bp2-BV-hd6" id="c1c-Gf-Wof"/>
                         <outlet property="filterContainerView" destination="oUv-17-AnI" id="6ar-By-MNM"/>
@@ -412,14 +379,10 @@
     </designables>
     <color key="tintColor" red="0.082352941176470587" green="0.2627450980392157" blue="0.36078431372549019" alpha="1" colorSpace="calibratedRGB"/>
     <resources>
-        <image name="electric_icon" width="11.729000091552734" height="17.047000885009766"/>
         <image name="go_navi_icon_white" width="16" height="16"/>
         <image name="icon_current_location_md" width="24" height="24"/>
         <image name="icon_refresh_md" width="24" height="24"/>
         <image name="intro_bg.jpg" width="1440" height="3200"/>
-        <namedColor name="content-positive">
-            <color red="0.28200000524520874" green="0.83499997854232788" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <namedColor name="content-primary">
             <color red="0.094117647058823528" green="0.094117647058823528" blue="0.098039215686274508" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
