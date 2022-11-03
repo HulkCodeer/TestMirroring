@@ -13,6 +13,7 @@ import RxCocoa
 import SnapKit
 
 internal final class BottomMenuItem: UIView {
+    
     private lazy var icon = UIImageView().then {
         $0.tintColor = Colors.contentTertiary.color
         $0.contentMode = .scaleAspectFill
@@ -59,4 +60,9 @@ internal final class BottomMenuItem: UIView {
         super.init(coder: aDecoder)
     }
     
+    
+    func configure(icon image: UIImage, title: String) {        
+        icon.image = image
+        titleLabel.text = title
+    }
 }

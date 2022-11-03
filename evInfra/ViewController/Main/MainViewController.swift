@@ -348,9 +348,31 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 }
                 .disposed(by: disposeBag)
             
-            
-            
-            // reactor
+            // bindAction
+            switch bottomMenuType {
+            case .qrCharging:
+                reactor.state.compactMap { $0.isCharging }
+                    .asDriver(onErrorJustReturn: true)
+                    .drive { isCharging in
+                        guard let specificValue = bottomMenuType.specificValue else { return }
+                        let value = isCharging ? specificValue : bottomMenuType.value
+                        item.configure(icon: value.icon, title: value.title)
+                    }
+                    .disposed(by: disposeBag)
+                
+            case .evPay:
+                reactor.state.compactMap { $0.isAccountsReceivable }
+                    .asDriver(onErrorJustReturn: true)
+                    .drive { isAccountsReceivable in
+                        guard let specificValue = bottomMenuType.specificValue else { return }
+                        let value = isAccountsReceivable ? specificValue : bottomMenuType.value
+                        item.configure(icon: value.icon, title: value.title)
+                    }
+                    .disposed(by: disposeBag)
+                
+            default:
+                break
+            }
         }
         
         bindAction(reactor: reactor)
@@ -723,7 +745,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 default:
                     break
                 }
-
+                
             }
             .disposed(by: disposeBag)
         
@@ -769,6 +791,9 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 default: break
                 }
                 
+            }
+            .disposed(by: disposeBag)
+        
         reactor.state.compactMap { $0.evPayPresentType }
             .asDriver(onErrorJustReturn: .evPayManagement)
             .drive(with: self) { owner, showType in

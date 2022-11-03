@@ -38,6 +38,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case actionEVPay
         case actionBottomMenu(BottomMenuType)
         case setIsAccountsReceivable(Bool)
+        case setIsCharging(Bool)
     }
     
     enum Mutation {
@@ -61,6 +62,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case setEVPay(EVPayShowType)
         case setSelectedBottomMenu(BottomMenuType)
         case setIsAccountsReceivable(Bool)
+        case setIsCharging(Bool)
     }
     
     struct State {
@@ -83,8 +85,8 @@ internal final class MainReactor: ViewModel, Reactor {
         var evPayPresentType: EVPayShowType?
         var qrMenuChargingData: ChargingData?
         var bottomItemType: BottomMenuType?
-        
         var isAccountsReceivable: Bool? = false
+        var isCharging: Bool? = false
     }
     
     internal var initialState: State
@@ -207,6 +209,9 @@ internal final class MainReactor: ViewModel, Reactor {
             
         case .setIsAccountsReceivable(let isReceivable):
             return .just(.setIsAccountsReceivable(isReceivable))
+            
+        case .setIsCharging(let isCharging):
+            return .just(.setIsCharging(isCharging))
         }
     }
     
@@ -231,6 +236,7 @@ internal final class MainReactor: ViewModel, Reactor {
         newState.evPayPresentType = nil
         newState.bottomItemType = nil
         newState.isAccountsReceivable = nil
+        newState.isCharging = nil
         
         switch mutation {
         case .setShowMarketingPopup(let isShow):
@@ -293,6 +299,9 @@ internal final class MainReactor: ViewModel, Reactor {
             
         case .setIsAccountsReceivable(let isReceivable):
             newState.isAccountsReceivable = isReceivable
+            
+        case .setIsCharging(let isCharging):
+            newState.isCharging = isCharging
         }
         
         return newState
@@ -346,6 +355,9 @@ internal final class MainReactor: ViewModel, Reactor {
                 
             case (1000, _) :    // 충전중
                 let chargingData = try? JSONDecoder().decode(ChargingID.self, from: data)
+                Observable.just(MainReactor.Action.setIsCharging(true))
+                    .bind(to: self.action)
+                    .disposed(by: disposeBag)
                 return (.charging, chargingData)
 
             case (2002, _) where jsonData["status"].stringValue == "delete":      // 탈퇴 회원
@@ -473,18 +485,18 @@ internal final class MainReactor: ViewModel, Reactor {
             }
         }
         
-//        var specificValue: (UIImage, String)? {
-//            switch self{
-//            case .qrCharging:
-//                return (Icons.icLineCharging.image, "충전중")
-//
-//            case .evPay:
-//                return (Icons.iconEvpayNew.image, "EV Pay 관리")
-//
-//            default:
-//                return nil
-//            }
-//        }
+        var specificValue: (icon: UIImage, title: String)? {
+            switch self{
+            case .qrCharging:
+                return (Icons.icLineCharging.image, "충전중")
+
+            case .evPay:
+                return (Icons.iconEvpayNew.image, "EV Pay 관리")
+
+            default:
+                return nil
+            }
+        }
     }
     
     enum ChargeShowType {
