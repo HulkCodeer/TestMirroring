@@ -335,10 +335,10 @@ internal final class MainReactor: ViewModel, Reactor {
             let jsonData = JSON(data)
             printLog("--> convertToChargingData \(jsonData), \(jsonData["pay_code"])")
             let code = jsonData["code"]
-            let payCode = jsonData["pay_code"].stringValue
+            let payCode = jsonData["pay_code"].intValue
             
-            switch (code, payCode) {
-            case (_, "8804") :  // 미수금
+            switch (code, PaymentStatus(rawValue: payCode)) {
+            case (_, .PAY_DEBTOR_USER) :  // 미수금
                 Observable.just(MainReactor.Action.setIsAccountsReceivable(true))
                     .bind(to: self.action)
                     .disposed(by: disposeBag)
