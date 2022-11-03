@@ -74,9 +74,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
         $0.alignment = .fill
         $0.spacing = 8
     }
-
-//    // 미수금
-//    @IBOutlet weak var ivMainChargeNew: UIImageView!
     
     //경로찾기시 거리표시 뷰 (call out)
     @IBOutlet weak var routeDistanceView: UIView!
