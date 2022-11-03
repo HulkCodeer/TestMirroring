@@ -438,72 +438,65 @@ internal final class MainReactor: ViewModel, Reactor {
             }
         }
         
-        func action(reactor: MainReactor, provider: SoftberryAPI) {
-            switch self {
-            case .qrCharging:
-                MemberManager.shared.tryToLoginCheck { isLogin in
-                    if isLogin {
-                        Observable.just(MainReactor.Action.actionBottomQR)
-                            .bind(to: reactor.action)
-                            .disposed(by: reactor.disposeBag)
-                        
-                    } else {    // 비로그인시 로그인 플로우 확인용
-                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "QR충전")
-                        MemberManager.shared.showLoginAlert()
-                    }
-                }
-                
-            case .favorite:
-                MemberManager.shared.tryToLoginCheck { isLogin in
-                    if isLogin {
-                        Observable.just(MainReactor.Action.actionBottomMenu(.favorite))
-                            .bind(to: reactor.action)
-                            .disposed(by: reactor.disposeBag)
-                    } else {    // 비로그인시 로그인 플로우 확인용
-                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "즐겨찾기 리스트/버튼")
-                        MemberManager.shared.showLoginAlert()
-                    }
-                }
-                
-            case .evPay:
-                MemberManager.shared.tryToLoginCheck { isLogin in
-                    if isLogin {
-                        Observable.just(MainReactor.Action.actionEVPay)
-                            .bind(to: reactor.action)
-                            .disposed(by: reactor.disposeBag)
-                    } else {    // 비로그인시 로그인 플로우 확인용
-                        
-                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "EV Pay 관리")
-                        MemberManager.shared.showLoginAlert()
-                    }
-                }
-                
-            default:
-                Observable.just(MainReactor.Action.actionBottomMenu(self))
-                    .bind(to: reactor.action)
-                    .disposed(by: reactor.disposeBag)
-            }
-        }
-        
+        // 예외상황 표기
         var specificValue: (icon: UIImage, title: String)? {
-            switch self{
-            case .qrCharging:
+            switch self {
+            case .qrCharging:   // 충전중
                 return (Icons.icLineCharging.image, "충전중")
 
-            case .evPay:
+            case .evPay:        // 미수금
                 return (Icons.iconEvpayNew.image, "EV Pay 관리")
 
             default:
                 return nil
             }
         }
+        
+        private var actionValue: (action: MainReactor.Action, logoutAplitudeMSG: String?) {
+            switch self {
+            case .qrCharging:
+                return (MainReactor.Action.actionBottomQR, "QR충전")
+                
+            case .community:
+                return (MainReactor.Action.actionBottomMenu(.community), nil)
+                
+            case .favorite:
+                return (MainReactor.Action.actionBottomMenu(.favorite), "즐겨찾기 리스트/버튼")
+                
+            case .evPay:
+                // 앰플리튜드 설정 필요한지 확인해야함. "EV Pay 관리" 임의로 문구 넣어둔것.
+                return (MainReactor.Action.actionEVPay, "EV Pay 관리")
+             
+            }
+        }
+        
+        func action(reactor: MainReactor, provider: SoftberryAPI) {
+            switch self {
+            case .community:
+                Observable.just(actionValue.action)
+                    .bind(to: reactor.action)
+                    .disposed(by: reactor.disposeBag)
+                
+            default:
+                MemberManager.shared.tryToLoginCheck { isLogin in
+                    if isLogin {
+                        Observable.just(actionValue.action)
+                            .bind(to: reactor.action)
+                            .disposed(by: reactor.disposeBag)
+                    } else {    // 비로그인시 로그인 플로우 확인용
+                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: actionValue.logoutAplitudeMSG ?? String())
+                        MemberManager.shared.showLoginAlert()
+                    }
+                }
+            }
+        }
+        
     }
     
     enum ChargeShowType {
         case charging
         case none
         case accountsReceivable
-        
         case leave
     }
     
