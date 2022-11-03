@@ -56,6 +56,8 @@ internal final class MembershipCardIssuanceCompleteViewController: CommonBaseVie
         $0.setTitle("확인", for: .normal)
     }
     
+    private lazy var tooltipView = TooltipView(configure: TooltipView.Configure(tipLeftMargin: 73, tipDirection: .bottom, maxWidth: UIScreen.main.bounds.width - 32, leftImg: Icons.coinFillSm.image))
+    
     // MARK: VARIABLE
     
     // MARK: SYSTEM FUNC
@@ -137,13 +139,23 @@ internal final class MembershipCardIssuanceCompleteViewController: CommonBaseVie
             $0.top.equalTo(lineView.snp.bottom)            
             $0.width.centerX.bottom.equalToSuperview()
         }
+        
+        self.contentView.addSubview(tooltipView)
+        tooltipView.snp.makeConstraints {
+            $0.width.equalTo(UIScreen.main.bounds.width - 32)
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalTo(moveEventListBtn.snp.top).offset(-7)            
+            $0.height.equalTo(50)
+        }
+        
+        tooltipView.show(message: "이벤트에 참여해서 3000베리 받아가세요!", attrString: "3000베리")
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
     }
-    
+            
     // MARK: FUNC
     
     func bind(reactor: MembershipCardIssuanceCompleteReactor) {

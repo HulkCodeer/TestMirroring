@@ -7,12 +7,10 @@
 //
 
 import SwiftyJSON
-import Material
 import UIKit
 import RxSwift
-import RxCocoa
 
-internal final class MembershipInfoViewController: CommonBaseViewController {
+internal final class MembershipInfoViewController: BaseViewController {
     
     // MARK: UI
     

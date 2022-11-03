@@ -17,6 +17,7 @@ protocol PartnershipListViewDelegate: AnyObject {
     func moveMembershipUseGuideView()
     func moveReissuanceView(info: MemberPartnershipInfo)
     func paymentStatusInfo() -> PaymentStatus
+    func showShipmentStatusView()
 }
 
 internal final class PartnershipListView : UIView {
@@ -36,11 +37,15 @@ internal final class PartnershipListView : UIView {
     @IBOutlet var reissuanceView: UIView!
     @IBOutlet var reissuanceLbl: UILabel!
     
+    private lazy var arrowImgView = ChevronArrow.init(.size20(.right)).then {
+        $0.IBimageColor = Colors.backgroundAlwaysLight.color
+    }
     
+    private lazy var presentShipmentViewBtn = UIButton()
+        
     // MARK: VARIABLE
     
     internal weak var delegate: PartnershipListViewDelegate?
-    internal var navi: UINavigationController = UINavigationController()
     
     private var evInfraInfo : MemberPartnershipInfo = MemberPartnershipInfo(JSON.null)
     private var disposebag = DisposeBag()
@@ -62,6 +67,20 @@ internal final class PartnershipListView : UIView {
         view.frame = self.bounds
         addSubview(view)
         initView()
+        
+        self.addSubview(arrowImgView)
+        arrowImgView.snp.makeConstraints {
+            $0.leading.equalTo(labelCardStatus.snp.trailing)
+            $0.centerY.equalTo(labelCardStatus.snp.centerY)
+            $0.width.height.equalTo(20)
+        }
+        
+        self.addSubview(presentShipmentViewBtn)
+        presentShipmentViewBtn.snp.makeConstraints {
+            $0.leading.equalTo(labelCardStatus)
+            $0.height.equalTo(labelCardStatus)
+            $0.trailing.equalTo(arrowImgView)
+        }
         
         membershipUseGuideLbl.attributedText = NSAttributedString(string: "EV Pay카드 사용방법이 궁금하신가요?", attributes:
                                                                     [.underlineStyle: NSUnderlineStyle.single.rawValue])
@@ -109,24 +128,23 @@ internal final class PartnershipListView : UIView {
                                 let popupModel = PopupModel(title: "결제카드 오류 안내",
                                                             message: "현재 고객님의 결제 카드에 오류가 발생했어요. 오류 발생 시 원활한 서비스 이용을 할 수 없으니 다른 카드로 변경해주세요.",
                                                             confirmBtnTitle: "결제카드 변경하기",
-                                                            confirmBtnAction: { [weak self] in
-                                    guard let self = self else { return }
+                                                            confirmBtnAction: {                                     
                                     AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "EVI Pay카드 관리 결제카드 등록 오류")
                                     let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
                                     let myPayInfoVC = memberStoryboard.instantiateViewController(ofType: MyPayinfoViewController.self)
-                                    self.navi.push(viewController: myPayInfoVC)
+                                    GlobalDefine.shared.mainNavi?.push(viewController: myPayInfoVC)
                                 })
 
                                 let popup = ConfirmPopupViewController(model: popupModel)
                                                             
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                                    self.navi.present(popup, animated: false, completion: nil)
+                                    GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
                                 })
                                                     
                             case .PAY_DEBTOR_USER: // 돈안낸 유저
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
                                     let paymentVC = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: RepayListViewController.self)
-                                    self.navi.push(viewController: paymentVC)
+                                    GlobalDefine.shared.mainNavi?.push(viewController: paymentVC)
                                 })
                                 
                             case .PAY_FINE_USER: // 정상 유저
@@ -139,7 +157,7 @@ internal final class PartnershipListView : UIView {
                                 let popup = ConfirmPopupViewController(model: popupModel)
                                                                                         
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                                    self.navi.present(popup, animated: false, completion: nil)
+                                    GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
                                 })
                                                     
                             default: break
@@ -167,12 +185,12 @@ internal final class PartnershipListView : UIView {
         evInfraInfo = info
         viewEvinfraList.isHidden = false
         labelCardStatus.text = info.displayStatusDescription
-        reissuanceLbl.textColor = info.isReissuance ? UIColor(named: "nt-9"): UIColor(named: "nt-3")
+        reissuanceLbl.textColor = info.isReissuance ? Colors.nt9.color: Colors.nt3.color
         
         guard let _cardNo = info.cardNo else { return }
         let modString = _cardNo.replaceAll(of : "(\\d{4})(?=\\d)", with : "$1-")
         labelCardNum.text = modString
-                        
+                                
         if info.cardStatusType == .sipping {
             _ = viewEvinfraList.subviews.compactMap { $0 as? EasyTipView }.first?.removeFromSuperview()
                                     

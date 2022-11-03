@@ -1304,6 +1304,12 @@
 		8261C8B528ECF6A20018E168 /* UIWindow+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8261C8B428ECF6A20018E168 /* UIWindow+Extension.swift */; };
 		8261C8B628ECF6A20018E168 /* UIWindow+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8261C8B428ECF6A20018E168 /* UIWindow+Extension.swift */; };
 		8261C8B728ECF6A20018E168 /* UIWindow+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8261C8B428ECF6A20018E168 /* UIWindow+Extension.swift */; };
+		8266F9F22913922800B375A6 /* MembershipCardReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8266F9F12913922800B375A6 /* MembershipCardReactor.swift */; };
+		8266F9F32913922800B375A6 /* MembershipCardReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8266F9F12913922800B375A6 /* MembershipCardReactor.swift */; };
+		8266F9F42913922800B375A6 /* MembershipCardReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8266F9F12913922800B375A6 /* MembershipCardReactor.swift */; };
+		8266F9F62913A1DD00B375A6 /* MembershipCardShipmentStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8266F9F52913A1DD00B375A6 /* MembershipCardShipmentStatusViewController.swift */; };
+		8266F9F72913A1DD00B375A6 /* MembershipCardShipmentStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8266F9F52913A1DD00B375A6 /* MembershipCardShipmentStatusViewController.swift */; };
+		8266F9F82913A1DD00B375A6 /* MembershipCardShipmentStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8266F9F52913A1DD00B375A6 /* MembershipCardShipmentStatusViewController.swift */; };
 		82829BCE28ADC1330044AD6C /* UIImageView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */; };
 		82829BCF28ADC1330044AD6C /* UIImageView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */; };
 		82829BD128ADC2F20044AD6C /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */; };
@@ -1612,8 +1618,6 @@
 		59BAB6FA28F0346300077872 /* MainSearchWayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSearchWayView.swift; sourceTree = "<group>"; };
 		59BAB6FE28F50B7500077872 /* UnderLineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderLineTextField.swift; sourceTree = "<group>"; };
 		59BAB70628FD373B00077872 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
-		59EC3B7928D32A1D001A18B5 /* ViewConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewConstants.swift; sourceTree = "<group>"; };
-		59EC3B7B28D32A33001A18B5 /* DateConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConstants.swift; sourceTree = "<group>"; };
 		59EC3B7D28D32A49001A18B5 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		59F6229828E12095004CE1FC /* MainNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationBar.swift; sourceTree = "<group>"; };
 		5A9EB64F5FC750CFC2ACAD5A /* Pods-evInfra_dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra_dev.debug.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra_dev/Pods-evInfra_dev.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1870,6 +1874,8 @@
 		824D5DBC28BE050A00EDC712 /* QROutletTypeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QROutletTypeModel.swift; sourceTree = "<group>"; };
 		824D5DC028BE1C2500EDC712 /* GlobalFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFunction.swift; sourceTree = "<group>"; };
 		8261C8B428ECF6A20018E168 /* UIWindow+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow+Extension.swift"; sourceTree = "<group>"; };
+		8266F9F12913922800B375A6 /* MembershipCardReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipCardReactor.swift; sourceTree = "<group>"; };
+		8266F9F52913A1DD00B375A6 /* MembershipCardShipmentStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipCardShipmentStatusViewController.swift; sourceTree = "<group>"; };
 		82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Rx.swift"; sourceTree = "<group>"; };
 		82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		82840479290021FE0081567C /* TooltipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipView.swift; sourceTree = "<group>"; };
@@ -2181,8 +2187,6 @@
 				0044A04F25AEEB1500D0BB0A /* LotteRentIntoViewController.swift */,
 				00C75C45252ED4A000387559 /* LotteRentCertificateViewController.swift */,
 				0056440C252DB2AB007BF78D /* MembershipQRViewController.swift */,
-				73C6A10A2345F1F800349A86 /* MembershipCardViewController.swift */,
-				005643DF252DA18E007BF78D /* MembershipInfoViewController.swift */,
 				63DA0A06282E35780021292C /* RentalCarCardListViewController.swift */,
 				63DA015D28325C9200705842 /* FindPasswordViewController.swift */,
 				0055D471252AA88B001133DB /* Membership.storyboard */,
@@ -3057,6 +3061,10 @@
 				63310E2D290697A9004B393A /* ShipmentStepView.swift */,
 				82B0EF6A2907B33100D6EE70 /* ShipmentInfoView.swift */,
 				63BDD2BC290F4699007F557D /* ChargingGuideWebViewController.swift */,
+				73C6A10A2345F1F800349A86 /* MembershipCardViewController.swift */,
+				005643DF252DA18E007BF78D /* MembershipInfoViewController.swift */,
+				8266F9F12913922800B375A6 /* MembershipCardReactor.swift */,
+				8266F9F52913A1DD00B375A6 /* MembershipCardShipmentStatusViewController.swift */,
 			);
 			path = Issuance;
 			sourceTree = "<group>";
@@ -4580,6 +4588,7 @@
 				63F31471284EC74F001713D2 /* Connector.swift in Sources */,
 				63F31472284EC74F001713D2 /* KeyChainManager.swift in Sources */,
 				63F31473284EC74F001713D2 /* ServiceGuideViewController.swift in Sources */,
+				8266F9F32913922800B375A6 /* MembershipCardReactor.swift in Sources */,
 				821A717628B2762700B13816 /* NewPaymentStatusViewController.swift in Sources */,
 				63762F4C2869A8F000C951BF /* QuitAccountReasonQuestionViewController.swift in Sources */,
 				63F31474284EC74F001713D2 /* EvDetailViewController.swift in Sources */,
@@ -4618,6 +4627,7 @@
 				63762F522869A91900C951BF /* SettingsReactor.swift in Sources */,
 				63F3148C284EC74F001713D2 /* Regions.swift in Sources */,
 				63F3148D284EC74F001713D2 /* CompanyInfoCheckerDelegate.swift in Sources */,
+				8266F9F72913A1DD00B375A6 /* MembershipCardShipmentStatusViewController.swift in Sources */,
 				63F3148E284EC74F001713D2 /* PaymentTableViewCell.swift in Sources */,
 				63762F462869A8F000C951BF /* QuitAccountReasonQuestionReactor.swift in Sources */,
 				63F3148F284EC74F001713D2 /* CopyableLabel.swift in Sources */,
@@ -4912,6 +4922,7 @@
 				527165C727B251E20078DF3A /* AlertView.swift in Sources */,
 				7379A45022CB43C600F4271C /* Connector.swift in Sources */,
 				CE72D73C219BDA32003979D2 /* KeyChainManager.swift in Sources */,
+				8266F9F22913922800B375A6 /* MembershipCardReactor.swift in Sources */,
 				DB48E1F622E08B07003FFA08 /* ServiceGuideViewController.swift in Sources */,
 				821A717528B2762700B13816 /* NewPaymentStatusViewController.swift in Sources */,
 				63762F4B2869A8F000C951BF /* QuitAccountReasonQuestionViewController.swift in Sources */,
@@ -4950,6 +4961,7 @@
 				63762F512869A91900C951BF /* SettingsReactor.swift in Sources */,
 				DB6E59492063C595002E75C8 /* Regions.swift in Sources */,
 				737A012A20F709B300638812 /* CompanyInfoCheckerDelegate.swift in Sources */,
+				8266F9F62913A1DD00B375A6 /* MembershipCardShipmentStatusViewController.swift in Sources */,
 				000DAE13274760E300CEC165 /* PaymentTableViewCell.swift in Sources */,
 				63762F452869A8F000C951BF /* QuitAccountReasonQuestionReactor.swift in Sources */,
 				73DD778123164CB60006EFFC /* CopyableLabel.swift in Sources */,
@@ -5244,6 +5256,7 @@
 				824D5CDB28BDD89C00EDC712 /* Connector.swift in Sources */,
 				824D5CDC28BDD89C00EDC712 /* KeyChainManager.swift in Sources */,
 				824D5CDD28BDD89C00EDC712 /* ServiceGuideViewController.swift in Sources */,
+				8266F9F42913922800B375A6 /* MembershipCardReactor.swift in Sources */,
 				824D5CDE28BDD89C00EDC712 /* NewPaymentStatusViewController.swift in Sources */,
 				824D5CDF28BDD89C00EDC712 /* QuitAccountReasonQuestionViewController.swift in Sources */,
 				824D5CE028BDD89C00EDC712 /* EvDetailViewController.swift in Sources */,
@@ -5282,6 +5295,7 @@
 				824D5CF928BDD89C00EDC712 /* SettingsReactor.swift in Sources */,
 				824D5CFA28BDD89C00EDC712 /* Regions.swift in Sources */,
 				824D5CFB28BDD89C00EDC712 /* CompanyInfoCheckerDelegate.swift in Sources */,
+				8266F9F82913A1DD00B375A6 /* MembershipCardShipmentStatusViewController.swift in Sources */,
 				824D5CFC28BDD89C00EDC712 /* PaymentTableViewCell.swift in Sources */,
 				824D5CFD28BDD89C00EDC712 /* QuitAccountReasonQuestionReactor.swift in Sources */,
 				5975BD5128D97CB200910F6F /* Constants.swift in Sources */,

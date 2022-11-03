@@ -7,11 +7,10 @@
 //
 
 import UIKit
-import Material
 import SwiftyJSON
+import ReactorKit
 
-internal final class MembershipCardViewController: CommonBaseViewController {
-
+internal final class MembershipCardViewController: CommonBaseViewController, StoryboardView {    
     // MARK: UI
     
     private lazy var commonNaviView = CommonNaviView().then {
@@ -19,8 +18,7 @@ internal final class MembershipCardViewController: CommonBaseViewController {
     }
     
     private lazy var partnershipListView = PartnershipListView(frame: .zero).then {        
-        $0.delegate = self
-        $0.navi = self.navigationController ?? UINavigationController()
+        $0.delegate = self        
     }
     
     // MARK: VARIABLE
@@ -28,6 +26,15 @@ internal final class MembershipCardViewController: CommonBaseViewController {
     private var paymentStatus: PaymentStatus = .none
     
     // MARK: SYSTEM FUNC
+    
+    init(reactor: MembershipCardReactor) {
+        super.init()
+        self.reactor = reactor
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func loadView() {
         super.loadView()
@@ -52,8 +59,8 @@ internal final class MembershipCardViewController: CommonBaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         GlobalDefine.shared.mainNavi?.interactivePopGestureRecognizer?.isEnabled = false
+        
         MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
             guard isLogin, let self = self else {
                 MemberManager.shared.showLoginAlert()
@@ -62,7 +69,15 @@ internal final class MembershipCardViewController: CommonBaseViewController {
             self.checkMembershipData()
         }
     }
+    
+    // MARK: REACTORKIT
 
+    func bind(reactor: MembershipCardReactor) {
+        
+    }
+    
+    // MARK: FUNC
+    
     private func checkMembershipData() {
         Server.getInfoMembershipCard { [weak self] (isSuccess, value) in
             guard let self = self, isSuccess else { return }
@@ -77,7 +92,7 @@ internal final class MembershipCardViewController: CommonBaseViewController {
         Server.getPayRegisterStatus { (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
-                let payCode = json["pay_code"].intValue                
+                let payCode = json["pay_code"].intValue
                 
                 switch PaymentStatus(rawValue: payCode) {
                 case .PAY_NO_CARD_USER, // 카드등록 아니된 멤버
@@ -115,7 +130,7 @@ internal final class MembershipCardViewController: CommonBaseViewController {
                 Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 결제정보관리 페이지 종료후 재시도 바랍니다.")
             }
         }
-    }    
+    }
 }
 
 extension MembershipCardViewController: MembershipReissuanceInfoDelegate {
@@ -131,19 +146,19 @@ extension MembershipCardViewController: PartnershipListViewDelegate {
     }
     
     func showEvinfraMembershipInfo(info : MemberPartnershipInfo) {
-        let mbsInfoVC = storyboard?.instantiateViewController(withIdentifier: "MembershipInfoViewController") as! MembershipInfoViewController
-        mbsInfoVC.setCardInfo(info : info)
-        navigationController?.push(viewController: mbsInfoVC)
+        let viewcon = UIStoryboard(name: "Membership", bundle: nil).instantiateViewController(ofType: MembershipInfoViewController.self)
+        viewcon.setCardInfo(info : info)
+        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
     }
     
     func showLotteRentInfo(){
-        let lotteInfoVC = storyboard?.instantiateViewController(withIdentifier: "LotteRentInfoViewController") as! LotteRentInfoViewController
-        navigationController?.push(viewController: lotteInfoVC)
+        let viewcon = UIStoryboard(name: "Membership", bundle: nil).instantiateViewController(ofType: LotteRentInfoViewController.self)
+        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
     }
     
     func moveMembershipUseGuideView() {
         let viewcon = MembershipUseGuideViewController()
-        navigationController?.push(viewController: viewcon)
+        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
     }
     
     func moveReissuanceView(info: MemberPartnershipInfo) {
@@ -157,5 +172,9 @@ extension MembershipCardViewController: PartnershipListViewDelegate {
     
     func paymentStatusInfo() -> PaymentStatus {
         self.paymentStatus
+    }
+    
+    func showShipmentStatusView() {
+        
     }
 }
