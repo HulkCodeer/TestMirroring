@@ -769,6 +769,26 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 default: break
                 }
                 
+        reactor.state.compactMap { $0.evPayPresentType }
+            .asDriver(onErrorJustReturn: .evPayManagement)
+            .drive(with: self) { owner, showType in
+                switch showType {
+                case .evPayGuide:
+                    let guidVC = MembershipGuideViewController()
+                    GlobalDefine.shared.mainNavi?.push(viewController: guidVC)
+                    
+                case .evPayManagement:
+                    let membershipStoryboard = UIStoryboard(name : "Membership", bundle: nil)
+                    let membershipCardVC  = membershipStoryboard.instantiateViewController(ofType: MembershipCardViewController.self)
+                    GlobalDefine.shared.mainNavi?.push(viewController: membershipCardVC)
+                    
+                case .accountsReceivable:
+                    let paymentStoryboard = UIStoryboard(name : "Payment", bundle: nil)
+                    let repayListViewController = paymentStoryboard.instantiateViewController(ofType: RepayListViewController.self)
+                    repayListViewController.delegate = self
+                    
+                    GlobalDefine.shared.mainNavi?.push(viewController: repayListViewController)
+                }
             }
             .disposed(by: disposeBag)
 
@@ -787,9 +807,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                     let favoriteViewController = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: FavoriteViewController.self)
                     favoriteViewController.delegate = self
                     GlobalDefine.shared.mainNavi?.push(viewController: favoriteViewController, subtype: CATransitionSubtype.fromTop)
-                        
-                case .evPay:
-                    break
+                    
                 default:
                     break
                 }

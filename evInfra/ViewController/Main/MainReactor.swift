@@ -35,6 +35,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case setChargingID
         case selectedBottomMenu(BottomMenuType)
         case actionBottomQR
+        case actionEVPay
         case actionBottomMenu(BottomMenuType)
         case setIsAccountsReceivable(Bool)
     }
@@ -57,6 +58,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case openEvPayTooltip
         case setChargingData(ChargeShowType)
         case setQRMenu(ChargingData)
+        case setEVPay(EVPayShowType)
         case setSelectedBottomMenu(BottomMenuType)
         case setIsAccountsReceivable(Bool)
     }
@@ -78,6 +80,7 @@ internal final class MainReactor: ViewModel, Reactor {
         var isEvPayFilter: Bool?
         var isShowEvPayToolTip: Bool?
         var chargingType: ChargeShowType?
+        var evPayPresentType: EVPayShowType?
         var qrMenuChargingData: ChargingData?
         var bottomItemType: BottomMenuType?
         
@@ -193,6 +196,12 @@ internal final class MainReactor: ViewModel, Reactor {
                 .compactMap(convertToChargingData)
                 .map { return .setQRMenu($0) }
             
+        case .actionEVPay:
+            return provider.postPaymentStatus()
+                .convertData()
+                .compactMap(convertToEVPayShowType)
+                .map { return .setEVPay($0)}
+            
         case .actionBottomMenu(let menuType):
             return .just(.setSelectedBottomMenu(menuType) )
             
@@ -219,6 +228,7 @@ internal final class MainReactor: ViewModel, Reactor {
         newState.isShowEvPayToolTip = nil
         newState.chargingType = nil
         newState.qrMenuChargingData = nil
+        newState.evPayPresentType = nil
         newState.bottomItemType = nil
         newState.isAccountsReceivable = nil
         
@@ -274,6 +284,9 @@ internal final class MainReactor: ViewModel, Reactor {
             
         case .setQRMenu(let chargingData):
             newState.qrMenuChargingData = chargingData
+            
+        case .setEVPay(let showType):
+            newState.evPayPresentType = showType
             
         case .setSelectedBottomMenu(let itemType):
             newState.bottomItemType = itemType
@@ -352,6 +365,40 @@ internal final class MainReactor: ViewModel, Reactor {
         }
     }
     
+    private func convertToEVPayShowType(with result: ApiResult<Data, ApiError>) -> EVPayShowType? {
+        switch result {
+        case .success(let data):
+            let json = JSON(data)
+            let payCode = json["pay_code"].intValue
+            
+            switch PaymentStatus(rawValue: payCode) {
+            case .PAY_FINE_USER:    // 유저체크
+                return .evPayManagement
+                
+            case .PAY_DEBTOR_USER:   // 미수금
+                Observable.just(MainReactor.Action.setIsAccountsReceivable(true))
+                    .bind(to: self.action)
+                    .disposed(by: disposeBag)
+                
+                return .accountsReceivable
+                
+            case .PAY_NO_USER, .PAY_NO_CARD_USER, .PAY_NO_VERIFY_USER, .PAY_DELETE_FAIL_USER:
+                // 미등록,         카드 미등록,         인증되지 않은 유저 (해커의심),  비정상 삭제 멤버
+                return .evPayGuide
+
+            default:
+                printLog(out: "Error Message : PaymentStatus")
+                Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
+                return nil
+            }
+            
+        case .failure(let error):
+            printLog(out: "Error Message : \(error)")
+            Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
+            return nil
+        }
+    }
+    
     enum SearchWayPointType {
         case startPoint
         case endPoint
@@ -406,6 +453,19 @@ internal final class MainReactor: ViewModel, Reactor {
                     }
                 }
                 
+            case .evPay:
+                MemberManager.shared.tryToLoginCheck { isLogin in
+                    if isLogin {
+                        Observable.just(MainReactor.Action.actionEVPay)
+                            .bind(to: reactor.action)
+                            .disposed(by: reactor.disposeBag)
+                    } else {    // 비로그인시 로그인 플로우 확인용
+                        
+                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "EV Pay 관리")
+                        MemberManager.shared.showLoginAlert()
+                    }
+                }
+                
             default:
                 Observable.just(MainReactor.Action.actionBottomMenu(self))
                     .bind(to: reactor.action)
@@ -435,4 +495,10 @@ internal final class MainReactor: ViewModel, Reactor {
         case leave
     }
     
+    enum EVPayShowType {
+        case evPayGuide         // 신규, 미참여, gs사용유저
+        case evPayManagement    // 결제카드 없고 회원카드 있는사람, 그냥 있는 사람.
+        case accountsReceivable // 미수금.
+    }
+
 }
