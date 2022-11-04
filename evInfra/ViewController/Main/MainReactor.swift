@@ -39,6 +39,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case actionBottomMenu(BottomMenuType)
         case setIsAccountsReceivable(Bool)
         case setIsCharging(Bool)
+        case showChargePrice
     }
     
     enum Mutation {
@@ -63,6 +64,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case setSelectedBottomMenu(BottomMenuType)
         case setIsAccountsReceivable(Bool)
         case setIsCharging(Bool)
+        case setChargePrice
     }
     
     struct State {
@@ -87,6 +89,7 @@ internal final class MainReactor: ViewModel, Reactor {
         var bottomItemType: BottomMenuType?
         var isAccountsReceivable: Bool? = false
         var isCharging: Bool? = false
+        var isShowChargePrice: Bool?
     }
     
     internal var initialState: State
@@ -212,6 +215,9 @@ internal final class MainReactor: ViewModel, Reactor {
             
         case .setIsCharging(let isCharging):
             return .just(.setIsCharging(isCharging))
+            
+        case .showChargePrice:
+            return .just(.setChargePrice)
         }
     }
     
@@ -237,6 +243,7 @@ internal final class MainReactor: ViewModel, Reactor {
         newState.bottomItemType = nil
         newState.isAccountsReceivable = nil
         newState.isCharging = nil
+        newState.isShowChargePrice = nil
         
         switch mutation {
         case .setShowMarketingPopup(let isShow):
@@ -302,6 +309,9 @@ internal final class MainReactor: ViewModel, Reactor {
             
         case .setIsCharging(let isCharging):
             newState.isCharging = isCharging
+            
+        case .setChargePrice:
+            newState.isShowChargePrice = true
         }
         
         return newState

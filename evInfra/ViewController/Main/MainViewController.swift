@@ -644,6 +644,14 @@ internal final class MainViewController: UIViewController, StoryboardView {
             }
             .disposed(by: disposeBag)
         
+        // bottom guide
+        chargePriceButton.rx.tap
+            .asDriver()
+            .drive(with: self) { owner, _ in
+                Observable.just(MainReactor.Action.showChargePrice)
+                    .bind(to: reactor.action)
+                    .disposed(by: owner.disposeBag)
+            }
     }
     
     // MARK: - bindState
@@ -895,6 +903,16 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 }
             }
             .disposed(by: disposeBag)
+        
+        reactor.state.compactMap { $0.isShowChargePrice }
+            .asDriver(onErrorJustReturn: true)
+            .drive { _ in
+                let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
+                let priceInfoViewController: TermsViewController = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
+                priceInfoViewController.tabIndex = .priceInfo
+                GlobalDefine.shared.mainNavi?.push(viewController: priceInfoViewController)
+            }
+            .disposed(by: disposeBag)
     }
     
     // MARK: FUNC
@@ -1066,13 +1084,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
             
             UtilNavigation().showNavigation(vc: self, startPoint: start, endPoint: destination, viaList: via)
         }
-    }
-    
-    @objc func onClickChargePrice(sender: UITapGestureRecognizer) {
-        let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-        let priceInfoViewController: TermsViewController = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
-        priceInfoViewController.tabIndex = .priceInfo
-        GlobalDefine.shared.mainNavi?.push(viewController: priceInfoViewController)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
