@@ -37,7 +37,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
     @IBOutlet weak var myLocationButton: UIButton!
     @IBOutlet weak var reNewButton: UIButton!
     
-   // @IBOutlet weak var btnChargePrice: UIButton!
     private lazy var chargePriceContentStackView = UIStackView().then {
         $0.axis = .horizontal
         $0.distribution = .fillProportionally
@@ -157,7 +156,9 @@ internal final class MainViewController: UIViewController, StoryboardView {
     
     private var evPayTipView = EasyTipView(text: "")
     
-    private var tooltipView = TooltipView(configure: TooltipView.Configure(tipLeftMargin: 130, tipDirection: .bottom, maxWidth: 260))
+    private var bottomEvPaytooltipView = TooltipView(configure: TooltipView.Configure(tipLeftMargin: 130, tipDirection: .bottom, maxWidth: 260)).then {
+        $0.isHidden = true
+    }
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -380,8 +381,8 @@ internal final class MainViewController: UIViewController, StoryboardView {
             
             switch bottomMenuType {
             case .evPay:
-                self.view.addSubview(tooltipView)
-                tooltipView.snp.makeConstraints {
+                self.view.addSubview(bottomEvPaytooltipView)
+                bottomEvPaytooltipView.snp.makeConstraints {
                     $0.bottom.equalTo(item.button.snp.top).offset(-6)
                     $0.centerX.equalTo(item.button.snp.centerX)
                     $0.width.equalTo(260)
@@ -389,7 +390,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 }
                                 
                 printLog("a/b --> \(ABTestManager.shared.reqMessage(.mainBottomEVPay))")
-                tooltipView.show(message: ABTestManager.shared.reqMessage(.mainBottomEVPay))
+                bottomEvPaytooltipView.show(message: ABTestManager.shared.reqMessage(.mainBottomEVPay))
                 
             default:
                 break
@@ -494,6 +495,9 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 let evPayTiptext = "EV Pay 카드로 충전 가능한 충전소만\n볼 수 있어요"
                 self.evPayTipView = EasyTipView(text: evPayTiptext, preferences: evPayPreferences)
                 self.evPayTipView.show(forView: self.filterBarView.evPayView, withinSuperview: self.view)
+                
+                // bottom
+                obj.bottomEvPaytooltipView.isHidden = false
             }
             .disposed(by: self.disposeBag)
     }
@@ -1056,6 +1060,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         if !MemberManager.shared.isShowEvPayTooltip {
             self.evPayTipView.dismiss()
             MemberManager.shared.isShowEvPayTooltip = true
+            self.bottomEvPaytooltipView.dismiss()
         }
     }
     
