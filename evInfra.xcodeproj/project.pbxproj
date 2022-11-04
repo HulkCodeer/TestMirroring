@@ -204,6 +204,9 @@
 		59BC62FA2914C4EE00428A0D /* RemoteConfigDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59BC62F92914C4EE00428A0D /* RemoteConfigDefaults.plist */; };
 		59BC62FB2914C4EE00428A0D /* RemoteConfigDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59BC62F92914C4EE00428A0D /* RemoteConfigDefaults.plist */; };
 		59BC62FC2914C4EE00428A0D /* RemoteConfigDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59BC62F92914C4EE00428A0D /* RemoteConfigDefaults.plist */; };
+		59BC62FE2914D6B000428A0D /* ABTestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BC62FD2914D6B000428A0D /* ABTestManager.swift */; };
+		59BC62FF2914D6B000428A0D /* ABTestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BC62FD2914D6B000428A0D /* ABTestManager.swift */; };
+		59BC63002914D6B000428A0D /* ABTestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BC62FD2914D6B000428A0D /* ABTestManager.swift */; };
 		59EC3B7128D18CD8001A18B5 /* NewNoticeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59317D1128B7702C00B1AE92 /* NewNoticeDetailViewController.swift */; };
 		59EC3B7A28D32A1D001A18B5 /* ViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7928D32A1D001A18B5 /* ViewConstants.swift */; };
 		59EC3B7C28D32A33001A18B5 /* DateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7B28D32A33001A18B5 /* DateConstants.swift */; };
@@ -1603,6 +1606,7 @@
 		59BAB6FE28F50B7500077872 /* UnderLineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderLineTextField.swift; sourceTree = "<group>"; };
 		59BAB70628FD373B00077872 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		59BC62F92914C4EE00428A0D /* RemoteConfigDefaults.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = RemoteConfigDefaults.plist; sourceTree = "<group>"; };
+		59BC62FD2914D6B000428A0D /* ABTestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABTestManager.swift; sourceTree = "<group>"; };
 		59EC3B7928D32A1D001A18B5 /* ViewConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewConstants.swift; sourceTree = "<group>"; };
 		59EC3B7B28D32A33001A18B5 /* DateConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConstants.swift; sourceTree = "<group>"; };
 		59EC3B7D28D32A49001A18B5 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -2649,6 +2653,7 @@
 				63CAC17F289BAE3E00ADA809 /* CommonBaseTableViewCell.swift */,
 				824D5DC028BE1C2500EDC712 /* GlobalFunction.swift */,
 				82840479290021FE0081567C /* TooltipView.swift */,
+				59BC62FD2914D6B000428A0D /* ABTestManager.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -4467,6 +4472,7 @@
 				63F3141F284EC74F001713D2 /* MainViewController.swift in Sources */,
 				63F31420284EC74F001713D2 /* ChargingHistoryList.swift in Sources */,
 				63F31421284EC74F001713D2 /* UtilNavigation.swift in Sources */,
+				59BC62FF2914D6B000428A0D /* ABTestManager.swift in Sources */,
 				63F31422284EC74F001713D2 /* ChargingStatus.swift in Sources */,
 				63F31423284EC74F001713D2 /* FilterPlaceView.swift in Sources */,
 				63762F1628699FB200C951BF /* Info.swift in Sources */,
@@ -4794,6 +4800,7 @@
 				73344AC5207F429300A6A9EC /* EditViewDelegate.swift in Sources */,
 				CEC4322A223A5C9A00B76795 /* SearchTableView.swift in Sources */,
 				63762F4D2869A8F000C951BF /* QuitAccountViewController.swift in Sources */,
+				59BC62FE2914D6B000428A0D /* ABTestManager.swift in Sources */,
 				CE93309121509A81006B7EF6 /* ReportBoardViewController.swift in Sources */,
 				73C31BF92099A024005B6C53 /* EVModel.swift in Sources */,
 				CE24840220A59E3000611E24 /* CarModels.swift in Sources */,
@@ -5121,6 +5128,7 @@
 				824D5C8428BDD89C00EDC712 /* ChargingStatus.swift in Sources */,
 				824D5C8528BDD89C00EDC712 /* FilterPlaceView.swift in Sources */,
 				824D5C8628BDD89C00EDC712 /* Info.swift in Sources */,
+				59BC63002914D6B000428A0D /* ABTestManager.swift in Sources */,
 				824D5C8728BDD89C00EDC712 /* EditViewDelegate.swift in Sources */,
 				824D5C8828BDD89C00EDC712 /* SearchTableView.swift in Sources */,
 				824D5C8928BDD89C00EDC712 /* QuitAccountViewController.swift in Sources */,

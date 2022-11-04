@@ -39,6 +39,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 앰플리튜드 설정
         UIViewController.swizzleMethod()
                         
+        // ABTest 설정
+        ABTestManager.shared.fetch()
+        
         #if DEBUG
         // terminating with uncaught exception of type NSException 에러시 CallStack을 찍어준다.
         NSSetUncaughtExceptionHandler { exception in
