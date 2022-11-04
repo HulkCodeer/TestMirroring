@@ -144,6 +144,7 @@ internal final class TooltipView: UIView {
         
         let attributeText = NSMutableAttributedString(string: message)
         let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 14, weight: .regular), .foregroundColor: Colors.nt0.color]
+
         attributeText.setAttributes(attributes, range: NSRange(location: 0, length: message.count))
         
         _ = message.getArrayAfterRegex(regex: "\(attrString)")
@@ -243,8 +244,7 @@ internal final class TooltipView: UIView {
             $0.text = "\(message)"
             $0.numberOfLines = 0
             $0.font = self.configure.font
-            $0.lineBreakMode = .byWordWrapping
-        }
+        }                        
                 
         totalView.addSubview(messageLbl)
         messageLbl.snp.makeConstraints {
