@@ -158,8 +158,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     private var evPayTipView = EasyTipView(text: "")
     
     private var tooltipView = TooltipView(configure: TooltipView.Configure(tipLeftMargin: 130, tipDirection: .bottom, maxWidth: 260))
-//    private var tooltipView = TooltipView(configure: TooltipView.Configure(tipLeftMargin: 20, maxWidth: 240, leadingMargin: 20, topMargin: 200, font: .systemFont(ofSize: 16, weight: .regular), tipDirection: .top, color: Colors.backgroundAlwaysDark.color))
-         
+    
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
     }
@@ -400,7 +399,8 @@ internal final class MainViewController: UIViewController, StoryboardView {
                     $0.height.equalTo(50)
                 }
                                 
-                tooltipView.show(message: "충전 시 포인트(베리)로 할인 받으세요!")
+                printLog("a/b --> \(ABTestManager.shared.reqMessage(.mainBottomEVPay))")
+                tooltipView.show(message: ABTestManager.shared.reqMessage(.mainBottomEVPay))
                 
             default:
                 break
