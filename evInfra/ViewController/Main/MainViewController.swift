@@ -158,7 +158,8 @@ internal final class MainViewController: UIViewController, StoryboardView {
     private var evPayTipView = EasyTipView(text: "")
     
     private var tooltipView = TooltipView(configure: TooltipView.Configure(tipLeftMargin: 130, tipDirection: .bottom, maxWidth: 260))
-    
+//    private var tooltipView = TooltipView(configure: TooltipView.Configure(tipLeftMargin: 20, maxWidth: 240, leadingMargin: 20, topMargin: 200, font: .systemFont(ofSize: 16, weight: .regular), tipDirection: .top, color: Colors.backgroundAlwaysDark.color))
+         
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
     }
@@ -259,7 +260,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         if self.sharedChargerId != nil {
             self.selectChargerFromShared()
         }
-        canIgnoreJejuPush = UserDefault().readBool(key: UserDefault.Key.JEJU_PUSH)// default : false
+        canIgnoreJejuPush = UserDefault().readBool(key: UserDefault.Key.JEJU_PUSH)// default : false                           
     }
 
     override func viewWillDisappear(_ animated: Bool) {
