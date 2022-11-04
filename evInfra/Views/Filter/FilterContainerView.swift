@@ -58,9 +58,8 @@ internal final class FilterContainerView: UIView {
         
         filterTypeView.saveOnChange = true
         filterSpeedView.saveOnChange = true
-        filterRoadView.saveOnChange = true
-        filterPlaceView.saveOnChange = true
-        filterPriceView.saveOnChange = true
+        filterRoadView.isDirectChange = true
+        filterPlaceView.isDirectChange = true
         
 //        filterTypeView.delegate = self
 //        filterSpeedView.delegate = self
@@ -143,6 +142,12 @@ internal final class FilterContainerView: UIView {
 //        filterPlaceView.update()
 //        filterRoadView.update()
 //        filterTypeView.update()
+    }
+}
+
+extension FilterContainerView: NewDelegateFilterChange {
+    func changedFilter(type: FilterTagType) {
+        delegate?.changedFilter(type: type)
     }
 }
 

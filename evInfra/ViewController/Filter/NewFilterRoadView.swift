@@ -62,8 +62,8 @@ internal final class NewFilterRoadView: UIView {
     // MARK: VARIABLES
     var disposeBag = DisposeBag()
     private weak var mainReactor: MainReactor?
-    internal weak var delegate: DelegateFilterChange?
-    internal var saveOnChange: Bool = false
+    internal weak var delegate: NewDelegateFilterChange?
+    internal var isDirectChange: Bool = false
     
     // MARK: FUNC
     
@@ -149,9 +149,9 @@ internal final class NewFilterRoadView: UIView {
             }
         }
         
-        let isGenral = GlobalFilterReactor.sharedInstance.initialState.isGeneralRoad
-        let isHighwayDown = GlobalFilterReactor.sharedInstance.initialState.isHighwayDown
-        let isHighwayUp = GlobalFilterReactor.sharedInstance.initialState.isHighwayUp
+        let isGenral = FilterManager.sharedInstance.filter.isGeneralWay
+        let isHighwayUp = FilterManager.sharedInstance.filter.isHighwayUp
+        let isHighwayDown = FilterManager.sharedInstance.filter.isHighwayDown
         
         switch roadType {
         case .general:
@@ -171,15 +171,17 @@ internal final class NewFilterRoadView: UIView {
                     Observable.just(GlobalFilterReactor.Action.changedFilter(true))
                         .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
+                    
+                    imgView.tintColor = btn.isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+                    titleLbl.textColor = btn.isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+                    
+                    if obj.isDirectChange {
+                        obj.saveFilter()
+                    }
+                    
+                    obj.delegate?.changedFilter(type: .road)
                 }
                 .disposed(by: self.disposeBag)
-            
-            reactor.state.compactMap { $0.isGeneralRoad }
-                .asDriver(onErrorJustReturn: false)
-                .drive(with: self) { obj, isSelected in
-                    imgView.tintColor = isSelected ? roadType.typeImageProperty?.imgSelectColor : roadType.typeImageProperty?.imgUnSelectColor
-                    titleLbl.textColor = isSelected ? roadType.typeImageProperty?.imgSelectColor : roadType.typeImageProperty?.imgUnSelectColor
-                }.disposed(by: self.disposeBag)
         case .highwayUp:
             imgView.tintColor = isHighwayUp ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
             titleLbl.textColor = isHighwayUp ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
@@ -197,15 +199,17 @@ internal final class NewFilterRoadView: UIView {
                     Observable.just(GlobalFilterReactor.Action.changedFilter(true))
                         .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
+
+                    imgView.tintColor = btn.isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+                    titleLbl.textColor = btn.isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+                    
+                    if obj.isDirectChange {
+                        obj.saveFilter()
+                    }
+                    
+                    obj.delegate?.changedFilter(type: .road)
                 }
                 .disposed(by: self.disposeBag)
-            
-            reactor.state.compactMap { $0.isHighwayUp }
-                .asDriver(onErrorJustReturn: false)
-                .drive(with: self) { obj, isSelected in
-                    imgView.tintColor = isSelected ? roadType.typeImageProperty?.imgSelectColor : roadType.typeImageProperty?.imgUnSelectColor
-                    titleLbl.textColor = isSelected ? roadType.typeImageProperty?.imgSelectColor : roadType.typeImageProperty?.imgUnSelectColor
-                }.disposed(by: self.disposeBag)
         case .highwayDown:
             imgView.tintColor = isHighwayDown ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
             titleLbl.textColor = isHighwayDown ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
@@ -223,18 +227,30 @@ internal final class NewFilterRoadView: UIView {
                     Observable.just(GlobalFilterReactor.Action.changedFilter(true))
                         .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
+                    
+                    imgView.tintColor = btn.isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+                    titleLbl.textColor = btn.isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+                    
+                    if obj.isDirectChange {
+                        obj.saveFilter()
+                    }
+                    
+                    obj.delegate?.changedFilter(type: .road)
                 }
                 .disposed(by: self.disposeBag)
-            
-            reactor.state.compactMap { $0.isHighwayDown }
-                .asDriver(onErrorJustReturn: false)
-                .drive(with: self) { obj, isSelected in
-                    imgView.tintColor = isSelected ? roadType.typeImageProperty?.imgSelectColor : roadType.typeImageProperty?.imgUnSelectColor
-                    titleLbl.textColor = isSelected ? roadType.typeImageProperty?.imgSelectColor : roadType.typeImageProperty?.imgUnSelectColor
-                }.disposed(by: self.disposeBag)
         }
         
         return view
+    }
+    
+    internal func shouldChanged() -> Bool {
+        let isGeneral = GlobalFilterReactor.sharedInstance.currentState.isGeneralRoad
+        let isHighwayUp = GlobalFilterReactor.sharedInstance.currentState.isHighwayUp
+        let isHighwayDown = GlobalFilterReactor.sharedInstance.currentState.isHighwayDown
+        
+        return (isGeneral != FilterManager.sharedInstance.filter.isGeneralWay)
+        || (isHighwayUp != FilterManager.sharedInstance.filter.isHighwayUp)
+        || (isHighwayDown != FilterManager.sharedInstance.filter.isHighwayDown)
     }
 }
 

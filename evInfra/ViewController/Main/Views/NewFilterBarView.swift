@@ -32,6 +32,7 @@ enum FilterTagType: CaseIterable {
     case place
     case road
     case type
+    case access
     
     internal func swipeLeft() -> FilterTagType {
         switch self {
@@ -41,6 +42,7 @@ enum FilterTagType: CaseIterable {
         case .place: return .road
         case .road: return .type
         case .type: return .type
+        default: break
         }
     }
     
@@ -52,6 +54,7 @@ enum FilterTagType: CaseIterable {
         case .place: return .speed
         case .road: return .place
         case .type: return .road
+        default: break
         }
     }
     
@@ -73,6 +76,7 @@ enum FilterTagType: CaseIterable {
         case .place: return FilterManager.sharedInstance.placeTitle()
         case .road: return FilterManager.sharedInstance.roadTitle()
         case .type: return FilterManager.sharedInstance.typeTitle()
+        default: break
         }
     }
 }

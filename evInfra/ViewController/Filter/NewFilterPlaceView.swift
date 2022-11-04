@@ -61,8 +61,8 @@ internal final class NewFilterPlaceView: UIView {
     
     // MARK: VARIABLES
     private var disposeBag = DisposeBag()
-    internal weak var delegate: DelegateFilterChange?
-    internal var saveOnChange: Bool = false
+    internal weak var delegate: NewDelegateFilterChange?
+    internal var isDirectChange: Bool = false
 
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -147,9 +147,9 @@ internal final class NewFilterPlaceView: UIView {
             }
         }
 
-        let isIndoor = GlobalFilterReactor.sharedInstance.initialState.isIndoor
-        let isOutdoor = GlobalFilterReactor.sharedInstance.initialState.isOutdoor
-        let isCanopy = GlobalFilterReactor.sharedInstance.initialState.isCanopy
+        let isIndoor = FilterManager.sharedInstance.filter.isIndoor
+        let isOutdoor = FilterManager.sharedInstance.filter.isOutdoor
+        let isCanopy = FilterManager.sharedInstance.filter.isCanopy
         
         switch placeType {
         case .indoor:
@@ -162,6 +162,7 @@ internal final class NewFilterPlaceView: UIView {
                 .asDriver()
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
+                    
                     Observable.just(GlobalFilterReactor.Action.changedPlaceFilter((.indoor, btn.isSelected)))
                         .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
@@ -169,15 +170,18 @@ internal final class NewFilterPlaceView: UIView {
                     Observable.just(GlobalFilterReactor.Action.changedFilter(true))
                         .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
+                    
+                    imgView.tintColor = btn.isSelected ? placeType.typeImageProperty?.imgSelectColor : placeType.typeImageProperty?.imgUnSelectColor
+                    titleLbl.textColor = btn.isSelected ? placeType.typeImageProperty?.imgSelectColor : placeType.typeImageProperty?.imgUnSelectColor
+                    
+                    
+                    if obj.isDirectChange {
+                        obj.saveFilter()
+                    }
+                    
+                    obj.delegate?.changedFilter(type: .place)
                 }
                 .disposed(by: self.disposeBag)
-            
-            reactor.state.compactMap { $0.isIndoor }
-                .asDriver(onErrorJustReturn: false)
-                .drive(with: self) { obj, isSelected in
-                    imgView.tintColor = isSelected ? placeType.typeImageProperty?.imgSelectColor : placeType.typeImageProperty?.imgUnSelectColor
-                    titleLbl.textColor = isSelected ? placeType.typeImageProperty?.imgSelectColor : placeType.typeImageProperty?.imgUnSelectColor
-                }.disposed(by: self.disposeBag)
         case .outdoor:
             imgView.tintColor = isOutdoor ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
             titleLbl.textColor = isOutdoor ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
@@ -195,15 +199,17 @@ internal final class NewFilterPlaceView: UIView {
                     Observable.just(GlobalFilterReactor.Action.changedFilter(true))
                         .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
+                    
+                    imgView.tintColor = btn.isSelected ? placeType.typeImageProperty?.imgSelectColor : placeType.typeImageProperty?.imgUnSelectColor
+                    titleLbl.textColor = btn.isSelected ? placeType.typeImageProperty?.imgSelectColor : placeType.typeImageProperty?.imgUnSelectColor
+                    
+                    if obj.isDirectChange {
+                        obj.saveFilter()
+                    }
+                    
+                    obj.delegate?.changedFilter(type: .place)
                 }
                 .disposed(by: self.disposeBag)
-            
-            reactor.state.compactMap { $0.isOutdoor }
-                .asDriver(onErrorJustReturn: false)
-                .drive(with: self) { obj, isSelected in
-                    imgView.tintColor = isSelected ? placeType.typeImageProperty?.imgSelectColor : placeType.typeImageProperty?.imgUnSelectColor
-                    titleLbl.textColor = isSelected ? placeType.typeImageProperty?.imgSelectColor : placeType.typeImageProperty?.imgUnSelectColor
-                }.disposed(by: self.disposeBag)
         case .canopy:
             imgView.tintColor = isCanopy ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
             titleLbl.textColor = isCanopy ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
@@ -221,15 +227,17 @@ internal final class NewFilterPlaceView: UIView {
                     Observable.just(GlobalFilterReactor.Action.changedFilter(true))
                         .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
+                    
+                    imgView.tintColor = btn.isSelected ? placeType.typeImageProperty?.imgSelectColor : placeType.typeImageProperty?.imgUnSelectColor
+                    titleLbl.textColor = btn.isSelected ? placeType.typeImageProperty?.imgSelectColor : placeType.typeImageProperty?.imgUnSelectColor
+                    
+                    if obj.isDirectChange {
+                        obj.saveFilter()
+                    }
+                    
+                    obj.delegate?.changedFilter(type: .place)
                 }
                 .disposed(by: self.disposeBag)
-            
-            reactor.state.compactMap { $0.isCanopy }
-                .asDriver(onErrorJustReturn: false)
-                .drive(with: self) { obj, isSelected in
-                    imgView.tintColor = isSelected ? placeType.typeImageProperty?.imgSelectColor : placeType.typeImageProperty?.imgUnSelectColor
-                    titleLbl.textColor = isSelected ? placeType.typeImageProperty?.imgSelectColor : placeType.typeImageProperty?.imgUnSelectColor
-                }.disposed(by: self.disposeBag)
         }
         
         return view
@@ -250,6 +258,16 @@ internal final class NewFilterPlaceView: UIView {
         let property: [String: Any] = ["filterName": "설치 형태",
                                        "filterValue": values]
         FilterEvent.clickUpperFilter.logEvent(property: property)
+    }
+    
+    internal func shouldChanged() -> Bool {
+        let isIndoor = GlobalFilterReactor.sharedInstance.currentState.isIndoor
+        let isOutdoor = GlobalFilterReactor.sharedInstance.currentState.isOutdoor
+        let isCanopy = GlobalFilterReactor.sharedInstance.currentState.isCanopy
+        
+        return (isIndoor != FilterManager.sharedInstance.filter.isIndoor)
+        || (isOutdoor != FilterManager.sharedInstance.filter.isOutdoor)
+        || (isCanopy != FilterManager.sharedInstance.filter.isCanopy)
     }
 }
 
