@@ -201,6 +201,9 @@
 		59BAB70728FD373B00077872 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB70628FD373B00077872 /* RootViewController.swift */; };
 		59BAB70828FD4ED400077872 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB70628FD373B00077872 /* RootViewController.swift */; };
 		59BAB70928FD4ED400077872 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB70628FD373B00077872 /* RootViewController.swift */; };
+		59BC62FA2914C4EE00428A0D /* RemoteConfigDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59BC62F92914C4EE00428A0D /* RemoteConfigDefaults.plist */; };
+		59BC62FB2914C4EE00428A0D /* RemoteConfigDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59BC62F92914C4EE00428A0D /* RemoteConfigDefaults.plist */; };
+		59BC62FC2914C4EE00428A0D /* RemoteConfigDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59BC62F92914C4EE00428A0D /* RemoteConfigDefaults.plist */; };
 		59EC3B7128D18CD8001A18B5 /* NewNoticeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59317D1128B7702C00B1AE92 /* NewNoticeDetailViewController.swift */; };
 		59EC3B7A28D32A1D001A18B5 /* ViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7928D32A1D001A18B5 /* ViewConstants.swift */; };
 		59EC3B7C28D32A33001A18B5 /* DateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7B28D32A33001A18B5 /* DateConstants.swift */; };
@@ -1342,7 +1345,7 @@
 		82E1303828DEAEC100E7983D /* PermissionsGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1303428DEAEC100E7983D /* PermissionsGuideViewController.swift */; };
 		82E1303928DEAEC100E7983D /* PermissionsGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1303428DEAEC100E7983D /* PermissionsGuideViewController.swift */; };
 		82E1303A28DEAEC100E7983D /* PermissionsGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1303428DEAEC100E7983D /* PermissionsGuideViewController.swift */; };
-		8ABD2A1E6BAAA48912760042 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		8ABD2A1E6BAAA48912760042 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		9014C12724E55C4800CB6549 /* EIPOIItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12624E55C4800CB6549 /* EIPOIItem.swift */; };
 		9014C12924E564F800CB6549 /* FindAllPOIListenerCallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12824E564F800CB6549 /* FindAllPOIListenerCallback.swift */; };
 		9028E07824A1B8280062A029 /* eirel in Resources */ = {isa = PBXBuildFile; fileRef = 9028E07724A1B8270062A029 /* eirel */; };
@@ -1363,7 +1366,7 @@
 		90CBCC6B26EB18F1002B2591 /* img_load_fail.png in Resources */ = {isa = PBXBuildFile; fileRef = 90CBCC6926EB18F1002B2591 /* img_load_fail.png */; };
 		90CBCC6C26EB18F1002B2591 /* img_default.png in Resources */ = {isa = PBXBuildFile; fileRef = 90CBCC6A26EB18F1002B2591 /* img_default.png */; };
 		90CBCC7026EB1E41002B2591 /* NSData+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CBCC6F26EB1E41002B2591 /* NSData+Extension.swift */; };
-		CD4A1C63650A84AE146C07B7 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		CD4A1C63650A84AE146C07B7 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		CE00E812214A330B00020D6E /* ReportChargeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE00E811214A330B00020D6E /* ReportChargeViewController.swift */; };
 		CE13858D2178698300E3F869 /* ReportChargerChildCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE13858C2178698300E3F869 /* ReportChargerChildCell.swift */; };
 		CE13858F217869B200E3F869 /* ReportChargerChildCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE13858E217869B200E3F869 /* ReportChargerChildCell.xib */; };
@@ -1599,6 +1602,7 @@
 		59BAB6FA28F0346300077872 /* MainSearchWayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSearchWayView.swift; sourceTree = "<group>"; };
 		59BAB6FE28F50B7500077872 /* UnderLineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderLineTextField.swift; sourceTree = "<group>"; };
 		59BAB70628FD373B00077872 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		59BC62F92914C4EE00428A0D /* RemoteConfigDefaults.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = RemoteConfigDefaults.plist; sourceTree = "<group>"; };
 		59EC3B7928D32A1D001A18B5 /* ViewConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewConstants.swift; sourceTree = "<group>"; };
 		59EC3B7B28D32A33001A18B5 /* DateConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConstants.swift; sourceTree = "<group>"; };
 		59EC3B7D28D32A49001A18B5 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -1990,7 +1994,7 @@
 				63F314B6284EC74F001713D2 /* QuartzCore.framework in Frameworks */,
 				63F314B7284EC74F001713D2 /* KakaoLink.framework in Frameworks */,
 				63F314B8284EC74F001713D2 /* OpenGLES.framework in Frameworks */,
-				CD4A1C63650A84AE146C07B7 /* BuildFile in Frameworks */,
+				CD4A1C63650A84AE146C07B7 /* (null) in Frameworks */,
 				E736AA6EC1C2489E3F10D0ED /* Pods_evInfra_dev.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2018,7 +2022,7 @@
 				425EE5B22519DA520089E87D /* QuartzCore.framework in Frameworks */,
 				73B787B1210B172400C12801 /* KakaoLink.framework in Frameworks */,
 				425EE5AE2519DA0B0089E87D /* OpenGLES.framework in Frameworks */,
-				8ABD2A1E6BAAA48912760042 /* BuildFile in Frameworks */,
+				8ABD2A1E6BAAA48912760042 /* (null) in Frameworks */,
 				2057BEA80311E70601C67835 /* Pods_evInfra.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2697,6 +2701,7 @@
 				73344AC0207B5F8A00A6A9EC /* awsconfiguration.json */,
 				73238C3A20A44B3E00C06A89 /* evInfra.entitlements */,
 				732121C3203AC023000E105C /* evInfra.xcdatamodeld */,
+				59BC62F92914C4EE00428A0D /* RemoteConfigDefaults.plist */,
 			);
 			path = evInfra;
 			sourceTree = "<group>";
@@ -3374,6 +3379,7 @@
 				63F314ED284EC74F001713D2 /* FilterContainerView.xib in Resources */,
 				63F314EE284EC74F001713D2 /* ReportChargerChildCell.xib in Resources */,
 				63F314EF284EC74F001713D2 /* FilterRoadView.xib in Resources */,
+				59BC62FB2914C4EE00428A0D /* RemoteConfigDefaults.plist in Resources */,
 				63F314F0284EC74F001713D2 /* Payment.storyboard in Resources */,
 				63F314F1284EC74F001713D2 /* btn_camera.png in Resources */,
 				63F314F2284EC74F001713D2 /* PhotoRegisterCollectionViewCell.xib in Resources */,
@@ -3590,6 +3596,7 @@
 				73A7B410204E3595002E975F /* type_ac_slow_dim.png in Resources */,
 				00FDEAF226B3BF97006617EE /* Board.storyboard in Resources */,
 				73EF8B7A203C85CC00D04494 /* TrackingDotHalo@2x.png in Resources */,
+				59BC62FA2914C4EE00428A0D /* RemoteConfigDefaults.plist in Resources */,
 				73EF8B72203C85CC00D04494 /* icon_clustering@2x.png in Resources */,
 				73C31C0620A2BB04005B6C53 /* charger_ac3.jpg in Resources */,
 				00AB7BD726E870730040CFDE /* GuideAlertDialog.xib in Resources */,
@@ -3682,6 +3689,7 @@
 				824D5D7528BDD89C00EDC712 /* PartnershipJoinView.xib in Resources */,
 				824D5D7628BDD89C00EDC712 /* BoardDetailViewController.storyboard in Resources */,
 				824D5D7828BDD89C00EDC712 /* type_dc_demo.png in Resources */,
+				59BC62FC2914C4EE00428A0D /* RemoteConfigDefaults.plist in Resources */,
 				824D5D7928BDD89C00EDC712 /* navi_notice_board.png in Resources */,
 				824D5D7A28BDD89C00EDC712 /* reply_btn_normal.png in Resources */,
 				824D5D7B28BDD89C00EDC712 /* PartnershipListView.xib in Resources */,
