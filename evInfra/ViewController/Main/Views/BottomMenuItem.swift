@@ -11,6 +11,7 @@ import UIKit
 import Then
 import RxCocoa
 import SnapKit
+import RxSwift
 
 internal final class BottomMenuItem: UIView {
     
@@ -22,13 +23,16 @@ internal final class BottomMenuItem: UIView {
         $0.textColor = Colors.contentTertiary.color
         $0.font = .systemFont(ofSize: 11)
     }
+    
     internal lazy var button = UIButton()
     
-    init(icon image: UIImage, title: String) {
+    internal var disposeBag = DisposeBag()
+    
+    init(menuType: MainReactor.BottomMenuType, reactor: MainReactor) {
         super.init(frame: .zero)
         
-        icon.image = image
-        titleLabel.text = title
+        icon.image = menuType.value.icon
+        titleLabel.text = menuType.value.title
         
         let iconTopPadding: CGFloat = 10
         let labelTopPadding: CGFloat = 4
@@ -54,6 +58,16 @@ internal final class BottomMenuItem: UIView {
         button.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+        
+        reactor.state.compactMap { $0.isAccountsReceivable }
+            .asDriver(onErrorJustReturn: true)
+            .drive(with: self) { obj, isAccountsReceivable in
+                guard let specificValue = menuType.specificValue else { return }
+                let value = isAccountsReceivable ? specificValue : menuType.value
+                obj.icon.image = value.icon
+                obj.titleLabel.text = value.title
+            }
+            .disposed(by: self.disposeBag)
     }
     
     required init?(coder aDecoder: NSCoder) {

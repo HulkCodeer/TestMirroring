@@ -157,7 +157,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     
     private var evPayTipView = EasyTipView(text: "")
     
-    private var tooltipView = TooltipView(configure: TooltipView.Configure(tipLeftMargin: 20, maxWidth: 240, leadingMargin: 20, topMargin: 200, font: .systemFont(ofSize: 16, weight: .regular), tipDirection: .top, color: Colors.backgroundAlwaysDark.color))
+    private var tooltipView = TooltipView(configure: TooltipView.Configure(tipLeftMargin: 121.5, tipDirection: .bottom, maxWidth: 255))
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -260,28 +260,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
             self.selectChargerFromShared()
         }
         canIgnoreJejuPush = UserDefault().readBool(key: UserDefault.Key.JEJU_PUSH)// default : false
-                                        
-        self.view.addSubview(tooltipView)
-        
-        tooltipView.show(message: "전체메뉴를 열어서 내가 가진 베리를\n확인할 수 있어요.", forView: filterBarView.evPayView)
-        
-        if !MemberManager.shared.isShowEvPayTooltip, !FCMManager.sharedInstance.originalMemberId.isEmpty {
-            var evPayPreferences = EasyTipView.Preferences()
-                    
-            evPayPreferences.drawing.backgroundColor = Colors.backgroundAlwaysDark.color
-            evPayPreferences.drawing.foregroundColor = Colors.backgroundSecondary.color
-            evPayPreferences.drawing.textAlignment = NSTextAlignment.left
-
-            evPayPreferences.drawing.arrowPosition = .top
-            evPayPreferences.animating.showInitialAlpha = 1
-            evPayPreferences.animating.showDuration = 1
-            evPayPreferences.animating.dismissDuration = 1
-            evPayPreferences.positioning.maxWidth = 227
-
-            let evPayTiptext = "EV Pay 카드로 충전 가능한 충전소만\n볼 수 있어요"
-            self.evPayTipView = EasyTipView(text: evPayTiptext, preferences: evPayPreferences)
-            self.evPayTipView.show(forView: self.filterBarView.evPayView, withinSuperview: self.view)
-        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -391,18 +369,14 @@ internal final class MainViewController: UIViewController, StoryboardView {
         
         for bottomMenuType in MainReactor.BottomMenuType.allCases {
             let item = BottomMenuItem(
-                icon: bottomMenuType.value.icon,
-                title: bottomMenuType.value.title)
+                menuType: bottomMenuType,
+                reactor: reactor)
             bottomMenuStackView.addArrangedSubview(item)
             
             item.button.rx.tap
-                .asDriver()
-                .drive(with: self) { owner, _ in
-                    Observable.just(MainReactor.Action.selectedBottomMenu(bottomMenuType))
-                        .bind(to: reactor.action)
-                        .disposed(by: owner.disposeBag)
-                }
-                .disposed(by: disposeBag)
+                .map { MainReactor.Action.selectedBottomMenu(bottomMenuType) }
+                .bind(to: reactor.action)
+                .disposed(by: self.disposeBag)
             
             // bindAction
             switch bottomMenuType {
@@ -417,14 +391,15 @@ internal final class MainViewController: UIViewController, StoryboardView {
                     .disposed(by: disposeBag)
                 
             case .evPay:
-                reactor.state.compactMap { $0.isAccountsReceivable }
-                    .asDriver(onErrorJustReturn: true)
-                    .drive { isAccountsReceivable in
-                        guard let specificValue = bottomMenuType.specificValue else { return }
-                        let value = isAccountsReceivable ? specificValue : bottomMenuType.value
-                        item.configure(icon: value.icon, title: value.title)
-                    }
-                    .disposed(by: disposeBag)
+                self.view.addSubview(tooltipView)
+                tooltipView.snp.makeConstraints {
+                    $0.bottom.equalTo(item.button.snp.top).offset(-6)
+                    $0.centerX.equalTo(item.button.snp.centerX)
+                    $0.width.equalTo(255)
+                    $0.height.equalTo(50)
+                }
+                
+                tooltipView.show(message: "환경부, 한국전력 등 전국 주요 충전사 지원")
                 
             default:
                 break
