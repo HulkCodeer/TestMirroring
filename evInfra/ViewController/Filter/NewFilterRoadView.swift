@@ -61,7 +61,6 @@ internal final class NewFilterRoadView: UIView {
   
     // MARK: VARIABLES
     var disposeBag = DisposeBag()
-    private weak var mainReactor: MainReactor?
     internal weak var delegate: NewDelegateFilterChange?
     internal var isDirectChange: Bool = false
     
@@ -83,7 +82,7 @@ internal final class NewFilterRoadView: UIView {
         super.awakeFromNib()
     }
     
-    func bind(reactor: MainReactor) {
+    func bind(reactor: GlobalFilterReactor) {
         self.addSubview(totalView)
         totalView.snp.makeConstraints {
             $0.top.leading.trailing.bottom.equalToSuperview()
@@ -107,7 +106,7 @@ internal final class NewFilterRoadView: UIView {
         }
         
         for roadType in RoadType.allCases {
-            stackView.addArrangedSubview(self.createRoadTypeView(roadType, reactor: GlobalFilterReactor.sharedInstance))
+            stackView.addArrangedSubview(self.createRoadTypeView(roadType, reactor: reactor))
         }
     }
     
@@ -148,10 +147,10 @@ internal final class NewFilterRoadView: UIView {
                 $0.edges.equalToSuperview()
             }
         }
-        
-        let isGenral = FilterManager.sharedInstance.filter.isGeneralWay
-        let isHighwayUp = FilterManager.sharedInstance.filter.isHighwayUp
-        let isHighwayDown = FilterManager.sharedInstance.filter.isHighwayDown
+
+        let isGenral = GlobalFilterReactor.sharedInstance.initialState.isGeneralRoad
+        let isHighwayUp = GlobalFilterReactor.sharedInstance.initialState.isHighwayUp
+        let isHighwayDown = GlobalFilterReactor.sharedInstance.initialState.isHighwayDown
         
         switch roadType {
         case .general:
@@ -172,9 +171,6 @@ internal final class NewFilterRoadView: UIView {
                         .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                     
-                    imgView.tintColor = btn.isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-                    titleLbl.textColor = btn.isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-                    
                     if obj.isDirectChange {
                         obj.saveFilter()
                     }
@@ -182,6 +178,15 @@ internal final class NewFilterRoadView: UIView {
                     obj.delegate?.changedFilter(type: .road)
                 }
                 .disposed(by: self.disposeBag)
+            
+            GlobalFilterReactor.sharedInstance.state.compactMap { $0.isGeneralRoad }
+                .asDriver(onErrorJustReturn: false)
+                .drive(with: self) { obj, isSelected in
+                    btn.isSelected = isSelected
+                    imgView.tintColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+                    titleLbl.textColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+                }.disposed(by: self.disposeBag)
+            
         case .highwayUp:
             imgView.tintColor = isHighwayUp ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
             titleLbl.textColor = isHighwayUp ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
@@ -199,9 +204,6 @@ internal final class NewFilterRoadView: UIView {
                     Observable.just(GlobalFilterReactor.Action.changedFilter(true))
                         .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
-
-                    imgView.tintColor = btn.isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-                    titleLbl.textColor = btn.isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
                     
                     if obj.isDirectChange {
                         obj.saveFilter()
@@ -210,6 +212,15 @@ internal final class NewFilterRoadView: UIView {
                     obj.delegate?.changedFilter(type: .road)
                 }
                 .disposed(by: self.disposeBag)
+            
+            GlobalFilterReactor.sharedInstance.state.compactMap { $0.isHighwayUp }
+                .asDriver(onErrorJustReturn: false)
+                .drive(with: self) { obj, isSelected in
+                    btn.isSelected = isSelected
+                    imgView.tintColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+                    titleLbl.textColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+                }.disposed(by: self.disposeBag)
+            
         case .highwayDown:
             imgView.tintColor = isHighwayDown ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
             titleLbl.textColor = isHighwayDown ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
@@ -228,9 +239,6 @@ internal final class NewFilterRoadView: UIView {
                         .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                     
-                    imgView.tintColor = btn.isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-                    titleLbl.textColor = btn.isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-                    
                     if obj.isDirectChange {
                         obj.saveFilter()
                     }
@@ -238,6 +246,14 @@ internal final class NewFilterRoadView: UIView {
                     obj.delegate?.changedFilter(type: .road)
                 }
                 .disposed(by: self.disposeBag)
+            
+            GlobalFilterReactor.sharedInstance.state.compactMap { $0.isHighwayDown }
+                .asDriver(onErrorJustReturn: false)
+                .drive(with: self) { obj, isSelected in
+                    btn.isSelected = isSelected
+                    imgView.tintColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+                    titleLbl.textColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+                }.disposed(by: self.disposeBag)
         }
         
         return view
@@ -279,6 +295,20 @@ extension NewFilterRoadView: FilterButtonAction {
             .disposed(by: self.disposeBag)
         
         Observable.just(GlobalFilterReactor.Action.changedRoadFilter((.highwayDown, true)))
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
+    }
+    
+    func revertFilter() {
+        Observable.just(GlobalFilterReactor.Action.changedRoadFilter((.general, FilterManager.sharedInstance.filter.isGeneralWay)))
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
+        
+        Observable.just(GlobalFilterReactor.Action.changedRoadFilter((.highwayUp, FilterManager.sharedInstance.filter.isHighwayUp)))
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
+        
+        Observable.just(GlobalFilterReactor.Action.changedRoadFilter((.highwayDown, FilterManager.sharedInstance.filter.isHighwayDown)))
             .bind(to: GlobalFilterReactor.sharedInstance.action)
             .disposed(by: self.disposeBag)
     }

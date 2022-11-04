@@ -13,9 +13,14 @@ import RxCocoa
 import SnapKit
 import Then
 
+protocol NewDelegateChargerFilterView: AnyObject {
+    func applyFilter()
+}
+
 protocol FilterButtonAction {
     func saveFilter()
     func resetFilter()
+    func revertFilter()
 }
 
 internal final class NewChargerFilterViewController: CommonBaseViewController, StoryboardView {
@@ -23,7 +28,9 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
     // MARK: UI
     private lazy var naviTotalView = CommonNaviView().then {
         $0.naviTitleLbl.text = "필터설정"
+        $0.naviBackBtn.isHidden = true
     }
+    private lazy var backBtn = NavigationClose()
     private lazy var resetBtn = UIButton().then {
         $0.setTitle("초기화", for: .normal)
         $0.setTitleColor(Colors.contentDisabled.color, for: .normal)
@@ -54,6 +61,9 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
         $0.rectBtn.isSelected = false
     }
     
+    // MARK: VARIABLES
+    internal weak var delegate: NewDelegateChargerFilterView?
+    
     // MARK: STSTEM FUNC
     init(reactor: MainReactor) {
         super.init()
@@ -66,6 +76,12 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
     
     override func loadView() {
         super.loadView()
+        naviTotalView.addSubview(backBtn)
+        backBtn.snp.makeConstraints {
+            $0.leading.top.bottom.equalToSuperview()
+            $0.width.equalTo(48)
+        }
+        
         self.contentView.addSubview(naviTotalView)
         naviTotalView.snp.makeConstraints {
             $0.leading.top.trailing.equalToSuperview()
@@ -101,7 +117,6 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
             $0.bottom.equalTo(scrollView.snp.bottom)
             $0.width.equalTo(scrollView.snp.width)
             $0.centerX.equalTo(scrollView.snp.centerX)
-            $0.height.equalTo(scrollView.snp.height).priority(250)
         }
 
         let lineView = self.createLineView(color: Colors.nt1.color)
@@ -132,14 +147,51 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
         GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
     }
     
+    override func viewDidLayoutSubviews() {
+        let number = companyFilterView.companyTableView.numberOfRows(inSection: 0)
+        var height: CGFloat = 0
+        
+        for i in 0..<number {
+            guard let cell = companyFilterView.companyTableView.cellForRow(at: IndexPath(row: i, section: 0)) else { continue }
+            height += cell.bounds.height
+        }
+
+        companyFilterView.companyTableView.snp.updateConstraints {
+            $0.height.equalTo(height)
+        }
+    }
+    
     func bind(reactor: MainReactor) {
         switchFilterView.bind(reactor: reactor)
         typeFilterView.bind(reactor: reactor)
         speedFilterView.bind(reactor: GlobalFilterReactor.sharedInstance)
-        roadFilterView.bind(reactor: reactor)
-        placeFilterView.bind(reactor: reactor)
+        roadFilterView.bind(reactor: GlobalFilterReactor.sharedInstance)
+        placeFilterView.bind(reactor: GlobalFilterReactor.sharedInstance)
         accessFilterView.bind(reactor: reactor)
         companyFilterView.bind(reactor: GlobalFilterReactor.sharedInstance)
+        
+        // 뒤로가기 버튼
+        backBtn.btn.rx.tap
+            .asDriver(onErrorJustReturn: ())
+            .drive(with: self) { obj, _ in
+                if obj.shouldChanged() {
+                    let cancelBtn = UIAlertAction(title: "취소", style: .default)
+                    let okBtn = UIAlertAction(title: "나가기", style: .default) { _ in
+                        
+                        obj.placeFilterView.revertFilter()
+                        obj.accessFilterView.revertFilter()
+                        obj.speedFilterView.revertFilter()
+                        obj.roadFilterView.revertFilter()
+                        GlobalDefine.shared.mainNavi?.pop()
+                    }
+                    var actions = [UIAlertAction]()
+                    actions.append(cancelBtn)
+                    actions.append(okBtn)
+                    UIAlertController.showAlert(title: "뒤로가기", message: "필터를 저장하지 않고 나가시겠습니까?", actions: actions)
+                } else {
+                    GlobalDefine.shared.mainNavi?.pop()
+                }
+            }.disposed(by: self.disposeBag)
         
         // 초기화 버튼
         resetBtn.rx.tap
@@ -181,10 +233,24 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
                 obj.accessFilterView.saveFilter()
                 obj.roadFilterView.saveFilter()
                 obj.placeFilterView.saveFilter()
+                obj.typeFilterView.saveFilter()
+                obj.delegate?.applyFilter()
                 
                 FilterManager.sharedInstance.logEventWithFilter("필터")
                 GlobalDefine.shared.mainNavi?.pop()
             }.disposed(by: self.disposeBag)
             
+    }
+    
+    private func shouldChanged() -> Bool {
+        return roadFilterView.shouldChanged() || accessFilterView.shouldChanged() || placeFilterView.shouldChanged() || speedFilterView.shouldChanged()
+    }
+}
+
+extension NewChargerFilterViewController: NewDelegateFilterChange {
+    func changedFilter(type: FilterTagType) {
+        Observable.just(shouldChanged())
+            .bind(to: saveBtn.rectBtn.rx.isSelected)
+            .disposed(by: self.disposeBag)
     }
 }

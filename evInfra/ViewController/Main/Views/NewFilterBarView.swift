@@ -42,7 +42,7 @@ enum FilterTagType: CaseIterable {
         case .place: return .road
         case .road: return .type
         case .type: return .type
-        default: break
+        case .access: return .access
         }
     }
     
@@ -54,7 +54,7 @@ enum FilterTagType: CaseIterable {
         case .place: return .speed
         case .road: return .place
         case .type: return .road
-        default: break
+        case .access: return .access
         }
     }
     
@@ -76,7 +76,7 @@ enum FilterTagType: CaseIterable {
         case .place: return FilterManager.sharedInstance.placeTitle()
         case .road: return FilterManager.sharedInstance.roadTitle()
         case .type: return FilterManager.sharedInstance.typeTitle()
-        default: break
+        default: return ""
         }
     }
 }
@@ -161,6 +161,9 @@ internal final class NewFilterBarView: UIView {
         }
         
         for filterTagType in FilterTagType.allCases {
+            if filterTagType == .access {
+                continue
+            }
             filterTagStackView.addArrangedSubview(self.createFilterTagView(filterTagType, reactor: reactor))
         }
         
@@ -309,8 +312,8 @@ internal final class NewFilterBarView: UIView {
                 .asDriver()
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
-                    Observable.just(MainReactor.Action.setSelectedFilterInfo((filterTagType, btn.isSelected)))
-                        .bind(to: reactor.action)
+                    Observable.just(GlobalFilterReactor.Action.setSelectedFilterType((.place, btn.isSelected)))
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                 }
                 .disposed(by: self.disposeBag)
@@ -324,8 +327,8 @@ internal final class NewFilterBarView: UIView {
                 .asDriver()
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
-                    Observable.just(MainReactor.Action.setSelectedFilterInfo((.road, btn.isSelected)))
-                        .bind(to: reactor.action)
+                    Observable.just(GlobalFilterReactor.Action.setSelectedFilterType((.road, btn.isSelected)))
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                 }
                 .disposed(by: self.disposeBag)
@@ -339,8 +342,8 @@ internal final class NewFilterBarView: UIView {
                 .asDriver()
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
-                    Observable.just(MainReactor.Action.setSelectedFilterInfo((.speed, btn.isSelected)))
-                        .bind(to: reactor.action)
+                    Observable.just(GlobalFilterReactor.Action.setSelectedFilterType((.speed, btn.isSelected)))
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                 }
                 .disposed(by: self.disposeBag)
@@ -349,33 +352,35 @@ internal final class NewFilterBarView: UIView {
                 .asDriver()
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
-                    Observable.just(MainReactor.Action.setSelectedFilterInfo((.type, btn.isSelected)))
-                        .bind(to: reactor.action)
+                    Observable.just(GlobalFilterReactor.Action.setSelectedFilterType((.type, btn.isSelected)))
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                 }
                 .disposed(by: self.disposeBag)
+            
+        default: break
         }
-   
-        reactor.state.compactMap { $0.isUpdateFilterBarTitle }
+    
+        GlobalFilterReactor.sharedInstance.state.compactMap { $0.isUpdateFilterBarTitle }
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { obj, isUpdate in
                 titleLbl.text = filterTagType.typeDesc
             }
             .disposed(by: self.disposeBag)
         
-        reactor.state.compactMap { $0.selectedFilterInfo }
+        GlobalFilterReactor.sharedInstance.state.compactMap { $0.selectedFilterType }
             .asDriver(onErrorJustReturn: (.speed, false))
-            .drive(with: self) { obj, selectedFilter in
+            .drive(with: self) { obj, selected in
                 switch filterTagType {
                 case .evpay, .favorite: break
                 default:
-                    let isSelected = selectedFilter.filterTagType == filterTagType ? selectedFilter.isSeleted : false
+                    let isSelected = selected.filterTagType == filterTagType ? selected.isSelected : false
                     
                     if isSelected {
                         view.IBborderColor = Colors.borderPositive.color
                         view.backgroundColor = Colors.backgroundPositiveLight.color
                         titleLbl.textColor = Colors.gr7.color
-                        imgView.image = selectedFilter.filterTagType.typeImageProperty?.imgSelect
+                        imgView.image = selected.filterTagType.typeImageProperty?.imgSelect
                         imgView.tintColor = filterTagType.typeImageProperty?.imgSelectColor
                     } else {
                         view.IBborderColor = Colors.nt1.color
@@ -412,6 +417,7 @@ internal final class NewFilterBarView: UIView {
                     btn.isSelected = isSelected
                 }
             }.disposed(by: self.disposeBag)
+
         return view
     }
 }

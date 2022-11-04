@@ -18,6 +18,7 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         case loadCompanies
         case setAllCompanies(Bool)
         case changedFilter(Bool)
+        case setSelectedFilterType(SelectedFilterType)
         case changedAccessFilter(SelectedAccessFilter)
         case setAccessFilter(SelectedAccessFilter)
         case changedRoadFilter(SelectedRoadFilter)
@@ -26,23 +27,32 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         case setPlaceFilter(SelectedPlaceFilter)
         case changedSpeedFilter(SelectedSpeedFilter)
         case setSpeedFilter(SelectedSpeedFilter)
+        case changedChargerTypeFilter(SelectedChargerTypeFilter)
+        case setChargerTypeFilter([NewTag])
     }
     
     enum Mutation {
         case loadCompanies([Company])
         case setAllCompanies(Bool)
         case changedFilter(Bool)
+        case updateBarTitle(Bool)
+        case setSelectedFilterType(SelectedFilterType)
         case changedAccessFilter(SelectedAccessFilter)
         case changedRoadFilter(SelectedRoadFilter)
         case changedPlaceFilter(SelectedPlaceFilter)
         case changedSpeedFilter(SelectedSpeedFilter)
+        case changedChargerTypeFilter(SelectedChargerTypeFilter)
     }
 
     struct State {
-        var loadedCompanies: [Company] = []
-        var isSelectedAllCompanies: Bool = true
-        var isChangedFilter: Bool = false
+        var loadedCompanies: [Company]? = []
+        var isSelectedAllCompanies: Bool? = true
+        var isChangedFilter: Bool? = false
+        var selectedFilterType: SelectedFilterType?
         var selectedAccessFilter: SelectedAccessFilter?
+        var selectedChargerTypeFilter: SelectedChargerTypeFilter?
+        var selectedChargerTypes: [ChargerType]?
+        var isUpdateFilterBarTitle: Bool?
         var isPublic: Bool = FilterManager.sharedInstance.filter.isPublic
         var isNonPublic: Bool = FilterManager.sharedInstance.filter.isNonPublic
         var isGeneralRoad: Bool = FilterManager.sharedInstance.filter.isGeneralWay
@@ -76,11 +86,13 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
             return .just(.setAllCompanies(isSelect))
         case .changedFilter(let isChanged):
             return .just(.changedFilter(isChanged))
+        case .setSelectedFilterType(let selectedFiltertype):
+            return .just(.setSelectedFilterType(selectedFiltertype))
         case .changedAccessFilter(let selectedAccessFilter):
             return .just(.changedAccessFilter(selectedAccessFilter))
         case .setAccessFilter(let accessFilter):
             accessFilter.accessType == .publicCharger ? FilterManager.sharedInstance.savePublic(with: accessFilter.isSelected) : FilterManager.sharedInstance.saveNonPublic(with: accessFilter.isSelected)
-            return .empty()
+            return .just(.updateBarTitle(true))
         case .changedRoadFilter(let selectedRoadFilter):
             return .just(.changedRoadFilter(selectedRoadFilter))
         case .setRoadFilter(let roadFilter):
@@ -92,7 +104,7 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
             case .highwayDown:
                 FilterManager.sharedInstance.saveHighwayDown(with: roadFilter.isSelected)
             }
-            return .empty()
+            return .just(.updateBarTitle(true))
         case .changedPlaceFilter(let selectedPlaceFilter):
             return .just(.changedPlaceFilter(selectedPlaceFilter))
         case .setPlaceFilter(let placeFilter):
@@ -104,7 +116,7 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
             case .canopy:
                 FilterManager.sharedInstance.saveCanopy(with: placeFilter.isSelected)
             }
-            return .empty()
+            return .just(.updateBarTitle(true))
         case .changedSpeedFilter(let selectedSpeedFilter):
             return .just(.changedSpeedFilter(selectedSpeedFilter))
         case .setSpeedFilter(let speedFilter):
@@ -123,6 +135,13 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
             newState.isSelectedAllCompanies = isSelect
         case .changedFilter(let isChanged):
             newState.isChangedFilter = isChanged
+        case .updateBarTitle(let isUpdate):
+            newState.isUpdateFilterBarTitle = isUpdate
+            
+        case .setSelectedFilterType(let selectedFilterType):
+            newState.selectedFilterType = selectedFilterType
+            newState.isUpdateFilterBarTitle = true
+            
         case .changedAccessFilter(let selectedAccessFilter):
             switch selectedAccessFilter.accessType {
             case .publicCharger:
@@ -149,8 +168,11 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
                 newState.isCanopy = selectedPlaceFilter.isSelected
             }
         case .changedSpeedFilter(let selectedSpeedFilter):
-            newState.maxSpeed = selectedSpeedFilter.maxSpeed
             newState.minSpeed = selectedSpeedFilter.minSpeed
+            newState.maxSpeed = selectedSpeedFilter.maxSpeed
+            
+        case .changedChargerTypeFilter(let selectedChargerTypeFilter):
+            newState.selectedChargerTypeFilter = selectedChargerTypeFilter
         }
         
         return newState

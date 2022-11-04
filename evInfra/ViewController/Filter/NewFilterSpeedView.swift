@@ -110,10 +110,8 @@ internal final class NewFilterSpeedView: UIView {
     
     // MARK: VARIABLES
     private var disposeBag = DisposeBag()
-    private var minSpeed: Int = GlobalFilterReactor.sharedInstance.initialState.minSpeed
-    private var maxSpeed: Int = GlobalFilterReactor.sharedInstance.initialState.maxSpeed
-    private var isChanged = BehaviorSubject<Bool>(value: false)
-    internal var saveOnChange: Bool = false
+    internal weak var delegate: NewDelegateFilterChange?
+    internal var isDirectChange: Bool = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -151,7 +149,7 @@ internal final class NewFilterSpeedView: UIView {
             $0.top.equalTo(stackView.snp.bottom).offset(6)
             $0.leading.equalToSuperview().offset(34)
             $0.trailing.equalToSuperview().offset(-34)
-            $0.height.equalTo(48)
+            $0.height.equalTo(46)
         }
         
         totalView.addSubview(stepHorizontalStackView)
@@ -176,28 +174,46 @@ internal final class NewFilterSpeedView: UIView {
         cancelGesture.cancelsTouchesInView = false
         self.rangeSlider.addGestureRecognizer(cancelGesture)
         
-        speedLbl.text = FilterManager.sharedInstance.speedTitle()
+        let minSpeed = GlobalFilterReactor.sharedInstance.currentState.minSpeed
+        let maxSpeed = GlobalFilterReactor.sharedInstance.currentState.maxSpeed
         
-        isChanged
-            .throttle(.seconds(1), latest: false, scheduler: MainScheduler.instance)
-            .subscribe(with: self) { obj, isChanged in
-                if isChanged {
-                    Observable.just(GlobalFilterReactor.Action.changedFilter(true))
-                        .bind(to: GlobalFilterReactor.sharedInstance.action)
-                        .disposed(by: self.disposeBag)
+        rangeSlider.selectedMinValue = Speed.convertToCGFloat(with: minSpeed).rawValue
+        rangeSlider.selectedMaxValue = Speed.convertToCGFloat(with: maxSpeed).rawValue
+        speedLbl.text = FilterManager.sharedInstance.speedTitle(min: minSpeed, max: maxSpeed)
+        
+        rangeSlider.rx.controlEvent([.touchUpInside])
+            .asDriver()
+            .drive(with: self) { obj, _ in
+                let _minSpeed = Speed.convertToSpeed(with: Int(obj.rangeSlider.selectedMinValue))
+                let _maxSpeed = Speed.convertToSpeed(with: Int(obj.rangeSlider.selectedMaxValue))
+                
+                Observable.just(GlobalFilterReactor.Action.changedSpeedFilter((minSpeed: _minSpeed, maxSpeed: _maxSpeed)))
+                    .bind(to: GlobalFilterReactor.sharedInstance.action)
+                    .disposed(by: obj.disposeBag)
+                            
+                
+                Observable.just(GlobalFilterReactor.Action.changedFilter(true))
+                    .bind(to: GlobalFilterReactor.sharedInstance.action)
+                    .disposed(by: self.disposeBag)
+
+                if obj.isDirectChange {
+                    obj.saveFilter()
                 }
+                obj.delegate?.changedFilter(type: .speed)
             }.disposed(by: self.disposeBag)
         
-        reactor.state.compactMap { $0.minSpeed }
+        GlobalFilterReactor.sharedInstance.state.compactMap { $0.minSpeed }
             .asDriver(onErrorJustReturn: 50)
-            .drive(with: self) { obj, minValue in
-                obj.rangeSlider.selectedMinValue = Speed.convertToCGFloat(with: minValue).rawValue
+            .drive(with: self) { obj, minSpeed in
+                obj.rangeSlider.selectedMinValue = Speed.convertToCGFloat(with: minSpeed).rawValue
+                obj.rangeSlider.setNeedsLayout()
             }.disposed(by: self.disposeBag)
         
-        reactor.state.compactMap { $0.maxSpeed }
+        GlobalFilterReactor.sharedInstance.state.compactMap { $0.maxSpeed }
             .asDriver(onErrorJustReturn: 350)
-            .drive(with: self) { obj, maxValue in
-                obj.rangeSlider.selectedMaxValue = Speed.convertToCGFloat(with: maxValue).rawValue
+            .drive(with: self) { obj, maxSpeed in
+                obj.rangeSlider.selectedMaxValue = Speed.convertToCGFloat(with: maxSpeed).rawValue
+                obj.rangeSlider.setNeedsLayout()
             }.disposed(by: self.disposeBag)
     }
     
@@ -231,9 +247,30 @@ internal final class NewFilterSpeedView: UIView {
         
         return stepTotalView
     }
+    
+    internal func shouldChanged() -> Bool {
+        let minSpeed = GlobalFilterReactor.sharedInstance.currentState.minSpeed
+        let maxSpeed = GlobalFilterReactor.sharedInstance.currentState.maxSpeed
+        
+        return (minSpeed != FilterManager.sharedInstance.filter.minSpeed)
+        || (maxSpeed != FilterManager.sharedInstance.filter.maxSpeed)
+    }
 }
 
 extension NewFilterSpeedView: FilterButtonAction {
+    func saveFilter() {
+        let minSpeed = GlobalFilterReactor.sharedInstance.currentState.minSpeed
+        let maxSpeed = GlobalFilterReactor.sharedInstance.currentState.maxSpeed
+        
+        Observable.just(GlobalFilterReactor.Action.changedSpeedFilter((minSpeed: minSpeed, maxSpeed: maxSpeed)))
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
+        
+        Observable.just(GlobalFilterReactor.Action.setSpeedFilter((minSpeed: minSpeed, maxSpeed: maxSpeed)))
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
+    }
+    
     func resetFilter() {
         Observable.just(GlobalFilterReactor.Action.changedSpeedFilter((minSpeed: 50, maxSpeed: 350)))
             .bind(to: GlobalFilterReactor.sharedInstance.action)
@@ -242,8 +279,8 @@ extension NewFilterSpeedView: FilterButtonAction {
         speedLbl.text = FilterManager.sharedInstance.speedTitle(min: 50, max: 350)
     }
     
-    func saveFilter() {
-        Observable.just(GlobalFilterReactor.Action.setSpeedFilter((minSpeed: minSpeed, maxSpeed: maxSpeed)))
+    func revertFilter() {
+        Observable.just(GlobalFilterReactor.Action.changedSpeedFilter((minSpeed: FilterManager.sharedInstance.filter.minSpeed, maxSpeed: FilterManager.sharedInstance.filter.maxSpeed)))
             .bind(to: GlobalFilterReactor.sharedInstance.action)
             .disposed(by: self.disposeBag)
     }
@@ -252,10 +289,9 @@ extension NewFilterSpeedView: FilterButtonAction {
 // MARK: RangeSeekSlider Delegate
 extension NewFilterSpeedView: RangeSeekSliderDelegate {
     func rangeSeekSlider(_ slider: RangeSeekSlider, didChange minValue: CGFloat, maxValue: CGFloat) {
-        minSpeed = Speed.convertToSpeed(with: Int(minValue))
-        maxSpeed = Speed.convertToSpeed(with: Int(maxValue))
-        
-        isChanged.onNext(true)
-        speedLbl.text = FilterManager.sharedInstance.speedTitle(min: minSpeed, max: maxSpeed)
+        let _minSpeed = Speed.convertToSpeed(with: Int(minValue))
+        let _maxSpeed = Speed.convertToSpeed(with: Int(maxValue))
+
+        speedLbl.text = FilterManager.sharedInstance.speedTitle(min: _minSpeed, max: _maxSpeed)
     }
 }

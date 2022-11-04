@@ -181,8 +181,8 @@ internal final class NewFilterAccessView: UIView {
             }
         }
 
-        let isPublic = FilterManager.sharedInstance.filter.isPublic
-        let isNonPublic = FilterManager.sharedInstance.filter.isNonPublic
+        let isPublic = GlobalFilterReactor.sharedInstance.initialState.isPublic
+        let isNonPublic = GlobalFilterReactor.sharedInstance.initialState.isNonPublic
         
         switch accessType {
         case .publicCharger:
@@ -203,15 +203,21 @@ internal final class NewFilterAccessView: UIView {
                         .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                     
-                    imgView.tintColor = btn.isSelected ? accessType.typeImageProperty?.imgSelectColor : accessType.typeImageProperty?.imgUnSelectColor
-                    titleLbl.textColor = btn.isSelected ? accessType.typeImageProperty?.imgSelectColor : accessType.typeImageProperty?.imgUnSelectColor
-                    
                     if obj.isDirectChange {
                         obj.saveFilter()
                     }
                     
                     obj.delegate?.changedFilter(type: .access)
                 }.disposed(by: self.disposeBag)
+            
+            GlobalFilterReactor.sharedInstance.state.compactMap { $0.isPublic }
+                .asDriver(onErrorJustReturn: false)
+                .drive(with: self) { obj, isSelected in
+                    btn.isSelected = isSelected
+                    imgView.tintColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+                    titleLbl.textColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+                }.disposed(by: self.disposeBag)
+            
         case .nonePublicCharger:
             imgView.tintColor = isNonPublic ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
             titleLbl.textColor = isNonPublic ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
@@ -230,14 +236,19 @@ internal final class NewFilterAccessView: UIView {
                         .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                     
-                    imgView.tintColor = btn.isSelected ? accessType.typeImageProperty?.imgSelectColor : accessType.typeImageProperty?.imgUnSelectColor
-                    titleLbl.textColor = btn.isSelected ? accessType.typeImageProperty?.imgSelectColor : accessType.typeImageProperty?.imgUnSelectColor
-                    
                     if obj.isDirectChange {
                         obj.saveFilter()
                     }
                     
                     obj.delegate?.changedFilter(type: .access)
+                }.disposed(by: self.disposeBag)
+            
+            GlobalFilterReactor.sharedInstance.state.compactMap { $0.isNonPublic }
+                .asDriver(onErrorJustReturn: false)
+                .drive(with: self) { obj, isSelected in
+                    btn.isSelected = isSelected
+                    imgView.tintColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+                    titleLbl.textColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
                 }.disposed(by: self.disposeBag)
         }
         
@@ -255,11 +266,11 @@ internal final class NewFilterAccessView: UIView {
 
 extension NewFilterAccessView: FilterButtonAction {
     func saveFilter() {
-        Observable.just(GlobalFilterReactor.Action.setAccessFilter((.publicCharger, GlobalFilterReactor.sharedInstance.currentState.isPublic ?? false)))
+        Observable.just(GlobalFilterReactor.Action.setAccessFilter((.publicCharger, GlobalFilterReactor.sharedInstance.currentState.isPublic)))
             .bind(to: GlobalFilterReactor.sharedInstance.action)
             .disposed(by: self.disposeBag)
 
-        Observable.just(GlobalFilterReactor.Action.setAccessFilter((.nonePublicCharger, GlobalFilterReactor.sharedInstance.currentState.isNonPublic ?? false)))
+        Observable.just(GlobalFilterReactor.Action.setAccessFilter((.nonePublicCharger, GlobalFilterReactor.sharedInstance.currentState.isNonPublic)))
             .bind(to: GlobalFilterReactor.sharedInstance.action)
             .disposed(by: self.disposeBag)
     }
@@ -270,6 +281,16 @@ extension NewFilterAccessView: FilterButtonAction {
             .disposed(by: self.disposeBag)
         
         Observable.just(GlobalFilterReactor.Action.changedAccessFilter((.nonePublicCharger, true)))
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
+    }
+    
+    func revertFilter() {
+        Observable.just(GlobalFilterReactor.Action.changedAccessFilter((.publicCharger, FilterManager.sharedInstance.filter.isPublic)))
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
+        
+        Observable.just(GlobalFilterReactor.Action.changedAccessFilter((.nonePublicCharger, FilterManager.sharedInstance.filter.isNonPublic)))
             .bind(to: GlobalFilterReactor.sharedInstance.action)
             .disposed(by: self.disposeBag)
     }

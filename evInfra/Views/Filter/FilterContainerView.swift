@@ -13,6 +13,10 @@ protocol DelegateFilterContainerView: AnyObject {
     func changedFilter(type: FilterType)    
 }
 
+protocol NewDelegateFilterContainerView: AnyObject {
+    func changedFilter(type: FilterTagType)
+}
+
 internal final class FilterContainerView: UIView {
     
     // MARK: UI
@@ -26,7 +30,8 @@ internal final class FilterContainerView: UIView {
     
     // MARK: VARIABLE
     
-    internal weak var delegate: DelegateFilterContainerView?
+    internal weak var delegate: NewDelegateFilterContainerView?
+    internal weak var delegateChargerFilgerView: NewDelegateChargerFilterView?
         
     private var disposeBag = DisposeBag()
     private weak var mainReactor: MainReactor?
@@ -57,14 +62,14 @@ internal final class FilterContainerView: UIView {
         self.filterContainerView.addGestureRecognizer(swipeRight)
         
         filterTypeView.saveOnChange = true
-        filterSpeedView.saveOnChange = true
+        filterSpeedView.isDirectChange = true
         filterRoadView.isDirectChange = true
         filterPlaceView.isDirectChange = true
         
 //        filterTypeView.delegate = self
-//        filterSpeedView.delegate = self
+        filterSpeedView.delegate = self
         filterRoadView.delegate = self
-        filterPlaceView.delegate = self
+//        filterPlaceView.delegate = self
         filterPriceView.delegate = self
         
 //        filterSpeedView.slowSpeedChangeDelegate = self
@@ -77,14 +82,14 @@ internal final class FilterContainerView: UIView {
         self.mainReactor = reactor
         
         filterSpeedView.bind(reactor: GlobalFilterReactor.sharedInstance)
-        filterPlaceView.bind(reactor: reactor)
-        filterRoadView.bind(reactor: reactor)
+        filterPlaceView.bind(reactor: GlobalFilterReactor.sharedInstance)
+        filterRoadView.bind(reactor: GlobalFilterReactor.sharedInstance)
         filterTypeView.bind(reactor: reactor)
         
-        reactor.state.compactMap { $0.selectedFilterInfo }
+        GlobalFilterReactor.sharedInstance.state.compactMap { $0.selectedFilterType }
             .asDriver(onErrorJustReturn: nil)
-            .drive(with: self) { obj, selectedFilterInfo in
-                switch selectedFilterInfo?.filterTagType {
+            .drive(with: self) { obj, selected in
+                switch selected?.filterTagType {
                 case .speed:
                     obj.filterContainerView.bringSubviewToFront(obj.filterSpeedView)
                 case .place:
@@ -95,8 +100,7 @@ internal final class FilterContainerView: UIView {
                     obj.filterContainerView.bringSubviewToFront(obj.filterTypeView)
                 default: break
                 }
-            }
-            .disposed(by: self.disposeBag)
+            }.disposed(by: self.disposeBag)
     }
     
     @objc func respondToSwipeGesture(_ gesture: UIGestureRecognizer) {
