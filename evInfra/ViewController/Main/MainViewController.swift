@@ -84,7 +84,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     private lazy var filterStackView = UIStackView().then {
         $0.axis = .vertical
         $0.alignment = .fill
-        $0.distribution = .equalSpacing
+        $0.distribution = .fillProportionally
         $0.spacing = 0
     }
     private lazy var searchWayView = MainSearchWayView().then {
@@ -652,6 +652,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                     .bind(to: reactor.action)
                     .disposed(by: owner.disposeBag)
             }
+            .disposed(by: disposeBag)
     }
     
     // MARK: - bindState
