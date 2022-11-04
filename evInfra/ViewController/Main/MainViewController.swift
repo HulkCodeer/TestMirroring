@@ -378,18 +378,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 .bind(to: reactor.action)
                 .disposed(by: self.disposeBag)
             
-            // bindAction
             switch bottomMenuType {
-            case .qrCharging:
-                reactor.state.compactMap { $0.isCharging }
-                    .asDriver(onErrorJustReturn: true)
-                    .drive { isCharging in
-                        guard let specificValue = bottomMenuType.specificValue else { return }
-                        let value = isCharging ? specificValue : bottomMenuType.value
-                        item.configure(icon: value.icon, title: value.title)
-                    }
-                    .disposed(by: disposeBag)
-                
             case .evPay:
                 self.view.addSubview(tooltipView)
                 tooltipView.snp.makeConstraints {

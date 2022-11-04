@@ -27,9 +27,13 @@ internal final class BottomMenuItem: UIView {
     internal lazy var button = UIButton()
     
     internal var disposeBag = DisposeBag()
+    private let menuType: MainReactor.BottomMenuType
     
     init(menuType: MainReactor.BottomMenuType, reactor: MainReactor) {
+        self.menuType = menuType
         super.init(frame: .zero)
+        
+        bind(reactor: reactor)
         
         icon.image = menuType.value.icon
         titleLabel.text = menuType.value.title
@@ -59,24 +63,44 @@ internal final class BottomMenuItem: UIView {
             $0.edges.equalToSuperview()
         }
         
-        reactor.state.compactMap { $0.isAccountsReceivable }
-            .asDriver(onErrorJustReturn: true)
-            .drive(with: self) { obj, isAccountsReceivable in
-                guard let specificValue = menuType.specificValue else { return }
-                let value = isAccountsReceivable ? specificValue : menuType.value
-                obj.icon.image = value.icon
-                obj.titleLabel.text = value.title
-            }
-            .disposed(by: self.disposeBag)
     }
     
     required init?(coder aDecoder: NSCoder) {
+        self.menuType = .qrCharging
         super.init(coder: aDecoder)
+        
+        fatalError()
     }
     
-    
-    func configure(icon image: UIImage, title: String) {        
-        icon.image = image
-        titleLabel.text = title
+    private func bind(reactor: MainReactor) {
+        switch menuType {
+        case .qrCharging:
+            reactor.state.compactMap { $0.isCharging }
+                .asDriver(onErrorJustReturn: true)
+                .drive(with: self) { obj, isCharging in
+                    guard let specificValue = obj.menuType.specificValue else { return }
+                    let value = isCharging ? specificValue : obj.menuType.value
+
+                    obj.icon.image = value.icon
+                    obj.titleLabel.text = value.title
+                }
+                .disposed(by: disposeBag)
+        case .evPay:
+            reactor.state.compactMap { $0.isAccountsReceivable }
+                .asDriver(onErrorJustReturn: true)
+                .drive(with: self) { obj, isAccountsReceivable in
+                    guard let specificValue = obj.menuType.specificValue else { return }
+                    let value = isAccountsReceivable ? specificValue : obj.menuType.value
+                    
+                    obj.icon.image = value.icon
+                    obj.titleLabel.text = value.title
+                }
+                .disposed(by: self.disposeBag)
+            
+        default:
+            break
+        }
+
     }
+
 }
