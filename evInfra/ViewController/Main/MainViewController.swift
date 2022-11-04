@@ -157,7 +157,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     
     private var evPayTipView = EasyTipView(text: "")
     
-    private var tooltipView = TooltipView(configure: TooltipView.Configure(tipLeftMargin: 121.5, tipDirection: .bottom, maxWidth: 255))
+    private var tooltipView = TooltipView(configure: TooltipView.Configure(tipLeftMargin: 130, tipDirection: .bottom, maxWidth: 260))
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -395,11 +395,11 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 tooltipView.snp.makeConstraints {
                     $0.bottom.equalTo(item.button.snp.top).offset(-6)
                     $0.centerX.equalTo(item.button.snp.centerX)
-                    $0.width.equalTo(255)
+                    $0.width.equalTo(260)
                     $0.height.equalTo(50)
                 }
-                
-                tooltipView.show(message: "환경부, 한국전력 등 전국 주요 충전사 지원")
+                                
+                tooltipView.show(message: "충전 시 포인트(베리)로 할인 받으세요!")
                 
             default:
                 break
