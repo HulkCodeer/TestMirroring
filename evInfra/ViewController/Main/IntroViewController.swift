@@ -167,8 +167,7 @@ internal final class IntroViewController: UIViewController {
     
     private func moveMainView() {
         if UIWindow.key != nil {
-            let rootVC = RootViewController()
-            printLog(out: "PARK TEST \(String(describing: GlobalDefine.shared.mainNavi))")
+            let rootVC = RootViewController()            
             GlobalDefine.shared.mainNavi?.setViewControllers([rootVC], animated: false)
         }
     }
