@@ -231,15 +231,11 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
     }
     
     private func moveMainViewcon() {
-        let rootVC = RootViewController()
-        GlobalDefine.shared.rootVC = rootVC
-         
-        if let _window = UIWindow.key {
-            _window.rootViewController = rootVC
-            _window.makeKeyAndVisible()
+        if UIWindow.key != nil {
+            let rootVC = RootViewController()
+            GlobalDefine.shared.mainNavi?.setViewControllers([rootVC], animated: false)
         }
     }
-
 }
 
 

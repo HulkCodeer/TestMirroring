@@ -12,7 +12,7 @@ import RxSwift
 internal final class GlobalDefine: NSObject {
     internal static var shared = GlobalDefine()
     
-    internal weak var mainNavi: UINavigationController?
+    internal weak var mainNavi: MainNavigationController?
     internal weak var mainViewcon: MainViewController?
     internal weak var rootVC: RootViewController?
 
