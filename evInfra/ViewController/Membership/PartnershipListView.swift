@@ -36,8 +36,13 @@ internal final class PartnershipListView : UIView {
     @IBOutlet var membershipUseGuideLbl: UILabel!
     @IBOutlet var reissuanceView: UIView!
     @IBOutlet var reissuanceLbl: UILabel!
+    @IBOutlet var evPayGuideArrow: UIView!
     
-    private lazy var arrowImgView = ChevronArrow.init(.size20(.right)).then {
+    private lazy var evPayGuideArrowView = ChevronArrow(.size20(.right)).then {
+        $0.IBimageColor = Colors.contentTertiary.color
+    }
+    
+    private lazy var shipmentStatusArrowView = ChevronArrow.init(.size20(.right)).then {
         $0.IBimageColor = Colors.backgroundAlwaysLight.color
     }
     
@@ -68,8 +73,14 @@ internal final class PartnershipListView : UIView {
         addSubview(view)
         initView()
         
-        self.addSubview(arrowImgView)
-        arrowImgView.snp.makeConstraints {
+        evPayGuideArrow.addSubview(evPayGuideArrowView)
+        evPayGuideArrowView.snp.makeConstraints {
+            $0.center.equalToSuperview()
+            $0.width.height.equalTo(20)
+        }
+        
+        self.addSubview(shipmentStatusArrowView)
+        shipmentStatusArrowView.snp.makeConstraints {
             $0.leading.equalTo(labelCardStatus.snp.trailing)
             $0.centerY.equalTo(labelCardStatus.snp.centerY)
             $0.width.height.equalTo(20)
@@ -77,21 +88,26 @@ internal final class PartnershipListView : UIView {
         
         self.addSubview(presentShipmentViewBtn)
         presentShipmentViewBtn.snp.makeConstraints {
-            $0.leading.equalTo(labelCardStatus)
-            $0.height.equalTo(labelCardStatus)
-            $0.trailing.equalTo(arrowImgView)
+            $0.leading.equalTo(labelCardStatus.snp.leading)
+            $0.height.equalTo(labelCardStatus.snp.height)
+            $0.trailing.equalTo(shipmentStatusArrowView.snp.trailing)
+            $0.centerY.equalTo(labelCardStatus.snp.centerY)
         }
         
-        membershipUseGuideLbl.attributedText = NSAttributedString(string: "EV Pay카드 사용방법이 궁금하신가요?", attributes:
-                                                                    [.underlineStyle: NSUnderlineStyle.single.rawValue])
-        
+        presentShipmentViewBtn.rx.tap
+            .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
+            .asDriver(onErrorJustReturn: ())
+            .drive(with: self) { obj, _ in
+                obj.delegate?.showShipmentStatusView()
+            }
+            .disposed(by: self.disposebag)
+                        
         membershipUseGuideBtn.rx.tap
             .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
             .asDriver(onErrorJustReturn: ())
-            .drive(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                self.delegate?.moveMembershipUseGuideView()
-            })
+            .drive(with: self) { obj, _ in
+                obj.delegate?.moveMembershipUseGuideView()
+            }
             .disposed(by: self.disposebag)
         
         reissuanceBtn.rx.tap

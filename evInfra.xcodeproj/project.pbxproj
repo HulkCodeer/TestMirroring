@@ -868,6 +868,9 @@
 		821A05E828627F3100EB1A91 /* ChevronArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05E028627F3000EB1A91 /* ChevronArrow.swift */; };
 		821A717528B2762700B13816 /* NewPaymentStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A717428B2762700B13816 /* NewPaymentStatusViewController.swift */; };
 		821A717628B2762700B13816 /* NewPaymentStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A717428B2762700B13816 /* NewPaymentStatusViewController.swift */; };
+		8232BA2729153F8200834FF8 /* UIStackView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8232BA2629153F8200834FF8 /* UIStackView+Extension.swift */; };
+		8232BA2829153F8200834FF8 /* UIStackView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8232BA2629153F8200834FF8 /* UIStackView+Extension.swift */; };
+		8232BA2929153F8200834FF8 /* UIStackView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8232BA2629153F8200834FF8 /* UIStackView+Extension.swift */; };
 		82373CE329013F1100C0B33D /* Exo-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82373CE229013F1100C0B33D /* Exo-SemiBoldItalic.ttf */; };
 		82373CE429013F1100C0B33D /* Exo-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82373CE229013F1100C0B33D /* Exo-SemiBoldItalic.ttf */; };
 		82373CE529013F1100C0B33D /* Exo-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82373CE229013F1100C0B33D /* Exo-SemiBoldItalic.ttf */; };
@@ -1363,7 +1366,7 @@
 		82E1303828DEAEC100E7983D /* PermissionsGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1303428DEAEC100E7983D /* PermissionsGuideViewController.swift */; };
 		82E1303928DEAEC100E7983D /* PermissionsGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1303428DEAEC100E7983D /* PermissionsGuideViewController.swift */; };
 		82E1303A28DEAEC100E7983D /* PermissionsGuideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1303428DEAEC100E7983D /* PermissionsGuideViewController.swift */; };
-		8ABD2A1E6BAAA48912760042 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		8ABD2A1E6BAAA48912760042 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
 		9014C12724E55C4800CB6549 /* EIPOIItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12624E55C4800CB6549 /* EIPOIItem.swift */; };
 		9014C12924E564F800CB6549 /* FindAllPOIListenerCallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12824E564F800CB6549 /* FindAllPOIListenerCallback.swift */; };
 		9028E07824A1B8280062A029 /* eirel in Resources */ = {isa = PBXBuildFile; fileRef = 9028E07724A1B8270062A029 /* eirel */; };
@@ -1384,7 +1387,7 @@
 		90CBCC6B26EB18F1002B2591 /* img_load_fail.png in Resources */ = {isa = PBXBuildFile; fileRef = 90CBCC6926EB18F1002B2591 /* img_load_fail.png */; };
 		90CBCC6C26EB18F1002B2591 /* img_default.png in Resources */ = {isa = PBXBuildFile; fileRef = 90CBCC6A26EB18F1002B2591 /* img_default.png */; };
 		90CBCC7026EB1E41002B2591 /* NSData+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CBCC6F26EB1E41002B2591 /* NSData+Extension.swift */; };
-		CD4A1C63650A84AE146C07B7 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		CD4A1C63650A84AE146C07B7 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
 		CE00E812214A330B00020D6E /* ReportChargeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE00E811214A330B00020D6E /* ReportChargeViewController.swift */; };
 		CE13858D2178698300E3F869 /* ReportChargerChildCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE13858C2178698300E3F869 /* ReportChargerChildCell.swift */; };
 		CE13858F217869B200E3F869 /* ReportChargerChildCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE13858E217869B200E3F869 /* ReportChargerChildCell.xib */; };
@@ -1869,6 +1872,7 @@
 		821A05DF28627F3000EB1A91 /* CommonNaviView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonNaviView.swift; sourceTree = "<group>"; };
 		821A05E028627F3000EB1A91 /* ChevronArrow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChevronArrow.swift; sourceTree = "<group>"; };
 		821A717428B2762700B13816 /* NewPaymentStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPaymentStatusViewController.swift; sourceTree = "<group>"; };
+		8232BA2629153F8200834FF8 /* UIStackView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Extension.swift"; sourceTree = "<group>"; };
 		82373CE229013F1100C0B33D /* Exo-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Exo-SemiBoldItalic.ttf"; path = "Fonts/Exo-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		824D5DB828BDD89C00EDC712 /* evInfra_release.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = evInfra_release.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		824D5DBC28BE050A00EDC712 /* QROutletTypeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QROutletTypeModel.swift; sourceTree = "<group>"; };
@@ -2018,7 +2022,7 @@
 				63F314B6284EC74F001713D2 /* QuartzCore.framework in Frameworks */,
 				63F314B7284EC74F001713D2 /* KakaoLink.framework in Frameworks */,
 				63F314B8284EC74F001713D2 /* OpenGLES.framework in Frameworks */,
-				CD4A1C63650A84AE146C07B7 /* (null) in Frameworks */,
+				CD4A1C63650A84AE146C07B7 /* BuildFile in Frameworks */,
 				E736AA6EC1C2489E3F10D0ED /* Pods_evInfra_dev.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2046,7 +2050,7 @@
 				425EE5B22519DA520089E87D /* QuartzCore.framework in Frameworks */,
 				73B787B1210B172400C12801 /* KakaoLink.framework in Frameworks */,
 				425EE5AE2519DA0B0089E87D /* OpenGLES.framework in Frameworks */,
-				8ABD2A1E6BAAA48912760042 /* (null) in Frameworks */,
+				8ABD2A1E6BAAA48912760042 /* BuildFile in Frameworks */,
 				2057BEA80311E70601C67835 /* Pods_evInfra.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2586,6 +2590,7 @@
 				8261C8B428ECF6A20018E168 /* UIWindow+Extension.swift */,
 				6309C7B52900020F00A52E4F /* Int+Extension.swift */,
 				6309C7B62900020F00A52E4F /* UITableView+Extension.swift */,
+				8232BA2629153F8200834FF8 /* UIStackView+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -3062,8 +3067,8 @@
 				82B0EF6A2907B33100D6EE70 /* ShipmentInfoView.swift */,
 				63BDD2BC290F4699007F557D /* ChargingGuideWebViewController.swift */,
 				73C6A10A2345F1F800349A86 /* MembershipCardViewController.swift */,
-				005643DF252DA18E007BF78D /* MembershipInfoViewController.swift */,
 				8266F9F12913922800B375A6 /* MembershipCardReactor.swift */,
+				005643DF252DA18E007BF78D /* MembershipInfoViewController.swift */,
 				8266F9F52913A1DD00B375A6 /* MembershipCardShipmentStatusViewController.swift */,
 			);
 			path = Issuance;
@@ -4387,6 +4392,7 @@
 				59970A1F2907CD5800FF9A67 /* MainNavigationBar.swift in Sources */,
 				6309C7A32900006B00A52E4F /* LeftViewTableHeader.swift in Sources */,
 				82C9A01B28B10A010003296B /* PaymentQRScanReactor.swift in Sources */,
+				8232BA2829153F8200834FF8 /* UIStackView+Extension.swift in Sources */,
 				63F313D1284EC74F001713D2 /* PaymentCard.swift in Sources */,
 				82BDA378290A20B300CCD0B7 /* ToastManager.swift in Sources */,
 				63F313D2284EC74F001713D2 /* CompanyInfo.swift in Sources */,
@@ -4721,6 +4727,7 @@
 				637247D1282A5EBE00595FCE /* UIStoryboard+Extension.swift in Sources */,
 				82BDA377290A20B300CCD0B7 /* ToastManager.swift in Sources */,
 				63EB0391283CB26500078D28 /* ServerResult.swift in Sources */,
+				8232BA2729153F8200834FF8 /* UIStackView+Extension.swift in Sources */,
 				DB0E4695205FC4D8002DD05D /* ChargerFilter.swift in Sources */,
 				59317D1528B7781B00B1AE92 /* NewNoticeViewController.swift in Sources */,
 				DB4395EE22DC4C380092E0A5 /* Date+Extension.swift in Sources */,
@@ -5055,6 +5062,7 @@
 				59970A202907CD5800FF9A67 /* MainNavigationBar.swift in Sources */,
 				6309C7A42900006B00A52E4F /* LeftViewTableHeader.swift in Sources */,
 				824D5C2628BDD89C00EDC712 /* PaymentQRScanReactor.swift in Sources */,
+				8232BA2929153F8200834FF8 /* UIStackView+Extension.swift in Sources */,
 				824D5C2728BDD89C00EDC712 /* PaymentCard.swift in Sources */,
 				82BDA379290A20B300CCD0B7 /* ToastManager.swift in Sources */,
 				824D5C2828BDD89C00EDC712 /* CompanyInfo.swift in Sources */,

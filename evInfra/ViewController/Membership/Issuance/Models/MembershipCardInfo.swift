@@ -32,7 +32,7 @@ internal enum ShipmentStatusType: Int, CaseIterable {
     }
 }
 
-internal struct MembershipCardInfo {
+internal struct MembershipCardInfo: Equatable {
     enum PassType {
         case nextStep
         case complete
@@ -94,5 +94,9 @@ internal struct MembershipCardInfo {
             self.addr = json["addr"].stringValue
             self.addrDtl = json["addr_dtl"].stringValue
         }
+    }
+    
+    static func == (lhs: MembershipCardInfo, rhs: MembershipCardInfo) -> Bool {
+        lhs.cardNo == rhs.cardNo
     }
 }

@@ -13,6 +13,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PartnershipListView" customModule="evInfra" customModuleProvider="target">
             <connections>
                 <outlet property="btnAddCard" destination="pDd-rf-hSn" id="7JD-1h-IWL"/>
+                <outlet property="evPayGuideArrow" destination="Fse-OF-cDc" id="hWR-oW-p7x"/>
                 <outlet property="labelCardNum" destination="cKz-Vd-B2Y" id="ap7-Bd-y6t"/>
                 <outlet property="labelCardStatus" destination="Nh1-Wa-4F4" id="lxn-AG-4r5"/>
                 <outlet property="membershipUseGuideBtn" destination="g3O-QF-PWZ" id="WML-FB-9p1"/>
@@ -138,12 +139,44 @@
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zg5-E6-0Wv" userLabel="use_guide_view">
                                     <rect key="frame" x="16" y="287.5" width="343" height="48"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EV Pay 카드 사용방법이 궁금하다면?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ogx-de-eol" userLabel="membershipUseGuide">
-                                            <rect key="frame" x="0.0" y="24" width="343" height="24"/>
-                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
-                                            <color key="textColor" name="content-tertiary"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hv4-JT-nJu">
+                                            <rect key="frame" x="42.5" y="24" width="258.5" height="24"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EV Pay 카드 사용방법이 궁금하다면?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ogx-de-eol" userLabel="membershipUseGuide">
+                                                    <rect key="frame" x="0.0" y="0.0" width="238.5" height="24"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                                    <color key="textColor" name="content-tertiary"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fse-OF-cDc">
+                                                    <rect key="frame" x="238.5" y="2" width="20" height="20"/>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="20" id="1do-Ir-hRt"/>
+                                                        <constraint firstAttribute="width" constant="20" id="MnY-1k-qTV"/>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="20" id="oxn-Xq-qSS"/>
+                                                        <constraint firstAttribute="height" constant="20" id="t6M-mV-PNt"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="IBimageWidth">
+                                                            <real key="value" value="20"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="IBimageColor">
+                                                            <color key="value" name="content-tertiary"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </view>
+                                            </subviews>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="Ogx-de-eol" secondAttribute="bottom" id="By9-yJ-YUK"/>
+                                                <constraint firstAttribute="trailing" secondItem="Fse-OF-cDc" secondAttribute="trailing" id="Deq-jZ-DFb"/>
+                                                <constraint firstItem="Fse-OF-cDc" firstAttribute="leading" secondItem="Ogx-de-eol" secondAttribute="trailing" id="O0a-zQ-AFZ"/>
+                                                <constraint firstItem="Ogx-de-eol" firstAttribute="leading" secondItem="hv4-JT-nJu" secondAttribute="leading" id="RqH-fi-eLK"/>
+                                                <constraint firstItem="Fse-OF-cDc" firstAttribute="centerY" secondItem="hv4-JT-nJu" secondAttribute="centerY" id="g75-xR-GfZ"/>
+                                                <constraint firstItem="Ogx-de-eol" firstAttribute="top" secondItem="hv4-JT-nJu" secondAttribute="top" id="mRt-M9-9i1"/>
+                                            </constraints>
+                                        </view>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g3O-QF-PWZ">
                                             <rect key="frame" x="0.0" y="24" width="343" height="24"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -157,10 +190,9 @@
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
                                         <constraint firstItem="g3O-QF-PWZ" firstAttribute="leading" secondItem="zg5-E6-0Wv" secondAttribute="leading" id="4p9-Dr-ym2"/>
-                                        <constraint firstAttribute="bottom" secondItem="Ogx-de-eol" secondAttribute="bottom" id="FAT-2c-Wom"/>
-                                        <constraint firstItem="Ogx-de-eol" firstAttribute="leading" secondItem="zg5-E6-0Wv" secondAttribute="leading" id="JMb-zY-d9h"/>
-                                        <constraint firstAttribute="trailing" secondItem="Ogx-de-eol" secondAttribute="trailing" id="JaA-fl-Xo6"/>
-                                        <constraint firstItem="Ogx-de-eol" firstAttribute="top" secondItem="zg5-E6-0Wv" secondAttribute="top" constant="24" id="aLP-tA-OO4"/>
+                                        <constraint firstItem="hv4-JT-nJu" firstAttribute="top" secondItem="zg5-E6-0Wv" secondAttribute="top" constant="24" id="Bi2-fn-ORv"/>
+                                        <constraint firstAttribute="bottom" secondItem="hv4-JT-nJu" secondAttribute="bottom" id="TRY-ks-N2k"/>
+                                        <constraint firstItem="hv4-JT-nJu" firstAttribute="centerX" secondItem="zg5-E6-0Wv" secondAttribute="centerX" id="TtV-SW-sa6"/>
                                         <constraint firstAttribute="bottom" secondItem="g3O-QF-PWZ" secondAttribute="bottom" id="aoO-3J-zWs"/>
                                         <constraint firstAttribute="trailing" secondItem="g3O-QF-PWZ" secondAttribute="trailing" id="fyo-IF-8LF"/>
                                         <constraint firstAttribute="height" constant="48" id="wmv-gP-87b"/>

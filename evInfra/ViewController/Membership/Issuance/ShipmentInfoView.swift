@@ -37,7 +37,7 @@ internal final class ShipmentInfoView: UIView {
         $0.font = .systemFont(ofSize: 16, weight: .regular)
         $0.numberOfLines = 0
         $0.textAlignment = .left
-        $0.text = "서울시 강남구 강남대로 311 테스트 테스트 테스트 테스트 테스트"
+        $0.text = ""
     }
     
     private lazy var receiveTotalView = UIView()
@@ -55,7 +55,7 @@ internal final class ShipmentInfoView: UIView {
         $0.font = .systemFont(ofSize: 16, weight: .regular)
         $0.numberOfLines = 1
         $0.textAlignment = .left
-        $0.text = "홍길동"
+        $0.text = ""
     }
     
     private lazy var phoneTotalView = UIView()
@@ -73,7 +73,7 @@ internal final class ShipmentInfoView: UIView {
         $0.font = .systemFont(ofSize: 16, weight: .regular)
         $0.numberOfLines = 1
         $0.textAlignment = .left
-        $0.text = "010-4157-7290"
+        $0.text = ""
     }
     
     // MARK: VARIABLE
@@ -101,8 +101,9 @@ internal final class ShipmentInfoView: UIView {
         self.addSubview(totalView)
         totalView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(20)
-            $0.trailing.bottom.equalToSuperview()
+            $0.trailing.equalToSuperview()
             $0.leading.equalToSuperview().offset(16)
+            $0.bottom.equalToSuperview().offset(-24)
         }
         
         totalView.addSubview(guideLbl)
@@ -127,6 +128,7 @@ internal final class ShipmentInfoView: UIView {
         addressContentsLbl.snp.makeConstraints {
             $0.top.equalTo(addressGuideLbl.snp.top)
             $0.leading.equalToSuperview().offset(56)
+            $0.height.greaterThanOrEqualTo(50)
             $0.trailing.bottom.equalToSuperview()
         }
                 
@@ -146,6 +148,7 @@ internal final class ShipmentInfoView: UIView {
         receiveNameLbl.snp.makeConstraints {
             $0.top.equalTo(receiveNameGuideLbl.snp.top)
             $0.leading.equalToSuperview().offset(56)
+            $0.height.equalTo(24)
             $0.trailing.bottom.equalToSuperview()
         }
         
@@ -166,11 +169,14 @@ internal final class ShipmentInfoView: UIView {
         phoneLbl.snp.makeConstraints {
             $0.top.equalTo(phoneGuideLbl.snp.top)
             $0.leading.equalToSuperview().offset(56)
+            $0.height.equalTo(24)
             $0.trailing.bottom.equalToSuperview()
         }
     }
     
     internal func bind(model: MembershipCardInfo.Info) {
-        
+        addressContentsLbl.text = "\(model.addr)\n\(model.addrDtl)"
+        receiveNameLbl.text = model.name
+        phoneLbl.text = model.phone
     }
 }

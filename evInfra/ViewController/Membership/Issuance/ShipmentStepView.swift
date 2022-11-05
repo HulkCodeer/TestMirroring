@@ -31,6 +31,34 @@ internal final class ShipmentStepView: UIView {
         $0.alignment = .fill
         $0.spacing = 0
     }
+    
+    private lazy var confirmReceiptGuideTotalView = UIView()
+    
+    private lazy var receiptMessageTotalView = UIView().then {
+        $0.IBcornerRadius = 15
+        $0.backgroundColor = Colors.backgroundSecondary.color
+    }
+    
+    private lazy var messageLbl = UILabel().then {
+        $0.textAlignment = .natural
+        $0.textColor = Colors.contentPrimary.color
+        $0.font = .systemFont(ofSize: 14, weight: .regular)
+        $0.numberOfLines = 5
+        $0.text = "EV Pay 카드 발송을 시작한지 10일이 되었어요.\n발송 주소의 우편함을 확인해보세요! 📮\n카드를 잘 받으셨다면 아래 버튼을 눌러주세요."
+    }
+    
+    private lazy var confirmReceiptBtn = RectButton(level: .primary).then {
+        $0.setTitle("카드 수령 확정하기", for: .normal)
+    }
+    
+    private lazy var moveNotCardReceivedGuideLbl = UILabel().then {
+        $0.textColor = Colors.contentTertiary.color
+        $0.text = "아직 카드를 못받으셨나요?"        
+        $0.setUnderline()
+        $0.font = .systemFont(ofSize: 12, weight: .semibold)
+    }
+    
+    private lazy var moveNotCardReceivedGuideBtn = UIButton()
                     
     // MARK: VARIABLE
     
@@ -38,7 +66,7 @@ internal final class ShipmentStepView: UIView {
     
     // MARK: SYSTEM FUNC
     
-    deinit {
+    deinit {        
         printLog(out: "\(type(of: self)): Deinited")
     }
             
@@ -54,6 +82,8 @@ internal final class ShipmentStepView: UIView {
     // MARK: FUNC
     
     func makeUI() {
+        self.translatesAutoresizingMaskIntoConstraints = false
+        
         self.addSubview(shipmentStatusGuideLbl)
         shipmentStatusGuideLbl.snp.makeConstraints {
             $0.top.equalToSuperview().offset(20)
@@ -66,7 +96,14 @@ internal final class ShipmentStepView: UIView {
             $0.top.equalTo(shipmentStatusGuideLbl.snp.bottom).offset(15)
             $0.leading.equalToSuperview().offset(16)
             $0.width.equalTo(24)
+        }
+        
+        self.addSubview(confirmReceiptGuideTotalView)
+        confirmReceiptGuideTotalView.snp.makeConstraints {
+            $0.top.equalTo(totalStackView.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview().offset(-39)
+            $0.height.equalTo(0)
         }
         
         let lineView = self.createLineView()
@@ -77,28 +114,26 @@ internal final class ShipmentStepView: UIView {
         }
     }
     
-    private func makeTypeDesc(statusInfo: MembershipCardInfo.ConvertStatus, parentView: UIView) {
-        let typeDescLbl = UILabel().then {
-            $0.text = "\(statusInfo.shipmentStatusType.toString)"
-            $0.textColor = (statusInfo.passType == .current || statusInfo.passType == .complete) ? Colors.contentPrimary.color : Colors.contentSecondary.color
-            $0.font = .systemFont(ofSize: statusInfo.passType == .current ? 16 : 14, weight: .regular)
-            $0.textAlignment = .natural
+    internal func bind(model: MembershipCardInfo) {
+        confirmReceiptBtn.rx.tap
+            .asDriver(onErrorJustReturn: ())
+            .drive(with: self) { obj, _ in
+                // TODO: 동작을 넣어야함 API 통신
+            }
+            .disposed(by: self.disposebag)
+        
+        let isCurrentSendComplete = model.convertStatusArr.filter { $0.passType == .current }.first?.shipmentStatusType != .sendComplete
+        
+        confirmReceiptGuideTotalView.isHidden = isCurrentSendComplete
+        if !isCurrentSendComplete {
+            self.makeMailBoxConfirmMessageView()
         }
         
-        self.addSubview(typeDescLbl)
-        typeDescLbl.snp.makeConstraints {
-            $0.leading.equalTo(parentView.snp.trailing).offset(20)
-            $0.centerY.equalTo(parentView.snp.centerY)
-            $0.height.equalTo(24)
-        }
-    }
-    
-    internal func bind(model: MembershipCardInfo) {
         for convertStatus in model.convertStatusArr {
             let view = self.makeStepView(statusInfo: convertStatus)
             totalStackView.addArrangedSubview(view.totalView)
                                                             
-            self.makeTypeDesc(statusInfo: convertStatus, parentView: view.dotView)
+            self.makeStatusDesc(statusInfo: convertStatus, parentView: view.dotView)
 
             let isSendReadyCurrent = convertStatus.passType == .current && convertStatus.shipmentStatusType == .sendReady
             let isSendingCurrent = convertStatus.passType == .current && convertStatus.shipmentStatusType == .sending
@@ -213,7 +248,69 @@ internal final class ShipmentStepView: UIView {
                         GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                     })
                     .disposed(by: self.disposebag)
+                
             }
+        }
+    }
+    
+    private func makeMailBoxConfirmMessageView() {
+        confirmReceiptGuideTotalView.snp.remakeConstraints {
+            $0.top.equalTo(totalStackView.snp.bottom).offset(22)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview().offset(-20)
+        }
+        
+        self.confirmReceiptGuideTotalView.addSubview(receiptMessageTotalView)
+        receiptMessageTotalView.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().offset(-16)
+        }
+
+        receiptMessageTotalView.addSubview(messageLbl)
+        messageLbl.snp.makeConstraints {
+            $0.leading.top.equalToSuperview().offset(16)
+            $0.height.equalTo(66)
+            $0.trailing.bottom.equalToSuperview().offset(-16)
+        }
+
+        self.confirmReceiptGuideTotalView.addSubview(confirmReceiptBtn)
+        confirmReceiptBtn.snp.makeConstraints {
+            $0.top.equalTo(receiptMessageTotalView.snp.bottom).offset(12)
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.height.equalTo(40)
+        }
+
+        self.confirmReceiptGuideTotalView.addSubview(moveNotCardReceivedGuideLbl)
+        moveNotCardReceivedGuideLbl.snp.makeConstraints {
+            $0.top.equalTo(confirmReceiptBtn.snp.bottom).offset(16)
+            $0.centerX.equalTo(confirmReceiptBtn.snp.centerX)
+            $0.height.equalTo(16)
+            $0.bottom.equalToSuperview()
+        }
+
+        self.confirmReceiptGuideTotalView.addSubview(moveNotCardReceivedGuideBtn)
+        moveNotCardReceivedGuideBtn.snp.makeConstraints {
+            $0.center.equalTo(moveNotCardReceivedGuideLbl)
+            $0.height.equalTo(44)
+            $0.width.equalTo(moveNotCardReceivedGuideLbl)
+        }                
+    }
+    
+    private func makeStatusDesc(statusInfo: MembershipCardInfo.ConvertStatus, parentView: UIView) {
+        let typeDescLbl = UILabel().then {
+            $0.text = "\(statusInfo.shipmentStatusType.toString)"
+            $0.textColor = (statusInfo.passType == .current || statusInfo.passType == .complete) ? Colors.contentPrimary.color : Colors.contentSecondary.color
+            $0.font = .systemFont(ofSize: statusInfo.passType == .current ? 16 : 14, weight: .regular)
+            $0.textAlignment = .natural
+        }
+        
+        self.addSubview(typeDescLbl)
+        typeDescLbl.snp.makeConstraints {
+            $0.leading.equalTo(parentView.snp.trailing).offset(20)
+            $0.centerY.equalTo(parentView.snp.centerY)
+            $0.height.equalTo(24)
         }
     }
     

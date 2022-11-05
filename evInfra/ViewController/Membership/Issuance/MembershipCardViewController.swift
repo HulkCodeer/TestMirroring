@@ -107,7 +107,7 @@ internal final class MembershipCardViewController: CommonBaseViewController, Sto
                         guard let self = self else { return }
                         let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
                         let myPayInfoVC = memberStoryboard.instantiateViewController(ofType: MyPayinfoViewController.self)
-                        self.navigationController?.push(viewController: myPayInfoVC)
+                        GlobalDefine.shared.mainNavi?.push(viewController: myPayInfoVC)
                     })
 
                     let popup = ConfirmPopupViewController(model: popupModel)
@@ -119,7 +119,7 @@ internal final class MembershipCardViewController: CommonBaseViewController, Sto
                 case .PAY_DEBTOR_USER: // 돈안낸 유저
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
                         let paymentVC = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: RepayListViewController.self)
-                        self.navigationController?.push(viewController: paymentVC)
+                        GlobalDefine.shared.mainNavi?.push(viewController: paymentVC)
                     })
                                         
                 default: break
@@ -175,6 +175,10 @@ extension MembershipCardViewController: PartnershipListViewDelegate {
     }
     
     func showShipmentStatusView() {
-        
+        guard let _reactor = self.reactor else { return }
+        let viewcon = MembershipCardShipmentStatusViewController(reactor: _reactor)
+        viewcon.view.frame = GlobalDefine.shared.mainNavi?.view.bounds ?? UIScreen.main.bounds
+        self.addChild(viewcon)
+        self.view.addSubview(viewcon.view)
     }
 }
