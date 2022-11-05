@@ -150,4 +150,17 @@ extension NSMutableAttributedString {
         
         return attributedString
     }
+    
+    func attributedString(textArr: [String], font: UIFont) {
+        for text in textArr {
+            _ = self.string.getArrayAfterRegex(regex: text)
+                .map { NSRange($0, in: self.string) }
+                .map {
+                    self.setAttributes(
+                        [.font: UIFont.systemFont(ofSize: 14, weight: .regular),
+                            .foregroundColor: Colors.contentPositive.color],
+                        range: $0)
+                }
+        }
+    }
 }
