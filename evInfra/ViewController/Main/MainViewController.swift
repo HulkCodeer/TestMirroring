@@ -156,8 +156,8 @@ internal final class MainViewController: UIViewController, StoryboardView {
     
     private var evPayTipView = EasyTipView(text: "")
     
-    private var bottomEvPaytooltipView = TooltipView(configure: TooltipView.Configure(tipLeftMargin: 130, tipDirection: .bottom, maxWidth: 260)).then {
-        $0.isHidden = true
+    private var bottomEvPaytooltipView = TooltipView(configure: TooltipView.Configure(tipLeftMargin: 121.5, tipDirection: .bottom, maxWidth: 255)).then {
+        $0.isHidden = false
     }
     
     deinit {
@@ -207,10 +207,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         super.viewWillAppear(animated)
         
         MapEvent.viewMainPage.logEvent()
-        
-        self.navigationController?.navigationBar.isHidden = true
-        navigationController?.interactivePopGestureRecognizer?.delegate = nil
-        
+                        
         let isProcessing = GlobalDefine.shared.tempDeepLink.isEmpty
         if !isProcessing {
             DeepLinkModel.shared.openSchemeURL(urlstring: GlobalDefine.shared.tempDeepLink)
@@ -383,12 +380,12 @@ internal final class MainViewController: UIViewController, StoryboardView {
             case .evPay:
                 self.view.addSubview(bottomEvPaytooltipView)
                 bottomEvPaytooltipView.snp.makeConstraints {
-                    $0.bottom.equalTo(item.button.snp.top).offset(-6)
+                    $0.width.equalTo(255)
                     $0.centerX.equalTo(item.button.snp.centerX)
-                    $0.width.equalTo(260)
+                    $0.bottom.equalTo(item.button.snp.top).offset(-7)
                     $0.height.equalTo(50)
                 }
-                                
+                
                 printLog("a/b --> \(ABTestManager.shared.reqMessage(.mainBottomEVPay))")
                 bottomEvPaytooltipView.show(message: ABTestManager.shared.reqMessage(.mainBottomEVPay))
                 

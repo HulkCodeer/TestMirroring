@@ -144,7 +144,6 @@ internal final class TooltipView: UIView {
         
         let attributeText = NSMutableAttributedString(string: message)
         let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 14, weight: .regular), .foregroundColor: Colors.nt0.color]
-
         attributeText.setAttributes(attributes, range: NSRange(location: 0, length: message.count))
         
         _ = message.getArrayAfterRegex(regex: "\(attrString)")
@@ -170,7 +169,7 @@ internal final class TooltipView: UIView {
             $0.top.trailing.bottom.equalToSuperview().inset(8)
         }
     }
-        
+            
     private func makeTooltip(message: String, targetView: UIView? = nil) {
         let path = CGMutablePath()
         let tipCenterPoint = Consts.tipWidth / 2.0
@@ -231,28 +230,29 @@ internal final class TooltipView: UIView {
             $0.tintColor = Colors.contentPositive.color
         }
         
+        let isImg = self.configure.leftImg != nil
         totalView.addSubview(leftImgView)
         leftImgView.snp.makeConstraints {
             $0.leading.top.equalToSuperview().offset(12)
             $0.bottom.equalToSuperview().offset(-12)
-            let isImg = self.configure.leftImg != nil
             $0.width.height.equalTo(isImg ? 20 : 0)
         }
                 
         let messageLbl = UILabel().then {
-            $0.textColor = Colors.contentOnColor.color
+            $0.textColor = .white
             $0.text = "\(message)"
             $0.numberOfLines = 0
-            $0.font = self.configure.font
-        }                        
+            $0.font = .systemFont(ofSize: 14, weight: .regular)
+            $0.lineBreakMode = .byWordWrapping
+        }
                 
         totalView.addSubview(messageLbl)
         messageLbl.snp.makeConstraints {
-            $0.leading.equalTo(leftImgView.snp.trailing)
-            $0.top.bottom.equalToSuperview().inset(10)
-            $0.trailing.equalToSuperview().inset(12)
+            $0.leading.equalTo(leftImgView.snp.trailing).offset(isImg ? 5 : 0)
+            $0.top.trailing.bottom.equalToSuperview().inset(8)
         }
     }
+
 
     @objc func handleTap() {
         self.dismiss()
