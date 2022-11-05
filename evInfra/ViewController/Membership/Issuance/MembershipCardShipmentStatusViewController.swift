@@ -14,9 +14,7 @@ import SwiftyJSON
 internal final class MembershipCardShipmentStatusViewController: UIViewController, StoryboardView {        
     // MARK: UI
     
-    private lazy var dimmedViewBtn = UIButton().then {
-        $0.backgroundColor = Colors.backgroundOverlayDark.color.withAlphaComponent(0.3)
-    }
+    private lazy var dimmedViewBtn = UIButton()
             
     private lazy var totalStackView = UIStackView().then {
         $0.axis = .vertical
@@ -78,11 +76,14 @@ internal final class MembershipCardShipmentStatusViewController: UIViewControlle
                     self.totalStackView.snp.updateConstraints {
                         $0.bottom.equalToSuperview().offset(UIScreen.main.bounds.height)
                     }
+                    
+                    self.dimmedViewBtn.backgroundColor = Colors.backgroundOverlayDark.color.withAlphaComponent(0.0)
+                                                            
                     self.view.layoutIfNeeded()
-                }, completion: nil)
-                
-                obj.view.removeFromSuperview()
-                obj.removeFromParent()
+                }, completion: { _ in
+                    obj.view.removeFromSuperview()
+                    obj.removeFromParent()
+                })
             }
             .disposed(by: self.disposeBag)
     }
@@ -90,11 +91,12 @@ internal final class MembershipCardShipmentStatusViewController: UIViewControlle
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        UIView.animate(withDuration: 0.5, animations: { [weak self] in
+        UIView.animate(withDuration: 0.3, animations: { [weak self] in
             guard let self = self else { return }
             self.totalStackView.snp.updateConstraints {
                 $0.bottom.equalToSuperview().offset(0)
             }
+            self.dimmedViewBtn.backgroundColor = Colors.backgroundOverlayDark.color.withAlphaComponent(0.3)
             self.view.layoutIfNeeded()
         }, completion: nil)
     }
