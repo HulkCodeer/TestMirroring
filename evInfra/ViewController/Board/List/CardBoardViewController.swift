@@ -20,8 +20,7 @@ internal final class CardBoardViewController: CommonBaseViewController {
     private lazy var boardTableView = BoardTableView()
     private lazy var searchButton = UIButton().then {
         $0.setImage(Icons.iconSearchMd.image, for: .normal)
-        $0.tintColor = Colors.nt9.color
-        
+        $0.tintColor = Colors.nt9.color        
         $0.addTarget(self, action: #selector(handleSearchButton), for: .touchUpInside)
     }
     

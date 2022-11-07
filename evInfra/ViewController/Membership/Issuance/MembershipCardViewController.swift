@@ -11,8 +11,13 @@ import SwiftyJSON
 import ReactorKit
 
 internal final class MembershipCardViewController: CommonBaseViewController, StoryboardView {    
-    // MARK: UI
     
+    enum FromViewType {
+        case membershipCardComplete
+    }
+    
+    // MARK: UI
+        
     private lazy var commonNaviView = CommonNaviView().then {
         $0.naviTitleLbl.text = "EV Pay 카드관리"
     }

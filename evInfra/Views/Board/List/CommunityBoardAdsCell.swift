@@ -52,14 +52,34 @@ class CommunityBoardAdsCell: UITableViewCell {
             let page: Promotion.Page = Board.CommunityType.convertToEventKey(communityType: self.category)
             EIAdManager.sharedInstance.logEvent(adIds: [item.document_srl ?? ""], action: .view, page: page, layer: .mid)
         }
+                                                    
         adUrl = item.module_srl
         adId = item.document_srl
+        
+        if Promotion.Types(rawValue: item.tags ?? "1") == .event {
+            MemberManager.shared.tryToLoginCheck { [weak self] isLogin in
+                guard let self = self else { return }
+                if isLogin {
+                    var urlComponents = URLComponents(string: item.module_srl ?? "")
+                    var urlQueryItem = [URLQueryItem]()
+                    urlQueryItem.append(URLQueryItem(name: "mbId", value: String(MemberManager.shared.mbId)))
+                    urlComponents?.queryItems = urlQueryItem
+                    
+                    guard let _url = urlComponents?.url else {
+                        return
+                    }
+                    self.adUrl = _url.absoluteString
+                }
+            }
+        }
     }
     
     @objc private func openURL() {
         guard let adUrl = adUrl else {
             return
         }
+        
+        printLog(out: "Click URL : \(adUrl)")
         
         if let url = URL(string: adUrl) {
             if UIApplication.shared.canOpenURL(url) {
