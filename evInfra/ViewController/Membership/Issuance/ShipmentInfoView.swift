@@ -174,7 +174,7 @@ internal final class ShipmentInfoView: UIView {
         }
     }
     
-    internal func bind(model: MembershipCardInfo.Info) {
+    internal func bind(model: MembershipCardInfo.Destination) {
         addressContentsLbl.text = "\(model.addr)\n\(model.addrDtl)"
         receiveNameLbl.text = model.name
         phoneLbl.text = model.phone

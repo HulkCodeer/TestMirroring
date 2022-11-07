@@ -111,9 +111,9 @@ internal final class MembershipCardShipmentStatusViewController: UIViewControlle
         reactor.state.compactMap { $0.membershipCardInfo }
             .distinctUntilChanged()
             .asDriver(onErrorJustReturn: MembershipCardInfo(JSON.null))
-            .drive(with: self) { obj, model in
-                obj.shipmentStepView.bind(model: model)
-                obj.shipmentInfoView.bind(model: model.info)
+            .drive(with: self) { obj, membershipCardInfo in
+                obj.shipmentStepView.bind(model: membershipCardInfo)
+                obj.shipmentInfoView.bind(model: membershipCardInfo.destination)
                 obj.totalStackView.addArrangedSubview(obj.shipmentStepView)
                 obj.totalStackView.addArrangedSubview(obj.shipmentInfoView)                
             }

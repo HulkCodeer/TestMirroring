@@ -78,7 +78,16 @@ internal final class MembershipCardViewController: CommonBaseViewController, Sto
     // MARK: REACTORKIT
 
     func bind(reactor: MembershipCardReactor) {
+        Observable.just(MembershipCardReactor.Action.membershipCardInfo)
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
         
+        reactor.state.compactMap { $0.membershipCardInfo }
+            .asDriver(onErrorJustReturn: MembershipCardInfo(JSON.null))
+            .drive(with: self) { obj, model in
+                self.partnershipListView.showInfoView(info: model)
+            }
+            .disposed(by: self.disposeBag)
     }
     
     // MARK: FUNC

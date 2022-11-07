@@ -49,20 +49,25 @@ internal struct MembershipCardInfo: Equatable {
             self.passType = passType
         }
     }
-    
+        
     let code: Int
     let cardNo: String
     let status: String
-    let date: String
-    let info: Info
+    let regDate: String
+    let displayRegDate: String
+    let destination: Destination
+    let delivery: Delivery
+    
     var convertStatusArr: [ConvertStatus] = []
 
     init(_ json: JSON) {
         self.code = json["code"].intValue
         self.cardNo = json["card_no"].stringValue
         self.status = json["status"].stringValue
-        self.date = json["date"].stringValue
-        self.info = Info(json["info"])
+        self.regDate = json["reg_date"].stringValue
+        self.displayRegDate = Date().toDate(data: self.regDate)?.toString(dateFormat: .yyyyMMddHHmmD) ?? ""
+        self.destination = Destination(json["destination"])
+        self.delivery = Delivery(json["delivery"])
         
         var passType: PassType = .complete
         let statusValue: Int = json["status"].intValue
@@ -80,7 +85,7 @@ internal struct MembershipCardInfo: Equatable {
         }                
     }
     
-    internal struct Info {
+    internal struct Destination {
         let name: String
         let phone: String
         let zip: String
@@ -93,6 +98,18 @@ internal struct MembershipCardInfo: Equatable {
             self.zip = json["zip"].stringValue
             self.addr = json["addr"].stringValue
             self.addrDtl = json["addr_dtl"].stringValue
+        }
+    }
+    
+    internal struct Delivery {
+        let status: String
+        let startDate: String
+        let displayDate: String
+        
+        init(_ json: JSON) {
+            self.status = json["status"].stringValue
+            self.startDate = json["start_date"].stringValue
+            self.displayDate = Date().toDate(data: self.startDate)?.toString(dateFormat: .yyyyMMddHHmmD) ?? ""
         }
     }
     

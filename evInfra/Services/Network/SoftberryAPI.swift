@@ -262,7 +262,7 @@ internal final class RestApi: SoftberryAPI {
             "mb_id": MemberManager.shared.mbId            
         ]
         
-        return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/v2/membership_card/info",
+        return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/v3/membership_card/info",
                                               httpMethod: .post,
                                               parameters: reqParam,
                                               headers: nil)
