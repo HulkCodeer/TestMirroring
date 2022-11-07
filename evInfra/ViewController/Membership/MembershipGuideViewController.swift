@@ -36,8 +36,7 @@ internal final class MembershipGuideViewController: CommonBaseViewController, WK
         $0.uiDelegate = self
     }
     
-    private lazy var membershipRegisterBtn = UIButton().then {
-        
+    private lazy var membershipRegisterBtn = UIButton().then {        
         $0.backgroundColor = UIColor(named: "gr-5")
     }
     

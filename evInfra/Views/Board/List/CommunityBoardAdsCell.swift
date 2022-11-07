@@ -59,17 +59,8 @@ class CommunityBoardAdsCell: UITableViewCell {
         if Promotion.Types(rawValue: item.tags ?? "1") == .event {
             MemberManager.shared.tryToLoginCheck { [weak self] isLogin in
                 guard let self = self else { return }
-                if isLogin {
-                    var urlComponents = URLComponents(string: item.module_srl ?? "")
-                    var urlQueryItem = [URLQueryItem]()
-                    urlQueryItem.append(URLQueryItem(name: "mbId", value: String(MemberManager.shared.mbId)))
-                    urlComponents?.queryItems = urlQueryItem
-                    
-                    guard let _url = urlComponents?.url else {
-                        return
-                    }
-                    self.adUrl = _url.absoluteString
-                }
+                guard isLogin else { return }
+                self.adUrl = self.makeClickEventURL(url: item.module_srl ?? "")
             }
         }
     }
@@ -81,20 +72,41 @@ class CommunityBoardAdsCell: UITableViewCell {
         
         printLog(out: "Click URL : \(adUrl)")
         
-        if let url = URL(string: adUrl) {
-            if UIApplication.shared.canOpenURL(url) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                let page: Promotion.Page = Board.CommunityType.convertToEventKey(communityType: category)
-                EIAdManager.sharedInstance.logEvent(adIds: [adId ?? ""], action: .click, page: page, layer: .mid)
+        MemberManager.shared.tryToLoginCheck { [weak self] isLogin in
+            guard let self = self else { return }
+            if isLogin {
+                self.adUrl = self.makeClickEventURL(url: adUrl)
                 
-                guard let item = self.item else { return }
-                let property: [String: Any] = ["bannerType": "게시판 배너",
-                                               "adID": item.document_srl ?? "",
-                                               "adName": item.title ?? ""]
-                PromotionEvent.clickBanner.logEvent(property: property)
-                
+                if let url = URL(string: self.adUrl ?? "") {
+                    if UIApplication.shared.canOpenURL(url) {
+                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                        let page: Promotion.Page = Board.CommunityType.convertToEventKey(communityType: self.category)
+                        EIAdManager.sharedInstance.logEvent(adIds: [self.adId ?? ""], action: .click, page: page, layer: .mid)
+                        
+                        guard let item = self.item else { return }
+                        let property: [String: Any] = ["bannerType": "게시판 배너",
+                                                       "adID": item.document_srl ?? "",
+                                                       "adName": item.title ?? ""]
+                        PromotionEvent.clickBanner.logEvent(property: property)
+                    }
+                }
+            } else {
+                MemberManager.shared.showLoginAlert()
             }
         }
+    }
+    
+    private func makeClickEventURL(url: String) -> String {
+        guard let _adUrl = self.adUrl else { return "" }
+        var urlComponents = URLComponents(string: _adUrl)
+        var urlQueryItem = [URLQueryItem]()
+        urlQueryItem.append(URLQueryItem(name: "mbId", value: String(MemberManager.shared.mbId)))
+        urlComponents?.queryItems = urlQueryItem
+        
+        guard let _url = urlComponents?.url else {
+            return ""
+        }
+        return _url.absoluteString
     }
 }
 
