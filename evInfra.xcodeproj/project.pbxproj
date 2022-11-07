@@ -1346,9 +1346,9 @@
 		82D9867F2839BD790030F0FC /* MembershipReissuanceReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D9867E2839BD790030F0FC /* MembershipReissuanceReactor.swift */; };
 		82D986812839BE080030F0FC /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D986802839BE080030F0FC /* ViewModel.swift */; };
 		82D986832839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82D986822839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift */; };
-		82DD57DB28C5D41900C6C55E /* StickButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD57DA28C5D41900C6C55E /* StickButton.swift */; };
-		82DD57DC28C5D41900C6C55E /* StickButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD57DA28C5D41900C6C55E /* StickButton.swift */; };
-		82DD57DD28C5D41900C6C55E /* StickButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD57DA28C5D41900C6C55E /* StickButton.swift */; };
+		82DD57DB28C5D41900C6C55E /* StickyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD57DA28C5D41900C6C55E /* StickyButton.swift */; };
+		82DD57DC28C5D41900C6C55E /* StickyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD57DA28C5D41900C6C55E /* StickyButton.swift */; };
+		82DD57DD28C5D41900C6C55E /* StickyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82DD57DA28C5D41900C6C55E /* StickyButton.swift */; };
 		82E03191286C31250019DFA6 /* QuitAccountCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E03190286C31250019DFA6 /* QuitAccountCompleteViewController.swift */; };
 		82E03192286C31250019DFA6 /* QuitAccountCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E03190286C31250019DFA6 /* QuitAccountCompleteViewController.swift */; };
 		82E1302428DEACF100E7983D /* SoftberryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82E1301E28DEACF100E7983D /* SoftberryAPI.swift */; };
@@ -1895,7 +1895,7 @@
 		82D9867E2839BD790030F0FC /* MembershipReissuanceReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceReactor.swift; sourceTree = "<group>"; };
 		82D986802839BE080030F0FC /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		82D986822839E0DE0030F0FC /* MembershipReissuanceInfoReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipReissuanceInfoReactor.swift; sourceTree = "<group>"; };
-		82DD57DA28C5D41900C6C55E /* StickButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickButton.swift; sourceTree = "<group>"; };
+		82DD57DA28C5D41900C6C55E /* StickyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickyButton.swift; sourceTree = "<group>"; };
 		82E03190286C31250019DFA6 /* QuitAccountCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuitAccountCompleteViewController.swift; sourceTree = "<group>"; };
 		82E1301E28DEACF100E7983D /* SoftberryAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoftberryAPI.swift; sourceTree = "<group>"; };
 		82E1302028DEACF100E7983D /* Server.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
@@ -3104,7 +3104,7 @@
 				63762F1428699FB200C951BF /* Info.swift */,
 				63A4F3702872F88100601018 /* RectButton.swift */,
 				636DB93F2876ED6A008BB27A /* IconTextRectButton.swift */,
-				82DD57DA28C5D41900C6C55E /* StickButton.swift */,
+				82DD57DA28C5D41900C6C55E /* StickyButton.swift */,
 				195C4E8128C5CE3F000B47F7 /* BannerPagerView.swift */,
 				63C7C8DF286D6F0B00A357D6 /* NewBottomSheetViewController.swift */,
 				82840479290021FE0081567C /* TooltipView.swift */,
@@ -4608,7 +4608,7 @@
 				63310E3429069D86004B393A /* MembershipCardInfo.swift in Sources */,
 				63F31478284EC74F001713D2 /* BoardTableViewFooter.swift in Sources */,
 				82E1302928DEAE2A00E7983D /* Server.swift in Sources */,
-				82DD57DC28C5D41900C6C55E /* StickButton.swift in Sources */,
+				82DD57DC28C5D41900C6C55E /* StickyButton.swift in Sources */,
 				63F3147A284EC74F001713D2 /* UIAlertController+Extension.swift in Sources */,
 				59317D1328B7702C00B1AE92 /* NewNoticeDetailViewController.swift in Sources */,
 				63F3147B284EC74F001713D2 /* RentalCarCardListView.swift in Sources */,
@@ -4943,7 +4943,7 @@
 				63310E3329069D86004B393A /* MembershipCardInfo.swift in Sources */,
 				733662CC22EFECB80049AEFE /* Event.swift in Sources */,
 				DB87607420690B370095394B /* BoardTableViewFooter.swift in Sources */,
-				82DD57DB28C5D41900C6C55E /* StickButton.swift in Sources */,
+				82DD57DB28C5D41900C6C55E /* StickyButton.swift in Sources */,
 				DBEE9AFA2117DBF000770D04 /* UIAlertController+Extension.swift in Sources */,
 				59317D1228B7702C00B1AE92 /* NewNoticeDetailViewController.swift in Sources */,
 				63DA0A05282E337F0021292C /* RentalCarCardListView.swift in Sources */,
@@ -5278,7 +5278,7 @@
 				824D5CE328BDD89C00EDC712 /* Event.swift in Sources */,
 				82E1302A28DEAE2A00E7983D /* Server.swift in Sources */,
 				824D5CE428BDD89C00EDC712 /* BoardTableViewFooter.swift in Sources */,
-				82DD57DD28C5D41900C6C55E /* StickButton.swift in Sources */,
+				82DD57DD28C5D41900C6C55E /* StickyButton.swift in Sources */,
 				824D5CE628BDD89C00EDC712 /* UIAlertController+Extension.swift in Sources */,
 				824D5CE728BDD89C00EDC712 /* RentalCarCardListView.swift in Sources */,
 				195C4E8428C5CE3F000B47F7 /* BannerPagerView.swift in Sources */,
