@@ -163,7 +163,7 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
     
     func bind(reactor: MainReactor) {
         switchFilterView.bind(reactor: reactor)
-        typeFilterView.bind(reactor: reactor)
+        typeFilterView.bind(reactor: GlobalFilterReactor.sharedInstance)
         speedFilterView.bind(reactor: GlobalFilterReactor.sharedInstance)
         roadFilterView.bind(reactor: GlobalFilterReactor.sharedInstance)
         placeFilterView.bind(reactor: GlobalFilterReactor.sharedInstance)

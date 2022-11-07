@@ -61,7 +61,7 @@ internal final class FilterContainerView: UIView {
         swipeRight.direction = UISwipeGestureRecognizer.Direction.right
         self.filterContainerView.addGestureRecognizer(swipeRight)
         
-        filterTypeView.saveOnChange = true
+        filterTypeView.isDirectChange = true
         filterSpeedView.isDirectChange = true
         filterRoadView.isDirectChange = true
         filterPlaceView.isDirectChange = true
@@ -84,7 +84,7 @@ internal final class FilterContainerView: UIView {
         filterSpeedView.bind(reactor: GlobalFilterReactor.sharedInstance)
         filterPlaceView.bind(reactor: GlobalFilterReactor.sharedInstance)
         filterRoadView.bind(reactor: GlobalFilterReactor.sharedInstance)
-        filterTypeView.bind(reactor: reactor)
+        filterTypeView.bind(reactor: GlobalFilterReactor.sharedInstance)
         
         GlobalFilterReactor.sharedInstance.state.compactMap { $0.selectedFilterType }
             .asDriver(onErrorJustReturn: nil)

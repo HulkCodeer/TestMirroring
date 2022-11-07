@@ -133,8 +133,8 @@ internal final class NewFilterTypeView: UIView {
     }
     
     // MARK: REACTORKIT
-    internal func bind(reactor: MainReactor) {
-        self.mainReactor = reactor
+    internal func bind(reactor: GlobalFilterReactor) {
+        
         self.addSubview(totalView)
         totalView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -161,7 +161,7 @@ internal final class NewFilterTypeView: UIView {
             .bind(to: GlobalFilterReactor.sharedInstance.action)
             .disposed(by: self.disposeBag)
         
-        GlobalFilterReactor.sharedInstance.state.compactMap { $0.chargerTypes }
+        reactor.state.compactMap { $0.chargerTypes }
             .asDriver(onErrorJustReturn: [])
             .drive(with: self) { obj, types in
                 obj.tags = types
@@ -217,7 +217,6 @@ extension NewFilterTypeView: FilterButtonAction {
 // MARK: UICollectionViewDataSource
 extension NewFilterTypeView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return types.count
         return tags.count
     }
     
@@ -225,18 +224,8 @@ extension NewFilterTypeView: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NewTagListViewCell", for: indexPath) as? NewTagListViewCell else { return UICollectionViewCell() }
         
         let index = indexPath.row
-//        let chargerType = types[indexPath.row]
-
-//        let typeImageProperty = chargerType.typeImageProperty ?? (image: nil, imgUnSelectColor: nil, imgSelectColor: nil)
-//        cell.btn.isSelected = chargerType.selected
-//        cell.titleLbl.text = chargerType.typeTitle
-//        cell.titleLbl.textColor = chargerType.selected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-//        cell.imgView.image = typeImageProperty.image
-//        cell.imgView.tintColor = chargerType.selected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-//        cell.totalView.backgroundColor = chargerType.selected ? Colors.backgroundPositiveLight.color : Colors.backgroundPrimary.color
-//        cell.totalView.borderColor = chargerType.selected ? Colors.borderPositive.color : Colors.nt1.color
-        
         let chargerType = tags[indexPath.row]
+        
         cell.btn.isSelected = chargerType.selected
         cell.titleLbl.text = chargerType.title
         cell.titleLbl.textColor = chargerType.selected ? Colors.gr7.color : Colors.contentSecondary.color
@@ -244,42 +233,39 @@ extension NewFilterTypeView: UICollectionViewDataSource {
         cell.imgView.tintColor = chargerType.selected ? Colors.gr7.color : Colors.contentSecondary.color
         cell.totalView.backgroundColor = chargerType.selected ? Colors.backgroundPositiveLight.color : Colors.backgroundPrimary.color
         cell.totalView.borderColor = chargerType.selected ? Colors.borderPositive.color : Colors.nt1.color
+        
+        cell.btn.rx.tap
+            .asDriver()
+            .drive(with: self) { obj, _ in
+                cell.btn.isSelected = !cell.btn.isSelected
+                
+                Observable.just(GlobalFilterReactor.Action.changedChargerTypeFilter((obj.tags[index].uniqueKey, cell.btn.isSelected)))
+                    .bind(to: GlobalFilterReactor.sharedInstance.action)
+                    .disposed(by: obj.disposeBag)
+                
+                Observable.just(GlobalFilterReactor.Action.changedFilter(true))
+                    .bind(to: GlobalFilterReactor.sharedInstance.action)
+                    .disposed(by: obj.disposeBag)
+                
+                if obj.isDirectChange {
+                    obj.saveFilter()
+                }
+                
+                obj.delegate?.changedFilter(type: .type)
+            }.disposed(by: self.disposeBag)
 
-        if let _reactor = self.mainReactor {
-            cell.btn.rx.tap
-                .asDriver()
-                .drive(with: self) { obj, _ in
-                    cell.btn.isSelected = !cell.btn.isSelected
-//                    obj.tags[index].selected = cell.btn.isSelected
-                    
-                    Observable.just(GlobalFilterReactor.Action.changedChargerTypeFilter((obj.tags[index].uniqueKey, cell.btn.isSelected)))
-                        .bind(to: GlobalFilterReactor.sharedInstance.action)
-                        .disposed(by: obj.disposeBag)
-                    
-                    Observable.just(GlobalFilterReactor.Action.changedFilter(true))
-                        .bind(to: GlobalFilterReactor.sharedInstance.action)
-                        .disposed(by: obj.disposeBag)
-                    
-                    if obj.isDirectChange {
-                        obj.saveFilter()
-                    }
-                    
-                    obj.delegate?.changedFilter(type: .type)
-                }.disposed(by: self.disposeBag)
- 
-            GlobalFilterReactor.sharedInstance.state.compactMap { $0.changedChargerTypeFilter }
-                .asDriver(onErrorJustReturn: (0, false))
-                .drive(with: self) { obj, selectedChargerFilter in
-                    guard selectedChargerFilter.chargerTypeKey == obj.tags[index].uniqueKey else { return }
-                    
-                    let isSelected = selectedChargerFilter.isSelected
-                    obj.tags[index].selected = isSelected
-                    cell.titleLbl.textColor = isSelected ? Colors.gr7.color : Colors.contentSecondary.color
-                    cell.imgView.tintColor = isSelected ? Colors.gr7.color : Colors.contentSecondary.color
-                    cell.totalView.backgroundColor = isSelected ? Colors.backgroundPositiveLight.color : Colors.backgroundPrimary.color
-                    cell.totalView.borderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
-                }.disposed(by: self.disposeBag)
-        }
+        GlobalFilterReactor.sharedInstance.state.compactMap { $0.changedChargerTypeFilter }
+            .asDriver(onErrorJustReturn: (0, false))
+            .drive(with: self) { obj, selectedChargerFilter in
+                guard selectedChargerFilter.chargerTypeKey == obj.tags[index].uniqueKey else { return }
+                
+                let isSelected = selectedChargerFilter.isSelected
+                obj.tags[index].selected = isSelected
+                cell.titleLbl.textColor = isSelected ? Colors.gr7.color : Colors.contentSecondary.color
+                cell.imgView.tintColor = isSelected ? Colors.gr7.color : Colors.contentSecondary.color
+                cell.totalView.backgroundColor = isSelected ? Colors.backgroundPositiveLight.color : Colors.backgroundPrimary.color
+                cell.totalView.borderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
+            }.disposed(by: self.disposeBag)
         
         /* cell에 리액터 주입 안 한 이유:
          * NewTagListViewCell은 상단필터의 충전기타입 필터 뿐만 아니라 필터 상세의 회사필터에도 적용되는데,
