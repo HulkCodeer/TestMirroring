@@ -178,10 +178,12 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
                     let cancelBtn = UIAlertAction(title: "취소", style: .default)
                     let okBtn = UIAlertAction(title: "나가기", style: .default) { _ in
                         
-                        obj.placeFilterView.revertFilter()
-                        obj.accessFilterView.revertFilter()
                         obj.speedFilterView.revertFilter()
+                        obj.typeFilterView.revertFilter()
+                        obj.accessFilterView.revertFilter()
                         obj.roadFilterView.revertFilter()
+                        obj.placeFilterView.revertFilter()
+
                         GlobalDefine.shared.mainNavi?.pop()
                     }
                     var actions = [UIAlertAction]()
@@ -205,6 +207,7 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
                     // TODO: 각 필터 초기화
                     
                     obj.speedFilterView.resetFilter()
+                    obj.typeFilterView.revertFilter()
                     obj.accessFilterView.resetFilter()
                     obj.roadFilterView.resetFilter()
                     obj.placeFilterView.resetFilter()
@@ -230,10 +233,11 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
                 
                 // TODO: 각 필터 저장
                 obj.speedFilterView.saveFilter()
+                obj.typeFilterView.saveFilter()
                 obj.accessFilterView.saveFilter()
                 obj.roadFilterView.saveFilter()
                 obj.placeFilterView.saveFilter()
-                obj.typeFilterView.saveFilter()
+                
                 obj.delegate?.applyFilter()
                 
                 FilterManager.sharedInstance.logEventWithFilter("필터")
@@ -243,7 +247,7 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
     }
     
     private func shouldChanged() -> Bool {
-        return roadFilterView.shouldChanged() || accessFilterView.shouldChanged() || placeFilterView.shouldChanged() || speedFilterView.shouldChanged()
+        return roadFilterView.shouldChanged() || accessFilterView.shouldChanged() || placeFilterView.shouldChanged() || speedFilterView.shouldChanged() || typeFilterView.shouldChange()
     }
 }
 

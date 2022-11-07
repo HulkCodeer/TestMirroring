@@ -12,6 +12,20 @@ import RxCocoa
 import SnapKit
 import Then
 
+internal struct NewTag {
+    var title: String
+    var selected: Bool
+    var uniqueKey: Int
+    var image: UIImage?
+    
+    init(title: String, selected: Bool, uniqueKey: Int, image: UIImage?) {
+        self.title = title
+        self.selected = selected
+        self.uniqueKey = uniqueKey
+        self.image = image
+    }
+}
+
 enum ChargerType: CaseIterable {
     typealias Property = (image: UIImage?, imgUnSelectColor: UIColor?, imgSelectColor: UIColor?)
     
@@ -61,7 +75,7 @@ enum ChargerType: CaseIterable {
         }
     }
     
-    internal var index: Int {
+    internal var uniqueKey: Int {
         switch self {
         case .dcCombo: return Const.CHARGER_TYPE_DCCOMBO
         case .dcDemo: return Const.CHARGER_TYPE_DCDEMO
@@ -86,8 +100,8 @@ internal final class NewFilterTypeView: UIView {
     
     private lazy var chargerTypesCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout()).then {
         let layout = TagFlowLayout()
-        layout.minimumLineSpacing = 3
-        layout.minimumInteritemSpacing = 3
+        layout.minimumLineSpacing = 8
+        layout.minimumInteritemSpacing = 8
         layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         $0.collectionViewLayout = layout
         $0.register(NewTagListViewCell.self, forCellWithReuseIdentifier: "NewTagListViewCell")
@@ -98,8 +112,11 @@ internal final class NewFilterTypeView: UIView {
     // MARK: VARIABLES
     private weak var mainReactor: MainReactor?
     private var disposeBag = DisposeBag()
+    private var _originalTags: [NewTag] = [NewTag]()
+    private var tags: [NewTag] = [NewTag]()
     internal var types: [ChargerType] = [ChargerType]()
-    internal var saveOnChange: Bool = false
+    internal weak var delegate: NewDelegateFilterChange?
+    internal var isDirectChange: Bool = false
     
     // MARK: SYSTEM FUNC
     
@@ -121,12 +138,12 @@ internal final class NewFilterTypeView: UIView {
         self.addSubview(totalView)
         totalView.snp.makeConstraints {
             $0.edges.equalToSuperview()
-            $0.height.equalTo(138)
+            $0.height.equalTo(128)
         }
         
         totalView.addSubview(filterTitleLbl)
         filterTitleLbl.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(10)
+            $0.top.equalToSuperview().offset(8)
             $0.leading.equalToSuperview().offset(16)
             $0.height.equalTo(16)
         }
@@ -136,15 +153,29 @@ internal final class NewFilterTypeView: UIView {
             $0.top.equalTo(filterTitleLbl.snp.bottom).offset(16)
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)
-            $0.bottom.equalToSuperview().offset(-20)
+            $0.bottom.lessThanOrEqualToSuperview().offset(-20)
             $0.height.equalTo(76)
         }
         
-        for chargerType in ChargerType.allCases {
-            types.append(chargerType)
+        Observable.just(GlobalFilterReactor.Action.loadChargerTypes)
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
+        
+        GlobalFilterReactor.sharedInstance.state.compactMap { $0.chargerTypes }
+            .asDriver(onErrorJustReturn: [])
+            .drive(with: self) { obj, types in
+                obj.tags = types
+                obj._originalTags = types
+                obj.chargerTypesCollectionView.reloadData()
+            }.disposed(by: self.disposeBag)
+    }
+    
+    internal func shouldChange() -> Bool {
+        for index in 0..<self.tags.count {
+            guard tags[index].selected == _originalTags[index].selected else { return true }
         }
         
-        chargerTypesCollectionView.reloadData()
+        return false
     }
 }
 
@@ -152,29 +183,65 @@ internal final class NewFilterTypeView: UIView {
 extension NewFilterTypeView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NewTagListViewCell", for: indexPath) as? NewTagListViewCell else { return CGSize.zero }
-        let title = types[indexPath.row].typeTitle
+        let title = tags[indexPath.row].title
         return cell.getInteresticSize(text: title, cv: collectionView)
+    }
+}
+
+extension NewFilterTypeView: FilterButtonAction {
+    func saveFilter() {
+        Observable.just(GlobalFilterReactor.Action.setChargerTypeFilter(tags))
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
+    }
+    
+    func resetFilter() {
+        for tag in tags {
+            var _tag = tag
+            _tag.selected = !(_tag.uniqueKey == Const.CHARGER_TYPE_SLOW || _tag.uniqueKey == Const.CHARGER_TYPE_DESTINATION)
+            Observable.just(GlobalFilterReactor.Action.changedChargerTypeFilter((_tag.uniqueKey, _tag.selected)))
+                .bind(to: GlobalFilterReactor.sharedInstance.action)
+                .disposed(by: self.disposeBag)
+        }
+    }
+    
+    func revertFilter() {
+        for original in _originalTags {
+            Observable.just(GlobalFilterReactor.Action.changedChargerTypeFilter((original.uniqueKey, original.selected)))
+                .bind(to: GlobalFilterReactor.sharedInstance.action)
+                .disposed(by: self.disposeBag)
+        }
     }
 }
 
 // MARK: UICollectionViewDataSource
 extension NewFilterTypeView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return types.count
+//        return types.count
+        return tags.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NewTagListViewCell", for: indexPath) as? NewTagListViewCell else { return UICollectionViewCell() }
         
         let index = indexPath.row
-        let chargerType = types[indexPath.row]
+//        let chargerType = types[indexPath.row]
+
+//        let typeImageProperty = chargerType.typeImageProperty ?? (image: nil, imgUnSelectColor: nil, imgSelectColor: nil)
+//        cell.btn.isSelected = chargerType.selected
+//        cell.titleLbl.text = chargerType.typeTitle
+//        cell.titleLbl.textColor = chargerType.selected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+//        cell.imgView.image = typeImageProperty.image
+//        cell.imgView.tintColor = chargerType.selected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+//        cell.totalView.backgroundColor = chargerType.selected ? Colors.backgroundPositiveLight.color : Colors.backgroundPrimary.color
+//        cell.totalView.borderColor = chargerType.selected ? Colors.borderPositive.color : Colors.nt1.color
         
-        let typeImageProperty = chargerType.typeImageProperty ?? (image: nil, imgUnSelectColor: nil, imgSelectColor: nil)
+        let chargerType = tags[indexPath.row]
         cell.btn.isSelected = chargerType.selected
-        cell.titleLbl.text = chargerType.typeTitle
-        cell.titleLbl.textColor = chargerType.selected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-        cell.imgView.image = typeImageProperty.image
-        cell.imgView.tintColor = chargerType.selected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+        cell.titleLbl.text = chargerType.title
+        cell.titleLbl.textColor = chargerType.selected ? Colors.gr7.color : Colors.contentSecondary.color
+        cell.imgView.image = chargerType.image
+        cell.imgView.tintColor = chargerType.selected ? Colors.gr7.color : Colors.contentSecondary.color
         cell.totalView.backgroundColor = chargerType.selected ? Colors.backgroundPositiveLight.color : Colors.backgroundPrimary.color
         cell.totalView.borderColor = chargerType.selected ? Colors.borderPositive.color : Colors.nt1.color
 
@@ -183,24 +250,35 @@ extension NewFilterTypeView: UICollectionViewDataSource {
                 .asDriver()
                 .drive(with: self) { obj, _ in
                     cell.btn.isSelected = !cell.btn.isSelected
-                    Observable.just(MainReactor.Action.setSelectedChargerTypeFilter((obj.types[index], cell.btn.isSelected)))
-                        .bind(to: _reactor.action)
+//                    obj.tags[index].selected = cell.btn.isSelected
+                    
+                    Observable.just(GlobalFilterReactor.Action.changedChargerTypeFilter((obj.tags[index].uniqueKey, cell.btn.isSelected)))
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
+                    
+                    Observable.just(GlobalFilterReactor.Action.changedFilter(true))
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+                        .disposed(by: obj.disposeBag)
+                    
+                    if obj.isDirectChange {
+                        obj.saveFilter()
+                    }
+                    
+                    obj.delegate?.changedFilter(type: .type)
                 }.disposed(by: self.disposeBag)
-            
-            _reactor.state.compactMap { $0.selectedChargerTypeFilter }
-                .asDriver(onErrorJustReturn: MainReactor.SelectedChargerTypeFilter(chargerType: types[index], isSelected: false))
+ 
+            GlobalFilterReactor.sharedInstance.state.compactMap { $0.changedChargerTypeFilter }
+                .asDriver(onErrorJustReturn: (0, false))
                 .drive(with: self) { obj, selectedChargerFilter in
-                    guard selectedChargerFilter.chargerType == obj.types[index] else { return }
+                    guard selectedChargerFilter.chargerTypeKey == obj.tags[index].uniqueKey else { return }
+                    
                     let isSelected = selectedChargerFilter.isSelected
-                    cell.titleLbl.textColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-                    cell.imgView.tintColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+                    obj.tags[index].selected = isSelected
+                    cell.titleLbl.textColor = isSelected ? Colors.gr7.color : Colors.contentSecondary.color
+                    cell.imgView.tintColor = isSelected ? Colors.gr7.color : Colors.contentSecondary.color
                     cell.totalView.backgroundColor = isSelected ? Colors.backgroundPositiveLight.color : Colors.backgroundPrimary.color
                     cell.totalView.borderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
-                    
-                    FilterManager.sharedInstance.saveTypeFilter(index: obj.types[index].index, val: isSelected)
-                }
-                .disposed(by: self.disposeBag)
+                }.disposed(by: self.disposeBag)
         }
         
         /* cell에 리액터 주입 안 한 이유:

@@ -9,15 +9,20 @@
 import ReactorKit
 
 internal final class GlobalFilterReactor: ViewModel, Reactor {
+    typealias SelectedFilterType = (filterTagType: FilterTagType, isSelected: Bool)
     typealias SelectedSpeedFilter = (minSpeed: Int, maxSpeed: Int)
     typealias SelectedPlaceFilter = (placeType: PlaceType, isSelected: Bool)
     typealias SelectedRoadFilter = (roadType: RoadType, isSelected: Bool)
+    typealias SelectedChargerTypeFilter = (chargerTypeKey: Int, isSelected: Bool)
     typealias SelectedAccessFilter = (accessType: AccessType, isSelected: Bool)
+    typealias SelectedCompanyFilter = (groups: [NewCompanyGroup], groupIndex: Int, companyIndex: Int, isSelected: Bool)
     
     enum Action {
         case loadCompanies
         case setAllCompanies(Bool)
         case changedFilter(Bool)
+        case setEvPayFilter(Bool)
+        case setFavoriteFilter(Bool)
         case setSelectedFilterType(SelectedFilterType)
         case changedAccessFilter(SelectedAccessFilter)
         case setAccessFilter(SelectedAccessFilter)
@@ -27,6 +32,7 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         case setPlaceFilter(SelectedPlaceFilter)
         case changedSpeedFilter(SelectedSpeedFilter)
         case setSpeedFilter(SelectedSpeedFilter)
+        case loadChargerTypes
         case changedChargerTypeFilter(SelectedChargerTypeFilter)
         case setChargerTypeFilter([NewTag])
     }
@@ -36,11 +42,14 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         case setAllCompanies(Bool)
         case changedFilter(Bool)
         case updateBarTitle(Bool)
+        case setEvPayFilter(Bool)
+        case setFavoriteFilter(Bool, Int)
         case setSelectedFilterType(SelectedFilterType)
         case changedAccessFilter(SelectedAccessFilter)
         case changedRoadFilter(SelectedRoadFilter)
         case changedPlaceFilter(SelectedPlaceFilter)
         case changedSpeedFilter(SelectedSpeedFilter)
+        case loadChargerTypes([NewTag])
         case changedChargerTypeFilter(SelectedChargerTypeFilter)
     }
 
@@ -50,8 +59,9 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         var isChangedFilter: Bool? = false
         var selectedFilterType: SelectedFilterType?
         var selectedAccessFilter: SelectedAccessFilter?
-        var selectedChargerTypeFilter: SelectedChargerTypeFilter?
+        var changedChargerTypeFilter: SelectedChargerTypeFilter?
         var selectedChargerTypes: [ChargerType]?
+        var chargerTypes: [NewTag]? = []
         var isUpdateFilterBarTitle: Bool?
         var isPublic: Bool = FilterManager.sharedInstance.filter.isPublic
         var isNonPublic: Bool = FilterManager.sharedInstance.filter.isNonPublic
@@ -63,6 +73,8 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         var isCanopy: Bool = FilterManager.sharedInstance.filter.isCanopy
         var minSpeed: Int = FilterManager.sharedInstance.filter.minSpeed
         var maxSpeed: Int = FilterManager.sharedInstance.filter.maxSpeed
+        var isEvPayFilter: Bool? = FilterManager.sharedInstance.getIsMembershipCardChecked()
+        var favoriteFilter: (Bool, Int) = (FilterManager.sharedInstance.getIsFavoriteChecked(), 0)
     }
     
     internal var initialState: State
@@ -82,19 +94,33 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
                 Company(title: $0.name!, img: ImageMarker.companyImg(company: $0.icon_name!) ?? UIImage(named: "icon_building_sm")!, selected: $0.is_visible, isRecommaned: $0.recommend ?? false)
             }
             return .just(.loadCompanies(wholeList))
+            
         case .setAllCompanies(let isSelect):
             return .just(.setAllCompanies(isSelect))
+            
         case .changedFilter(let isChanged):
             return .just(.changedFilter(isChanged))
+            
+        case .setEvPayFilter(let isEvPayFilter):
+            return .just(.setEvPayFilter(isEvPayFilter))
+            
+        case .setFavoriteFilter(let isFavoriteFilter):
+            let favoriteChargers = ChargerManager.sharedInstance.getChargerStationInfoList().filter { $0.mFavorite }
+            return .just(.setFavoriteFilter(isFavoriteFilter, favoriteChargers.count))
+            
         case .setSelectedFilterType(let selectedFiltertype):
             return .just(.setSelectedFilterType(selectedFiltertype))
+            
         case .changedAccessFilter(let selectedAccessFilter):
             return .just(.changedAccessFilter(selectedAccessFilter))
+            
         case .setAccessFilter(let accessFilter):
             accessFilter.accessType == .publicCharger ? FilterManager.sharedInstance.savePublic(with: accessFilter.isSelected) : FilterManager.sharedInstance.saveNonPublic(with: accessFilter.isSelected)
             return .just(.updateBarTitle(true))
+            
         case .changedRoadFilter(let selectedRoadFilter):
             return .just(.changedRoadFilter(selectedRoadFilter))
+            
         case .setRoadFilter(let roadFilter):
             switch roadFilter.roadType {
             case .general:
@@ -105,8 +131,10 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
                 FilterManager.sharedInstance.saveHighwayDown(with: roadFilter.isSelected)
             }
             return .just(.updateBarTitle(true))
+            
         case .changedPlaceFilter(let selectedPlaceFilter):
             return .just(.changedPlaceFilter(selectedPlaceFilter))
+            
         case .setPlaceFilter(let placeFilter):
             switch placeFilter.placeType {
             case .indoor:
@@ -117,16 +145,36 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
                 FilterManager.sharedInstance.saveCanopy(with: placeFilter.isSelected)
             }
             return .just(.updateBarTitle(true))
+            
         case .changedSpeedFilter(let selectedSpeedFilter):
             return .just(.changedSpeedFilter(selectedSpeedFilter))
+            
         case .setSpeedFilter(let speedFilter):
             FilterManager.sharedInstance.saveSpeedFilter(min: speedFilter.minSpeed, max: speedFilter.maxSpeed)
+            return .just(.updateBarTitle(true))
+            
+        case .loadChargerTypes:
+            var tags: [NewTag] = [NewTag]()
+            for type in ChargerType.allCases {
+                tags.append(NewTag(title: type.typeTitle, selected: type.selected, uniqueKey: type.uniqueKey, image: type.typeImageProperty?.image))
+            }
+            return .just(.loadChargerTypes(tags))
+            
+        case .changedChargerTypeFilter(let selectedChargerType):
+            return .just(.changedChargerTypeFilter(selectedChargerType))
+            
+        case .setChargerTypeFilter(let tags):
+            for tag in tags {
+                FilterManager.sharedInstance.saveChargerType(index: tag.uniqueKey, selected: tag.selected)
+            }
             return .empty()
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
+        newState.loadedCompanies = nil
+        newState.chargerTypes = nil
         
         switch mutation {
         case .loadCompanies(let companies):
@@ -137,6 +185,13 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
             newState.isChangedFilter = isChanged
         case .updateBarTitle(let isUpdate):
             newState.isUpdateFilterBarTitle = isUpdate
+            
+        case .setEvPayFilter(let isEvPayFilter):
+            newState.isEvPayFilter = isEvPayFilter
+            
+        case .setFavoriteFilter(let isFavoriteFilter, let numberOfFavorites):
+            newState.favoriteFilter = (isFavoriteFilter, numberOfFavorites)
+//            newState.isFavoriteFilter = isFavoriteFilter
             
         case .setSelectedFilterType(let selectedFilterType):
             newState.selectedFilterType = selectedFilterType
@@ -171,8 +226,11 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
             newState.minSpeed = selectedSpeedFilter.minSpeed
             newState.maxSpeed = selectedSpeedFilter.maxSpeed
             
+        case .loadChargerTypes(let tags):
+            newState.chargerTypes = tags
+            
         case .changedChargerTypeFilter(let selectedChargerTypeFilter):
-            newState.selectedChargerTypeFilter = selectedChargerTypeFilter
+            newState.changedChargerTypeFilter = selectedChargerTypeFilter
         }
         
         return newState
