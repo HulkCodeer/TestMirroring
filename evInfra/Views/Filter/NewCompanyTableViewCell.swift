@@ -16,21 +16,25 @@ import Then
 internal class NewCompanyGroup {
     var groupTitle: String
     var companies: [Company]
+    var groupIndex: Int
     
-    init(groupTitle: String, companies: [Company]) {
+    init(groupTitle: String, companies: [Company], groupIndex: Int) {
         self.groupTitle = groupTitle
         self.companies = companies
+        self.groupIndex = groupIndex
     }
 }
 
 internal class Company {
     let title: String
+    let companyId: String
     let img: UIImage
     var selected: Bool
     let isRecommaned: Bool
     
-    init(title: String, img: UIImage, selected: Bool, isRecommaned: Bool) {
+    init(title: String, companyId: String, img: UIImage, selected: Bool, isRecommaned: Bool) {
         self.title = title
+        self.companyId = companyId
         self.img = img
         self.selected = selected
         self.isRecommaned = isRecommaned
@@ -47,22 +51,27 @@ internal final class NewCompanyTableViewCell: UITableViewCell {
     internal var groupTitleLbl = UILabel().then {
         $0.font = .systemFont(ofSize: 12, weight: .regular)
         $0.textColor = Colors.contentDisabled.color
+        $0.numberOfLines = 1
+        $0.sizeToFit()
     }
     
-    internal var companiesCollectionView = DynamicCollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout()).then {
+    internal var companiesCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout()).then {
         let layout = TagFlowLayout()
         layout.minimumLineSpacing = 8
         layout.minimumInteritemSpacing = 8
-        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         $0.collectionViewLayout = layout
         $0.showsHorizontalScrollIndicator = false
         $0.showsVerticalScrollIndicator = false
+        $0.isScrollEnabled = false
         $0.register(NewTagListViewCell.self, forCellWithReuseIdentifier: "NewTagListViewCell")
     }
     
     // MARK: VARIABLES
     private var filterReactor: GlobalFilterReactor?
     private var disposeBag = DisposeBag()
+    private var group: NewCompanyGroup?
+    internal var groups: [NewCompanyGroup] = [NewCompanyGroup]()
+    internal var groupIndex: Int = 0
     internal weak var delegate: CompanyTableCellDelegate?
     internal var companies: [Company] = [Company]()
     internal var totalWidthPerRow: CGFloat = 0
@@ -71,33 +80,10 @@ internal final class NewCompanyTableViewCell: UITableViewCell {
     // MARK: SYSTEM FUNC
     override func awakeFromNib() {
         super.awakeFromNib()
-//        makeUI()
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-//        makeUI()
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-    
-    // MARK: FUNC
-    private func makeUI() {
-        
-    }
-    
-    internal func configuration(with group: NewCompanyGroup) {
-        groupTitleLbl.text = group.groupTitle
-        companies = group.companies
-        companiesCollectionView.reloadData()
-    }
-    
-    internal func bind(reactor: GlobalFilterReactor) {
-        self.filterReactor = reactor
-        companiesCollectionView.delegate = self
-        companiesCollectionView.dataSource = self
         
         self.contentView.addSubview(containerView)
         containerView.snp.makeConstraints {
@@ -113,23 +99,43 @@ internal final class NewCompanyTableViewCell: UITableViewCell {
 
         self.contentView.addSubview(companiesCollectionView)
         companiesCollectionView.snp.makeConstraints {
-            $0.top.equalTo(groupTitleLbl.snp.bottom).offset(16)
+            $0.top.equalTo(groupTitleLbl.snp.bottom).offset(16).priority(.low)
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)
             $0.bottom.equalToSuperview()
-            $0.height.equalTo(32)
+            $0.height.equalTo(34)
         }
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    // MARK: FUNC
+    
+    internal func configuration(with groups: [NewCompanyGroup], groupIndex: Int) {
+        self.groups = groups
+        self.groupIndex = groupIndex
+        groupTitleLbl.text = groups[groupIndex].groupTitle
+        companies = groups[groupIndex].companies
+        companiesCollectionView.reloadData()
+    }
+    
+    internal func bind(reactor: GlobalFilterReactor) {
+        self.filterReactor = reactor
+        companiesCollectionView.delegate = self
+        companiesCollectionView.dataSource = self
     }
     
     override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
         companiesCollectionView.layoutIfNeeded()
-        companiesCollectionView.frame = CGRect(x: 0, y: 0, width: targetSize.width - 16 - 16, height: 1)
+        companiesCollectionView.frame = CGRect(x: 0, y: 0, width: targetSize.width - 16 - 16, height: 34)
         let size = companiesCollectionView.collectionViewLayout.collectionViewContentSize
 
         companiesCollectionView.snp.updateConstraints {
             $0.height.equalTo(size.height)
         }
-        
+
         return CGSize(width: size.width, height: size.height + 46)
     }
 }
@@ -158,48 +164,31 @@ extension NewCompanyTableViewCell: UICollectionViewDataSource {
         cell.totalView.backgroundColor = company.selected ? Colors.backgroundPositiveLight.color : Colors.backgroundPrimary.color
         cell.totalView.borderColor = company.selected ? Colors.borderPositive.color : Colors.nt1.color
         
-        if let _reactor = self.filterReactor {
-            cell.btn.rx.tap
-                .asDriver()
-                .drive(with: self) { obj, _ in
-                    cell.btn.isSelected = !cell.btn.isSelected
-                    printLog(out: "//// 클릭 ////")
-                    
-                    if !cell.btn.isSelected {
-                        Observable.just(GlobalFilterReactor.Action.setAllCompanies(false))
-                            .bind(to: _reactor.action)
-                            .disposed(by: obj.disposeBag)
-                        
-                        Observable.just(GlobalFilterReactor.Action.changedFilter(true))
-                            .bind(to: _reactor.action)
-                            .disposed(by: obj.disposeBag)
-                    }
-                    
-                    obj.companies[index].selected = !company.selected
-                    obj.companiesCollectionView.reloadData()
-                }.disposed(by: self.disposeBag)
-        }
+        cell.btn.rx.tap
+            .asDriver(onErrorJustReturn: ())
+            .drive(with: self) { obj, _ in
+                cell.btn.isSelected = !cell.btn.isSelected
+                
+                let isSelected = cell.btn.isSelected
+                obj.groups[obj.groupIndex].companies[index].selected = isSelected
+                cell.btn.isSelected = isSelected
+                cell.titleLbl.textColor = isSelected ? Colors.gr7.color : Colors.contentSecondary.color
+                cell.imgView.tintColor = isSelected ? Colors.gr7.color : Colors.contentSecondary.color
+                cell.totalView.backgroundColor = isSelected ? Colors.backgroundPositiveLight.color : Colors.backgroundPrimary.color
+                cell.totalView.borderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
+                
+                obj.delegate?.onClickTag(tagName: obj.groups[obj.groupIndex].companies[index].title, value: cell.btn.isSelected, groupIndex: obj.groupIndex)
+            }.disposed(by: self.disposeBag)
         
         return cell
     }
 }
 
-
 extension NewCompanyTableViewCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NewTagListViewCell", for: indexPath) as? NewTagListViewCell else { return CGSize.zero }
-        let strText = companies[indexPath.row].title
-        let cellSize = cell.getInteresticSize(text: strText, cv: collectionView)
-
-        let collectionViewWidth = UIScreen.main.bounds.width - 32
-        let dynamicCellWidth = cellSize.width
-        totalWidthPerRow += dynamicCellWidth + 8
-
-        if (totalWidthPerRow > collectionViewWidth) {
-           rowCounts += 1
-           totalWidthPerRow = dynamicCellWidth + 8
-        }
-        
+        let strText = groups[groupIndex].companies[indexPath.row].title
+        let cellSize = cell.adjustCellSize(height: 34, str: strText)
         return cellSize
     }
 }

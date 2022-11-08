@@ -36,6 +36,7 @@ internal final class NewTagListViewCell: UICollectionViewCell {
     
     // MARK: VARIABLE
     private let disposeBag = DisposeBag()
+    internal weak var delegateTagClick: DelegateTagListViewCell?
     
     // MARK: SYSTEM FUNC
     override init(frame: CGRect) {
@@ -60,7 +61,7 @@ internal final class NewTagListViewCell: UICollectionViewCell {
         self.addSubview(totalView)
         totalView.snp.makeConstraints {
             $0.edges.equalToSuperview()
-            $0.height.equalTo(30)
+            $0.height.equalTo(34)
         }
         
         totalView.addSubview(imgView)
@@ -84,30 +85,14 @@ internal final class NewTagListViewCell: UICollectionViewCell {
         }
     }
     
-    internal func getInteresticSize(text: String, cv: UICollectionView) -> CGSize {
+    func adjustCellSize(height: CGFloat, str: String) -> CGSize {
+        self.titleLbl.text = str
         let font = (name: titleLbl.font.fontName, size: titleLbl.font.pointSize)
-        let textSize = titleLbl.textSize(font: UIFont(name: font.name, size: font.size)!, text: text)
-        let leftPaddingSize = 12 + 16 + 4 + 2 // 아이콘 leading + 아이콘 width + 아이콘 trailing
-
-//        if textSize.width + CGFloat(leftPaddingSize) >= cv.frame.size.width {
-//            let height = titleLbl.heightForView(text: text, font: UIFont(name: font.name, size: font.size)!, width: cv.frame.size.width)
-//            return CGSize(width: cv.frame.size.width + CGFloat(leftPaddingSize), height: height + 8)
-//        } else {
-//            return CGSize(width: ceil(textSize.width) + 12 + CGFloat(leftPaddingSize), height: 34)
-//        }
-        return CGSize(width: textSize.width + 12 + CGFloat(leftPaddingSize), height: 34)
+        let textSize = titleLbl.textSize(font: UIFont(name: font.name, size: font.size)!, text: str)
+        let leftPaddingSize = 12 + 16 + 4 + 2
+        
+        let targetSize = CGSize(width: textSize.width + CGFloat(leftPaddingSize), height: height)
+        return self.totalView.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: .fittingSizeLevel, verticalFittingPriority: .fittingSizeLevel)
     }
-    
-//    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
-//        layoutIfNeeded()
-//
-//        let size = contentView.systemLayoutSizeFitting(layoutAttributes.size)
-//        var frame = layoutAttributes.frame
-////        frame.size.width = ceil(size.width)
-//        frame.size.height = ceil(size.height)
-//
-//        layoutAttributes.frame = frame
-//        return layoutAttributes
-//    }
 }
 

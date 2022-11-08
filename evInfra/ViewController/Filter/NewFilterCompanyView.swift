@@ -54,10 +54,9 @@ internal final class NewFilterCompanyView: UIView {
         $0.textColor = Colors.contentDisabled.color
     }
 
-    private lazy var companyTableView = UITableView(frame: .zero, style: .plain).then {
+    internal lazy var companyTableView = UITableView(frame: .zero, style: .plain).then {
         $0.delegate = self
         $0.dataSource = self
-//        $0.estimatedRowHeight = UITableView.automaticDimension
         $0.rowHeight = UITableView.automaticDimension
         $0.separatorStyle = .none
         $0.separatorInset = .zero
@@ -81,6 +80,7 @@ internal final class NewFilterCompanyView: UIView {
         self.addSubview(totalView)
         totalView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+            $0.height.equalTo(500)
         }
         
         totalView.addSubview(filterTitleLbl)
@@ -94,6 +94,7 @@ internal final class NewFilterCompanyView: UIView {
         filterSubTitleLbl.snp.makeConstraints {
             $0.top.equalTo(filterTitleLbl.snp.bottom).offset(4)
             $0.leading.equalToSuperview().offset(16)
+            $0.height.equalTo(14)
         }
         
         let totalSwitchView = UIView().then {
@@ -119,17 +120,87 @@ internal final class NewFilterCompanyView: UIView {
             $0.leading.equalToSuperview().offset(16)
             $0.height.equalTo(56)
         }
-
+        
         totalView.addSubview(companyTableView)
         companyTableView.snp.makeConstraints {
-            $0.top.equalTo(totalSwitchView.snp.bottom).offset(8)
+            $0.top.equalTo(totalSwitchView.snp.bottom)
             $0.leading.equalTo(totalView.snp.leading)
             $0.trailing.equalTo(totalView.snp.trailing)
             $0.bottom.equalTo(totalView.snp.bottom).offset(-16)
-            $0.height.equalTo(2200)
+            $0.height.equalTo(400)
         }
         
         companyTableView.register(NewCompanyTableViewCell.self, forCellReuseIdentifier: "NewCompanyTableViewCell")
+        
+        
+        GlobalFilterReactor.sharedInstance.state.compactMap { $0.loadedCompanies }
+            .subscribe(with: self) { obj, companies in
+                obj.groups.removeAll()
+
+                var companiesInGroup: [Company] = [Company]()
+                var recommand: [Company] = [Company]()
+                var titleIndex: Int = 1
+
+                for (index, company) in companies.enumerated() {
+                    if company.title >= obj.groupTitle[titleIndex] {
+                        let currentIndex = titleIndex
+                        for index in (currentIndex + 1) ..< obj.groupTitle.count {
+                            if company.title >= obj.groupTitle[index] {
+                                titleIndex += 1
+                            } else {
+                                break
+                            }
+                        }
+                        if !companiesInGroup.isEmpty {
+                            obj.groups.append(NewCompanyGroup(groupTitle: obj.groupTitle[titleIndex - 1], companies: companiesInGroup, groupIndex: index))
+                            companiesInGroup = [Company]()
+                        }
+
+                        titleIndex += 1
+                    }
+                    companiesInGroup.append(company)
+                    var selected = company.selected
+                    if company.isRecommaned {
+                        recommand.append(company)
+                    }
+
+                    if !selected {
+                        Observable.just(GlobalFilterReactor.Action.setAllCompanies(false))
+                            .bind(to: GlobalFilterReactor.sharedInstance.action)
+                            .disposed(by: self.disposeBag)
+                    }
+                }
+
+                if !companiesInGroup.isEmpty {
+                    obj.groups.append(NewCompanyGroup(groupTitle: obj.groupTitle[titleIndex-1], companies: companiesInGroup, groupIndex: obj.groups.count - 1))
+                }
+
+                let abcGroup = obj.groups[0]
+                obj.groups.remove(at: 0)
+                obj.groups.append(abcGroup)
+                obj.groups.insert(NewCompanyGroup(groupTitle: "추천", companies: recommand, groupIndex: 0), at: 0)
+
+                obj.originalGroups = obj.groups
+                obj.companyTableView.reloadData()
+            }.disposed(by: self.disposeBag)
+        
+        GlobalFilterReactor.sharedInstance.state.compactMap { $0.isSelectedAllCompanies }
+            .bind(to: allSwitch.rx.isOn)
+            .disposed(by: self.disposeBag)
+        
+        allSwitch.rx.isOn
+            .asDriver(onErrorJustReturn: false)
+            .drive(with: self) { obj, isOn in
+                obj.allSwitch.isOn = isOn
+                
+                for group in obj.groups {
+                    for company in group.companies {
+                        company.selected = isOn
+                    }
+                }
+                
+                obj.companyTableView.reloadData()
+            }.disposed(by: self.disposeBag)
     }
 
     required init?(coder: NSCoder) {
@@ -145,38 +216,31 @@ internal final class NewFilterCompanyView: UIView {
         // 필터 설정 버튼
         
         Observable.just(GlobalFilterReactor.Action.setAllCompanies(true))
-            .bind(to: reactor.action)
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
             .disposed(by: self.disposeBag)
-        
-        reactor.state.compactMap { $0.isSelectedAllCompanies }
+
+        Observable.just(GlobalFilterReactor.Action.setAllCompanies(allSwitch.isOn))
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
+
+        GlobalFilterReactor.sharedInstance.state.compactMap { $0.isSelectedAllCompanies }
             .bind(to: allSwitch.rx.isOn)
             .disposed(by: self.disposeBag)
-        
-        allSwitch.rx.isOn
-            .asDriver()
-            .drive(with: self) { obj, isOn in
-                for group in obj.groups {
-                    for company in group.companies {
-                        company.selected = isOn
-                    }
-                }
-                
-                obj.companyTableView.reloadData()
-                obj.companyTableView.layoutIfNeeded()
-            }.disposed(by: self.disposeBag)
-        
-        // TODO: fetch companies logic
+
+//         TODO: fetch companies logic
         Observable.just(GlobalFilterReactor.Action.loadCompanies)
-            .bind(to: reactor.action)
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
             .disposed(by: self.disposeBag)
-        
-        reactor.state.compactMap { $0.loadedCompanies }
+//
+        GlobalFilterReactor.sharedInstance.state.compactMap { $0.loadedCompanies }
             .subscribe(with: self) { obj, companies in
+                obj.groups.removeAll()
+
                 var companiesInGroup: [Company] = [Company]()
                 var recommand: [Company] = [Company]()
                 var titleIndex: Int = 1
-                
-                for company in companies {
+
+                for (index, company) in companies.enumerated() {
                     if company.title >= obj.groupTitle[titleIndex] {
                         let currentIndex = titleIndex
                         for index in (currentIndex + 1) ..< obj.groupTitle.count {
@@ -187,7 +251,7 @@ internal final class NewFilterCompanyView: UIView {
                             }
                         }
                         if !companiesInGroup.isEmpty {
-                            obj.groups.append(NewCompanyGroup(groupTitle: obj.groupTitle[titleIndex - 1], companies: companiesInGroup))
+                            obj.groups.append(NewCompanyGroup(groupTitle: obj.groupTitle[titleIndex - 1], companies: companiesInGroup, groupIndex: index))
                             companiesInGroup = [Company]()
                         }
 
@@ -198,25 +262,43 @@ internal final class NewFilterCompanyView: UIView {
                     if company.isRecommaned {
                         recommand.append(company)
                     }
-                    
+
                     if !selected {
                         Observable.just(GlobalFilterReactor.Action.setAllCompanies(false))
-                            .bind(to: reactor.action)
+                            .bind(to: GlobalFilterReactor.sharedInstance.action)
                             .disposed(by: self.disposeBag)
                     }
                 }
-                
+
                 if !companiesInGroup.isEmpty {
-                    obj.groups.append(NewCompanyGroup(groupTitle: obj.groupTitle[titleIndex-1], companies: companiesInGroup))
+                    obj.groups.append(NewCompanyGroup(groupTitle: obj.groupTitle[titleIndex-1], companies: companiesInGroup, groupIndex: obj.groups.count - 1))
                 }
-                
+
                 let abcGroup = obj.groups[0]
                 obj.groups.remove(at: 0)
                 obj.groups.append(abcGroup)
-                obj.groups.insert(NewCompanyGroup(groupTitle: "추천", companies: recommand), at: 0)
-                
+                obj.groups.insert(NewCompanyGroup(groupTitle: "추천", companies: recommand, groupIndex: 0), at: 0)
+
+                obj.originalGroups = obj.groups
                 obj.companyTableView.reloadData()
             }.disposed(by: self.disposeBag)
+    }
+    
+    override func updateConstraints() {
+        super.updateConstraints()
+        companyTableView.snp.updateConstraints {
+            $0.height.equalTo(companyTableView.contentSize.height)
+        }
+    }
+    
+    internal func shouldChange() -> Bool {
+        for groupIndex in 0..<groups.count {
+            for companyIndex in 0..<groups[groupIndex].companies.count {
+                guard groups[groupIndex].companies[companyIndex].selected == originalGroups[groupIndex].companies[companyIndex].selected else { return true }
+            }
+        }
+        
+        return false
     }
 }
 
@@ -274,19 +356,30 @@ extension NewFilterCompanyView: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "NewCompanyTableViewCell", for: indexPath) as? NewCompanyTableViewCell else { return UITableViewCell() }
-        cell.configuration(with: groups[indexPath.row])
+        let cell = tableView.dequeueReusableCell(ofType: NewCompanyTableViewCell.self, for: indexPath)
+        cell.configuration(with: groups, groupIndex: indexPath.row)
         cell.delegate = self
+
         if let _reactor = self.filterReactor {
             cell.bind(reactor: _reactor)
         }
-
+        
+        let height = cell.companiesCollectionView.collectionViewLayout.collectionViewContentSize.height
+        cell.bounds.size.height = height
+        cell.layoutIfNeeded()
+        
         return cell
     }
 }
 
 extension NewFilterCompanyView: CompanyTableCellDelegate {
-    func onClickTag(tagName: String, value: Bool) {
-        printLog(out: "\(tagName) \(value)")
+    func onClickTag(tagName: String, value: Bool, groupIndex: Int) {
+        for company in groups[groupIndex].companies {
+            if company.title == tagName {
+                company.selected = value
+            }
+        }
+        
+        companyTableView.reloadData()
     }
 }
