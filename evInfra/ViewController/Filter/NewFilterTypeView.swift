@@ -199,13 +199,16 @@ extension NewFilterTypeView: FilterButtonAction {
     }
     
     func resetFilter() {
-        for tag in tags {
-            var _tag = tag
-            _tag.selected = !(_tag.uniqueKey == Const.CHARGER_TYPE_SLOW || _tag.uniqueKey == Const.CHARGER_TYPE_DESTINATION)
-            Observable.just(GlobalFilterReactor.Action.changedChargerTypeFilter((_tag.uniqueKey, _tag.selected)))
+        for index in 0..<tags.count {
+            tags[index].selected = !(tags[index].uniqueKey == Const.CHARGER_TYPE_SLOW || tags[index].uniqueKey == Const.CHARGER_TYPE_DESTINATION)
+            Observable.just(GlobalFilterReactor.Action.changedChargerTypeFilter((tags[index].uniqueKey, tags[index].selected)))
                 .bind(to: GlobalFilterReactor.sharedInstance.action)
                 .disposed(by: self.disposeBag)
         }
+        
+        Observable.just(GlobalFilterReactor.Action.setChargerTypeFilter(tags))
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
     }
     
     func revertFilter() {
