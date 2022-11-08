@@ -86,7 +86,7 @@ internal final class NewFilterAccessView: UIView {
         self.addSubview(totalView)
         totalView.snp.makeConstraints {
             $0.edges.equalToSuperview()
-            $0.height.equalTo(128)
+            $0.height.equalTo(138)
         }
         
         totalView.addSubview(filterTitleLbl)
@@ -105,7 +105,7 @@ internal final class NewFilterAccessView: UIView {
         
         totalView.addSubview(stackView)
         stackView.snp.makeConstraints {
-            $0.top.equalTo(filterTitleLbl.snp.bottom).offset(16)
+            $0.top.equalTo(filterTitleLbl.snp.bottom).offset(16).priority(.low)
             $0.leading.equalTo(totalView.snp.leading).offset(16)
             $0.trailing.equalTo(totalView.snp.trailing).offset(-16)
             $0.bottom.equalTo(totalView.snp.bottom).offset(-20)

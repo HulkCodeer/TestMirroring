@@ -105,6 +105,9 @@ internal final class NewFilterTypeView: UIView {
         layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         $0.collectionViewLayout = layout
         $0.register(NewTagListViewCell.self, forCellWithReuseIdentifier: "NewTagListViewCell")
+        $0.showsHorizontalScrollIndicator = false
+        $0.showsVerticalScrollIndicator = false
+        $0.isScrollEnabled = false
         $0.delegate = self
         $0.dataSource = self
     }
@@ -138,7 +141,7 @@ internal final class NewFilterTypeView: UIView {
         self.addSubview(totalView)
         totalView.snp.makeConstraints {
             $0.edges.equalToSuperview()
-            $0.height.equalTo(128)
+            $0.height.equalTo(138)
         }
         
         totalView.addSubview(filterTitleLbl)
@@ -184,7 +187,7 @@ extension NewFilterTypeView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NewTagListViewCell", for: indexPath) as? NewTagListViewCell else { return CGSize.zero }
         let title = tags[indexPath.row].title
-        return cell.getInteresticSize(text: title, cv: collectionView)
+        return cell.adjustCellSize(height: 34, str: title)
     }
 }
 

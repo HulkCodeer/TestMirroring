@@ -68,9 +68,9 @@
                                         </constraints>
                                     </view>
                                     <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oUv-17-AnI" customClass="FilterContainerView" customModule="evInfra" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="138" width="375" height="128"/>
+                                        <rect key="frame" x="0.0" y="138" width="375" height="138"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="128" id="WcX-Yp-t8D"/>
+                                            <constraint firstAttribute="height" constant="138" id="WcX-Yp-t8D"/>
                                         </constraints>
                                     </view>
                                 </subviews>
