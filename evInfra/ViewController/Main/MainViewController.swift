@@ -1152,6 +1152,11 @@ extension MainViewController: CLLocationManagerDelegate {
 
 extension MainViewController: DelegateChargerFilterView {
     func onApplyFilter() {
+        guard let _reactor = self.reactor else { return }
+        Observable.just(MainReactor.Action.updateFilterBarTitle)
+            .bind(to: _reactor.action)
+            .disposed(by: self.disposeBag)
+        
         filterContainerView.updateFilters()
         // refresh marker
         clusterManager?.removeClusterFromSettings()

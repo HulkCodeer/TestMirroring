@@ -9,7 +9,7 @@
 import UIKit
 
 protocol DelegateChargerFilterView: AnyObject {
-    func onApplyFilter()
+    func onApplyFilter()    
 }
 
 class ChargerFilterViewController: UIViewController {
@@ -80,7 +80,7 @@ class ChargerFilterViewController: UIViewController {
         delegate?.onApplyFilter()
             
         FilterManager.sharedInstance.logEventWithFilter("필터")
-        self.navigationController?.pop()
+        GlobalDefine.shared.mainNavi?.pop()
     }
     
     func prepareActionBar() {
