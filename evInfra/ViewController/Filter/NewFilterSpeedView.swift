@@ -190,16 +190,12 @@ internal final class NewFilterSpeedView: UIView {
                 Observable.just(GlobalFilterReactor.Action.changedSpeedFilter((minSpeed: _minSpeed, maxSpeed: _maxSpeed)))
                     .bind(to: GlobalFilterReactor.sharedInstance.action)
                     .disposed(by: obj.disposeBag)
-                            
-                
-                Observable.just(GlobalFilterReactor.Action.changedFilter(true))
-                    .bind(to: GlobalFilterReactor.sharedInstance.action)
-                    .disposed(by: self.disposeBag)
 
                 if obj.isDirectChange {
                     obj.saveFilter()
                 }
-                obj.delegate?.changedFilter(type: .speed)
+                
+                obj.delegate?.changedFilter()
             }.disposed(by: self.disposeBag)
         
         GlobalFilterReactor.sharedInstance.state.compactMap { $0.minSpeed }

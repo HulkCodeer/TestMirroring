@@ -167,15 +167,11 @@ internal final class NewFilterPlaceView: UIView {
                         .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                     
-                    Observable.just(GlobalFilterReactor.Action.changedFilter(true))
-                        .bind(to: GlobalFilterReactor.sharedInstance.action)
-                        .disposed(by: obj.disposeBag)
-                    
                     if obj.isDirectChange {
                         obj.saveFilter()
                     }
                     
-                    obj.delegate?.changedFilter(type: .place)
+                    obj.delegate?.changedFilter()
                 }
                 .disposed(by: self.disposeBag)
             
@@ -201,15 +197,11 @@ internal final class NewFilterPlaceView: UIView {
                         .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                     
-                    Observable.just(GlobalFilterReactor.Action.changedFilter(true))
-                        .bind(to: GlobalFilterReactor.sharedInstance.action)
-                        .disposed(by: obj.disposeBag)
-                    
                     if obj.isDirectChange {
                         obj.saveFilter()
                     }
                     
-                    obj.delegate?.changedFilter(type: .place)
+                    obj.delegate?.changedFilter()
                 }
                 .disposed(by: self.disposeBag)
             
@@ -234,15 +226,11 @@ internal final class NewFilterPlaceView: UIView {
                         .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                     
-                    Observable.just(GlobalFilterReactor.Action.changedFilter(true))
-                        .bind(to: GlobalFilterReactor.sharedInstance.action)
-                        .disposed(by: obj.disposeBag)
-                    
                     if obj.isDirectChange {
                         obj.saveFilter()
                     }
                     
-                    obj.delegate?.changedFilter(type: .place)
+                    obj.delegate?.changedFilter()
                 }
                 .disposed(by: self.disposeBag)
             

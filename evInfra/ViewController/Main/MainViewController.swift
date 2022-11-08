@@ -646,6 +646,15 @@ extension MainViewController: CLLocationManagerDelegate {
     }
 }
 
+// 필터상세에서 updatet시 -> 메인화면 상단필터 업데이트
+extension MainViewController: NewDelegateChargerFilterView {
+    func applyFilter() {
+        filterContainerView.updateFilters()
+        clusterManager?.removeClusterFromSettings()
+        drawMapMarker()
+    }
+}
+
 extension MainViewController: DelegateChargerFilterView {
     func onApplyFilter() {
         filterContainerView.updateFilters()

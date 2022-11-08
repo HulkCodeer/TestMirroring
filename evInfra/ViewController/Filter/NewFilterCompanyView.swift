@@ -70,7 +70,10 @@ internal final class NewFilterCompanyView: UIView {
     private var disposeBag = DisposeBag()
     private let groupTitle: [String] = ["A.B.C..", "가", "나", "다", "라", "마", "바", "사", "아", "자", "차", "카", "타", "파", "하", "힣"]
     private var groups: [NewCompanyGroup] = [NewCompanyGroup]()
+    private var originalGroups: [NewCompanyGroup] = [NewCompanyGroup]()
+    private var groupsDic: [String: [NewCompanyGroup]] = [:]
     private var isAllSelect: Bool = true
+    internal weak var delegate: NewDelegateFilterChange?
     internal var companies: [Company] = [Company]()
     internal var tableViewTotalHeight: CGFloat = 0
     
@@ -131,7 +134,6 @@ internal final class NewFilterCompanyView: UIView {
         }
         
         companyTableView.register(NewCompanyTableViewCell.self, forCellReuseIdentifier: "NewCompanyTableViewCell")
-        
         
         GlobalFilterReactor.sharedInstance.state.compactMap { $0.loadedCompanies }
             .subscribe(with: self) { obj, companies in
@@ -199,6 +201,7 @@ internal final class NewFilterCompanyView: UIView {
                     }
                 }
                 
+                obj.delegate?.changedFilter()
                 obj.companyTableView.reloadData()
             }.disposed(by: self.disposeBag)
     }
@@ -292,9 +295,15 @@ internal final class NewFilterCompanyView: UIView {
     }
     
     internal func shouldChange() -> Bool {
-        for groupIndex in 0..<groups.count {
-            for companyIndex in 0..<groups[groupIndex].companies.count {
-                guard groups[groupIndex].companies[companyIndex].selected == originalGroups[groupIndex].companies[companyIndex].selected else { return true }
+        let originalGroups = Array(FilterManager.sharedInstance.filter.companyDictionary.values)
+        
+        for original in originalGroups {
+            for group in groups {
+                for company in group.companies {
+                    if original.name == company.title && original.is_visible != company.selected {
+                        return true
+                    }
+                }
             }
         }
         
@@ -304,7 +313,9 @@ internal final class NewFilterCompanyView: UIView {
 
 extension NewFilterCompanyView: FilterButtonAction {
     func saveFilter() {
-        
+        Observable.just(GlobalFilterReactor.Action.setCompanyFilter(groups))
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
     }
     
     func resetFilter() {
@@ -313,39 +324,29 @@ extension NewFilterCompanyView: FilterButtonAction {
                 company.selected = true
             }
         }
-        
+        Observable.just(GlobalFilterReactor.Action.setCompanyFilter(groups))
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
+
         Observable.just(GlobalFilterReactor.Action.setAllCompanies(true))
             .bind(to: GlobalFilterReactor.sharedInstance.action)
             .disposed(by: self.disposeBag)
+
+        companyTableView.reloadData()
+        delegate?.changedFilter()
     }
+    
+    func revertFilter() {}
 }
 
 // MARK: UITableView Delegate
 extension NewFilterCompanyView: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.layoutIfNeeded()
-        tableViewTotalHeight += cell.bounds.height
-
-        if indexPath.row == groups.count - 1 {
-            companyTableView.snp.updateConstraints {
-                $0.height.equalTo(tableViewTotalHeight)
-            }
-            tableViewTotalHeight = 0
-        }
-    }
-    
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "NewCompanyTableViewCell", for: indexPath) as? NewCompanyTableViewCell else { return .zero }
-//        cell.configuration(with: groups[indexPath.row])
-//        cell.delegate = self
-//        printLog(out: "cell.rowCounts :: \(cell.rowCounts)")
-//        var height: CGFloat = 34 * CGFloat(cell.rowCounts)
-        var height: CGFloat = 34
-//        if (cell.rowCounts > 1) {
-//            height += 8
-//        }
-
-        return height
+        let cell = tableView.dequeueReusableCell(ofType: NewCompanyTableViewCell.self, for: indexPath)
+        cell.configuration(with: groups, groupIndex: indexPath.row)
+        cell.layoutIfNeeded()
+        
+        return 200
     }
 }
 
@@ -381,5 +382,6 @@ extension NewFilterCompanyView: CompanyTableCellDelegate {
         }
         
         companyTableView.reloadData()
+        delegate?.changedFilter()
     }
 }

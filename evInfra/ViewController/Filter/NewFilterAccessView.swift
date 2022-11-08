@@ -199,15 +199,11 @@ internal final class NewFilterAccessView: UIView {
                         .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                     
-                    Observable.just(GlobalFilterReactor.Action.changedFilter(true))
-                        .bind(to: GlobalFilterReactor.sharedInstance.action)
-                        .disposed(by: obj.disposeBag)
-                    
                     if obj.isDirectChange {
                         obj.saveFilter()
                     }
                     
-                    obj.delegate?.changedFilter(type: .access)
+                    obj.delegate?.changedFilter()
                 }.disposed(by: self.disposeBag)
             
             GlobalFilterReactor.sharedInstance.state.compactMap { $0.isPublic }
@@ -232,15 +228,12 @@ internal final class NewFilterAccessView: UIView {
                         .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                     
-                    Observable.just(GlobalFilterReactor.Action.changedFilter(true))
-                        .bind(to: GlobalFilterReactor.sharedInstance.action)
-                        .disposed(by: obj.disposeBag)
-                    
                     if obj.isDirectChange {
                         obj.saveFilter()
                     }
                     
-                    obj.delegate?.changedFilter(type: .access)
+                    obj.delegate?.changedFilter()
+                    
                 }.disposed(by: self.disposeBag)
             
             GlobalFilterReactor.sharedInstance.state.compactMap { $0.isNonPublic }

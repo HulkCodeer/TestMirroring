@@ -44,10 +44,8 @@ internal class Company {
 internal final class NewCompanyTableViewCell: UITableViewCell {
     
     // MARK: UI
-    private lazy var containerView = UIView().then {
-        $0.backgroundColor = .red
-    }
-    
+    private lazy var containerView = UIView()
+
     internal var groupTitleLbl = UILabel().then {
         $0.font = .systemFont(ofSize: 12, weight: .regular)
         $0.textColor = Colors.contentDisabled.color
@@ -73,6 +71,7 @@ internal final class NewCompanyTableViewCell: UITableViewCell {
     internal var groups: [NewCompanyGroup] = [NewCompanyGroup]()
     internal var groupIndex: Int = 0
     internal weak var delegate: CompanyTableCellDelegate?
+    internal weak var delegateFilterChange: NewDelegateFilterChange?
     internal var companies: [Company] = [Company]()
     internal var totalWidthPerRow: CGFloat = 0
     internal var rowCounts: Int = 1
@@ -177,6 +176,13 @@ extension NewCompanyTableViewCell: UICollectionViewDataSource {
                 cell.totalView.backgroundColor = isSelected ? Colors.backgroundPositiveLight.color : Colors.backgroundPrimary.color
                 cell.totalView.borderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
                 
+                if !isSelected {
+                    Observable.just(GlobalFilterReactor.Action.setAllCompanies(false))
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+                        .disposed(by: obj.disposeBag)
+                }
+                
+                obj.delegateFilterChange?.changedFilter()
                 obj.delegate?.onClickTag(tagName: obj.groups[obj.groupIndex].companies[index].title, value: cell.btn.isSelected, groupIndex: obj.groupIndex)
             }.disposed(by: self.disposeBag)
         

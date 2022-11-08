@@ -148,16 +148,9 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
     }
     
     override func viewDidLayoutSubviews() {
-        let number = companyFilterView.companyTableView.numberOfRows(inSection: 0)
-        var height: CGFloat = 0
-        
-        for i in 0..<number {
-            guard let cell = companyFilterView.companyTableView.cellForRow(at: IndexPath(row: i, section: 0)) else { continue }
-            height += cell.bounds.height
-        }
-
-        companyFilterView.companyTableView.snp.updateConstraints {
-            $0.height.equalTo(height)
+        super.viewDidLayoutSubviews()
+        companyFilterView.snp.updateConstraints {
+            $0.height.equalTo(120 + companyFilterView.companyTableView.contentSize.height)
         }
     }
     
@@ -169,6 +162,14 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
         placeFilterView.bind(reactor: GlobalFilterReactor.sharedInstance)
         accessFilterView.bind(reactor: reactor)
         companyFilterView.bind(reactor: GlobalFilterReactor.sharedInstance)
+        
+//        switchFilterView.delegate = self
+        typeFilterView.delegate = self
+        speedFilterView.delegate = self
+        roadFilterView.delegate = self
+        placeFilterView.delegate = self
+        accessFilterView.delegate = self
+        companyFilterView.delegate = self
         
         // 뒤로가기 버튼
         backBtn.btn.rx.tap
@@ -183,6 +184,7 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
                         obj.accessFilterView.revertFilter()
                         obj.roadFilterView.revertFilter()
                         obj.placeFilterView.revertFilter()
+                        obj.companyFilterView.revertFilter()
 
                         GlobalDefine.shared.mainNavi?.pop()
                     }
@@ -207,7 +209,7 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
                     // TODO: 각 필터 초기화
                     
                     obj.speedFilterView.resetFilter()
-                    obj.typeFilterView.revertFilter()
+                    obj.typeFilterView.resetFilter()
                     obj.accessFilterView.resetFilter()
                     obj.roadFilterView.resetFilter()
                     obj.placeFilterView.resetFilter()
@@ -230,13 +232,13 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
                 obj.saveBtn.rectBtn.isSelected = !obj.saveBtn.rectBtn.isSelected
                 printLog(out: "\(obj.saveBtn.rectBtn.isSelected)")
                 
-                
                 // TODO: 각 필터 저장
                 obj.speedFilterView.saveFilter()
                 obj.typeFilterView.saveFilter()
                 obj.accessFilterView.saveFilter()
                 obj.roadFilterView.saveFilter()
                 obj.placeFilterView.saveFilter()
+                obj.companyFilterView.saveFilter()
                 
                 obj.delegate?.applyFilter()
                 
@@ -247,14 +249,14 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
     }
     
     private func shouldChanged() -> Bool {
-        return roadFilterView.shouldChanged() || accessFilterView.shouldChanged() || placeFilterView.shouldChanged() || speedFilterView.shouldChanged() || typeFilterView.shouldChange()
+        return roadFilterView.shouldChanged() || accessFilterView.shouldChanged() || placeFilterView.shouldChanged() || speedFilterView.shouldChanged() || typeFilterView.shouldChange() || companyFilterView.shouldChange()
     }
 }
 
 extension NewChargerFilterViewController: NewDelegateFilterChange {
-    func changedFilter(type: FilterTagType) {
+    func changedFilter() {
         Observable.just(shouldChanged())
-            .bind(to: saveBtn.rectBtn.rx.isSelected)
+            .bind(to: saveBtn.rectBtn.rx.isEnabled)
             .disposed(by: self.disposeBag)
     }
 }

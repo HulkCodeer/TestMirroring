@@ -31,7 +31,7 @@ internal final class FilterContainerView: UIView {
     // MARK: VARIABLE
     
     internal weak var delegate: NewDelegateFilterContainerView?
-    internal weak var delegateChargerFilgerView: NewDelegateChargerFilterView?
+    internal weak var delegateChargerFilterViewCon: NewDelegateChargerFilterView?
         
     private var disposeBag = DisposeBag()
     private weak var mainReactor: MainReactor?
@@ -150,9 +150,12 @@ internal final class FilterContainerView: UIView {
 }
 
 extension FilterContainerView: NewDelegateFilterChange {
-    func changedFilter(type: FilterTagType) {
-        delegate?.changedFilter(type: type)
+    func changedFilter() {
+        delegateChargerFilterViewCon?.applyFilter()
     }
+//    func changedFilter(type: FilterTagType) {
+//        delegate?.changedFilter(type: type)
+//    }
 }
 
 extension FilterContainerView: DelegateFilterChange{
