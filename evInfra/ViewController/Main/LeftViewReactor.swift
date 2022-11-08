@@ -579,13 +579,9 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                     switch index.row {
                     case 0: // 내가 쓴 글 보기
                         var myWritingControllers = [MyWritingViewController]()
-                        let freeMineVC = MyWritingViewController()
-                        freeMineVC.boardCategory = Board.CommunityType.FREE
-                        freeMineVC.screenType = .LIST
+                        let freeMineVC = MyWritingViewController(category: .FREE, screenType: .LIST)
                                             
-                        let chargerMineVC = MyWritingViewController()
-                        chargerMineVC.boardCategory = Board.CommunityType.CHARGER
-                        chargerMineVC.screenType = .FEED
+                        let chargerMineVC = MyWritingViewController(category: .CHARGER, screenType: .FEED)
                         
                         myWritingControllers.append(chargerMineVC)
                         myWritingControllers.append(freeMineVC)
