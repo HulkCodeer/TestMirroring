@@ -314,6 +314,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
             $0.edges.equalToSuperview()
         }
         
+        view.bringSubviewToFront(self.callOutLayer)
     }
     
     private func setConstraints() {
