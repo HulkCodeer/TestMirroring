@@ -135,6 +135,8 @@ internal final class NewFilterCompanyView: UIView {
         
         companyTableView.register(NewCompanyTableViewCell.self, forCellReuseIdentifier: "NewCompanyTableViewCell")
         
+        let isEvPayFilter = GlobalFilterReactor.sharedInstance.currentState.isEvPayFilter ?? false
+        
         GlobalFilterReactor.sharedInstance.state.compactMap { $0.loadedCompanies }
             .subscribe(with: self) { obj, companies in
                 obj.groups.removeAll()
@@ -162,6 +164,11 @@ internal final class NewFilterCompanyView: UIView {
                     }
                     companiesInGroup.append(company)
                     var selected = company.selected
+
+                    if isEvPayFilter {
+                        selected = company.isEvPayAvailable
+                    }
+                    
                     if company.isRecommaned {
                         recommand.append(company)
                     }

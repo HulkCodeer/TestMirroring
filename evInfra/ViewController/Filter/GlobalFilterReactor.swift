@@ -15,13 +15,14 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
     typealias SelectedRoadFilter = (roadType: RoadType, isSelected: Bool)
     typealias SelectedChargerTypeFilter = (chargerTypeKey: Int, isSelected: Bool)
     typealias SelectedAccessFilter = (accessType: AccessType, isSelected: Bool)
-    typealias SelectedCompanyFilter = (groups: [NewCompanyGroup], groupIndex: Int, companyIndex: Int, isSelected: Bool)
+    typealias SelectedCompanyFilter = (group: NewCompanyGroup, groupIndex: Int, companyIndex: Int, isSelected: Bool)
     
     enum Action {
         case loadCompanies
         case setAllCompanies(Bool)
         case changedFilter(Bool)
         case setEvPayFilter(Bool)
+        case saveEvPayFilter(Bool)
         case setFavoriteFilter(Bool)
         case setSelectedFilterType(SelectedFilterType)
         case changedAccessFilter(SelectedAccessFilter)
@@ -35,6 +36,8 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         case loadChargerTypes
         case changedChargerTypeFilter(SelectedChargerTypeFilter)
         case setChargerTypeFilter([NewTag])
+        case changedCompanyFilter(SelectedCompanyFilter)
+        case setCompanyFilter([NewCompanyGroup])
     }
     
     enum Mutation {
@@ -51,6 +54,7 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         case changedSpeedFilter(SelectedSpeedFilter)
         case loadChargerTypes([NewTag])
         case changedChargerTypeFilter(SelectedChargerTypeFilter)
+        case changedCompanyFilter(SelectedCompanyFilter)
     }
 
     struct State {
@@ -61,6 +65,7 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         var selectedAccessFilter: SelectedAccessFilter?
         var changedChargerTypeFilter: SelectedChargerTypeFilter?
         var selectedChargerTypes: [ChargerType]?
+        var changedCompanyFilter: SelectedCompanyFilter?
         var chargerTypes: [NewTag]? = []
         var isUpdateFilterBarTitle: Bool?
         var isPublic: Bool = FilterManager.sharedInstance.filter.isPublic
@@ -89,10 +94,8 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         switch action {
         case .loadCompanies:
             let companyValues: [CompanyInfoDto] = FilterManager.sharedInstance.filter.companyDictionary.map { $0.1 }
-            
-            let wholeList = companyValues.sorted { $0.name ?? "".lowercased() < $1.name ?? "".lowercased() }.compactMap {
-                Company(title: $0.name!, img: ImageMarker.companyImg(company: $0.icon_name!) ?? UIImage(named: "icon_building_sm")!, selected: $0.is_visible, isRecommaned: $0.recommend ?? false)
-            }
+            let wholeList = companyValues.sorted { $0.name ?? "".lowercased() < $1.name ?? "".lowercased() }
+                .compactMap { Company(title: $0.name!, companyId: $0.company_id ?? "" ,img: ImageMarker.companyImg(company: $0.icon_name!) ?? UIImage(named: "icon_building_sm")!, selected: $0.is_visible, isRecommaned: $0.recommend ?? false, isEvPayAvailable: $0.card_setting ?? false) }
             return .just(.loadCompanies(wholeList))
             
         case .setAllCompanies(let isSelect):
@@ -103,6 +106,10 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
             
         case .setEvPayFilter(let isEvPayFilter):
             return .just(.setEvPayFilter(isEvPayFilter))
+            
+        case .saveEvPayFilter(let isEvPayFilter):
+            FilterManager.sharedInstance.saveIsMembershipCardChecked(isEvPayFilter)
+            return .empty()
             
         case .setFavoriteFilter(let isFavoriteFilter):
             let favoriteChargers = ChargerManager.sharedInstance.getChargerStationInfoList().filter { $0.mFavorite }
@@ -168,6 +175,25 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
                 FilterManager.sharedInstance.saveChargerType(index: tag.uniqueKey, selected: tag.selected)
             }
             return .empty()
+            
+        case .changedCompanyFilter(let selectedCompanyFilter):
+            return .just(.changedCompanyFilter(selectedCompanyFilter))
+            
+        case .setCompanyFilter(let groups):
+            let originalCompanyList = Array(FilterManager.sharedInstance.filter.companyDictionary.values)
+            for company in originalCompanyList {
+                for group in groups {
+                    for tag in group.companies {
+                        if company.name == tag.title {
+                            ChargerManager.sharedInstance.updateCompanyVisibility(isVisible: tag.selected, companyID: tag.companyId)
+                            continue
+                        }
+                    }
+                }
+            }
+            
+            FilterManager.sharedInstance.updateCompanyFilter()
+            return .empty()
         }
     }
     
@@ -231,13 +257,11 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
             
         case .changedChargerTypeFilter(let selectedChargerTypeFilter):
             newState.changedChargerTypeFilter = selectedChargerTypeFilter
+            
+        case .changedCompanyFilter(let selectedCompanyFilter):
+            newState.changedCompanyFilter = selectedCompanyFilter
         }
         
         return newState
     }
 }
-
-// Filter에서 update 후 main에서 표현해야할때
-//enum FilterEvent {
-//
-//}

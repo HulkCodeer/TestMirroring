@@ -283,9 +283,13 @@ internal final class NewFilterBarView: UIView {
                     MemberManager.shared.tryToLoginCheck { isLogin in
                         if isLogin {
                             btn.isSelected = !btn.isSelected
-                            Observable.just(MainReactor.Action.setFavoriteFilter(btn.isSelected))
-                                .bind(to: reactor.action)
+                            Observable.just(GlobalFilterReactor.Action.setFavoriteFilter(btn.isSelected))
+                                .bind(to: GlobalFilterReactor.sharedInstance.action)
                                 .disposed(by: obj.disposeBag)
+                            
+//                            Observable.just(MainReactor.Action.setFavoriteFilter(btn.isSelected))
+//                                .bind(to: reactor.action)
+//                                .disposed(by: obj.disposeBag)
                         } else {
                             MemberManager.shared.showLoginAlert()
                         }

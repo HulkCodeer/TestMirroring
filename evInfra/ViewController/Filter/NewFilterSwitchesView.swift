@@ -37,6 +37,7 @@ internal final class NewFilterSwitchesView: UIView {
     // MARK: VARIABLES
     private weak var mainReactor: MainReactor?
     private var disposeBag = DisposeBag()
+    internal weak var delegate: NewDelegateFilterChange?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -137,10 +138,11 @@ internal final class NewFilterSwitchesView: UIView {
             $0.leading.greaterThanOrEqualTo(stackView.snp.trailing).offset(30)
         }
         
-        let isOn: Bool
+        var isOn: Bool = false
         switch switchType {
         case .evpay:
-            isOn = reactor.currentState.isEvPayFilter ?? false
+            isOn = GlobalFilterReactor.sharedInstance.initialState.isEvPayFilter ?? false
+//            isOn = reactor.currentState.isEvPayFilter ?? false
             
             switchView.rx.isOn
                 .changed
@@ -148,16 +150,31 @@ internal final class NewFilterSwitchesView: UIView {
                 .distinctUntilChanged()
                 .asDriver(onErrorJustReturn: false)
                 .drive(with: self) { obj, isOn in
-                    Observable.just(MainReactor.Action.setEvPayFilter(isOn))
-                        .bind(to: reactor.action)
+                    Observable.just(GlobalFilterReactor.Action.setEvPayFilter(isOn))
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
+                    
+                    Observable.just(GlobalFilterReactor.Action.loadCompanies)
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+                        .disposed(by: obj.disposeBag)
+                    
+                    obj.delegate?.changedFilter()
+//                    Observable.just(MainReactor.Action.setEvPayFilter(isOn))
+//                        .bind(to: reactor.action)
+//                        .disposed(by: obj.disposeBag)
                 }.disposed(by: self.disposeBag)
             
-            reactor.state.compactMap { $0.isEvPayFilter }
+            GlobalFilterReactor.sharedInstance.state.compactMap { $0.isEvPayFilter }
                 .bind(to: switchView.rx.isOn)
                 .disposed(by: self.disposeBag)
+            
+//            reactor.state.compactMap { $0.isEvPayFilter }
+//                .bind(to: switchView.rx.isOn)
+//                .disposed(by: self.disposeBag)
         case .favorite:
-            isOn = reactor.currentState.isFavoriteFilter ?? false
+            MemberManager.shared.tryToLoginCheck { isLogin in
+                isOn = isLogin ? true : reactor.currentState.isFavoriteFilter ?? false
+            }
             
             switchView.rx.isOn
                 .changed
@@ -165,14 +182,45 @@ internal final class NewFilterSwitchesView: UIView {
                 .distinctUntilChanged()
                 .asDriver(onErrorJustReturn: false)
                 .drive(with: self) { obj, isOn in
-                    Observable.just(MainReactor.Action.setFavoriteFilter(isOn))
-                        .bind(to: reactor.action)
-                        .disposed(by: obj.disposeBag)
+                    MemberManager.shared.tryToLoginCheck { isLogin in
+                        if isLogin {
+                            Observable.just(GlobalFilterReactor.Action.setFavoriteFilter(isOn))
+                                .bind(to: GlobalFilterReactor.sharedInstance.action)
+                                .disposed(by: obj.disposeBag)
+//                            Observable.just(MainReactor.Action.setFavoriteFilter(isOn))
+//                                .bind(to: reactor.action)
+//                                .disposed(by: obj.disposeBag)
+                        } else {
+                            MemberManager.shared.showLoginAlert()
+                        }
+                    }
                 }.disposed(by: self.disposeBag)
             
-            reactor.state.compactMap { $0.isFavoriteFilter }
-                .bind(to: switchView.rx.isOn)
-                .disposed(by: self.disposeBag)
+//            GlobalFilterReactor.sharedInstance.state.compactMap { $0.favoriteFilter }
+//                .asDriver(onErrorJustReturn: (false, 0))
+//                .drive(with: self) { obj, favoriteFilter in
+//                    let isFavoriteFilter = favoriteFilter.0
+//                    let hasFavoriteChargers = favoriteFilter.1 == 0 ? false : true
+//                    
+//                    switchView.isOn = isFavoriteFilter
+//                    switch (isFavoriteFilter, hasFavoriteChargers) {
+//                    case (true, true): // 즐겨찾기 필터 on, 즐겨찾기 충전소 개수 있음
+//                        // 필터 적용
+//                        
+//                        break
+//                    case (true, false): // 즐겨찾기 필터 on, 즐겨찾기 충전소 개수 없음
+//                        // TODO: 토스트 띄우기
+//                        printLog(out: ":: PKH TEST :: 토스트!!")
+//                        break
+//                    default: break
+//                        // 즐겨찾기 필터 off, 즐겨찾기 충전소 개수 있음
+//                        // 즐겨찾기 필터 off, 즐겨찾기 충전소 개수 없음
+//                    }
+//                }.disposed(by: self.disposeBag)
+            
+//            reactor.state.compactMap { $0.isFavoriteFilter }
+//                .bind(to: switchView.rx.isOn)
+//                .disposed(by: self.disposeBag)
         case .representCar:
             isOn = reactor.currentState.isRepresentCarFilter ?? false
             
@@ -195,5 +243,28 @@ internal final class NewFilterSwitchesView: UIView {
         switchView.isOn = isOn
         
         return view
+    }
+    
+    internal func shouldChange() -> Bool {
+        let isEvPayFilter = GlobalFilterReactor.sharedInstance.currentState.isEvPayFilter
+        return isEvPayFilter != FilterManager.sharedInstance.filter.isMembershipCardChecked
+    }
+}
+
+extension NewFilterSwitchesView: FilterButtonAction {
+    func saveFilter() {
+        let isEvPayFilter = GlobalFilterReactor.sharedInstance.currentState.isEvPayFilter ?? false
+        
+        Observable.just(GlobalFilterReactor.Action.saveEvPayFilter(isEvPayFilter))
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
+    }
+    
+    func resetFilter() {
+        
+    }
+    
+    func revertFilter() {
+        
     }
 }
