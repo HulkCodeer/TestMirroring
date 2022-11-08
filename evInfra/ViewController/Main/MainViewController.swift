@@ -857,8 +857,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 case .community:
                     UserDefault().saveInt(key: UserDefault.Key.LAST_FREE_ID, value: Board.sharedInstance.freeBoardId)
                     
-                    let communityBoardViewController = CardBoardViewController()
-                    communityBoardViewController.category = .FREE
+                    let communityBoardViewController = CardBoardViewController(category: .FREE, mode: .FEED)
                     GlobalDefine.shared.mainNavi?.push(viewController: communityBoardViewController)
                     
                 case .favorite:
