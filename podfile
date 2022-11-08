@@ -50,6 +50,7 @@ def shared_pods
   pod 'FirebaseCrashlytics'           # For firebase Crashlytics
   pod 'Firebase/Analytics'
   pod 'Firebase/DynamicLinks'
+  pod 'Firebase/RemoteConfig'
   
   # Image
   pod 'AlamofireImage', '~> 4.1'

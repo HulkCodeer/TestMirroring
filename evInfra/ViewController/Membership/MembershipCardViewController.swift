@@ -85,9 +85,9 @@ internal final class MembershipCardViewController: CommonBaseViewController {
                         .PAY_DELETE_FAIL_USER, // 비정상적인 삭제 멤버
                         .PAY_NO_USER :  // 유저체크
                     
-                    let popupModel = PopupModel(title: "결제카드 오류 안내",
-                                                message: "현재 고객님의 결제 카드에 오류가 발생했어요. 오류 발생 시 원활한 서비스 이용을 할 수 없으니 다른 카드로 변경해주세요.",
-                                                confirmBtnTitle: "결제카드 변경하기",
+                    let popupModel = PopupModel(title: "결제 정보 재등록이 필요해요",
+                                                message: "현재 카드 오류/삭제로 인해 고객님의 결제 정보를 불러올 수 없어요. 원활한 서비스 이용을 위해 결제 정보를 다시 등록해주세요.",
+                                                confirmBtnTitle: "결제 정보 등록하기",
                                                 confirmBtnAction: { [weak self] in
                         guard let self = self else { return }
                         let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
