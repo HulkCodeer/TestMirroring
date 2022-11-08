@@ -34,9 +34,7 @@ internal final class MyPageViewController: UIViewController {
 
     // 차량번호
     @IBOutlet weak var carNoField: UITextField!
-    
-    @IBOutlet weak var scrollViewBottom: NSLayoutConstraint!
-    
+            
     // 주소
     @IBOutlet weak var zipCodeField: UITextField!
     @IBOutlet weak var addrInfoField: UITextField!
@@ -44,6 +42,7 @@ internal final class MyPageViewController: UIViewController {
     @IBOutlet weak var searchZipCodeBtn: UIButton!
     @IBOutlet weak var updateBtn: UIButton!
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet var scrollViewBottomConstant: NSLayoutConstraint!
     
     private let dropDwonLocation = DropDown()
     private let dropDwonCarKind = DropDown()
@@ -113,8 +112,7 @@ internal final class MyPageViewController: UIViewController {
         carNoField.delegate = self
         addrInfoDetailField.delegate = self
         self.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(endEditing)))
-        
-        keyboardViewMove()
+                
         prepareSpinnerView()
         prepareView()
         
@@ -124,9 +122,15 @@ internal final class MyPageViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.isNavigationBarHidden = true
-
+        super.viewWillAppear(animated)    
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
     }
     
     @objc func endEditing() {
@@ -135,20 +139,25 @@ internal final class MyPageViewController: UIViewController {
         addrInfoDetailField.resignFirstResponder()
     }
     
-    func keyboardViewMove() {
-        // 키보드 관리 (show/hide)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    @objc private func keyboardWillShow(_ sender: NSNotification) {
+        if let keyboardSize = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            let keyboardHeight = keyboardSize.height
+            view.layoutIfNeeded()
+            
+            scrollViewBottomConstant.constant = -keyboardHeight + self.view.safeAreaInsets.bottom
+            let bottom = keyboardHeight - (UIWindow.key?.safeAreaInsets.bottom ?? 0)
+            let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: bottom, right: 0.0)
+            self.scrollView.contentInset = contentInsets
+            self.scrollView.scrollIndicatorInsets = contentInsets
+        }
     }
     
-    @objc func keyboardWillShow(_ notification: NSNotification) {
-        self.view.frame.origin.y = -self.viewHeight
-    }
-
-    @objc func keyboardWillHide(_ notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            self.view.frame.origin.y = keyboardSize.height * 1/4
-        }
+    @objc private func keyboardDidHide(_ sender: NSNotification) {
+        view.layoutIfNeeded()
+        let contentsInset: UIEdgeInsets = .zero
+        scrollView.contentInset = contentsInset
+        scrollView.scrollIndicatorInsets = contentsInset
+        scrollViewBottomConstant.constant = 0
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
