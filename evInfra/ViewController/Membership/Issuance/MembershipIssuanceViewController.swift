@@ -50,12 +50,9 @@ class MembershipIssuanceViewController: UIViewController,
     }
     
     @IBAction func onValueChanged(_ sender: Any) {
-        if checkAgree.checkState == .checked {
-            self.btnNext.isEnabled = true
-        } else {
-            self.btnNext.isEnabled = false
-        }
+        self.btnNext.isEnabled = checkAgree.checkState == .checked
     }
+    
     @IBAction func onClickNextBtn(_ sender: Any) {
         var issuanceParam = [String: Any]()
         do {

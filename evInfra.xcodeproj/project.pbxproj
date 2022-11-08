@@ -2558,6 +2558,7 @@
 		63310E3129069D78004B393A /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				00C75CAD252F0D3600387559 /* MemberPartnershipInfo.swift */,
 				63310E3229069D86004B393A /* MembershipCardInfo.swift */,
 			);
 			path = Models;
@@ -2865,7 +2866,6 @@
 				DB6E59482063C595002E75C8 /* Regions.swift */,
 				CE93308E214F9807006B7EF6 /* ReportChargerList.swift */,
 				CEBE0600214BA5C30047E6F2 /* ReportCharger.swift */,
-				00C75CAD252F0D3600387559 /* MemberPartnershipInfo.swift */,
 				00CADC1A278D79C2000AF24A /* MemberOtherInfo.swift */,
 				52B25949278E5E5C0042B22C /* BoardListItem.swift */,
 			);

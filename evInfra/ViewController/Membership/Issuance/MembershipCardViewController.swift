@@ -117,8 +117,7 @@ internal final class MembershipCardViewController: CommonBaseViewController, Sto
                     let popupModel = PopupModel(title: "결제카드 오류 안내",
                                                 message: "현재 고객님의 결제 카드에 오류가 발생했어요. 오류 발생 시 원활한 서비스 이용을 할 수 없으니 다른 카드로 변경해주세요.",
                                                 confirmBtnTitle: "결제카드 변경하기",
-                                                confirmBtnAction: { [weak self] in
-                        guard let self = self else { return }
+                                                confirmBtnAction: {                         
                         let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
                         let myPayInfoVC = memberStoryboard.instantiateViewController(ofType: MyPayinfoViewController.self)
                         GlobalDefine.shared.mainNavi?.push(viewController: myPayInfoVC)

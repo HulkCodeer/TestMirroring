@@ -197,7 +197,7 @@ internal final class PartnershipListView : UIView {
         return view
     }
     
-    func showInfoView(info : MemberPartnershipInfo) {
+    func showInfoView(info : MembershipCardInfo) {
         evInfraInfo = info
         viewEvinfraList.isHidden = false
         labelCardStatus.text = info.displayStatusDescription
