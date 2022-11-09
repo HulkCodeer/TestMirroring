@@ -42,6 +42,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case showChargePrice
         case setPaymentStatus
         case hasEVPayCard(Bool)
+        case openBottomEvPayTooltip
     }
     
     enum Mutation {
@@ -68,6 +69,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case setIsCharging(Bool)
         case setChargePrice
         case hasEVPayCard(Bool)
+        case openBottomEvPayTooltip
         case none
     }
     
@@ -95,6 +97,7 @@ internal final class MainReactor: ViewModel, Reactor {
         var isCharging: Bool? = false
         var isShowChargePrice: Bool?
         var hasEVPayCard: Bool?
+        var isShowBottomEvPayToolTip: Bool?
     }
     
     internal var initialState: State
@@ -231,6 +234,9 @@ internal final class MainReactor: ViewModel, Reactor {
                 
         case .hasEVPayCard(let hasEvPayCard):
             return .just(.hasEVPayCard(hasEvPayCard))
+            
+        case .openBottomEvPayTooltip:
+            return .just(.openBottomEvPayTooltip)
         }
     }
     
@@ -258,6 +264,7 @@ internal final class MainReactor: ViewModel, Reactor {
         newState.isCharging = nil
         newState.isShowChargePrice = nil
         newState.hasEVPayCard = nil
+        newState.isShowBottomEvPayToolTip = nil
         
         switch mutation {
         case .setShowMarketingPopup(let isShow):
@@ -329,6 +336,9 @@ internal final class MainReactor: ViewModel, Reactor {
             
         case .hasEVPayCard(let hasEVPayCard):
             newState.hasEVPayCard = hasEVPayCard
+            
+        case .openBottomEvPayTooltip:
+            newState.isShowBottomEvPayToolTip = true
             
         case .none:
             break

@@ -157,7 +157,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     private var evPayTipView = EasyTipView(text: "")
     
     private var bottomEvPaytooltipView = TooltipView(configure: TooltipView.Configure(tipLeftMargin: 121.5, tipDirection: .bottom, maxWidth: 255)).then {
-        $0.isHidden = false
+        $0.isHidden = true
     }
     
     deinit {
@@ -207,7 +207,14 @@ internal final class MainViewController: UIViewController, StoryboardView {
         super.viewWillAppear(animated)
         
         MapEvent.viewMainPage.logEvent()
-                        
+        
+        if !MemberManager.shared.isShowBottomMenuEVPayTooltip,
+           let _reactor = reactor {
+            Observable.just(MainReactor.Action.openBottomEvPayTooltip)
+                .bind(to: _reactor.action)
+                .disposed(by: disposeBag)
+        }
+        
         let isProcessing = GlobalDefine.shared.tempDeepLink.isEmpty
         if !isProcessing {
             DeepLinkModel.shared.openSchemeURL(urlstring: GlobalDefine.shared.tempDeepLink)
@@ -267,6 +274,11 @@ internal final class MainViewController: UIViewController, StoryboardView {
         if !MemberManager.shared.isShowEvPayTooltip && !FCMManager.sharedInstance.originalMemberId.isEmpty {
             self.evPayTipView.dismiss()
             MemberManager.shared.isShowEvPayTooltip = true
+        }
+        
+        if !FCMManager.sharedInstance.originalMemberId.isEmpty {
+            dismissBottomMenuTooltip()
+            MemberManager.shared.isShowBottomMenuEVPayTooltip = true
         }
     }
     
@@ -634,6 +646,14 @@ internal final class MainViewController: UIViewController, StoryboardView {
 //                let toolbarController = owner.toolbarController as? AppToolbarController
 //                toolbarController?.setMenuIcon(hasBadge: hasBadge)
                 owner.customNaviBar.setMenuBadge(hasBadge: hasBadge)
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state.compactMap { $0.isShowBottomEvPayToolTip }
+            .asDriver(onErrorJustReturn: true)
+            .drive(with: self) { obj, isShow in
+                obj.bottomEvPaytooltipView.isHidden = !isShow
+                MemberManager.shared.isShowBottomMenuEVPayTooltip = !isShow
             }
             .disposed(by: disposeBag)
         
@@ -1059,10 +1079,18 @@ internal final class MainViewController: UIViewController, StoryboardView {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if !MemberManager.shared.isShowEvPayTooltip {
-            self.evPayTipView.dismiss()
             MemberManager.shared.isShowEvPayTooltip = true
             self.bottomEvPaytooltipView.dismiss()
         }
+
+        dismissBottomMenuTooltip()
+    }
+    
+    private func dismissBottomMenuTooltip() {
+        guard !MemberManager.shared.isShowBottomMenuEVPayTooltip else { return }
+        
+        MemberManager.shared.isShowBottomMenuEVPayTooltip = true
+        self.evPayTipView.dismiss()
     }
     
     // MARK: - Action for button
