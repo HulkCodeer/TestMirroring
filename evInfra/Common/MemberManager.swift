@@ -250,6 +250,15 @@ internal final class MemberManager {
             return UserDefault().readBool(key: UserDefault.Key.IS_SHOW_EVPAY_TOOLTIP)
         }
     }
+    
+    internal var isShowBottomMenuEVPayTooltip: Bool {
+        set { 
+            UserDefault().saveBool(key: UserDefault.Key.IS_SHOW_BOTTOM_MENU_EVPAY_TOOLTIP, value: newValue)
+        }
+        get {
+            return UserDefault().readBool(key: UserDefault.Key.IS_SHOW_BOTTOM_MENU_EVPAY_TOOLTIP)
+        }
+    }
             
     func setData(data: JSON) {
         if data["mb_id"].stringValue.elementsEqual("") {

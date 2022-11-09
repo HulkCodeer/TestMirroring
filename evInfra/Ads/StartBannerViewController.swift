@@ -196,6 +196,11 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
             .bind(to: _mainReactor.action)
             .disposed(by: self.disposeBag)
         
+        if FCMManager.sharedInstance.originalMemberId.isEmpty {
+            Observable.just(MainReactor.Action.openBottomEvPayTooltip)
+                .bind(to: _mainReactor.action)
+                .disposed(by: self.disposeBag)
+        }
     }
     
     private func logClickEvent() {
