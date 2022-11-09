@@ -24,16 +24,28 @@ internal final class CardBoardViewController: CommonBaseViewController {
         $0.addTarget(self, action: #selector(handleSearchButton), for: .touchUpInside)
     }
     
-    var category: Board.CommunityType = .FREE // default 자유게시판
-    var bmId: Int = -1
-    var brdTitle: String = ""
+    var category: Board.CommunityType // default 자유게시판
+    var bmId: Int
+    var brdTitle: String
     var currentPage = 0
     var lastPage: Bool = false
     var communityBoardList: [BoardListItem] = [BoardListItem]()
     var sortType: Board.SortType = .LATEST
-    var mode: Board.ScreenType = .LIST
+    var mode: Board.ScreenType 
     var boardListViewModel: BoardListViewModel?
     let boardWriteButton = BoardWriteButton()
+    
+    init(category: Board.CommunityType, mode: Board.ScreenType, bmId: Int = -1, brdTitle: String = String()) {
+        self.category = category
+        self.mode = mode
+        self.bmId = bmId
+        self.brdTitle = brdTitle 
+        super.init()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func loadView() {
         super.loadView()

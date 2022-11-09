@@ -1237,17 +1237,6 @@ class Server {
             .validate().responseData { response in responseJson(response: response, completion: completion) }
     }
     
-    // charging id 요청
-    static func getChargingId(completion: @escaping (Bool, Any) -> Void) {
-        let reqParam: Parameters = [
-            "req_ver": 1,
-            "mb_id": MemberManager.shared.mbId
-        ]
-        AF.request(Const.EV_PAY_SERVER + "/charger/app_charging/getChargingId",
-                          method: .post, parameters: reqParam, encoding: JSONEncoding.default)
-            .validate().responseData { response in responseJson(response: response, completion: completion) }
-    }
-    
     static func getIntroImage(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [
             "req_ver": 1,

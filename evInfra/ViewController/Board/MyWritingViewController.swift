@@ -17,8 +17,18 @@ internal final class MyWritingViewController: CommonBaseViewController {
     var currentPage = 0
     var lastPage: Bool = false
     var communityBoardList: [BoardListItem] = [BoardListItem]()
-    var boardCategory: Board.CommunityType = .FREE
-    var screenType = Board.ScreenType.LIST
+    var boardCategory: Board.CommunityType
+    var screenType: Board.ScreenType
+    
+    init(category: Board.CommunityType, screenType: Board.ScreenType) {
+        self.boardCategory = category
+        self.screenType = screenType
+        super.init()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func loadView() {
         super.loadView()

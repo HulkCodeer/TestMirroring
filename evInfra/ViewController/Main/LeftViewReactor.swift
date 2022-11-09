@@ -526,13 +526,14 @@ internal final class LeftViewReactor: ViewModel, Reactor {
         func moveViewController(index: IndexPath) {
             let title: String = smallMenuList[index.row]
             if !title.isEmpty {
-                if let boardInfo = Board.sharedInstance.getBoardNewInfo(title: title) {
+                if let boardInfo = Board.sharedInstance.getBoardNewInfo(title: title),
+                   let bmID = boardInfo.bmId {
                     UserDefault().saveInt(key: boardInfo.shardKey!, value: boardInfo.brdId!)
-                    let viewcon = CardBoardViewController()
-                    viewcon.category = Board.CommunityType.getCompanyType(key: boardInfo.shardKey ?? "")
-                    viewcon.bmId = boardInfo.bmId!
-                    viewcon.brdTitle = title
-                    viewcon.mode = Board.ScreenType.FEED
+                    let viewcon = CardBoardViewController(
+                        category: Board.CommunityType.getCompanyType(key: boardInfo.shardKey ?? ""),
+                        mode: .FEED,
+                        bmId: bmID,
+                        brdTitle: title)
                     GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 }
             }
@@ -554,17 +555,13 @@ internal final class LeftViewReactor: ViewModel, Reactor {
             case 1: // 자유 게시판
                 UserDefault().saveInt(key: UserDefault.Key.LAST_FREE_ID, value: Board.sharedInstance.freeBoardId)
                 
-                let viewcon = CardBoardViewController()
-                viewcon.category = Board.CommunityType.FREE
-                viewcon.mode = Board.ScreenType.FEED
+                let viewcon = CardBoardViewController(category: .FREE, mode: .FEED)
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             
             case 2: // 충전소 게시판
                 UserDefault().saveInt(key: UserDefault.Key.LAST_CHARGER_ID, value: Board.sharedInstance.chargeBoardId)
                 
-                let viewcon = CardBoardViewController()
-                viewcon.category = Board.CommunityType.CHARGER
-                viewcon.mode = Board.ScreenType.FEED
+                let viewcon = CardBoardViewController(category: .CHARGER, mode: .FEED)
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 
             default: break
@@ -582,13 +579,9 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                     switch index.row {
                     case 0: // 내가 쓴 글 보기
                         var myWritingControllers = [MyWritingViewController]()
-                        let freeMineVC = MyWritingViewController()
-                        freeMineVC.boardCategory = Board.CommunityType.FREE
-                        freeMineVC.screenType = .LIST
+                        let freeMineVC = MyWritingViewController(category: .FREE, screenType: .LIST)
                                             
-                        let chargerMineVC = MyWritingViewController()
-                        chargerMineVC.boardCategory = Board.CommunityType.CHARGER
-                        chargerMineVC.screenType = .FEED
+                        let chargerMineVC = MyWritingViewController(category: .CHARGER, screenType: .FEED)
                         
                         myWritingControllers.append(chargerMineVC)
                         myWritingControllers.append(freeMineVC)

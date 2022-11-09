@@ -190,9 +190,21 @@
 		59970A242907CD6000FF9A67 /* NaverMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59970A192907CD4600FF9A67 /* NaverMapView.swift */; };
 		59970A252907CD6200FF9A67 /* UnderLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59970A172907CD4600FF9A67 /* UnderLineTextField.swift */; };
 		59970A262907CD6300FF9A67 /* UnderLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59970A172907CD4600FF9A67 /* UnderLineTextField.swift */; };
+		5997DABC290EB98900476B72 /* BottomMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5997DABB290EB98900476B72 /* BottomMenuItem.swift */; };
+		5997DABD290F5D4600476B72 /* BottomMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5997DABB290EB98900476B72 /* BottomMenuItem.swift */; };
+		5997DABE290F5D4700476B72 /* BottomMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5997DABB290EB98900476B72 /* BottomMenuItem.swift */; };
+		599A64F529110447008448DC /* ChargingID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599A64F429110447008448DC /* ChargingID.swift */; };
+		599A64F629110511008448DC /* ChargingID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599A64F429110447008448DC /* ChargingID.swift */; };
+		599A64F729110512008448DC /* ChargingID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 599A64F429110447008448DC /* ChargingID.swift */; };
 		59BAB70728FD373B00077872 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB70628FD373B00077872 /* RootViewController.swift */; };
 		59BAB70828FD4ED400077872 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB70628FD373B00077872 /* RootViewController.swift */; };
 		59BAB70928FD4ED400077872 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BAB70628FD373B00077872 /* RootViewController.swift */; };
+		59BC62FA2914C4EE00428A0D /* RemoteConfigDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59BC62F92914C4EE00428A0D /* RemoteConfigDefaults.plist */; };
+		59BC62FB2914C4EE00428A0D /* RemoteConfigDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59BC62F92914C4EE00428A0D /* RemoteConfigDefaults.plist */; };
+		59BC62FC2914C4EE00428A0D /* RemoteConfigDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59BC62F92914C4EE00428A0D /* RemoteConfigDefaults.plist */; };
+		59BC62FE2914D6B000428A0D /* ABTestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BC62FD2914D6B000428A0D /* ABTestManager.swift */; };
+		59BC62FF2914D6B000428A0D /* ABTestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BC62FD2914D6B000428A0D /* ABTestManager.swift */; };
+		59BC63002914D6B000428A0D /* ABTestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BC62FD2914D6B000428A0D /* ABTestManager.swift */; };
 		59EC3B7128D18CD8001A18B5 /* NewNoticeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59317D1128B7702C00B1AE92 /* NewNoticeDetailViewController.swift */; };
 		59EC3B7E28D32A49001A18B5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7D28D32A49001A18B5 /* Constants.swift */; };
 		59EC3B8128D3356D001A18B5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EC3B7D28D32A49001A18B5 /* Constants.swift */; };
@@ -1618,9 +1630,15 @@
 		59970A182907CD4600FF9A67 /* MainNavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainNavigationBar.swift; sourceTree = "<group>"; };
 		59970A192907CD4600FF9A67 /* NaverMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NaverMapView.swift; sourceTree = "<group>"; };
 		59970A1A2907CD4600FF9A67 /* MainSearchWayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainSearchWayView.swift; sourceTree = "<group>"; };
+		5997DABB290EB98900476B72 /* BottomMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomMenuItem.swift; sourceTree = "<group>"; };
+		599A64F429110447008448DC /* ChargingID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargingID.swift; sourceTree = "<group>"; };
 		59BAB6FA28F0346300077872 /* MainSearchWayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSearchWayView.swift; sourceTree = "<group>"; };
 		59BAB6FE28F50B7500077872 /* UnderLineTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderLineTextField.swift; sourceTree = "<group>"; };
 		59BAB70628FD373B00077872 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		59BC62F92914C4EE00428A0D /* RemoteConfigDefaults.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = RemoteConfigDefaults.plist; sourceTree = "<group>"; };
+		59BC62FD2914D6B000428A0D /* ABTestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABTestManager.swift; sourceTree = "<group>"; };
+		59EC3B7928D32A1D001A18B5 /* ViewConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewConstants.swift; sourceTree = "<group>"; };
+		59EC3B7B28D32A33001A18B5 /* DateConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConstants.swift; sourceTree = "<group>"; };
 		59EC3B7D28D32A49001A18B5 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		59F6229828E12095004CE1FC /* MainNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationBar.swift; sourceTree = "<group>"; };
 		5A9EB64F5FC750CFC2ACAD5A /* Pods-evInfra_dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evInfra_dev.debug.xcconfig"; path = "Pods/Target Support Files/Pods-evInfra_dev/Pods-evInfra_dev.debug.xcconfig"; sourceTree = "<group>"; };
@@ -2143,6 +2161,7 @@
 		00B2E8BB26C0FE76005D017C /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				599A64F32911043A008448DC /* Model */,
 				6309C7942900006A00A52E4F /* Cells */,
 				6309C78F2900000100A52E4F /* Views */,
 				6309C78828FFFDE700A52E4F /* LeftViewReactor.swift */,
@@ -2492,6 +2511,14 @@
 			name = "Recovered References";
 			sourceTree = "<group>";
 		};
+		599A64F32911043A008448DC /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				599A64F429110447008448DC /* ChargingID.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		59EC3B7028D18CC4001A18B5 /* Notice */ = {
 			isa = PBXGroup;
 			children = (
@@ -2540,6 +2567,7 @@
 				59970A192907CD4600FF9A67 /* NaverMapView.swift */,
 				59970A172907CD4600FF9A67 /* UnderLineTextField.swift */,
 				6309C7902900000100A52E4F /* NewFilterBarView.swift */,
+				5997DABB290EB98900476B72 /* BottomMenuItem.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2671,6 +2699,8 @@
 				523A3AF12797A9CA004C3C23 /* GroupViewController.swift */,
 				63CAC17F289BAE3E00ADA809 /* CommonBaseTableViewCell.swift */,
 				824D5DC028BE1C2500EDC712 /* GlobalFunction.swift */,
+				82840479290021FE0081567C /* TooltipView.swift */,
+				59BC62FD2914D6B000428A0D /* ABTestManager.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -2723,6 +2753,7 @@
 				73344AC0207B5F8A00A6A9EC /* awsconfiguration.json */,
 				73238C3A20A44B3E00C06A89 /* evInfra.entitlements */,
 				732121C3203AC023000E105C /* evInfra.xcdatamodeld */,
+				59BC62F92914C4EE00428A0D /* RemoteConfigDefaults.plist */,
 			);
 			path = evInfra;
 			sourceTree = "<group>";
@@ -3422,6 +3453,7 @@
 				63F314ED284EC74F001713D2 /* FilterContainerView.xib in Resources */,
 				63F314EE284EC74F001713D2 /* ReportChargerChildCell.xib in Resources */,
 				63F314EF284EC74F001713D2 /* FilterRoadView.xib in Resources */,
+				59BC62FB2914C4EE00428A0D /* RemoteConfigDefaults.plist in Resources */,
 				63F314F0284EC74F001713D2 /* Payment.storyboard in Resources */,
 				63F314F1284EC74F001713D2 /* btn_camera.png in Resources */,
 				63F314F2284EC74F001713D2 /* PhotoRegisterCollectionViewCell.xib in Resources */,
@@ -3638,6 +3670,7 @@
 				73A7B410204E3595002E975F /* type_ac_slow_dim.png in Resources */,
 				00FDEAF226B3BF97006617EE /* Board.storyboard in Resources */,
 				73EF8B7A203C85CC00D04494 /* TrackingDotHalo@2x.png in Resources */,
+				59BC62FA2914C4EE00428A0D /* RemoteConfigDefaults.plist in Resources */,
 				73EF8B72203C85CC00D04494 /* icon_clustering@2x.png in Resources */,
 				73C31C0620A2BB04005B6C53 /* charger_ac3.jpg in Resources */,
 				00AB7BD726E870730040CFDE /* GuideAlertDialog.xib in Resources */,
@@ -3730,6 +3763,7 @@
 				824D5D7528BDD89C00EDC712 /* PartnershipJoinView.xib in Resources */,
 				824D5D7628BDD89C00EDC712 /* BoardDetailViewController.storyboard in Resources */,
 				824D5D7828BDD89C00EDC712 /* type_dc_demo.png in Resources */,
+				59BC62FC2914C4EE00428A0D /* RemoteConfigDefaults.plist in Resources */,
 				824D5D7928BDD89C00EDC712 /* navi_notice_board.png in Resources */,
 				824D5D7A28BDD89C00EDC712 /* reply_btn_normal.png in Resources */,
 				824D5D7B28BDD89C00EDC712 /* PartnershipListView.xib in Resources */,
@@ -3902,6 +3936,7 @@
 				"${BUILT_PRODUCTS_DIR}/EasyTipView/EasyTipView.framework",
 				"${BUILT_PRODUCTS_DIR}/FLAnimatedImage/FLAnimatedImage.framework",
 				"${BUILT_PRODUCTS_DIR}/FSPagerView/FSPagerView.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseABTesting/FirebaseABTesting.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCore/FirebaseCore.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCoreDiagnostics/FirebaseCoreDiagnostics.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCoreInternal/FirebaseCoreInternal.framework",
@@ -3909,6 +3944,7 @@
 				"${BUILT_PRODUCTS_DIR}/FirebaseDynamicLinks/FirebaseDynamicLinks.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseInstallations/FirebaseInstallations.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseMessaging/FirebaseMessaging.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseRemoteConfig/FirebaseRemoteConfig.framework",
 				"${BUILT_PRODUCTS_DIR}/GRDB.swift/GRDB.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleDataTransport/GoogleDataTransport.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
@@ -3956,6 +3992,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EasyTipView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLAnimatedImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FSPagerView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseABTesting.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreDiagnostics.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreInternal.framework",
@@ -3963,6 +4000,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseDynamicLinks.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseInstallations.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseMessaging.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseRemoteConfig.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRDB.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleDataTransport.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
@@ -4076,6 +4114,7 @@
 				"${BUILT_PRODUCTS_DIR}/EasyTipView/EasyTipView.framework",
 				"${BUILT_PRODUCTS_DIR}/FLAnimatedImage/FLAnimatedImage.framework",
 				"${BUILT_PRODUCTS_DIR}/FSPagerView/FSPagerView.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseABTesting/FirebaseABTesting.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCore/FirebaseCore.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCoreDiagnostics/FirebaseCoreDiagnostics.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCoreInternal/FirebaseCoreInternal.framework",
@@ -4083,6 +4122,7 @@
 				"${BUILT_PRODUCTS_DIR}/FirebaseDynamicLinks/FirebaseDynamicLinks.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseInstallations/FirebaseInstallations.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseMessaging/FirebaseMessaging.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseRemoteConfig/FirebaseRemoteConfig.framework",
 				"${BUILT_PRODUCTS_DIR}/GRDB.swift/GRDB.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleDataTransport/GoogleDataTransport.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
@@ -4130,6 +4170,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EasyTipView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLAnimatedImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FSPagerView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseABTesting.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreDiagnostics.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreInternal.framework",
@@ -4137,6 +4178,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseDynamicLinks.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseInstallations.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseMessaging.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseRemoteConfig.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRDB.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleDataTransport.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
@@ -4194,6 +4236,7 @@
 				"${BUILT_PRODUCTS_DIR}/EasyTipView/EasyTipView.framework",
 				"${BUILT_PRODUCTS_DIR}/FLAnimatedImage/FLAnimatedImage.framework",
 				"${BUILT_PRODUCTS_DIR}/FSPagerView/FSPagerView.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseABTesting/FirebaseABTesting.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCore/FirebaseCore.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCoreDiagnostics/FirebaseCoreDiagnostics.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseCoreInternal/FirebaseCoreInternal.framework",
@@ -4201,6 +4244,7 @@
 				"${BUILT_PRODUCTS_DIR}/FirebaseDynamicLinks/FirebaseDynamicLinks.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseInstallations/FirebaseInstallations.framework",
 				"${BUILT_PRODUCTS_DIR}/FirebaseMessaging/FirebaseMessaging.framework",
+				"${BUILT_PRODUCTS_DIR}/FirebaseRemoteConfig/FirebaseRemoteConfig.framework",
 				"${BUILT_PRODUCTS_DIR}/GRDB.swift/GRDB.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleDataTransport/GoogleDataTransport.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
@@ -4248,6 +4292,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/EasyTipView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLAnimatedImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FSPagerView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseABTesting.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreDiagnostics.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreInternal.framework",
@@ -4255,6 +4300,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseDynamicLinks.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseInstallations.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseMessaging.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseRemoteConfig.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRDB.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleDataTransport.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
@@ -4358,6 +4404,7 @@
 				63F313B3284EC74F001713D2 /* SummaryView.swift in Sources */,
 				63F313B4284EC74F001713D2 /* Chronometer.swift in Sources */,
 				63F313B5284EC74F001713D2 /* ChargerTableView.swift in Sources */,
+				599A64F629110511008448DC /* ChargingID.swift in Sources */,
 				63F313B6284EC74F001713D2 /* ChargerTableViewCell.swift in Sources */,
 				63F313B7284EC74F001713D2 /* UserDefault.swift in Sources */,
 				63F313B8284EC74F001713D2 /* InfoLastUpdateDto.swift in Sources */,
@@ -4496,12 +4543,14 @@
 				63F3141F284EC74F001713D2 /* MainViewController.swift in Sources */,
 				63F31420284EC74F001713D2 /* ChargingHistoryList.swift in Sources */,
 				63F31421284EC74F001713D2 /* UtilNavigation.swift in Sources */,
+				59BC62FF2914D6B000428A0D /* ABTestManager.swift in Sources */,
 				63F31422284EC74F001713D2 /* ChargingStatus.swift in Sources */,
 				63F31423284EC74F001713D2 /* FilterPlaceView.swift in Sources */,
 				63762F1628699FB200C951BF /* Info.swift in Sources */,
 				63F31424284EC74F001713D2 /* EditViewDelegate.swift in Sources */,
 				63F31425284EC74F001713D2 /* SearchTableView.swift in Sources */,
 				63762F4E2869A8F000C951BF /* QuitAccountViewController.swift in Sources */,
+				5997DABD290F5D4600476B72 /* BottomMenuItem.swift in Sources */,
 				63F31426284EC74F001713D2 /* ReportBoardViewController.swift in Sources */,
 				63F31427284EC74F001713D2 /* EVModel.swift in Sources */,
 				63F31428284EC74F001713D2 /* CarModels.swift in Sources */,
@@ -4832,11 +4881,13 @@
 				73344AC5207F429300A6A9EC /* EditViewDelegate.swift in Sources */,
 				CEC4322A223A5C9A00B76795 /* SearchTableView.swift in Sources */,
 				63762F4D2869A8F000C951BF /* QuitAccountViewController.swift in Sources */,
+				59BC62FE2914D6B000428A0D /* ABTestManager.swift in Sources */,
 				CE93309121509A81006B7EF6 /* ReportBoardViewController.swift in Sources */,
 				73C31BF92099A024005B6C53 /* EVModel.swift in Sources */,
 				CE24840220A59E3000611E24 /* CarModels.swift in Sources */,
 				63B2373E282C970900E8A3F8 /* MembershipUseGuideViewController.swift in Sources */,
 				529148AF27BE0A000011021F /* SearchHeaderView.swift in Sources */,
+				5997DABC290EB98900476B72 /* BottomMenuItem.swift in Sources */,
 				191FB60428A0CA40005248C8 /* NewEventDetailViewController.swift in Sources */,
 				73A7B430204F8A72002E975F /* CidInfo.swift in Sources */,
 				421569D7259B629100D018DC /* BoardInfo.swift in Sources */,
@@ -4941,6 +4992,7 @@
 				6309C79F2900006B00A52E4F /* LeftViewMenuItem.swift in Sources */,
 				733662D222FAB6720049AEFE /* MyCouponContentsViewController.swift in Sources */,
 				63310E3329069D86004B393A /* MembershipCardInfo.swift in Sources */,
+				599A64F529110447008448DC /* ChargingID.swift in Sources */,
 				733662CC22EFECB80049AEFE /* Event.swift in Sources */,
 				DB87607420690B370095394B /* BoardTableViewFooter.swift in Sources */,
 				82DD57DB28C5D41900C6C55E /* StickyButton.swift in Sources */,
@@ -5028,6 +5080,7 @@
 				824D5C0528BDD89C00EDC712 /* EmptyTableViewCell.swift in Sources */,
 				824D5C0628BDD89C00EDC712 /* SummaryView.swift in Sources */,
 				824D5C0728BDD89C00EDC712 /* Chronometer.swift in Sources */,
+				599A64F729110512008448DC /* ChargingID.swift in Sources */,
 				824D5C0828BDD89C00EDC712 /* ChargerTableView.swift in Sources */,
 				824D5C0928BDD89C00EDC712 /* ChargerTableViewCell.swift in Sources */,
 				824D5C0A28BDD89C00EDC712 /* UserDefault.swift in Sources */,
@@ -5165,12 +5218,14 @@
 				824D5C8428BDD89C00EDC712 /* ChargingStatus.swift in Sources */,
 				824D5C8528BDD89C00EDC712 /* FilterPlaceView.swift in Sources */,
 				824D5C8628BDD89C00EDC712 /* Info.swift in Sources */,
+				59BC63002914D6B000428A0D /* ABTestManager.swift in Sources */,
 				824D5C8728BDD89C00EDC712 /* EditViewDelegate.swift in Sources */,
 				824D5C8828BDD89C00EDC712 /* SearchTableView.swift in Sources */,
 				824D5C8928BDD89C00EDC712 /* QuitAccountViewController.swift in Sources */,
 				824D5C8A28BDD89C00EDC712 /* ReportBoardViewController.swift in Sources */,
 				824D5C8B28BDD89C00EDC712 /* EVModel.swift in Sources */,
 				824D5C8C28BDD89C00EDC712 /* CarModels.swift in Sources */,
+				5997DABE290F5D4700476B72 /* BottomMenuItem.swift in Sources */,
 				824D5C8D28BDD89C00EDC712 /* MembershipUseGuideViewController.swift in Sources */,
 				824D5C8E28BDD89C00EDC712 /* SearchHeaderView.swift in Sources */,
 				824D5C8F28BDD89C00EDC712 /* CidInfo.swift in Sources */,
@@ -5411,7 +5466,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 10261556;
+				CURRENT_PROJECT_VERSION = 11081809;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5FA8TZGUDC;
@@ -5426,7 +5481,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.7.9;
+				MARKETING_VERSION = 3.8.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -5455,7 +5510,7 @@
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 10261556;
+				CURRENT_PROJECT_VERSION = 11081809;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5FA8TZGUDC;
@@ -5470,7 +5525,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.7.9;
+				MARKETING_VERSION = 3.8.1;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
