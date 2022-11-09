@@ -276,43 +276,31 @@ internal final class NewFilterPlaceView: UIView {
 
 extension NewFilterPlaceView: FilterButtonAction {
     func saveFilter() {
-        Observable.just(GlobalFilterReactor.Action.setPlaceFilter((.indoor, GlobalFilterReactor.sharedInstance.currentState.isIndoor)))
-            .bind(to: GlobalFilterReactor.sharedInstance.action)
-            .disposed(by: self.disposeBag)
+        let saveIndoorStream = Observable.of(GlobalFilterReactor.Action.setPlaceFilter((.indoor, GlobalFilterReactor.sharedInstance.currentState.isIndoor)))
+        let saveOutdoorStream = Observable.of(GlobalFilterReactor.Action.setPlaceFilter((.outdoor, GlobalFilterReactor.sharedInstance.currentState.isOutdoor)))
+        let saveCanopyStream = Observable.of(GlobalFilterReactor.Action.setPlaceFilter((.canopy, GlobalFilterReactor.sharedInstance.currentState.isCanopy)))
         
-        Observable.just(GlobalFilterReactor.Action.setPlaceFilter((.outdoor, GlobalFilterReactor.sharedInstance.currentState.isOutdoor)))
-            .bind(to: GlobalFilterReactor.sharedInstance.action)
-            .disposed(by: self.disposeBag)
-        
-        Observable.just(GlobalFilterReactor.Action.setPlaceFilter((.canopy, GlobalFilterReactor.sharedInstance.currentState.isCanopy)))
+        Observable.concat(saveIndoorStream, saveOutdoorStream, saveCanopyStream)
             .bind(to: GlobalFilterReactor.sharedInstance.action)
             .disposed(by: self.disposeBag)
     }
     
     func resetFilter() {
-        Observable.just(GlobalFilterReactor.Action.changedPlaceFilter((.indoor, true)))
-            .bind(to: GlobalFilterReactor.sharedInstance.action)
-            .disposed(by: self.disposeBag)
+        let resetIndoorStream = Observable.of(GlobalFilterReactor.Action.changedPlaceFilter((.indoor, true)))
+        let resetOutdoorStream = Observable.of(GlobalFilterReactor.Action.changedPlaceFilter((.outdoor, true)))
+        let resetCanopyStream = Observable.of(GlobalFilterReactor.Action.changedPlaceFilter((.canopy, true)))
         
-        Observable.just(GlobalFilterReactor.Action.changedPlaceFilter((.outdoor, true)))
-            .bind(to: GlobalFilterReactor.sharedInstance.action)
-            .disposed(by: self.disposeBag)
-        
-        Observable.just(GlobalFilterReactor.Action.changedPlaceFilter((.canopy, true)))
+        Observable.concat(resetIndoorStream, resetOutdoorStream, resetCanopyStream)
             .bind(to: GlobalFilterReactor.sharedInstance.action)
             .disposed(by: self.disposeBag)
     }
     
     func revertFilter() {
-        Observable.just(GlobalFilterReactor.Action.setPlaceFilter((.indoor, FilterManager.sharedInstance.filter.isIndoor)))
-            .bind(to: GlobalFilterReactor.sharedInstance.action)
-            .disposed(by: self.disposeBag)
+        let revertIndoorStream = Observable.of(GlobalFilterReactor.Action.setPlaceFilter((.indoor, FilterManager.sharedInstance.filter.isIndoor)))
+        let revertOutdoorStream = Observable.of(GlobalFilterReactor.Action.setPlaceFilter((.outdoor, FilterManager.sharedInstance.filter.isOutdoor)))
+        let revertCanopyStream = Observable.of(GlobalFilterReactor.Action.setPlaceFilter((.canopy, FilterManager.sharedInstance.filter.isCanopy)))
         
-        Observable.just(GlobalFilterReactor.Action.setPlaceFilter((.outdoor, FilterManager.sharedInstance.filter.isOutdoor)))
-            .bind(to: GlobalFilterReactor.sharedInstance.action)
-            .disposed(by: self.disposeBag)
-        
-        Observable.just(GlobalFilterReactor.Action.setPlaceFilter((.canopy, FilterManager.sharedInstance.filter.isCanopy)))
+        Observable.concat(revertIndoorStream, revertOutdoorStream, revertCanopyStream)
             .bind(to: GlobalFilterReactor.sharedInstance.action)
             .disposed(by: self.disposeBag)
     }

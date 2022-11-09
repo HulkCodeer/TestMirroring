@@ -260,43 +260,32 @@ internal final class NewFilterRoadView: UIView {
 
 extension NewFilterRoadView: FilterButtonAction {
     func saveFilter() {
-        Observable.just(GlobalFilterReactor.Action.setRoadFilter((.general, GlobalFilterReactor.sharedInstance.currentState.isGeneralRoad)))
-            .bind(to: GlobalFilterReactor.sharedInstance.action)
-            .disposed(by: self.disposeBag)
+        let generalRoadStream = Observable.of(GlobalFilterReactor.Action.setRoadFilter((.general, GlobalFilterReactor.sharedInstance.currentState.isGeneralRoad)))
+        let highwayUpStream = Observable.of(GlobalFilterReactor.Action.setRoadFilter((.highwayUp, GlobalFilterReactor.sharedInstance.currentState.isHighwayUp)))
+        let highwayDownStream = Observable.of(GlobalFilterReactor.Action.setRoadFilter((.highwayDown, GlobalFilterReactor.sharedInstance.currentState.isHighwayDown)))
+        let setRoadFilterStream = Observable.of(GlobalFilterReactor.Action.setRoadFilter((.highwayDown, GlobalFilterReactor.sharedInstance.currentState.isHighwayDown)))
         
-        Observable.just(GlobalFilterReactor.Action.setRoadFilter((.highwayUp, GlobalFilterReactor.sharedInstance.currentState.isHighwayUp)))
-            .bind(to: GlobalFilterReactor.sharedInstance.action)
-            .disposed(by: self.disposeBag)
-        
-        Observable.just(GlobalFilterReactor.Action.setRoadFilter((.highwayDown, GlobalFilterReactor.sharedInstance.currentState.isHighwayDown)))
+        Observable.concat([generalRoadStream, highwayUpStream, highwayDownStream, setRoadFilterStream])
             .bind(to: GlobalFilterReactor.sharedInstance.action)
             .disposed(by: self.disposeBag)
     }
     
     func resetFilter() {
-        Observable.just(GlobalFilterReactor.Action.changedRoadFilter((.general, true)))
-            .bind(to: GlobalFilterReactor.sharedInstance.action)
-            .disposed(by: self.disposeBag)
+        let changeGeneralRoadStream = Observable.of(GlobalFilterReactor.Action.changedRoadFilter((.general, true)))
+        let changeHighwayUpStream = Observable.of(GlobalFilterReactor.Action.changedRoadFilter((.highwayUp, true)))
+        let changeHighwayDownStream = Observable.of(GlobalFilterReactor.Action.changedRoadFilter((.highwayDown, true)))
         
-        Observable.just(GlobalFilterReactor.Action.changedRoadFilter((.highwayUp, true)))
-            .bind(to: GlobalFilterReactor.sharedInstance.action)
-            .disposed(by: self.disposeBag)
-        
-        Observable.just(GlobalFilterReactor.Action.changedRoadFilter((.highwayDown, true)))
+        Observable.concat(changeGeneralRoadStream, changeHighwayUpStream, changeHighwayDownStream)
             .bind(to: GlobalFilterReactor.sharedInstance.action)
             .disposed(by: self.disposeBag)
     }
     
     func revertFilter() {
-        Observable.just(GlobalFilterReactor.Action.changedRoadFilter((.general, FilterManager.sharedInstance.filter.isGeneralWay)))
-            .bind(to: GlobalFilterReactor.sharedInstance.action)
-            .disposed(by: self.disposeBag)
+        let revertGeneralRoadStream = Observable.of(GlobalFilterReactor.Action.changedRoadFilter((.general, FilterManager.sharedInstance.filter.isGeneralWay)))
+        let revertHighwayUpStream = Observable.of(GlobalFilterReactor.Action.changedRoadFilter((.highwayUp, FilterManager.sharedInstance.filter.isHighwayUp)))
+        let revertHighwayDownStream = Observable.of(GlobalFilterReactor.Action.changedRoadFilter((.highwayDown, FilterManager.sharedInstance.filter.isHighwayDown)))
         
-        Observable.just(GlobalFilterReactor.Action.changedRoadFilter((.highwayUp, FilterManager.sharedInstance.filter.isHighwayUp)))
-            .bind(to: GlobalFilterReactor.sharedInstance.action)
-            .disposed(by: self.disposeBag)
-        
-        Observable.just(GlobalFilterReactor.Action.changedRoadFilter((.highwayDown, FilterManager.sharedInstance.filter.isHighwayDown)))
+        Observable.concat(revertGeneralRoadStream, revertHighwayUpStream, revertHighwayDownStream)
             .bind(to: GlobalFilterReactor.sharedInstance.action)
             .disposed(by: self.disposeBag)
     }

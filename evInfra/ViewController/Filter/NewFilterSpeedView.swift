@@ -258,11 +258,10 @@ extension NewFilterSpeedView: FilterButtonAction {
         let minSpeed = GlobalFilterReactor.sharedInstance.currentState.minSpeed
         let maxSpeed = GlobalFilterReactor.sharedInstance.currentState.maxSpeed
         
-        Observable.just(GlobalFilterReactor.Action.changedSpeedFilter((minSpeed: minSpeed, maxSpeed: maxSpeed)))
-            .bind(to: GlobalFilterReactor.sharedInstance.action)
-            .disposed(by: self.disposeBag)
+        let changeSpeedFilterStream = Observable.of(GlobalFilterReactor.Action.changedSpeedFilter((minSpeed: minSpeed, maxSpeed: maxSpeed)))
+        let saveSpeedFilterStream = Observable.of(GlobalFilterReactor.Action.setSpeedFilter((minSpeed: minSpeed, maxSpeed: maxSpeed)))
         
-        Observable.just(GlobalFilterReactor.Action.setSpeedFilter((minSpeed: minSpeed, maxSpeed: maxSpeed)))
+        Observable.concat([changeSpeedFilterStream, saveSpeedFilterStream])
             .bind(to: GlobalFilterReactor.sharedInstance.action)
             .disposed(by: self.disposeBag)
     }
