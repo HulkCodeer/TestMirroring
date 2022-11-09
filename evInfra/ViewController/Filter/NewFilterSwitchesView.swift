@@ -142,7 +142,6 @@ internal final class NewFilterSwitchesView: UIView {
         switch switchType {
         case .evpay:
             isOn = GlobalFilterReactor.sharedInstance.initialState.isEvPayFilter ?? false
-//            isOn = reactor.currentState.isEvPayFilter ?? false
             
             switchView.rx.isOn
                 .changed
@@ -150,27 +149,19 @@ internal final class NewFilterSwitchesView: UIView {
                 .distinctUntilChanged()
                 .asDriver(onErrorJustReturn: false)
                 .drive(with: self) { obj, isOn in
-                    Observable.just(GlobalFilterReactor.Action.setEvPayFilter(isOn))
-                        .bind(to: GlobalFilterReactor.sharedInstance.action)
-                        .disposed(by: obj.disposeBag)
+                    let setEvPayFilterStream = Observable.of(GlobalFilterReactor.Action.setEvPayFilter(isOn))
+                    let loadCompaniesStream = Observable.of(GlobalFilterReactor.Action.loadCompanies)
                     
-                    Observable.just(GlobalFilterReactor.Action.loadCompanies)
+                    Observable.concat([setEvPayFilterStream, loadCompaniesStream])
                         .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                     
                     obj.delegate?.changedFilter()
-//                    Observable.just(MainReactor.Action.setEvPayFilter(isOn))
-//                        .bind(to: reactor.action)
-//                        .disposed(by: obj.disposeBag)
                 }.disposed(by: self.disposeBag)
             
             GlobalFilterReactor.sharedInstance.state.compactMap { $0.isEvPayFilter }
                 .bind(to: switchView.rx.isOn)
                 .disposed(by: self.disposeBag)
-            
-//            reactor.state.compactMap { $0.isEvPayFilter }
-//                .bind(to: switchView.rx.isOn)
-//                .disposed(by: self.disposeBag)
         case .favorite:
             MemberManager.shared.tryToLoginCheck { isLogin in
                 isOn = isLogin ? true : reactor.currentState.isFavoriteFilter ?? false
