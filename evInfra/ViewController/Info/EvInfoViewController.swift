@@ -85,9 +85,13 @@ extension EvInfoViewController: UICollectionViewDataSource {
 extension EvInfoViewController: UICollectionViewDelegate {
     @objc
     internal func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let detailView = self.storyboard?.instantiateViewController(ofType: EvDetailViewController.self) as? EvDetailViewController else { return }
+        let storyboard = UIStoryboard(name : "Info", bundle: nil)
+        let detailView = storyboard.instantiateViewController(ofType: EvDetailViewController.self)
+
         detailView.index = indexPath.item
         detailView.model = evModels[indexPath.item]
         GlobalDefine.shared.mainNavi?.push(viewController: detailView)
+
+        printLog("select \(indexPath.item), \(evModels[indexPath.item])")
     }
 }
