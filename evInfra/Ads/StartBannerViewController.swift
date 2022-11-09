@@ -61,7 +61,11 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
     // MARK: VARIABLE
     
     private let safeAreaInsetBottomHeight = UIWindow.key?.safeAreaInsets.bottom ?? 0
+    private let viewDisposebag = DisposeBag()
+    
     internal weak var mainReactor: MainReactor?
+    
+    // MARK: SYSTEM FUNC
     
     init(reactor: GlobalAdsReactor) {
         super.init()
@@ -138,6 +142,13 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.view.backgroundColor = .clear
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -147,7 +158,7 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
                 owner.closeStartBannerViewController()
                 let property: [String: Any] = ["type": owner.closeButton.titleLabel?.text ?? "닫기"]
                PromotionEvent.clickCloseBanner.logEvent(property: property)
-            }.disposed(by: disposeBag)
+            }.disposed(by: self.viewDisposebag)
         
         closeWithDurationButton.rx.tap
             .asDriver()
@@ -157,14 +168,14 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
                 let property: [String: Any] = ["type": owner.closeWithDurationButton.titleLabel?.text ?? "7일간 보지 않기"]
                PromotionEvent.clickCloseBanner.logEvent(property: property)
                 
-            }.disposed(by: disposeBag)
+            }.disposed(by: self.viewDisposebag)
     }
     
     internal func bind(reactor: GlobalAdsReactor) {        
         reactor.state.compactMap { $0.startBanner?.img }
             .asDriver(onErrorJustReturn: "")
             .drive(self.eventImageView.rx.bindImage)
-            .disposed(by: self.disposeBag)
+            .disposed(by: self.viewDisposebag)
         
         eventImageButton.rx.tap
             .asDriver()
@@ -177,7 +188,7 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
                 self.closeStartBannerViewController()
                 self.logClickEvent()
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-            }.disposed(by: disposeBag)
+            }.disposed(by: self.viewDisposebag)
     }
     
     // 앰플리튜드 view_enter 로깅을 위해 필요함
@@ -194,20 +205,20 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
         guard let _mainReactor = self.mainReactor else { return }
         Observable.just(MainReactor.Action.openEvPayTooltip)
             .bind(to: _mainReactor.action)
-            .disposed(by: self.disposeBag)
+            .disposed(by: self.viewDisposebag)
         
     }
     
     private func logClickEvent() {
         Observable.just(GlobalAdsReactor.Action.addEventClickCount(self.reactor?.currentState.startBanner?.evtId ?? "") )
             .bind(to: GlobalAdsReactor.sharedInstance.action)
-            .disposed(by: self.disposeBag)
+            .disposed(by: self.viewDisposebag)
         
     }
     
     private func logViewEvent() {
         Observable.just(GlobalAdsReactor.Action.addEventViewCount(self.reactor?.currentState.startBanner?.evtId ?? "") )
             .bind(to: GlobalAdsReactor.sharedInstance.action)
-            .disposed(by: self.disposeBag)
+            .disposed(by: self.viewDisposebag)
     }    
 }
