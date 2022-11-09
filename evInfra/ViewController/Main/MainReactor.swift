@@ -40,6 +40,8 @@ internal final class MainReactor: ViewModel, Reactor {
         case setIsAccountsReceivable(Bool)
         case setIsCharging(Bool)
         case showChargePrice
+        case setPaymentStatus
+        case hasEVPayCard(Bool)
     }
     
     enum Mutation {
@@ -65,6 +67,8 @@ internal final class MainReactor: ViewModel, Reactor {
         case setIsAccountsReceivable(Bool)
         case setIsCharging(Bool)
         case setChargePrice
+        case hasEVPayCard(Bool)
+        case none
     }
     
     struct State {
@@ -90,6 +94,7 @@ internal final class MainReactor: ViewModel, Reactor {
         var isAccountsReceivable: Bool? = false
         var isCharging: Bool? = false
         var isShowChargePrice: Bool?
+        var hasEVPayCard: Bool?
     }
     
     internal var initialState: State
@@ -218,6 +223,14 @@ internal final class MainReactor: ViewModel, Reactor {
             
         case .showChargePrice:
             return .just(.setChargePrice)
+            
+        case .setPaymentStatus:
+            return provider.postPaymentStatus()
+                .convertData()
+                .map(setPaymentStatus)
+                
+        case .hasEVPayCard(let hasEvPayCard):
+            return .just(.hasEVPayCard(hasEvPayCard))
         }
     }
     
@@ -244,6 +257,7 @@ internal final class MainReactor: ViewModel, Reactor {
         newState.isAccountsReceivable = nil
         newState.isCharging = nil
         newState.isShowChargePrice = nil
+        newState.hasEVPayCard = nil
         
         switch mutation {
         case .setShowMarketingPopup(let isShow):
@@ -312,6 +326,12 @@ internal final class MainReactor: ViewModel, Reactor {
             
         case .setChargePrice:
             newState.isShowChargePrice = true
+            
+        case .hasEVPayCard(let hasEVPayCard):
+            newState.hasEVPayCard = hasEVPayCard
+            
+        case .none:
+            break
         }
         
         return newState
@@ -358,9 +378,9 @@ internal final class MainReactor: ViewModel, Reactor {
             
             switch (code, PaymentStatus(rawValue: payCode)) {
             case (_, .PAY_DEBTOR_USER) :  // 미수금
-                Observable.just(MainReactor.Action.setIsAccountsReceivable(true))
-                    .bind(to: self.action)
-                    .disposed(by: disposeBag)
+//                Observable.just(MainReactor.Action.setIsAccountsReceivable(true))
+//                    .bind(to: self.action)
+//                    .disposed(by: disposeBag)
                 return ( .accountsReceivable, nil)
                 
             case (1000, _) :    // 충전중
@@ -385,6 +405,35 @@ internal final class MainReactor: ViewModel, Reactor {
             Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
             return nil
         }
+    }
+    
+    private func setPaymentStatus(with result: ApiResult<Data, ApiError>) -> Mutation  {
+        switch result {
+        case .success(let data):
+            let json = JSON(data)
+            let payCode = json["pay_code"].intValue
+                        
+            switch PaymentStatus(rawValue: payCode) {
+            case .PAY_DEBTOR_USER:   // 미수금
+                Observable.just(MainReactor.Action.setIsAccountsReceivable(true))
+                    .bind(to: self.action)
+                    .disposed(by: disposeBag)
+                                
+            case .PAY_NO_USER, .PAY_NO_CARD_USER, .PAY_NO_VERIFY_USER, .PAY_DELETE_FAIL_USER:
+                // 미등록,         카드 미등록,         인증되지 않은 유저 (해커의심),  비정상 삭제 멤버
+                Observable.just(MainReactor.Action.hasEVPayCard(false))
+                    .bind(to: self.action)
+                    .disposed(by: disposeBag)
+                
+
+            default: break
+            }
+            
+        case .failure(let error):
+            printLog(out: "Error Message : \(error)")
+        }
+        
+        return .none
     }
     
     private func convertToEVPayShowType(with result: ApiResult<Data, ApiError>) -> EVPayShowType? {
@@ -455,13 +504,20 @@ internal final class MainReactor: ViewModel, Reactor {
                 return (Icons.icLineCharging.image, "충전중")
 
             case .evPay:        // 미수금
-                return (Icons.iconEvpayNew.image, "EV Pay 관리")
+                return (Icons.iconEvpay.image, "EV Pay 신청")
 
             default:
                 return nil
             }
         }
         
+        // 미수금
+        var accountsReceivableIcon: UIImage? {
+            guard self == .evPay else { return nil }
+            
+            return Icons.iconEvpayNew.image
+        }
+
         private var actionValue: (action: MainReactor.Action, logoutAplitudeMSG: String?) {
             switch self {
             case .qrCharging:

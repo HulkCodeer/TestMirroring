@@ -510,6 +510,10 @@ internal final class MainViewController: UIViewController, StoryboardView {
             }
             .disposed(by: disposeBag)
                 
+        Observable.just(MainReactor.Action.setPaymentStatus)
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // MARK: - 네비바 bindAction
         customNaviBar.searchChargeButton.rx.tap
             .map { MainReactor.Action.showSearchChargingStation }

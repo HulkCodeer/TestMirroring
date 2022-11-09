@@ -89,13 +89,21 @@ internal final class BottomMenuItem: UIView {
             reactor.state.compactMap { $0.isAccountsReceivable }
                 .asDriver(onErrorJustReturn: true)
                 .drive(with: self) { obj, isAccountsReceivable in
-                    guard let specificValue = obj.menuType.specificValue else { return }
-                    let value = isAccountsReceivable ? specificValue : obj.menuType.value
-                    
-                    obj.icon.image = value.icon
-                    obj.titleLabel.text = value.title
+                    guard let icon = obj.menuType.accountsReceivableIcon else { return }
+                    obj.icon.image = icon
                 }
                 .disposed(by: self.disposeBag)
+            
+            reactor.state.compactMap { $0.hasEVPayCard }
+                .asDriver(onErrorJustReturn: false)
+                .drive(with: self) { owner, hasEVPayCard in
+                    guard let specificValue = owner.menuType.specificValue else { return }
+                    let value = hasEVPayCard ? owner.menuType.value : specificValue
+                    
+                    owner.icon.image = value.icon
+                    owner.titleLabel.text = value.title
+                }
+                .disposed(by: disposeBag)
             
         default:
             break
