@@ -74,6 +74,8 @@ internal struct MembershipCardInfo: Equatable {
             
             var passType: PassType = .complete
             for type in ShipmentStatusType.allCases {
+                guard type != .sendComplete else { return }
+                
                 if passType == .current {
                     passType = .nextStep
                 }

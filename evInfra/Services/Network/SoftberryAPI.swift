@@ -259,17 +259,13 @@ internal final class RestApi: SoftberryAPI {
     // MARK: - 회원카드 정보 조회
     
     func postMembershipCardInfo() -> Observable<(HTTPURLResponse, Data)> {
-        let reqParam: Parameters = [
-            "mb_id": MemberManager.shared.mbId            
-        ]
-        
         let headers: HTTPHeaders = [
             "x-api-key": GlobalDefine.shared.apiKey
         ]
         
-        return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/v2/membership_card/delivery",
+        return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/v2/membership_card/delivery?mb_id=\(MemberManager.shared.mbId)",
                                               httpMethod: .get,
-                                              parameters: reqParam,
+                                              parameters: nil,
                                               headers: headers)
     }
     

@@ -122,13 +122,13 @@ internal final class ShipmentStepView: UIView {
             }
             .disposed(by: self.disposebag)
         
-        let isCurrentSendComplete = model.condition.convertStatusArr.filter { $0.passType == .current }.first?.shipmentStatusType != .sendComplete
+        let isCurrentSendComplete = model.condition.convertStatusArr.filter { $0.passType == .current }.first?.shipmentStatusType != .mailboxConfirm
         
         confirmReceiptGuideTotalView.isHidden = isCurrentSendComplete
         if !isCurrentSendComplete {
             self.makeMailBoxConfirmMessageView()
         }
-        
+                
         for convertStatus in model.condition.convertStatusArr {
             let view = self.makeStepView(statusInfo: convertStatus)
             totalStackView.addArrangedSubview(view.totalView)
@@ -157,33 +157,10 @@ internal final class ShipmentStepView: UIView {
                 let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 14, weight: .regular), .foregroundColor: Colors.contentPrimary.color]
                 attributeText.setAttributes(attributes, range: NSRange(location: 0, length: message.count))
                 
-                _ = message.getArrayAfterRegex(regex: "2~3일내로 발송")
-                    .map { NSRange($0, in: message) }
-                    .map {
-                        attributeText.setAttributes(
-                            [.font: UIFont.systemFont(ofSize: 14, weight: .regular),
-                                .foregroundColor: Colors.contentPositive.color],
-                            range: $0)
-                    }
-                
-                _ = message.getArrayAfterRegex(regex: "약 7일 뒤 도착")
-                    .map { NSRange($0, in: message) }
-                    .map {
-                        attributeText.setAttributes(
-                            [.font: UIFont.systemFont(ofSize: 14, weight: .regular),
-                                .foregroundColor: Colors.contentPositive.color],
-                            range: $0)
-                    }
-                
-                _ = message.getArrayAfterRegex(regex: "우편 발송되어 도착 날짜가 정확하지 않을 수 있으니\n양해 부탁드려요.")
-                    .map { NSRange($0, in: message) }
-                    .map {
-                        attributeText.setAttributes(
-                            [.font: UIFont.systemFont(ofSize: 12, weight: .regular),
-                                .foregroundColor: Colors.contentTertiary.color],
-                            range: $0)
-                    }
-                
+                attributeText.attributedStringArr(text: ["2~3일내로 발송","약 7일 뒤 도착","우편 발송되어 도착 날짜가 정확하지 않을 수 있으니\n양해 부탁드려요."],
+                                                  font: [.systemFont(ofSize: 14, weight: .regular), .systemFont(ofSize: 14, weight: .regular), .systemFont(ofSize: 12, weight: .regular) ],
+                                                  textColor: [Colors.contentPositive.color, Colors.contentPositive.color, Colors.contentTertiary.color])
+                                                
                 let statusDescLbl = UILabel().then {
                     $0.textAlignment = .natural
                     $0.textColor = Colors.contentPrimary.color
@@ -335,7 +312,7 @@ internal final class ShipmentStepView: UIView {
         lineView.snp.makeConstraints {
             $0.top.equalTo(dotView.snp.bottom)
             $0.centerX.equalToSuperview()
-            let isSendComplete = statusInfo.shipmentStatusType == .sendComplete
+            let isSendComplete = statusInfo.shipmentStatusType == .mailboxConfirm
             let isLongLine = statusInfo.passType == .current
             let isSending = statusInfo.shipmentStatusType == .sending
             $0.height.equalTo(isSendComplete ? 0 : isLongLine ? (isSending ? 202 : 168) : 36)
