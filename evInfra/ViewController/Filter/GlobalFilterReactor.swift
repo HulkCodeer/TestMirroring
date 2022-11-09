@@ -24,6 +24,7 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         case setEvPayFilter(Bool)
         case saveEvPayFilter(Bool)
         case setFavoriteFilter(Bool)
+        case saveFavoriteFilter(Bool)
         case setSelectedFilterType(SelectedFilterType)
         case changedAccessFilter(SelectedAccessFilter)
         case setAccessFilter(SelectedAccessFilter)
@@ -78,8 +79,9 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         var isCanopy: Bool = FilterManager.sharedInstance.filter.isCanopy
         var minSpeed: Int = FilterManager.sharedInstance.filter.minSpeed
         var maxSpeed: Int = FilterManager.sharedInstance.filter.maxSpeed
-        var isEvPayFilter: Bool? = FilterManager.sharedInstance.getIsMembershipCardChecked()
-        var favoriteFilter: (Bool, Int) = (FilterManager.sharedInstance.getIsFavoriteChecked(), 0)
+        var isEvPayFilter: Bool? = FilterManager.sharedInstance.isMembershipCardChecked()
+        var isFavoriteFilter: Bool? = FilterManager.sharedInstance.filter.isFavoriteChecked
+        var numberOfFavorites: Int? = ChargerManager.sharedInstance.getChargerStationInfoList().filter { $0.mFavorite }.count
     }
     
     internal var initialState: State
@@ -216,8 +218,8 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
             newState.isEvPayFilter = isEvPayFilter
             
         case .setFavoriteFilter(let isFavoriteFilter, let numberOfFavorites):
-            newState.favoriteFilter = (isFavoriteFilter, numberOfFavorites)
-//            newState.isFavoriteFilter = isFavoriteFilter
+            newState.isFavoriteFilter = isFavoriteFilter
+            newState.numberOfFavorites = numberOfFavorites
             
         case .setSelectedFilterType(let selectedFilterType):
             newState.selectedFilterType = selectedFilterType

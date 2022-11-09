@@ -269,12 +269,21 @@ internal final class NewFilterBarView: UIView {
         case .favorite:
             MemberManager.shared.tryToLoginCheck { isLogin in
                 if isLogin {
-                    let isSelected = reactor.currentState.isFavoriteFilter ?? false
+//                    let isSelected = reactor.currentState.isFavoriteFilter ?? false
+                    let isSelected = FilterManager.sharedInstance.filter.isFavoriteChecked
+                    // filter에 저장된 값
+                    btn.isSelected = isSelected
                     view.IBborderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
                     titleLbl.textColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
                     imgView.tintColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
                     imgView.image = isSelected ? typeImageProperty.imgSelect : typeImageProperty.imgUnSelect
-                } 
+                } else {
+                    btn.isSelected = false
+                    view.IBborderColor = Colors.nt1.color
+                    titleLbl.textColor = typeImageProperty.imgUnSelectColor
+                    imgView.tintColor = typeImageProperty.imgUnSelectColor
+                    imgView.image = typeImageProperty.imgUnSelect
+                }
             }
 
             btn.rx.tap
@@ -292,20 +301,59 @@ internal final class NewFilterBarView: UIView {
 //                                .disposed(by: obj.disposeBag)
                         } else {
                             MemberManager.shared.showLoginAlert()
+                            Observable.just(GlobalFilterReactor.Action.setFavoriteFilter(false))
+                                .bind(to: GlobalFilterReactor.sharedInstance.action)
+                                .disposed(by: obj.disposeBag)
                         }
                     }
                 }
                 .disposed(by: self.disposeBag)
             
-            reactor.state.compactMap { $0.isFavoriteFilter }
+            GlobalFilterReactor.sharedInstance.state.compactMap { $0.isFavoriteFilter }
                 .asDriver(onErrorJustReturn: false)
                 .drive(with: self) { obj, isFavoriteFilter in
-                    view.IBborderColor = isFavoriteFilter ? Colors.gr6.color : Colors.nt1.color
+                    btn.isSelected = isFavoriteFilter
+                    view.IBborderColor = isFavoriteFilter ? Colors.borderPositive.color : Colors.nt1.color
                     titleLbl.textColor = isFavoriteFilter ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
                     imgView.tintColor = isFavoriteFilter ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
                     imgView.image = isFavoriteFilter ? typeImageProperty.imgSelect : typeImageProperty.imgUnSelect
-                }
-                .disposed(by: self.disposeBag)
+                }.disposed(by: self.disposeBag)
+            
+//            GlobalFilterReactor.sharedInstance.state.compactMap { $0.favoriteFilter }
+//                .asDriver(onErrorJustReturn: (false, 0))
+//                .drive(with: self) { obj, favorieFilter in
+//                    let isFavoriteFilter = favorieFilter.0
+//                    let hasFavoriteChargers = favorieFilter.1 == 0 ? false : true
+//                    
+//                    btn.isSelected = isFavoriteFilter
+//                    switch (isFavoriteFilter, hasFavoriteChargers) {
+//                    case (true, true): // 즐겨찾기 필터 on, 즐겨찾기 충전소 개수 있음
+//                        // 버튼 선택
+//                        view.IBborderColor = Colors.borderPositive.color
+//                        titleLbl.textColor = typeImageProperty.imgSelectColor
+//                        imgView.tintColor = typeImageProperty.imgSelectColor
+//                        imgView.image = typeImageProperty.imgSelect
+//                        // 필터 적용
+//                        break
+//                    case (true, false): // 즐겨찾기 필터 on, 즐겨찾기 충전소 개수 없음
+//                        // TODO: 토스트 띄우기
+//                        printLog(out: ":: PKH TEST :: 토스트!!")
+//                        
+//                        view.IBborderColor = Colors.nt1.color
+//                        titleLbl.textColor = typeImageProperty.imgUnSelectColor
+//                        imgView.tintColor = typeImageProperty.imgUnSelectColor
+//                        imgView.image = typeImageProperty.imgUnSelect
+//                        break
+//                    default:
+//                        // 즐겨찾기 필터 off, 즐겨찾기 충전소 개수 있음
+//                        // 즐겨찾기 필터 off, 즐겨찾기 충전소 개수 없음
+//                        view.IBborderColor = Colors.nt1.color
+//                        titleLbl.textColor = typeImageProperty.imgUnSelectColor
+//                        imgView.tintColor = typeImageProperty.imgUnSelectColor
+//                        imgView.image = typeImageProperty.imgUnSelect
+//                    }
+//                }.disposed(by: self.disposeBag)
+
         case .place:
             let isChanged = FilterManager.sharedInstance.shouldPlaceChanged()
             titleLbl.textColor = isChanged ? Colors.gr6.color : Colors.contentSecondary.color
