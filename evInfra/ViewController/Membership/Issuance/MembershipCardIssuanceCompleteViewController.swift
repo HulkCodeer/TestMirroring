@@ -150,11 +150,6 @@ internal final class MembershipCardIssuanceCompleteViewController: CommonBaseVie
         
         tooltipView.show(message: "이벤트에 참여해서 3000베리 받아가세요!", attrString: "3000베리")
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
-    }
             
     // MARK: FUNC
     
@@ -169,6 +164,7 @@ internal final class MembershipCardIssuanceCompleteViewController: CommonBaseVie
             .asDriver()
             .drive(onNext: {
                 let viewcon = UIStoryboard(name : "Event", bundle: nil).instantiateViewController(ofType: EventViewController.self)
+                viewcon.moveEventId = "100ETM#2022#0922#144119"
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             })
             .disposed(by: self.disposeBag)
@@ -177,6 +173,7 @@ internal final class MembershipCardIssuanceCompleteViewController: CommonBaseVie
             .asDriver()
             .drive(onNext: {
                 let viewcon = UIStoryboard(name : "Membership", bundle: nil).instantiateViewController(ofType: MembershipCardViewController.self)
+                viewcon.fromViewType = .membershipCardComplete
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             })
             .disposed(by: self.disposeBag)                

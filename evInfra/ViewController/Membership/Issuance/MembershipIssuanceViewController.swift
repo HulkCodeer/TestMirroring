@@ -257,7 +257,8 @@ class MembershipIssuanceViewController: UIViewController,
                             UserDefault().saveBool(key: UserDefault.Key.IS_HIDDEN_DELEVERY_COMPLETE_TOOLTIP, value: false)
                             MemberManager.shared.hasMembership = true
                             MemberManager.shared.hasPayment = true
-                                                        
+                            
+                            // QR 충전에서 회원카드 없는 CASE로 등록하러 온 경우
                             guard let _mainNavi = GlobalDefine.shared.mainNavi else { return }
                             for vc in _mainNavi.viewControllers {
                                 if let _vc = vc as? NewPaymentQRScanViewController {
@@ -267,6 +268,7 @@ class MembershipIssuanceViewController: UIViewController,
                                 }
                             }
                             
+                            // 사이드 메뉴에서 베리 전액 설정 시 회원카드 없는 CASE로 등록하러 온 경우
                             guard let _mainNavi = GlobalDefine.shared.mainNavi, let _delegate = self.delegate else { return }
                             for vc in _mainNavi.viewControllers {
                                 if let _vc = vc as? NewLeftViewController {
@@ -277,8 +279,12 @@ class MembershipIssuanceViewController: UIViewController,
                                 }
                             }
                             
-                            let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)
-                            let viewcon = mbsStoryboard.instantiateViewController(ofType: MembershipCardViewController.self)
+                            
+//                            let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)
+//                            let viewcon = mbsStoryboard.instantiateViewController(ofType: MembershipCardViewController.self)
+                            let reactor = MembershipCardIssuanceCompleteReactor(provider: RestApi())
+                            let viewcon = MembershipCardIssuanceCompleteViewController(reactor: reactor)
+                            
                             GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                         }, textAlignment: .center)
                         let popup = ConfirmPopupViewController(model: popupModel)

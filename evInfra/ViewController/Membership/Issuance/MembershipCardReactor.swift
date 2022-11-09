@@ -13,15 +13,18 @@ internal final class MembershipCardReactor: ViewModel, Reactor {
     enum Action {
         case membershipCardInfo
         case loadPaymentStatus
+        case confirmDelivery
     }
     
     enum Mutation {
         case setMembershipCardInfo(MembershipCardInfo)
+        case setIsConfirmDelivery(Bool)
         case empty
     }
     
     struct State {
         var membershipCardInfo: MembershipCardInfo?
+        var isConfirmDelivery: Bool?
     }
     
     internal var initialState: State
@@ -48,6 +51,14 @@ internal final class MembershipCardReactor: ViewModel, Reactor {
                             .map { model in
                                 return .setMembershipCardInfo(model)
                             }
+            
+        case .confirmDelivery:
+            return self.provider.putMembershipCardDeliveryConfirm()
+                            .convertData()
+                            .compactMap(convertIsDeliveryConfirm)
+                            .compactMap { isConfirm in
+                                return .setIsConfirmDelivery(isConfirm)
+                            }
         }
     }
     
@@ -59,6 +70,9 @@ internal final class MembershipCardReactor: ViewModel, Reactor {
         switch mutation {
         case .setMembershipCardInfo(let model):
             newState.membershipCardInfo = model
+            
+        case .setIsConfirmDelivery(let isConfirmDelivery):
+            newState.isConfirmDelivery = isConfirmDelivery
             
         case .empty: break
                                                     
@@ -128,6 +142,26 @@ internal final class MembershipCardReactor: ViewModel, Reactor {
         case .failure(let errorMessage):
             printLog(out: "error: \(errorMessage)")
             Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 결제정보관리 페이지 종료후 재시도 바랍니다.")
+            return nil
+        }
+    }
+    
+    private func convertIsDeliveryConfirm(with result: ApiResult<Data, ApiError>) -> Bool? {
+        switch result {
+        case .success(let data):
+            let jsonData = JSON(data)
+            printLog(out: "JsonData : \(jsonData)")
+            
+            guard jsonData["code"] == 1000 else {
+                Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
+                return nil
+            }
+                                    
+            return true
+                                                                         
+        case .failure(let errorMessage):
+            printLog(out: "Error Message : \(errorMessage)")
+            Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
             return nil
         }
     }

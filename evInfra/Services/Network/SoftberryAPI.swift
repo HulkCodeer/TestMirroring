@@ -296,7 +296,7 @@ internal final class RestApi: SoftberryAPI {
         ]
         
         return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/v2/membership_card/delivery/confirm",
-                                              httpMethod: .get,
+                                              httpMethod: .put,
                                               parameters: reqParam,
                                               headers: headers)
     }

@@ -115,7 +115,9 @@ internal final class MembershipCardShipmentStatusViewController: UIViewControlle
                 obj.shipmentStepView.bind(model: membershipCardInfo)
                 obj.shipmentInfoView.bind(model: membershipCardInfo.destination)
                 obj.totalStackView.addArrangedSubview(obj.shipmentStepView)
-                obj.totalStackView.addArrangedSubview(obj.shipmentInfoView)                
+                obj.totalStackView.addArrangedSubview(obj.shipmentInfoView)
+                
+                obj.shipmentStepView.reactor = reactor
             }
             .disposed(by: self.disposeBag)
     }

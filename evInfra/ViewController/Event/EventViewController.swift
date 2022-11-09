@@ -27,9 +27,11 @@ internal final class EventViewController: UIViewController {
     
     private var eventList: [AdsInfo] = [AdsInfo]()
     private var displayedList : Set = Set<String>()
+    
     internal var externalEventID: Int?
     internal var externalEventParam: String?
-    
+    internal var moveEventId: String?
+        
     private let disposebag = DisposeBag()
     
     // MARK: SYSTEM FUNC
@@ -96,6 +98,13 @@ internal final class EventViewController: UIViewController {
                             viewcon.eventData = EventData(naviTitle: event.evtTitle, eventUrl: event.extUrl, promotionId: event.evtId, mbId: MemberManager.shared.mbIdToStr, carmoreParam: _externalEventParam)
                             GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                         }
+                        
+                        if let _moveEventId = self.moveEventId, _moveEventId == event.evtId {
+                            let viewcon = NewEventDetailViewController()
+                            viewcon.eventData = EventData(naviTitle: event.evtTitle, eventUrl: event.extUrl, promotionId: event.evtId, mbId: MemberManager.shared.mbIdToStr)
+                            GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                        }
+                        
                         self.eventList.append(event)
                     }
                     

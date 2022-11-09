@@ -47,10 +47,15 @@ internal final class PartnershipListView : UIView {
     }
     
     private lazy var presentShipmentViewBtn = UIButton()
+    
+    private var cardNoTooltipView = TooltipView(configure: TooltipView.Configure(tipLeftMargin: 8, tipDirection: .bottom, maxWidth: 233)).then {
+        $0.isHidden = true
+    }
         
     // MARK: VARIABLE
     
     internal weak var delegate: PartnershipListViewDelegate?
+    internal var fromViewType: MembershipCardViewController.FromViewType = .none
     
     private var evInfraInfo: MembershipCardInfo = MembershipCardInfo(JSON.null)
     private var disposebag = DisposeBag()
@@ -203,6 +208,24 @@ internal final class PartnershipListView : UIView {
         labelCardStatus.text = info.condition.convertStatusType.toString
         reissuanceLbl.textColor = info.isReissuance ? Colors.nt9.color: Colors.nt3.color                        
         labelCardNum.text = info.displayCardNo
+        
+        
+        
+//        if info.condition.convertStatusType == .sendReady, !MemberManager.shared.isShowMembershipCardCompleteTooltip {
+            cardNoTooltipView.isHidden = false
+            
+            self.addSubview(cardNoTooltipView)
+            cardNoTooltipView.snp.makeConstraints {
+                $0.leading.equalToSuperview().offset(16)
+                $0.width.equalTo(233)
+                $0.bottom.equalToSuperview().offset(-50)
+                $0.height.equalTo(69)
+            }
+        
+        cardNoTooltipView.show(message: "GS, 환경부 제외 충전소에서\n카드 번호로 바로 충전할 수 있어요!")
+            
+//            MemberManager.shared.isShowMembershipCardCompleteTooltip = true
+//        }
                                 
         if info.condition.convertStatusType == .sending {
             _ = viewEvinfraList.subviews.compactMap { $0 as? EasyTipView }.first?.removeFromSuperview()

@@ -15,6 +15,7 @@ internal final class MembershipCardViewController: CommonBaseViewController, Sto
     
     enum FromViewType {
         case membershipCardComplete
+        case none
     }
     
     // MARK: UI
@@ -30,6 +31,8 @@ internal final class MembershipCardViewController: CommonBaseViewController, Sto
     // MARK: VARIABLE
     
     private var paymentStatus: PaymentStatus = .none
+    
+    internal var fromViewType: FromViewType = .none
     
     // MARK: SYSTEM FUNC
     
@@ -57,15 +60,14 @@ internal final class MembershipCardViewController: CommonBaseViewController, Sto
             $0.leading.trailing.bottom.equalToSuperview()
         }
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        checkPayStatus()
-    }
-    
+            
     // MARK: REACTORKIT
 
     func bind(reactor: MembershipCardReactor) {
+        Observable.just(MembershipCardReactor.Action.loadPaymentStatus)
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
+        
         self.rx.viewWillAppear
             .asDriver()
             .drive(with: self) { obj, _ in
@@ -85,24 +87,10 @@ internal final class MembershipCardViewController: CommonBaseViewController, Sto
         reactor.state.compactMap { $0.membershipCardInfo }
             .asDriver(onErrorJustReturn: MembershipCardInfo(JSON.null))
             .drive(with: self) { obj, model in
+                self.partnershipListView.fromViewType = self.fromViewType
                 self.partnershipListView.showInfoView(info: model)
             }
             .disposed(by: self.disposeBag)
-    }
-    
-    // MARK: FUNC
-    
-    private func checkPayStatus() {
-        Server.getPayRegisterStatus { (isSuccess, value) in
-            if isSuccess {
-                let json = JSON(value)
-                let payCode = json["pay_code"].intValue
-                
-                
-            } else {
-                Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 결제정보관리 페이지 종료후 재시도 바랍니다.")
-            }
-        }
     }
 }
 

@@ -8,7 +8,7 @@
 
 import UIKit
 
-internal final class ChargerDetailViewController: CommonBaseViewController {
+internal final class ChargerDetailViewController: BaseViewController {
     @IBOutlet weak var chargerImageView: UIImageView!
     @IBOutlet weak var connectorName: UILabel!
     @IBOutlet weak var ampare: UILabel!

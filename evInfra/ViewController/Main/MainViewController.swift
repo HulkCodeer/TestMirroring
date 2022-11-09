@@ -66,7 +66,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         }
     }
     private lazy var chargePriceIcon = UIImageView().then {
-        $0.image = Icons.iconCoinFillSm.image
+        $0.image = Icons.coinFillSm.image
         $0.contentMode = .scaleAspectFill
     }
     private lazy var chargePriceLabel = UILabel().then {
@@ -179,9 +179,8 @@ internal final class MainViewController: UIViewController, StoryboardView {
         prepareNotificationCenter()
         prepareRouteView()
         prepareClustering()
-    
-        prepareChargePrice()
-//        requestStationInfo()5
+            
+//        requestStationInfo()
         
         prepareCalloutLayer()
         

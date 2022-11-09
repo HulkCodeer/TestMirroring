@@ -16,7 +16,7 @@ internal class TermsViewController: UIViewController, WKUIDelegate, WKNavigation
     enum Request {
         case Contact           // 제휴문의
         case UsingTerms        // 서비스 이용약관
-        case PersonalInfoTerms // 개인정보처리방침
+        case PersonalInfoTerms // 개인정보 처리방침
         case LocationTerms     // 위치기반서비스 이용약관
         case MembershipTerms   // 회원카드 이용약관
         case Licence           // 라이센스
@@ -99,7 +99,7 @@ internal class TermsViewController: UIViewController, WKUIDelegate, WKNavigation
         case .UsingTerms:
             customNaviBar.naviTitleLbl.text = "서비스 이용약관"
         case .PersonalInfoTerms:
-            customNaviBar.naviTitleLbl.text = "개인정보 취급방침"
+            customNaviBar.naviTitleLbl.text = "개인정보 처리방침"
         case .LocationTerms:
             customNaviBar.naviTitleLbl.text = "위치기반서비스 이용약관"
         case .MembershipTerms:

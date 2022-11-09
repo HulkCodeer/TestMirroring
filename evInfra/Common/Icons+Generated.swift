@@ -37,6 +37,7 @@ internal enum Icons {
   internal static let coinFillMd = ImageAsset(name: "coin_fill_md")
   internal static let coinFillSm = ImageAsset(name: "coin_fill_sm")
   internal static let coinFillXs = ImageAsset(name: "coin_fill_xs")
+  internal static let iconCoinFillSm = ImageAsset(name: "Icon_coin-fill_sm")
   internal static let iconComment = ImageAsset(name: "icon_comment")
   internal static let iconCommentLg = ImageAsset(name: "icon_comment_lg")
   internal static let iconCommentMd = ImageAsset(name: "icon_comment_md")

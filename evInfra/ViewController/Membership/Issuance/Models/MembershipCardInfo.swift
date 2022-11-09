@@ -9,10 +9,10 @@
 import SwiftyJSON
 
 internal enum ShipmentStatusType: Int, CaseIterable {
-    case sendReady = 1
-    case sending = 2
-    case mailboxConfirm = 3
-    case sendComplete = 4
+    case sendReady = 1 // 회원카드 신청, 발송 준비중
+    case sending = 2 // 회원카드 발송, 어드민에서 발송 시작을 누른 시점
+    case mailboxConfirm = 3 // 우편함 확인
+    case sendComplete = 4 // 카드 받기 완료
     
     internal var toString: String {
         switch self {
@@ -28,7 +28,7 @@ internal enum ShipmentStatusType: Int, CaseIterable {
         case .sendReady:
             return "신청 내용을 확인중입니다.\n영업일 기준 2~3일내로 발송 예정입니다."
         case .sending:
-            return "EV Pay 카드가 회원님께 가고 있어요! ✉️\n영업일 기준 약 7일 뒤 도착할거에요.\n우편 발송되어 도착 날짜가 정확하지 않을 수 있으니\n양해 부탁드려요."
+            return "EV Pay 카드가 회원님께 가고 있어요! ✉️\n영업일 기준 약 10일 뒤 도착할거에요.\n우편 발송되어 도착 날짜가 정확하지 않을 수 있으니\n양해 부탁드려요."
         case .mailboxConfirm: return ""
         case .sendComplete: return ""
         }
