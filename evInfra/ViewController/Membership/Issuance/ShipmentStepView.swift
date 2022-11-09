@@ -146,22 +146,27 @@ internal final class ShipmentStepView: UIView {
         if !isCurrentSendComplete {
             self.makeMailBoxConfirmMessageView()
         }
-                
+                                
+        var sendReadyDescView: UIView = UIView()
+        var sendingDescView: UIView = UIView()
+        
         for convertStatus in model.condition.convertStatusArr {
             let stepTotalView = self.makeStepDotView(statusInfo: convertStatus)
             totalStackView.addArrangedSubview(stepTotalView.totalView)
                                                             
-            self.makeStatusDesc(statusInfo: convertStatus, parentView: stepTotalView.dotView)
-
+            let statusTypeDescView = self.makeStatusDesc(statusInfo: convertStatus, parentView: stepTotalView.dotView)
+                        
             let isSendReadyCurrent = convertStatus.passType == .current && convertStatus.shipmentStatusType == .sendReady
             let isSendingCurrent = convertStatus.passType == .current && convertStatus.shipmentStatusType == .sending
             
             // 신청 접수, 발송 시작 옆에 메세지 만드는 로직
             if isSendReadyCurrent {
+                sendReadyDescView = statusTypeDescView
                 self.makeSendReadyGuideView(stepTotalView: stepTotalView, convertStatus: convertStatus)
             }
             
             if isSendingCurrent {
+                sendingDescView = statusTypeDescView
                 let view = self.makeSendingGuideView(stepTotalView: stepTotalView, convertStatus: convertStatus)
                 self.addSubview(sendingMessageTotalView)
                 sendingMessageTotalView.snp.makeConstraints {
@@ -185,6 +190,10 @@ internal final class ShipmentStepView: UIView {
                 }
             }
         }
+        
+        self.makeSendReadyRegisterTimeView(registerTime: model.condition.displayRegDate, parentView: sendReadyDescView)
+        
+        self.makeSendingStartTimeView(startTime: model.condition.displayStartDate, parentView: sendingDescView)
     }
     
     private func makeSendingGuideView(stepTotalView: StepView, convertStatus: ConvertStatus) -> UIView {
@@ -413,7 +422,41 @@ internal final class ShipmentStepView: UIView {
         }                
     }
     
-    private func makeStatusDesc(statusInfo: ConvertStatus, parentView: UIView) {
+    private func makeSendingStartTimeView(startTime: String, parentView: UIView) {
+        guard !startTime.isEmpty else { return }
+        let timeLbl = UILabel().then {
+            $0.text = "\(startTime)"
+            $0.textColor = Colors.contentTertiary.color
+            $0.font = .systemFont(ofSize:12 , weight: .regular)
+            $0.textAlignment = .natural
+        }
+        
+        self.addSubview(timeLbl)
+        timeLbl.snp.makeConstraints {
+            $0.trailing.equalToSuperview().offset(-14)
+            $0.centerY.equalTo(parentView.snp.centerY)
+            $0.height.equalTo(18)
+        }
+    }
+    
+    private func makeSendReadyRegisterTimeView(registerTime: String, parentView: UIView) {
+        guard !registerTime.isEmpty else { return }
+        let timeLbl = UILabel().then {
+            $0.text = "\(registerTime)"
+            $0.textColor = Colors.contentTertiary.color
+            $0.font = .systemFont(ofSize:12 , weight: .regular)
+            $0.textAlignment = .natural
+        }
+        
+        self.addSubview(timeLbl)
+        timeLbl.snp.makeConstraints {
+            $0.trailing.equalToSuperview().offset(-14)
+            $0.centerY.equalTo(parentView.snp.centerY)
+            $0.height.equalTo(18)
+        }
+    }
+    
+    private func makeStatusDesc(statusInfo: ConvertStatus, parentView: UIView) -> UILabel {
         let typeDescLbl = UILabel().then {
             $0.text = "\(statusInfo.shipmentStatusType.toString)"
             
@@ -437,6 +480,8 @@ internal final class ShipmentStepView: UIView {
             $0.centerY.equalTo(parentView.snp.centerY)
             $0.height.equalTo(24)
         }
+        
+        return typeDescLbl
     }
     
     private func makeStepDotView(statusInfo: ConvertStatus) -> StepView {
