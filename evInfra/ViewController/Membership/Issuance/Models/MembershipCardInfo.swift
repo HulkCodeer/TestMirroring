@@ -36,28 +36,53 @@ internal enum ShipmentStatusType: Int, CaseIterable {
 }
 
 internal struct MembershipCardInfo: Equatable {
-    let code: Int
     let cardNo: String
-    let status: String
-    let regDate: String
-    let displayRegDate: String
+    let displayCardNo: String
     let destination: Destination
-    let delivery: Delivery
+    let condition: Condition
+    var isReissuance: Bool = false
     
     init(_ json: JSON) {
-        self.code = json["code"].intValue
         self.cardNo = json["card_no"].stringValue
-        self.status = json["status"].stringValue
-        self.regDate = json["reg_date"].stringValue
-        self.displayRegDate = Date().toDate(data: self.regDate)?.toString(dateFormat: .yyyyMMddHHmmD) ?? ""
         self.destination = Destination(json["destination"])
-        self.delivery = Delivery(json["delivery"])
-        self.displayCardNo = self.cardNo?.replaceAll(of : "(\\d{4})(?=\\d)", with : "$1-")
-        guard let _cardNo = self.cardNo, _cardNo.startsWith("2095") else {
+        self.condition = Condition(json["condition"])
+        self.displayCardNo = self.cardNo.replaceAll(of : "(\\d{4})(?=\\d)", with : "$1-")
+        guard self.cardNo.startsWith("2095") else {
             self.isReissuance = false
             return
         }
-        self.isReissuance = !(self.cardStatusType == .sipping || self.cardStatusType == .readyShip)
+        self.isReissuance = !(self.condition.convertStatusType == .sendReady ||
+                              self.condition.convertStatusType == .sending)
+    }
+    
+    internal struct Condition {
+        let status: Int
+        let convertStatusType: ShipmentStatusType
+        let regDate: String
+        let startDate: String
+        let displayRegDate: String
+        let displayStartDate: String
+        var convertStatusArr: [ConvertStatus] = []
+        
+        init(_ json: JSON) {
+            self.status = json["status"].intValue
+            self.convertStatusType = ShipmentStatusType(rawValue: self.status) ?? .sendReady
+            self.regDate = json["reg_date"].stringValue
+            self.startDate = json["start_date"].stringValue
+            self.displayRegDate = Date().toDate(data: self.regDate)?.toString(dateFormat: .yyyyMMddHHmmD) ?? ""
+            self.displayStartDate = Date().toDate(data: self.startDate)?.toString(dateFormat: .yyyyMMddHHmmD) ?? ""
+            
+            var passType: PassType = .complete
+            for type in ShipmentStatusType.allCases {
+                if passType == .current {
+                    passType = .nextStep
+                }
+                if type == ShipmentStatusType(rawValue: self.status)  {
+                    passType = .current
+                }
+                self.convertStatusArr.append(ConvertStatus(shipmentStatusType: type, passType: passType))
+            }
+        }
     }
     
     internal struct Destination {
@@ -81,45 +106,19 @@ internal struct MembershipCardInfo: Equatable {
     }
 }
 
-internal struct Delivery {
-    let status: String
-    let startDate: String
-    let displayDate: String
+enum PassType {
+    case nextStep
+    case complete
+    case current
+    case none
+}
+
+struct ConvertStatus {
+    internal var shipmentStatusType: ShipmentStatusType
+    internal var passType: PassType
     
-    private var convertStatusArr: [ConvertStatus] = []
-    
-    init(_ json: JSON) {
-        self.status = json["status"].stringValue
-        self.startDate = json["start_date"].stringValue
-        self.displayDate = Date().toDate(data: self.startDate)?.toString(dateFormat: .yyyyMMddHHmmD) ?? ""
-        
-        var passType: PassType = .complete
-        let statusValue: Int = json["status"].intValue
-        for type in ShipmentStatusType.allCases {
-            if passType == .current {
-                passType = .nextStep
-            }
-            if type == ShipmentStatusType(rawValue: statusValue)  {
-                passType = .current
-            }
-            self.convertStatusArr.append(ConvertStatus(shipmentStatusType: type, passType: passType))
-        }
-    }
-    
-    enum PassType {
-        case nextStep
-        case complete
-        case current
-        case none
-    }
-    
-    struct ConvertStatus {
-        internal var shipmentStatusType: ShipmentStatusType
-        internal var passType: PassType
-        
-        init(shipmentStatusType: ShipmentStatusType, passType: PassType) {
-            self.shipmentStatusType = shipmentStatusType
-            self.passType = passType
-        }
+    init(shipmentStatusType: ShipmentStatusType, passType: PassType) {
+        self.shipmentStatusType = shipmentStatusType
+        self.passType = passType
     }
 }

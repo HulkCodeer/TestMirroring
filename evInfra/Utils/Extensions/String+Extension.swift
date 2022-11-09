@@ -151,14 +151,23 @@ extension NSMutableAttributedString {
         return attributedString
     }
     
-    func attributedString(textArr: [String], font: UIFont) {
-        for text in textArr {
-            _ = self.string.getArrayAfterRegex(regex: text)
+    func attributedString(text: String, font: UIFont, textColor: UIColor) {
+        _ = self.string.getArrayAfterRegex(regex: text)
+            .map { NSRange($0, in: self.string) }
+            .map {
+                self.setAttributes(
+                    [.font: font, .foregroundColor: textColor],
+                    range: $0)
+            }
+    }
+    
+    func attributedStringArr(text: [String], font: [UIFont], textColor: [UIColor]) {
+        for (index, element) in text.enumerated() {
+            _ = self.string.getArrayAfterRegex(regex: element)
                 .map { NSRange($0, in: self.string) }
                 .map {
                     self.setAttributes(
-                        [.font: UIFont.systemFont(ofSize: 14, weight: .regular),
-                            .foregroundColor: Colors.contentPositive.color],
+                        [.font: font[index], .foregroundColor: textColor[index]],
                         range: $0)
                 }
         }

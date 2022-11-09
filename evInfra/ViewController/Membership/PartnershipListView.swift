@@ -13,9 +13,9 @@ import EasyTipView
 
 protocol PartnershipListViewDelegate: AnyObject {
     func addNewPartnership()
-    func showEvinfraMembershipInfo(info : MemberPartnershipInfo)    
+    func showEvinfraMembershipInfo(info : MembershipCardInfo)
     func moveMembershipUseGuideView()
-    func moveReissuanceView(info: MemberPartnershipInfo)
+    func moveReissuanceView(info: MembershipCardInfo)
     func paymentStatusInfo() -> PaymentStatus
     func showShipmentStatusView()
 }
@@ -52,7 +52,7 @@ internal final class PartnershipListView : UIView {
     
     internal weak var delegate: PartnershipListViewDelegate?
     
-    private var evInfraInfo : MemberPartnershipInfo = MemberPartnershipInfo(JSON.null)
+    private var evInfraInfo: MembershipCardInfo = MembershipCardInfo(JSON.null)
     private var disposebag = DisposeBag()
     
     // MARK: SYSTEM FUNC
@@ -200,14 +200,11 @@ internal final class PartnershipListView : UIView {
     func showInfoView(info : MembershipCardInfo) {
         evInfraInfo = info
         viewEvinfraList.isHidden = false
-        labelCardStatus.text = info.displayStatusDescription
-        reissuanceLbl.textColor = info.isReissuance ? Colors.nt9.color: Colors.nt3.color
-        
-        guard let _cardNo = info.cardNo else { return }
-        let modString = _cardNo.replaceAll(of : "(\\d{4})(?=\\d)", with : "$1-")
-        labelCardNum.text = modString
+        labelCardStatus.text = info.condition.convertStatusType.toString
+        reissuanceLbl.textColor = info.isReissuance ? Colors.nt9.color: Colors.nt3.color                        
+        labelCardNum.text = info.displayCardNo
                                 
-        if info.cardStatusType == .sipping {
+        if info.condition.convertStatusType == .sending {
             _ = viewEvinfraList.subviews.compactMap { $0 as? EasyTipView }.first?.removeFromSuperview()
                                     
             var preferences = EasyTipView.Preferences()

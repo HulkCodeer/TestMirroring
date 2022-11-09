@@ -36,7 +36,7 @@ internal final class MembershipInfoViewController: BaseViewController {
     
     // MARK: VARIABLE
     
-    internal var memberInfo : MemberPartnershipInfo?
+    internal var memberInfo : MembershipCardInfo?
     
     // MARK: SYSTEM FUNC
         
@@ -75,7 +75,7 @@ internal final class MembershipInfoViewController: BaseViewController {
         btnModify.layer.cornerRadius = 4
         
         lbCardNo.text = _memberInfo.displayCardNo
-        lbCardStatus.text = _memberInfo.displayStatusDescription
+        lbCardStatus.text = _memberInfo.condition.convertStatusType.toString
         
         let tap_touch = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
         view.addGestureRecognizer(tap_touch)        
@@ -89,7 +89,7 @@ internal final class MembershipInfoViewController: BaseViewController {
         btnModify.isEnabled = false
     }
     
-    func setCardInfo(info : MemberPartnershipInfo) {
+    func setCardInfo(info : MembershipCardInfo) {
         self.memberInfo = info
     }
     

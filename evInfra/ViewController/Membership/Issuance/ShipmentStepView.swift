@@ -122,14 +122,14 @@ internal final class ShipmentStepView: UIView {
             }
             .disposed(by: self.disposebag)
         
-        let isCurrentSendComplete = model.convertStatusArr.filter { $0.passType == .current }.first?.shipmentStatusType != .sendComplete
+        let isCurrentSendComplete = model.condition.convertStatusArr.filter { $0.passType == .current }.first?.shipmentStatusType != .sendComplete
         
         confirmReceiptGuideTotalView.isHidden = isCurrentSendComplete
         if !isCurrentSendComplete {
             self.makeMailBoxConfirmMessageView()
         }
         
-        for convertStatus in model.convertStatusArr {
+        for convertStatus in model.condition.convertStatusArr {
             let view = self.makeStepView(statusInfo: convertStatus)
             totalStackView.addArrangedSubview(view.totalView)
                                                             
@@ -298,7 +298,7 @@ internal final class ShipmentStepView: UIView {
         }                
     }
     
-    private func makeStatusDesc(statusInfo: MembershipCardInfo.ConvertStatus, parentView: UIView) {
+    private func makeStatusDesc(statusInfo: ConvertStatus, parentView: UIView) {
         let typeDescLbl = UILabel().then {
             $0.text = "\(statusInfo.shipmentStatusType.toString)"
             $0.textColor = (statusInfo.passType == .current || statusInfo.passType == .complete) ? Colors.contentPrimary.color : Colors.contentSecondary.color
@@ -314,7 +314,7 @@ internal final class ShipmentStepView: UIView {
         }
     }
     
-    private func makeStepView(statusInfo: MembershipCardInfo.ConvertStatus) -> StepView {
+    private func makeStepView(statusInfo: ConvertStatus) -> StepView {
         let totalView = UIView()
         
         totalView.snp.makeConstraints {
@@ -348,7 +348,7 @@ internal final class ShipmentStepView: UIView {
         return (lineView: lineView, dotView: dotView, totalView: totalView)
     }
     
-    private func makeDotView(statusInfo: MembershipCardInfo.ConvertStatus) -> CAShapeLayer {
+    private func makeDotView(statusInfo: ConvertStatus) -> CAShapeLayer {
         let center = CGPoint(x: DotConstant.size/2, y: DotConstant.size/2)
         let path = UIBezierPath(arcCenter: center,
                                 radius: DotConstant.size/2,

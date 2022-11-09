@@ -37,6 +37,7 @@ protocol SoftberryAPI: AnyObject {
     func postChargingQR(qrCode: String, typeId: Int, tc: String) -> Observable<(HTTPURLResponse, Data)>
     
     func postMembershipCardInfo() -> Observable<(HTTPURLResponse, Data)>
+    func putMembershipCardDeliveryConfirm() -> Observable<(HTTPURLResponse, Data)>
 }
 
 internal final class RestApi: SoftberryAPI {
@@ -262,9 +263,30 @@ internal final class RestApi: SoftberryAPI {
             "mb_id": MemberManager.shared.mbId            
         ]
         
-        return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/v3/membership_card/info",
-                                              httpMethod: .post,
+        let headers: HTTPHeaders = [
+            "x-api-key": GlobalDefine.shared.apiKey
+        ]
+        
+        return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/v2/membership_card/delivery",
+                                              httpMethod: .get,
                                               parameters: reqParam,
-                                              headers: nil)
+                                              headers: headers)
+    }
+    
+    // MARK: - 회원카드 배송 확정
+    
+    func putMembershipCardDeliveryConfirm() -> Observable<(HTTPURLResponse, Data)> {
+        let reqParam: Parameters = [
+            "mb_id": MemberManager.shared.mbId
+        ]
+        
+        let headers: HTTPHeaders = [
+            "x-api-key": GlobalDefine.shared.apiKey
+        ]
+        
+        return NetworkWorker.shared.rxRequest(url: "\(Const.EV_PAY_SERVER)/member/v2/membership_card/delivery/confirm",
+                                              httpMethod: .get,
+                                              parameters: reqParam,
+                                              headers: headers)
     }
 }

@@ -60,10 +60,8 @@ internal final class MembershipCardIssuanceCompleteReactor: ViewModel, Reactor {
             let jsonData = JSON(data)
             printLog(out: "JsonData : \(jsonData)")
             
-            let membershipCardInfo = MembershipCardInfo(jsonData)
-            
-            guard membershipCardInfo.code == 1000 else { return nil }
-            
+            guard jsonData["code"] == 1000 else { return nil }
+            let membershipCardInfo = MembershipCardInfo(jsonData["data"])
             return membershipCardInfo
                                                                          
         case .failure(let errorMessage):
