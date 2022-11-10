@@ -397,7 +397,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 
                 self.view.addSubview(bottomEvPaytooltipView)
                 bottomEvPaytooltipView.snp.makeConstraints {
-                    $0.width.equalTo(255)
+                    $0.width.equalTo(width)
                     $0.centerX.equalTo(item.button.snp.centerX)
                     $0.bottom.equalTo(item.button.snp.top).offset(-7)
                     $0.height.equalTo(50)
