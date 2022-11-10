@@ -800,7 +800,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 case .leave:
                     LoginHelper.shared.logout(completion: { [weak self] success in
                         if success {
-                            self?.closeMenu()
                             Snackbar().show(message: "회원 탈퇴로 인해 로그아웃 되었습니다.")
                         } else {
                             Snackbar().show(message: "다시 시도해 주세요.")
@@ -937,13 +936,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
     private func hideDestinationResult(reactor: MainReactor, hide: Bool) {
         Observable.just(MainReactor.Action.hideDestinationResult(hide))
             .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-    }
-    
-    private func closeMenu() {
-        guard let _reactor = reactor else { return }
-        Observable.just(MainReactor.Action.toggleLeftMenu)
-            .bind(to: _reactor.action)
             .disposed(by: disposeBag)
     }
     
@@ -1687,10 +1679,6 @@ extension MainViewController {
     }
     
     @objc func showSelectCharger(_ notification: NSNotification) {
-        defer {
-            closeMenu()
-        }
-        
         guard let chargerId = notification.object as? String else { return }
         guard let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) else { return }
 
@@ -1722,9 +1710,7 @@ extension MainViewController {
         self.naverMapView.startMarker?.mapView = nil
         self.naverMapView.startMarker = nil
         self.naverMapView.midMarker?.mapView = nil
-        
-        closeMenu()
-        
+
         self.navigationController?.popToRootViewController(animated: true)
         self.setStartPoint()
     }
@@ -1738,9 +1724,7 @@ extension MainViewController {
         
         naverMapView.viaList.removeAll()
         naverMapView.viaList.append(via)
-        
-        closeMenu()
-        
+
         self.navigationController?.popToRootViewController(animated: true)
         self.setStartPath()
     }
@@ -1751,8 +1735,6 @@ extension MainViewController {
         self.naverMapView.endMarker?.mapView = nil
         self.naverMapView.endMarker = nil
         self.naverMapView.midMarker?.mapView = nil
-        
-        closeMenu()
         
         self.navigationController?.popToRootViewController(animated: true)
         self.setEndPoint()
