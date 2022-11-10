@@ -170,6 +170,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         configureLayer()
 
         routeDistanceView.isHidden = true
+        LoginHelper.shared.delegate = self
         
         prepareTmapAPI()
         
@@ -517,16 +518,20 @@ internal final class MainViewController: UIViewController, StoryboardView {
     
     // MARK: - bindAction
     private func bindAction(reactor: MainReactor) {
-        self.rx.viewDidAppear
+        self.rx.viewWillAppear
             .subscribe(with: self) { owner, _ in
-                owner.setMenuBadge(reactor: reactor)
+                Observable.just(MainReactor.Action.setPaymentStatus)
+                    .bind(to: reactor.action)
+                    .disposed(by: owner.disposeBag)
                 
                 owner.setChargingStatus(reactor: reactor)
             }
             .disposed(by: disposeBag)
-                
-        Observable.just(MainReactor.Action.setPaymentStatus)
-            .bind(to: reactor.action)
+        
+        self.rx.viewDidAppear
+            .subscribe(with: self) { owner, _ in
+                owner.setMenuBadge(reactor: reactor)
+            }
             .disposed(by: disposeBag)
         
         // MARK: - 네비바 bindAction
@@ -1583,7 +1588,6 @@ extension MainViewController: ChargerSelectDelegate {
 // MARK: - Request To Server
 extension MainViewController {
     func requestStationInfo() {
-        LoginHelper.shared.delegate = self
         
         DispatchQueue.main.async { [weak self] in
             self?.markerIndicator.startAnimating()
@@ -1878,6 +1882,16 @@ extension MainViewController: LoginHelperDelegate {
     func successLogin() {
         if let reactor = reactor {
             self.setChargingStatus(reactor: reactor)
+        }
+    }
+    
+    func successLogout() {
+        if let reactor = reactor {
+            setMenuBadge(reactor: reactor)
+            
+            Observable.just(MainReactor.Action.setIsCharging(false))
+                .bind(to: reactor.action)
+                .disposed(by: disposeBag)
         }
     }
     

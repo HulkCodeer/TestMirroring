@@ -386,18 +386,17 @@ internal final class MainReactor: ViewModel, Reactor {
             let code = jsonData["code"]
             let payCode = jsonData["pay_code"].intValue
             
+            // setChargingID용
+            Observable.just(MainReactor.Action.setIsCharging(code == 1000))
+                .bind(to: self.action)
+                .disposed(by: disposeBag)
+            
             switch (code, PaymentStatus(rawValue: payCode)) {
             case (_, .PAY_DEBTOR_USER) :  // 미수금
-//                Observable.just(MainReactor.Action.setIsAccountsReceivable(true))
-//                    .bind(to: self.action)
-//                    .disposed(by: disposeBag)
                 return ( .accountsReceivable, nil)
                 
             case (1000, _) :    // 충전중
                 let chargingData = try? JSONDecoder().decode(ChargingID.self, from: data)
-                Observable.just(MainReactor.Action.setIsCharging(true))
-                    .bind(to: self.action)
-                    .disposed(by: disposeBag)
                 return (.charging, chargingData)
 
             case (2002, _) where jsonData["status"].stringValue == "delete":      // 탈퇴 회원
