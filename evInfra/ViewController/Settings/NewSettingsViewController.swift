@@ -93,13 +93,7 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
             $0.centerX.equalToSuperview()
         }
         
-        for settingType in SettingType.allCases {
-            let settingView = self.createSettingView(mainTitle: settingType.rawValue, subTitle: settingType.subTitle(), settingType: settingType)
-            settingView.snp.makeConstraints {
-                $0.height.equalTo(66)
-            }
-            stackView.addArrangedSubview(settingView)
-        }
+        
                 
         MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
             guard let self = self,
@@ -125,7 +119,15 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
         GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
     }
                     
-    internal func bind(reactor: SettingsReactor) {}
+    internal func bind(reactor: SettingsReactor) {
+        for settingType in SettingType.allCases {
+            let settingView = self.createSettingView(mainTitle: settingType.rawValue, subTitle: settingType.subTitle(), settingType: settingType)
+            settingView.snp.makeConstraints {
+                $0.height.equalTo(66)
+            }
+            stackView.addArrangedSubview(settingView)
+        }
+    }
     
     private func createSettingView(mainTitle: String, subTitle: String, settingType: SettingType) -> UIView {
         let view = UIView()
@@ -276,8 +278,8 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
                 .disposed(by: self.viewDisposeBag)
             
             _reactor.state.compactMap { $0.isClustering }
-            .bind(to: noticeSw.rx.isOn)
-            .disposed(by: self.viewDisposeBag)
+                .bind(to: noticeSw.rx.isOn)
+                .disposed(by: self.viewDisposeBag)
             
         }
         
