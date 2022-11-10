@@ -93,7 +93,7 @@ internal enum Icons {
   internal static let iconMenuMd = ImageAsset(name: "icon_menu_md")
   internal static let iconSearchMd = ImageAsset(name: "icon_search_md")
   internal static let iconProfileEmpty = ImageAsset(name: "icon_profile_empty")
-  internal static let icLineCharging = ImageAsset(name: "ic_line_charging")
+  internal static let iconCharging = ImageAsset(name: "icon_charging")
   internal static let iconQr = ImageAsset(name: "icon_qr")
   internal static let iconRadioSelected = ImageAsset(name: "iconRadioSelected")
   internal static let iconRadioUnselected = ImageAsset(name: "iconRadioUnselected")

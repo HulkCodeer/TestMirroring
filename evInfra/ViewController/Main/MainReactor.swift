@@ -510,7 +510,7 @@ internal final class MainReactor: ViewModel, Reactor {
         var specificValue: (icon: UIImage, title: String)? {
             switch self {
             case .qrCharging:   // 충전중
-                return (Icons.icLineCharging.image, "충전중")
+                return (Icons.iconCharging.image, "충전중")
 
             case .evPay:        // 미수금
                 return (Icons.iconEvpay.image, "EV Pay 신청")
