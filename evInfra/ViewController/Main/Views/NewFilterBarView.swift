@@ -267,24 +267,24 @@ internal final class NewFilterBarView: UIView {
                 }
                 .disposed(by: self.disposeBag)
         case .favorite:
-            MemberManager.shared.tryToLoginCheck { isLogin in
-                if isLogin {
-//                    let isSelected = reactor.currentState.isFavoriteFilter ?? false
-                    let isSelected = FilterManager.sharedInstance.filter.isFavoriteChecked
-                    // filter에 저장된 값
-                    btn.isSelected = isSelected
-                    view.IBborderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
-                    titleLbl.textColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-                    imgView.tintColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-                    imgView.image = isSelected ? typeImageProperty.imgSelect : typeImageProperty.imgUnSelect
-                } else {
-                    btn.isSelected = false
-                    view.IBborderColor = Colors.nt1.color
-                    titleLbl.textColor = typeImageProperty.imgUnSelectColor
-                    imgView.tintColor = typeImageProperty.imgUnSelectColor
-                    imgView.image = typeImageProperty.imgUnSelect
-                }
-            }
+//            MemberManager.shared.tryToLoginCheck { isLogin in
+//                if isLogin {
+////                    let isSelected = reactor.currentState.isFavoriteFilter ?? false
+//                    let isSelected = FilterManager.sharedInstance.filter.isFavoriteChecked
+//                    // filter에 저장된 값
+//                    btn.isSelected = isSelected
+//                    view.IBborderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
+//                    titleLbl.textColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+//                    imgView.tintColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+//                    imgView.image = isSelected ? typeImageProperty.imgSelect : typeImageProperty.imgUnSelect
+//                } else {
+//                    btn.isSelected = false
+//                    view.IBborderColor = Colors.nt1.color
+//                    titleLbl.textColor = typeImageProperty.imgUnSelectColor
+//                    imgView.tintColor = typeImageProperty.imgUnSelectColor
+//                    imgView.image = typeImageProperty.imgUnSelect
+//                }
+//            }
 
             btn.rx.tap
                 .asDriver()
@@ -312,11 +312,21 @@ internal final class NewFilterBarView: UIView {
             GlobalFilterReactor.sharedInstance.state.compactMap { $0.isFavoriteFilter }
                 .asDriver(onErrorJustReturn: false)
                 .drive(with: self) { obj, isFavoriteFilter in
-                    btn.isSelected = isFavoriteFilter
-                    view.IBborderColor = isFavoriteFilter ? Colors.borderPositive.color : Colors.nt1.color
-                    titleLbl.textColor = isFavoriteFilter ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-                    imgView.tintColor = isFavoriteFilter ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-                    imgView.image = isFavoriteFilter ? typeImageProperty.imgSelect : typeImageProperty.imgUnSelect
+                    MemberManager.shared.tryToLoginCheck { isLogin in
+                        guard isLogin else {
+                            btn.isSelected = false
+                            view.IBborderColor = Colors.nt1.color
+                            titleLbl.textColor = typeImageProperty.imgUnSelectColor
+                            imgView.tintColor = typeImageProperty.imgUnSelectColor
+                            imgView.image = typeImageProperty.imgUnSelect
+                            return
+                        }
+                        btn.isSelected = isFavoriteFilter
+                        view.IBborderColor = isFavoriteFilter ? Colors.borderPositive.color : Colors.nt1.color
+                        titleLbl.textColor = isFavoriteFilter ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+                        imgView.tintColor = isFavoriteFilter ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+                        imgView.image = isFavoriteFilter ? typeImageProperty.imgSelect : typeImageProperty.imgUnSelect
+                    }
                 }.disposed(by: self.disposeBag)
             
 //            GlobalFilterReactor.sharedInstance.state.compactMap { $0.favoriteFilter }
