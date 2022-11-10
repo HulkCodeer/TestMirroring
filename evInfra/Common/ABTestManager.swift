@@ -9,6 +9,7 @@
 import Foundation
 import FirebaseRemoteConfig
 import FirebaseInstallations
+import SwiftyJSON
 
 internal final class ABTestManager {
     static let shared = ABTestManager()
@@ -17,6 +18,12 @@ internal final class ABTestManager {
     let setting = RemoteConfigSettings()
     
     enum TestType: String {
+        case a = "A"
+        case b = "B"
+        case c = "C"
+    }
+    
+    enum ConditionType: String {
         case mainBottomEVPay = "tooltip_msg_evpay"
     }
     
@@ -27,12 +34,25 @@ internal final class ABTestManager {
         remoteConfig.setDefaults(fromPlist: "RemoteConfigDefaults")
     }
     
-    internal func reqMessage(_ type: TestType) -> String {
-        let requestMessage = remoteConfig[type.rawValue].stringValue ?? String()
-            
-        return requestMessage.replacingOccurrences(of: "\\n", with: "\n")
-    }
     
+    internal func reqData(_ type: ConditionType) -> (TestType, String)? {
+        let remote = remoteConfig[type.rawValue]
+        
+        do {
+            let json = try JSON(data:remote.dataValue, options: .fragmentsAllowed)
+            let type = TestType(rawValue: json["type"].stringValue)! //json["title"]
+            let message = json["title"].stringValue
+            printLog("reqData config data : \(json), \(type), \(message)")
+            
+            return (type, message)
+        } catch let error {
+            printLog(out: "Error reqData parsing : \(error)")
+            
+            return nil
+        }
+        
+    }
+
     internal func fetch() {
         RemoteConfig.remoteConfig().fetch(withExpirationDuration: 0) { status, error in
             if let error = error {

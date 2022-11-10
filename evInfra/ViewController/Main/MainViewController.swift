@@ -391,6 +391,10 @@ internal final class MainViewController: UIViewController, StoryboardView {
             
             switch bottomMenuType {
             case .evPay:
+                guard let reqData = ABTestManager.shared.reqData(.mainBottomEVPay) else { break }
+                let (_, tooltipMSG) = reqData
+                let width: CGFloat = tooltipMSG.size(of: .systemFont(ofSize: 14)).width + 24
+                
                 self.view.addSubview(bottomEvPaytooltipView)
                 bottomEvPaytooltipView.snp.makeConstraints {
                     $0.width.equalTo(255)
@@ -399,8 +403,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                     $0.height.equalTo(50)
                 }
                 
-                printLog("a/b --> \(ABTestManager.shared.reqMessage(.mainBottomEVPay))")
-                bottomEvPaytooltipView.show(message: ABTestManager.shared.reqMessage(.mainBottomEVPay))
+                bottomEvPaytooltipView.show(message: tooltipMSG)
                 
             default:
                 break
