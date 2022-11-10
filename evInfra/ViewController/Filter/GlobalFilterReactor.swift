@@ -25,6 +25,7 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         case saveEvPayFilter(Bool)
         case setFavoriteFilter(Bool)
         case saveFavoriteFilter(Bool)
+        case numberOfFavorits
         case setSelectedFilterType(SelectedFilterType)
         case changedAccessFilter(SelectedAccessFilter)
         case setAccessFilter(SelectedAccessFilter)
@@ -48,6 +49,7 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         case updateBarTitle(Bool)
         case setEvPayFilter(Bool)
         case setFavoriteFilter(Bool, Int)
+        case numberOfFavorits(Int)
         case setSelectedFilterType(SelectedFilterType)
         case changedAccessFilter(SelectedAccessFilter)
         case changedRoadFilter(SelectedRoadFilter)
@@ -116,6 +118,15 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         case .setFavoriteFilter(let isFavoriteFilter):
             let favoriteChargers = ChargerManager.sharedInstance.getChargerStationInfoList().filter { $0.mFavorite }
             return .just(.setFavoriteFilter(isFavoriteFilter, favoriteChargers.count))
+            
+        case .numberOfFavorits:
+            let numberOfFavorites = ChargerManager.sharedInstance.getChargerStationInfoList().filter { $0.mFavorite }.count
+            return .just(.numberOfFavorits(numberOfFavorites))
+            
+        case .saveFavoriteFilter(let isFavoriteFilter):
+//            FilterManager.sharedInstance.filter.isFavoriteChecked = isFavoriteFilter
+            FilterManager.sharedInstance.saveIsFavoriteChecked(isFavoriteFilter)
+            return .empty()
             
         case .setSelectedFilterType(let selectedFiltertype):
             return .just(.setSelectedFilterType(selectedFiltertype))
@@ -219,6 +230,9 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
             
         case .setFavoriteFilter(let isFavoriteFilter, let numberOfFavorites):
             newState.isFavoriteFilter = isFavoriteFilter
+            newState.numberOfFavorites = numberOfFavorites
+            
+        case .numberOfFavorits(let numberOfFavorites):
             newState.numberOfFavorites = numberOfFavorites
             
         case .setSelectedFilterType(let selectedFilterType):

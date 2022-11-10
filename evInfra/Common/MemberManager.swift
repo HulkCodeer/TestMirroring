@@ -300,6 +300,9 @@ internal final class MemberManager {
         userDefault.saveString(key: UserDefault.Key.MB_AGE_RANGE, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_EMAIL, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_PHONE, value: "")
+        
+        // 로그아웃 시, 즐겨찾기 필터 적용 off
+        FilterManager.sharedInstance.saveIsFavoriteChecked(false)
                         
         AmplitudeManager.shared.setUser(with: nil)
     }

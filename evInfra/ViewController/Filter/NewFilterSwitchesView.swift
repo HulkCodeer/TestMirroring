@@ -141,7 +141,7 @@ internal final class NewFilterSwitchesView: UIView {
         var isOn: Bool = false
         switch switchType {
         case .evpay:
-            isOn = GlobalFilterReactor.sharedInstance.initialState.isEvPayFilter ?? false
+            isOn = FilterManager.sharedInstance.filter.isMembershipCardChecked
             
             switchView.rx.isOn
                 .changed
@@ -164,6 +164,10 @@ internal final class NewFilterSwitchesView: UIView {
                 .disposed(by: self.disposeBag)
         case .favorite:
             isOn = FilterManager.sharedInstance.filter.isFavoriteChecked
+            
+            Observable.just(GlobalFilterReactor.Action.numberOfFavorits)
+                .bind(to: GlobalFilterReactor.sharedInstance.action)
+                .disposed(by: self.disposeBag)
             
             switchView.rx.isOn
                 .changed
@@ -198,6 +202,7 @@ internal final class NewFilterSwitchesView: UIView {
                         Observable.just(GlobalFilterReactor.Action.setFavoriteFilter(false))
                             .bind(to: GlobalFilterReactor.sharedInstance.action)
                             .disposed(by: obj.disposeBag)
+                        obj.delegate?.changedFilter()
                     }
                 }.disposed(by: self.disposeBag)
             
