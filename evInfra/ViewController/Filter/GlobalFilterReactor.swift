@@ -26,6 +26,8 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         case setFavoriteFilter(Bool)
         case saveFavoriteFilter(Bool)
         case numberOfFavorits
+        case setRepresentCarFilter(Bool)
+        case saveRepresentCarFilter(Bool)
         case setSelectedFilterType(SelectedFilterType)
         case changedAccessFilter(SelectedAccessFilter)
         case setAccessFilter(SelectedAccessFilter)
@@ -50,6 +52,7 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         case setEvPayFilter(Bool)
         case setFavoriteFilter(Bool, Int)
         case numberOfFavorits(Int)
+        case setRepresentCarFilter(Bool)
         case setSelectedFilterType(SelectedFilterType)
         case changedAccessFilter(SelectedAccessFilter)
         case changedRoadFilter(SelectedRoadFilter)
@@ -84,6 +87,7 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         var isEvPayFilter: Bool? = FilterManager.sharedInstance.isMembershipCardChecked()
         var isFavoriteFilter: Bool? = FilterManager.sharedInstance.filter.isFavoriteChecked
         var numberOfFavorites: Int? = ChargerManager.sharedInstance.getChargerStationInfoList().filter { $0.mFavorite }.count
+        var isRepresentCarFilter: Bool? = FilterManager.sharedInstance.filter.isRepresentCarChecked
     }
     
     internal var initialState: State
@@ -98,8 +102,10 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         switch action {
         case .loadCompanies:
             let companyValues: [CompanyInfoDto] = FilterManager.sharedInstance.filter.companyDictionary.map { $0.1 }
+            let isEvPaFilter = self.currentState.isEvPayFilter ?? false
+
             let wholeList = companyValues.sorted { $0.name ?? "".lowercased() < $1.name ?? "".lowercased() }
-                .compactMap { Company(title: $0.name!, companyId: $0.company_id ?? "" ,img: ImageMarker.companyImg(company: $0.icon_name!) ?? UIImage(named: "icon_building_sm")!, selected: $0.is_visible, isRecommaned: $0.recommend ?? false, isEvPayAvailable: $0.card_setting ?? false) }
+                .compactMap { Company(title: $0.name!, companyId: $0.company_id ?? "", img: ImageMarker.companyImg(company: $0.icon_name!) ?? UIImage(named: "icon_building_sm")!, selected: isEvPaFilter ? $0.card_setting ?? false : $0.is_visible, isRecommaned: $0.recommend ?? false, isEvPayAvailable: false) }
             return .just(.loadCompanies(wholeList))
             
         case .setAllCompanies(let isSelect):
@@ -122,6 +128,13 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         case .numberOfFavorits:
             let numberOfFavorites = ChargerManager.sharedInstance.getChargerStationInfoList().filter { $0.mFavorite }.count
             return .just(.numberOfFavorits(numberOfFavorites))
+            
+        case .setRepresentCarFilter(let isRepresentCarFilter):
+            return .just(.setRepresentCarFilter(isRepresentCarFilter))
+            
+        case .saveRepresentCarFilter(let isRepresentCarFilter):
+            FilterManager.sharedInstance.saveIsRepresentCarChecked(isRepresentCarFilter)
+            return .empty()
             
         case .saveFavoriteFilter(let isFavoriteFilter):
 //            FilterManager.sharedInstance.filter.isFavoriteChecked = isFavoriteFilter
@@ -175,8 +188,28 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
             
         case .loadChargerTypes:
             var tags: [NewTag] = [NewTag]()
-            for type in ChargerType.allCases {
-                tags.append(NewTag(title: type.typeTitle, selected: type.selected, uniqueKey: type.uniqueKey, image: type.typeImageProperty?.image))
+            let myCarType: Int = UserDefault().readInt(key: UserDefault.Key.MB_CAR_TYPE)
+            let hasMyCar: Bool = UserDefault().readInt(key: UserDefault.Key.MB_CAR_ID) != 0
+            let isRepresentCarFilter = self.currentState.isRepresentCarFilter ?? false
+            printLog(out: "//// GlobalFilterReactor ////")
+            printLog(out: "myCarType : \(myCarType)")
+            printLog(out: "hasMyCar : \(hasMyCar)")
+            
+            if isRepresentCarFilter {
+                if hasMyCar {
+                    for type in ChargerType.allCases {
+                        tags.append(NewTag(title: type.typeTitle, selected: myCarType == type.uniqueKey, uniqueKey: type.uniqueKey, image: type.typeImageProperty?.image))
+                    }
+                } else {
+                    for type in ChargerType.allCases {
+                        tags.append(NewTag(title: type.typeTitle, selected: type.selected, uniqueKey: type.uniqueKey, image: type.typeImageProperty?.image))
+                    }
+                }
+            } else {
+                for type in ChargerType.allCases {
+                    tags.append(NewTag(title: type.typeTitle, selected: type.selected, uniqueKey: type.uniqueKey, image: type.typeImageProperty?.image))
+                    
+                }
             }
             return .just(.loadChargerTypes(tags))
             
@@ -234,6 +267,9 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
             
         case .numberOfFavorits(let numberOfFavorites):
             newState.numberOfFavorites = numberOfFavorites
+            
+        case .setRepresentCarFilter(let isRepresentCarFilter):
+            newState.isRepresentCarFilter = isRepresentCarFilter
             
         case .setSelectedFilterType(let selectedFilterType):
             newState.selectedFilterType = selectedFilterType

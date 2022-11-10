@@ -380,9 +380,7 @@ extension MyPageViewController {
             let defaults = UserDefault()
             defaults.saveString(key: UserDefault.Key.MB_PROFILE_NAME, value: profileName)
             if let carIndex = dropDwonCarKind.indexForSelectedRow {
-                if carIndex > 0 {
-                    defaults.saveInt(key: UserDefault.Key.MB_CAR_TYPE, value: json["car_type"].intValue)
-                }
+                carIndex > 0 ? defaults.saveInt(key: UserDefault.Key.MB_CAR_TYPE, value: json["car_type"].intValue) : defaults.saveInt(key: UserDefault.Key.MB_CAR_TYPE, value: Const.CHARGER_TYPE_ETC)
                 defaults.saveInt(key: UserDefault.Key.MB_CAR_ID, value: carIndex)
             }
             if dropDwonLocation.indexForSelectedRow != 0 {

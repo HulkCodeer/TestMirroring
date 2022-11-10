@@ -12,6 +12,10 @@ protocol DelegateFilterChange: AnyObject {
     func onChangedFilter(type: FilterType)
 }
 
+protocol NewDelegateFilterChange: AnyObject {
+    func changedFilter()
+}
+
 class ChargerFilter {
     var isFree = true
     var isPaid = true
@@ -39,6 +43,7 @@ class ChargerFilter {
     
     var isMembershipCardChecked = true
     var isFavoriteChecked = true
+    var isRepresentCarChecked = false
     
     var companyDictionary: [String: CompanyInfoDto] = [:]
     

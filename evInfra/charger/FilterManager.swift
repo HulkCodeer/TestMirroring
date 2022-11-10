@@ -31,6 +31,7 @@ internal final class FilterManager {
         defaults.registerBool(key: UserDefault.Key.FILTER_HIGHWAY_UP, val: true)
         defaults.registerBool(key: UserDefault.Key.FILTER_HIGHWAT_DOWN, val: true)
         defaults.registerBool(key: UserDefault.Key.FILTER_MEMBERSHIP_CARD, val: false)
+        defaults.registerBool(key: UserDefault.Key.FILTER_MYCAR, val: false)
         
         // set filter value
         filter = ChargerFilter.init()
@@ -101,6 +102,8 @@ internal final class FilterManager {
         filter.isCanopy = defaults.readBool(key: UserDefault.Key.FILTER_CANOPY)
         
         filter.isMembershipCardChecked = defaults.readBool(key: UserDefault.Key.FILTER_MEMBERSHIP_CARD)
+        filter.isFavoriteChecked = defaults.readBool(key: UserDefault.Key.FILTER_FAVORITE)
+        filter.isRepresentCarChecked = defaults.readBool(key: UserDefault.Key.FILTER_MYCAR)
         
         let companyList = ChargerManager.sharedInstance.getCompanyInfoListAll()!
         
@@ -131,7 +134,7 @@ internal final class FilterManager {
         defaults.saveBool(key: UserDefault.Key.FILTER_MEMBERSHIP_CARD, value: isChecked)                
     }
     
-    internal func getIsMembershipCardChecked() -> Bool {
+    internal func isMembershipCardChecked() -> Bool {
         return filter.isMembershipCardChecked
     }
     
@@ -140,8 +143,17 @@ internal final class FilterManager {
         defaults.saveBool(key: UserDefault.Key.FILTER_FAVORITE, value: isChecked)
     }
     
-    internal func getIsFavoriteChecked() -> Bool {
+    internal func isFavoriteChecked() -> Bool {
         return filter.isFavoriteChecked
+    }
+    
+    internal func saveIsRepresentCarChecked(_ isChecked: Bool) {
+        filter.isRepresentCarChecked = isChecked
+        defaults.saveBool(key: UserDefault.Key.FILTER_MYCAR, value: isChecked)
+    }
+    
+    internal func isRepresentCarChecked() -> Bool {
+        return filter.isRepresentCarChecked
     }
     
     internal var groupList: Array<CompanyGroup>? {
