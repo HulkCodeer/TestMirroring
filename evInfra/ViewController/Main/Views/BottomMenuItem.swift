@@ -24,7 +24,9 @@ internal final class BottomMenuItem: UIView {
         $0.font = .systemFont(ofSize: 11)
     }
     
-    internal lazy var button = UIButton()
+    internal lazy var button = UIButton().then {
+        $0.isExclusiveTouch = true
+    }
     
     internal var disposeBag = DisposeBag()
     private let menuType: MainReactor.BottomMenuType
