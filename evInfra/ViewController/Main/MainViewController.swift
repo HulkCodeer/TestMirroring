@@ -156,9 +156,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     
     private var evPayTipView = EasyTipView(text: "")
     
-    private var bottomEvPaytooltipView = TooltipView(configure: TooltipView.Configure(tipLeftMargin: 121.5, tipDirection: .bottom, maxWidth: 255)).then {
-        $0.isHidden = true
-    }
+    private var bottomEvPaytooltipView: TooltipView?
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -207,13 +205,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
         super.viewWillAppear(animated)
         
         MapEvent.viewMainPage.logEvent()
-        
-        if !MemberManager.shared.isShowBottomMenuEVPayTooltip,
-           let _reactor = reactor {
-            Observable.just(MainReactor.Action.openBottomEvPayTooltip)
-                .bind(to: _reactor.action)
-                .disposed(by: disposeBag)
-        }
         
         let isProcessing = GlobalDefine.shared.tempDeepLink.isEmpty
         if !isProcessing {
@@ -394,6 +385,11 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 guard let reqData = ABTestManager.shared.reqData(.mainBottomEVPay) else { break }
                 let (_, tooltipMSG) = reqData
                 let width: CGFloat = tooltipMSG.size(of: .systemFont(ofSize: 14)).width + 24
+                let tipLeft: CGFloat = (width / 2) - 6
+                bottomEvPaytooltipView = TooltipView(configure: TooltipView.Configure(tipLeftMargin: tipLeft, tipDirection: .bottom, maxWidth: width))
+                
+                guard let bottomEvPaytooltipView = bottomEvPaytooltipView else { return }
+                bottomEvPaytooltipView.isHidden = true
                 
                 self.view.addSubview(bottomEvPaytooltipView)
                 bottomEvPaytooltipView.snp.makeConstraints {
@@ -408,6 +404,12 @@ internal final class MainViewController: UIViewController, StoryboardView {
             default:
                 break
             }
+        }
+        
+        if !MemberManager.shared.isShowBottomMenuEVPayTooltip {
+            Observable.just(MainReactor.Action.openBottomEvPayTooltip)
+                .bind(to: reactor.action)
+                .disposed(by: disposeBag)
         }
         
         bindAction(reactor: reactor)
@@ -509,8 +511,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 self.evPayTipView = EasyTipView(text: evPayTiptext, preferences: evPayPreferences)
                 self.evPayTipView.show(forView: self.filterBarView.evPayView, withinSuperview: self.view)
                 
-                // bottom
-                obj.bottomEvPaytooltipView.isHidden = false
             }
             .disposed(by: self.disposeBag)
     }
@@ -655,7 +655,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         reactor.state.compactMap { $0.isShowBottomEvPayToolTip }
             .asDriver(onErrorJustReturn: true)
             .drive(with: self) { obj, isShow in
-                obj.bottomEvPaytooltipView.isHidden = !isShow
+                obj.bottomEvPaytooltipView?.isHidden = !isShow
                 MemberManager.shared.isShowBottomMenuEVPayTooltip = !isShow
             }
             .disposed(by: disposeBag)
@@ -1083,7 +1083,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if !MemberManager.shared.isShowEvPayTooltip {
             MemberManager.shared.isShowEvPayTooltip = true
-            self.bottomEvPaytooltipView.dismiss()
+            self.evPayTipView.dismiss()
         }
 
         dismissBottomMenuTooltip()
@@ -1093,7 +1093,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         guard !MemberManager.shared.isShowBottomMenuEVPayTooltip else { return }
         
         MemberManager.shared.isShowBottomMenuEVPayTooltip = true
-        self.evPayTipView.dismiss()
+        self.bottomEvPaytooltipView?.dismiss()
     }
     
     // MARK: - Action for button
