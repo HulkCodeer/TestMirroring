@@ -26,7 +26,7 @@ internal final class PartnershipListView : UIView {
     
     @IBOutlet var viewEvinfraList: UIView!
     @IBOutlet var labelCardStatus: UILabel!
-    @IBOutlet var labelCardNum: UILabel!    
+    @IBOutlet var labelCardNum: UILabel!
     @IBOutlet var viewAddBtn: UIView!
     @IBOutlet var btnAddCard: UIImageView!
     @IBOutlet var membershipUseGuideBtn: UIButton!
@@ -39,7 +39,7 @@ internal final class PartnershipListView : UIView {
     private lazy var evPayGuideArrowView = ChevronArrow(.size20(.right)).then {
         $0.IBimageColor = Colors.contentTertiary.color
     }
-    
+        
     private lazy var shipmentStatusArrowView = ChevronArrow.init(.size20(.right)).then {
         $0.IBimageColor = Colors.backgroundAlwaysLight.color
     }
@@ -102,9 +102,9 @@ internal final class PartnershipListView : UIView {
             
             self.addSubview(cardNoTooltipView)
             cardNoTooltipView.snp.makeConstraints {
-                $0.leading.equalToSuperview().offset(16)
+                $0.leading.equalTo(labelCardNum.snp.leading)
                 $0.width.equalTo(233)
-                $0.bottom.equalToSuperview().offset(-50)
+                $0.bottom.equalTo(labelCardNum.snp.top).offset(-8)
                 $0.height.equalTo(69)
             }
         
@@ -220,6 +220,7 @@ internal final class PartnershipListView : UIView {
         evInfraInfo = info
         viewEvinfraList.isHidden = false
         labelCardStatus.text = info.condition.convertStatusType.toString
+        shipmentStatusArrowView.isHidden = info.condition.convertStatusType.toString.isEmpty
         reissuanceLbl.textColor = info.isReissuance ? Colors.nt9.color: Colors.nt3.color                        
         labelCardNum.text = info.displayCardNo
                                                         
@@ -227,8 +228,8 @@ internal final class PartnershipListView : UIView {
             _ = viewEvinfraList.subviews.compactMap { $0 as? EasyTipView }.first?.removeFromSuperview()
                                     
             var preferences = EasyTipView.Preferences()
-            preferences.drawing.backgroundColor = UIColor(named: "background-always-dark")!
-            preferences.drawing.foregroundColor = UIColor(named: "content-on-color")!
+            preferences.drawing.backgroundColor = Colors.backgroundAlwaysDark.color
+            preferences.drawing.foregroundColor = Colors.contentOnColor.color
             preferences.drawing.textAlignment = NSTextAlignment.natural
             
             preferences.drawing.arrowPosition = .bottom
@@ -243,7 +244,7 @@ internal final class PartnershipListView : UIView {
             let text = "영업일 기준 3~5일 뒤에\n우편함을 확인해보세요! 📮✉️"
             EasyTipView.show(forView: self.labelCardStatus,
                              withinSuperview: self.viewEvinfraList,
-                text: text,
+                             text: text,
                              preferences: preferences, delegate: self)
         }
     }
