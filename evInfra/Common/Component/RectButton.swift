@@ -50,5 +50,5 @@ internal final class RectButton: UIButton {
             self.setTitleColor(Colors.contentOnColor.color, for: .normal)
             self.setBackgroundColor(Colors.backgroundNegative.color, for: .normal)
         }
-    }
+    }        
 }

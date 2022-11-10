@@ -66,6 +66,7 @@ internal final class MembershipCardReactor: ViewModel, Reactor {
         var newState = state
         
         newState.membershipCardInfo = nil
+        newState.isConfirmDelivery = nil
         
         switch mutation {
         case .setMembershipCardInfo(let model):

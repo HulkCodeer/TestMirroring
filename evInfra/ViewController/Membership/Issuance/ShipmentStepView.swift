@@ -14,6 +14,7 @@ internal final class ShipmentStepView: UIView {
     
     enum DotConstant {
         static let size: CGFloat = 12
+        static let bigSize: CGFloat = 16
     }
         
     // MARK: UI
@@ -69,6 +70,11 @@ internal final class ShipmentStepView: UIView {
         $0.text = "아직 카드를 못받으셨나요?"        
         $0.setUnderline()
         $0.font = .systemFont(ofSize: 12, weight: .bold)
+    }
+            
+    private lazy var completeBtn = RectButton(level: .primary).then {
+        $0.setTitle("카드 수령 확정 완료", for: .normal)
+        $0.isEnabled = false
     }
     
     private lazy var moveNotCardReceivedGuideBtn = UIButton()
@@ -129,7 +135,9 @@ internal final class ShipmentStepView: UIView {
         }
     }
     
-    internal func bind(model: MembershipCardInfo) {                
+    internal func bind(model: MembershipCardInfo) {
+        totalStackView.removeAllArrangedSubviews()
+        
         Observable.merge(mailboxConfirmReceiptBtn.rx.tap.asObservable(), sendingConfirmReceiptBtn.rx.tap.asObservable())
             .asDriver(onErrorJustReturn: ())
             .drive(with: self) { obj, _ in
@@ -139,34 +147,39 @@ internal final class ShipmentStepView: UIView {
                     .disposed(by: obj.disposebag)
             }
             .disposed(by: self.disposebag)
+                        
+        let isCurrentMainboxConfirm = model.condition.convertStatusArr.filter { $0.passType == .current }.first?.shipmentStatusType != .mailboxConfirm
         
-        let isCurrentSendComplete = model.condition.convertStatusArr.filter { $0.passType == .current }.first?.shipmentStatusType != .mailboxConfirm
-        
-        confirmReceiptGuideTotalView.isHidden = isCurrentSendComplete
-        if !isCurrentSendComplete {
+        let isCurrentSendComplete = model.condition.convertStatusArr.allSatisfy { $0.passType == .complete }
+                         
+        if !isCurrentMainboxConfirm {
+            confirmReceiptGuideTotalView.isHidden = isCurrentMainboxConfirm
             self.makeMailBoxConfirmMessageView()
         }
-                                
-        var sendReadyDescView: UIView = UIView()
-        var sendingDescView: UIView = UIView()
         
-        for convertStatus in model.condition.convertStatusArr {
+        if isCurrentSendComplete {
+            confirmReceiptGuideTotalView.isHidden = !isCurrentSendComplete
+            self.makeSendCompleteView()
+        }
+                                           
+        for convertStatus in model.condition.convertStatusArr {            
             let stepTotalView = self.makeStepDotView(statusInfo: convertStatus)
             totalStackView.addArrangedSubview(stepTotalView.totalView)
                                                             
-            let statusTypeDescView = self.makeStatusDesc(statusInfo: convertStatus, parentView: stepTotalView.dotView)
+            self.makeStatusDesc(statusInfo: convertStatus,
+                                parentView: stepTotalView.dotView,
+                                registerTime: model.condition.displayRegDate,
+                                startTime: model.condition.displayStartDate)
                         
             let isSendReadyCurrent = convertStatus.passType == .current && convertStatus.shipmentStatusType == .sendReady
             let isSendingCurrent = convertStatus.passType == .current && convertStatus.shipmentStatusType == .sending
             
             // 신청 접수, 발송 시작 옆에 메세지 만드는 로직
             if isSendReadyCurrent {
-                sendReadyDescView = statusTypeDescView
                 self.makeSendReadyGuideView(stepTotalView: stepTotalView, convertStatus: convertStatus)
             }
             
             if isSendingCurrent {
-                sendingDescView = statusTypeDescView
                 let view = self.makeSendingGuideView(stepTotalView: stepTotalView, convertStatus: convertStatus)
                 self.addSubview(sendingMessageTotalView)
                 sendingMessageTotalView.snp.makeConstraints {
@@ -190,10 +203,6 @@ internal final class ShipmentStepView: UIView {
                 }
             }
         }
-        
-        self.makeSendReadyRegisterTimeView(registerTime: model.condition.displayRegDate, parentView: sendReadyDescView)
-        
-        self.makeSendingStartTimeView(startTime: model.condition.displayStartDate, parentView: sendingDescView)
     }
     
     private func makeSendingGuideView(stepTotalView: StepView, convertStatus: ConvertStatus) -> UIView {
@@ -377,6 +386,23 @@ internal final class ShipmentStepView: UIView {
             .disposed(by: self.disposebag)
     }
     
+    private func makeSendCompleteView() {
+        confirmReceiptGuideTotalView.snp.remakeConstraints {
+            $0.top.equalTo(totalStackView.snp.bottom).offset(22)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview().offset(-20)
+        }
+        
+        self.confirmReceiptGuideTotalView.addSubview(completeBtn)
+        completeBtn.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.height.equalTo(40)
+            $0.leading.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.bottom.equalToSuperview()
+        }
+    }
+    
     private func makeMailBoxConfirmMessageView() {
         confirmReceiptGuideTotalView.snp.remakeConstraints {
             $0.top.equalTo(totalStackView.snp.bottom).offset(22)
@@ -422,41 +448,7 @@ internal final class ShipmentStepView: UIView {
         }                
     }
     
-    private func makeSendingStartTimeView(startTime: String, parentView: UIView) {
-        guard !startTime.isEmpty else { return }
-        let timeLbl = UILabel().then {
-            $0.text = "\(startTime)"
-            $0.textColor = Colors.contentTertiary.color
-            $0.font = .systemFont(ofSize:12 , weight: .regular)
-            $0.textAlignment = .natural
-        }
-        
-        self.addSubview(timeLbl)
-        timeLbl.snp.makeConstraints {
-            $0.trailing.equalToSuperview().offset(-14)
-            $0.centerY.equalTo(parentView.snp.centerY)
-            $0.height.equalTo(18)
-        }
-    }
-    
-    private func makeSendReadyRegisterTimeView(registerTime: String, parentView: UIView) {
-        guard !registerTime.isEmpty else { return }
-        let timeLbl = UILabel().then {
-            $0.text = "\(registerTime)"
-            $0.textColor = Colors.contentTertiary.color
-            $0.font = .systemFont(ofSize:12 , weight: .regular)
-            $0.textAlignment = .natural
-        }
-        
-        self.addSubview(timeLbl)
-        timeLbl.snp.makeConstraints {
-            $0.trailing.equalToSuperview().offset(-14)
-            $0.centerY.equalTo(parentView.snp.centerY)
-            $0.height.equalTo(18)
-        }
-    }
-    
-    private func makeStatusDesc(statusInfo: ConvertStatus, parentView: UIView) -> UILabel {
+    private func makeStatusDesc(statusInfo: ConvertStatus, parentView: UIView, registerTime: String, startTime: String) {
         let typeDescLbl = UILabel().then {
             $0.text = "\(statusInfo.shipmentStatusType.toString)"
             
@@ -481,7 +473,29 @@ internal final class ShipmentStepView: UIView {
             $0.height.equalTo(24)
         }
         
-        return typeDescLbl
+        let timeLbl = UILabel().then {
+            $0.text = "\(registerTime)"
+            $0.textColor = Colors.contentTertiary.color
+            $0.font = .systemFont(ofSize:12 , weight: .regular)
+            $0.textAlignment = .natural
+        }
+        
+        self.addSubview(timeLbl)
+        timeLbl.snp.makeConstraints {
+            $0.trailing.equalToSuperview().offset(-14)
+            $0.centerY.equalTo(typeDescLbl.snp.centerY)
+            $0.height.equalTo(18)
+        }
+        
+        timeLbl.text = ""
+                        
+        if !registerTime.isEmpty && statusInfo.shipmentStatusType == .sendReady {
+            timeLbl.text = registerTime
+        }
+        
+        if !startTime.isEmpty && statusInfo.shipmentStatusType == .sending {
+            timeLbl.text = startTime
+        }
     }
     
     private func makeStepDotView(statusInfo: ConvertStatus) -> StepView {
@@ -490,16 +504,37 @@ internal final class ShipmentStepView: UIView {
         totalView.snp.makeConstraints {
             $0.width.equalTo(24)
         }
-                
+        
         let dotView = UIView()
-        dotView.layer.addSublayer(self.makeDotView(statusInfo: statusInfo))
-        totalView.addSubview(dotView)
-        dotView.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.width.height.equalTo(DotConstant.size)
-            $0.centerX.equalToSuperview()
+        
+        if statusInfo.shipmentStatusType == .mailboxConfirm && statusInfo.passType == .complete {
+            dotView.layer.addSublayer(self.makeBigDotView(statusInfo: statusInfo))
+            totalView.addSubview(dotView)
+            dotView.snp.makeConstraints {
+                $0.top.equalToSuperview()
+                $0.width.height.equalTo(DotConstant.bigSize)
+                $0.centerX.equalToSuperview()
+            }
+            
+            let checkImgView = UIImageView().then {
+                $0.image = Icons.iconCheckXs.image
+                $0.tintColor = Colors.backgroundPrimary.color
+            }
+            
+            dotView.addSubview(checkImgView)
+            checkImgView.snp.makeConstraints {
+                $0.width.height.equalTo(DotConstant.bigSize)
+            }
+        } else {
+            dotView.layer.addSublayer(self.makeDotView(statusInfo: statusInfo))
+            totalView.addSubview(dotView)
+            dotView.snp.makeConstraints {
+                $0.top.equalToSuperview()
+                $0.width.height.equalTo(DotConstant.size)
+                $0.centerX.equalToSuperview()
+            }
         }
-                        
+                                                
         let lineView = self.createLineView(color: statusInfo.passType == .complete ? Colors.contentPrimary.color : Colors.contentDisabled.color)
         totalView.addSubview(lineView)
         lineView.snp.makeConstraints {
@@ -557,6 +592,32 @@ internal final class ShipmentStepView: UIView {
         default: break
         }
         
+        let circleLayer = CAShapeLayer()
+        circleLayer.frame = bounds
+        circleLayer.path = path.cgPath
+        circleLayer.fillColor = fillColor
+        circleLayer.lineCap = CAShapeLayerLineCap(rawValue: "round")
+        circleLayer.strokeColor = strokeColor
+        circleLayer.lineWidth = 2
+        return circleLayer
+    }
+    
+    private func makeBigDotView(statusInfo: ConvertStatus) -> CAShapeLayer {
+        let center = CGPoint(x: DotConstant.bigSize/2, y: DotConstant.bigSize/2)
+        let path = UIBezierPath(arcCenter: center,
+                                radius: DotConstant.bigSize/2,
+                                startAngle: -CGFloat.pi/2,
+                                endAngle: 2*CGFloat.pi-CGFloat.pi/2,
+                                clockwise: true)
+        
+        var fillColor: CGColor
+        var strokeColor: CGColor
+        
+        let primaryColor: CGColor = Colors.contentPrimary.color.cgColor
+        
+        fillColor = primaryColor
+        strokeColor = primaryColor
+                                        
         let circleLayer = CAShapeLayer()
         circleLayer.frame = bounds
         circleLayer.path = path.cgPath

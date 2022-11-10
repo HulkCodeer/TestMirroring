@@ -103,13 +103,8 @@ internal final class MembershipCardShipmentStatusViewController: UIViewControlle
     
     // MARK: REACTORKIT
     
-    func bind(reactor: MembershipCardReactor) {
-        Observable.just(MembershipCardReactor.Action.membershipCardInfo)
-            .bind(to: reactor.action)
-            .disposed(by: self.disposeBag)
-        
+    internal func bind(reactor: MembershipCardReactor) {
         reactor.state.compactMap { $0.membershipCardInfo }
-            .distinctUntilChanged()
             .asDriver(onErrorJustReturn: MembershipCardInfo(JSON.null))
             .drive(with: self) { obj, membershipCardInfo in
                 obj.shipmentStepView.bind(model: membershipCardInfo)
@@ -119,7 +114,7 @@ internal final class MembershipCardShipmentStatusViewController: UIViewControlle
                 
                 obj.shipmentStepView.reactor = reactor
             }
-            .disposed(by: self.disposeBag)
+            .disposed(by: self.disposeBag)                
     }
 }
 

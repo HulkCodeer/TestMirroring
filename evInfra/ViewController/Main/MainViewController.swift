@@ -133,7 +133,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
 
     private lazy var naverMapView = NaverMapView(frame: .zero).then {
         $0.mapView.addCameraDelegate(delegate: self)
-        $0.mapView.touchDelegate = self
+        $0.mapView.touchDelegate = self    
         ChargerManager.sharedInstance.delegate = self
     }
     var mapView: NMFMapView { naverMapView.mapView }

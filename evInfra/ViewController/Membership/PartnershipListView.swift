@@ -26,9 +26,7 @@ internal final class PartnershipListView : UIView {
     
     @IBOutlet var viewEvinfraList: UIView!
     @IBOutlet var labelCardStatus: UILabel!
-    @IBOutlet var labelCardNum: UILabel!
-    @IBOutlet var labelCarNo: UILabel!
-    @IBOutlet var labelContrDate: UILabel!
+    @IBOutlet var labelCardNum: UILabel!    
     @IBOutlet var viewAddBtn: UIView!
     @IBOutlet var btnAddCard: UIImageView!
     @IBOutlet var membershipUseGuideBtn: UIButton!
@@ -110,7 +108,7 @@ internal final class PartnershipListView : UIView {
                 $0.height.equalTo(69)
             }
         
-        cardNoTooltipView.show(message: "GS, 환경부 제외 충전소에서\n카드 번호로 바로 충전할 수 있어요!")
+            cardNoTooltipView.show(message: "GS, 환경부 제외 충전소에서\n카드 번호로 바로 충전할 수 있어요!")
             
 //            MemberManager.shared.isShowMembershipCardCompleteTooltip = true
 //        }

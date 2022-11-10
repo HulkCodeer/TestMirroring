@@ -91,6 +91,16 @@ internal final class MembershipCardViewController: CommonBaseViewController, Sto
                 self.partnershipListView.showInfoView(info: model)
             }
             .disposed(by: self.disposeBag)
+        
+        reactor.state.compactMap { $0.isConfirmDelivery }
+            .filter { $0 }
+            .asDriver(onErrorJustReturn: false)
+            .drive(with: self) { obj, isConfirmDelivery in
+                Observable.just(MembershipCardReactor.Action.membershipCardInfo)
+                    .bind(to: reactor.action)
+                    .disposed(by: obj.disposeBag)
+            }
+            .disposed(by: self.disposeBag)
     }
 }
 
