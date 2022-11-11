@@ -66,7 +66,7 @@ internal final class FilterContainerView: UIView {
         filterRoadView.isDirectChange = true
         filterPlaceView.isDirectChange = true
         
-//        filterTypeView.delegate = self
+        filterTypeView.delegate = self
         filterSpeedView.delegate = self
         filterRoadView.delegate = self
 //        filterPlaceView.delegate = self
@@ -141,10 +141,7 @@ internal final class FilterContainerView: UIView {
     }
     
     internal func updateFilters() {
-        filterPriceView.update()
-//        filterSpeedView.update()
 //        filterPlaceView.update()
-//        filterRoadView.update()
 //        filterTypeView.update()
     }
 }
@@ -160,7 +157,7 @@ extension FilterContainerView: NewDelegateFilterChange {
 
 extension FilterContainerView: DelegateFilterChange{
     func onChangedFilter(type: FilterType) {
-        delegate?.changedFilter(type: type)
+//        delegate?.changedFilter(type: type)
     }
 }
 
