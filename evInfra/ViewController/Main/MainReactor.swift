@@ -417,6 +417,12 @@ internal final class MainReactor: ViewModel, Reactor {
     }
     
     private func setPaymentStatus(with result: ApiResult<Data, ApiError>) -> Mutation  {
+        if !MemberManager.shared.hasMembership {
+            Observable.just(MainReactor.Action.hasEVPayCard(false))
+                .bind(to: self.action)
+                .disposed(by: disposeBag)
+        }
+        
         switch result {
         case .success(let data):
             let json = JSON(data)
@@ -427,14 +433,7 @@ internal final class MainReactor: ViewModel, Reactor {
                 Observable.just(MainReactor.Action.setIsAccountsReceivable(true))
                     .bind(to: self.action)
                     .disposed(by: disposeBag)
-                                
-            case .PAY_NO_USER, .PAY_NO_CARD_USER, .PAY_NO_VERIFY_USER, .PAY_DELETE_FAIL_USER:
-                // 미등록,         카드 미등록,         인증되지 않은 유저 (해커의심),  비정상 삭제 멤버
-                Observable.just(MainReactor.Action.hasEVPayCard(false))
-                    .bind(to: self.action)
-                    .disposed(by: disposeBag)
                 
-
             default: break
             }
             
@@ -446,30 +445,23 @@ internal final class MainReactor: ViewModel, Reactor {
     }
     
     private func convertToEVPayShowType(with result: ApiResult<Data, ApiError>) -> EVPayShowType? {
+        guard MemberManager.shared.hasMembership else { return .evPayGuide }
+        
         switch result {
         case .success(let data):
             let json = JSON(data)
             let payCode = json["pay_code"].intValue
             
             switch PaymentStatus(rawValue: payCode) {
-            case .PAY_FINE_USER:    // 유저체크
-                return .evPayManagement
-                
             case .PAY_DEBTOR_USER:   // 미수금
                 Observable.just(MainReactor.Action.setIsAccountsReceivable(true))
                     .bind(to: self.action)
                     .disposed(by: disposeBag)
                 
                 return .accountsReceivable
-                
-            case .PAY_NO_USER, .PAY_NO_CARD_USER, .PAY_NO_VERIFY_USER, .PAY_DELETE_FAIL_USER:
-                // 미등록,         카드 미등록,         인증되지 않은 유저 (해커의심),  비정상 삭제 멤버
-                return .evPayGuide
 
             default:
-                printLog(out: "Error Message : PaymentStatus")
-                Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
-                return nil
+                return .evPayManagement
             }
             
         case .failure(let error):
