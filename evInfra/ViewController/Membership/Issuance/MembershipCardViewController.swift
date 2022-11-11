@@ -67,7 +67,7 @@ internal final class MembershipCardViewController: CommonBaseViewController, Sto
         Observable.just(MembershipCardReactor.Action.loadPaymentStatus)
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
-        
+
         self.rx.viewWillAppear
             .asDriver()
             .drive(with: self) { obj, _ in

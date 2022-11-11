@@ -77,6 +77,10 @@ internal final class ShipmentStepView: UIView {
         $0.isEnabled = false
     }
     
+    private lazy var completeEnableBtn = UIButton().then {
+        $0.isEnabled = true
+    }
+    
     private lazy var moveNotCardReceivedGuideBtn = UIButton()
                     
     // MARK: VARIABLE
@@ -138,13 +142,36 @@ internal final class ShipmentStepView: UIView {
     internal func bind(model: MembershipCardInfo) {
         totalStackView.removeAllArrangedSubviews()
         
+        completeEnableBtn.rx.tap
+            .asDriver()
+            .drive(with: self) { obj, _ in
+                GlobalFunctionSwift.showPopup(
+                    title: "EV Pay 카드 발송 안내",
+                    message: "카드 발송은 최대 10일 소요될 수 있어요.\n10일 이후에도 카드가 도착하지 않은 경우,\n고객센터에 문의 시 빠르게 확인해드릴게요.",
+                    confirmBtnTitle: "고객센터 전화하기",
+                    confirmBtnAction: {
+                        guard let number = URL(string: "tel://070-8633-9009") else { return }
+                        UIApplication.shared.open(number)
+                    },
+                    cancelBtnTitle: "취소")
+            }
+            .disposed(by: self.disposebag)
+        
         Observable.merge(mailboxConfirmReceiptBtn.rx.tap.asObservable(), sendingConfirmReceiptBtn.rx.tap.asObservable())
             .asDriver(onErrorJustReturn: ())
             .drive(with: self) { obj, _ in
                 guard let _reactor = obj.reactor else { return }
-                Observable.just(MembershipCardReactor.Action.confirmDelivery)
-                    .bind(to: _reactor.action)
-                    .disposed(by: obj.disposebag)
+                
+                GlobalFunctionSwift.showPopup(
+                    title: "EV Pay 카드를 잘 받으셨나요?",
+                    message: "받은 경우 아래 버튼을 눌러주세요.\n이후 카드 발송 현황은 사라져요.",
+                    confirmBtnTitle: "네 잘 받았어요",
+                    confirmBtnAction: {
+                        Observable.just(MembershipCardReactor.Action.confirmDelivery)
+                            .bind(to: _reactor.action)
+                            .disposed(by: obj.disposebag)
+                    },
+                    cancelBtnTitle: "아직이에요")
             }
             .disposed(by: self.disposebag)
                         
@@ -400,6 +427,12 @@ internal final class ShipmentStepView: UIView {
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)
             $0.bottom.equalToSuperview()
+        }
+                
+        self.confirmReceiptGuideTotalView.addSubview(completeEnableBtn)
+        completeEnableBtn.snp.makeConstraints {
+            $0.width.equalTo(completeBtn.snp.width)
+            $0.height.equalTo(completeBtn.snp.height)
         }
     }
     

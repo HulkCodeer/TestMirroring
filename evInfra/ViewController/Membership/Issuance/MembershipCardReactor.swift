@@ -157,7 +157,7 @@ internal final class MembershipCardReactor: ViewModel, Reactor {
                 Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
                 return nil
             }
-                                    
+            Snackbar().show(message: "EV Pay 카드 수령이 확정되었어요.")
             return true
                                                                          
         case .failure(let errorMessage):
