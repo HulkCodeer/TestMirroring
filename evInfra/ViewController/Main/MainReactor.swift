@@ -17,6 +17,7 @@ internal final class MainReactor: ViewModel, Reactor {
     typealias SelectedChargerTypeFilter = (chargerType: ChargerType, isSelected: Bool)
     typealias SelectedSpeedFilter = (minSpeed: Int, maxSpeed: Int)
     typealias SelectedAccessFilter = (accessType: AccessType, isSelected: Bool)
+    typealias ChargingData = (chargingType: ChargeShowType, chargingData: ChargingID?)
     
     enum Action {
         case showMarketingPopup
