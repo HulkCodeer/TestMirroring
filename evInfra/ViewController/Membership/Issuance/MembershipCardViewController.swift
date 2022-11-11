@@ -64,9 +64,9 @@ internal final class MembershipCardViewController: CommonBaseViewController, Sto
     // MARK: REACTORKIT
 
     func bind(reactor: MembershipCardReactor) {
-//        Observable.just(MembershipCardReactor.Action.loadPaymentStatus)
-//            .bind(to: reactor.action)
-//            .disposed(by: self.disposeBag)
+        Observable.just(MembershipCardReactor.Action.loadPaymentStatus)
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
         
         self.rx.viewWillAppear
             .asDriver()
