@@ -64,8 +64,8 @@ internal final class MainReactor: ViewModel, Reactor {
         var selectedAccessFilter: SelectedAccessFilter?
         var isShowFilterSetting: Bool?
         var isUpdateFilterBarTitle: Bool?
-        var isEvPayFilter: Bool? = FilterManager.sharedInstance.getIsMembershipCardChecked()
-        var isFavoriteFilter: Bool? = FilterManager.sharedInstance.getIsFavoriteChecked()
+        var isEvPayFilter: Bool? = FilterManager.sharedInstance.isMembershipCardChecked()
+        var isFavoriteFilter: Bool? = FilterManager.sharedInstance.isFavoriteChecked()
         var isRepresentCarFilter: Bool?
         var isShowEvPayToolTip: Bool?
     }
