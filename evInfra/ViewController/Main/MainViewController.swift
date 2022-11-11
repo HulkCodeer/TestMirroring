@@ -324,7 +324,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     private func setConstraints() {
         let searchWayViewHeight: CGFloat = 72
         let filterBarViewHeight: CGFloat = 54
-        let filterContainerViewHeight: CGFloat = 116
+        let filterContainerViewHeight: CGFloat = 138
         
         customNaviBar.snp.makeConstraints {
             $0.top.equalToSuperview()
@@ -471,11 +471,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         GlobalFilterReactor.sharedInstance.state.compactMap { $0.selectedFilterType }
             .asDriver(onErrorJustReturn: (filterTagType: .speed, isSelected: false))
             .drive(with: self) { obj, selected in
-                if selected.isSelected {
-                    obj.showFilter()
-                } else {
-                    obj.hideFilter()
-                }
+                obj.filterContainerView.isHidden = !selected.isSelected
             }
             .disposed(by: self.disposeBag)
         
