@@ -173,9 +173,9 @@ internal final class ReportChargeViewController: UIViewController {
     }
     
     func setVisableView(view:UIView, hidden:Bool) {
-        UIView.transition(with: view, duration: 0.5, options: .transitionCrossDissolve, animations: { [weak self] in
-            self?.view.isHidden = hidden
-        })
+//        UIView.transition(with: view, duration: 0.5, options: .transitionCrossDissolve, animations: { [weak self] in
+//            self?.view.isHidden = hidden
+//        })
     }
     
     func sendDeleteToServer() {
@@ -223,28 +223,13 @@ internal final class ReportChargeViewController: UIViewController {
         
         self.present(AppSearchBarController(rootViewController: searchVC), animated: true, completion: nil)
     }
-
-    func indicatorControll(isStart: Bool) {
-        if isStart {
-            setVisableView(view: serverComIndicator, hidden: false)
-            serverComIndicator.startAnimating()
-            UIApplication.shared.beginIgnoringInteractionEvents()
-        } else {
-            setVisableView(view: self.serverComIndicator, hidden: true)
-            serverComIndicator.stopAnimating()
-            UIApplication.shared.endIgnoringInteractionEvents()
-        }
-    }
-    
+        
     func requestReportData() {
         if let chargerId = self.info.charger_id {
             if let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) {
                 self.charger = charger
-                
-                indicatorControll(isStart: true)
+                                
                 Server.getReportInfo(chargerId: chargerId) { [weak self] (isSuccess, value) in
-
-                    self?.indicatorControll(isStart: false)
                     if isSuccess {
                         let json = JSON(value)
                         if json["code"].intValue == 1000 { // 기존에 제보한 내역이 있음
@@ -286,13 +271,10 @@ internal final class ReportChargeViewController: UIViewController {
     }
     
     func requestReportApply() {
-        self.indicatorControll(isStart: true)
         self.info.type_id = ReportCharger.REPORT_CHARGER_TYPE_USER_MOD
         self.info.adr_dtl = addressDetailTextView.text
 
         Server.modifyReport(info: self.info) { [weak self] (isSuccess, value) in
-            
-            self?.indicatorControll(isStart: false)
             if isSuccess {
                 let json = JSON(value)
                 if json["code"].exists() && json["code"].intValue == 1000 {
@@ -312,11 +294,7 @@ internal final class ReportChargeViewController: UIViewController {
     }
 
     func requestDeleteReport() {
-        self.indicatorControll(isStart: true)
-
-        Server.deleteReport(reportId: info.report_id, typeId: ReportCharger.REPORT_CHARGER_TYPE_USER_MOD_DELETE) { [weak self] (isSuccess, value) in
-
-            self?.indicatorControll(isStart: false)
+        Server.deleteReport(reportId: info.report_id, typeId: ReportCharger.REPORT_CHARGER_TYPE_USER_MOD_DELETE) { [weak self] (isSuccess, value) in            
             if isSuccess {
                 let json = JSON(value)
                 if json["code"].exists() && json["code"].intValue == 1000 {
@@ -351,7 +329,8 @@ extension ReportChargeViewController: AddressToLocationDelegate {
             print("ReportCharger Map init fail")
             return
         }
-        mapView.setCenter(TMapPoint.init(lon: lon, lat: lat))
+//        mapView.setCenter(TMapPoint.init(lon: lon, lat: lat))
+//        mapView.setCenter(CLLocationCoordinate2D(latitude: lat, longitude: lon), animated: true)
     }
 }
 
