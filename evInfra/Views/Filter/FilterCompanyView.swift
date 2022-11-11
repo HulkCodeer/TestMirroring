@@ -52,7 +52,7 @@ internal final class FilterCompanyView: UIView {
         companyTableView.tableDelegate = self
         
         updateTable()        
-        self.switchCard.isOn = FilterManager.sharedInstance.getIsMembershipCardChecked()
+        self.switchCard.isOn = FilterManager.sharedInstance.isMembershipCardChecked()
     }
     
     func prepareTagList() {

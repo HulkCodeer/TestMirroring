@@ -31,13 +31,15 @@ internal class Company {
     let img: UIImage
     var selected: Bool
     let isRecommaned: Bool
+    let isEvPayAvailable: Bool
     
-    init(title: String, companyId: String, img: UIImage, selected: Bool, isRecommaned: Bool) {
+    init(title: String, companyId: String, img: UIImage, selected: Bool, isRecommaned: Bool, isEvPayAvailable: Bool) {
         self.title = title
         self.companyId = companyId
         self.img = img
         self.selected = selected
         self.isRecommaned = isRecommaned
+        self.isEvPayAvailable = isEvPayAvailable
     }
 }
 

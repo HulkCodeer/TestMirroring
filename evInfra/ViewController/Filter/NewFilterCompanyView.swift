@@ -71,11 +71,9 @@ internal final class NewFilterCompanyView: UIView {
     private let groupTitle: [String] = ["A.B.C..", "가", "나", "다", "라", "마", "바", "사", "아", "자", "차", "카", "타", "파", "하", "힣"]
     private var groups: [NewCompanyGroup] = [NewCompanyGroup]()
     private var originalGroups: [NewCompanyGroup] = [NewCompanyGroup]()
-    private var groupsDic: [String: [NewCompanyGroup]] = [:]
     private var isAllSelect: Bool = true
     internal weak var delegate: NewDelegateFilterChange?
     internal var companies: [Company] = [Company]()
-    internal var tableViewTotalHeight: CGFloat = 0
     
     // MARK: SYSTEM FUNC
     override init(frame: CGRect) {
@@ -134,8 +132,22 @@ internal final class NewFilterCompanyView: UIView {
         }
         
         companyTableView.register(NewCompanyTableViewCell.self, forCellReuseIdentifier: "NewCompanyTableViewCell")
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
+    
+    internal func bind(reactor: GlobalFilterReactor) {
+        self.filterReactor = reactor
         
-        let isEvPayFilter = GlobalFilterReactor.sharedInstance.currentState.isEvPayFilter ?? false
+        Observable.just(GlobalFilterReactor.Action.loadCompanies)
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
         
         GlobalFilterReactor.sharedInstance.state.compactMap { $0.loadedCompanies }
             .subscribe(with: self) { obj, companies in
@@ -144,6 +156,7 @@ internal final class NewFilterCompanyView: UIView {
                 var companiesInGroup: [Company] = [Company]()
                 var recommand: [Company] = [Company]()
                 var titleIndex: Int = 1
+                var allSelect: Bool = true
 
                 for (index, company) in companies.enumerated() {
                     if company.title >= obj.groupTitle[titleIndex] {
@@ -162,23 +175,24 @@ internal final class NewFilterCompanyView: UIView {
 
                         titleIndex += 1
                     }
-                    companiesInGroup.append(company)
-                    var selected = company.selected
 
-                    if isEvPayFilter {
-                        selected = company.isEvPayAvailable
-                    }
+                    // evpay filter 적용
+                    companiesInGroup.append(company)
                     
+                    // 추천 그룹 추가
                     if company.isRecommaned {
                         recommand.append(company)
                     }
 
-                    if !selected {
-                        Observable.just(GlobalFilterReactor.Action.setAllCompanies(false))
-                            .bind(to: GlobalFilterReactor.sharedInstance.action)
-                            .disposed(by: self.disposeBag)
+                    if !company.selected {
+                        allSelect = false
                     }
                 }
+                // 전체 선택 유무
+                allSelect ? Observable.just(GlobalFilterReactor.Action.setAllCompanies(true))
+                    .bind(to: GlobalFilterReactor.sharedInstance.action).disposed(by: self.disposeBag)
+                : Observable.just(GlobalFilterReactor.Action.setAllCompanies(false))
+                    .bind(to: GlobalFilterReactor.sharedInstance.action).disposed(by: self.disposeBag)
 
                 if !companiesInGroup.isEmpty {
                     obj.groups.append(NewCompanyGroup(groupTitle: obj.groupTitle[titleIndex-1], companies: companiesInGroup, groupIndex: obj.groups.count - 1))
@@ -202,95 +216,17 @@ internal final class NewFilterCompanyView: UIView {
             .drive(with: self) { obj, isOn in
                 obj.allSwitch.isOn = isOn
                 
-                for group in obj.groups {
-                    for company in group.companies {
-                        company.selected = isOn
-                    }
+                // step1. EvPay filter 끄기 , isOn == true 일때
+                if isOn {
+                    Observable.just(GlobalFilterReactor.Action.setEvPayFilter(false))
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+                        .disposed(by: obj.disposeBag)
                 }
                 
-                obj.delegate?.changedFilter()
-                obj.companyTableView.reloadData()
-            }.disposed(by: self.disposeBag)
-    }
-
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    
-    internal func bind(reactor: GlobalFilterReactor) {
-        self.filterReactor = reactor
-        // 필터 설정 버튼
-        
-        Observable.just(GlobalFilterReactor.Action.setAllCompanies(true))
-            .bind(to: GlobalFilterReactor.sharedInstance.action)
-            .disposed(by: self.disposeBag)
-
-        Observable.just(GlobalFilterReactor.Action.setAllCompanies(allSwitch.isOn))
-            .bind(to: GlobalFilterReactor.sharedInstance.action)
-            .disposed(by: self.disposeBag)
-
-        GlobalFilterReactor.sharedInstance.state.compactMap { $0.isSelectedAllCompanies }
-            .bind(to: allSwitch.rx.isOn)
-            .disposed(by: self.disposeBag)
-
-//         TODO: fetch companies logic
-        Observable.just(GlobalFilterReactor.Action.loadCompanies)
-            .bind(to: GlobalFilterReactor.sharedInstance.action)
-            .disposed(by: self.disposeBag)
-//
-        GlobalFilterReactor.sharedInstance.state.compactMap { $0.loadedCompanies }
-            .subscribe(with: self) { obj, companies in
-                obj.groups.removeAll()
-
-                var companiesInGroup: [Company] = [Company]()
-                var recommand: [Company] = [Company]()
-                var titleIndex: Int = 1
-
-                for (index, company) in companies.enumerated() {
-                    if company.title >= obj.groupTitle[titleIndex] {
-                        let currentIndex = titleIndex
-                        for index in (currentIndex + 1) ..< obj.groupTitle.count {
-                            if company.title >= obj.groupTitle[index] {
-                                titleIndex += 1
-                            } else {
-                                break
-                            }
-                        }
-                        if !companiesInGroup.isEmpty {
-                            obj.groups.append(NewCompanyGroup(groupTitle: obj.groupTitle[titleIndex - 1], companies: companiesInGroup, groupIndex: index))
-                            companiesInGroup = [Company]()
-                        }
-
-                        titleIndex += 1
-                    }
-                    companiesInGroup.append(company)
-                    var selected = company.selected
-                    if company.isRecommaned {
-                        recommand.append(company)
-                    }
-
-                    if !selected {
-                        Observable.just(GlobalFilterReactor.Action.setAllCompanies(false))
-                            .bind(to: GlobalFilterReactor.sharedInstance.action)
-                            .disposed(by: self.disposeBag)
-                    }
-                }
-
-                if !companiesInGroup.isEmpty {
-                    obj.groups.append(NewCompanyGroup(groupTitle: obj.groupTitle[titleIndex-1], companies: companiesInGroup, groupIndex: obj.groups.count - 1))
-                }
-
-                let abcGroup = obj.groups[0]
-                obj.groups.remove(at: 0)
-                obj.groups.append(abcGroup)
-                obj.groups.insert(NewCompanyGroup(groupTitle: "추천", companies: recommand, groupIndex: 0), at: 0)
-
-                obj.originalGroups = obj.groups
-                obj.companyTableView.reloadData()
+                // step2. 충전 사업자 불러오기
+                Observable.just(GlobalFilterReactor.Action.loadCompanies)
+                    .bind(to: GlobalFilterReactor.sharedInstance.action)
+                    .disposed(by: obj.disposeBag)
             }.disposed(by: self.disposeBag)
     }
     

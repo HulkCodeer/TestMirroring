@@ -167,6 +167,8 @@ internal final class NewFilterTypeView: UIView {
         reactor.state.compactMap { $0.chargerTypes }
             .asDriver(onErrorJustReturn: [])
             .drive(with: self) { obj, types in
+                obj.tags.removeAll()
+                obj._originalTags.removeAll()
                 obj.tags = types
                 obj._originalTags = types
                 obj.chargerTypesCollectionView.reloadData()

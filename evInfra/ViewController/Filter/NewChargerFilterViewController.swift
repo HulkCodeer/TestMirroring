@@ -65,7 +65,7 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
     internal weak var delegate: NewDelegateChargerFilterView?
     
     // MARK: STSTEM FUNC
-    init(reactor: MainReactor) {
+    init(reactor: GlobalFilterReactor) {
         super.init()
         self.reactor = reactor
     }
@@ -154,14 +154,14 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
         }
     }
     
-    func bind(reactor: MainReactor) {
+    func bind(reactor: GlobalFilterReactor) {
         switchFilterView.bind(reactor: reactor)
-        typeFilterView.bind(reactor: GlobalFilterReactor.sharedInstance)
-        speedFilterView.bind(reactor: GlobalFilterReactor.sharedInstance)
-        roadFilterView.bind(reactor: GlobalFilterReactor.sharedInstance)
-        placeFilterView.bind(reactor: GlobalFilterReactor.sharedInstance)
+        typeFilterView.bind(reactor: reactor)
+        speedFilterView.bind(reactor: reactor)
+        roadFilterView.bind(reactor: reactor)
+        placeFilterView.bind(reactor: reactor)
         accessFilterView.bind(reactor: reactor)
-        companyFilterView.bind(reactor: GlobalFilterReactor.sharedInstance)
+        companyFilterView.bind(reactor: reactor)
         
         switchFilterView.delegate = self
         typeFilterView.delegate = self
@@ -207,7 +207,6 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
                 let cancelBtn = UIAlertAction(title: "취소", style: .default)
                 let okBtn = UIAlertAction(title: "초기화", style: .default) { _ in
                     FilterEvent.clickFilterReset.logEvent()
-                    // TODO: 각 필터 초기화
                     
                     obj.switchFilterView.resetFilter()
                     obj.speedFilterView.resetFilter()
@@ -234,7 +233,6 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
                 obj.saveBtn.rectBtn.isSelected = !obj.saveBtn.rectBtn.isSelected
                 printLog(out: "\(obj.saveBtn.rectBtn.isSelected)")
                 
-                // TODO: 각 필터 저장
                 obj.switchFilterView.saveFilter()
                 obj.speedFilterView.saveFilter()
                 obj.typeFilterView.saveFilter()
@@ -242,7 +240,6 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
                 obj.roadFilterView.saveFilter()
                 obj.placeFilterView.saveFilter()
                 obj.companyFilterView.saveFilter()
-                
                 obj.delegate?.applyFilter()
                 
                 FilterManager.sharedInstance.logEventWithFilter("필터")
@@ -252,6 +249,13 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
     }
     
     private func shouldChanged() -> Bool {
+        printLog(out: "switchFilterView.shouldChange() \(switchFilterView.shouldChange())")
+        printLog(out: "roadFilterView.shouldChanged \(roadFilterView.shouldChanged())")
+        printLog(out: "accessFilterView.shouldChanged \(accessFilterView.shouldChanged())")
+        printLog(out: "placeFilterView.shouldChanged() \(placeFilterView.shouldChanged())")
+        printLog(out: "speedFilterView.shouldChanged() \(speedFilterView.shouldChanged())")
+        printLog(out: "typeFilterView.shouldChange() \(typeFilterView.shouldChange())")
+        printLog(out: "companyFilterView.shouldChange() \(companyFilterView.shouldChange())")
         return switchFilterView.shouldChange() || roadFilterView.shouldChanged() || accessFilterView.shouldChanged() || placeFilterView.shouldChanged() || speedFilterView.shouldChanged() || typeFilterView.shouldChange() || companyFilterView.shouldChange()
     }
 }

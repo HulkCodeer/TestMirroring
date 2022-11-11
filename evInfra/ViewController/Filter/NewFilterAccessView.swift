@@ -82,7 +82,7 @@ internal final class NewFilterAccessView: UIView {
         super.awakeFromNib()
     }
     
-    func bind(reactor: MainReactor) {
+    func bind(reactor: GlobalFilterReactor) {
         self.addSubview(totalView)
         totalView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -113,7 +113,7 @@ internal final class NewFilterAccessView: UIView {
         }
         
         for accessType in AccessType.allCases {
-            stackView.addArrangedSubview(self.createAccessTypeView(accessType, reactor: GlobalFilterReactor.sharedInstance))
+            stackView.addArrangedSubview(self.createAccessTypeView(accessType, reactor: reactor))
         }
         
         infoBtn.rx.tap

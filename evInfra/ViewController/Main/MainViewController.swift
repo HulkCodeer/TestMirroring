@@ -125,7 +125,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         GlobalDefine.shared.mainViewcon = self
         
         self.locationManager.delegate = self
-        filterContainerView.delegate = self
+        filterContainerView.delegateChargerFilterViewCon = self
                 
         self.locationManager.rx
             .status
@@ -283,10 +283,10 @@ internal final class MainViewController: UIViewController, StoryboardView {
             }
             .disposed(by: self.disposeBag)
         
-        reactor.state.compactMap { $0.selectedFilterInfo }
-            .asDriver(onErrorJustReturn: (filterTagType: .speed, isSeleted: false))
-            .drive(with: self) { obj, selectedFilterInfo in
-                if selectedFilterInfo.isSeleted {
+        GlobalFilterReactor.sharedInstance.state.compactMap { $0.selectedFilterType }
+            .asDriver(onErrorJustReturn: (filterTagType: .speed, isSelected: false))
+            .drive(with: self) { obj, selected in
+                if selected.isSelected {
                     obj.showFilter()
                 } else {
                     obj.hideFilter()
@@ -313,11 +313,8 @@ internal final class MainViewController: UIViewController, StoryboardView {
         reactor.state.compactMap { $0.isShowFilterSetting }
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { obj, isShow in
-                let chargerFilterViewController = NewChargerFilterViewController(reactor: reactor)
-//                chargerFilterViewController.bind(reactor: reactor)
-//                let chargerFilterViewController = UIStoryboard(name : "Filter", bundle: nil).instantiateViewController(ofType: ChargerFilterViewController.self)
-//                chargerFilterViewController.delegate = obj
-//                chargerFilterViewController.bind(reactor: reactor)
+                let chargerFilterViewController = NewChargerFilterViewController(reactor: GlobalFilterReactor.sharedInstance)
+                chargerFilterViewController.delegate = obj
                 GlobalDefine.shared.mainNavi?.push(viewController: chargerFilterViewController)
             }
             .disposed(by: self.disposeBag)

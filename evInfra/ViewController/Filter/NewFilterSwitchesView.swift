@@ -35,7 +35,7 @@ internal final class NewFilterSwitchesView: UIView {
     }
     
     // MARK: VARIABLES
-    private weak var mainReactor: MainReactor?
+    private weak var filterReactor: GlobalFilterReactor?
     private var disposeBag = DisposeBag()
     internal weak var delegate: NewDelegateFilterChange?
     
@@ -47,7 +47,8 @@ internal final class NewFilterSwitchesView: UIView {
         super.init(coder: coder)
     }
     
-    func bind(reactor: MainReactor) {
+    func bind(reactor: GlobalFilterReactor) {
+        self.filterReactor = reactor
         self.addSubview(verticalStackView)
         verticalStackView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -63,7 +64,7 @@ internal final class NewFilterSwitchesView: UIView {
         }
     }
     
-    private func createSwitchViews(switchType: SwitchType, reactor: MainReactor) -> UIView {
+    private func createSwitchViews(switchType: SwitchType, reactor: GlobalFilterReactor) -> UIView {
         let view = UIView()
         
         let stackView = UIStackView().then {

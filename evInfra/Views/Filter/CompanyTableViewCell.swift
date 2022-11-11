@@ -8,8 +8,9 @@
 
 import UIKit
 protocol CompanyTableCellDelegate: AnyObject {
-    func onClickTag(tagName: String, value: Bool)
+    func onClickTag(tagName: String, value: Bool, groupIndex: Int)
 }
+
 class CompanyTableViewCell: UITableViewCell {
     
     @IBOutlet var groupTitle: UILabel!
@@ -93,7 +94,7 @@ extension CompanyTableViewCell: DelegateTagListViewCell{
     func tagClicked(index: Int, value: Bool) {
         // tag selected
         if let delegate = self.delegate {
-            delegate.onClickTag(tagName: tagList[index].title, value: value)
+            delegate.onClickTag(tagName: tagList[index].title, value: value, groupIndex: 0)
         }
     }
 }

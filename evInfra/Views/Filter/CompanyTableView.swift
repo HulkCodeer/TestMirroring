@@ -74,7 +74,7 @@ class CompanyTableView: UITableView, UITableViewDataSource, UITableViewDelegate 
 }
 
 extension CompanyTableView: CompanyTableCellDelegate {
-    func onClickTag(tagName: String, value: Bool) {
+    func onClickTag(tagName: String, value: Bool, groupIndex: Int) {
         if let delegate = self.tableDelegate {
             delegate.onClickTag(tagName: tagName, value: value)
         }
