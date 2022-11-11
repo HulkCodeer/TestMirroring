@@ -292,7 +292,7 @@
                     <connections>
                         <outlet property="addressDetailTextView" destination="QTU-be-cJZ" id="5OB-T0-dno"/>
                         <outlet property="applyBtn" destination="vhV-Fi-NCb" id="Bg9-Ce-TPT"/>
-                        <outlet property="commonNaviBtn" destination="NpZ-gN-6sd" id="NfI-8t-55d"/>
+                        <outlet property="commonNaviView" destination="ikJ-wO-gXO" id="TBK-ei-3kG"/>
                         <outlet property="deleteBtn" destination="yCh-p2-PzN" id="jmF-gX-ict"/>
                         <outlet property="fullAddressLabel" destination="0yJ-4P-vcb" id="rqq-L3-dHx"/>
                         <outlet property="mapViewContainer" destination="0kL-Q2-GaL" id="bCz-4k-xGe"/>

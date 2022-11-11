@@ -31,7 +31,7 @@ internal final class ReportChargeViewController: UIViewController {
     @IBOutlet weak var operationTextView: UITextField!
     @IBOutlet weak var applyBtn: UIButton!
     @IBOutlet weak var deleteBtn: UIButton!
-    @IBOutlet var commonNaviBtn: UIButton!
+    @IBOutlet var commonNaviView: CommonNaviView!
     
 //    weak var delegate: ReportChargeViewDelegate?
 
@@ -64,19 +64,17 @@ internal final class ReportChargeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
                 
-        commonNaviBtn.rx.tap
-            .asDriver()
-            .drive(with: self) { obj, _ in
-                self.dismiss(animated: true)
-            }
-            .disposed(by: self.disposeBag)
-        
+        commonNaviView.backClosure = { [weak self ] in
+            guard let self = self else { return }
+            self.dismiss(animated: true)
+        }
+
         prepareMapView()
         prepareChargerView()
         prepareCommonView()
 
         requestReportData()
-        
+
         tMapView?.delegate = self
     }
 
