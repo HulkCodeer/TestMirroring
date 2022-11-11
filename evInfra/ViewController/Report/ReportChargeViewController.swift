@@ -11,6 +11,8 @@ import Material
 import Motion
 import SwiftyJSON
 import DropDown
+import RxSwift
+import RxCocoa
 
 //protocol ReportChargeViewDelegate: AnyObject {
 //    func getReportInfo()
@@ -29,7 +31,7 @@ internal final class ReportChargeViewController: UIViewController {
     @IBOutlet weak var operationTextView: UITextField!
     @IBOutlet weak var applyBtn: UIButton!
     @IBOutlet weak var deleteBtn: UIButton!
-    
+    @IBOutlet var commonNaviBtn: UIButton!
     
 //    weak var delegate: ReportChargeViewDelegate?
 
@@ -38,7 +40,10 @@ internal final class ReportChargeViewController: UIViewController {
     
     var charger: ChargerStationInfo? = nil
     var info = ReportCharger()
+    
     internal var isFromDetailView = false
+    
+    private var disposeBag = DisposeBag()
     
     @IBAction func onClickApplyBtn(_ sender: Any) {
         sendReportToServer()
@@ -58,8 +63,13 @@ internal final class ReportChargeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        prepareActionBar()
+                
+        commonNaviBtn.rx.tap
+            .asDriver()
+            .drive(with: self) { obj, _ in
+                self.dismiss(animated: true)
+            }
+            .disposed(by: self.disposeBag)
         
         prepareMapView()
         prepareChargerView()
@@ -86,19 +96,7 @@ internal final class ReportChargeViewController: UIViewController {
 //            delegate.getReportInfo()
 //        }
     }
-
-    func prepareActionBar() {
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "content-primary")
-        backButton.addTarget(self, action: #selector(onClickBackBtn), for: .touchUpInside)
         
-        navigationItem.hidesBackButton = true
-        navigationItem.leftViews = [backButton]
-        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-        navigationItem.titleLabel.text = "충전소 추가/정보 제보"
-        self.navigationController?.isNavigationBarHidden = false
-    }
-    
     func prepareCommonView() {
         operationTextView.layer.borderWidth = 0.5
         operationTextView.layer.borderColor = UIColor.lightGray.cgColor
@@ -149,11 +147,6 @@ internal final class ReportChargeViewController: UIViewController {
          && info.status_id != ReportCharger.REPORT_CHARGER_STATUS_FINISH && !isFromDetailView
         deleteBtn.isEnabled = isDeleteBtnEnable
         deleteBtn.isHidden = !isDeleteBtnEnable
-    }
-    
-    @objc
-    fileprivate func onClickBackBtn() {
-        dismiss(animated: true, completion: nil)
     }
     
     func cancelReport() {

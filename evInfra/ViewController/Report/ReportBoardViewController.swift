@@ -10,7 +10,7 @@ import UIKit
 import Motion
 import SwiftyJSON
 
-class ReportBoardViewController: UIViewController {
+internal final class ReportBoardViewController: UIViewController {
     
     private lazy var customNavibar = CommonNaviView().then {
         $0.naviTitleLbl.text = "나의 제보 내역"
@@ -19,7 +19,7 @@ class ReportBoardViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var emptyLabel: UILabel!
     
-    var reportList = Array<ReportCharger>()
+    private var reportList = Array<ReportCharger>()
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
