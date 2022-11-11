@@ -12,7 +12,7 @@ import Motion
 import SwiftyJSON
 import JJFloatingActionButton
 
-internal final class DetailViewController: CommonBaseViewController {
+internal final class DetailViewController: BaseViewController {
 
     @IBOutlet weak var commonNaviView: CommonNaviView!
     @IBOutlet weak var detailView: UIView!
