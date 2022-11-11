@@ -98,18 +98,18 @@ class ReportBoardViewController: UIViewController {
     }
 }
 
-extension ReportBoardViewController: ReportChargeViewDelegate {
+extension ReportBoardViewController { //: ReportChargeViewDelegate {
     func goToReportChargerPage(index:Int) {
         let reportChargeVC = self.storyboard?.instantiateViewController(withIdentifier: "ReportChargeViewController") as! ReportChargeViewController
-        reportChargeVC.delegate = self
+//        reportChargeVC.delegate = self
         reportChargeVC.info.charger_id = self.reportList[index].charger_id        
         
         self.present(AppNavigationController(rootViewController: reportChargeVC), animated: true)
     }
     
-    func getReportInfo() {
-        getReportList(reportId: 0)
-    }
+//    func getReportInfo() {
+//        getReportList(reportId: 0)
+//    }
 }
 
 extension ReportBoardViewController: UITableViewDelegate {
