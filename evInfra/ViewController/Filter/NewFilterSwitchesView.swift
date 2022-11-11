@@ -148,9 +148,10 @@ internal final class NewFilterSwitchesView: UIView {
                 .asDriver(onErrorJustReturn: false)
                 .drive(with: self) { obj, isOn in
                     let setEvPayFilterStream = Observable.of(GlobalFilterReactor.Action.setEvPayFilter(isOn))
+                    let saveEvPayFilterStream = Observable.of(GlobalFilterReactor.Action.saveEvPayFilter(isOn))
                     let loadCompaniesStream = Observable.of(GlobalFilterReactor.Action.loadCompanies)
                     
-                    Observable.concat([setEvPayFilterStream, loadCompaniesStream])
+                    Observable.concat([setEvPayFilterStream, saveEvPayFilterStream, loadCompaniesStream])
                         .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                     

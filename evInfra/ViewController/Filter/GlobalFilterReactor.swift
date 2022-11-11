@@ -35,6 +35,10 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         case setRoadFilter(SelectedRoadFilter)
         case changedPlaceFilter(SelectedPlaceFilter)
         case setPlaceFilter(SelectedPlaceFilter)
+//        case savePlaceFilter(SelectedPlaceFilter)
+        case updateIndoorPlaceFilter(Bool)
+        case updateOutdoorPlaceFilter(Bool)
+        case updateCanopyPlaceFilter(Bool)
         case changedSpeedFilter(SelectedSpeedFilter)
         case setSpeedFilter(SelectedSpeedFilter)
         case loadChargerTypes
@@ -56,7 +60,9 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         case setSelectedFilterType(SelectedFilterType)
         case changedAccessFilter(SelectedAccessFilter)
         case changedRoadFilter(SelectedRoadFilter)
-        case changedPlaceFilter(SelectedPlaceFilter)
+        case updateIndoorFilter(Bool)
+        case updateOutdoorFilter(Bool)
+        case updateCanopyFilter(Bool)
         case changedSpeedFilter(SelectedSpeedFilter)
         case loadChargerTypes([NewTag])
         case changedChargerTypeFilter(SelectedChargerTypeFilter)
@@ -165,20 +171,30 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
             }
             return .just(.updateBarTitle(true))
             
-        case .changedPlaceFilter(let selectedPlaceFilter):
-            return .just(.changedPlaceFilter(selectedPlaceFilter))
+        case .setPlaceFilter(let selectedPlaceFilter):
             
-        case .setPlaceFilter(let placeFilter):
-            switch placeFilter.placeType {
-            case .indoor:
-                FilterManager.sharedInstance.saveIndoor(with: placeFilter.isSelected)
-            case .outdoor:
-                FilterManager.sharedInstance.saveOutdoor(with: placeFilter.isSelected)
-            case .canopy:
-                FilterManager.sharedInstance.saveCanopy(with: placeFilter.isSelected)
-            }
-            return .just(.updateBarTitle(true))
+            return .empty()
             
+//        case .setPlaceFilter(let placeFilter):
+//            switch placeFilter.placeType {
+//            case .indoor:
+//                FilterManager.sharedInstance.saveIndoor(with: placeFilter.isSelected)
+//            case .outdoor:
+//                FilterManager.sharedInstance.saveOutdoor(with: placeFilter.isSelected)
+//            case .canopy:
+//                FilterManager.sharedInstance.saveCanopy(with: placeFilter.isSelected)
+//            }
+//            return .just(.updateBarTitle(true))
+            
+        case .updateIndoorPlaceFilter(let isSelected):
+            return .just(.updateIndoorFilter(isSelected))
+
+        case .updateOutdoorPlaceFilter(let isSelected):
+            return .just(.updateOutdoorFilter(isSelected))
+            
+        case .updateCanopyPlaceFilter(let isSelected):
+            return .just(.updateCanopyFilter(isSelected))
+
         case .changedSpeedFilter(let selectedSpeedFilter):
             return .just(.changedSpeedFilter(selectedSpeedFilter))
             
@@ -240,6 +256,8 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
             
             FilterManager.sharedInstance.updateCompanyFilter()
             return .empty()
+        case .changedPlaceFilter((let placeType, let isSelected)):
+            return .empty()
         }
     }
     
@@ -291,15 +309,16 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
             case .highwayUp:
                 newState.isHighwayUp = selectedRoadFilter.isSelected
             }
-        case .changedPlaceFilter(let selectedPlaceFilter):
-            switch selectedPlaceFilter.placeType {
-            case .indoor:
-                newState.isIndoor = selectedPlaceFilter.isSelected
-            case .outdoor:
-                newState.isOutdoor = selectedPlaceFilter.isSelected
-            case .canopy:
-                newState.isCanopy = selectedPlaceFilter.isSelected
-            }
+    
+        case .updateIndoorFilter(let isSelected):
+            newState.isIndoor = isSelected
+            
+        case .updateOutdoorFilter(let isSelcted):
+            newState.isOutdoor = isSelcted
+            
+        case .updateCanopyFilter(let isSelected):
+            newState.isCanopy = isSelected
+            
         case .changedSpeedFilter(let selectedSpeedFilter):
             newState.minSpeed = selectedSpeedFilter.minSpeed
             newState.maxSpeed = selectedSpeedFilter.maxSpeed

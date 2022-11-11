@@ -249,13 +249,16 @@ internal final class NewFilterBarView: UIView {
                 .asDriver()
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
-                    Observable.just(MainReactor.Action.setEvPayFilter(btn.isSelected))
-                        .bind(to: reactor.action)
+                    let setEvPayFilterStream = Observable.of(GlobalFilterReactor.Action.setEvPayFilter(btn.isSelected))
+                    let saveEvPayFilterStream = Observable.of(GlobalFilterReactor.Action.saveEvPayFilter(btn.isSelected))
+                    
+                    Observable.concat([setEvPayFilterStream, saveEvPayFilterStream])
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                 }
                 .disposed(by: self.disposeBag)
             
-            reactor.state.compactMap { $0.isEvPayFilter }
+            GlobalFilterReactor.sharedInstance.state.compactMap { $0.isEvPayFilter }
                 .asDriver(onErrorJustReturn: false)
                 .drive(with: self) { obj, isEvPayFilter in
                     let property: [String: Any] = ["filterName": "EV Pay",
