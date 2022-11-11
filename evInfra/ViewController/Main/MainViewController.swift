@@ -170,7 +170,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
         configureLayer()
 
         routeDistanceView.isHidden = true
-        LoginHelper.shared.delegate = self
         
         prepareTmapAPI()
         
@@ -206,6 +205,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         super.viewWillAppear(animated)
         
         MapEvent.viewMainPage.logEvent()
+        LoginHelper.shared.delegate = self
         
         let isProcessing = GlobalDefine.shared.tempDeepLink.isEmpty
         if !isProcessing {
