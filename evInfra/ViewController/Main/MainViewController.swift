@@ -691,7 +691,10 @@ internal final class MainViewController: UIViewController, StoryboardView {
         reactor.state.compactMap { $0.isHideSearchWay }
             .asDriver(onErrorJustReturn: true)
             .drive(with: self) { owner, isHideSearchWay in
-                owner.clusterManager?.isRouteMode = !isHideSearchWay
+                if isHideSearchWay {    // 길찾기화면 숨김 -> 길찾기모드 종료.
+                    owner.clusterManager?.isRouteMode = false
+                }
+                
                 owner.customNaviBar.hideSearchWayMode(isHideSearchWay)
                 
                 RouteEvent.clickNavigation.logEvent(property: ["onOrOff": "\(!isHideSearchWay ? "On" : "Off")"])
