@@ -229,6 +229,7 @@ internal final class ReportChargeViewController: UIViewController {
         let mapStoryboard = UIStoryboard(name : "Map", bundle: nil)
         let searchVC:AddressToLocationController = mapStoryboard.instantiateViewController(withIdentifier: "AddressToLocationController") as! AddressToLocationController
         searchVC.delegate = self
+        
         self.present(AppSearchBarController(rootViewController: searchVC), animated: true, completion: nil)
     }
 

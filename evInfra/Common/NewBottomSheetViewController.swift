@@ -10,8 +10,7 @@ import UIKit
 import ReusableKit
 import RxSwift
 
-internal final class NewBottomSheetViewController: CommonBaseViewController {
-    
+internal final class NewBottomSheetViewController: UIViewController {
     enum Consts {
         static let nextBtnTotalHeight = 80
         static let nextBtnHeight = 48
@@ -22,7 +21,7 @@ internal final class NewBottomSheetViewController: CommonBaseViewController {
     // MARK: UI
         
     private lazy var dimmedViewBtn = UIButton().then {
-        $0.backgroundColor = .clear
+        $0.backgroundColor = Colors.backgroundOverlayDark.color.withAlphaComponent(0.0)
     }
     
     private lazy var totalStackView = UIStackView().then {
@@ -94,7 +93,6 @@ internal final class NewBottomSheetViewController: CommonBaseViewController {
     override func loadView() {
         super.loadView()
         self.view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
-        self.contentView.backgroundColor = .clear
         
         if let _window = UIWindow.key{
             self.safeAreaInsetBottomHeight = _window.safeAreaInsets.bottom 
@@ -196,13 +194,9 @@ extension NewBottomSheetViewController: UITableViewDelegate, UITableViewDataSour
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? BottomSheetCell
             else { return UITableViewCell() }
-        
         cell.configure(index: indexPath.row, title: items[indexPath.row], selectedCellCompletion: self.selectedCellCompletion, isSelected: self.selectedIndex == indexPath.row)
-        
-        
         return cell
     }
 

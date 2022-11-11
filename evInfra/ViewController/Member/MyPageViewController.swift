@@ -15,6 +15,15 @@ import UIImageCropper
 
 internal final class MyPageViewController: UIViewController {
 
+    private lazy var customNaviBar = CommonNaviView().then {
+        $0.naviTitleLbl.text = "개인정보관리"
+        $0.backgroundColor = Colors.backgroundPrimary.color
+    }
+    private lazy var logoutButton = UIButton().then {
+        $0.setTitle("로그아웃", for: .normal)
+        $0.setTitleColor(UIColor(named: "content-primary")!, for: .normal)
+        $0.titleLabel?.font = .systemFont(ofSize: 16)
+    }
     @IBOutlet weak var nickNameField: TextField!
     @IBOutlet weak var locationSpinnerBtn: UIButton!
     @IBOutlet weak var carKindSpinnerBtn: UIButton!
@@ -25,9 +34,7 @@ internal final class MyPageViewController: UIViewController {
 
     // 차량번호
     @IBOutlet weak var carNoField: UITextField!
-    
-    @IBOutlet weak var scrollViewBottom: NSLayoutConstraint!
-    
+            
     // 주소
     @IBOutlet weak var zipCodeField: UITextField!
     @IBOutlet weak var addrInfoField: UITextField!
@@ -35,6 +42,7 @@ internal final class MyPageViewController: UIViewController {
     @IBOutlet weak var searchZipCodeBtn: UIButton!
     @IBOutlet weak var updateBtn: UIButton!
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet var scrollViewBottomConstant: NSLayoutConstraint!
     
     private let dropDwonLocation = DropDown()
     private let dropDwonCarKind = DropDown()
@@ -75,15 +83,36 @@ internal final class MyPageViewController: UIViewController {
         printLog(out: "\(type(of: self)): Deinited")
     }
     
+    override func loadView() {
+        super.loadView()
+        
+        logoutButton.addTarget(self, action: #selector(handlelogoutButton), for: .touchUpInside)
+                
+        customNaviBar.backClosure = { [weak self] in
+            self?.navigationController?.pop()
+        }
+        
+        view.addSubview(customNaviBar)
+        customNaviBar.snp.makeConstraints {
+            $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(Constants.view.naviBarHeight)
+        }
+        
+        customNaviBar.addSubview(logoutButton)
+        logoutButton.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(Constants.view.naviBarItemPadding)
+            $0.width.equalTo(80)
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         nickNameField.delegate = self
         carNoField.delegate = self
         addrInfoDetailField.delegate = self
         self.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(endEditing)))
-        
-        keyboardViewMove()
-        prepareActionBar()
+                
         prepareSpinnerView()
         prepareView()
         
@@ -93,7 +122,15 @@ internal final class MyPageViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        super.viewWillAppear(animated)    
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
     }
     
     @objc func endEditing() {
@@ -102,20 +139,25 @@ internal final class MyPageViewController: UIViewController {
         addrInfoDetailField.resignFirstResponder()
     }
     
-    func keyboardViewMove() {
-        // 키보드 관리 (show/hide)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    @objc private func keyboardWillShow(_ sender: NSNotification) {
+        if let keyboardSize = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            let keyboardHeight = keyboardSize.height
+            view.layoutIfNeeded()
+            
+            scrollViewBottomConstant.constant = -keyboardHeight + self.view.safeAreaInsets.bottom
+            let bottom = keyboardHeight - (UIWindow.key?.safeAreaInsets.bottom ?? 0)
+            let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: bottom, right: 0.0)
+            self.scrollView.contentInset = contentInsets
+            self.scrollView.scrollIndicatorInsets = contentInsets
+        }
     }
     
-    @objc func keyboardWillShow(_ notification: NSNotification) {
-        self.view.frame.origin.y = -self.viewHeight
-    }
-
-    @objc func keyboardWillHide(_ notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            self.view.frame.origin.y = keyboardSize.height * 1/4
-        }
+    @objc private func keyboardDidHide(_ sender: NSNotification) {
+        view.layoutIfNeeded()
+        let contentsInset: UIEdgeInsets = .zero
+        scrollView.contentInset = contentsInset
+        scrollView.scrollIndicatorInsets = contentsInset
+        scrollViewBottomConstant.constant = 0
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -200,30 +242,7 @@ internal final class MyPageViewController: UIViewController {
 }
 
 extension MyPageViewController {
-    func prepareActionBar() {
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "content-primary")
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-        
-        let logoutButton = UIButton()
-        logoutButton.setTitle("로그아웃", for: .normal)
-        logoutButton.setTitleColor(UIColor(named: "content-primary")!, for: .normal)
-        logoutButton.titleLabel?.font = .systemFont(ofSize: 16)
-        logoutButton.addTarget(self, action: #selector(handlelogoutButton), for: .touchUpInside)
-        
-        navigationItem.hidesBackButton = true
-        navigationItem.leftViews = [backButton]
-        navigationItem.rightViews = [logoutButton]
-        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-        navigationItem.titleLabel.text = "개인정보관리"
-        self.navigationController?.isNavigationBarHidden = false
-    }
-    
-    @objc
-    fileprivate func handleBackButton() {
-        self.navigationController?.pop()
-    }
-    
+
     @objc
     fileprivate func handlelogoutButton() {
         var actions = Array<UIAlertAction>()

@@ -40,7 +40,6 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
     // MARK: UI
     
     private lazy var naviTotalView = CommonNaviView().then {
-        
         $0.naviTitleLbl.text = "설정"
     }
     
@@ -55,6 +54,10 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
         $0.distribution = .fillEqually
         $0.alignment = .fill
     }
+    
+    // MARK: VARIABLE
+    
+    private var viewDisposeBag = DisposeBag()
     
     // MARK: SYSTEM FUNC
     
@@ -90,13 +93,7 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
             $0.centerX.equalToSuperview()
         }
         
-        for settingType in SettingType.allCases {
-            let settingView = self.createSettingView(mainTitle: settingType.rawValue, subTitle: settingType.subTitle(), settingType: settingType)
-            settingView.snp.makeConstraints {
-                $0.height.equalTo(66)
-            }
-            stackView.addArrangedSubview(settingView)
-        }
+        
                 
         MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
             guard let self = self,
@@ -122,7 +119,15 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
         GlobalDefine.shared.mainNavi?.navigationBar.isHidden = true
     }
                     
-    internal func bind(reactor: SettingsReactor) {}
+    internal func bind(reactor: SettingsReactor) {
+        for settingType in SettingType.allCases {
+            let settingView = self.createSettingView(mainTitle: settingType.rawValue, subTitle: settingType.subTitle(), settingType: settingType)
+            settingView.snp.makeConstraints {
+                $0.height.equalTo(66)
+            }
+            stackView.addArrangedSubview(settingView)
+        }
+    }
     
     private func createSettingView(mainTitle: String, subTitle: String, settingType: SettingType) -> UIView {
         let view = UIView()
@@ -207,14 +212,14 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
                     guard let self = self, let _reactor = self.reactor else { return }
                     Observable.just(SettingsReactor.Action.updateBasicNotification(isOn))
                         .bind(to: _reactor.action)
-                        .disposed(by: self.disposeBag)
+                        .disposed(by: self.viewDisposeBag)
                 })
-                .disposed(by: self.disposeBag)
+                .disposed(by: self.viewDisposeBag)
             
             
             _reactor.state.compactMap { $0.isBasicNotification }
             .bind(to: noticeSw.rx.isOn)
-            .disposed(by: self.disposeBag)
+            .disposed(by: self.viewDisposeBag)
             
         case .locationNotice:
             isOn = _reactor.initialState.isLocalNotification ?? false
@@ -228,15 +233,14 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
                     guard let self = self, let _reactor = self.reactor else { return }
                     Observable.just(SettingsReactor.Action.updateLocalNotification(isOn))
                         .bind(to: _reactor.action)
-                        .disposed(by: self.disposeBag)
+                        .disposed(by: self.viewDisposeBag)
                 })
-                .disposed(by: self.disposeBag)
+                .disposed(by: self.viewDisposeBag)
             
             _reactor.state.compactMap { $0.isLocalNotification }
             .bind(to: noticeSw.rx.isOn)
-            .disposed(by: self.disposeBag)
-            
-            
+            .disposed(by: self.viewDisposeBag)
+                        
         case .marketingNoticeAgree:
             isOn = _reactor.initialState.isMarketingNotification ?? false
             
@@ -249,13 +253,13 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
                     guard let self = self, let _reactor = self.reactor else { return }
                     Observable.just(SettingsReactor.Action.updateMarketingNotification(isOn))
                         .bind(to: _reactor.action)
-                        .disposed(by: self.disposeBag)
+                        .disposed(by: self.viewDisposeBag)
                 })
-                .disposed(by: self.disposeBag)
+                .disposed(by: self.viewDisposeBag)
             
             _reactor.state.compactMap { $0.isMarketingNotification }
             .bind(to: noticeSw.rx.isOn)
-            .disposed(by: self.disposeBag)
+            .disposed(by: self.viewDisposeBag)
             
         case .clustering:
             isOn = _reactor.initialState.isClustering ?? false
@@ -269,13 +273,13 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
                     guard let self = self, let _reactor = self.reactor else { return }
                     Observable.just(SettingsReactor.Action.updateClustering(isOn))
                         .bind(to: _reactor.action)
-                        .disposed(by: self.disposeBag)
+                        .disposed(by: self.viewDisposeBag)
                 })
-                .disposed(by: self.disposeBag)
+                .disposed(by: self.viewDisposeBag)
             
             _reactor.state.compactMap { $0.isClustering }
-            .bind(to: noticeSw.rx.isOn)
-            .disposed(by: self.disposeBag)
+                .bind(to: noticeSw.rx.isOn)
+                .disposed(by: self.viewDisposeBag)
             
         }
         
@@ -320,10 +324,10 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
         }
         
         quitAccountBtn.rx.tap
-            .asDriver()
+            .debug()
+            .asDriver(onErrorJustReturn: ())
             .drive(onNext: { [weak self] _ in
                 guard let self = self, let _reactor = self.reactor else { return }
-                
                 Server.getPayRegisterStatus { (isSuccess, value) in
                     if isSuccess {
                         let json = JSON(value)
@@ -339,18 +343,16 @@ internal final class NewSettingsViewController: CommonBaseViewController, Storyb
                         default:
                             Observable.just(SettingsReactor.Action.moveQuitAccountReasonQuestion)
                                 .bind(to: _reactor.action)
-                                .disposed(by: self.disposeBag)
+                                .disposed(by: self.viewDisposeBag)
                         }
                         
                         printLog(out: "json data : \(json)")
                     } else {
                         Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 결제정보관리 페이지 종료후 재시도 바랍니다.")
                     }
-                }
-                
-                
+                }                                
             })
-            .disposed(by: self.disposeBag)
+            .disposed(by: self.viewDisposeBag)
         
         return view
     }

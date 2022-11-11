@@ -228,26 +228,13 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
                     .disposed(by: obj.disposeBag)
             }
             .disposed(by: self.disposeBag)
-        
     }
     
     private func moveMainViewcon() {
-        MemberManager.shared.isFirstInstall = true
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let reactor = MainReactor(provider: RestApi())
-        let mainViewcon = storyboard.instantiateViewController(ofType: MainViewController.self)
-        mainViewcon.reactor = reactor
-        
-        let leftReactor = LeftViewReactor(provider: RestApi())
-        let leftViewcon = NewLeftViewController(reactor: leftReactor)
-                
-        let appToolbarController = AppToolbarController(rootViewController: mainViewcon)
-        appToolbarController.delegate = mainViewcon
-        let ndController = AppNavigationDrawerController(rootViewController: appToolbarController, leftViewController: leftViewcon)
-        
-        GlobalDefine.shared.mainNavi?.popToViewControllerWithHandler(vc: self, completion: {
-            GlobalDefine.shared.mainNavi?.setViewControllers([ndController], animated: true)
-        })
+        if UIWindow.key != nil {
+            let rootVC = RootViewController()
+            GlobalDefine.shared.mainNavi?.setViewControllers([rootVC], animated: false)
+        }
     }
 }
 
@@ -257,7 +244,7 @@ extension PermissionsGuideViewController: CLLocationManagerDelegate {
         guard MemberManager.shared.isFirstInstall else { return }
         switch manager.authorizationStatus {
         case .notDetermined, .restricted, .authorizedAlways: break
-        case .authorizedWhenInUse, .denied: self.moveMainViewcon()                                                            
+        case .authorizedWhenInUse, .denied: self.moveMainViewcon()
         @unknown default:
             fatalError()
         }

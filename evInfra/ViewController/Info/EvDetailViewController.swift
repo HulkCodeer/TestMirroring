@@ -20,27 +20,17 @@ internal final class EvDetailViewController: BaseViewController {
     
     internal var index: Int
     internal var model: EVModel?
-    
-    deinit {
-        printLog(out: "\(type(of: self)): Deinited")
-    }
-    
-    public required init?(coder aDecoder: NSCoder) {
+            
+    required init?(coder aDecoder: NSCoder) {
         index = 0
         super.init(coder: aDecoder)
     }
-    
-    public init(index: Int) {
-        self.index = index
-        super.init(nibName: nil, bundle: nil)
-    }
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
         guard let model = model else { return }
-        prepareActionBar(with: "전기차 정보")
-        
+
         carImage.sd_setImage(with: URL(string: "\(Const.IMG_URL_EV_MODEL)\(model.image ?? "").jpg"), placeholderImage: UIImage(named: "AppIcon"))
         carImage.motionIdentifier = "\(model.image ?? "").jpg"
         vehicleName.text = model.name

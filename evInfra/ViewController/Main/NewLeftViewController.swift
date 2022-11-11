@@ -13,7 +13,7 @@ import ReusableKit
 
 internal final class NewLeftViewController: CommonBaseViewController, StoryboardView {
     private enum Reusable {
-        static let leftViewMenuItem = ReusableCell<LeftViewMenuItem>(nibName: LeftViewMenuItem.reuseID)        
+        static let leftViewMenuItem = ReusableCell<LeftViewMenuItem>(nibName: LeftViewMenuItem.reuseID)
     }
         
     enum ViewHeightConst {
@@ -144,8 +144,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         $0.textAlignment = .right
         $0.numberOfLines = 1
     }
-    
-    
+        
     private lazy var menuListTotalView = UIView().then {
         $0.backgroundColor = Colors.backgroundSecondary.color
     }
@@ -178,12 +177,13 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                         
     // MARK: VARIABLE
     
+    private var viewDisposeBag = DisposeBag()
     
     // MARK: SYSTEM FUNC
     
     init(reactor: LeftViewReactor) {
         super.init()
-        self.reactor = reactor        
+        self.reactor = reactor
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -192,9 +192,9 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
     
     override func loadView() {
         super.loadView()
-                
+        
         self.view.addSubview(userInfoTotalView)
-        userInfoTotalView.snp.makeConstraints {            
+        userInfoTotalView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(UIScreen.main.bounds.height > 667 ? 45 : 18)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(ViewHeightConst.loginViewHeight)
@@ -409,30 +409,32 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         
         moveMyInfoBtn.rx.tap
             .asDriver()
+            .debug()
             .drive(onNext: {
                 AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "전체메뉴 상단 베리 닉네임")
                 let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPageViewController.self)
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             })
-            .disposed(by: self.disposeBag)
+            .disposed(by: self.viewDisposeBag)
         
         moveLoginBtn.rx.tap
             .asDriver()
-            .drive(onNext: {
+            .debug()
+            .drive(with: self, onNext: { owner, _ in
                 AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "비로그인 전체메뉴 상단 베리 닉네임")
                 let viewcon = UIStoryboard(name : "Login", bundle: nil).instantiateViewController(ofType: LoginViewController.self)
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             })
-            .disposed(by: self.disposeBag)
+            .disposed(by: self.viewDisposeBag)
         
         moveMyPointBtn.rx.tap
             .asDriver()
-            .drive(onNext: {
+            .drive(with: self, onNext: { owner, _ in
                 AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "좌측메뉴 상단 MY베리 버튼")
                 let viewcon = UIStoryboard(name : "Charge", bundle: nil).instantiateViewController(ofType: PointViewController.self)
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             })
-            .disposed(by: self.disposeBag)
+            .disposed(by: self.viewDisposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -445,13 +447,20 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                 $0.height.equalTo(isLogin ? ViewHeightConst.loginViewHeight : ViewHeightConst.nonLoginViewHeigt)
             }
             
-            guard isLogin else { return }
+            guard isLogin else {
+                self.myBerryLbl.text = "0"
+                return
+            }
             let displayNickname = MemberManager.shared.memberNickName
             self.nicknameLbl.text = displayNickname.count > 10 ? "\(displayNickname.substring(to: 10))..." : displayNickname
             
             Observable.just(LeftViewReactor.Action.isAllBerryReload)
                 .bind(to: _reactor.action)
-                .disposed(by: self.disposeBag)
+                .disposed(by: self.viewDisposeBag)
+            
+            Observable.just(LeftViewReactor.Action.getMyBerryPoint)
+                .bind(to: _reactor.action)
+                .disposed(by: self.viewDisposeBag)
         }
         
         profileImgView.sd_setImage(with: URL(string:"\(Const.urlProfileImage)\(MemberManager.shared.profileImage)"), placeholderImage: Icons.iconProfileEmpty.image)
@@ -473,7 +482,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
             guard let self = self, isLogin else { return }
             Observable.just(LeftViewReactor.Action.getMyBerryPoint)
                 .bind(to: reactor.action)
-                .disposed(by: self.disposeBag)
+                .disposed(by: self.viewDisposeBag)
         }
                 
         for menuCategoryType in LeftViewReactor.MenuCategoryType.allCases {
@@ -496,21 +505,17 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                 }
                 obj.myBerryLbl.text = point
             }
-            .disposed(by: self.disposeBag)
+            .disposed(by: self.viewDisposeBag)
         
         reactor.state.compactMap { $0.isAllBerry }
-            .do(onNext: { isOn in
-                let property: [String: Any] = ["berryAmount": "베리량",
-                                               "onOrOff": isOn]
-                AmplitudeEvent.Event.clickSidemenuSetUpBerryAll.logEvent(property: property)                
-            })
             .asDriver(onErrorJustReturn: false)
             .drive(self.useAllMyBerrySw.rx.isOn)
-            .disposed(by: self.disposeBag)
+            .disposed(by: self.viewDisposeBag)
         
         myBerryRefreshBtn.rx.tap
             .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
             .asDriver(onErrorJustReturn: ())
+            .debug()
             .drive(with: self) { obj, _ in
                 let animation = CABasicAnimation(keyPath: "transform.rotation.z")
                 let direction = 1.0
@@ -524,23 +529,28 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                 
                 Observable.just(LeftViewReactor.Action.refreshBerryPoint)
                     .bind(to: reactor.action)
-                    .disposed(by: obj.disposeBag)
+                    .disposed(by: obj.viewDisposeBag)
             }
-            .disposed(by: self.disposeBag)
+            .disposed(by: self.viewDisposeBag)
                         
         useAllMyBerryBtn.rx.tap
+            .do(onNext: { isOn in
+                let property: [String: Any] = ["berryAmount": "베리량",
+                                               "onOrOff": isOn]
+                AmplitudeEvent.Event.clickSidemenuSetUpBerryAll.logEvent(property: property)
+            })
             .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
             .map { LeftViewReactor.Action.loadPaymentStatus }
             .bind(to: reactor.action)
-            .disposed(by: self.disposeBag)
+            .disposed(by: self.viewDisposeBag)
                              
         GlobalDefine.shared.isUseAllBerry
             .filter { $0 }
             .map { isUseAllBerry in  LeftViewReactor.Action.setIsAllBerry(isUseAllBerry) }
             .bind(to: reactor.action)
-            .disposed(by: self.disposeBag)
+            .disposed(by: self.viewDisposeBag)
     }
-            
+    
     private func createMenuTypeView(menuCategoryType: LeftViewReactor.MenuCategoryType, reactor: LeftViewReactor) -> UIView {
         let view = UIView().then {
             $0.clipsToBounds = true
@@ -584,7 +594,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         btn.rx.tap
             .map { LeftViewReactor.Action.changeMenuCategoryType(menuCategoryType) }
             .bind(to: reactor.action)
-            .disposed(by: self.disposeBag)
+            .disposed(by: self.viewDisposeBag)
         
         reactor.state.map { $0.menuCategoryType }
             .asDriver(onErrorJustReturn: LeftViewReactor.MenuCategoryType.mypage)
@@ -592,7 +602,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                 view.backgroundColor = menuCategoryType == type ? Colors.backgroundPrimary.color : .clear
                 obj.tableView.reloadData()
             }
-            .disposed(by: self.disposeBag)
+            .disposed(by: self.viewDisposeBag)
         
         return view
     }
@@ -719,8 +729,11 @@ extension NewLeftViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView : UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let _reactor = self.reactor else { return }
         tableView.deselectRow(at: indexPath, animated: false)
+        
+        guard let _reactor = self.reactor else { return }
+        guard  _reactor.currentState.menuCategoryType != .settings || indexPath.row != 3 else { return }
+        
         _reactor.currentState.menuCategoryType.menuList[indexPath.section].moveViewController(index: indexPath)
     }
 }

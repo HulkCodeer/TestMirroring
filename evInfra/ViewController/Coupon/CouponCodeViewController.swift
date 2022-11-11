@@ -8,10 +8,9 @@
 
 import Foundation
 import UIKit
-import Material
 import SwiftyJSON
 
-class CouponCodeViewController: UIViewController {
+internal final class CouponCodeViewController: UIViewController {
     @IBOutlet var registerCouponBtn: UIButton!
     @IBOutlet var editField: UITextField!
     @IBOutlet var errorLb: UILabel!
@@ -21,9 +20,7 @@ class CouponCodeViewController: UIViewController {
     }
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        prepareActionBar()
+        super.viewDidLoad()                
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -68,24 +65,5 @@ class CouponCodeViewController: UIViewController {
         default:
             break
         }
-    }
-}
-
-extension CouponCodeViewController {
-    func prepareActionBar() {
-        var backButton: IconButton!
-        backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "content-primary")
-        backButton.addTarget(self, action: #selector(onClickBackBtn), for: .touchUpInside)
-        
-        navigationItem.hidesBackButton = true
-        navigationItem.leftViews = [backButton]
-        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-        navigationItem.titleLabel.text = "쿠폰 번호 등록"
-        self.navigationController?.isNavigationBarHidden = false
-    }
-    @objc
-    fileprivate func onClickBackBtn() {
-        self.navigationController?.pop()
     }
 }

@@ -10,12 +10,15 @@ import UIKit
 import Material
 import SwiftyJSON
 
-internal final class MembershipCardViewController: BaseViewController {
+internal final class MembershipCardViewController: CommonBaseViewController {
 
     // MARK: UI
     
-    private lazy var partnershipListView = PartnershipListView(frame: .zero).then {
-        
+    private lazy var commonNaviView = CommonNaviView().then {
+        $0.naviTitleLbl.text = "EV Pay 카드관리"
+    }
+    
+    private lazy var partnershipListView = PartnershipListView(frame: .zero).then {        
         $0.delegate = self
         $0.navi = self.navigationController ?? UINavigationController()
     }
@@ -29,22 +32,28 @@ internal final class MembershipCardViewController: BaseViewController {
     override func loadView() {
         super.loadView()
         
-        view.addSubview(partnershipListView)
+        self.contentView.addSubview(commonNaviView)
+        commonNaviView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalTo(Constants.view.naviBarHeight)
+        }
+        
+        self.contentView.addSubview(partnershipListView)
         partnershipListView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.equalTo(commonNaviView.snp.bottom)
+            $0.leading.trailing.bottom.equalToSuperview()
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        prepareActionBar(with: "EV Pay 카드관리")
         checkPayStatus()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-                        
+        
+        GlobalDefine.shared.mainNavi?.interactivePopGestureRecognizer?.isEnabled = false
         MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
             guard isLogin, let self = self else {
                 MemberManager.shared.showLoginAlert()
@@ -76,9 +85,9 @@ internal final class MembershipCardViewController: BaseViewController {
                         .PAY_DELETE_FAIL_USER, // 비정상적인 삭제 멤버
                         .PAY_NO_USER :  // 유저체크
                     
-                    let popupModel = PopupModel(title: "결제카드 오류 안내",
-                                                message: "현재 고객님의 결제 카드에 오류가 발생했어요. 오류 발생 시 원활한 서비스 이용을 할 수 없으니 다른 카드로 변경해주세요.",
-                                                confirmBtnTitle: "결제카드 변경하기",
+                    let popupModel = PopupModel(title: "결제 정보 재등록이 필요해요",
+                                                message: "현재 카드 오류/삭제로 인해 고객님의 결제 정보를 불러올 수 없어요. 원활한 서비스 이용을 위해 결제 정보를 다시 등록해주세요.",
+                                                confirmBtnTitle: "결제 정보 등록하기",
                                                 confirmBtnAction: { [weak self] in
                         guard let self = self else { return }
                         let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
@@ -106,11 +115,7 @@ internal final class MembershipCardViewController: BaseViewController {
                 Snackbar().show(message: "서버와 통신이 원활하지 않습니다. 결제정보관리 페이지 종료후 재시도 바랍니다.")
             }
         }
-    }
-    
-    override func backButtonTapped() {
-        GlobalDefine.shared.mainNavi?.popToRootViewController(animated: true)
-    }
+    }    
 }
 
 extension MembershipCardViewController: MembershipReissuanceInfoDelegate {

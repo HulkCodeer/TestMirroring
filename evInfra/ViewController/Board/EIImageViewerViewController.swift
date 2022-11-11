@@ -27,12 +27,10 @@ internal final class EIImageViewerViewController : BaseViewController, UIScrollV
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         guard let mImageURL = mImageURL else {
             mImageViewer.image = UIImage(named: "ic_person_base36")
             return
         }
-        prepareActionBar(with: "")
         
         imageSaveButton.layer.cornerRadius = 6
         imageSaveButton.isHidden = isProfileImageMode

@@ -45,7 +45,7 @@
                                 </constraints>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HH4-VZ-b9v">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="591"/>
+                                <rect key="frame" x="0.0" y="56" width="375" height="535"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="P5J-DZ-D3A">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="1216"/>
@@ -121,7 +121,7 @@
                             <constraint firstItem="uy3-p1-R2e" firstAttribute="top" secondItem="HH4-VZ-b9v" secondAttribute="bottom" id="RNO-xR-3iM"/>
                             <constraint firstItem="as9-R3-qcp" firstAttribute="bottom" secondItem="uy3-p1-R2e" secondAttribute="bottom" id="fuv-56-ZmK"/>
                             <constraint firstItem="HH4-VZ-b9v" firstAttribute="width" secondItem="as9-R3-qcp" secondAttribute="width" id="q2d-eI-u1J"/>
-                            <constraint firstItem="HH4-VZ-b9v" firstAttribute="top" secondItem="as9-R3-qcp" secondAttribute="top" id="tua-oA-JvF"/>
+                            <constraint firstItem="HH4-VZ-b9v" firstAttribute="top" secondItem="as9-R3-qcp" secondAttribute="top" constant="56" id="tua-oA-JvF"/>
                         </constraints>
                     </view>
                     <connections>

@@ -126,8 +126,8 @@ internal final class CommunityChargeStationTableViewCell: UITableViewCell {
         adminIconImage.isHidden = !isAdmin(mbId: item.mb_id!)
         
         // 충전소 정보
-        let tags = JSON(parseJSON: item.tags!)
-        let chargerId = tags["charger_id"].string!
+        let tags = JSON(parseJSON: item.tags ?? String())
+        let chargerId = tags["charger_id"].string ?? String()
         self.chargerId = chargerId
         
         if let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) {

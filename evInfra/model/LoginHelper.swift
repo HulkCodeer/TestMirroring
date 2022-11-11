@@ -15,6 +15,7 @@ protocol LoginHelperDelegate: class {
     var loginViewController: UIViewController { get }
     
     func successLogin()
+    func successLogout()
     func needSignUp(user: Login)
 }
 
@@ -75,12 +76,14 @@ internal final class LoginHelper: NSObject {
         case .apple:
             MemberManager.shared.clearData()
             completion(true)
+            delegate?.successLogout()
             
         case .kakao:
-            KOSession.shared().logoutAndClose { (success, error) -> Void in
+            KOSession.shared().logoutAndClose { [weak self] (success, error) -> Void in
                 if success {
                     MemberManager.shared.clearData()
                     completion(true)
+                    self?.delegate?.successLogout()
                 } else {
                     completion(false)
                 }
@@ -88,9 +91,11 @@ internal final class LoginHelper: NSObject {
         case .evinfra:
             MemberManager.shared.clearData()
             completion(true)
+            delegate?.successLogout()
         default:
             MemberManager.shared.clearData()
             completion(true)
+            delegate?.successLogout()
         }
     }
 

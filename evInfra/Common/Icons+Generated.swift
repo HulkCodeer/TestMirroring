@@ -8,6 +8,9 @@
 #elseif os(tvOS) || os(watchOS)
   import UIKit
 #endif
+#if canImport(SwiftUI)
+  import SwiftUI
+#endif
 
 // Deprecated typealiases
 @available(*, deprecated, renamed: "ImageAsset.Image", message: "This typealias will be removed in SwiftGen 7.0")
@@ -33,6 +36,8 @@ internal enum Icons {
   internal static let iconCheckOn = ImageAsset(name: "icon_check_on")
   internal static let iconCheckSm = ImageAsset(name: "icon_check_sm")
   internal static let iconCheckXs = ImageAsset(name: "icon_check_xs")
+  internal static let iconCoinFillSm = ImageAsset(name: "Icon_coin-fill_sm")
+  internal static let iconComment = ImageAsset(name: "icon_comment")
   internal static let iconCommentLg = ImageAsset(name: "icon_comment_lg")
   internal static let iconCommentMd = ImageAsset(name: "icon_comment_md")
   internal static let iconCommentSm = ImageAsset(name: "icon_comment_sm")
@@ -61,6 +66,8 @@ internal enum Icons {
   internal static let iconEvMd = ImageAsset(name: "icon_ev_md")
   internal static let iconEvSm = ImageAsset(name: "icon_ev_sm")
   internal static let iconEvXs = ImageAsset(name: "icon_ev_xs")
+  internal static let iconEvpay = ImageAsset(name: "icon_evpay")
+  internal static let iconEvpayNew = ImageAsset(name: "icon_evpay_new")
   internal static let iconAccessNonpublic = ImageAsset(name: "icon_access_nonpublic")
   internal static let iconAccessPublic = ImageAsset(name: "icon_access_public")
   internal static let iconCanopy = ImageAsset(name: "icon_canopy")
@@ -93,11 +100,19 @@ internal enum Icons {
   internal static let iconLockMd = ImageAsset(name: "icon_lock_md")
   internal static let iconLockSm = ImageAsset(name: "icon_lock_sm")
   internal static let iconLockXs = ImageAsset(name: "icon_lock_xs")
+  internal static let iconMapCourseLg = ImageAsset(name: "icon_map-course_lg")
+  internal static let iconMapCourseMd = ImageAsset(name: "icon_map-course_md")
+  internal static let iconMapCourseSm = ImageAsset(name: "icon_map-course_sm")
+  internal static let iconMapCourseXs = ImageAsset(name: "icon_map-course_xs")
   internal static let iconMapLg = ImageAsset(name: "icon_map_lg")
   internal static let iconMapMd = ImageAsset(name: "icon_map_md")
   internal static let iconMapSm = ImageAsset(name: "icon_map_sm")
   internal static let iconMapXs = ImageAsset(name: "icon_map_xs")
+  internal static let iconMenuBadge = ImageAsset(name: "icon_menu_badge")
+  internal static let iconMenuMd = ImageAsset(name: "icon_menu_md")
+  internal static let iconSearchMd = ImageAsset(name: "icon_search_md")
   internal static let iconProfileEmpty = ImageAsset(name: "icon_profile_empty")
+  internal static let iconCharging = ImageAsset(name: "icon_charging")
   internal static let iconQr = ImageAsset(name: "icon_qr")
   internal static let iconRadioSelected = ImageAsset(name: "iconRadioSelected")
   internal static let iconRadioUnselected = ImageAsset(name: "iconRadioUnselected")
@@ -109,6 +124,7 @@ internal enum Icons {
   internal static let iconSettingMd = ImageAsset(name: "icon_setting_md")
   internal static let iconSettingSm = ImageAsset(name: "icon_setting_sm")
   internal static let iconSettingXs = ImageAsset(name: "icon_setting_xs")
+  internal static let iconFavorite = ImageAsset(name: "icon_favorite")
   internal static let iconStarFillLg = ImageAsset(name: "icon_star_fill_lg")
   internal static let iconStarFillMd = ImageAsset(name: "icon_star_fill_md")
   internal static let iconStarFillSm = ImageAsset(name: "icon_star_fill_sm")
@@ -205,6 +221,13 @@ internal struct ImageAsset {
     return result
   }
   #endif
+
+  #if canImport(SwiftUI)
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  internal var swiftUIImage: SwiftUI.Image {
+    SwiftUI.Image(asset: self)
+  }
+  #endif
 }
 
 internal extension ImageAsset.Image {
@@ -222,6 +245,26 @@ internal extension ImageAsset.Image {
     #endif
   }
 }
+
+#if canImport(SwiftUI)
+@available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+internal extension SwiftUI.Image {
+  init(asset: ImageAsset) {
+    let bundle = BundleToken.bundle
+    self.init(asset.name, bundle: bundle)
+  }
+
+  init(asset: ImageAsset, label: Text) {
+    let bundle = BundleToken.bundle
+    self.init(asset.name, bundle: bundle, label: label)
+  }
+
+  init(decorative asset: ImageAsset) {
+    let bundle = BundleToken.bundle
+    self.init(decorative: asset.name, bundle: bundle)
+  }
+}
+#endif
 
 // swiftlint:disable convenience_type
 private final class BundleToken {

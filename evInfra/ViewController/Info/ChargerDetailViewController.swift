@@ -22,20 +22,11 @@ internal final class ChargerDetailViewController: BaseViewController {
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-
-    public init(index: Int) {
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    deinit {
-        printLog(out: "\(type(of: self)): Deinited")
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "충전기 정보 상세 화면"
         guard let model = model else { return }
-        prepareActionBar(with: "충전기 정보")
         
         chargerImageView.image = UIImage(named: model.image)
         chargerImageView.motionIdentifier = "\(model.image)"

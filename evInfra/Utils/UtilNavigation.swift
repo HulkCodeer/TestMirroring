@@ -15,8 +15,8 @@ public class UtilNavigation {
             property = AmpChargerStationModel(charger).toProperty
         }
         
-        let optionMenu = UIAlertController(title: nil, message: "네비게이션", preferredStyle: .alert)
-        let kakaoMap = UIAlertAction(title: "카카오맵(KAKAO MAP)", style: .default) { _ in
+        let optionMenu = UIAlertController(title: nil, message: "내비게이션", preferredStyle: .alert)
+        let kakaoMap = UIAlertAction(title: "카카오 내비(Kakao Navi)", style: .default) { _ in
             self.openKakaoNavigation(startPoint: startPoint, endPoint: endPoint, viaList: viaList)
             property["navigationType"] = "카카오맵"
             

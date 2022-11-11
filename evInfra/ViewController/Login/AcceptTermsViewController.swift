@@ -15,6 +15,10 @@ protocol AcceptTermsViewControllerDelegate {
     func onSignUpDone()
 }
 class AcceptTermsViewController: UIViewController {
+    private lazy var customNaviBar = CommonNaviView().then {
+        $0.naviTitleLbl.text = "회원 가입"
+        $0.backgroundColor = Colors.backgroundPrimary.color
+    }
     @IBOutlet weak var cbAcceptAll: M13Checkbox!
     @IBOutlet weak var cbUsingTerm: M13Checkbox!
     @IBOutlet weak var cbPersonalInfo: M13Checkbox!
@@ -30,31 +34,27 @@ class AcceptTermsViewController: UIViewController {
         printLog(out: "\(type(of: self)): Deinited")
     }
     
+    override func loadView() {
+        super.loadView()
+        
+        view.addSubview(customNaviBar)
+        customNaviBar.snp.makeConstraints {
+            $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(Constants.view.naviBarHeight)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        prepareActionBar()
         prepareCheckbox()
         enableSignUpButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
     }
-    
-    func prepareActionBar() {
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "content-primary")
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-
-        navigationItem.leftViews = [backButton]
-        navigationItem.hidesBackButton = true
-        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-        navigationItem.titleLabel.text = "회원 가입"
-
-        self.navigationController?.isNavigationBarHidden = false
-    }
-    
     
     func prepareCheckbox() {
         let checkboxColor = UIColor(named: "content-primary")
@@ -76,13 +76,6 @@ class AcceptTermsViewController: UIViewController {
         cbAcceptAll.tintColor = checkboxColor
     }
 
-    
-    @objc
-    fileprivate func handleBackButton() {
-        self.navigationController?.pop()
-    }
-    
-    
     @IBAction func onValueChanged(_ sender: M13Checkbox) {
         if cbUsingTerm.checkState == .checked && cbPersonalInfo.checkState == .checked && cbLocation.checkState == .checked {
             cbAcceptAll.setCheckState(.checked, animated: true)

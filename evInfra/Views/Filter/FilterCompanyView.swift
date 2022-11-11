@@ -24,6 +24,7 @@ internal final class FilterCompanyView: UIView {
     private var groupList = Array<CompanyGroup>()
     private var allSelect: Bool = false
     private var cardSetting: Bool = false
+    private var isMembershipCardSetting: Bool = FilterManager.sharedInstance.getIsMembershipCardChecked()
     
     internal weak var delegate: DelegateFilterChange?
     
@@ -191,20 +192,7 @@ internal final class FilterCompanyView: UIView {
     }
     
     func isChanged() -> Bool {
-        var changed = false
-        for company in companyList {
-            for list in groupList {
-                for tag in list.list {
-                    if (company.name == tag.title){
-                        if (company.is_visible != tag.selected){
-                            changed = true
-                            return changed
-                        }
-                    }
-                }
-            }
-        }
-        return changed
+        return (self.isMembershipCardSetting == FilterManager.sharedInstance.getIsMembershipCardChecked())
     }
 }
 

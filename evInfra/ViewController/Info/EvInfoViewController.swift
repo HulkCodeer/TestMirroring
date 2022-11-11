@@ -17,15 +17,10 @@ internal final class EvInfoViewController: BaseViewController {
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
     }
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        prepareActionBar(with: "전기차 정보")
-        getEvModels()
-    }
-    
-    private func prepareCollectionView() {
         let cellwidth: CGFloat = (view.bounds.width - 2) / 3
         let layout = UICollectionViewFlowLayout()
         
@@ -39,6 +34,11 @@ internal final class EvInfoViewController: BaseViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.showsHorizontalScrollIndicator = false
+                
+        getEvModels()
+    }
+    
+    private func prepareCollectionView() {
         collectionView.reloadData()
     }
     
@@ -85,9 +85,13 @@ extension EvInfoViewController: UICollectionViewDataSource {
 extension EvInfoViewController: UICollectionViewDelegate {
     @objc
     internal func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let detailView = self.storyboard?.instantiateViewController(ofType: EvDetailViewController.self) as? EvDetailViewController else { return }
+        let storyboard = UIStoryboard(name : "Info", bundle: nil)
+        let detailView = storyboard.instantiateViewController(ofType: EvDetailViewController.self)
+
         detailView.index = indexPath.item
         detailView.model = evModels[indexPath.item]
         GlobalDefine.shared.mainNavi?.push(viewController: detailView)
+
+        printLog("select \(indexPath.item), \(evModels[indexPath.item])")
     }
 }

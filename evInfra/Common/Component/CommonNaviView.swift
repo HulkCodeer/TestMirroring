@@ -43,11 +43,15 @@ internal final class CommonNaviView: UIView {
             
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        self.makeUI()
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+        self.makeUI()
+    }
+    
+    private func makeUI() {
         self.addSubview(totalView)
         totalView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -75,10 +79,10 @@ internal final class CommonNaviView: UIView {
         
         naviBackBtn.btn.rx.tap
             .asDriver()
+            .debug()
             .drive(with: self) { obj, _ in
                 guard let _backClosure = obj.backClosure else {
                     GlobalDefine.shared.mainNavi?.pop()
-                    GlobalDefine.shared.mainNavi?.navigationBar.isHidden = false
                     return
                 }
                 _backClosure()

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -33,11 +33,11 @@
                                 </constraints>
                             </activityIndicatorView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="TvW-UO-hsP">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="56" width="375" height="611"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="MyCouponTableViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="MyCouponTableViewCell" rowHeight="275" id="nVI-7r-E0y" customClass="MyCouponTableViewCell" customModule="evInfra" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="44.5" width="375" height="275"/>
+                                        <rect key="frame" x="0.0" y="50" width="375" height="275"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="nVI-7r-E0y" id="xUf-Pi-kES">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="275"/>
@@ -111,7 +111,7 @@
                             <constraint firstItem="TvW-UO-hsP" firstAttribute="leading" secondItem="tLR-iz-yvI" secondAttribute="leading" id="22o-6Z-Yml"/>
                             <constraint firstItem="OJD-Dt-HX3" firstAttribute="centerX" secondItem="tLR-iz-yvI" secondAttribute="centerX" id="9sk-AG-zTJ"/>
                             <constraint firstItem="hoB-rB-AzL" firstAttribute="centerX" secondItem="tLR-iz-yvI" secondAttribute="centerX" id="D4f-Wh-qqr"/>
-                            <constraint firstItem="TvW-UO-hsP" firstAttribute="top" secondItem="tLR-iz-yvI" secondAttribute="top" id="FmC-tY-D6E"/>
+                            <constraint firstItem="TvW-UO-hsP" firstAttribute="top" secondItem="tLR-iz-yvI" secondAttribute="top" constant="56" id="FmC-tY-D6E"/>
                             <constraint firstItem="OJD-Dt-HX3" firstAttribute="centerY" secondItem="zvd-c1-BEM" secondAttribute="centerY" id="S3F-Af-4uo"/>
                             <constraint firstItem="hoB-rB-AzL" firstAttribute="centerY" secondItem="zvd-c1-BEM" secondAttribute="centerY" id="ecq-kn-XFo"/>
                             <constraint firstItem="TvW-UO-hsP" firstAttribute="trailing" secondItem="tLR-iz-yvI" secondAttribute="trailing" id="hGD-wO-S1S"/>
@@ -166,8 +166,59 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O1H-Xl-enc" customClass="CommonNaviView" customModule="evInfra" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_arrow_left_md" translatesAutoresizingMaskIntoConstraints="NO" id="8AN-1c-Eif">
+                                        <rect key="frame" x="16" y="16" width="24" height="24"/>
+                                        <color key="tintColor" name="content-primary"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="24" id="ScF-pM-4NY"/>
+                                            <constraint firstAttribute="width" constant="24" id="oaj-0j-wpG"/>
+                                        </constraints>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jj8-Gz-a1v">
+                                        <rect key="frame" x="6" y="6" width="44" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="44" id="Joj-OX-RCW"/>
+                                            <constraint firstAttribute="width" constant="44" id="pzh-Y5-mSJ"/>
+                                        </constraints>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="쿠폰 번호 등록" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c3U-kY-DpZ">
+                                        <rect key="frame" x="136.5" y="15" width="102.5" height="26"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="26" id="whP-kx-eOX"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                        <color key="textColor" name="content-primary"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uvc-85-iYo">
+                                        <rect key="frame" x="0.0" y="55" width="375" height="1"/>
+                                        <color key="backgroundColor" name="nt-1"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="1" id="Bfk-hp-YsR"/>
+                                            <constraint firstAttribute="height" constant="1" id="dhp-7b-d9i"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="Jj8-Gz-a1v" firstAttribute="centerX" secondItem="8AN-1c-Eif" secondAttribute="centerX" id="Ich-MP-5co"/>
+                                    <constraint firstAttribute="height" constant="56" id="KnA-JY-X9o"/>
+                                    <constraint firstItem="8AN-1c-Eif" firstAttribute="leading" secondItem="O1H-Xl-enc" secondAttribute="leading" constant="16" id="N9E-3D-Vil"/>
+                                    <constraint firstItem="Uvc-85-iYo" firstAttribute="leading" secondItem="O1H-Xl-enc" secondAttribute="leading" id="U0f-fe-OHo"/>
+                                    <constraint firstItem="Jj8-Gz-a1v" firstAttribute="centerY" secondItem="8AN-1c-Eif" secondAttribute="centerY" id="Vpg-XX-zOo"/>
+                                    <constraint firstItem="c3U-kY-DpZ" firstAttribute="centerX" secondItem="O1H-Xl-enc" secondAttribute="centerX" id="W9i-Xr-g8I"/>
+                                    <constraint firstAttribute="bottom" secondItem="Uvc-85-iYo" secondAttribute="bottom" id="XUB-Nd-tcS"/>
+                                    <constraint firstItem="c3U-kY-DpZ" firstAttribute="centerY" secondItem="O1H-Xl-enc" secondAttribute="centerY" id="qXX-5H-ELd"/>
+                                    <constraint firstItem="8AN-1c-Eif" firstAttribute="centerY" secondItem="O1H-Xl-enc" secondAttribute="centerY" id="sdq-UU-za8"/>
+                                    <constraint firstAttribute="trailing" secondItem="Uvc-85-iYo" secondAttribute="trailing" id="uJe-OQ-PES"/>
+                                </constraints>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eFJ-at-Gkh">
-                                <rect key="frame" x="16" y="0.0" width="343" height="597"/>
+                                <rect key="frame" x="16" y="56" width="343" height="541"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="쿠폰 번호를 입력해주세요." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xnv-Kd-AXu">
                                         <rect key="frame" x="0.0" y="155" width="343" height="29"/>
@@ -218,11 +269,14 @@
                         <viewLayoutGuide key="safeArea" id="v1S-LH-rE8"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="O1H-Xl-enc" firstAttribute="leading" secondItem="v1S-LH-rE8" secondAttribute="leading" id="Ax0-tZ-4Iz"/>
                             <constraint firstItem="v1S-LH-rE8" firstAttribute="trailing" secondItem="eFJ-at-Gkh" secondAttribute="trailing" constant="16" id="JPm-SJ-iUh"/>
                             <constraint firstItem="3IY-Yt-9mz" firstAttribute="top" secondItem="eFJ-at-Gkh" secondAttribute="bottom" id="JRQ-7v-2RN"/>
+                            <constraint firstItem="O1H-Xl-enc" firstAttribute="trailing" secondItem="v1S-LH-rE8" secondAttribute="trailing" id="Wbt-Ij-M6o"/>
+                            <constraint firstItem="O1H-Xl-enc" firstAttribute="top" secondItem="v1S-LH-rE8" secondAttribute="top" id="anN-KY-pWh"/>
                             <constraint firstItem="eFJ-at-Gkh" firstAttribute="leading" secondItem="v1S-LH-rE8" secondAttribute="leading" constant="16" id="esM-Zm-bTZ"/>
                             <constraint firstItem="3IY-Yt-9mz" firstAttribute="leading" secondItem="v1S-LH-rE8" secondAttribute="leading" constant="16" id="i5Q-kd-jXj"/>
-                            <constraint firstItem="eFJ-at-Gkh" firstAttribute="top" secondItem="v1S-LH-rE8" secondAttribute="top" id="koX-4J-Tua"/>
+                            <constraint firstItem="eFJ-at-Gkh" firstAttribute="top" secondItem="v1S-LH-rE8" secondAttribute="top" constant="56" id="koX-4J-Tua"/>
                             <constraint firstItem="v1S-LH-rE8" firstAttribute="trailing" secondItem="3IY-Yt-9mz" secondAttribute="trailing" constant="16" id="oN0-Tk-Zzh"/>
                             <constraint firstItem="v1S-LH-rE8" firstAttribute="bottom" secondItem="3IY-Yt-9mz" secondAttribute="bottom" constant="24" id="tpI-BU-0Ib"/>
                         </constraints>
@@ -239,14 +293,18 @@
         </scene>
     </scenes>
     <resources>
+        <image name="icon_arrow_left_md" width="24" height="24"/>
         <namedColor name="content-primary">
-            <color red="0.097999997437000275" green="0.097999997437000275" blue="0.097999997437000275" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.094117647058823528" green="0.094117647058823528" blue="0.098039215686274508" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="gr-5">
-            <color red="0.28200000524520874" green="0.83499997854232788" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.28235294117647058" green="0.83529411764705885" blue="0.59215686274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="gr-8">
             <color red="0.097999997437000275" green="0.43900001049041748" blue="0.28999999165534973" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="nt-1">
+            <color red="0.88200002908706665" green="0.88200002908706665" blue="0.88999998569488525" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

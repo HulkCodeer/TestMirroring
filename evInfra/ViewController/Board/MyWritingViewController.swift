@@ -11,22 +11,31 @@ import Material
 import Motion
 import SwiftyJSON
 
-class MyWritingViewController: BaseViewController {
-    
+internal final class MyWritingViewController: CommonBaseViewController {
     private lazy var boardTableView = BoardTableView()
     
     var currentPage = 0
     var lastPage: Bool = false
     var communityBoardList: [BoardListItem] = [BoardListItem]()
-    var boardCategory: Board.CommunityType = .FREE
-    var screenType = Board.ScreenType.LIST
+    var boardCategory: Board.CommunityType
+    var screenType: Board.ScreenType
+    
+    init(category: Board.CommunityType, screenType: Board.ScreenType) {
+        self.boardCategory = category
+        self.screenType = screenType
+        super.init()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func loadView() {
         super.loadView()
-        
-        view.addSubview(boardTableView)
+        self.contentView.addSubview(boardTableView)
         boardTableView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.equalToSuperview()
+            $0.leading.trailing.bottom.equalToSuperview()
         }                
     }
     
@@ -40,12 +49,7 @@ class MyWritingViewController: BaseViewController {
         boardTableView.allowsSelection = true
         boardTableView.isNoneHeader = true
         boardTableView.category = boardCategory
-        boardTableView.contentInset = UIEdgeInsets(top: -20, left: 0, bottom: 0, right: 0)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        boardTableView.contentInset = UIEdgeInsets(top: Constants.view.naviBarHeight - 20, left: 0, bottom: 0, right: 0)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -64,16 +68,11 @@ extension MyWritingViewController {
         if boardCategory == .FREE {
             tabItem.title = "자유게시판"
         } else if boardCategory == .CHARGER {
-            tabItem.title = "충전소게시판"
+            tabItem.title = "충전소게시판"            
         }
         
-        tabItem.setTitleColor(UIColor(named: "content-primary")!, for: .selected)
+        tabItem.setTitleColor(Colors.contentPrimary.color, for: .selected)
         tabItem.setTitleColor(Color.grey.base, for: .normal)
-    }
-    
-    @objc
-    fileprivate func handleBackButton() {
-        self.navigationController?.pop()
     }
 }
 
@@ -163,7 +162,7 @@ extension MyWritingViewController: BoardTableViewDelegate {
         boardDetailTableViewController.document_srl = documentSRL
         boardDetailTableViewController.isFromStationDetailView = false
         
-        self.navigationController?.push(viewController: boardDetailTableViewController)
+        GlobalDefine.shared.mainNavi?.push(viewController: boardDetailTableViewController)
     }
     
     func showImageViewer(url: URL, isProfileImageMode: Bool) { }

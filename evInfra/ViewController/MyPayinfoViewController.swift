@@ -14,6 +14,10 @@ import SwiftyJSON
 internal final class MyPayinfoViewController: UIViewController, MyPayRegisterViewDelegate, RepaymentListDelegate {
     
     
+    private lazy var customNavibar = CommonNaviView().then {
+        $0.backgroundColor = Colors.backgroundPrimary.color
+        $0.naviTitleLbl.text = "결제정보관리"
+    }
     @IBOutlet weak var mPayInfoView: UIView!
     @IBOutlet weak var registerCardInfo: UIView!
     @IBOutlet weak var registerInfo: UIView!
@@ -45,7 +49,25 @@ internal final class MyPayinfoViewController: UIViewController, MyPayRegisterVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        prepareActionBar()
+        
+        customNavibar.backClosure = { [weak self] in
+            guard let _navi = self?.navigationController else { return }
+            for vc in _navi.viewControllers {
+                if vc is MembershipCardViewController {
+                    _navi.popToRootViewController(animated: true)
+                    return
+                }
+            }
+            
+            _navi.pop()
+        }
+        
+        view.addSubview(customNavibar)
+        customNavibar.snp.makeConstraints {
+            $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(Constants.view.naviBarHeight)
+        }
+
         initInfoView()
         
         MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
@@ -56,6 +78,11 @@ internal final class MyPayinfoViewController: UIViewController, MyPayRegisterVie
                 MemberManager.shared.showLoginAlert()
             }
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
         
         AmplitudeEvent.shared.fromViewSourceByLogEvent(eventType: .clickViewAddPaymentCard)
     }
@@ -221,18 +248,6 @@ internal final class MyPayinfoViewController: UIViewController, MyPayRegisterVie
         registerInfo.layer.shadowOpacity = 0.5
         registerInfo.layer.shadowOffset = CGSize(width: 1, height: 1)
     }
-    
-    func prepareActionBar() {
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "content-primary")
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-        
-        navigationItem.leftViews = [backButton]
-        navigationItem.hidesBackButton = true
-        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-        navigationItem.titleLabel.text = "결제정보관리"
-        self.navigationController?.isNavigationBarHidden = false
-    }
 
     @IBAction func onClickOkBtn(_ sender: UIButton) {
         self.navigationController?.pop()
@@ -252,19 +267,6 @@ internal final class MyPayinfoViewController: UIViewController, MyPayRegisterVie
                 self.moveToMyPayRegist()
             }
         })
-    }
-    
-    @objc
-    fileprivate func handleBackButton() {
-        guard let _navi = navigationController else { return }        
-        for vc in _navi.viewControllers {
-            if vc is MembershipCardViewController {
-                _navi.popToRootViewController(animated: true)
-                return
-            } else {
-                _navi.pop()
-            }
-        }
     }
     
     func showAlertDialog(vc: UIViewController, type: Int, completion: ((Bool) -> ())? = nil) {

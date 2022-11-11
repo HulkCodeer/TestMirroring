@@ -46,7 +46,7 @@ internal final class LeftViewReactor: ViewModel, Reactor {
     }
     
     internal var initialState: State
-    
+
     override init(provider: SoftberryAPI) {
         self.initialState = State()
         super.init(provider: provider)
@@ -100,7 +100,7 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                 .compactMap { [weak self] isPaymentFineUser in
                     guard let self = self else { return .empty }
                     
-                    let _isAllBerry = self.currentState.isAllBerry                    
+                    let _isAllBerry = self.currentState.isAllBerry
                     let hasPayment = isPaymentFineUser
                     let hasMembership = MemberManager.shared.hasMembership
                     switch (hasPayment, hasMembership) {
@@ -526,15 +526,15 @@ internal final class LeftViewReactor: ViewModel, Reactor {
         func moveViewController(index: IndexPath) {
             let title: String = smallMenuList[index.row]
             if !title.isEmpty {
-                if let boardInfo = Board.sharedInstance.getBoardNewInfo(title: title) {
+                if let boardInfo = Board.sharedInstance.getBoardNewInfo(title: title),
+                   let bmID = boardInfo.bmId {
                     UserDefault().saveInt(key: boardInfo.shardKey!, value: boardInfo.brdId!)
-                    let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
-                    let companyBoardVC = boardStoryboard.instantiateViewController(ofType: CardBoardViewController.self)
-                    companyBoardVC.category = Board.CommunityType.getCompanyType(key: boardInfo.shardKey ?? "")
-                    companyBoardVC.bmId = boardInfo.bmId!
-                    companyBoardVC.brdTitle = title
-                    companyBoardVC.mode = Board.ScreenType.FEED
-                    GlobalDefine.shared.mainNavi?.push(viewController: companyBoardVC)
+                    let viewcon = CardBoardViewController(
+                        category: Board.CommunityType.getCompanyType(key: boardInfo.shardKey ?? ""),
+                        mode: .FEED,
+                        bmId: bmID,
+                        brdTitle: title)
+                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 }
             }
         }
@@ -548,26 +548,21 @@ internal final class LeftViewReactor: ViewModel, Reactor {
             switch index.row {
             case 0: // 공지사항
                 let reactor = NoticeReactor(provider: RestApi())
-                let viewcon = NewNoticeViewController(reactor: reactor)
-                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                let noticeVC = NewNoticeViewController(reactor: reactor)
+                GlobalDefine.shared.mainNavi?.push(viewController: noticeVC)
+
             
             case 1: // 자유 게시판
                 UserDefault().saveInt(key: UserDefault.Key.LAST_FREE_ID, value: Board.sharedInstance.freeBoardId)
                 
-                let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
-                let freeBoardVC = boardStoryboard.instantiateViewController(ofType: CardBoardViewController.self)
-                freeBoardVC.category = Board.CommunityType.FREE
-                freeBoardVC.mode = Board.ScreenType.FEED
-                GlobalDefine.shared.mainNavi?.push(viewController: freeBoardVC)
+                let viewcon = CardBoardViewController(category: .FREE, mode: .FEED)
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             
             case 2: // 충전소 게시판
                 UserDefault().saveInt(key: UserDefault.Key.LAST_CHARGER_ID, value: Board.sharedInstance.chargeBoardId)
                 
-                let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
-                let stationBoardVC = boardStoryboard.instantiateViewController(ofType: CardBoardViewController.self)
-                stationBoardVC.category = Board.CommunityType.CHARGER
-                stationBoardVC.mode = Board.ScreenType.FEED
-                GlobalDefine.shared.mainNavi?.push(viewController: stationBoardVC)
+                let viewcon = CardBoardViewController(category: .CHARGER, mode: .FEED)
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 
             default: break
             }
@@ -584,20 +579,15 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                     switch index.row {
                     case 0: // 내가 쓴 글 보기
                         var myWritingControllers = [MyWritingViewController]()
-                        let boardStoryboard = UIStoryboard(name : "Board", bundle: nil)
-                        let freeMineVC = boardStoryboard.instantiateViewController(ofType: MyWritingViewController.self)
-                        freeMineVC.boardCategory = Board.CommunityType.FREE
-                        freeMineVC.screenType = .LIST
+                        let freeMineVC = MyWritingViewController(category: .FREE, screenType: .LIST)
                                             
-                        let chargerMineVC = boardStoryboard.instantiateViewController(ofType: MyWritingViewController.self)
-                        chargerMineVC.boardCategory = Board.CommunityType.CHARGER
-                        chargerMineVC.screenType = .FEED
+                        let chargerMineVC = MyWritingViewController(category: .CHARGER, screenType: .FEED)
                         
                         myWritingControllers.append(chargerMineVC)
                         myWritingControllers.append(freeMineVC)
                         
                         let tabsController = AppTabsController(viewControllers: myWritingControllers)
-                        tabsController.actionTitle = "내가 쓴 글 보기"
+                        tabsController.customNavi.naviTitleLbl.text = "내가 쓴 글 보기"
                         for controller in myWritingControllers {
                             tabsController.appTabsControllerDelegates.append(controller)
                         }

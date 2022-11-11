@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 import Material
 import SwiftyJSON
 import Motion
@@ -17,7 +18,7 @@ import Alamofire
 import CoreLocation
 
 internal final class IntroViewController: UIViewController {
-
+    
     // MARK: UI
     
     @IBOutlet weak var progressLayer: UIView!
@@ -26,9 +27,9 @@ internal final class IntroViewController: UIViewController {
     
     @IBOutlet var imgIntroBackground: UIImageView!
     @IBOutlet var imgIntroFLAnimated: FLAnimatedImageView!
-        
+    
     // MARK: VARIABLE
-                    
+    
     private var maxCount = 0
     private let disposeBag = DisposeBag()
     
@@ -88,7 +89,7 @@ internal final class IntroViewController: UIViewController {
             self.finishCheckIntro()
         }
     }
-                
+    
     private func finishCheckIntro(imgName : String, path : String){
         printLog(out: "\(imgName)")
         if imgName.hasSuffix(".gif"){
@@ -139,42 +140,36 @@ internal final class IntroViewController: UIViewController {
                         boardNewInfo.brdId = brdId
                         
                         Board.sharedInstance.brdNewInfo.append(boardNewInfo)
-                    }                                        
-                }
-            }
-            
-            CLLocationManager().rx.isEnabled
-                .subscribe(with: self) { obj, isEnable in
-                    guard !isEnable else { return }
-                    CLLocationManager().requestWhenInUseAuthorization()
-                }
-                .disposed(by: self.disposeBag)
                         
-            if FCMManager.sharedInstance.originalMemberId.isEmpty {
-                if MemberManager.shared.isShowPermission {
-                    self.moveMainView()
-                } else {
-                    MemberManager.shared.isShowPermission = true
-                    self.movePerminssonsGuideView()
+                    }
                 }
-            } else {
-                self.moveMainView()
+                
+                CLLocationManager().rx.isEnabled
+                    .subscribe(with: self) { obj, isEnable in
+                        guard !isEnable else { return }
+                        CLLocationManager().requestWhenInUseAuthorization()
+                    }
+                    .disposed(by: self.disposeBag)
+                
+                if FCMManager.sharedInstance.originalMemberId.isEmpty {
+                    if MemberManager.shared.isShowPermission {
+                        self.moveMainView()
+                    } else {
+                        MemberManager.shared.isShowPermission = true
+                        self.movePerminssonsGuideView()
+                    }
+                } else {
+                    self.moveMainView()
+                }
             }
-        }        
+        }
     }
     
     private func moveMainView() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let reactor = MainReactor(provider: RestApi())
-        let mainViewcon = storyboard.instantiateViewController(ofType: MainViewController.self)
-        mainViewcon.reactor = reactor
-        let leftReactor = LeftViewReactor(provider: RestApi())
-        let leftViewcon = NewLeftViewController(reactor: leftReactor)        
-        
-        let appToolbarController = AppToolbarController(rootViewController: mainViewcon)
-        appToolbarController.delegate = mainViewcon
-        let ndController = AppNavigationDrawerController(rootViewController: appToolbarController, leftViewController: leftViewcon)
-        GlobalDefine.shared.mainNavi?.setViewControllers([ndController], animated: true)
+        if UIWindow.key != nil {
+            let rootVC = RootViewController()            
+            GlobalDefine.shared.mainNavi?.setViewControllers([rootVC], animated: false)
+        }
     }
     
     private func movePerminssonsGuideView() {
@@ -182,6 +177,7 @@ internal final class IntroViewController: UIViewController {
         let viewcon = PermissionsGuideViewController(reactor: reactor)
         GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
     }
+    
 }
 
 extension FLAnimatedImage {

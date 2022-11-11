@@ -55,7 +55,7 @@ final class NewNoticeViewController: CommonBaseViewController, StoryboardView {
     
     override func loadView() {
         super.loadView()
-                                
+
         contentView.addSubview(customNaviBar)
         customNaviBar.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()

@@ -9,10 +9,13 @@
 import Material
 import SwiftyJSON
 
-internal final class RentalCarCardListViewController: UIViewController {
+internal final class RentalCarCardListViewController: CommonBaseViewController {
     
     // MARK: UI
     
+    private lazy var commonNaviView = CommonNaviView().then {
+        $0.naviTitleLbl.text = "회원카드 관리"
+    }
     private lazy var partnershipJoinView = PartnershipJoinView(frame: .zero).then {
         
         $0.delegate = self
@@ -30,31 +33,32 @@ internal final class RentalCarCardListViewController: UIViewController {
     
     // MARK: SYSTEM FUNC
     
-    deinit {
-        printLog(out: "\(type(of: self)): Deinited")
-    }
-    
     override func loadView() {
         super.loadView()
+                
+        self.contentView.addSubview(commonNaviView)
+        commonNaviView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalTo(Constants.view.naviBarHeight)
+        }
         
-        view.addSubview(partnershipJoinView)
+        self.contentView.addSubview(partnershipJoinView)
         partnershipJoinView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.equalTo(commonNaviView.snp.bottom)
+            $0.leading.trailing.bottom.equalToSuperview()
         }
         
-        view.addSubview(rentalCarCardList)
+        self.contentView.addSubview(rentalCarCardList)
         rentalCarCardList.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.equalTo(commonNaviView.snp.bottom)
+            $0.leading.trailing.bottom.equalToSuperview()
         }
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        prepareActionBar()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
+        
         MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
             guard let self = self else { return }
             if isLogin {
@@ -95,22 +99,6 @@ internal final class RentalCarCardListViewController: UIViewController {
         }
     }
     
-    func prepareActionBar() {
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "content-primary")
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-        
-        navigationItem.leftViews = [backButton]
-        navigationItem.hidesBackButton = true
-        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-        navigationItem.titleLabel.text = "회원카드 관리"
-        self.navigationController?.isNavigationBarHidden = false
-    }
-
-    @objc
-    fileprivate func handleBackButton() {
-        self.navigationController?.pop()
-    }
 }
 
 extension RentalCarCardListViewController: PartnershipListViewDelegate {    

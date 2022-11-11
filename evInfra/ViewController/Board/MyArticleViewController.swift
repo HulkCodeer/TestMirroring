@@ -7,12 +7,14 @@
 //
 
 import UIKit
-import Material
 import Motion
 import SwiftyJSON
 
 class MyArticleViewController: UIViewController {
 
+    private lazy var customNavibar = CommonNaviView().then {
+        $0.naviTitleLbl.text =  "내글보기"
+    }
     private lazy var boardTableView = BoardTableView()
     
     var boardList: Array<BoardItem> = Array<BoardItem>()
@@ -29,16 +31,25 @@ class MyArticleViewController: UIViewController {
     override func loadView() {
         super.loadView()
         
+        customNavibar.backClosure = {
+            GlobalDefine.shared.mainNavi?.pop()
+        }
+        
+        view.addSubview(customNavibar)
+        customNavibar.snp.makeConstraints {
+            $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(Constants.view.naviBarHeight)
+        }
+        
         view.addSubview(boardTableView)
         boardTableView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.equalTo(customNavibar.snp.bottom)
+            $0.leading.trailing.bottom.equalToSuperview()
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        prepareActionBar()
         
 //        self.getFirstBoardData()
 //        self.boardTableView.tableViewDelegate = self
@@ -55,40 +66,16 @@ class MyArticleViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        navigationController?.isNavigationBarHidden = true
+
         // Recalculates height
         self.boardTableView.beginUpdates()
         self.boardTableView.endUpdates()
     }
 }
 
-extension MyArticleViewController {
-    
-    func prepareActionBar() {
-        var backButton: IconButton!
-        backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "content-primary")
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-        navigationItem.hidesBackButton = true
-        navigationItem.leftViews = [backButton]
-        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-        navigationItem.titleLabel.text = "내글보기"
-        
-        self.navigationController?.isNavigationBarHidden = false
-    }
-    
-    @objc
-    fileprivate func handleBackButton() {
-        self.navigationController?.pop()
-    }
-}
 //
 //extension MyArticleViewController: BoardTableViewDelegate {
 //    func fetchFirstBoard(mid: String, sort: Board.SortType) {

@@ -10,6 +10,7 @@ import RxSwift
 import Alamofire
 
 protocol SoftberryAPI: AnyObject {
+    func getChargingID() -> Observable<(HTTPURLResponse, Data)>
     func getCheckPassword(password: String, cardNo: String) -> Observable<(HTTPURLResponse, Data)>
     func postReissueMembershipCard(model: ReissuanceModel) -> Observable<(HTTPURLResponse, Data)>
     
@@ -40,6 +41,20 @@ protocol SoftberryAPI: AnyObject {
 internal final class RestApi: SoftberryAPI {
 
     init() {}
+    
+    // MARK: - Charging id 요청.
+    func getChargingID() -> Observable<(HTTPURLResponse, Data)> {
+        let reqParam: Parameters = [
+            "req_ver": 1,
+            "mb_id": MemberManager.shared.mbId
+        ]
+        
+        return NetworkWorker.shared.rxRequest(
+            url: "\(Const.EV_PAY_SERVER)/charger/app_charging/getChargingId",
+            httpMethod: .post,
+            parameters: reqParam,
+            headers: nil)
+    }
     
     // MARK: - 비밀번호 확인
     func getCheckPassword(password: String, cardNo: String) -> Observable<(HTTPURLResponse, Data)> {

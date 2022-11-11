@@ -9,10 +9,19 @@
 import Foundation
 
 import UIKit
-import Material
 import SwiftyJSON
 
 class PreUsePointViewController: UIViewController {
+    
+    private lazy var customNaviBar = CommonNaviView().then {
+        $0.naviTitleLbl.text = "베리 설정"
+        $0.backgroundColor = Colors.backgroundPrimary.color
+    }
+    private lazy var settingButton = UIButton().then {
+        $0.setTitle("초기화", for: .normal)
+        $0.setTitleColor(Colors.contentPrimary.color, for: .normal)
+        $0.titleLabel?.font = .systemFont(ofSize: 14)
+    }
     
     @IBOutlet weak var tfUsePoint: UITextField!
     
@@ -29,16 +38,39 @@ class PreUsePointViewController: UIViewController {
         printLog(out: "\(type(of: self)): Deinited")
     }
     
+    override func loadView() {
+        super.loadView()
+        
+        customNaviBar.backClosure = { [weak self] in
+            self?.navigationController?.pop()
+        }
+        settingButton.addTarget(self, action: #selector(handleResetButton), for: .touchUpInside)
+        
+        view.addSubview(customNaviBar)
+        customNaviBar.snp.makeConstraints {
+            $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(Constants.view.naviBarHeight)
+        }
+        
+        customNaviBar.addSubview(settingButton)
+        settingButton.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(Constants.view.naviBarItemPadding)
+            $0.width.equalTo(80)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        prepareActionBar()
         prepareView()
         prepareTextField()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = true
+        
         MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
             guard let self = self else { return }
             if isLogin {
@@ -67,29 +99,6 @@ class PreUsePointViewController: UIViewController {
     func prepareView() {
         let tap_touch = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
         view.addGestureRecognizer(tap_touch)
-    }
-    
-    func prepareActionBar() {
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "content-primary")
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-        
-        let settingButton = UIButton()
-        settingButton.setTitle("초기화", for: .normal)
-        settingButton.setTitleColor(UIColor(named: "content-primary")!, for: .normal)
-        settingButton.titleLabel?.font = .systemFont(ofSize: 14)
-        settingButton.addTarget(self, action: #selector(handleResetButton), for: .touchUpInside)
-        
-        navigationItem.leftViews = [backButton]
-        navigationItem.rightViews = [settingButton]
-        navigationItem.hidesBackButton = true
-        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-        navigationItem.titleLabel.text = "베리 설정"
-        navigationController?.isNavigationBarHidden = false
-    }
-    
-    @objc fileprivate func handleBackButton() {
-        self.navigationController?.pop()
     }
     
     @objc

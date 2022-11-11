@@ -18,6 +18,10 @@ internal final class LoginViewController: UIViewController {
         case new = "새로운 간편 로그인"
     }
     
+    private lazy var customNaviBar = CommonNaviView().then {
+        $0.naviTitleLbl.text = "로그인"
+        $0.backgroundColor = Colors.backgroundPrimary.color
+    }
     @IBOutlet weak var loginButtonStackView: UIStackView!
     @IBOutlet weak var btnKakaoLogin: KOLoginButton!
     @IBOutlet weak var btnCorpLogin: UIButton!
@@ -37,10 +41,19 @@ internal final class LoginViewController: UIViewController {
         printLog(out: "\(type(of: self)): Deinited")
     }
             
+    override func loadView() {
+        super.loadView()
+                
+        view.addSubview(customNaviBar)
+        customNaviBar.snp.makeConstraints {
+            $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(Constants.view.naviBarHeight)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        prepareActionBar()
         prepareLoginButton()
         LoginHelper.shared.delegate = self
         
@@ -49,18 +62,7 @@ internal final class LoginViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-    }
-    
-    func prepareActionBar() {
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "content-primary")
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-        
-        navigationItem.leftViews = [backButton]
-        navigationItem.hidesBackButton = true
-        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-        navigationItem.titleLabel.text = "로그인"
-        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.isNavigationBarHidden = true
     }
     
     func prepareLoginButton() {
@@ -101,11 +103,6 @@ internal final class LoginViewController: UIViewController {
     }
     
     @objc
-    fileprivate func handleBackButton() {
-        GlobalDefine.shared.mainNavi?.pop()
-    }
-    
-    @objc
     fileprivate func handleKakaoButtonPress() {
         LoginHelper.shared.kakaoLogin()
     }
@@ -139,6 +136,8 @@ extension LoginViewController: LoginHelperDelegate {
             GlobalDefine.shared.mainNavi?.pop()
         }
     }
+    
+    func successLogout() {}
     
     func needSignUp(user: Login) {
         let LoginStoryboard = UIStoryboard(name : "Login", bundle: nil)
