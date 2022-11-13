@@ -179,12 +179,12 @@ internal final class ShipmentStepView: UIView {
         
         let isCurrentSendComplete = model.condition.convertStatusArr.allSatisfy { $0.passType == .complete }
                          
-        if !isCurrentMainboxConfirm {
+        if !isCurrentMainboxConfirm { // 우편함 확인일 경우
             confirmReceiptGuideTotalView.isHidden = isCurrentMainboxConfirm
             self.makeMailBoxConfirmMessageView()
         }
         
-        if isCurrentSendComplete {
+        if isCurrentSendComplete { // 발송 완료일 경우 위의 우편함 확인 View에 버튼만 올린다.
             confirmReceiptGuideTotalView.removeAllSubviews()
             confirmReceiptGuideTotalView.isHidden = !isCurrentSendComplete
             self.makeSendCompleteView()
@@ -192,6 +192,7 @@ internal final class ShipmentStepView: UIView {
                                            
         for convertStatus in model.condition.convertStatusArr {            
             let stepTotalView = self.makeStepDotView(statusInfo: convertStatus)
+            
             totalStackView.addArrangedSubview(stepTotalView.totalView)
                                                             
             self.makeStatusDesc(statusInfo: convertStatus,
@@ -208,121 +209,9 @@ internal final class ShipmentStepView: UIView {
             }
             
             if isSendingCurrent {
-                let view = self.makeSendingGuideView(stepTotalView: stepTotalView, convertStatus: convertStatus)
-                self.addSubview(sendingMessageTotalView)
-                sendingMessageTotalView.snp.makeConstraints {
-                    $0.leading.equalTo(view)
-                    $0.top.equalTo(view.snp.bottom).offset(16)
-                    $0.height.equalTo(70)
-                    $0.trailing.equalToSuperview().offset(-18)
-                }
-                
-                sendingMessageTotalView.addSubview(sendingMessageLbl)
-                sendingMessageLbl.snp.makeConstraints {
-                    $0.leading.top.trailing.equalToSuperview()
-                    $0.height.equalTo(22)
-                }
-                
-                sendingMessageTotalView.addSubview(sendingConfirmReceiptBtn)
-                sendingConfirmReceiptBtn.snp.makeConstraints {
-                    $0.top.equalTo(sendingMessageLbl.snp.bottom).offset(8)
-                    $0.leading.trailing.equalToSuperview()
-                    $0.height.equalTo(40)
-                }
+                self.makeSendingGuideView(stepTotalView: stepTotalView, convertStatus: convertStatus)
             }
         }
-    }
-    
-    private func makeSendingGuideView(stepTotalView: StepView, convertStatus: ConvertStatus) -> UIView {
-        let statusDescTotalView = UIView().then {
-            $0.IBcornerRadius = 15
-            $0.backgroundColor = Colors.backgroundSecondary.color
-        }
-
-        self.addSubview(statusDescTotalView)
-        statusDescTotalView.snp.makeConstraints {
-            $0.leading.equalTo(stepTotalView.lineView.snp.trailing).offset(26)
-            $0.top.equalTo(stepTotalView.dotView.snp.bottom).offset(14)
-            $0.height.equalTo(155)
-            $0.trailing.equalToSuperview().offset(-18)
-        }
-        
-        let message = "\(convertStatus.shipmentStatusType.toMessage)"
-        let attributeText = NSMutableAttributedString(string: message)
-        let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 14, weight: .regular), .foregroundColor: Colors.contentPrimary.color]
-        attributeText.setAttributes(attributes, range: NSRange(location: 0, length: message.count))
-        
-        attributeText.attributedString(text: "우편 발송되어 도착 날짜가 정확하지 않을 수 있으니\n양해 부탁드려요.",
-                                          font: .systemFont(ofSize: 12, weight: .regular),
-                                          textColor: Colors.contentTertiary.color)
-                                        
-        let statusMainDescLbl = UILabel().then {
-            $0.textAlignment = .natural
-            $0.textColor = Colors.contentPrimary.color
-            $0.font = .systemFont(ofSize: 14, weight: .regular)
-            $0.numberOfLines = 5
-            $0.attributedText = attributeText
-        }
-                    
-        statusDescTotalView.addSubview(statusMainDescLbl)
-        statusMainDescLbl.snp.makeConstraints {
-            $0.leading.top.equalToSuperview().offset(16)
-            $0.trailing.equalToSuperview().offset(-16)
-            $0.height.equalTo(79)
-        }
-
-        let moveChargingHelpGuideTotalView = UIView().then {
-            $0.backgroundColor = .white
-            $0.IBcornerRadius = 18
-        }
-
-        statusDescTotalView.addSubview(moveChargingHelpGuideTotalView)
-        moveChargingHelpGuideTotalView.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(16)
-            $0.top.equalTo(statusMainDescLbl.snp.bottom).offset(8)
-            $0.bottom.equalToSuperview().offset(-16)
-        }
-
-        let moveChargingHelpGuideLbl = UILabel().then {
-            $0.text = "카드 받기 전 충전 방법"
-            $0.textAlignment = .center
-            $0.textColor = Colors.contentPrimary.color
-            $0.font = .systemFont(ofSize: 14, weight: .regular)
-        }
-
-        moveChargingHelpGuideTotalView.addSubview(moveChargingHelpGuideLbl)
-        moveChargingHelpGuideLbl.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(16)
-            $0.centerY.equalToSuperview()
-        }
-
-        let arrowImgView = ChevronArrow.init(.size16(.right))
-        arrowImgView.IBimageColor = Colors.contentTertiary.color
-
-        moveChargingHelpGuideTotalView.addSubview(arrowImgView)
-        arrowImgView.snp.makeConstraints {
-            $0.leading.equalTo(moveChargingHelpGuideLbl.snp.trailing)
-            $0.width.height.equalTo(16)
-            $0.trailing.equalToSuperview().offset(-16)
-            $0.centerY.equalToSuperview()
-        }
-
-        let moveChargingHelpBtn = UIButton()
-
-        moveChargingHelpGuideTotalView.addSubview(moveChargingHelpBtn)
-        moveChargingHelpBtn.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
-
-        moveChargingHelpBtn.rx.tap
-            .asDriver()
-            .drive(onNext: {
-                let viewcon = ChargingGuideWebViewController()
-                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-            })
-            .disposed(by: self.disposebag)
-        
-        return statusDescTotalView
     }
     
     private func makeSendReadyGuideView(stepTotalView: StepView, convertStatus: ConvertStatus) {
@@ -414,6 +303,117 @@ internal final class ShipmentStepView: UIView {
             .disposed(by: self.disposebag)
     }
     
+    private func makeSendingGuideView(stepTotalView: StepView, convertStatus: ConvertStatus) {
+        let statusDescTotalView = UIView().then {
+            $0.IBcornerRadius = 15
+            $0.backgroundColor = Colors.backgroundSecondary.color
+        }
+
+        self.addSubview(statusDescTotalView)
+        statusDescTotalView.snp.makeConstraints {
+            $0.leading.equalTo(stepTotalView.lineView.snp.trailing).offset(26)
+            $0.top.equalTo(stepTotalView.dotView.snp.bottom).offset(14)
+            $0.height.equalTo(155)
+            $0.trailing.equalToSuperview().offset(-18)
+        }
+        
+        let message = "\(convertStatus.shipmentStatusType.toMessage)"
+        let attributeText = NSMutableAttributedString(string: message)
+        let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 14, weight: .regular), .foregroundColor: Colors.contentPrimary.color]
+        attributeText.setAttributes(attributes, range: NSRange(location: 0, length: message.count))
+        
+        attributeText.attributedString(text: "우편 발송되어 도착 날짜가 정확하지 않을 수 있으니\n양해 부탁드려요.",
+                                          font: .systemFont(ofSize: 12, weight: .regular),
+                                          textColor: Colors.contentTertiary.color)
+                                        
+        let statusMainDescLbl = UILabel().then {
+            $0.textAlignment = .natural
+            $0.textColor = Colors.contentPrimary.color
+            $0.font = .systemFont(ofSize: 14, weight: .regular)
+            $0.numberOfLines = 5
+            $0.attributedText = attributeText
+        }
+                    
+        statusDescTotalView.addSubview(statusMainDescLbl)
+        statusMainDescLbl.snp.makeConstraints {
+            $0.leading.top.equalToSuperview().offset(16)
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.height.equalTo(79)
+        }
+
+        let moveChargingHelpGuideTotalView = UIView().then {
+            $0.backgroundColor = .white
+            $0.IBcornerRadius = 18
+        }
+
+        statusDescTotalView.addSubview(moveChargingHelpGuideTotalView)
+        moveChargingHelpGuideTotalView.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(16)
+            $0.top.equalTo(statusMainDescLbl.snp.bottom).offset(8)
+            $0.bottom.equalToSuperview().offset(-16)
+        }
+
+        let moveChargingHelpGuideLbl = UILabel().then {
+            $0.text = "카드 받기 전 충전 방법"
+            $0.textAlignment = .center
+            $0.textColor = Colors.contentPrimary.color
+            $0.font = .systemFont(ofSize: 14, weight: .regular)
+        }
+
+        moveChargingHelpGuideTotalView.addSubview(moveChargingHelpGuideLbl)
+        moveChargingHelpGuideLbl.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(16)
+            $0.centerY.equalToSuperview()
+        }
+
+        let arrowImgView = ChevronArrow.init(.size16(.right))
+        arrowImgView.IBimageColor = Colors.contentTertiary.color
+
+        moveChargingHelpGuideTotalView.addSubview(arrowImgView)
+        arrowImgView.snp.makeConstraints {
+            $0.leading.equalTo(moveChargingHelpGuideLbl.snp.trailing)
+            $0.width.height.equalTo(16)
+            $0.trailing.equalToSuperview().offset(-16)
+            $0.centerY.equalToSuperview()
+        }
+
+        let moveChargingHelpBtn = UIButton()
+
+        moveChargingHelpGuideTotalView.addSubview(moveChargingHelpBtn)
+        moveChargingHelpBtn.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+
+        moveChargingHelpBtn.rx.tap
+            .asDriver()
+            .drive(onNext: {
+                let viewcon = ChargingGuideWebViewController()
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+            })
+            .disposed(by: self.disposebag)
+        
+        self.addSubview(sendingMessageTotalView)
+        sendingMessageTotalView.snp.makeConstraints {
+            $0.leading.equalTo(statusDescTotalView)
+            $0.top.equalTo(statusDescTotalView.snp.bottom).offset(16)
+            $0.height.equalTo(70)
+            $0.trailing.equalToSuperview().offset(-18)
+        }
+        
+        sendingMessageTotalView.addSubview(sendingMessageLbl)
+        sendingMessageLbl.snp.makeConstraints {
+            $0.leading.top.trailing.equalToSuperview()
+            $0.height.equalTo(22)
+        }
+        
+        sendingMessageTotalView.addSubview(sendingConfirmReceiptBtn)
+        sendingConfirmReceiptBtn.snp.makeConstraints {
+            $0.top.equalTo(sendingMessageLbl.snp.bottom).offset(8)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(40)
+        }
+    }
+            
     private func makeSendCompleteView() {
         confirmReceiptGuideTotalView.snp.remakeConstraints {
             $0.top.equalTo(totalStackView.snp.bottom).offset(22)
@@ -542,7 +542,7 @@ internal final class ShipmentStepView: UIView {
         let dotView = UIView()
         
         if statusInfo.shipmentStatusType == .mailboxConfirm && statusInfo.passType == .complete {
-            dotView.layer.addSublayer(self.makeBigDotView(statusInfo: statusInfo))
+            dotView.layer.addSublayer(self.makeBigDotView())
             totalView.addSubview(dotView)
             dotView.snp.makeConstraints {
                 $0.top.equalToSuperview()
@@ -588,13 +588,6 @@ internal final class ShipmentStepView: UIView {
     }
     
     private func makeDotView(statusInfo: ConvertStatus) -> CAShapeLayer {
-        let center = CGPoint(x: DotConstant.size/2, y: DotConstant.size/2)
-        let path = UIBezierPath(arcCenter: center,
-                                radius: DotConstant.size/2,
-                                startAngle: -CGFloat.pi/2,
-                                endAngle: 2*CGFloat.pi-CGFloat.pi/2,
-                                clockwise: true)
-        
         var fillColor: CGColor
         var strokeColor: CGColor
         
@@ -625,25 +618,11 @@ internal final class ShipmentStepView: UIView {
             
         default: break
         }
-        
-        let circleLayer = CAShapeLayer()
-        circleLayer.frame = bounds
-        circleLayer.path = path.cgPath
-        circleLayer.fillColor = fillColor
-        circleLayer.lineCap = CAShapeLayerLineCap(rawValue: "round")
-        circleLayer.strokeColor = strokeColor
-        circleLayer.lineWidth = 2
-        return circleLayer
+                
+        return makeBezierPathRound(size: DotConstant.size, fillColor: fillColor, strokeColor: strokeColor)
     }
     
-    private func makeBigDotView(statusInfo: ConvertStatus) -> CAShapeLayer {
-        let center = CGPoint(x: DotConstant.bigSize/2, y: DotConstant.bigSize/2)
-        let path = UIBezierPath(arcCenter: center,
-                                radius: DotConstant.bigSize/2,
-                                startAngle: -CGFloat.pi/2,
-                                endAngle: 2*CGFloat.pi-CGFloat.pi/2,
-                                clockwise: true)
-        
+    private func makeBigDotView() -> CAShapeLayer {
         var fillColor: CGColor
         var strokeColor: CGColor
         
@@ -651,6 +630,17 @@ internal final class ShipmentStepView: UIView {
         
         fillColor = primaryColor
         strokeColor = primaryColor
+                                                
+        return makeBezierPathRound(size: DotConstant.bigSize, fillColor: fillColor, strokeColor: strokeColor)
+    }
+    
+    private func makeBezierPathRound(size: CGFloat, fillColor: CGColor, strokeColor: CGColor) -> CAShapeLayer {
+        let center = CGPoint(x: size/2, y: size/2)
+        let path = UIBezierPath(arcCenter: center,
+                                radius: size/2,
+                                startAngle: -CGFloat.pi/2,
+                                endAngle: 2*CGFloat.pi-CGFloat.pi/2,
+                                clockwise: true)
                                         
         let circleLayer = CAShapeLayer()
         circleLayer.frame = bounds
