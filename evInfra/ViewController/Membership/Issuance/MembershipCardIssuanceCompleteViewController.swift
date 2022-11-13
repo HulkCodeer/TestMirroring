@@ -54,6 +54,8 @@ internal final class MembershipCardIssuanceCompleteViewController: CommonBaseVie
             
     // MARK: VARIABLE
     
+    internal weak var delegate: LeftViewReactorDelegate?
+    
     // MARK: SYSTEM FUNC
     
     init(reactor: MembershipCardIssuanceCompleteReactor) {
@@ -145,11 +147,27 @@ internal final class MembershipCardIssuanceCompleteViewController: CommonBaseVie
                        
         moveMembershipCardBtn.rx.tap
             .asDriver()
-            .drive(onNext: {
+            .drive(with: self) { obj, _ in
+                // QR 충전에서 회원카드 없는 CASE로 등록하러 온 경우
+                guard let _mainNavi = GlobalDefine.shared.mainNavi else { return }
+                if let _vc = _mainNavi.containsView(ofKind: NewPaymentQRScanViewController.self) {
+                    Snackbar().show(message: "EV Pay카드 발급이 완료되었어요.")
+                    _ = _mainNavi.popToViewController(_vc, animated: true)
+                    return
+                }
+                
+                // 사이드 메뉴에서 베리 전액 설정 시 회원카드 없는 CASE로 등록하러 온 경우
+                if let _vc = _mainNavi.containsView(ofKind: NewLeftViewController.self), let _delegate = obj.delegate {
+                    Snackbar().show(message: "EV Pay카드 발급이 완료되었어요.")
+                    _delegate.completeResiterMembershipCard()
+                    _ = _mainNavi.popToViewController(_vc, animated: true)
+                    return
+                }
+                
                 let viewcon = UIStoryboard(name : "Membership", bundle: nil).instantiateViewController(ofType: MembershipCardViewController.self)
                 viewcon.fromViewType = .membershipCardComplete
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-            })
+            }
             .disposed(by: self.disposeBag)                
     }
     

@@ -12,7 +12,7 @@ import Material
 import UIKit
 import M13Checkbox
 
-class MembershipIssuanceViewController: UIViewController,
+internal final class MembershipIssuanceViewController: UIViewController,
     MembershipTermViewDelegate,
     SearchAddressViewDelegate, MyPayRegisterViewDelegate {
     
@@ -253,34 +253,15 @@ class MembershipIssuanceViewController: UIViewController,
                         let popupModel = PopupModel(title: "알림",
                                                 message: "EV pay 카드는 일반 우편으로 발송되며 즉시\n충전을 원하실 경우 마이페이지 > EV Pay카\n드 관리에 있는 카드 번호를 충전기에 입력하시면 됩니다.\n\n감사합니다.\n(한전 이외의 사업자는 익일 반영됩니다.)",
                                                 confirmBtnTitle: "확인",
-                                                confirmBtnAction: {                             
+                                                confirmBtnAction: { [weak self] in
+                            guard let self = self else { return }
                             UserDefault().saveBool(key: UserDefault.Key.IS_HIDDEN_DELEVERY_COMPLETE_TOOLTIP, value: false)
                             MemberManager.shared.hasMembership = true
                             MemberManager.shared.hasPayment = true
                             
-                            // QR 충전에서 회원카드 없는 CASE로 등록하러 온 경우
-                            guard let _mainNavi = GlobalDefine.shared.mainNavi else { return }
-                            for vc in _mainNavi.viewControllers {
-                                if let _vc = vc as? NewPaymentQRScanViewController {
-                                    Snackbar().show(message: "EV Pay카드 발급이 완료되었어요.")
-                                    _ = _mainNavi.popToViewController(_vc, animated: true)
-                                    return
-                                }
-                            }
-                            
-                            // 사이드 메뉴에서 베리 전액 설정 시 회원카드 없는 CASE로 등록하러 온 경우
-                            guard let _mainNavi = GlobalDefine.shared.mainNavi, let _delegate = self.delegate else { return }
-                            for vc in _mainNavi.viewControllers {
-                                if let _vc = vc as? NewLeftViewController {
-                                    Snackbar().show(message: "EV Pay카드 발급이 완료되었어요.")
-                                    _delegate.completeResiterMembershipCard()
-                                    _ = _mainNavi.popToViewController(_vc, animated: true)
-                                    return
-                                }
-                            }
-                                                        
                             let reactor = MembershipCardIssuanceCompleteReactor(provider: RestApi())
-                            let viewcon = MembershipCardIssuanceCompleteViewController(reactor: reactor)                            
+                            let viewcon = MembershipCardIssuanceCompleteViewController(reactor: reactor)
+                            viewcon.delegate = self.delegate
                             GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                         }, textAlignment: .center)
                         let popup = ConfirmPopupViewController(model: popupModel)
