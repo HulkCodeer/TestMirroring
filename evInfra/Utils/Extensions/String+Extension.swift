@@ -161,7 +161,7 @@ extension NSMutableAttributedString {
             }
     }
     
-    func attributedStringArr(text: [String], font: [UIFont], textColor: [UIColor]) {
+    func attributedString(text: [String], font: [UIFont], textColor: [UIColor]) {
         for (index, element) in text.enumerated() {
             _ = self.string.getArrayAfterRegex(regex: element)
                 .map { NSRange($0, in: self.string) }
