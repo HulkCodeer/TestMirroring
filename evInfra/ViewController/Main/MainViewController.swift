@@ -268,7 +268,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
             MemberManager.shared.isShowEvPayTooltip = true
         }
         
-        if !FCMManager.sharedInstance.originalMemberId.isEmpty {
+        if !MemberManager.shared.isShowBottomMenuEVPayTooltip {
             dismissBottomMenuTooltip()
             MemberManager.shared.isShowBottomMenuEVPayTooltip = true
         }
@@ -407,7 +407,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
             }
         }
         
-        if !MemberManager.shared.isShowBottomMenuEVPayTooltip {
+        if !MemberManager.shared.isShowBottomMenuEVPayTooltip && !FCMManager.sharedInstance.originalMemberId.isEmpty {
             Observable.just(MainReactor.Action.openBottomEvPayTooltip)
                 .bind(to: reactor.action)
                 .disposed(by: disposeBag)
@@ -656,12 +656,11 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 owner.customNaviBar.setMenuBadge(hasBadge: hasBadge)
             }
             .disposed(by: disposeBag)
-        
+
         reactor.state.compactMap { $0.isShowBottomEvPayToolTip }
             .asDriver(onErrorJustReturn: true)
             .drive(with: self) { obj, isShow in
                 obj.bottomEvPaytooltipView?.isHidden = !isShow
-                MemberManager.shared.isShowBottomMenuEVPayTooltip = !isShow
             }
             .disposed(by: disposeBag)
         
