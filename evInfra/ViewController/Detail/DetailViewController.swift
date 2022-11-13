@@ -12,7 +12,7 @@ import Motion
 import SwiftyJSON
 import JJFloatingActionButton
 
-internal final class DetailViewController: CommonBaseViewController {
+internal final class DetailViewController: BaseViewController {
 
     @IBOutlet weak var commonNaviView: CommonNaviView!
     @IBOutlet weak var detailView: UIView!
@@ -570,12 +570,11 @@ extension DetailViewController {
         MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
                     guard let self = self else { return }
             if isLogin {
-                if let chargerInfo = self.charger {
-                    let reportStoryboard = UIStoryboard(name : "Report", bundle: nil)
-                    let reportChargeVC = reportStoryboard.instantiateViewController(withIdentifier: "ReportChargeViewController") as! ReportChargeViewController
-                    reportChargeVC.info.charger_id = chargerInfo.mChargerId
-                    reportChargeVC.isFromDetailView = true
-                    self.present(AppNavigationController(rootViewController: reportChargeVC), animated: true, completion: nil)
+                if let chargerInfo = self.charger {                    
+                    let viewcon = UIStoryboard(name : "Report", bundle: nil).instantiateViewController(ofType: ReportChargeViewController.self)
+                    viewcon.info.charger_id = chargerInfo.mChargerId
+                    viewcon.isFromDetailView = true
+                    self.present(viewcon, animated: true)
                 }
             } else {
                 AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "충전소 상세 제보 작성 버튼")   

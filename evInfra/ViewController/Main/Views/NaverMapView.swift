@@ -36,7 +36,7 @@ class NaverMapView: NMFNaverMapView {
     
     private func configure() {
         self.showCompass = false
-        self.showZoomControls = true
+        self.showZoomControls = false
         mapView.positionMode = .normal
         mapView.mapType = .basic
         mapView.extent = NMGLatLngBounds(southWestLat: 31.43, southWestLng: 122.37, northEastLat: 44.35, northEastLng: 132)

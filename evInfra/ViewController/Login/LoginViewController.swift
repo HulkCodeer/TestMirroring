@@ -137,6 +137,8 @@ extension LoginViewController: LoginHelperDelegate {
         }
     }
     
+    func successLogout() {}
+    
     func needSignUp(user: Login) {
         let LoginStoryboard = UIStoryboard(name : "Login", bundle: nil)
         let acceptTermsVc = LoginStoryboard.instantiateViewController(withIdentifier: "AcceptTermsViewController") as! AcceptTermsViewController

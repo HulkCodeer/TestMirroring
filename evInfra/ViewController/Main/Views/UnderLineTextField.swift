@@ -16,6 +16,7 @@ internal final class UnderLineTextField: UITextField {
         $0.setImage(image, for: .normal)
         $0.imageView?.contentMode = .scaleAspectFill
         $0.isHidden = true
+        $0.isExclusiveTouch = true
     }
     private lazy var highilightLine = UIView().then {
         $0.backgroundColor = Colors.nt3.color

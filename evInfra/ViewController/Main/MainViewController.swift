@@ -155,11 +155,9 @@ internal final class MainViewController: UIViewController, StoryboardView {
     internal var disposeBag = DisposeBag()
     
     private var evPayTipView = EasyTipView(text: "")
-
-    private var bottomEvPaytooltipView = TooltipView(configure: TooltipView.Configure(tipLeftMargin: 121.5, tipDirection: .bottom, maxWidth: 255)).then {
-        $0.isHidden = true
-    }
-
+    
+    private var bottomEvPaytooltipView: TooltipView?
+    
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
     }
@@ -207,13 +205,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         super.viewWillAppear(animated)
         
         MapEvent.viewMainPage.logEvent()
-        
-        if !MemberManager.shared.isShowBottomMenuEVPayTooltip,
-           let _reactor = reactor {
-            Observable.just(MainReactor.Action.openBottomEvPayTooltip)
-                .bind(to: _reactor.action)
-                .disposed(by: disposeBag)
-        }
+        LoginHelper.shared.delegate = self
         
         let isProcessing = GlobalDefine.shared.tempDeepLink.isEmpty
         if !isProcessing {
@@ -276,7 +268,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
             MemberManager.shared.isShowEvPayTooltip = true
         }
         
-        if !FCMManager.sharedInstance.originalMemberId.isEmpty {
+        if !MemberManager.shared.isShowBottomMenuEVPayTooltip {
             dismissBottomMenuTooltip()
             MemberManager.shared.isShowBottomMenuEVPayTooltip = true
         }
@@ -391,20 +383,34 @@ internal final class MainViewController: UIViewController, StoryboardView {
             
             switch bottomMenuType {
             case .evPay:
+                guard let reqData = ABTestManager.shared.reqData(.mainBottomEVPay) else { break }
+                let (_, tooltipMSG) = reqData
+                let width: CGFloat = tooltipMSG.size(of: .systemFont(ofSize: 14)).width + 24
+                let tipLeft: CGFloat = (width / 2) - 6
+                bottomEvPaytooltipView = TooltipView(configure: TooltipView.Configure(tipLeftMargin: tipLeft, tipDirection: .bottom, maxWidth: width))
+                
+                guard let bottomEvPaytooltipView = bottomEvPaytooltipView else { return }
+                bottomEvPaytooltipView.isHidden = true
+                
                 self.view.addSubview(bottomEvPaytooltipView)
                 bottomEvPaytooltipView.snp.makeConstraints {
-                    $0.width.equalTo(255)
+                    $0.width.equalTo(width)
                     $0.centerX.equalTo(item.button.snp.centerX)
                     $0.bottom.equalTo(item.button.snp.top).offset(-7)
                     $0.height.equalTo(50)
                 }
                 
-                printLog("a/b --> \(ABTestManager.shared.reqMessage(.mainBottomEVPay))")
-                bottomEvPaytooltipView.show(message: ABTestManager.shared.reqMessage(.mainBottomEVPay))
+                bottomEvPaytooltipView.show(message: tooltipMSG)
                 
             default:
                 break
             }
+        }
+        
+        if !MemberManager.shared.isShowBottomMenuEVPayTooltip && !FCMManager.sharedInstance.originalMemberId.isEmpty {
+            Observable.just(MainReactor.Action.openBottomEvPayTooltip)
+                .bind(to: reactor.action)
+                .disposed(by: disposeBag)
         }
         
         bindAction(reactor: reactor)
@@ -506,24 +512,26 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 self.evPayTipView = EasyTipView(text: evPayTiptext, preferences: evPayPreferences)
                 self.evPayTipView.show(forView: self.filterBarView.evPayView, withinSuperview: self.view)
                 
-                // bottom
-                obj.bottomEvPaytooltipView.isHidden = false
             }
             .disposed(by: self.disposeBag)
     }
     
     // MARK: - bindAction
     private func bindAction(reactor: MainReactor) {
-        self.rx.viewDidAppear
+        self.rx.viewWillAppear
             .subscribe(with: self) { owner, _ in
-                owner.setMenuBadge(reactor: reactor)
+                Observable.just(MainReactor.Action.setPaymentStatus)
+                    .bind(to: reactor.action)
+                    .disposed(by: owner.disposeBag)
                 
                 owner.setChargingStatus(reactor: reactor)
             }
             .disposed(by: disposeBag)
-                
-        Observable.just(MainReactor.Action.setPaymentStatus)
-            .bind(to: reactor.action)
+        
+        self.rx.viewDidAppear
+            .subscribe(with: self) { owner, _ in
+                owner.setMenuBadge(reactor: reactor)
+            }
             .disposed(by: disposeBag)
         
         // MARK: - 네비바 bindAction
@@ -648,12 +656,11 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 owner.customNaviBar.setMenuBadge(hasBadge: hasBadge)
             }
             .disposed(by: disposeBag)
-        
+
         reactor.state.compactMap { $0.isShowBottomEvPayToolTip }
             .asDriver(onErrorJustReturn: true)
             .drive(with: self) { obj, isShow in
-                obj.bottomEvPaytooltipView.isHidden = !isShow
-                MemberManager.shared.isShowBottomMenuEVPayTooltip = !isShow
+                obj.bottomEvPaytooltipView?.isHidden = !isShow
             }
             .disposed(by: disposeBag)
         
@@ -683,7 +690,10 @@ internal final class MainViewController: UIViewController, StoryboardView {
         reactor.state.compactMap { $0.isHideSearchWay }
             .asDriver(onErrorJustReturn: true)
             .drive(with: self) { owner, isHideSearchWay in
-                owner.clusterManager?.isRouteMode = !isHideSearchWay
+                if isHideSearchWay {    // 길찾기화면 숨김 -> 길찾기모드 종료.
+                    owner.clusterManager?.isRouteMode = false
+                }
+                
                 owner.customNaviBar.hideSearchWayMode(isHideSearchWay)
                 
                 RouteEvent.clickNavigation.logEvent(property: ["onOrOff": "\(!isHideSearchWay ? "On" : "Off")"])
@@ -792,7 +802,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 case .leave:
                     LoginHelper.shared.logout(completion: { [weak self] success in
                         if success {
-                            self?.closeMenu()
                             Snackbar().show(message: "회원 탈퇴로 인해 로그아웃 되었습니다.")
                         } else {
                             Snackbar().show(message: "다시 시도해 주세요.")
@@ -929,13 +938,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
     private func hideDestinationResult(reactor: MainReactor, hide: Bool) {
         Observable.just(MainReactor.Action.hideDestinationResult(hide))
             .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-    }
-    
-    private func closeMenu() {
-        guard let _reactor = reactor else { return }
-        Observable.just(MainReactor.Action.toggleLeftMenu)
-            .bind(to: _reactor.action)
             .disposed(by: disposeBag)
     }
     
@@ -1080,7 +1082,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if !MemberManager.shared.isShowEvPayTooltip {
             MemberManager.shared.isShowEvPayTooltip = true
-            self.bottomEvPaytooltipView.dismiss()
+            self.evPayTipView.dismiss()
         }
 
         dismissBottomMenuTooltip()
@@ -1090,7 +1092,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         guard !MemberManager.shared.isShowBottomMenuEVPayTooltip else { return }
         
         MemberManager.shared.isShowBottomMenuEVPayTooltip = true
-        self.evPayTipView.dismiss()
+        self.bottomEvPaytooltipView?.dismiss()
     }
     
     // MARK: - Action for button
@@ -1580,7 +1582,6 @@ extension MainViewController: ChargerSelectDelegate {
 // MARK: - Request To Server
 extension MainViewController {
     func requestStationInfo() {
-        LoginHelper.shared.delegate = self
         
         DispatchQueue.main.async { [weak self] in
             self?.markerIndicator.startAnimating()
@@ -1680,10 +1681,6 @@ extension MainViewController {
     }
     
     @objc func showSelectCharger(_ notification: NSNotification) {
-        defer {
-            closeMenu()
-        }
-        
         guard let chargerId = notification.object as? String else { return }
         guard let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) else { return }
 
@@ -1715,9 +1712,7 @@ extension MainViewController {
         self.naverMapView.startMarker?.mapView = nil
         self.naverMapView.startMarker = nil
         self.naverMapView.midMarker?.mapView = nil
-        
-        closeMenu()
-        
+
         self.navigationController?.popToRootViewController(animated: true)
         self.setStartPoint()
     }
@@ -1731,9 +1726,7 @@ extension MainViewController {
         
         naverMapView.viaList.removeAll()
         naverMapView.viaList.append(via)
-        
-        closeMenu()
-        
+
         self.navigationController?.popToRootViewController(animated: true)
         self.setStartPath()
     }
@@ -1744,8 +1737,6 @@ extension MainViewController {
         self.naverMapView.endMarker?.mapView = nil
         self.naverMapView.endMarker = nil
         self.naverMapView.midMarker?.mapView = nil
-        
-        closeMenu()
         
         self.navigationController?.popToRootViewController(animated: true)
         self.setEndPoint()
@@ -1875,6 +1866,16 @@ extension MainViewController: LoginHelperDelegate {
     func successLogin() {
         if let reactor = reactor {
             self.setChargingStatus(reactor: reactor)
+        }
+    }
+    
+    func successLogout() {
+        if let reactor = reactor {
+            setMenuBadge(reactor: reactor)
+            
+            Observable.just(MainReactor.Action.setIsCharging(false))
+                .bind(to: reactor.action)
+                .disposed(by: disposeBag)
         }
     }
     

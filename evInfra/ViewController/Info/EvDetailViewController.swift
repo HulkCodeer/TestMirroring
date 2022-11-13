@@ -8,7 +8,7 @@
 
 import UIKit
 
-internal final class EvDetailViewController: CommonBaseViewController {
+internal final class EvDetailViewController: BaseViewController {
     
     @IBOutlet weak var carImage: UIImageView!
     @IBOutlet weak var vehicleName: UILabel!
@@ -29,8 +29,8 @@ internal final class EvDetailViewController: CommonBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let model = model else { return }        
-        
+        guard let model = model else { return }
+
         carImage.sd_setImage(with: URL(string: "\(Const.IMG_URL_EV_MODEL)\(model.image ?? "").jpg"), placeholderImage: UIImage(named: "AppIcon"))
         carImage.motionIdentifier = "\(model.image ?? "").jpg"
         vehicleName.text = model.name

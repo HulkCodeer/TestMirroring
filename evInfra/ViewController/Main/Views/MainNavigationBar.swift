@@ -24,11 +24,13 @@ internal final class MainNavigationBar: UIView {
         let image = UIImage(asset: Icons.iconMenuMd)
         $0.setImage(image, for: .normal)
         $0.imageView?.contentMode = .scaleAspectFill
+        $0.isExclusiveTouch = true
     }
     
     // 충전소 검색
     internal lazy var searchChargeButton = UIButton().then {
         $0.backgroundColor = .clear
+        $0.isExclusiveTouch = true
     }
     private lazy var searchChargeContentsView = UIView().then {
         $0.backgroundColor = Colors.nt0.color
@@ -54,6 +56,7 @@ internal final class MainNavigationBar: UIView {
             .withTintColor(Colors.contentPrimary.color)
         $0.setImage(image, for: .normal)
         $0.imageView?.contentMode = .scaleAspectFill
+        $0.isExclusiveTouch = true
     }
     internal lazy var cancelSearchWayButton = UIButton().then {
         let image = UIImage(asset: Icons.iconCloseLg)
@@ -61,6 +64,7 @@ internal final class MainNavigationBar: UIView {
         $0.setImage(image, for: .normal)
         $0.imageView?.contentMode = .scaleAspectFill
         $0.isHidden = true
+        $0.isExclusiveTouch = true
     }
     
     internal var height: CGFloat {

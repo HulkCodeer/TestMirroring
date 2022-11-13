@@ -28,11 +28,13 @@ internal final class MainSearchWayView: UIView {
         $0.setTitleColor(UIColor(hex: "#2A536D "), for: .normal)
         $0.setTitle("지우기", for: .normal)
         $0.fontSize = 15
+        $0.isExclusiveTouch = true
     }
     internal lazy var searchButton = UIButton().then {
         $0.setTitleColor(UIColor(hex: "#2A536D "), for: .normal)
         $0.setTitle("경로찾기", for: .normal)
         $0.fontSize = 15
+        $0.isExclusiveTouch = true
     }
     
     // MARK: - initializer

@@ -207,7 +207,7 @@ internal final class StartBannerViewController: CommonBaseViewController, Storyb
             .bind(to: _mainReactor.action)
             .disposed(by: self.viewDisposebag)
         
-        if FCMManager.sharedInstance.originalMemberId.isEmpty {
+        if FCMManager.sharedInstance.originalMemberId.isEmpty && !MemberManager.shared.isShowBottomMenuEVPayTooltip {
             Observable.just(MainReactor.Action.openBottomEvPayTooltip)
                 .bind(to: _mainReactor.action)
                 .disposed(by: self.disposeBag)

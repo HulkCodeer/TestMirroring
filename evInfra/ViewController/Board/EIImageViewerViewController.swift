@@ -13,7 +13,7 @@ import SDWebImage
 import SnapKit
 import UIKit
 
-internal final class EIImageViewerViewController : CommonBaseViewController, UIScrollViewDelegate{
+internal final class EIImageViewerViewController : BaseViewController, UIScrollViewDelegate{
     
     
     let TAG = "EIImageViewerViewController"
