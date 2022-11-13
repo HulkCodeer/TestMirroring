@@ -637,7 +637,7 @@ internal final class LeftViewReactor: ViewModel, Reactor {
 //                        let reacotr = MembershipCardIssuanceCompleteReactor(provider: RestApi())
 //                        viewcon = MembershipCardIssuanceCompleteViewController(reactor: reacotr)
 //                        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-                        
+                        UserDefault().saveBool(key: UserDefault.Key.IS_EVPAY_BADGE_NEW, value: false)
                         if MemberManager.shared.hasMembership {
                             let reactor = MembershipCardReactor(provider: RestApi())
                             viewcon = MembershipCardViewController(reactor: reactor)

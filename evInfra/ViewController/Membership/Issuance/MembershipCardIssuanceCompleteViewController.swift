@@ -47,17 +47,11 @@ internal final class MembershipCardIssuanceCompleteViewController: CommonBaseVie
         $0.distribution = .fillEqually
         $0.spacing = 8
     }
-    
-    private lazy var moveEventListBtn = RectButton(level: .secondary).then {
-        $0.setTitle("이벤트 보기", for: .normal)
-    }
-    
+            
     private lazy var moveMembershipCardBtn = RectButton(level: .primary).then {
         $0.setTitle("확인", for: .normal)
     }
-    
-    private lazy var tooltipView = TooltipView(configure: TooltipView.Configure(tipLeftMargin: 73, tipDirection: .bottom, maxWidth: UIScreen.main.bounds.width - 32, leftImg: Icons.coinFillSm.image))
-    
+            
     // MARK: VARIABLE
     
     // MARK: SYSTEM FUNC
@@ -87,8 +81,7 @@ internal final class MembershipCardIssuanceCompleteViewController: CommonBaseVie
             $0.bottom.equalToSuperview().offset(-19)
             $0.height.equalTo(44)
         }
-        
-        buttonStackView.addArrangedSubview(moveEventListBtn)
+                
         buttonStackView.addArrangedSubview(moveMembershipCardBtn)
         
         self.contentView.addSubview(totalScrollView)
@@ -139,16 +132,6 @@ internal final class MembershipCardIssuanceCompleteViewController: CommonBaseVie
             $0.top.equalTo(lineView.snp.bottom)            
             $0.width.centerX.bottom.equalToSuperview()
         }
-        
-        self.contentView.addSubview(tooltipView)
-        tooltipView.snp.makeConstraints {
-            $0.width.equalTo(UIScreen.main.bounds.width - 32)
-            $0.centerX.equalToSuperview()
-            $0.bottom.equalTo(moveEventListBtn.snp.top).offset(-7)            
-            $0.height.equalTo(50)
-        }
-        
-        tooltipView.show(message: "이벤트에 참여해서 3000베리 받아가세요!", attrString: "3000베리")
     }
             
     // MARK: FUNC
@@ -159,16 +142,7 @@ internal final class MembershipCardIssuanceCompleteViewController: CommonBaseVie
         Observable.just(MembershipCardIssuanceCompleteReactor.Action.membershipCardInfo)
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
-        
-        moveEventListBtn.rx.tap
-            .asDriver()
-            .drive(onNext: {
-                let viewcon = UIStoryboard(name : "Event", bundle: nil).instantiateViewController(ofType: EventViewController.self)
-                viewcon.moveEventId = "100ETM#2022#0922#144119"
-                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-            })
-            .disposed(by: self.disposeBag)
-        
+                       
         moveMembershipCardBtn.rx.tap
             .asDriver()
             .drive(onNext: {

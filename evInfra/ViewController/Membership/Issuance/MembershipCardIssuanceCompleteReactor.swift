@@ -62,6 +62,9 @@ internal final class MembershipCardIssuanceCompleteReactor: ViewModel, Reactor {
             
             guard jsonData["code"] == 1000 else { return nil }
             let membershipCardInfo = MembershipCardInfo(jsonData["data"])
+            
+            UserDefault().saveInt(key: UserDefault.Key.LAST_MEMBERSHIPCARD_DELIVERY_STATUS, value: membershipCardInfo.condition.status)
+            
             return membershipCardInfo
                                                                          
         case .failure(let errorMessage):

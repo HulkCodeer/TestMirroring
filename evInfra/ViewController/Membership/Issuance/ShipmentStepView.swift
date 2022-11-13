@@ -185,6 +185,7 @@ internal final class ShipmentStepView: UIView {
         }
         
         if isCurrentSendComplete {
+            confirmReceiptGuideTotalView.removeAllSubviews()
             confirmReceiptGuideTotalView.isHidden = !isCurrentSendComplete
             self.makeSendCompleteView()
         }

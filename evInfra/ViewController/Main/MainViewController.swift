@@ -180,7 +180,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         prepareRouteView()
         prepareClustering()
             
-//        requestStationInfo()
+        requestStationInfo()
         
         prepareCalloutLayer()
         

@@ -447,6 +447,11 @@ extension NSLayoutConstraint {
 }
 
 extension UIView {
+    func removeAllSubviews() {
+        for v in self.subviews {
+            v.removeFromSuperview()
+        }
+    }
     
     func constrainCentered(_ subview: UIView) {
         

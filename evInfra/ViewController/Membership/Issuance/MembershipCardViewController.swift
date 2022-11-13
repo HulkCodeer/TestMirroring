@@ -58,7 +58,7 @@ internal final class MembershipCardViewController: CommonBaseViewController, Sto
         partnershipListView.snp.makeConstraints {
             $0.top.equalTo(commonNaviView.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
-        }
+        }                
     }
             
     // MARK: REACTORKIT

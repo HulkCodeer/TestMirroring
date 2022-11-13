@@ -278,13 +278,9 @@ class MembershipIssuanceViewController: UIViewController,
                                     return
                                 }
                             }
-                            
-                            
-//                            let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)
-//                            let viewcon = mbsStoryboard.instantiateViewController(ofType: MembershipCardViewController.self)
+                                                        
                             let reactor = MembershipCardIssuanceCompleteReactor(provider: RestApi())
-                            let viewcon = MembershipCardIssuanceCompleteViewController(reactor: reactor)
-                            
+                            let viewcon = MembershipCardIssuanceCompleteViewController(reactor: reactor)                            
                             GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                         }, textAlignment: .center)
                         let popup = ConfirmPopupViewController(model: popupModel)
