@@ -148,9 +148,9 @@ internal final class NewFilterRoadView: UIView {
             }
         }
 
-        let isGenral = GlobalFilterReactor.sharedInstance.initialState.isGeneralRoad
-        let isHighwayUp = GlobalFilterReactor.sharedInstance.initialState.isHighwayUp
-        let isHighwayDown = GlobalFilterReactor.sharedInstance.initialState.isHighwayDown
+        let isGenral = GlobalFilterReactor.sharedInstance.currentState.filterModel.isGeneralRoad
+        let isHighwayUp = GlobalFilterReactor.sharedInstance.currentState.filterModel.isHighwayUp
+        let isHighwayDown = GlobalFilterReactor.sharedInstance.currentState.filterModel.isHighwayDown
         
         switch roadType {
         case .general:
@@ -163,7 +163,8 @@ internal final class NewFilterRoadView: UIView {
                 .asDriver()
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
-                    Observable.just(GlobalFilterReactor.Action.changedRoadFilter((.general, btn.isSelected)))
+                    
+                    Observable.just(GlobalFilterReactor.Action.updateGeneralFilter(btn.isSelected))
                         .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                     
@@ -171,11 +172,13 @@ internal final class NewFilterRoadView: UIView {
                         obj.saveFilter()
                     }
                     
-                    obj.delegate?.changedFilter()
+                    Observable.just(GlobalFilterReactor.Action.shouldChanged)
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+                        .disposed(by: obj.disposeBag)
                 }
                 .disposed(by: self.disposeBag)
             
-            GlobalFilterReactor.sharedInstance.state.compactMap { $0.isGeneralRoad }
+            GlobalFilterReactor.sharedInstance.state.compactMap { $0.filterModel.isGeneralRoad }
                 .asDriver(onErrorJustReturn: false)
                 .drive(with: self) { obj, isSelected in
                     btn.isSelected = isSelected
@@ -193,7 +196,7 @@ internal final class NewFilterRoadView: UIView {
                 .asDriver()
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
-                    Observable.just(GlobalFilterReactor.Action.changedRoadFilter((.highwayUp, btn.isSelected)))
+                    Observable.just(GlobalFilterReactor.Action.updateHighwayUpFilter(btn.isSelected))
                         .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                     
@@ -201,11 +204,13 @@ internal final class NewFilterRoadView: UIView {
                         obj.saveFilter()
                     }
                     
-                    obj.delegate?.changedFilter()
+                    Observable.just(GlobalFilterReactor.Action.shouldChanged)
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+                        .disposed(by: obj.disposeBag)
                 }
                 .disposed(by: self.disposeBag)
             
-            GlobalFilterReactor.sharedInstance.state.compactMap { $0.isHighwayUp }
+            GlobalFilterReactor.sharedInstance.state.compactMap { $0.filterModel.isHighwayUp }
                 .asDriver(onErrorJustReturn: false)
                 .drive(with: self) { obj, isSelected in
                     btn.isSelected = isSelected
@@ -223,7 +228,7 @@ internal final class NewFilterRoadView: UIView {
                 .asDriver()
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
-                    Observable.just(GlobalFilterReactor.Action.changedRoadFilter((.highwayDown, btn.isSelected)))
+                    Observable.just(GlobalFilterReactor.Action.updateHigywayDownFilter(btn.isSelected))
                         .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                     
@@ -231,11 +236,13 @@ internal final class NewFilterRoadView: UIView {
                         obj.saveFilter()
                     }
                     
-                    obj.delegate?.changedFilter()
+                    Observable.just(GlobalFilterReactor.Action.shouldChanged)
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+                        .disposed(by: obj.disposeBag)
                 }
                 .disposed(by: self.disposeBag)
             
-            GlobalFilterReactor.sharedInstance.state.compactMap { $0.isHighwayDown }
+            GlobalFilterReactor.sharedInstance.state.compactMap { $0.filterModel.isHighwayDown }
                 .asDriver(onErrorJustReturn: false)
                 .drive(with: self) { obj, isSelected in
                     btn.isSelected = isSelected
@@ -260,33 +267,23 @@ internal final class NewFilterRoadView: UIView {
 
 extension NewFilterRoadView: FilterButtonAction {
     func saveFilter() {
-        let generalRoadStream = Observable.of(GlobalFilterReactor.Action.setRoadFilter((.general, GlobalFilterReactor.sharedInstance.currentState.isGeneralRoad)))
-        let highwayUpStream = Observable.of(GlobalFilterReactor.Action.setRoadFilter((.highwayUp, GlobalFilterReactor.sharedInstance.currentState.isHighwayUp)))
-        let highwayDownStream = Observable.of(GlobalFilterReactor.Action.setRoadFilter((.highwayDown, GlobalFilterReactor.sharedInstance.currentState.isHighwayDown)))
-        let setRoadFilterStream = Observable.of(GlobalFilterReactor.Action.setRoadFilter((.highwayDown, GlobalFilterReactor.sharedInstance.currentState.isHighwayDown)))
-        
-        Observable.concat([generalRoadStream, highwayUpStream, highwayDownStream, setRoadFilterStream])
-            .bind(to: GlobalFilterReactor.sharedInstance.action)
-            .disposed(by: self.disposeBag)
+//        let filterModel = GlobalFilterReactor.sharedInstance.currentState.filterModel
+//        Observable.just(GlobalFilterReactor.Action.saveRoadFilter(filterModel))
+//            .bind(to: GlobalFilterReactor.sharedInstance.action)
+//            .disposed(by: self.disposeBag)
     }
     
     func resetFilter() {
-        let changeGeneralRoadStream = Observable.of(GlobalFilterReactor.Action.changedRoadFilter((.general, true)))
-        let changeHighwayUpStream = Observable.of(GlobalFilterReactor.Action.changedRoadFilter((.highwayUp, true)))
-        let changeHighwayDownStream = Observable.of(GlobalFilterReactor.Action.changedRoadFilter((.highwayDown, true)))
-        
-        Observable.concat(changeGeneralRoadStream, changeHighwayUpStream, changeHighwayDownStream)
-            .bind(to: GlobalFilterReactor.sharedInstance.action)
-            .disposed(by: self.disposeBag)
+//        let resetModel = GlobalFilterReactor.sharedInstance.initialState.resetFilterModel
+//        Observable.just(GlobalFilterReactor.Action.saveRoadFilter(resetModel))
+//            .bind(to: GlobalFilterReactor.sharedInstance.action)
+//            .disposed(by: self.disposeBag)
     }
     
     func revertFilter() {
-        let revertGeneralRoadStream = Observable.of(GlobalFilterReactor.Action.changedRoadFilter((.general, FilterManager.sharedInstance.filter.isGeneralWay)))
-        let revertHighwayUpStream = Observable.of(GlobalFilterReactor.Action.changedRoadFilter((.highwayUp, FilterManager.sharedInstance.filter.isHighwayUp)))
-        let revertHighwayDownStream = Observable.of(GlobalFilterReactor.Action.changedRoadFilter((.highwayDown, FilterManager.sharedInstance.filter.isHighwayDown)))
-        
-        Observable.concat(revertGeneralRoadStream, revertHighwayUpStream, revertHighwayDownStream)
-            .bind(to: GlobalFilterReactor.sharedInstance.action)
-            .disposed(by: self.disposeBag)
+//        let filterModel = GlobalFilterReactor.sharedInstance.initialState.filterModel
+//        Observable.just(GlobalFilterReactor.Action.saveRoadFilter(filterModel))
+//            .bind(to: GlobalFilterReactor.sharedInstance.action)
+//            .disposed(by: self.disposeBag)
     }
 }

@@ -63,6 +63,7 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
     
     // MARK: VARIABLES
     internal weak var delegate: NewDelegateChargerFilterView?
+    private var originalModel: GlobalFilterReactor.FilterModel?
     
     // MARK: STSTEM FUNC
     init(reactor: GlobalFilterReactor) {
@@ -136,10 +137,6 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        Observable.just(GlobalFilterReactor.Action.changedFilter(false))
-            .bind(to: GlobalFilterReactor.sharedInstance.action)
-            .disposed(by: self.disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -171,21 +168,29 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
         accessFilterView.delegate = self
         companyFilterView.delegate = self
         
+        originalModel = GlobalFilterReactor.sharedInstance.currentState.filterModel
+        
         // 뒤로가기 버튼
         backBtn.btn.rx.tap
             .asDriver(onErrorJustReturn: ())
             .drive(with: self) { obj, _ in
-                if obj.shouldChanged() {
+                let shouldChanged = GlobalFilterReactor.sharedInstance.currentState.shouldChanged
+                if shouldChanged {
                     let cancelBtn = UIAlertAction(title: "취소", style: .default)
                     let okBtn = UIAlertAction(title: "나가기", style: .default) { _ in
                         
-                        obj.switchFilterView.revertFilter()
-                        obj.speedFilterView.revertFilter()
-                        obj.typeFilterView.revertFilter()
-                        obj.accessFilterView.revertFilter()
-                        obj.roadFilterView.revertFilter()
-                        obj.placeFilterView.revertFilter()
-                        obj.companyFilterView.revertFilter()
+                        guard let originalModel = obj.originalModel else { return }
+                        
+                        Observable.just(GlobalFilterReactor.Action.saveFilter(originalModel))
+                            .bind(to: GlobalFilterReactor.sharedInstance.action)
+                            .disposed(by: obj.disposeBag)
+//                        obj.switchFilterView.revertFilter()
+//                        obj.speedFilterView.revertFilter()
+//                        obj.typeFilterView.revertFilter()
+//                        obj.accessFilterView.revertFilter()
+//                        obj.roadFilterView.revertFilter()
+//                        obj.placeFilterView.revertFilter()
+//                        obj.companyFilterView.revertFilter()
 
                         GlobalDefine.shared.mainNavi?.pop()
                     }
@@ -207,14 +212,18 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
                 let cancelBtn = UIAlertAction(title: "취소", style: .default)
                 let okBtn = UIAlertAction(title: "초기화", style: .default) { _ in
                     FilterEvent.clickFilterReset.logEvent()
-                    
-                    obj.switchFilterView.resetFilter()
-                    obj.speedFilterView.resetFilter()
-                    obj.typeFilterView.resetFilter()
-                    obj.accessFilterView.resetFilter()
-                    obj.roadFilterView.resetFilter()
-                    obj.placeFilterView.resetFilter()
-                    obj.companyFilterView.resetFilter()
+//
+//                    obj.switchFilterView.resetFilter()
+//                    obj.speedFilterView.resetFilter()
+//                    obj.typeFilterView.resetFilter()
+//                    obj.accessFilterView.resetFilter()
+//                    obj.roadFilterView.resetFilter()
+//                    obj.placeFilterView.resetFilter()
+//                    obj.companyFilterView.resetFilter()
+                    let resetModel = GlobalFilterReactor.sharedInstance.currentState.resetFilterModel
+                    Observable.just(GlobalFilterReactor.Action.saveFilter(resetModel))
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+                        .disposed(by: obj.disposeBag)
                 }
                 var actions = [UIAlertAction]()
                 actions.append(cancelBtn)
@@ -223,7 +232,7 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
             }.disposed(by: self.disposeBag)
         
         // 필터 저장 버튼 bind
-        GlobalFilterReactor.sharedInstance.state.compactMap { $0.isChangedFilter }
+        GlobalFilterReactor.sharedInstance.state.compactMap { $0.shouldChanged }
             .bind(to: saveBtn.rectBtn.rx.isEnabled)
             .disposed(by: self.disposeBag)
         
@@ -231,15 +240,19 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
             .asDriver(onErrorJustReturn: ())
             .drive(with: self) { obj, _ in
                 obj.saveBtn.rectBtn.isSelected = !obj.saveBtn.rectBtn.isSelected
-                printLog(out: "\(obj.saveBtn.rectBtn.isSelected)")
                 
-                obj.switchFilterView.saveFilter()
-                obj.speedFilterView.saveFilter()
-                obj.typeFilterView.saveFilter()
-                obj.accessFilterView.saveFilter()
-                obj.roadFilterView.saveFilter()
-                obj.placeFilterView.saveFilter()
-                obj.companyFilterView.saveFilter()
+//                obj.switchFilterView.saveFilter()
+//                obj.speedFilterView.saveFilter()
+//                obj.typeFilterView.saveFilter()
+//                obj.accessFilterView.saveFilter()
+//                obj.roadFilterView.saveFilter()
+//                obj.placeFilterView.saveFilter()
+//                obj.companyFilterView.saveFilter()
+                let filterModel = GlobalFilterReactor.sharedInstance.currentState.filterModel
+                Observable.just(GlobalFilterReactor.Action.saveFilter(filterModel))
+                    .bind(to: GlobalFilterReactor.sharedInstance.action)
+                    .disposed(by: obj.disposeBag)
+                
                 obj.delegate?.applyFilter()
                 
                 FilterManager.sharedInstance.logEventWithFilter("필터")
@@ -248,22 +261,23 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
             
     }
     
-    private func shouldChanged() -> Bool {
-        printLog(out: "switchFilterView.shouldChange() \(switchFilterView.shouldChange())")
-        printLog(out: "roadFilterView.shouldChanged \(roadFilterView.shouldChanged())")
-        printLog(out: "accessFilterView.shouldChanged \(accessFilterView.shouldChanged())")
-        printLog(out: "placeFilterView.shouldChanged() \(placeFilterView.shouldChanged())")
-        printLog(out: "speedFilterView.shouldChanged() \(speedFilterView.shouldChanged())")
-        printLog(out: "typeFilterView.shouldChange() \(typeFilterView.shouldChange())")
-        printLog(out: "companyFilterView.shouldChange() \(companyFilterView.shouldChange())")
-        return switchFilterView.shouldChange() || roadFilterView.shouldChanged() || accessFilterView.shouldChanged() || placeFilterView.shouldChanged() || speedFilterView.shouldChanged() || typeFilterView.shouldChange() || companyFilterView.shouldChange()
-    }
+//    private func shouldChanged() -> Bool {
+//        printLog(out: "switchFilterView.shouldChange() \(switchFilterView.shouldChange())")
+//        printLog(out: "roadFilterView.shouldChanged \(roadFilterView.shouldChanged())")
+//        printLog(out: "accessFilterView.shouldChanged \(accessFilterView.shouldChanged())")
+//        printLog(out: "placeFilterView.shouldChanged() \(placeFilterView.shouldChanged())")
+//        printLog(out: "speedFilterView.shouldChanged() \(speedFilterView.shouldChanged())")
+//        printLog(out: "typeFilterView.shouldChange() \(typeFilterView.shouldChange())")
+//        printLog(out: "companyFilterView.shouldChange() \(companyFilterView.shouldChange())")
+//        return switchFilterView.shouldChange() || roadFilterView.shouldChanged() || accessFilterView.shouldChanged() || placeFilterView.shouldChanged() || speedFilterView.shouldChanged() || typeFilterView.shouldChange() || companyFilterView.shouldChange()
+//    }
 }
 
 extension NewChargerFilterViewController: NewDelegateFilterChange {
     func changedFilter() {
-        Observable.just(shouldChanged())
-            .bind(to: saveBtn.rectBtn.rx.isEnabled)
-            .disposed(by: self.disposeBag)
+        // TODO: change stream
+//        Observable.just(shouldChanged())
+//            .bind(to: saveBtn.rectBtn.rx.isEnabled)
+//            .disposed(by: self.disposeBag)
     }
 }

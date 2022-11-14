@@ -147,9 +147,9 @@ internal final class NewFilterPlaceView: UIView {
             }
         }
 
-        let isIndoor = GlobalFilterReactor.sharedInstance.initialState.isIndoor
-        let isOutdoor = GlobalFilterReactor.sharedInstance.initialState.isOutdoor
-        let isCanopy = GlobalFilterReactor.sharedInstance.initialState.isCanopy
+        let isIndoor = GlobalFilterReactor.sharedInstance.currentState.filterModel.isIndoor
+        let isOutdoor = GlobalFilterReactor.sharedInstance.currentState.filterModel.isOutdoor
+        let isCanopy = GlobalFilterReactor.sharedInstance.currentState.filterModel.isCanopy
         
         switch placeType {
         case .indoor:
@@ -162,8 +162,8 @@ internal final class NewFilterPlaceView: UIView {
                 .asDriver()
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
-                    
-                    Observable.just(GlobalFilterReactor.Action.changedPlaceFilter((.indoor, btn.isSelected)))
+
+                    Observable.just(GlobalFilterReactor.Action.updateIndoorPlaceFilter(btn.isSelected))
                         .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                     
@@ -171,11 +171,13 @@ internal final class NewFilterPlaceView: UIView {
                         obj.saveFilter()
                     }
                     
-                    obj.delegate?.changedFilter()
+                    Observable.just(GlobalFilterReactor.Action.shouldChanged)
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+                        .disposed(by: obj.disposeBag)
                 }
                 .disposed(by: self.disposeBag)
             
-            GlobalFilterReactor.sharedInstance.state.compactMap { $0.isIndoor }
+            GlobalFilterReactor.sharedInstance.state.compactMap { $0.filterModel.isIndoor }
                 .asDriver(onErrorJustReturn: false)
                 .drive(with: self) { obj, isSelected in
                     btn.isSelected = isSelected
@@ -193,7 +195,8 @@ internal final class NewFilterPlaceView: UIView {
                 .asDriver()
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
-                    Observable.just(GlobalFilterReactor.Action.changedPlaceFilter((.outdoor, btn.isSelected)))
+
+                    Observable.just(GlobalFilterReactor.Action.updateOutdoorPlaceFilter(btn.isSelected))
                         .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                     
@@ -201,11 +204,14 @@ internal final class NewFilterPlaceView: UIView {
                         obj.saveFilter()
                     }
                     
-                    obj.delegate?.changedFilter()
+                    Observable.just(GlobalFilterReactor.Action.shouldChanged)
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+                        .disposed(by: obj.disposeBag)
+                    
                 }
                 .disposed(by: self.disposeBag)
             
-            GlobalFilterReactor.sharedInstance.state.compactMap { $0.isOutdoor }
+            GlobalFilterReactor.sharedInstance.state.compactMap { $0.filterModel.isOutdoor }
                 .asDriver(onErrorJustReturn: false)
                 .drive(with: self) { obj, isSelected in
                     btn.isSelected = isSelected
@@ -222,7 +228,8 @@ internal final class NewFilterPlaceView: UIView {
                 .asDriver()
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
-                    Observable.just(GlobalFilterReactor.Action.changedPlaceFilter((.canopy, btn.isSelected)))
+
+                    Observable.just(GlobalFilterReactor.Action.updateCanopyPlaceFilter(btn.isSelected))
                         .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                     
@@ -230,11 +237,13 @@ internal final class NewFilterPlaceView: UIView {
                         obj.saveFilter()
                     }
                     
-                    obj.delegate?.changedFilter()
+                    Observable.just(GlobalFilterReactor.Action.shouldChanged)
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+                        .disposed(by: obj.disposeBag)
                 }
                 .disposed(by: self.disposeBag)
             
-            GlobalFilterReactor.sharedInstance.state.compactMap { $0.isCanopy }
+            GlobalFilterReactor.sharedInstance.state.compactMap { $0.filterModel.isCanopy }
                 .asDriver(onErrorJustReturn: false)
                 .drive(with: self) { obj, isSelected in
                     btn.isSelected = isSelected
@@ -276,31 +285,24 @@ internal final class NewFilterPlaceView: UIView {
 
 extension NewFilterPlaceView: FilterButtonAction {
     func saveFilter() {
-        let saveIndoorStream = Observable.of(GlobalFilterReactor.Action.setPlaceFilter((.indoor, GlobalFilterReactor.sharedInstance.currentState.isIndoor)))
-        let saveOutdoorStream = Observable.of(GlobalFilterReactor.Action.setPlaceFilter((.outdoor, GlobalFilterReactor.sharedInstance.currentState.isOutdoor)))
-        let saveCanopyStream = Observable.of(GlobalFilterReactor.Action.setPlaceFilter((.canopy, GlobalFilterReactor.sharedInstance.currentState.isCanopy)))
-        
-        Observable.concat(saveIndoorStream, saveOutdoorStream, saveCanopyStream)
+        let filterModel = GlobalFilterReactor.sharedInstance.currentState.filterModel
+        Observable.just(GlobalFilterReactor.Action.savePlaceFilter(filterModel))
             .bind(to: GlobalFilterReactor.sharedInstance.action)
             .disposed(by: self.disposeBag)
     }
     
     func resetFilter() {
-        let resetIndoorStream = Observable.of(GlobalFilterReactor.Action.changedPlaceFilter((.indoor, true)))
-        let resetOutdoorStream = Observable.of(GlobalFilterReactor.Action.changedPlaceFilter((.outdoor, true)))
-        let resetCanopyStream = Observable.of(GlobalFilterReactor.Action.changedPlaceFilter((.canopy, true)))
-        
-        Observable.concat(resetIndoorStream, resetOutdoorStream, resetCanopyStream)
+        let resetModel = GlobalFilterReactor.sharedInstance.initialState.resetFilterModel
+        Observable.just(GlobalFilterReactor.Action.savePlaceFilter(resetModel))
             .bind(to: GlobalFilterReactor.sharedInstance.action)
             .disposed(by: self.disposeBag)
     }
     
     func revertFilter() {
-        let revertIndoorStream = Observable.of(GlobalFilterReactor.Action.setPlaceFilter((.indoor, FilterManager.sharedInstance.filter.isIndoor)))
-        let revertOutdoorStream = Observable.of(GlobalFilterReactor.Action.setPlaceFilter((.outdoor, FilterManager.sharedInstance.filter.isOutdoor)))
-        let revertCanopyStream = Observable.of(GlobalFilterReactor.Action.setPlaceFilter((.canopy, FilterManager.sharedInstance.filter.isCanopy)))
-        
-        Observable.concat(revertIndoorStream, revertOutdoorStream, revertCanopyStream)
+        // TODO: original이랑 비교
+        let currentFilterModel = GlobalFilterReactor.sharedInstance.currentState.filterModel
+        let originalFilterModel = GlobalFilterReactor.sharedInstance.initialState.filterModel
+        Observable.just(GlobalFilterReactor.Action.savePlaceFilter(originalFilterModel))
             .bind(to: GlobalFilterReactor.sharedInstance.action)
             .disposed(by: self.disposeBag)
     }

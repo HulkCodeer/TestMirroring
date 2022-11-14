@@ -218,7 +218,7 @@ internal final class NewFilterCompanyView: UIView {
                 
                 // step1. EvPay filter 끄기 , isOn == true 일때
                 if isOn {
-                    Observable.just(GlobalFilterReactor.Action.setEvPayFilter(false))
+                    Observable.just(GlobalFilterReactor.Action.updateEvPayFilter(false))
                         .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                 }

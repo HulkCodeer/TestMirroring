@@ -181,8 +181,8 @@ internal final class NewFilterAccessView: UIView {
             }
         }
 
-        let isPublic = GlobalFilterReactor.sharedInstance.initialState.isPublic
-        let isNonPublic = GlobalFilterReactor.sharedInstance.initialState.isNonPublic
+        let isPublic = GlobalFilterReactor.sharedInstance.currentState.filterModel.isPublic
+        let isNonPublic = GlobalFilterReactor.sharedInstance.currentState.filterModel.isNonPublic
         
         switch accessType {
         case .publicCharger:
@@ -195,7 +195,7 @@ internal final class NewFilterAccessView: UIView {
                 .asDriver()
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
-                    Observable.just(GlobalFilterReactor.Action.changedAccessFilter((.publicCharger, btn.isSelected)))
+                    Observable.just(GlobalFilterReactor.Action.updatePublicFilter(btn.isSelected))
                         .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                     
@@ -203,10 +203,12 @@ internal final class NewFilterAccessView: UIView {
                         obj.saveFilter()
                     }
                     
-                    obj.delegate?.changedFilter()
+                    Observable.just(GlobalFilterReactor.Action.shouldChanged)
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+                        .disposed(by: obj.disposeBag)
                 }.disposed(by: self.disposeBag)
             
-            GlobalFilterReactor.sharedInstance.state.compactMap { $0.isPublic }
+            GlobalFilterReactor.sharedInstance.state.compactMap { $0.filterModel.isPublic }
                 .asDriver(onErrorJustReturn: false)
                 .drive(with: self) { obj, isSelected in
                     btn.isSelected = isSelected
@@ -224,7 +226,7 @@ internal final class NewFilterAccessView: UIView {
                 .asDriver()
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
-                    Observable.just(GlobalFilterReactor.Action.changedAccessFilter((.nonePublicCharger, btn.isSelected)))
+                    Observable.just(GlobalFilterReactor.Action.updateNonPublicFilter(btn.isSelected))
                         .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                     
@@ -232,11 +234,13 @@ internal final class NewFilterAccessView: UIView {
                         obj.saveFilter()
                     }
                     
-                    obj.delegate?.changedFilter()
+                    Observable.just(GlobalFilterReactor.Action.shouldChanged)
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+                        .disposed(by: obj.disposeBag)
                     
                 }.disposed(by: self.disposeBag)
             
-            GlobalFilterReactor.sharedInstance.state.compactMap { $0.isNonPublic }
+            GlobalFilterReactor.sharedInstance.state.compactMap { $0.filterModel.isNonPublic }
                 .asDriver(onErrorJustReturn: false)
                 .drive(with: self) { obj, isSelected in
                     btn.isSelected = isSelected
@@ -259,29 +263,29 @@ internal final class NewFilterAccessView: UIView {
 
 extension NewFilterAccessView: FilterButtonAction {
     func saveFilter() {
-        let savePublicChargerStream = Observable.of(GlobalFilterReactor.Action.setAccessFilter((.publicCharger, GlobalFilterReactor.sharedInstance.currentState.isPublic)))
-        let saveNonPublicChargerStream = Observable.of(GlobalFilterReactor.Action.setAccessFilter((.nonePublicCharger, GlobalFilterReactor.sharedInstance.currentState.isNonPublic)))
-        
-        Observable.concat(savePublicChargerStream, saveNonPublicChargerStream)
-            .bind(to: GlobalFilterReactor.sharedInstance.action)
-            .disposed(by: self.disposeBag)
+//        let savePublicChargerStream = Observable.of(GlobalFilterReactor.Action.setAccessFilter((.publicCharger, GlobalFilterReactor.sharedInstance.currentState.isPublic)))
+//        let saveNonPublicChargerStream = Observable.of(GlobalFilterReactor.Action.setAccessFilter((.nonePublicCharger, GlobalFilterReactor.sharedInstance.currentState.isNonPublic)))
+//
+//        Observable.concat(savePublicChargerStream, saveNonPublicChargerStream)
+//            .bind(to: GlobalFilterReactor.sharedInstance.action)
+//            .disposed(by: self.disposeBag)
     }
     
     func resetFilter() {
-        let resetPublicChargerStream = Observable.of(GlobalFilterReactor.Action.changedAccessFilter((.publicCharger, true)))
-        let resetNonPublicChargerStream = Observable.of(GlobalFilterReactor.Action.changedAccessFilter((.nonePublicCharger, true)))
-        
-        Observable.concat([resetPublicChargerStream, resetNonPublicChargerStream])
-            .bind(to: GlobalFilterReactor.sharedInstance.action)
-            .disposed(by: self.disposeBag)
+//        let resetPublicChargerStream = Observable.of(GlobalFilterReactor.Action.changedAccessFilter((.publicCharger, true)))
+//        let resetNonPublicChargerStream = Observable.of(GlobalFilterReactor.Action.changedAccessFilter((.nonePublicCharger, true)))
+//
+//        Observable.concat([resetPublicChargerStream, resetNonPublicChargerStream])
+//            .bind(to: GlobalFilterReactor.sharedInstance.action)
+//            .disposed(by: self.disposeBag)
     }
     
     func revertFilter() {
-        let revertPublicChargerStream = Observable.of(GlobalFilterReactor.Action.changedAccessFilter((.publicCharger, FilterManager.sharedInstance.filter.isPublic)))
-        let revertNonPublicChargerStream = Observable.of(GlobalFilterReactor.Action.changedAccessFilter((.nonePublicCharger, FilterManager.sharedInstance.filter.isNonPublic)))
-        
-        Observable.concat([revertPublicChargerStream, revertNonPublicChargerStream])
-            .bind(to: GlobalFilterReactor.sharedInstance.action)
-            .disposed(by: self.disposeBag)
+//        let revertPublicChargerStream = Observable.of(GlobalFilterReactor.Action.changedAccessFilter((.publicCharger, FilterManager.sharedInstance.filter.isPublic)))
+//        let revertNonPublicChargerStream = Observable.of(GlobalFilterReactor.Action.changedAccessFilter((.nonePublicCharger, FilterManager.sharedInstance.filter.isNonPublic)))
+//
+//        Observable.concat([revertPublicChargerStream, revertNonPublicChargerStream])
+//            .bind(to: GlobalFilterReactor.sharedInstance.action)
+//            .disposed(by: self.disposeBag)
     }
 }

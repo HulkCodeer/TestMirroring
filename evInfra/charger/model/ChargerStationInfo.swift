@@ -133,12 +133,12 @@ class ChargerStationInfo {
             return false
         }
         
-        if !filter.isFree && (stationInfo.mPay == "N" || stationInfo.mIsPilot == true) { // 무료 해제 시 무료 충전소 false
-            return false
-        }
-        if !filter.isPaid && (stationInfo.mPay == "Y" && stationInfo.mIsPilot != true) {
-            return false
-        }
+//        if !filter.isFree && (stationInfo.mPay == "N" || stationInfo.mIsPilot == true) { // 무료 해제 시 무료 충전소 false
+//            return false
+//        }
+//        if !filter.isPaid && (stationInfo.mPay == "Y" && stationInfo.mIsPilot != true) {
+//            return false
+//        }
         
         if !filter.isOutdoor && !(stationInfo.mRoof == "1" || stationInfo.mRoof == "2") { // 실내 해제 시 실외거나 케노피 아닐시 false
             return false
@@ -161,9 +161,16 @@ class ChargerStationInfo {
         }
 
         if MemberManager.shared.isLogin {
-            if filter.isFavoriteChecked && !self.mFavorite {
-                return false
-            }
+            // isFavoriteChecked , mFavorite
+            // true, true -> true
+            // true, false -> true
+            // false, true -> true
+            // false, true -> true
+//            if filter.isFavoriteChecked && !self.mFavorite {
+//                return false
+//            } else {
+//                return true
+//            }
         }
         
         // 운영 기관

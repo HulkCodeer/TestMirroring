@@ -21,24 +21,26 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         case loadCompanies
         case setAllCompanies(Bool)
         case changedFilter(Bool)
-        case setEvPayFilter(Bool)
+        case updateEvPayFilter(Bool)
         case saveEvPayFilter(Bool)
-        case setFavoriteFilter(Bool)
+        case updateFavoriteFilter(Bool)
         case saveFavoriteFilter(Bool)
         case numberOfFavorits
-        case setRepresentCarFilter(Bool)
+        case updateRepresentCarFilter(Bool)
         case saveRepresentCarFilter(Bool)
         case setSelectedFilterType(SelectedFilterType)
-        case changedAccessFilter(SelectedAccessFilter)
-        case setAccessFilter(SelectedAccessFilter)
-        case changedRoadFilter(SelectedRoadFilter)
-        case setRoadFilter(SelectedRoadFilter)
-        case changedPlaceFilter(SelectedPlaceFilter)
-        case setPlaceFilter(SelectedPlaceFilter)
-//        case savePlaceFilter(SelectedPlaceFilter)
+        case saveAccessFilter(FilterModel)
+        case updatePublicFilter(Bool)
+        case updateNonPublicFilter(Bool)
+        case updateGeneralFilter(Bool)
+        case updateHighwayUpFilter(Bool)
+        case updateHigywayDownFilter(Bool)
+        case savePlaceFilter(FilterModel)
         case updateIndoorPlaceFilter(Bool)
         case updateOutdoorPlaceFilter(Bool)
         case updateCanopyPlaceFilter(Bool)
+        case saveFilter(FilterModel)
+        case shouldChanged
         case changedSpeedFilter(SelectedSpeedFilter)
         case setSpeedFilter(SelectedSpeedFilter)
         case loadChargerTypes
@@ -53,16 +55,23 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         case setAllCompanies(Bool)
         case changedFilter(Bool)
         case updateBarTitle(Bool)
-        case setEvPayFilter(Bool)
-        case setFavoriteFilter(Bool, Int)
+        case updateEvPayFilter(Bool)
+        case updateFavoriteFilter(Bool, Int)
         case numberOfFavorits(Int)
-        case setRepresentCarFilter(Bool)
+        case updateRepresentCarFilter(Bool)
         case setSelectedFilterType(SelectedFilterType)
-        case changedAccessFilter(SelectedAccessFilter)
-        case changedRoadFilter(SelectedRoadFilter)
-        case updateIndoorFilter(Bool)
+        case saveAccessFilter(FilterModel)
+        case updatePublicFilter(Bool)
+        case updateNonPublicFilter(Bool)
+        case updateGeneralRoadFilter(Bool)
+        case updateHighwayUpRoadFilter(Bool)
+        case updateHigywayDownRoadFilter(Bool)
+        case savePlaceFilter(FilterModel)
+        case updateIndoorPlaceFilter(Bool)
         case updateOutdoorFilter(Bool)
         case updateCanopyFilter(Bool)
+        case saveFilter(FilterModel)
+        case shouldChanged
         case changedSpeedFilter(SelectedSpeedFilter)
         case loadChargerTypes([NewTag])
         case changedChargerTypeFilter(SelectedChargerTypeFilter)
@@ -90,10 +99,30 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         var isCanopy: Bool = FilterManager.sharedInstance.filter.isCanopy
         var minSpeed: Int = FilterManager.sharedInstance.filter.minSpeed
         var maxSpeed: Int = FilterManager.sharedInstance.filter.maxSpeed
+        var isEvPayFilter: Bool = FilterManager.sharedInstance.isMembershipCardChecked()
+        var isFavoriteFilter: Bool = FilterManager.sharedInstance.filter.isFavoriteChecked
+        var numberOfFavorites: Int? = ChargerManager.sharedInstance.getChargerStationInfoList().filter { $0.mFavorite }.count
+        var isRepresentCarFilter: Bool = FilterManager.sharedInstance.filter.isRepresentCarChecked
+        var filterModel: FilterModel = FilterModel()
+        var resetFilterModel: FilterModel = FilterModel(isPublic: true, isNonPublic: true, isGeneralRoad: true, isHighwayDown: true, isHighwayUp: true, isIndoor: true, isOutdoor: true, isCanopy: true, minSpeed: 50, maxSpeed: 350, isEvPayFilter: false, isFavoriteFilter: false, isRepresentCarFilter: false)
+        var shouldChanged: Bool = false
+    }
+    
+    struct FilterModel: Equatable {
+        var isPublic: Bool = FilterManager.sharedInstance.filter.isPublic
+        var isNonPublic: Bool = FilterManager.sharedInstance.filter.isNonPublic
+        var isGeneralRoad: Bool = FilterManager.sharedInstance.filter.isGeneralWay
+        var isHighwayDown: Bool = FilterManager.sharedInstance.filter.isHighwayDown
+        var isHighwayUp: Bool = FilterManager.sharedInstance.filter.isHighwayUp
+        var isIndoor: Bool = FilterManager.sharedInstance.filter.isIndoor
+        var isOutdoor: Bool = FilterManager.sharedInstance.filter.isOutdoor
+        var isCanopy: Bool = FilterManager.sharedInstance.filter.isCanopy
+        var minSpeed: Int = FilterManager.sharedInstance.filter.minSpeed
+        var maxSpeed: Int = FilterManager.sharedInstance.filter.maxSpeed
         var isEvPayFilter: Bool? = FilterManager.sharedInstance.isMembershipCardChecked()
         var isFavoriteFilter: Bool? = FilterManager.sharedInstance.filter.isFavoriteChecked
         var numberOfFavorites: Int? = ChargerManager.sharedInstance.getChargerStationInfoList().filter { $0.mFavorite }.count
-        var isRepresentCarFilter: Bool? = FilterManager.sharedInstance.filter.isRepresentCarChecked
+        var isRepresentCarFilter: Bool = FilterManager.sharedInstance.filter.isRepresentCarChecked
     }
     
     internal var initialState: State
@@ -120,80 +149,87 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         case .changedFilter(let isChanged):
             return .just(.changedFilter(isChanged))
             
-        case .setEvPayFilter(let isEvPayFilter):
-            return .just(.setEvPayFilter(isEvPayFilter))
+        case .updateEvPayFilter(let isEvPayFilter):
+            return .just(.updateEvPayFilter(isEvPayFilter))
             
         case .saveEvPayFilter(let isEvPayFilter):
             FilterManager.sharedInstance.saveIsMembershipCardChecked(isEvPayFilter)
-            return .empty()
+            return .just(.updateEvPayFilter(isEvPayFilter))
             
-        case .setFavoriteFilter(let isFavoriteFilter):
+        case .updateFavoriteFilter(let isFavoriteFilter):
             let favoriteChargers = ChargerManager.sharedInstance.getChargerStationInfoList().filter { $0.mFavorite }
-            return .just(.setFavoriteFilter(isFavoriteFilter, favoriteChargers.count))
+            return .just(.updateFavoriteFilter(isFavoriteFilter, favoriteChargers.count))
             
         case .numberOfFavorits:
             let numberOfFavorites = ChargerManager.sharedInstance.getChargerStationInfoList().filter { $0.mFavorite }.count
             return .just(.numberOfFavorits(numberOfFavorites))
             
-        case .setRepresentCarFilter(let isRepresentCarFilter):
-            return .just(.setRepresentCarFilter(isRepresentCarFilter))
+        case .updateRepresentCarFilter(let isRepresentCarFilter):
+            return .just(.updateRepresentCarFilter(isRepresentCarFilter))
             
         case .saveRepresentCarFilter(let isRepresentCarFilter):
             FilterManager.sharedInstance.saveIsRepresentCarChecked(isRepresentCarFilter)
             return .empty()
             
         case .saveFavoriteFilter(let isFavoriteFilter):
-//            FilterManager.sharedInstance.filter.isFavoriteChecked = isFavoriteFilter
             FilterManager.sharedInstance.saveIsFavoriteChecked(isFavoriteFilter)
             return .empty()
             
         case .setSelectedFilterType(let selectedFiltertype):
             return .just(.setSelectedFilterType(selectedFiltertype))
             
-        case .changedAccessFilter(let selectedAccessFilter):
-            return .just(.changedAccessFilter(selectedAccessFilter))
+        case .updatePublicFilter(let isSelected):
+            return .just(.updatePublicFilter(isSelected))
             
-        case .setAccessFilter(let accessFilter):
-            accessFilter.accessType == .publicCharger ? FilterManager.sharedInstance.savePublic(with: accessFilter.isSelected) : FilterManager.sharedInstance.saveNonPublic(with: accessFilter.isSelected)
-            return .just(.updateBarTitle(true))
+        case .updateNonPublicFilter(let isSelected):
+            return .just(.updateNonPublicFilter(isSelected))
             
-        case .changedRoadFilter(let selectedRoadFilter):
-            return .just(.changedRoadFilter(selectedRoadFilter))
+        case .saveAccessFilter(let filterModel):
+            FilterManager.sharedInstance.savePublic(with: filterModel.isPublic)
+            FilterManager.sharedInstance.saveNonPublic(with: filterModel.isNonPublic)
+            return .just(.saveAccessFilter(filterModel))
             
-        case .setRoadFilter(let roadFilter):
-            switch roadFilter.roadType {
-            case .general:
-                FilterManager.sharedInstance.saveGeneralRoad(with: roadFilter.isSelected)
-            case .highwayUp:
-                FilterManager.sharedInstance.saveHighwayUp(with: roadFilter.isSelected)
-            case .highwayDown:
-                FilterManager.sharedInstance.saveHighwayDown(with: roadFilter.isSelected)
-            }
-            return .just(.updateBarTitle(true))
+        case .updateGeneralFilter(let isSelcted):
+            return .just(.updateGeneralRoadFilter(isSelcted))
             
-        case .setPlaceFilter(let selectedPlaceFilter):
+        case .updateHighwayUpFilter(let isSelected):
+            return .just(.updateHighwayUpRoadFilter(isSelected))
             
-            return .empty()
+        case .updateHigywayDownFilter(let isSelected):
+            return .just(.updateHigywayDownRoadFilter(isSelected))
             
-//        case .setPlaceFilter(let placeFilter):
-//            switch placeFilter.placeType {
-//            case .indoor:
-//                FilterManager.sharedInstance.saveIndoor(with: placeFilter.isSelected)
-//            case .outdoor:
-//                FilterManager.sharedInstance.saveOutdoor(with: placeFilter.isSelected)
-//            case .canopy:
-//                FilterManager.sharedInstance.saveCanopy(with: placeFilter.isSelected)
-//            }
-//            return .just(.updateBarTitle(true))
+        case .savePlaceFilter(let filterModel):
+            FilterManager.sharedInstance.saveIndoor(with: filterModel.isIndoor)
+            FilterManager.sharedInstance.saveOutdoor(with: filterModel.isOutdoor)
+            FilterManager.sharedInstance.saveCanopy(with: filterModel.isCanopy)
+            return .just(.savePlaceFilter(filterModel))
             
         case .updateIndoorPlaceFilter(let isSelected):
-            return .just(.updateIndoorFilter(isSelected))
+            return .just(.updateIndoorPlaceFilter(isSelected))
 
         case .updateOutdoorPlaceFilter(let isSelected):
             return .just(.updateOutdoorFilter(isSelected))
             
         case .updateCanopyPlaceFilter(let isSelected):
             return .just(.updateCanopyFilter(isSelected))
+            
+        case .saveFilter(let filterModel):
+            FilterManager.sharedInstance.saveIsMembershipCardChecked(filterModel.isEvPayFilter ?? false)
+            FilterManager.sharedInstance.saveIsFavoriteChecked(filterModel.isFavoriteFilter ?? false)
+            FilterManager.sharedInstance.saveIsRepresentCarChecked(filterModel.isRepresentCarFilter)
+            FilterManager.sharedInstance.savePublic(with: filterModel.isPublic)
+            FilterManager.sharedInstance.saveNonPublic(with: filterModel.isNonPublic)
+            FilterManager.sharedInstance.saveGeneralRoad(with: filterModel.isGeneralRoad)
+            FilterManager.sharedInstance.saveHighwayUp(with: filterModel.isHighwayUp)
+            FilterManager.sharedInstance.saveHighwayDown(with: filterModel.isHighwayDown)
+            FilterManager.sharedInstance.saveIndoor(with: filterModel.isIndoor)
+            FilterManager.sharedInstance.saveOutdoor(with: filterModel.isOutdoor)
+            FilterManager.sharedInstance.saveCanopy(with: filterModel.isCanopy)
+            
+            return Observable.concat([
+                .just(.saveFilter(filterModel)),
+                .just(.shouldChanged)
+            ])
 
         case .changedSpeedFilter(let selectedSpeedFilter):
             return .just(.changedSpeedFilter(selectedSpeedFilter))
@@ -201,6 +237,9 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         case .setSpeedFilter(let speedFilter):
             FilterManager.sharedInstance.saveSpeedFilter(min: speedFilter.minSpeed, max: speedFilter.maxSpeed)
             return .just(.updateBarTitle(true))
+            
+        case .shouldChanged:
+            return .just(.shouldChanged)
             
         case .loadChargerTypes:
             var tags: [NewTag] = [NewTag]()
@@ -256,8 +295,6 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
             
             FilterManager.sharedInstance.updateCompanyFilter()
             return .empty()
-        case .changedPlaceFilter((let placeType, let isSelected)):
-            return .empty()
         }
     }
     
@@ -276,48 +313,64 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         case .updateBarTitle(let isUpdate):
             newState.isUpdateFilterBarTitle = isUpdate
             
-        case .setEvPayFilter(let isEvPayFilter):
-            newState.isEvPayFilter = isEvPayFilter
+        case .updateEvPayFilter(let isEvPayFilter):
+            newState.filterModel.isEvPayFilter = isEvPayFilter
             
-        case .setFavoriteFilter(let isFavoriteFilter, let numberOfFavorites):
-            newState.isFavoriteFilter = isFavoriteFilter
+        case .updateFavoriteFilter(let isFavoriteFilter, let numberOfFavorites):
+            newState.filterModel.isFavoriteFilter = isFavoriteFilter
             newState.numberOfFavorites = numberOfFavorites
             
         case .numberOfFavorits(let numberOfFavorites):
             newState.numberOfFavorites = numberOfFavorites
             
-        case .setRepresentCarFilter(let isRepresentCarFilter):
-            newState.isRepresentCarFilter = isRepresentCarFilter
+        case .updateRepresentCarFilter(let isRepresentCarFilter):
+            newState.filterModel.isRepresentCarFilter = isRepresentCarFilter
             
         case .setSelectedFilterType(let selectedFilterType):
             newState.selectedFilterType = selectedFilterType
             newState.isUpdateFilterBarTitle = true
+   
+        case .updatePublicFilter(let isSelected):
+            newState.filterModel.isPublic = isSelected
             
-        case .changedAccessFilter(let selectedAccessFilter):
-            switch selectedAccessFilter.accessType {
-            case .publicCharger:
-                newState.isPublic = selectedAccessFilter.isSelected
-            case .nonePublicCharger:
-                newState.isNonPublic = selectedAccessFilter.isSelected
-            }
-        case .changedRoadFilter(let selectedRoadFilter):
-            switch selectedRoadFilter.roadType {
-            case .general:
-                newState.isGeneralRoad = selectedRoadFilter.isSelected
-            case .highwayDown:
-                newState.isHighwayDown = selectedRoadFilter.isSelected
-            case .highwayUp:
-                newState.isHighwayUp = selectedRoadFilter.isSelected
-            }
+        case .updateNonPublicFilter(let isSelected):
+            newState.filterModel.isNonPublic = isSelected
+            
+        case .saveAccessFilter(let filterModel):
+            newState.filterModel = filterModel
+            newState.isUpdateFilterBarTitle = true
+            
+        case .updateGeneralRoadFilter(let isSelcted):
+            newState.filterModel.isGeneralRoad = isSelcted
+            
+        case .updateHighwayUpRoadFilter(let isSelected):
+            newState.filterModel.isHighwayUp = isSelected
+            
+        case .updateHigywayDownRoadFilter(let isSelected):
+            newState.filterModel.isHighwayDown = isSelected
     
-        case .updateIndoorFilter(let isSelected):
-            newState.isIndoor = isSelected
+        case .updateIndoorPlaceFilter(let isSelected):
+            newState.filterModel.isIndoor = isSelected
             
         case .updateOutdoorFilter(let isSelcted):
-            newState.isOutdoor = isSelcted
+            newState.filterModel.isOutdoor = isSelcted
             
         case .updateCanopyFilter(let isSelected):
-            newState.isCanopy = isSelected
+            newState.filterModel.isCanopy = isSelected
+            
+        case .savePlaceFilter(let filterModel):
+            newState.filterModel = filterModel
+            newState.isUpdateFilterBarTitle = true
+            
+        case .saveFilter(let filterModel):
+            initialState.filterModel = filterModel
+            newState.filterModel = filterModel
+            newState.shouldChanged = false
+            newState.isUpdateFilterBarTitle = true
+            
+        case .shouldChanged:
+            let shouldChanged = self.initialState.filterModel != self.currentState.filterModel
+            newState.shouldChanged = shouldChanged
             
         case .changedSpeedFilter(let selectedSpeedFilter):
             newState.minSpeed = selectedSpeedFilter.minSpeed
