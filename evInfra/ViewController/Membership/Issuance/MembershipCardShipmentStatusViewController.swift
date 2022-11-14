@@ -80,9 +80,10 @@ internal final class MembershipCardShipmentStatusViewController: UIViewControlle
                     self.dimmedViewBtn.backgroundColor = Colors.backgroundOverlayDark.color.withAlphaComponent(0.0)
                                                             
                     self.view.layoutIfNeeded()
-                }, completion: { _ in
-                    obj.view.removeFromSuperview()
-                    obj.removeFromParent()
+                }, completion: { [weak self] _ in
+                    guard let self = self else { return }
+                    self.view.removeFromSuperview()
+                    self.removeFromParent()
                 })
             }
             .disposed(by: self.disposeBag)
@@ -90,7 +91,6 @@ internal final class MembershipCardShipmentStatusViewController: UIViewControlle
             
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
             guard let self = self else { return }
             self.totalStackView.snp.updateConstraints {
@@ -104,7 +104,12 @@ internal final class MembershipCardShipmentStatusViewController: UIViewControlle
     // MARK: REACTORKIT
     
     internal func bind(reactor: MembershipCardReactor) {
+        Observable.just(MembershipCardReactor.Action.membershipCardInfo)
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
+        
         reactor.state.compactMap { $0.membershipCardInfo }
+            .distinctUntilChanged()
             .asDriver(onErrorJustReturn: MembershipCardInfo(JSON.null))
             .drive(with: self) { obj, membershipCardInfo in
                 obj.shipmentStepView.bind(model: membershipCardInfo)

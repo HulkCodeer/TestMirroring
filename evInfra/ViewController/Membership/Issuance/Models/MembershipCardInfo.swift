@@ -55,7 +55,7 @@ internal struct MembershipCardInfo: Equatable {
                               self.condition.convertStatusType == .sending)
     }
     
-    internal struct Condition {
+    internal struct Condition: Equatable {
         let status: Int
         let convertStatusType: ShipmentStatusType
         let regDate: String
@@ -85,9 +85,15 @@ internal struct MembershipCardInfo: Equatable {
                 self.convertStatusArr.append(ConvertStatus(shipmentStatusType: type, passType: passType))
             }
         }
+        
+        static func == (lhs: Condition, rhs: Condition) -> Bool {
+            lhs.status == rhs.status &&
+            lhs.regDate == rhs.regDate &&
+            lhs.startDate == rhs.startDate
+        }
     }
     
-    internal struct Destination {
+    internal struct Destination: Equatable {
         let name: String
         let phone: String
         let zip: String
@@ -101,10 +107,22 @@ internal struct MembershipCardInfo: Equatable {
             self.addr = json["addr"].stringValue
             self.addrDtl = json["addr_dtl"].stringValue
         }
+        
+        static func == (lhs: Destination, rhs: Destination) -> Bool {
+            lhs.name == rhs.name &&
+            lhs.phone == rhs.phone &&
+            lhs.zip == rhs.zip &&
+            lhs.addr == rhs.addr &&
+            lhs.addrDtl == rhs.addrDtl
+        }
     }
             
     static func == (lhs: MembershipCardInfo, rhs: MembershipCardInfo) -> Bool {
-        lhs.cardNo == rhs.cardNo
+        lhs.cardNo == rhs.cardNo &&
+        lhs.isReissuance == rhs.isReissuance &&
+        lhs.condition == rhs.condition &&
+        lhs.destination == rhs.destination &&
+        lhs.displayCardNo == rhs.displayCardNo
     }
 }
 
