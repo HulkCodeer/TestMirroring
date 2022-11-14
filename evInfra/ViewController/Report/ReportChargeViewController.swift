@@ -172,12 +172,6 @@ internal final class ReportChargeViewController: UIViewController {
         fullAddressLabel.text = fullAddr as? String
     }
     
-    func setVisableView(view:UIView, hidden:Bool) {
-//        UIView.transition(with: view, duration: 0.5, options: .transitionCrossDissolve, animations: { [weak self] in
-//            self?.view.isHidden = hidden
-//        })
-    }
-    
     func sendDeleteToServer() {
         switch info.type_id {
         case ReportCharger.REPORT_CHARGER_TYPE_USER_MOD:
@@ -329,8 +323,8 @@ extension ReportChargeViewController: AddressToLocationDelegate {
             print("ReportCharger Map init fail")
             return
         }
-//        mapView.setCenter(TMapPoint.init(lon: lon, lat: lat))
-//        mapView.setCenter(CLLocationCoordinate2D(latitude: lat, longitude: lon), animated: true)
+        mapView.setCenter(TMapPoint.init(lon: lon, lat: lat))
+        mapView.setCenter(CLLocationCoordinate2D(latitude: lat, longitude: lon), animated: true)
     }
 }
 
