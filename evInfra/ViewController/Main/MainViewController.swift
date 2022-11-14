@@ -37,12 +37,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     @IBOutlet weak var myLocationButton: UIButton!
     @IBOutlet weak var reNewButton: UIButton!
     
-    private lazy var chargePriceContentStackView = UIStackView().then {
-        $0.axis = .horizontal
-        $0.distribution = .fillProportionally
-        $0.alignment = .center
-        $0.spacing = 2
-
+    private lazy var chargePriceContentView = UIView().then {
         $0.backgroundColor = Colors.backgroundPrimary.color
         $0.layer.cornerRadius = 17
         $0.clipsToBounds = true
@@ -52,22 +47,12 @@ internal final class MainViewController: UIViewController, StoryboardView {
         $0.layer.shadowOpacity = 0.5
         $0.layer.shadowOffset = CGSize(width: 0.5, height: 2)
         $0.layer.masksToBounds = false
-        
-        let leadingPadding = UIView()
-        let trailingPadding = UIView()
-        
-        $0.addArrangedSubview(leadingPadding)
-        leadingPadding.snp.makeConstraints {
-            $0.width.equalTo(12)
-        }
-        $0.addArrangedSubview(trailingPadding)
-        trailingPadding.snp.makeConstraints {
-            $0.width.equalTo(14)
-        }
     }
+
     private lazy var chargePriceIcon = UIImageView().then {
         $0.image = Icons.coinFillSm.image
         $0.contentMode = .scaleAspectFill
+        $0.tintColor = Colors.nt6.color
     }
     private lazy var chargePriceLabel = UILabel().then {
         $0.text = "충전 요금 안내"
@@ -280,11 +265,12 @@ internal final class MainViewController: UIViewController, StoryboardView {
             $0.height.equalTo(62)
         }
         
-        view.addSubview(chargePriceContentStackView)
-        chargePriceContentStackView.snp.makeConstraints {
+        view.addSubview(chargePriceContentView)
+        chargePriceContentView.snp.makeConstraints {
             $0.bottom.equalTo(bottomMenuView.snp.top).inset(-12)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(34)
+            $0.width.equalTo(134)
         }
         
         bottomMenuView.addSubview(bottomMenuStackView)
@@ -297,13 +283,20 @@ internal final class MainViewController: UIViewController, StoryboardView {
         filterStackView.addArrangedSubview(filterBarView)
         filterStackView.addArrangedSubview(filterContainerView)
         
-        chargePriceContentStackView.insertArrangedSubview(chargePriceIcon, at: 1)
+        chargePriceContentView.addSubview(chargePriceIcon)
         chargePriceIcon.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.equalToSuperview().inset(14)
             $0.size.equalTo(20)
         }
-        chargePriceContentStackView.insertArrangedSubview(chargePriceLabel, at: 2)
         
-        chargePriceContentStackView.addSubview(chargePriceButton)
+        chargePriceContentView.addSubview(chargePriceLabel)
+        chargePriceLabel.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.equalTo(chargePriceIcon.snp.trailing).offset(4)
+        }
+        
+        chargePriceContentView.addSubview(chargePriceButton)
         chargePriceButton.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -725,7 +718,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                     
                 owner.setView(view: owner.routeDistanceView, hidden: true)
                 
-                owner.chargePriceContentStackView.isHidden = false
+                owner.chargePriceContentView.isHidden = false
                 owner.bottomMenuView.isHidden = false
                 
                 owner.searchWayView.startTextField.text = String()
@@ -1250,7 +1243,7 @@ extension MainViewController {
             // 하단 충전소 정보 숨기기
             setView(view: callOutLayer, hidden: true)
             
-            self.chargePriceContentStackView.isHidden = true
+            self.chargePriceContentView.isHidden = true
             self.bottomMenuView.isHidden = true
             
             let bounds = NMGLatLngBounds(southWestLat: startPoint.getLatitude(),
