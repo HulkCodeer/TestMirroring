@@ -409,7 +409,6 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         
         moveMyInfoBtn.rx.tap
             .asDriver()
-            .debug()
             .drive(onNext: {
                 AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "전체메뉴 상단 베리 닉네임")
                 let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPageViewController.self)
@@ -419,7 +418,6 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         
         moveLoginBtn.rx.tap
             .asDriver()
-            .debug()
             .drive(with: self, onNext: { owner, _ in
                 AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "비로그인 전체메뉴 상단 베리 닉네임")
                 let viewcon = UIStoryboard(name : "Login", bundle: nil).instantiateViewController(ofType: LoginViewController.self)
@@ -505,7 +503,6 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         myBerryRefreshBtn.rx.tap
             .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
             .asDriver(onErrorJustReturn: ())
-            .debug()
             .drive(with: self) { obj, _ in
                 let animation = CABasicAnimation(keyPath: "transform.rotation.z")
                 let direction = 1.0
@@ -607,14 +604,23 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
 
         switch _reactor.currentState.menuCategoryType {
         case .mypage:
-            if index.section == 1 {
+            switch index.section {
+            case 0:
+                switch index.row {
+                case 1: cell.newBadge.isHidden = UserDefault().readBool(key: UserDefault.Key.IS_EVPAY_BADGE_NEW)
+                default: cell.newBadge.isHidden = true
+                }
+                
+            case 1:
                 if index.row == 0 { // 미수금 표시
                     if UserDefault().readBool(key: UserDefault.Key.HAS_FAILED_PAYMENT) {
                         cell.newBadge.isHidden = false
                     }
                 }
+                
+            default: cell.newBadge.isHidden = true
             }
-
+            
         case .community:
             if index.section == 0 {
                 switch index.row {
@@ -656,6 +662,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
                     }
                 }
             }
+                    
        
         default:
             cell.newBadge.isHidden = true
@@ -666,7 +673,7 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         switch index.row {
         case 0: // 결제 정보 관리
             cell.menuLabel.text = MemberManager.shared.hasPayment ? "결제 정보 관리" : "결제 정보 등록"
-        case 1: // 회원카드 관리
+        case 1: // 회원카드 관리            
             cell.menuLabel.text = MemberManager.shared.hasMembership ? "EV Pay카드 관리" : "EV Pay카드 신청"
         case 2: // 렌터카 정보 관리
             cell.menuLabel.text = MemberManager.shared.hasRentcar ? "렌터카 정보 관리" : "렌터카 정보 등록"

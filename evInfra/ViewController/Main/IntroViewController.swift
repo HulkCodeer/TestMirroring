@@ -58,6 +58,39 @@ internal final class IntroViewController: UIViewController {
                 fatalError("네트워크 오류")
             }
         }
+        
+        
+        RestApi()
+            .postMembershipCardInfo()
+            .observe(on: MainScheduler.asyncInstance)
+            .convertData()
+            .compactMap { event -> MembershipCardInfo? in
+                switch event {
+                case .success(let data):
+                    let jsonData = JSON(data)
+                    printLog(out: "JsonData : \(jsonData)")
+                    
+                    guard jsonData["code"] == 1000 else { return nil }
+                    let membershipCardInfo = MembershipCardInfo(jsonData["data"])
+                    
+                    return membershipCardInfo
+                                                                                 
+                case .failure(let errorMessage):
+                    printLog(out: "Error Message : \(errorMessage)")
+                    Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
+                    return nil
+                }
+            }
+            .subscribe(onNext: { model in
+                if !(model.condition.convertStatusType == .sendComplete) {
+                    let currentStatus = UserDefault().readInt(key: UserDefault.Key.LAST_MEMBERSHIPCARD_DELIVERY_STATUS)
+                    if model.condition.status > currentStatus {
+                        UserDefault().saveInt(key: UserDefault.Key.LAST_MEMBERSHIPCARD_DELIVERY_STATUS, value: model.condition.status)
+                        UserDefault().saveBool(key: UserDefault.Key.IS_EVPAY_BADGE_NEW, value: true)
+                    }
+                }
+            })
+            .disposed(by: self.disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {

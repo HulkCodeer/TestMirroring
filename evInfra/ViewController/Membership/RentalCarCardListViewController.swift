@@ -104,19 +104,20 @@ internal final class RentalCarCardListViewController: CommonBaseViewController {
 extension RentalCarCardListViewController: PartnershipListViewDelegate {    
     func paymentStatusInfo() -> PaymentStatus { return .none }    
     func addNewPartnership() {}
+    func showShipmentStatusView() {}
     
-    func showEvinfraMembershipInfo(info : MemberPartnershipInfo) {
-        let mbsInfoVC = storyboard?.instantiateViewController(withIdentifier: "MembershipInfoViewController") as! MembershipInfoViewController
-        mbsInfoVC.setCardInfo(info : info)
-        navigationController?.push(viewController: mbsInfoVC)
+    func showEvinfraMembershipInfo(info : MembershipCardInfo) {
+        let viewcon = UIStoryboard(name: "Membership", bundle: nil).instantiateViewController(ofType: MembershipInfoViewController.self)
+        viewcon.setCardInfo(info : info)
+        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
     }
     
     func moveMembershipUseGuideView() {
         let viewcon = MembershipUseGuideViewController()
-        navigationController?.push(viewController: viewcon)
+        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
     }
     
-    func moveReissuanceView(info: MemberPartnershipInfo) {
+    func moveReissuanceView(info: MembershipCardInfo) {
         let reactor = MembershipReissuanceReactor(provider: RestApi())
         let viewcon = MembershipReissuanceViewController()
         viewcon.reactor = reactor

@@ -16,12 +16,12 @@ import NMapsMap
 import SnapKit
 import RxSwift
 import RxCocoa
-import EasyTipView
 import AVFoundation
 import ReactorKit
 import RxViewController
 import RxCoreLocation
 import CoreLocation
+import EasyTipView
 
 internal final class MainViewController: UIViewController, StoryboardView {
     
@@ -66,7 +66,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         }
     }
     private lazy var chargePriceIcon = UIImageView().then {
-        $0.image = Icons.iconCoinFillSm.image
+        $0.image = Icons.coinFillSm.image
         $0.contentMode = .scaleAspectFill
     }
     private lazy var chargePriceLabel = UILabel().then {
@@ -133,7 +133,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
 
     private lazy var naverMapView = NaverMapView(frame: .zero).then {
         $0.mapView.addCameraDelegate(delegate: self)
-        $0.mapView.touchDelegate = self
+        $0.mapView.touchDelegate = self    
         ChargerManager.sharedInstance.delegate = self
     }
     var mapView: NMFMapView { naverMapView.mapView }
@@ -175,7 +175,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         prepareNotificationCenter()
         prepareRouteView()
         prepareClustering()
-        
+            
         requestStationInfo()
         
         prepareCalloutLayer()

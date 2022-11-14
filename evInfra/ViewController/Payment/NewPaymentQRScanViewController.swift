@@ -315,7 +315,7 @@ internal final class NewPaymentQRScanViewController: CommonBaseViewController, S
             
             let popupModel = PopupModel(title: "EV Pay카드 발급이 필요해요",
                                         message: "EV Pay카드를 발급 해야 한국전력, GS칼텍스의 QR 충전을 이용할 수 있어요.",
-                                        confirmBtnTitle: "EV Pay 발급하기", cancelBtnTitle: "닫기",
+                                        confirmBtnTitle: "EV Pay카드 발급하기", cancelBtnTitle: "닫기",
                                         confirmBtnAction: {
                 AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "QR 팝업")
                 let viewcon = MembershipGuideViewController()

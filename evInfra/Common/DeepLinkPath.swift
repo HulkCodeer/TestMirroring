@@ -30,6 +30,7 @@ internal final class DeepLinkPath {
         case event_detail
         case kakaolink(KakaoLinkType)
         case main
+        case qrCharge
         
         enum KakaoLinkType: String {
             case charger = "charger"
@@ -63,6 +64,9 @@ internal final class DeepLinkPath {
                 
             case .main:
                 return "/main"
+                
+            case .qrCharge:
+                return "qr_charge"
                 
             case .kakaolink(let type):
                 switch type {

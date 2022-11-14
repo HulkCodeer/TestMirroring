@@ -633,14 +633,19 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                 
                     case 1: // 회원카드 관리
                         let viewcon: UIViewController
+                        // TODO: TEST CODE DELETE
+//                        let reacotr = MembershipCardIssuanceCompleteReactor(provider: RestApi())
+//                        viewcon = MembershipCardIssuanceCompleteViewController(reactor: reacotr)
+//                        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                        UserDefault().saveBool(key: UserDefault.Key.IS_EVPAY_BADGE_NEW, value: false)
                         if MemberManager.shared.hasMembership {
-                            let mbsStoryboard = UIStoryboard(name : "Membership", bundle: nil)
-                            viewcon = mbsStoryboard.instantiateViewController(ofType: MembershipCardViewController.self)
+                            let reactor = MembershipCardReactor(provider: RestApi())
+                            viewcon = MembershipCardViewController(reactor: reactor)
                         } else {
                             AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "EV Pay 카드 신청 메뉴")
                             viewcon = MembershipGuideViewController()
                         }
-                        
+
                         GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                         
                     case 2: // 렌탈정보 관리

@@ -31,20 +31,17 @@ internal final class MembershipGuideViewController: CommonBaseViewController, WK
     }
     
     private lazy var webView = WKWebView(frame: CGRect.zero, configuration: self.config).then {
-        
         $0.navigationDelegate = self
         $0.uiDelegate = self
     }
-    
-    private lazy var membershipRegisterBtn = UIButton().then {
-        
-        $0.backgroundColor = UIColor(named: "gr-5")
+            
+    private lazy var membershipRegisterBtn = StickyButton(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 32, height: 80), level: .primary).then {
+        $0.rectBtn.setTitle("EV Pay카드 만들기", for: .normal)
     }
     
     private lazy var membershipBtnTitleLbl = UILabel().then {
-        
         $0.text = "EV Pay카드 만들기"
-        $0.textColor = UIColor(named: "nt-9")
+        $0.textColor = Colors.nt9.color
         $0.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         $0.textAlignment = .center
     }
@@ -69,8 +66,7 @@ internal final class MembershipGuideViewController: CommonBaseViewController, WK
         self.contentView.addSubview(self.membershipRegisterBtn)
         membershipRegisterBtn.snp.makeConstraints {
             $0.leading.trailing.bottom.equalToSuperview()
-            let safeAreaBottomHeight = UIWindow.key?.safeAreaInsets.bottom ?? 0
-            $0.height.equalTo(64 + safeAreaBottomHeight)
+            $0.height.equalTo(80)
         }
         
         self.contentView.addSubview(self.webView)
@@ -79,21 +75,7 @@ internal final class MembershipGuideViewController: CommonBaseViewController, WK
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(membershipRegisterBtn.snp.top)
         }
-        
-        membershipRegisterBtn.addSubview(membershipBtnTitleLbl)
-        membershipBtnTitleLbl.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(20)
-            $0.centerX.equalTo(membershipRegisterBtn.snp.centerX)
-            $0.height.equalTo(24)
-        }
-        
-        membershipRegisterBtn.addSubview(arrowImgView)
-        arrowImgView.snp.makeConstraints {
-            $0.trailing.equalToSuperview().offset(-16)
-            $0.centerY.equalTo(membershipBtnTitleLbl.snp.centerY)
-            $0.width.height.equalTo(32)
-        }
-        
+                                        
         guard let _url = URL(string: "\(Const.EV_PAY_SERVER)/docs/info/membership_info?osType=ios") else {
             return
         }
@@ -106,7 +88,7 @@ internal final class MembershipGuideViewController: CommonBaseViewController, WK
         
         AmplitudeEvent.shared.fromViewSourceByLogEvent(eventType: .clickViewApplyEVICard)
         
-        membershipRegisterBtn.rx.tap
+        membershipRegisterBtn.rectBtn.rx.tap
             .asDriver()
             .drive(with: self) { obj, _ in
                 let viewcon = UIStoryboard(name : "Membership", bundle: nil).instantiateViewController(ofType: MembershipIssuanceViewController.self)
