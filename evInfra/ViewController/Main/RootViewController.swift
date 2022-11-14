@@ -114,7 +114,8 @@ internal final class RootViewController: TransitionController {
         
         mainReactor.state.compactMap { $0.isShowMenu }
             .asDriver(onErrorJustReturn: false)
-            .drive(with: self) { obj, isShowMenu in
+            .drive(with: self) { obj, isShowMenu in                
+                obj.leftViewController.loginAndNonloginSetting()
                 obj.isLeftViewOpened ? obj.closeLeftView(velocity: 0) : obj.openLeftView(velocity: 0)
             }
             .disposed(by: disposeBag)

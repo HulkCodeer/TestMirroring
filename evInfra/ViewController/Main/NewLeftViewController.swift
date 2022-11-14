@@ -467,16 +467,6 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         tableView.reloadData()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        self.navigationDrawerController?.reHideStatusBar()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        self.navigationDrawerController?.reShowStatusBar()
-    }
-    
     func bind(reactor: LeftViewReactor) {
         MemberManager.shared.tryToLoginCheck { [weak self] isLogin in
             guard let self = self, isLogin else { return }
@@ -682,6 +672,36 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
             cell.menuLabel.text = MemberManager.shared.hasRentcar ? "렌터카 정보 관리" : "렌터카 정보 등록"
         default: break
         }
+    }
+    
+    internal func loginAndNonloginSetting() {
+        MemberManager.shared.tryToLoginCheck { [weak self] isLogin in
+            guard let self = self, let _reactor = self.reactor else { return }
+            self.nonLoginTotalView.isHidden = isLogin
+            self.loginTotalView.isHidden = !isLogin
+            
+            self.userInfoTotalView.snp.updateConstraints {
+                $0.height.equalTo(isLogin ? ViewHeightConst.loginViewHeight : ViewHeightConst.nonLoginViewHeigt)
+            }
+            
+            guard isLogin else {
+                self.myBerryLbl.text = "0"
+                return
+            }
+            let displayNickname = MemberManager.shared.memberNickName
+            self.nicknameLbl.text = displayNickname.count > 10 ? "\(displayNickname.substring(to: 10))..." : displayNickname
+            
+            Observable.just(LeftViewReactor.Action.isAllBerryReload)
+                .bind(to: _reactor.action)
+                .disposed(by: self.viewDisposeBag)
+            
+            Observable.just(LeftViewReactor.Action.getMyBerryPoint)
+                .bind(to: _reactor.action)
+                .disposed(by: self.viewDisposeBag)
+        }
+        
+        profileImgView.sd_setImage(with: URL(string:"\(Const.urlProfileImage)\(MemberManager.shared.profileImage)"), placeholderImage: Icons.iconProfileEmpty.image)
+        tableView.reloadData()
     }
 }
 
