@@ -674,20 +674,20 @@ internal final class MainViewController: UIViewController, StoryboardView {
             .map { _ in return String() }
             .bind(to: searchWayView.startTextField.rx.text)
             .disposed(by: disposeBag)
+        
         reactor.state.compactMap { $0.isClearSearchWayPoint }
             .filter { $0.1 == .endPoint }
             .map { _ in return String() }
             .bind(to: searchWayView.endTextField.rx.text)
             .disposed(by: disposeBag)
-        
-        
+                
         reactor.state.compactMap { $0.isHideDestinationResult }
             .filter { $0 == true }
             .asDriver(onErrorJustReturn: true)
             .drive(with: self) { owner, isHideDestination in
-                UIView.animate(withDuration: 0.5, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, animations: {() -> Void in
+                UIView.animate(withDuration: 0.5, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn) {
                     self.destinationResultTableView.isHidden = true
-                }, completion: nil)
+                }
             }
             .disposed(by: disposeBag)
         
@@ -695,9 +695,9 @@ internal final class MainViewController: UIViewController, StoryboardView {
             .filter { $0 == false }
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { owner, isHideDestination in
-                UIView.animate(withDuration: 0.5, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: {() -> Void in
+                UIView.animate(withDuration: 0.5, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut) {
                     owner.destinationResultTableView.isHidden = false
-                }, completion: nil)
+                }
             }
             .disposed(by: disposeBag)
         
@@ -760,7 +760,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 
                 switch chargingType {
                 case .leave:
-                    LoginHelper.shared.logout(completion: { [weak self] success in
+                    LoginHelper.shared.logout(completion: { success in
                         if success {
                             Snackbar().show(message: "회원 탈퇴로 인해 로그아웃 되었습니다.")
                         } else {
@@ -808,11 +808,10 @@ internal final class MainViewController: UIViewController, StoryboardView {
                     }
                     
                 case .accountsReceivable:
-                    let paymentStoryboard = UIStoryboard(name : "Payment", bundle: nil)
-                    let repayListViewController = paymentStoryboard.instantiateViewController(ofType: RepayListViewController.self)
-                    repayListViewController.delegate = self
+                    let viewcon =  UIStoryboard(name : "Payment", bundle: nil).instantiateViewController(ofType: RepayListViewController.self)
+                    viewcon.delegate = self
                     
-                    GlobalDefine.shared.mainNavi?.push(viewController: repayListViewController)
+                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                     
                 default: break
                 }
@@ -825,8 +824,8 @@ internal final class MainViewController: UIViewController, StoryboardView {
             .drive(with: self) { owner, showType in
                 switch showType {
                 case .evPayGuide:
-                    let guidVC = MembershipGuideViewController()
-                    GlobalDefine.shared.mainNavi?.push(viewController: guidVC)
+                    let viewcon = MembershipGuideViewController()
+                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                     
                 case .evPayManagement:
                     let reactor = MembershipCardReactor(provider: RestApi())
@@ -834,11 +833,10 @@ internal final class MainViewController: UIViewController, StoryboardView {
                     GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                     
                 case .accountsReceivable:
-                    let paymentStoryboard = UIStoryboard(name : "Payment", bundle: nil)
-                    let repayListViewController = paymentStoryboard.instantiateViewController(ofType: RepayListViewController.self)
-                    repayListViewController.delegate = self
+                    let viewcon = UIStoryboard(name : "Payment", bundle: nil).instantiateViewController(ofType: RepayListViewController.self)
+                    viewcon.delegate = self
                     
-                    GlobalDefine.shared.mainNavi?.push(viewController: repayListViewController)
+                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 }
             }
             .disposed(by: disposeBag)
@@ -850,13 +848,13 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 case .community:
                     UserDefault().saveInt(key: UserDefault.Key.LAST_FREE_ID, value: Board.sharedInstance.freeBoardId)
                     
-                    let communityBoardViewController = CardBoardViewController(category: .FREE, mode: .FEED)
-                    GlobalDefine.shared.mainNavi?.push(viewController: communityBoardViewController)
+                    let viewcon = CardBoardViewController(category: .FREE, mode: .FEED)
+                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                     
                 case .favorite:
-                    let favoriteViewController = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: FavoriteViewController.self)
-                    favoriteViewController.delegate = self
-                    GlobalDefine.shared.mainNavi?.push(viewController: favoriteViewController, subtype: CATransitionSubtype.fromTop)
+                    let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: FavoriteViewController.self)
+                    viewcon.delegate = self
+                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon, subtype: CATransitionSubtype.fromTop)
                     
                 default:
                     break
@@ -867,10 +865,9 @@ internal final class MainViewController: UIViewController, StoryboardView {
         reactor.state.compactMap { $0.isShowChargePrice }
             .asDriver(onErrorJustReturn: true)
             .drive { _ in
-                let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-                let priceInfoViewController: TermsViewController = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
-                priceInfoViewController.tabIndex = .priceInfo
-                GlobalDefine.shared.mainNavi?.push(viewController: priceInfoViewController)
+                let viewcon = UIStoryboard(name : "Info", bundle: nil).instantiateViewController(ofType: TermsViewController.self)
+                viewcon.tabIndex = .priceInfo
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             }
             .disposed(by: disposeBag)
     }

@@ -106,8 +106,6 @@
 		425EE5B52519DA780089E87D /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 732B929D20EDE9DE0090E9FC /* libsqlite3.tbd */; };
 		425EE5D82519DF160089E87D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 425EE5D72519DF160089E87D /* SystemConfiguration.framework */; };
 		425EE66D2519EE3C0089E87D /* DaumMap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 425EE66C2519EE3C0089E87D /* DaumMap.framework */; };
-		4262F01724BC2EE5002FE3A5 /* ChargePriceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4262F01624BC2EE5002FE3A5 /* ChargePriceViewController.swift */; };
-		4262F01924BC4688002FE3A5 /* ChargePriceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4262F01824BC4688002FE3A5 /* ChargePriceTableViewCell.swift */; };
 		4274B4B724BDA7E100FA2AF6 /* ChargePrice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */; };
 		4290643C25F612FF00E28B31 /* CouponCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4290643B25F612FF00E28B31 /* CouponCodeViewController.swift */; };
 		42CEB75026C1110D00E37AE4 /* CidInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CEB74E26C1110D00E37AE4 /* CidInfoTableViewCell.swift */; };
@@ -342,7 +340,6 @@
 		63F313B7284EC74F001713D2 /* UserDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE24840320A59E6400611E24 /* UserDefault.swift */; };
 		63F313B8284EC74F001713D2 /* InfoLastUpdateDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902A11D2248F52B80049EF8E /* InfoLastUpdateDto.swift */; };
 		63F313B9284EC74F001713D2 /* PartnershipJoinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A82E3A252AB52F00EEBCBF /* PartnershipJoinView.swift */; };
-		63F313BB284EC74F001713D2 /* ChargePriceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4262F01624BC2EE5002FE3A5 /* ChargePriceViewController.swift */; };
 		63F313BC284EC74F001713D2 /* GlobalDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */; };
 		63F313BD284EC74F001713D2 /* SC_TRACE.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA0A08282E44020021292C /* SC_TRACE.swift */; };
 		63F313BE284EC74F001713D2 /* MyCouponTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE33B4C42191BFD100B6C632 /* MyCouponTableViewCell.swift */; };
@@ -425,11 +422,9 @@
 		63F3140E284EC74F001713D2 /* CircularProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7379A45522CF156E00F4271C /* CircularProgressBar.swift */; };
 		63F3140F284EC74F001713D2 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA015B2832559400705842 /* BaseViewController.swift */; };
 		63F31410284EC74F001713D2 /* FindAllPOIListenerCallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12824E564F800CB6549 /* FindAllPOIListenerCallback.swift */; };
-		63F31411284EC74F001713D2 /* AppNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E7E4B82091BA5C00460B96 /* AppNavigationController.swift */; };
 		63F31412284EC74F001713D2 /* CompanyInfoChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732B929920EDD0C60090E9FC /* CompanyInfoChecker.swift */; };
 		63F31413284EC74F001713D2 /* CompanyInfoDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902A11D0248F4DAC0049EF8E /* CompanyInfoDto.swift */; };
 		63F31414284EC74F001713D2 /* Marker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192A338227FE747E00EF1684 /* Marker.swift */; };
-		63F31415284EC74F001713D2 /* AppToolbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73EF8B3E203ACB8500D04494 /* AppToolbarController.swift */; };
 		63F31416284EC74F001713D2 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B53D2C27BCC49D00D446A9 /* SearchBarView.swift */; };
 		63F31417284EC74F001713D2 /* MembershipInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005643DF252DA18E007BF78D /* MembershipInfoViewController.swift */; };
 		63F31418284EC74F001713D2 /* ChargePrice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */; };
@@ -485,7 +480,6 @@
 		63F3144E284EC74F001713D2 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EB85D126BA8C6100D1606F /* UILabel+Extension.swift */; };
 		63F3144F284EC74F001713D2 /* MembershipReissuanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B23743282CCB8300E8A3F8 /* MembershipReissuanceViewController.swift */; };
 		63F31450284EC74F001713D2 /* CommunityChargeStationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B2594C278EBBC90042B22C /* CommunityChargeStationTableViewCell.swift */; };
-		63F31451284EC74F001713D2 /* AppNavigationDrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AD13C7203AC57A00ADD19A /* AppNavigationDrawerController.swift */; };
 		63F31452284EC74F001713D2 /* BoardSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529148B227BE14660011021F /* BoardSearchViewModel.swift */; };
 		63F31453284EC74F001713D2 /* PopUpDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006C90982554EFD100F7C6D7 /* PopUpDialog.swift */; };
 		63F31454284EC74F001713D2 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7308559C206350890008497E /* UIView+Extension.swift */; };
@@ -528,7 +522,6 @@
 		63F3147F284EC74F001713D2 /* MembershipQRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0056440C252DB2AB007BF78D /* MembershipQRViewController.swift */; };
 		63F31480284EC74F001713D2 /* CouponCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4290643B25F612FF00E28B31 /* CouponCodeViewController.swift */; };
 		63F31481284EC74F001713D2 /* FindPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA015D28325C9200705842 /* FindPasswordViewController.swift */; };
-		63F31482284EC74F001713D2 /* PaymentStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733662FF230263540049AEFE /* PaymentStatusViewController.swift */; };
 		63F31484284EC74F001713D2 /* SearchAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D65D77235C51FF00F564A2 /* SearchAddressViewController.swift */; };
 		63F31485284EC74F001713D2 /* BoardWriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525E3A2F278D732700F5C54D /* BoardWriteViewController.swift */; };
 		63F31487284EC74F001713D2 /* StationInfoDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902A11D4248F53D80049EF8E /* StationInfoDto.swift */; };
@@ -553,7 +546,6 @@
 		63F3149F284EC74F001713D2 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CD36C727900E04005413A6 /* BottomSheetViewController.swift */; };
 		63F314A0284EC74F001713D2 /* BoardListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B25949278E5E5C0042B22C /* BoardListItem.swift */; };
 		63F314A1284EC74F001713D2 /* evInfra.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 732121C3203AC023000E105C /* evInfra.xcdatamodeld */; };
-		63F314A2284EC74F001713D2 /* ChargePriceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4262F01824BC4688002FE3A5 /* ChargePriceTableViewCell.swift */; };
 		63F314A3284EC74F001713D2 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73450EF92071EB01008516E9 /* EditViewController.swift */; };
 		63F314A4284EC74F001713D2 /* ChargerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C31BFE20A2B246005B6C53 /* ChargerModel.swift */; };
 		63F314A6284EC74F001713D2 /* DaumMap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 425EE66C2519EE3C0089E87D /* DaumMap.framework */; };
@@ -735,7 +727,6 @@
 		733662CC22EFECB80049AEFE /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733662CB22EFECB80049AEFE /* Event.swift */; };
 		733662D022F974820049AEFE /* Coupon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733662CF22F974820049AEFE /* Coupon.swift */; };
 		733662D222FAB6720049AEFE /* MyCouponContentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733662D122FAB6720049AEFE /* MyCouponContentsViewController.swift */; };
-		73366300230263540049AEFE /* PaymentStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733662FF230263540049AEFE /* PaymentStatusViewController.swift */; };
 		7339908022D881D100CF72A8 /* PaymentResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7339907E22D881D000CF72A8 /* PaymentResultViewController.swift */; };
 		73450EFA2071EB01008516E9 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73450EF92071EB01008516E9 /* EditViewController.swift */; };
 		734FBDEF219001EA00BEDB60 /* AppTabsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734FBDEE219001EA00BEDB60 /* AppTabsController.swift */; };
@@ -812,7 +803,6 @@
 		73A7B430204F8A72002E975F /* CidInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A7B42F204F8A72002E975F /* CidInfo.swift */; };
 		73AD13C1203AC28800ADD19A /* Material.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73AD13C3203AC28800ADD19A /* Material.framework */; };
 		73AD13C2203AC28800ADD19A /* Motion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73AD13C4203AC28800ADD19A /* Motion.framework */; };
-		73AD13C8203AC57A00ADD19A /* AppNavigationDrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AD13C7203AC57A00ADD19A /* AppNavigationDrawerController.swift */; };
 		73AF8FC121C77E1B003CB2CF /* ClusterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AF8FBE21C77E1B003CB2CF /* ClusterManager.swift */; };
 		73AF8FC321C77E1B003CB2CF /* CodableCluster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AF8FC021C77E1B003CB2CF /* CodableCluster.swift */; };
 		73AFF26722D467E000287E67 /* Chronometer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AFF26622D467E000287E67 /* Chronometer.swift */; };
@@ -846,10 +836,8 @@
 		73D65D802362D52E00F564A2 /* MembershipTermView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D65D7F2362D52E00F564A2 /* MembershipTermView.swift */; };
 		73D65D822362D54000F564A2 /* MembershipTermView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73D65D812362D54000F564A2 /* MembershipTermView.xib */; };
 		73DD778123164CB60006EFFC /* CopyableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DD778023164CB60006EFFC /* CopyableLabel.swift */; };
-		73E7E4B92091BA5C00460B96 /* AppNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E7E4B82091BA5C00460B96 /* AppNavigationController.swift */; };
 		73EE8FB52101B7920016F505 /* BedgeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73EE8FB42101B7920016F505 /* BedgeButton.swift */; };
 		73EE8FBB2105B3420016F505 /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73EE8FBA2105B3420016F505 /* Board.swift */; };
-		73EF8B3F203ACB8500D04494 /* AppToolbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73EF8B3E203ACB8500D04494 /* AppToolbarController.swift */; };
 		73EF8B43203BC71100D04494 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73EF8B42203BC71100D04494 /* UIColor+Extension.swift */; };
 		73EF8B6F203C85CC00D04494 /* HeadingAngleSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = 73EF8B62203C85CC00D04494 /* HeadingAngleSmall.png */; };
 		73EF8B70203C85CC00D04494 /* HeadingAngleSmall@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 73EF8B63203C85CC00D04494 /* HeadingAngleSmall@2x.png */; };
@@ -910,7 +898,6 @@
 		824D5C0B28BDD89C00EDC712 /* InfoLastUpdateDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902A11D2248F52B80049EF8E /* InfoLastUpdateDto.swift */; };
 		824D5C0C28BDD89C00EDC712 /* PartnershipJoinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A82E3A252AB52F00EEBCBF /* PartnershipJoinView.swift */; };
 		824D5C0D28BDD89C00EDC712 /* NewBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C7C8DF286D6F0B00A357D6 /* NewBottomSheetViewController.swift */; };
-		824D5C0F28BDD89C00EDC712 /* ChargePriceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4262F01624BC2EE5002FE3A5 /* ChargePriceViewController.swift */; };
 		824D5C1028BDD89C00EDC712 /* GlobalDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B3E7F32837D5A700B8ACF7 /* GlobalDefine.swift */; };
 		824D5C1128BDD89C00EDC712 /* SC_TRACE.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA0A08282E44020021292C /* SC_TRACE.swift */; };
 		824D5C1228BDD89C00EDC712 /* MyCouponTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE33B4C42191BFD100B6C632 /* MyCouponTableViewCell.swift */; };
@@ -1006,12 +993,10 @@
 		824D5C6F28BDD89C00EDC712 /* CircularProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7379A45522CF156E00F4271C /* CircularProgressBar.swift */; };
 		824D5C7028BDD89C00EDC712 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA015B2832559400705842 /* BaseViewController.swift */; };
 		824D5C7128BDD89C00EDC712 /* FindAllPOIListenerCallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9014C12824E564F800CB6549 /* FindAllPOIListenerCallback.swift */; };
-		824D5C7228BDD89C00EDC712 /* AppNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E7E4B82091BA5C00460B96 /* AppNavigationController.swift */; };
 		824D5C7328BDD89C00EDC712 /* CompanyInfoChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 732B929920EDD0C60090E9FC /* CompanyInfoChecker.swift */; };
 		824D5C7428BDD89C00EDC712 /* GlobalAdsReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193C95C3289906DB00CD61D6 /* GlobalAdsReactor.swift */; };
 		824D5C7528BDD89C00EDC712 /* CompanyInfoDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902A11D0248F4DAC0049EF8E /* CompanyInfoDto.swift */; };
 		824D5C7628BDD89C00EDC712 /* Marker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192A338227FE747E00EF1684 /* Marker.swift */; };
-		824D5C7728BDD89C00EDC712 /* AppToolbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73EF8B3E203ACB8500D04494 /* AppToolbarController.swift */; };
 		824D5C7828BDD89C00EDC712 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B53D2C27BCC49D00D446A9 /* SearchBarView.swift */; };
 		824D5C7928BDD89C00EDC712 /* MembershipInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005643DF252DA18E007BF78D /* MembershipInfoViewController.swift */; };
 		824D5C7A28BDD89C00EDC712 /* ChargePrice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */; };
@@ -1073,7 +1058,6 @@
 		824D5CB528BDD89C00EDC712 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EB85D126BA8C6100D1606F /* UILabel+Extension.swift */; };
 		824D5CB628BDD89C00EDC712 /* MembershipReissuanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B23743282CCB8300E8A3F8 /* MembershipReissuanceViewController.swift */; };
 		824D5CB728BDD89C00EDC712 /* CommunityChargeStationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B2594C278EBBC90042B22C /* CommunityChargeStationTableViewCell.swift */; };
-		824D5CB828BDD89C00EDC712 /* AppNavigationDrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AD13C7203AC57A00ADD19A /* AppNavigationDrawerController.swift */; };
 		824D5CB928BDD89C00EDC712 /* BoardSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529148B227BE14660011021F /* BoardSearchViewModel.swift */; };
 		824D5CBA28BDD89C00EDC712 /* PopUpDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006C90982554EFD100F7C6D7 /* PopUpDialog.swift */; };
 		824D5CBB28BDD89C00EDC712 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7308559C206350890008497E /* UIView+Extension.swift */; };
@@ -1123,7 +1107,6 @@
 		824D5CEC28BDD89C00EDC712 /* MembershipQRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0056440C252DB2AB007BF78D /* MembershipQRViewController.swift */; };
 		824D5CED28BDD89C00EDC712 /* CouponCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4290643B25F612FF00E28B31 /* CouponCodeViewController.swift */; };
 		824D5CEE28BDD89C00EDC712 /* FindPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DA015D28325C9200705842 /* FindPasswordViewController.swift */; };
-		824D5CEF28BDD89C00EDC712 /* PaymentStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733662FF230263540049AEFE /* PaymentStatusViewController.swift */; };
 		824D5CF128BDD89C00EDC712 /* SearchAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73D65D77235C51FF00F564A2 /* SearchAddressViewController.swift */; };
 		824D5CF228BDD89C00EDC712 /* BoardWriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525E3A2F278D732700F5C54D /* BoardWriteViewController.swift */; };
 		824D5CF428BDD89C00EDC712 /* StationInfoDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902A11D4248F53D80049EF8E /* StationInfoDto.swift */; };
@@ -1152,7 +1135,6 @@
 		824D5D0F28BDD89C00EDC712 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CD36C727900E04005413A6 /* BottomSheetViewController.swift */; };
 		824D5D1028BDD89C00EDC712 /* BoardListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B25949278E5E5C0042B22C /* BoardListItem.swift */; };
 		824D5D1128BDD89C00EDC712 /* evInfra.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 732121C3203AC023000E105C /* evInfra.xcdatamodeld */; };
-		824D5D1228BDD89C00EDC712 /* ChargePriceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4262F01824BC4688002FE3A5 /* ChargePriceTableViewCell.swift */; };
 		824D5D1328BDD89C00EDC712 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73450EF92071EB01008516E9 /* EditViewController.swift */; };
 		824D5D1428BDD89C00EDC712 /* ChargerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73C31BFE20A2B246005B6C53 /* ChargerModel.swift */; };
 		824D5D1628BDD89C00EDC712 /* DaumMap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 425EE66C2519EE3C0089E87D /* DaumMap.framework */; };
@@ -1565,8 +1547,6 @@
 		425EE5B42519DA6B0089E87D /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		425EE5D72519DF160089E87D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		425EE66C2519EE3C0089E87D /* DaumMap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DaumMap.framework; path = DaumMap.embeddedframework/DaumMap.framework; sourceTree = "<group>"; };
-		4262F01624BC2EE5002FE3A5 /* ChargePriceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePriceViewController.swift; sourceTree = "<group>"; };
-		4262F01824BC4688002FE3A5 /* ChargePriceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePriceTableViewCell.swift; sourceTree = "<group>"; };
 		4274B4B624BDA7E100FA2AF6 /* ChargePrice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChargePrice.swift; sourceTree = "<group>"; };
 		4290643B25F612FF00E28B31 /* CouponCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouponCodeViewController.swift; sourceTree = "<group>"; };
 		42CEB74E26C1110D00E37AE4 /* CidInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CidInfoTableViewCell.swift; sourceTree = "<group>"; };
@@ -1724,7 +1704,6 @@
 		733662CB22EFECB80049AEFE /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		733662CF22F974820049AEFE /* Coupon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coupon.swift; sourceTree = "<group>"; };
 		733662D122FAB6720049AEFE /* MyCouponContentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCouponContentsViewController.swift; sourceTree = "<group>"; };
-		733662FF230263540049AEFE /* PaymentStatusViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentStatusViewController.swift; sourceTree = "<group>"; };
 		7339907E22D881D000CF72A8 /* PaymentResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentResultViewController.swift; sourceTree = "<group>"; };
 		73450EF92071EB01008516E9 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 		734FBDEE219001EA00BEDB60 /* AppTabsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabsController.swift; sourceTree = "<group>"; };
@@ -1801,7 +1780,6 @@
 		73A7B42F204F8A72002E975F /* CidInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CidInfo.swift; sourceTree = "<group>"; };
 		73AD13C3203AC28800ADD19A /* Material.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Material.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		73AD13C4203AC28800ADD19A /* Motion.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Motion.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		73AD13C7203AC57A00ADD19A /* AppNavigationDrawerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationDrawerController.swift; sourceTree = "<group>"; };
 		73AF8FBE21C77E1B003CB2CF /* ClusterManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClusterManager.swift; sourceTree = "<group>"; };
 		73AF8FC021C77E1B003CB2CF /* CodableCluster.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodableCluster.swift; sourceTree = "<group>"; };
 		73AFF26622D467E000287E67 /* Chronometer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chronometer.swift; sourceTree = "<group>"; };
@@ -1835,10 +1813,8 @@
 		73D65D7F2362D52E00F564A2 /* MembershipTermView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipTermView.swift; sourceTree = "<group>"; };
 		73D65D812362D54000F564A2 /* MembershipTermView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MembershipTermView.xib; sourceTree = "<group>"; };
 		73DD778023164CB60006EFFC /* CopyableLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyableLabel.swift; sourceTree = "<group>"; };
-		73E7E4B82091BA5C00460B96 /* AppNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationController.swift; sourceTree = "<group>"; };
 		73EE8FB42101B7920016F505 /* BedgeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BedgeButton.swift; sourceTree = "<group>"; };
 		73EE8FBA2105B3420016F505 /* Board.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
-		73EF8B3E203ACB8500D04494 /* AppToolbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppToolbarController.swift; sourceTree = "<group>"; };
 		73EF8B42203BC71100D04494 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		73EF8B4E203C85CC00D04494 /* BizCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BizCategory.h; sourceTree = "<group>"; };
 		73EF8B4F203C85CC00D04494 /* TMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMap.h; sourceTree = "<group>"; };
@@ -2244,8 +2220,6 @@
 			children = (
 				CECA90892084A9F50083518B /* TermsViewController.swift */,
 				00FDEAF926B3BFCF006617EE /* Info.storyboard */,
-				4262F01624BC2EE5002FE3A5 /* ChargePriceViewController.swift */,
-				4262F01824BC4688002FE3A5 /* ChargePriceTableViewCell.swift */,
 				735759542091758C008181E9 /* EvInfoViewController.swift */,
 				7357595620917C03008181E9 /* EvDetailViewController.swift */,
 				73C31BFA20A288BB005B6C53 /* ChargerInfoViewController.swift */,
@@ -2842,7 +2816,6 @@
 				00FDEAEB26B3BF47006617EE /* Payment.storyboard */,
 				739171E022C4A209007369F9 /* PaymentQRScanViewController.swift */,
 				7339907E22D881D000CF72A8 /* PaymentResultViewController.swift */,
-				733662FF230263540049AEFE /* PaymentStatusViewController.swift */,
 				0013A7C92746576D009CFC22 /* RepayListViewController.swift */,
 				000DAE102747369A00CEC165 /* RepayResultViewController.swift */,
 				63D723B828AF723300D54A0D /* NewPaymentQRScanViewController.swift */,
@@ -2964,11 +2937,8 @@
 				DB5FA59422C20A5100F1508A /* Report */,
 				DB3799F521673CEC001D8F69 /* Member */,
 				739171E222C4A218007369F9 /* Payment */,
-				73AD13C7203AC57A00ADD19A /* AppNavigationDrawerController.swift */,
-				73E7E4B82091BA5C00460B96 /* AppNavigationController.swift */,
 				DB49A7802071F908002448E6 /* AppSearchBarController.swift */,
 				734FBDEE219001EA00BEDB60 /* AppTabsController.swift */,
-				73EF8B3E203ACB8500D04494 /* AppToolbarController.swift */,
 				DB6EBE30217078750000F442 /* ChargerSelectDelegate.swift */,
 			);
 			path = ViewController;
@@ -4398,7 +4368,6 @@
 				596522E428BEF49B00FD4025 /* NoticeList.swift in Sources */,
 				63F313B9284EC74F001713D2 /* PartnershipJoinView.swift in Sources */,
 				63C7C8E1286D7D2C00A357D6 /* NewBottomSheetViewController.swift in Sources */,
-				63F313BB284EC74F001713D2 /* ChargePriceViewController.swift in Sources */,
 				63F313BC284EC74F001713D2 /* GlobalDefine.swift in Sources */,
 				63F313BD284EC74F001713D2 /* SC_TRACE.swift in Sources */,
 				63F313BE284EC74F001713D2 /* MyCouponTableViewCell.swift in Sources */,
@@ -4511,12 +4480,10 @@
 				63F3140F284EC74F001713D2 /* BaseViewController.swift in Sources */,
 				63F31410284EC74F001713D2 /* FindAllPOIListenerCallback.swift in Sources */,
 				63310E2F290697A9004B393A /* ShipmentStepView.swift in Sources */,
-				63F31411284EC74F001713D2 /* AppNavigationController.swift in Sources */,
 				63F31412284EC74F001713D2 /* CompanyInfoChecker.swift in Sources */,
 				193C95C5289906DB00CD61D6 /* GlobalAdsReactor.swift in Sources */,
 				63F31413284EC74F001713D2 /* CompanyInfoDto.swift in Sources */,
 				63F31414284EC74F001713D2 /* Marker.swift in Sources */,
-				63F31415284EC74F001713D2 /* AppToolbarController.swift in Sources */,
 				63F31416284EC74F001713D2 /* SearchBarView.swift in Sources */,
 				63F31417284EC74F001713D2 /* MembershipInfoViewController.swift in Sources */,
 				63F31418284EC74F001713D2 /* ChargePrice.swift in Sources */,
@@ -4587,7 +4554,6 @@
 				63F3144E284EC74F001713D2 /* UILabel+Extension.swift in Sources */,
 				63F3144F284EC74F001713D2 /* MembershipReissuanceViewController.swift in Sources */,
 				63F31450284EC74F001713D2 /* CommunityChargeStationTableViewCell.swift in Sources */,
-				63F31451284EC74F001713D2 /* AppNavigationDrawerController.swift in Sources */,
 				63F31452284EC74F001713D2 /* BoardSearchViewModel.swift in Sources */,
 				82B0EF6C2907B33100D6EE70 /* ShipmentInfoView.swift in Sources */,
 				63F31453284EC74F001713D2 /* PopUpDialog.swift in Sources */,
@@ -4655,7 +4621,6 @@
 				596522DB28BE0D2D00FD4025 /* NoticeReactor.swift in Sources */,
 				63F31480284EC74F001713D2 /* CouponCodeViewController.swift in Sources */,
 				63F31481284EC74F001713D2 /* FindPasswordViewController.swift in Sources */,
-				63F31482284EC74F001713D2 /* PaymentStatusViewController.swift in Sources */,
 				63F31484284EC74F001713D2 /* SearchAddressViewController.swift in Sources */,
 				824D5DC228BE1C2500EDC712 /* GlobalFunction.swift in Sources */,
 				63F31485284EC74F001713D2 /* BoardWriteViewController.swift in Sources */,
@@ -4690,7 +4655,6 @@
 				63F3149F284EC74F001713D2 /* BottomSheetViewController.swift in Sources */,
 				63F314A0284EC74F001713D2 /* BoardListItem.swift in Sources */,
 				63F314A1284EC74F001713D2 /* evInfra.xcdatamodeld in Sources */,
-				63F314A2284EC74F001713D2 /* ChargePriceTableViewCell.swift in Sources */,
 				63F314A3284EC74F001713D2 /* EditViewController.swift in Sources */,
 				63F314A4284EC74F001713D2 /* ChargerModel.swift in Sources */,
 			);
@@ -4728,7 +4692,6 @@
 				19B4C7D8289A420900C6BE84 /* AdsModel.swift in Sources */,
 				00A82E3B252AB52F00EEBCBF /* PartnershipJoinView.swift in Sources */,
 				596522E328BEF3E800FD4025 /* NoticeList.swift in Sources */,
-				4262F01724BC2EE5002FE3A5 /* ChargePriceViewController.swift in Sources */,
 				82B3E7F42837D5A700B8ACF7 /* GlobalDefine.swift in Sources */,
 				63DA0A09282E44020021292C /* SC_TRACE.swift in Sources */,
 				CE33B4C52191BFD100B6C632 /* MyCouponTableViewCell.swift in Sources */,
@@ -4839,14 +4802,12 @@
 				7379A45622CF156E00F4271C /* CircularProgressBar.swift in Sources */,
 				63DA015C2832559400705842 /* BaseViewController.swift in Sources */,
 				9014C12924E564F800CB6549 /* FindAllPOIListenerCallback.swift in Sources */,
-				73E7E4B92091BA5C00460B96 /* AppNavigationController.swift in Sources */,
 				596522DE28BE290400FD4025 /* NewNoticeTableViewCell.swift in Sources */,
 				732B929A20EDD0C60090E9FC /* CompanyInfoChecker.swift in Sources */,
 				902A11D1248F4DAC0049EF8E /* CompanyInfoDto.swift in Sources */,
 				63310E2E290697A9004B393A /* ShipmentStepView.swift in Sources */,
 				192A338327FE747E00EF1684 /* Marker.swift in Sources */,
 				193C95C4289906DB00CD61D6 /* GlobalAdsReactor.swift in Sources */,
-				73EF8B3F203ACB8500D04494 /* AppToolbarController.swift in Sources */,
 				52B53D2D27BCC49D00D446A9 /* SearchBarView.swift in Sources */,
 				005643E0252DA18E007BF78D /* MembershipInfoViewController.swift in Sources */,
 				4274B4B724BDA7E100FA2AF6 /* ChargePrice.swift in Sources */,
@@ -4922,7 +4883,6 @@
 				00EB85D226BA8C6100D1606F /* UILabel+Extension.swift in Sources */,
 				63B23744282CCB8300E8A3F8 /* MembershipReissuanceViewController.swift in Sources */,
 				52B2594E278EBBC90042B22C /* CommunityChargeStationTableViewCell.swift in Sources */,
-				73AD13C8203AC57A00ADD19A /* AppNavigationDrawerController.swift in Sources */,
 				529148B327BE14670011021F /* BoardSearchViewModel.swift in Sources */,
 				82B0EF6B2907B33100D6EE70 /* ShipmentInfoView.swift in Sources */,
 				006C90992554EFD100F7C6D7 /* PopUpDialog.swift in Sources */,
@@ -4991,7 +4951,6 @@
 				596522DA28BE0D0600FD4025 /* NoticeReactor.swift in Sources */,
 				4290643C25F612FF00E28B31 /* CouponCodeViewController.swift in Sources */,
 				63DA015E28325C9300705842 /* FindPasswordViewController.swift in Sources */,
-				73366300230263540049AEFE /* PaymentStatusViewController.swift in Sources */,
 				73D65D78235C51FF00F564A2 /* SearchAddressViewController.swift in Sources */,
 				824D5DC128BE1C2500EDC712 /* GlobalFunction.swift in Sources */,
 				525E3A31278D732700F5C54D /* BoardWriteViewController.swift in Sources */,
@@ -5026,7 +4985,6 @@
 				00CD36C827900E04005413A6 /* BottomSheetViewController.swift in Sources */,
 				52B2594A278E5E5C0042B22C /* BoardListItem.swift in Sources */,
 				732121C5203AC023000E105C /* evInfra.xcdatamodeld in Sources */,
-				4262F01924BC4688002FE3A5 /* ChargePriceTableViewCell.swift in Sources */,
 				73450EFA2071EB01008516E9 /* EditViewController.swift in Sources */,
 				73C31BFF20A2B246005B6C53 /* ChargerModel.swift in Sources */,
 			);
@@ -5070,7 +5028,6 @@
 				824D5C0B28BDD89C00EDC712 /* InfoLastUpdateDto.swift in Sources */,
 				824D5C0C28BDD89C00EDC712 /* PartnershipJoinView.swift in Sources */,
 				824D5C0D28BDD89C00EDC712 /* NewBottomSheetViewController.swift in Sources */,
-				824D5C0F28BDD89C00EDC712 /* ChargePriceViewController.swift in Sources */,
 				824D5C1028BDD89C00EDC712 /* GlobalDefine.swift in Sources */,
 				824D5C1128BDD89C00EDC712 /* SC_TRACE.swift in Sources */,
 				824D5C1228BDD89C00EDC712 /* MyCouponTableViewCell.swift in Sources */,
@@ -5178,13 +5135,11 @@
 				824D5C6F28BDD89C00EDC712 /* CircularProgressBar.swift in Sources */,
 				824D5C7028BDD89C00EDC712 /* BaseViewController.swift in Sources */,
 				824D5C7128BDD89C00EDC712 /* FindAllPOIListenerCallback.swift in Sources */,
-				824D5C7228BDD89C00EDC712 /* AppNavigationController.swift in Sources */,
 				824D5C7328BDD89C00EDC712 /* CompanyInfoChecker.swift in Sources */,
 				824D5C7428BDD89C00EDC712 /* GlobalAdsReactor.swift in Sources */,
 				63310E30290697A9004B393A /* ShipmentStepView.swift in Sources */,
 				824D5C7528BDD89C00EDC712 /* CompanyInfoDto.swift in Sources */,
 				824D5C7628BDD89C00EDC712 /* Marker.swift in Sources */,
-				824D5C7728BDD89C00EDC712 /* AppToolbarController.swift in Sources */,
 				824D5C7828BDD89C00EDC712 /* SearchBarView.swift in Sources */,
 				824D5C7928BDD89C00EDC712 /* MembershipInfoViewController.swift in Sources */,
 				824D5C7A28BDD89C00EDC712 /* ChargePrice.swift in Sources */,
@@ -5256,7 +5211,6 @@
 				829C07372904D44E008E2E6D /* MembershipCardIssuanceCompleteViewController.swift in Sources */,
 				824D5CB628BDD89C00EDC712 /* MembershipReissuanceViewController.swift in Sources */,
 				824D5CB728BDD89C00EDC712 /* CommunityChargeStationTableViewCell.swift in Sources */,
-				824D5CB828BDD89C00EDC712 /* AppNavigationDrawerController.swift in Sources */,
 				824D5CB928BDD89C00EDC712 /* BoardSearchViewModel.swift in Sources */,
 				824D5CBA28BDD89C00EDC712 /* PopUpDialog.swift in Sources */,
 				824D5CBB28BDD89C00EDC712 /* UIView+Extension.swift in Sources */,
@@ -5327,7 +5281,6 @@
 				824D5CEC28BDD89C00EDC712 /* MembershipQRViewController.swift in Sources */,
 				824D5CED28BDD89C00EDC712 /* CouponCodeViewController.swift in Sources */,
 				824D5CEE28BDD89C00EDC712 /* FindPasswordViewController.swift in Sources */,
-				824D5CEF28BDD89C00EDC712 /* PaymentStatusViewController.swift in Sources */,
 				824D5CF128BDD89C00EDC712 /* SearchAddressViewController.swift in Sources */,
 				824D5DC328BE1C2500EDC712 /* GlobalFunction.swift in Sources */,
 				824D5CF228BDD89C00EDC712 /* BoardWriteViewController.swift in Sources */,
@@ -5362,7 +5315,6 @@
 				824D5D0F28BDD89C00EDC712 /* BottomSheetViewController.swift in Sources */,
 				824D5D1028BDD89C00EDC712 /* BoardListItem.swift in Sources */,
 				824D5D1128BDD89C00EDC712 /* evInfra.xcdatamodeld in Sources */,
-				824D5D1228BDD89C00EDC712 /* ChargePriceTableViewCell.swift in Sources */,
 				824D5D1328BDD89C00EDC712 /* EditViewController.swift in Sources */,
 				824D5D1428BDD89C00EDC712 /* ChargerModel.swift in Sources */,
 			);

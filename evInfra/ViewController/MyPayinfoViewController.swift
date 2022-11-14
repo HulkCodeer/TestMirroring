@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Material
 import WebKit
 import SwiftyJSON
 
@@ -78,15 +77,10 @@ internal final class MyPayinfoViewController: UIViewController, MyPayRegisterVie
                 MemberManager.shared.showLoginAlert()
             }
         }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.isNavigationBarHidden = true
         
         AmplitudeEvent.shared.fromViewSourceByLogEvent(eventType: .clickViewAddPaymentCard)
     }
-    
+            
     func checkRegisterPayment() {
         Server.getPayRegisterStatus { (isSuccess, value) in
             if isSuccess {

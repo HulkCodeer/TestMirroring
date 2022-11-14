@@ -21,7 +21,7 @@ extension UIViewController {
     }
     
     @objc public final func viewEnterEventInViewWillAppear() {
-        guard self is UIAlertController else { return }
+        guard !(self is UIAlertController) else { return }
         let viewName = String(describing: type(of: self))        
         EnterViewType(viewName: viewName).logEvent()
     }

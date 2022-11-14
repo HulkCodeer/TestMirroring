@@ -324,7 +324,6 @@ internal enum EnterViewType: String, EventTypeProtocol {
     case membershipQRViewController = "SK렌터카 카드 QR scan 화면"
     case lotteRentCertificateViewController = "롯데렌터카 등록 화면"
     case repayListViewController = "미수금 결제 내역 화면"
-    case myPayinfoViewController = "결제정보관리 화면"
     case repayResultViewController = "미수금 결제 완료 화면"
     case myPageViewController = "개인정보관리 화면"
     case quitAccountCompleteViewController = "회원탈퇴 완료 화면"
@@ -368,8 +367,7 @@ internal enum EnterViewType: String, EventTypeProtocol {
         case "RentalCarCardListViewController": self = .rentalCarCardListViewController
         case "MembershipQRViewController": self = .membershipQRViewController
         case "LotteRentCertificateViewController": self = .lotteRentCertificateViewController
-        case "RepayListViewController": self = .repayListViewController
-        case "MyPayinfoViewController": self = .myPayinfoViewController
+        case "RepayListViewController": self = .repayListViewController        
         case "RepayResultViewController": self = .repayResultViewController
         case "MyPageViewController": self = .myPageViewController
         case "QuitAccountCompleteViewController": self = .quitAccountCompleteViewController
