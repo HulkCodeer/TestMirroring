@@ -151,7 +151,7 @@ internal final class PartnershipListView : UIView {
                                                             message: "현재 고객님의 결제 카드에 오류가 발생했어요. 오류 발생 시 원활한 서비스 이용을 할 수 없으니 다른 카드로 변경해주세요.",
                                                             confirmBtnTitle: "결제카드 변경하기",
                                                             confirmBtnAction: {                                     
-                                    AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "EVI Pay카드 관리 결제카드 등록 오류")
+                                    AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "EVI Pay 카드 관리 결제카드 등록 오류")
                                     let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
                                     let myPayInfoVC = memberStoryboard.instantiateViewController(ofType: MyPayinfoViewController.self)
                                     GlobalDefine.shared.mainNavi?.push(viewController: myPayInfoVC)

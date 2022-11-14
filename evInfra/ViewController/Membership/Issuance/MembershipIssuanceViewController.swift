@@ -224,7 +224,7 @@ internal final class MembershipIssuanceViewController: UIViewController,
         self.memberData = params
         
         let popupModel = PopupModel(title: "EV pay 카드 발급",
-                                    message: "\(name)\n\(address)\n\(detail_address)\n위 주소로 EV Pay카드를 발급하시겠습니까?",
+                                    message: "\(name)\n\(address)\n\(detail_address)\n위 주소로 EV Pay 카드를 발급하시겠습니까?",
                                     confirmBtnTitle: "확인",
                                     cancelBtnTitle: "취소",
                                     confirmBtnAction: { [weak self] in

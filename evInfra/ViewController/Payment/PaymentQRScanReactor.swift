@@ -124,7 +124,7 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
                 
             case .PAY_NO_USER, .PAY_NO_CARD_USER:
                 let popupModel = PopupModel(title: "결제정보를 등록해야 해요",
-                                            message: "현재 회원님은 EV Pay카드는 있지만\n결제정보가 등록되어있지 않아요.\n등록 후 다시 스캔해주세요.",
+                                            message: "현재 회원님은 EV Pay 카드는 있지만\n결제정보가 등록되어있지 않아요.\n등록 후 다시 스캔해주세요.",
                                             confirmBtnTitle: "결제카드 등록하기", cancelBtnTitle: "닫기",
                                             confirmBtnAction: {
                     AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "QR코드 스캔 프로세스")
@@ -185,7 +185,7 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
             case 8801: // 결제 정보 등록 안된 회원
                 let popupModel = PopupModel(title: "\(title)",
                                             message: "\(msg)",
-                                            confirmBtnTitle: "EV Pay카드 발급하기", cancelBtnTitle: "닫기",
+                                            confirmBtnTitle: "EV Pay 카드 발급하기", cancelBtnTitle: "닫기",
                                             confirmBtnAction: {
                     AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "QR코드 스캔 프로세스")
                     let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPayinfoViewController.self)
@@ -265,7 +265,7 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
             case 1101: // 회원카드 없는 멤버
                 let popupModel = PopupModel(title: "\(title)",
                                             message: "\(msg)",
-                                            confirmBtnTitle: "EV Pay카드 발급하기", cancelBtnTitle: "나중에 하기",
+                                            confirmBtnTitle: "EV Pay 카드 발급하기", cancelBtnTitle: "나중에 하기",
                                             confirmBtnAction: {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
                         AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "QR 팝업")
@@ -401,7 +401,7 @@ extension PaymentQRScanReactor: MyPayRegisterViewDelegate {
     
     func finishRegisterResult(json: JSON) {
         if (json["pay_code"].intValue == PaymentCard.PAY_REGISTER_SUCCESS) {
-            Snackbar().show(message: "EV Pay카드 발급이 완료되었어요.")
+            Snackbar().show(message: "EV Pay 카드 발급이 완료되었어요.")
             Observable.just(PaymentQRScanReactor.Action.startQRReaderView(true))
                 .bind(to: self.action)
                 .disposed(by: self.disposeBag)

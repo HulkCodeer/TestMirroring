@@ -477,7 +477,7 @@ internal final class MainReactor: ViewModel, Reactor {
         var value: (icon: UIImage, title: String) {
             switch self {
             case .qrCharging:
-                return (Icons.iconQr.image, "QR충전")
+                return (Icons.iconQr.image, "QR 충전")
                 
             case .community:
                 return (Icons.iconComment.image, "자유게시판")
@@ -514,7 +514,7 @@ internal final class MainReactor: ViewModel, Reactor {
         private var actionValue: (action: MainReactor.Action, logoutAplitudeMSG: String?) {
             switch self {
             case .qrCharging:
-                return (MainReactor.Action.actionBottomQR, "QR충전")
+                return (MainReactor.Action.actionBottomQR, "QR 충전")
                 
             case .community:
                 return (MainReactor.Action.actionBottomMenu(.community), nil)

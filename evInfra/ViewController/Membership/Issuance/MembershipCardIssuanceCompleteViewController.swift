@@ -151,14 +151,14 @@ internal final class MembershipCardIssuanceCompleteViewController: CommonBaseVie
                 // QR 충전에서 회원카드 없는 CASE로 등록하러 온 경우
                 guard let _mainNavi = GlobalDefine.shared.mainNavi else { return }
                 if let _vc = _mainNavi.containsView(ofKind: NewPaymentQRScanViewController.self) {
-                    Snackbar().show(message: "EV Pay카드 발급이 완료되었어요.")
+                    Snackbar().show(message: "EV Pay 카드 발급이 완료되었어요.")
                     _ = _mainNavi.popToViewController(_vc, animated: true)
                     return
                 }
                 
                 // 사이드 메뉴에서 베리 전액 설정 시 회원카드 없는 CASE로 등록하러 온 경우
                 if let _vc = _mainNavi.containsView(ofKind: NewLeftViewController.self), let _delegate = obj.delegate {
-                    Snackbar().show(message: "EV Pay카드 발급이 완료되었어요.")
+                    Snackbar().show(message: "EV Pay 카드 발급이 완료되었어요.")
                     _delegate.completeResiterMembershipCard()
                     _ = _mainNavi.popToViewController(_vc, animated: true)
                     return

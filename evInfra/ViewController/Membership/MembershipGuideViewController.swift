@@ -21,7 +21,7 @@ internal final class MembershipGuideViewController: CommonBaseViewController, WK
     // MARK: UI
     
     private lazy var commonNaviView = CommonNaviView().then {
-        $0.naviTitleLbl.text = "EV Pay카드 안내"
+        $0.naviTitleLbl.text = "EV Pay 카드 안내"
     }
     
     private let config = WKWebViewConfiguration().then {
@@ -36,11 +36,11 @@ internal final class MembershipGuideViewController: CommonBaseViewController, WK
     }
             
     private lazy var membershipRegisterBtn = StickyButton(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 32, height: 80), level: .primary).then {
-        $0.rectBtn.setTitle("EV Pay카드 만들기", for: .normal)
+        $0.rectBtn.setTitle("EV Pay 카드 만들기", for: .normal)
     }
     
     private lazy var membershipBtnTitleLbl = UILabel().then {
-        $0.text = "EV Pay카드 만들기"
+        $0.text = "EV Pay 카드 만들기"
         $0.textColor = Colors.nt9.color
         $0.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         $0.textAlignment = .center

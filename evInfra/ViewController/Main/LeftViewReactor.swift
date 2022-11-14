@@ -113,8 +113,8 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                                 .disposed(by: self.disposeBag)
                             return .empty
                         }
-                        let popupModel = PopupModel(title: "EV Pay카드를 발급하시겠어요?",
-                                                    message: "베리는 EV Pay카드 발급 후\n충전 시 베리로 할인 받을 수 있어요.",
+                        let popupModel = PopupModel(title: "EV Pay 카드를 발급하시겠어요?",
+                                                    message: "베리는 EV Pay 카드 발급 후\n충전 시 베리로 할인 받을 수 있어요.",
                                                     confirmBtnTitle: "네 발급할게요.", cancelBtnTitle: "다음에 할게요.",
                                                     confirmBtnAction: {
                             AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "좌측메뉴 상단 베리 팝업")
@@ -157,8 +157,8 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                         
                         UserDefault().saveBool(key: UserDefault.Key.IS_SHOW_BERRYSETTING_CASE3_POPUP, value: true)
                         let popupModel = PopupModel(title: "더 많은 충전소에서\n베리를 적립해보세요!",
-                                                    message: "EV Pay카드 발급 시 환경부, 한국전력 등\n더 많은 충전소에서 적립할 수 있어요.",
-                                                    confirmBtnTitle: "EV Pay카드 안내 보러가기", cancelBtnTitle: "다음에 할게요.",
+                                                    message: "EV Pay 카드 발급 시 환경부, 한국전력 등\n더 많은 충전소에서 적립할 수 있어요.",
+                                                    confirmBtnTitle: "EV Pay 카드 안내 보러가기", cancelBtnTitle: "다음에 할게요.",
                                                     confirmBtnAction: {
                             AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "좌측메뉴 상단 베리 팝업")
                             let viewcon = MembershipGuideViewController()
@@ -665,7 +665,7 @@ internal final class LeftViewReactor: ViewModel, Reactor {
                         AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "결제 정보 등록 메뉴")
                 
                     case 1: // 회원카드 관리
-                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "EV Pay카드 신청 메뉴")
+                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "EV Pay 카드 신청 메뉴")
                         
                     case 2: // 렌탈정보 관리
                         AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "렌터카 정보 등록 메뉴")
