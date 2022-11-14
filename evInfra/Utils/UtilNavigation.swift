@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class UtilNavigation {
+internal final class UtilNavigation {
     func showNavigation(vc: UIViewController, startPoint: POIObject, endPoint: POIObject, viaList: [POIObject]) {
         var property: [String: Any] = [:]
         if let vc = vc as? MainViewController, let charger = vc.selectCharger {

@@ -64,8 +64,7 @@ internal final class SignUpViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        prepareActionBar()
+                
         prepareView()
         createProfileImage()
     }
@@ -186,19 +185,6 @@ internal final class SignUpViewController: UIViewController {
         genderSelected = sender.currentTitle!
     }
     
-    private func prepareActionBar() {
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "content-primary")
-        backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
-
-        navigationItem.leftViews = [backButton]
-        navigationItem.hidesBackButton = true
-        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-        navigationItem.titleLabel.text = "회원 가입"
-
-        self.navigationController?.isNavigationBarHidden = false
-    }
-    
     @objc
     fileprivate func handleBackButton() {
         if page != 0 {
@@ -211,7 +197,6 @@ internal final class SignUpViewController: UIViewController {
         }
     }
     
-
     @IBAction private func onClickSignUp(_ sender: Any) {
         if page == 0 {
             if checkValidFirstForm() {
@@ -230,7 +215,6 @@ internal final class SignUpViewController: UIViewController {
             default:
                 signUp()
             }
-            
         }
     }
     
