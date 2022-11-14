@@ -9,7 +9,7 @@
 import Foundation
 import KeychainSwift
 
-class KeyChainManager {
+internal final class KeyChainManager {
     public static let KEY_DEVICE_UUID = "device_uuid"
     
     static func get(key:String) -> String? {

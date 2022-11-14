@@ -6,11 +6,7 @@
 //  Copyright © 2019 soft-berry. All rights reserved.
 //
 
-import Foundation
-
 import UIKit
-import M13Checkbox
-import Material
 import SwiftyJSON
 import RxSwift
 

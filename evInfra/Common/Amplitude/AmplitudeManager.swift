@@ -351,8 +351,7 @@ internal enum EnterViewType: String, EventTypeProtocol {
     case quitAccountViewController = "회원탈퇴 화면"
     case pointUseGuideViewController = "베리 사용 안내 화면"
     case acceptTermsViewController = "회원 가입 이용약관 동의 화면"
-    case membershipUseGuideViewController = "회원카드 사용 안내 화면"
-    case membershipGuideViewController = "회원카드 안내 화면"
+    case membershipUseGuideViewController = "회원카드 사용 안내 화면"    
     case none
     
     init(viewName: String) {
@@ -367,7 +366,7 @@ internal enum EnterViewType: String, EventTypeProtocol {
         case "RentalCarCardListViewController": self = .rentalCarCardListViewController
         case "MembershipQRViewController": self = .membershipQRViewController
         case "LotteRentCertificateViewController": self = .lotteRentCertificateViewController
-        case "RepayListViewController": self = .repayListViewController        
+        case "RepayListViewController": self = .repayListViewController
         case "RepayResultViewController": self = .repayResultViewController
         case "MyPageViewController": self = .myPageViewController
         case "QuitAccountCompleteViewController": self = .quitAccountCompleteViewController
@@ -396,7 +395,6 @@ internal enum EnterViewType: String, EventTypeProtocol {
         case "PointUseGuideViewController": self = .pointUseGuideViewController
         case "AcceptTermsViewController": self = .acceptTermsViewController
         case "MembershipUseGuideViewController": self = .membershipUseGuideViewController
-        case "MembershipGuideViewController": self = .membershipGuideViewController
         default: self = .none
         }
     }

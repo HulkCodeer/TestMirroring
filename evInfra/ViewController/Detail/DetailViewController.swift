@@ -7,8 +7,6 @@
 //
 
 import UIKit
-import Material
-import Motion
 import SwiftyJSON
 import JJFloatingActionButton
 
@@ -97,7 +95,7 @@ internal final class DetailViewController: BaseViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateCompletion(_:)), name: Notification.Name("ReloadData"), object: nil)
         
         guard let charger = charger else { return }
-        let property: [String: Any?] = AmpChargerStationModel(charger).toProperty
+        let property: [String: Any] = AmpChargerStationModel(charger).toProperty
         ChargerStationEvent.viewStationDetail.logEvent(property: property)
     }
     
