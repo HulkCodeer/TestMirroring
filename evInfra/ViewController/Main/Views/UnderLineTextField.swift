@@ -41,12 +41,17 @@ internal final class UnderLineTextField: UITextField {
     
     // MARK: - makeUI
     
+    internal func setPlaceholder(text: String) {
+        self.placeholder = text
+        self.attributedPlaceholder = NSAttributedString(string: text, attributes: [.foregroundColor: Colors.contentDisabled.color])
+    }
+    
     private func makeUI() {
         self.delegate = self
         
         self.addSubview(highilightLine)
 
-        let highilightWidth = self.frame.width + clearButtonSize
+//        let highilightWidth = self.frame.width + clearButtonSize
         highilightLine.snp.makeConstraints {
             $0.leading.bottom.equalToSuperview()
             $0.height.equalTo(0.5)
