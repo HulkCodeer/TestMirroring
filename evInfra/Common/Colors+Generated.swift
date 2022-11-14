@@ -73,6 +73,7 @@ internal enum Colors {
   internal static let nt8 = ColorAsset(name: "nt-8")
   internal static let nt9 = ColorAsset(name: "nt-9")
   internal static let ntBlack = ColorAsset(name: "nt-black")
+  internal static let ntMinus = ColorAsset(name: "nt-minus")
   internal static let ntWhite = ColorAsset(name: "nt-white")
   internal static let rd1 = ColorAsset(name: "rd-1")
   internal static let rd2 = ColorAsset(name: "rd-2")
