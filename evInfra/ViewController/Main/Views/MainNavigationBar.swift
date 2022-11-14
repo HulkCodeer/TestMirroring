@@ -48,7 +48,7 @@ internal final class MainNavigationBar: UIView {
     private lazy var searchChargeText = UILabel().then {
         $0.text = "어디서 충전할까요?"
         $0.textColor = Colors.nt4.color
-        $0.font = .systemFont(ofSize: 16)
+        $0.font = .systemFont(ofSize: 16, weight: .medium)
     }
     
     // 길찾기 button
