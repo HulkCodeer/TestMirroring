@@ -836,9 +836,9 @@ internal final class MainViewController: UIViewController, StoryboardView {
                     GlobalDefine.shared.mainNavi?.push(viewController: guidVC)
                     
                 case .evPayManagement:
-                    let membershipStoryboard = UIStoryboard(name : "Membership", bundle: nil)
-                    let membershipCardVC  = membershipStoryboard.instantiateViewController(ofType: MembershipCardViewController.self)
-                    GlobalDefine.shared.mainNavi?.push(viewController: membershipCardVC)
+                    let reactor = MembershipCardReactor(provider: RestApi())
+                    let viewcon = MembershipCardViewController(reactor: reactor)
+                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                     
                 case .accountsReceivable:
                     let paymentStoryboard = UIStoryboard(name : "Payment", bundle: nil)

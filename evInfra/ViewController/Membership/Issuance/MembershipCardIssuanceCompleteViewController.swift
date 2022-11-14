@@ -164,7 +164,8 @@ internal final class MembershipCardIssuanceCompleteViewController: CommonBaseVie
                     return
                 }
                 
-                let viewcon = UIStoryboard(name : "Membership", bundle: nil).instantiateViewController(ofType: MembershipCardViewController.self)
+                let reactor = MembershipCardReactor(provider: RestApi())
+                let viewcon = MembershipCardViewController(reactor: reactor)
                 viewcon.fromViewType = .membershipCardComplete
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             }

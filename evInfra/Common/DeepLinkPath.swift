@@ -102,8 +102,8 @@ internal final class DeepLinkPath {
         
         switch linkPath {
         case DynamicLinkUrlPathType.membership.value:
-            storyboard = UIStoryboard(name : "Membership", bundle: nil)
-            let viewcon = storyboard.instantiateViewController(ofType: MembershipCardViewController.self)
+            let reactor = MembershipCardReactor(provider: RestApi())
+            let viewcon = MembershipCardViewController(reactor: reactor)
             _mainNavi.push(viewController: viewcon)
             
         case DynamicLinkUrlPathType.payment.value:
