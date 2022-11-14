@@ -539,30 +539,37 @@ extension DetailViewController {
     
     @objc
     fileprivate func onClickEditBtn() {
-        let storyboard = UIStoryboard.init(name: "BoardWriteViewController", bundle: nil)
-        guard let boardWriteViewController = storyboard.instantiateViewController(withIdentifier: "BoardWriteViewController") as? BoardWriteViewController else { return }
-        
-        if let chargerData = charger {
-            if let stationDto = chargerData.mStationInfoDto {
-                boardWriteViewController.chargerInfo["chargerId"] = stationDto.mChargerId
-                boardWriteViewController.chargerInfo["chargerName"] = stationDto.mSnm
+        MemberManager.shared.tryToLoginCheck { [weak self] isLogin in
+            guard let self = self else { return }
+            if !isLogin {
+                AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "충전소 상세 게시글 작성 버튼")
+                MemberManager.shared.showLoginAlert()
+            } else {
+                let storyboard = UIStoryboard.init(name: "BoardWriteViewController", bundle: nil)
+                guard let boardWriteViewController = storyboard.instantiateViewController(withIdentifier: "BoardWriteViewController") as? BoardWriteViewController else { return }
+                
+                if let chargerData = self.charger {
+                    if let stationDto = chargerData.mStationInfoDto {
+                        boardWriteViewController.chargerInfo["chargerId"] = stationDto.mChargerId
+                        boardWriteViewController.chargerInfo["chargerName"] = stationDto.mSnm
+                    }
+                }
+                        
+                boardWriteViewController.category = .CHARGER
+                boardWriteViewController.popCompletion = { [weak self] in
+                    guard let self = self else { return }
+                    self.fetchFirstBoard(mid: Board.CommunityType.CHARGER.rawValue, sort: .LATEST, mode: Board.ScreenType.FEED.rawValue)
+                }
+                
+                GlobalDefine.shared.mainNavi?.push(viewController: boardWriteViewController)
+                
+                guard let charger = self.charger else { return }
+                guard let stationName = charger.mStationInfoDto?.mSnm else { return }
+                let property: [String: Any] = ["sourceStation": true,
+                                               "stationName": stationName]
+                BoardEvent.clickWriteBoardPost.logEvent(property: property)
             }
         }
-        
-        boardWriteViewController.isFromDetailView = true
-        boardWriteViewController.category = .CHARGER
-        boardWriteViewController.popCompletion = { [weak self] in
-            guard let self = self else { return }
-            self.fetchFirstBoard(mid: Board.CommunityType.CHARGER.rawValue, sort: .LATEST, mode: Board.ScreenType.FEED.rawValue)
-        }
-        
-        self.navigationController?.push(viewController: boardWriteViewController)
-        
-        guard let charger = charger else { return }
-        guard let stationName = charger.mStationInfoDto?.mSnm else { return }
-        let property: [String: Any] = ["sourceStation": true,
-                                       "stationName": stationName]
-        BoardEvent.clickWriteBoardPost.logEvent(property: property)
     }
     
     @objc
@@ -573,7 +580,7 @@ extension DetailViewController {
                 if let chargerInfo = self.charger {                    
                     let viewcon = UIStoryboard(name : "Report", bundle: nil).instantiateViewController(ofType: ReportChargeViewController.self)
                     viewcon.info.charger_id = chargerInfo.mChargerId
-                    viewcon.isFromDetailView = true
+                    AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "충전소 상세 게시글 작성 버튼")
                     self.present(viewcon, animated: true)
                 }
             } else {

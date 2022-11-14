@@ -140,18 +140,22 @@ extension CardBoardViewController {
     
     @objc
     fileprivate func handlePostButton() {
-        let storyboard = UIStoryboard.init(name: "BoardWriteViewController", bundle: nil)
-        guard let viewcon = storyboard.instantiateViewController(withIdentifier: "BoardWriteViewController") as? BoardWriteViewController else { return }
-        
-        viewcon.isFromDetailView = false
-        viewcon.category = self.category
-        viewcon.popCompletion = { [weak self] in
-            guard let self = self else { return }
-            self.fetchFirstBoard(mid: self.category.rawValue, sort: self.sortType, mode: self.mode.rawValue)
-        }        
-                
-        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-                
+        MemberManager.shared.tryToLoginCheck {isLogin in
+            if !isLogin {
+                MemberManager.shared.showLoginAlert()
+            } else {
+                let viewcon = UIStoryboard.init(name: "BoardWriteViewController", bundle: nil).instantiateViewController(ofType: BoardWriteViewController.self)
+                AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "커뮤니티 글쓰기 버튼")
+                viewcon.category = self.category
+                viewcon.popCompletion = { [weak self] in
+                    guard let self = self else { return }
+                    self.fetchFirstBoard(mid: self.category.rawValue, sort: self.sortType, mode: self.mode.rawValue)
+                }
+                        
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+            }
+        }
+                                
         BoardEvent.clickWriteBoardPost.logEvent()
     }
 }
