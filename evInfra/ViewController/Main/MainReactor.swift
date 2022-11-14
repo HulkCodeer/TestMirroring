@@ -31,7 +31,6 @@ internal final class MainReactor: ViewModel, Reactor {
         case clearSearchWayData
         case clearSearchPoint(SearchWayPointType)
         case setEvPayFilter(Bool)
-        case openEvPayTooltip
         case setChargingID
         case selectedBottomMenu(BottomMenuType)
         case actionBottomQR
@@ -60,7 +59,6 @@ internal final class MainReactor: ViewModel, Reactor {
         case clearSearchPoint(SearchWayPointType)
         case setSelectedFilterInfo(SelectedFilterInfo)
         case setEvPayFilter(Bool)
-        case openEvPayTooltip
         case setChargingData(ChargeShowType)
         case setQRMenu(ChargingData)
         case setEVPay(EVPayShowType)
@@ -190,9 +188,6 @@ internal final class MainReactor: ViewModel, Reactor {
         case .setEvPayFilter(let isEvPayFilter):
             return .just(.setEvPayFilter(isEvPayFilter))
             
-        case .openEvPayTooltip:
-            return .just(.openEvPayTooltip)
-            
         case .setChargingID:
             return self.provider.getChargingID()
                 .convertData()
@@ -310,9 +305,6 @@ internal final class MainReactor: ViewModel, Reactor {
         case .setEvPayFilter(let isEvPayFilter):
             newState.isEvPayFilter = isEvPayFilter
             
-        case .openEvPayTooltip:
-            newState.isShowEvPayToolTip = FCMManager.sharedInstance.originalMemberId.isEmpty
-
         case .setChargingData(let chargingType):
             newState.chargingType = chargingType
             

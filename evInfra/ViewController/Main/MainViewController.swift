@@ -153,9 +153,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     private var canIgnoreJejuPush = true
 
     internal var disposeBag = DisposeBag()
-    
-    private var evPayTipView = EasyTipView(text: "")
-    
+        
     private var bottomEvPaytooltipView: TooltipView?
     
     deinit {
@@ -263,15 +261,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         super.viewWillDisappear(true)
         // removeObserver 하면 안됨. addObserver를 viewdidload에서 함
         
-        if !MemberManager.shared.isShowEvPayTooltip && !FCMManager.sharedInstance.originalMemberId.isEmpty {
-            self.evPayTipView.dismiss()
-            MemberManager.shared.isShowEvPayTooltip = true
-        }
-        
-        if !MemberManager.shared.isShowBottomMenuEVPayTooltip {
-            dismissBottomMenuTooltip()
-            MemberManager.shared.isShowBottomMenuEVPayTooltip = true
-        }
+        dismissBottomMenuTooltip()
     }
     
     // MARK: UI
@@ -490,30 +480,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 GlobalDefine.shared.mainNavi?.push(viewController: chargerFilterViewController)
             }
             .disposed(by: self.disposeBag)
-        
-        reactor.state.compactMap { $0.isShowEvPayToolTip }
-            .asDriver(onErrorJustReturn: false)
-            .drive(with: self) { obj, isShow in
-                guard isShow else { return }
-                
-                var evPayPreferences = EasyTipView.Preferences()
-                        
-                evPayPreferences.drawing.backgroundColor = Colors.backgroundAlwaysDark.color
-                evPayPreferences.drawing.foregroundColor = Colors.backgroundSecondary.color
-                evPayPreferences.drawing.textAlignment = NSTextAlignment.left
 
-                evPayPreferences.drawing.arrowPosition = .top
-                evPayPreferences.animating.showInitialAlpha = 1
-                evPayPreferences.animating.showDuration = 1
-                evPayPreferences.animating.dismissDuration = 1
-                evPayPreferences.positioning.maxWidth = 227
-
-                let evPayTiptext = "EV Pay 카드로 충전 가능한 충전소만\n볼 수 있어요"
-                self.evPayTipView = EasyTipView(text: evPayTiptext, preferences: evPayPreferences)
-                self.evPayTipView.show(forView: self.filterBarView.evPayView, withinSuperview: self.view)
-                
-            }
-            .disposed(by: self.disposeBag)
     }
     
     // MARK: - bindAction
@@ -1080,11 +1047,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if !MemberManager.shared.isShowEvPayTooltip {
-            MemberManager.shared.isShowEvPayTooltip = true
-            self.evPayTipView.dismiss()
-        }
-
         dismissBottomMenuTooltip()
     }
     
