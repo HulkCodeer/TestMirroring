@@ -76,8 +76,7 @@ internal final class MyPayinfoViewController: UIViewController, MyPayRegisterVie
             } else {
                 MemberManager.shared.showLoginAlert()
             }
-        }
-        
+        }        
         AmplitudeEvent.shared.fromViewSourceByLogEvent(eventType: .clickViewAddPaymentCard)
     }
             

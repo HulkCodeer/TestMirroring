@@ -220,9 +220,11 @@ internal final class PaymentQRScanReactor: ViewModel, Reactor {
                                             message: "\(msg)",
                                             confirmBtnTitle: "결제정보 등록하기",
                                             cancelBtnTitle: "나가기",
-                                            confirmBtnAction: {                    
-                    let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(withIdentifier: "MyPayRegisterViewController") as! MyPayRegisterViewController
+                                            confirmBtnAction: {
+                    AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "QR코드 스캔 프로세스")
+                    let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPayRegisterViewController.self)
                     viewcon.myPayRegisterViewDelegate = self
+                    
                     GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 },
                                             cancelBtnAction: {
