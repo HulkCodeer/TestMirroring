@@ -21,7 +21,7 @@ internal final class BottomMenuItem: UIView {
     }
     private lazy var titleLabel = UILabel().then {
         $0.textColor = Colors.contentTertiary.color
-        $0.font = .systemFont(ofSize: 11)
+        $0.font = .systemFont(ofSize: 11, weight: .semibold)
     }
     
     internal lazy var button = UIButton().then {
