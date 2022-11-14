@@ -57,7 +57,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     private lazy var chargePriceLabel = UILabel().then {
         $0.text = "충전 요금 안내"
         $0.textColor = Colors.nt6.color
-        $0.font = .systemFont(ofSize: 14)
+        $0.font = .systemFont(ofSize: 14, weight: .semibold)
     }
     private lazy var chargePriceButton = UIButton()
     
