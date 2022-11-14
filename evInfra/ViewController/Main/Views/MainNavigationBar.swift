@@ -33,7 +33,10 @@ internal final class MainNavigationBar: UIView {
         $0.isExclusiveTouch = true
     }
     private lazy var searchChargeContentsView = UIView().then {
-        $0.backgroundColor = Colors.nt0.color
+        $0.backgroundColor = Colors.ntMinus.color
+        $0.layer.borderColor = Colors.nt0.color.cgColor
+        $0.layer.borderWidth = 1
+        
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 8
     }
