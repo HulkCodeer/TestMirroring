@@ -375,7 +375,7 @@ extension BoardSearchViewController: UITableViewDelegate {
                     boardDetailTableViewController.document_srl = documentSRL
                     boardDetailTableViewController.isFromStationDetailView = false
                     
-                    self.navigationController?.push(viewController: boardDetailTableViewController)
+                    GlobalDefine.shared.mainNavi?.push(viewController: boardDetailTableViewController)
                 }
             } else {
                 guard let keyword = self.recentKeywords[indexPath.row].title else { return }

@@ -76,7 +76,7 @@ internal final class MyPageViewController: UIViewController {
         let mapStoryboard = UIStoryboard(name : "Map", bundle: nil)
         let saVC = mapStoryboard.instantiateViewController(withIdentifier: "SearchAddressViewController") as! SearchAddressViewController
         saVC.searchAddressDelegate = self
-        navigationController?.push(viewController: saVC)
+        GlobalDefine.shared.mainNavi?.push(viewController: saVC)
     }
     
     deinit {

@@ -168,7 +168,7 @@ internal final class MembershipIssuanceViewController: UIViewController,
         let mainStoryboard = UIStoryboard(name : "Member", bundle: nil)
         let payRegistVC = mainStoryboard.instantiateViewController(withIdentifier: "MyPayRegisterViewController") as! MyPayRegisterViewController
         payRegistVC.myPayRegisterViewDelegate = self
-        navigationController?.push(viewController: payRegistVC)
+        GlobalDefine.shared.mainNavi?.push(viewController: payRegistVC)
     }
     
     func checkPaymentCardStatus() {
@@ -286,7 +286,7 @@ internal final class MembershipIssuanceViewController: UIViewController,
         let saVC = mainStoryboard.instantiateViewController(ofType: SearchAddressViewController.self)
         saVC.searchAddressDelegate = self
         
-        navigationController?.push(viewController: saVC)
+        GlobalDefine.shared.mainNavi?.push(viewController: saVC)
     }
     
     func showValidateFailMsg(msg: String) {
@@ -320,7 +320,7 @@ internal final class MembershipIssuanceViewController: UIViewController,
         let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
         let termsVC = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
         termsVC.tabIndex = .MembershipTerms
-        navigationController?.push(viewController: termsVC)
+        GlobalDefine.shared.mainNavi?.push(viewController: termsVC)
     }
     
     // MARK: - KeyBoardHeight

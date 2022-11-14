@@ -142,7 +142,7 @@ internal final class ShipmentStepView: UIView {
     internal func bind(model: MembershipCardInfo) {
         totalStackView.removeAllArrangedSubviews()
         
-        completeEnableBtn.rx.tap
+        moveNotCardReceivedGuideBtn.rx.tap
             .asDriver()
             .drive(with: self) { obj, _ in
                 GlobalFunctionSwift.showPopup(
@@ -156,6 +156,7 @@ internal final class ShipmentStepView: UIView {
                     cancelBtnTitle: "취소")
             }
             .disposed(by: self.disposebag)
+        
         
         Observable.merge(mailboxConfirmReceiptBtn.rx.tap.asObservable(), sendingConfirmReceiptBtn.rx.tap.asObservable())
             .asDriver(onErrorJustReturn: ())
@@ -428,12 +429,6 @@ internal final class ShipmentStepView: UIView {
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)
             $0.bottom.equalToSuperview()
-        }
-                
-        self.confirmReceiptGuideTotalView.addSubview(completeEnableBtn)
-        completeEnableBtn.snp.makeConstraints {
-            $0.width.equalTo(completeBtn.snp.width)
-            $0.height.equalTo(completeBtn.snp.height)
         }
     }
     

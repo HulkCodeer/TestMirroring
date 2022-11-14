@@ -126,7 +126,7 @@ extension RentalCarCardListViewController: PartnershipListViewDelegate {
             switch item.clientId {
             case 1 : // evinfra
                 reactor.cardNo = item.cardNo ?? ""
-                navigationController?.push(viewController: viewcon)
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                                             
 //            case 23 : //sk rent
 //                viewSkrList.isHidden = false
@@ -152,14 +152,14 @@ extension RentalCarCardListViewController: PartnershipJoinViewDelegate {
     func showMembershipIssuanceView() {
         let storyboard = UIStoryboard(name : "Membership", bundle: nil)
         let mbsIssueVC = storyboard.instantiateViewController(ofType: MembershipIssuanceViewController.self)
-        navigationController?.push(viewController: mbsIssueVC)
+        GlobalDefine.shared.mainNavi?.push(viewController: mbsIssueVC)
     }
     func showSKMemberQRView() {
         let storyboard = UIStoryboard(name : "Membership", bundle: nil)
         let mbsQRVC = storyboard.instantiateViewController(ofType: MembershipQRViewController.self)        
         let property: [String: Any] = ["company": "롯데 렌터카"]
         PaymentEvent.clickApplyAllianceCard.logEvent(property: property)
-        navigationController?.push(viewController: mbsQRVC)
+        GlobalDefine.shared.mainNavi?.push(viewController: mbsQRVC)
     }
     
     func showLotteRentCertificateView() {
@@ -167,6 +167,6 @@ extension RentalCarCardListViewController: PartnershipJoinViewDelegate {
         let lotteVC = storyboard.instantiateViewController(ofType: LotteRentCertificateViewController.self)
         let property: [String: Any] = ["company": "롯데 렌터카"]
         PaymentEvent.clickApplyAllianceCard.logEvent(property: property)
-        navigationController?.push(viewController: lotteVC)
+        GlobalDefine.shared.mainNavi?.push(viewController: lotteVC)
     }
 }

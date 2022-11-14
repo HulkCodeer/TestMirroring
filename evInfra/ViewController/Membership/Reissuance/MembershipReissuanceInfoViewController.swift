@@ -335,7 +335,7 @@ internal final class MembershipReissuanceInfoViewController: CommonBaseViewContr
                 let mapStoryboard = UIStoryboard(name : "Map", bundle: nil)
                 let saVC = mapStoryboard.instantiateViewController(withIdentifier: "SearchAddressViewController") as! SearchAddressViewController
                 saVC.searchAddressDelegate = self
-                self.navigationController?.push(viewController: saVC)
+                GlobalDefine.shared.mainNavi?.push(viewController: saVC)
             })
             .disposed(by: self.disposeBag)
         

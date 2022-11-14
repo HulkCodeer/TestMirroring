@@ -190,7 +190,7 @@ internal final class BoardDetailViewController: BaseViewController, UINavigation
         imageVC.mImageURL = url
         imageVC.isProfileImageMode = isProfileImageMode
     
-        self.navigationController?.push(viewController: imageVC)
+        GlobalDefine.shared.mainNavi?.push(viewController: imageVC)
     }
 }
 
@@ -375,7 +375,7 @@ extension BoardDetailViewController {
             self.fetchData()
         }
         
-        self.navigationController?.push(viewController: boardWriteViewController)
+        GlobalDefine.shared.mainNavi?.push(viewController: boardWriteViewController)
     }
     
     private func reportBoard() {
@@ -637,7 +637,7 @@ extension BoardDetailViewController: ButtonClickDelegate {
         
         if let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) {
             detailViewController.charger = charger
-            self.navigationController?.push(viewController: detailViewController, subtype: CATransitionSubtype.fromTop)
+            GlobalDefine.shared.mainNavi?.push(viewController: detailViewController, subtype: CATransitionSubtype.fromTop)
         }
     }
 }

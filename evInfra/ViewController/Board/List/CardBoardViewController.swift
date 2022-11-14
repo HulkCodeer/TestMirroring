@@ -135,7 +135,7 @@ extension CardBoardViewController {
         guard let boardSearchViewController = storyboard.instantiateViewController(withIdentifier: "BoardSearchViewController") as? BoardSearchViewController else { return }
         
         boardSearchViewController.category = self.category
-        self.navigationController?.push(viewController: boardSearchViewController)
+        GlobalDefine.shared.mainNavi?.push(viewController: boardSearchViewController)
     }
     
     @objc
@@ -221,7 +221,7 @@ extension CardBoardViewController: BoardTableViewDelegate {
             }
         }
         
-        self.navigationController?.push(viewController: boardDetailTableViewController)
+        GlobalDefine.shared.mainNavi?.push(viewController: boardDetailTableViewController)
     }
     
     func showImageViewer(url: URL, isProfileImageMode: Bool) {
@@ -230,7 +230,7 @@ extension CardBoardViewController: BoardTableViewDelegate {
         imageVC.mImageURL = url
         imageVC.isProfileImageMode = isProfileImageMode
     
-        self.navigationController?.push(viewController: imageVC)
+        GlobalDefine.shared.mainNavi?.push(viewController: imageVC)
     }
 }
 
