@@ -101,7 +101,6 @@ internal final class ShipmentStepView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        makeUI()
     }
     
     // MARK: FUNC
@@ -141,6 +140,9 @@ internal final class ShipmentStepView: UIView {
     
     internal func bind(model: MembershipCardInfo) {
         totalStackView.removeAllArrangedSubviews()
+        self.removeAllSubviews()
+        
+        self.makeUI()
         
         moveNotCardReceivedGuideBtn.rx.tap
             .asDriver()
@@ -181,6 +183,7 @@ internal final class ShipmentStepView: UIView {
         let isCurrentSendComplete = model.condition.convertStatusArr.allSatisfy { $0.passType == .complete }
                          
         if !isCurrentMainboxConfirm { // 우편함 확인일 경우
+            confirmReceiptGuideTotalView.removeAllSubviews()
             confirmReceiptGuideTotalView.isHidden = isCurrentMainboxConfirm
             self.makeMailBoxConfirmMessageView()
         }
@@ -333,6 +336,7 @@ internal final class ShipmentStepView: UIView {
             $0.font = .systemFont(ofSize: 14, weight: .regular)
             $0.numberOfLines = 5
             $0.attributedText = attributeText
+            
         }
                     
         statusDescTotalView.addSubview(statusMainDescLbl)

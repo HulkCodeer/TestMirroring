@@ -87,8 +87,8 @@ internal final class MembershipCardViewController: CommonBaseViewController, Sto
         reactor.state.compactMap { $0.membershipCardInfo }
             .asDriver(onErrorJustReturn: MembershipCardInfo(JSON.null))
             .drive(with: self) { obj, model in
-                self.partnershipListView.fromViewType = self.fromViewType
-                self.partnershipListView.showInfoView(info: model)
+                obj.partnershipListView.fromViewType = obj.fromViewType
+                obj.partnershipListView.showInfoView(info: model)
             }
             .disposed(by: self.disposeBag)
         
