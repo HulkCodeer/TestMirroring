@@ -21,7 +21,6 @@ import ReactorKit
 import RxViewController
 import RxCoreLocation
 import CoreLocation
-import EasyTipView
 
 internal final class MainViewController: UIViewController, StoryboardView {
     

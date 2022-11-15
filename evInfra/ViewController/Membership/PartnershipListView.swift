@@ -52,6 +52,8 @@ internal final class PartnershipListView : UIView {
                                                                                  font: .systemFont(ofSize: 16, weight: .regular))).then {
         $0.isHidden = true
     }
+    
+    private var tipView = EasyTipView(text: "")
         
     // MARK: VARIABLE
     
@@ -225,6 +227,8 @@ internal final class PartnershipListView : UIView {
             cardNoTooltipView.show(message: "GS, 환경부 제외 충전소에서\n카드 번호로 바로 충전할 수 있어요!")
             
             MemberManager.shared.isShowMembershipCardCompleteTooltip = true
+        } else {
+            cardNoTooltipView.dismiss()
         }
                                                         
         if info.condition.convertStatusType == .sending {
@@ -242,13 +246,14 @@ internal final class PartnershipListView : UIView {
             preferences.animating.showInitialAlpha = 0
             preferences.animating.showDuration = 1
             preferences.animating.dismissDuration = 1
-                                 
+                        
             guard !UserDefault().readBool(key: UserDefault.Key.IS_HIDDEN_DELEVERY_COMPLETE_TOOLTIP) else { return }
             let text = "영업일 기준 3~5일 뒤에\n우편함을 확인해보세요! 📮✉️"
-            EasyTipView.show(forView: self.labelCardStatus,
-                             withinSuperview: self.viewEvinfraList,
-                             text: text,
-                             preferences: preferences, delegate: self)
+            self.tipView = EasyTipView(text: text, preferences: preferences, delegate: self)
+            self.tipView.show(forView: self.labelCardStatus, withinSuperview: self.viewEvinfraList)
+            
+        } else {
+            self.tipView.dismiss()
         }
     }
     
