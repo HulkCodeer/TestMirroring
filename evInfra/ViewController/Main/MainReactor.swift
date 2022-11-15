@@ -59,7 +59,6 @@ internal final class MainReactor: ViewModel, Reactor {
         case clearSearchPoint(SearchWayPointType)
         case setSelectedFilterInfo(SelectedFilterInfo)
         case setEvPayFilter(Bool)
-        case setChargingData(ChargeShowType)
         case setQRMenu(ChargingData)
         case setEVPay(EVPayShowType)
         case setSelectedBottomMenu(BottomMenuType)
@@ -87,7 +86,6 @@ internal final class MainReactor: ViewModel, Reactor {
         var selectedFilterInfo: SelectedFilterInfo?
         var isEvPayFilter: Bool?
         var isShowEvPayToolTip: Bool?
-        var chargingType: ChargeShowType?
         var evPayPresentType: EVPayShowType?
         var qrMenuChargingData: ChargingData?
         var bottomItemType: BottomMenuType?
@@ -191,8 +189,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case .setChargingID:
             return self.provider.getChargingID()
                 .convertData()
-                .compactMap(convertToChargingData)
-                .map { return .setChargingData($0.chargingType) }
+                .map(checkChargingStatus)
 
         case .selectedBottomMenu(let bottomType):
             bottomType.action(reactor: self, provider: provider)
@@ -251,7 +248,6 @@ internal final class MainReactor: ViewModel, Reactor {
         newState.isClearSearchWayPoint = nil
         newState.searchDetinationData = nil
         newState.isShowEvPayToolTip = nil
-        newState.chargingType = nil
         newState.qrMenuChargingData = nil
         newState.evPayPresentType = nil
         newState.bottomItemType = nil
@@ -304,10 +300,7 @@ internal final class MainReactor: ViewModel, Reactor {
 
         case .setEvPayFilter(let isEvPayFilter):
             newState.isEvPayFilter = isEvPayFilter
-            
-        case .setChargingData(let chargingType):
-            newState.chargingType = chargingType
-            
+  
         case .setQRMenu(let chargingData):
             newState.qrMenuChargingData = chargingData
             
@@ -374,11 +367,9 @@ internal final class MainReactor: ViewModel, Reactor {
         switch result {
         case .success(let data):
             let jsonData = JSON(data)
-            printLog("--> convertToChargingData \(jsonData), \(jsonData["pay_code"])")
             let code = jsonData["code"]
             let payCode = jsonData["pay_code"].intValue
             
-            // setChargingID용
             Observable.just(MainReactor.Action.setIsCharging(code == 1000))
                 .bind(to: self.action)
                 .disposed(by: disposeBag)
@@ -406,6 +397,42 @@ internal final class MainReactor: ViewModel, Reactor {
             Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
             return nil
         }
+    }
+    
+    private func checkChargingStatus(with result: ApiResult<Data, ApiError>) -> Mutation {
+        switch result {
+        case .success(let data):
+            let jsonData = JSON(data)
+            let code = jsonData["code"]
+            let payCode = jsonData["pay_code"].intValue
+            
+            Observable.just(MainReactor.Action.setIsCharging(code == 1000))
+                .bind(to: self.action)
+                .disposed(by: disposeBag)
+            
+            UserDefault().saveBool(
+                key: UserDefault.Key.HAS_FAILED_PAYMENT,
+                value: (PaymentStatus(rawValue: payCode) == .PAY_DEBTOR_USER))
+            
+            switch (code, PaymentStatus(rawValue: payCode)) {
+            case (2002, _) where jsonData["status"].stringValue == "delete":      // 탈퇴 회원
+                LoginHelper.shared.logout(completion: { success in
+                    if success {
+                        Snackbar().show(message: "회원 탈퇴로 인해 로그아웃 되었습니다.")
+                    } else {
+                        Snackbar().show(message: "다시 시도해 주세요.")
+                    }
+                })
+                
+            default: break
+            }
+ 
+        case .failure(let error):
+            printLog(out: "Error Message : \(error)")
+            Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
+        }
+        
+        return .none
     }
     
     private func setPaymentStatus(with result: ApiResult<Data, ApiError>) -> Mutation  {
