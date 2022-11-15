@@ -230,8 +230,8 @@ internal class AmplitudeEvent {
     private init() {}
     
     enum Event: String, EventTypeProtocol {
-        case clickViewAddPaymentCard = "view_add_payment_card"
-        case clickViewApplyEVICard = "view_apply_EVI_card"
+        case viewAddPaymentCard = "view_add_payment_card"
+        case viewApplyEVICard = "view_apply_EVI_card"
         case viewMyInfo = "view_my_info"
         case clickSidemenuRenewBerry = "click_sidemenu_renew_berry"
         case clickSidemenuSetUpBerryAll = "click_sidemenu_set_up_berry_all"

@@ -77,7 +77,7 @@ internal final class MyPayinfoViewController: UIViewController, MyPayRegisterVie
                 MemberManager.shared.showLoginAlert()
             }
         }        
-        AmplitudeEvent.shared.fromViewSourceByLogEvent(eventType: .clickViewAddPaymentCard)
+        AmplitudeEvent.shared.fromViewSourceByLogEvent(eventType: .viewAddPaymentCard)
     }
             
     func checkRegisterPayment() {

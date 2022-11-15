@@ -86,7 +86,7 @@ internal final class MembershipGuideViewController: CommonBaseViewController, WK
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        AmplitudeEvent.shared.fromViewSourceByLogEvent(eventType: .clickViewApplyEVICard)
+        AmplitudeEvent.shared.fromViewSourceByLogEvent(eventType: .viewApplyEVICard)
         
         membershipRegisterBtn.rectBtn.rx.tap
             .asDriver()
