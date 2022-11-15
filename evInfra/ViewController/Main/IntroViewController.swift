@@ -83,7 +83,7 @@ internal final class IntroViewController: UIViewController {
             }
             .subscribe(onNext: { model in
                 if !(model.condition.convertStatusType == .sendComplete) {
-                    let currentStatus = UserDefault().readInt(key: UserDefault.Key.LAST_MEMBERSHIPCARD_DELIVERY_STATUS)
+                    let currentStatus = UserDefault().readInt(key: UserDefault.Key.LAST_MEMBERSHIPCARD_DELIVERY_STATUS)                    
                     if model.condition.status > currentStatus {
                         UserDefault().saveInt(key: UserDefault.Key.LAST_MEMBERSHIPCARD_DELIVERY_STATUS, value: model.condition.status)
                         UserDefault().saveBool(key: UserDefault.Key.IS_EVPAY_BADGE_NEW, value: true)

@@ -237,6 +237,7 @@ internal class AmplitudeEvent {
         case clickSidemenuSetUpBerryAll = "click_sidemenu_set_up_berry_all"
         case clickSidemenuMyBerry = "click_sidemenu_my_berry"
         case viewLogin = "view_login"
+        case viewInfoEVICard = "view_info_EVI_card"
         case none
         
         internal var toTypeDesc: String {

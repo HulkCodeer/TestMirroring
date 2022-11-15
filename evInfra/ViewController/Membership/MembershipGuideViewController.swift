@@ -94,7 +94,7 @@ internal final class MembershipGuideViewController: CommonBaseViewController, WK
                 let viewcon = UIStoryboard(name : "Membership", bundle: nil).instantiateViewController(ofType: MembershipIssuanceViewController.self)
                 viewcon.delegate = obj
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-                PaymentEvent.clickApplyEVICard.logEvent()
+                AmplitudeEvent.shared.fromViewSourceByLogEvent(eventType: .viewInfoEVICard)                                
             }
             .disposed(by: disposebag)
     }

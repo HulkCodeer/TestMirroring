@@ -605,12 +605,6 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
         switch _reactor.currentState.menuCategoryType {
         case .mypage:
             switch index.section {
-            case 0:
-                switch index.row {
-                case 1: cell.newBadge.isHidden = UserDefault().readBool(key: UserDefault.Key.IS_EVPAY_BADGE_NEW)
-                default: cell.newBadge.isHidden = true
-                }
-                
             case 1:
                 if index.row == 0 { // 미수금 표시
                     if UserDefault().readBool(key: UserDefault.Key.HAS_FAILED_PAYMENT) {
@@ -675,6 +669,10 @@ internal final class NewLeftViewController: CommonBaseViewController, Storyboard
             cell.menuLabel.text = MemberManager.shared.hasPayment ? "결제 정보 관리" : "결제 정보 등록"
         case 1: // 회원카드 관리            
             cell.menuLabel.text = MemberManager.shared.hasMembership ? "EV Pay 카드 관리" : "EV Pay 카드 신청"
+            if MemberManager.shared.hasMembership {
+                cell.newBadge.isHidden = !UserDefault().readBool(key: UserDefault.Key.IS_EVPAY_BADGE_NEW)
+            }
+            
         case 2: // 렌터카 정보 관리
             cell.menuLabel.text = MemberManager.shared.hasRentcar ? "렌터카 정보 관리" : "렌터카 정보 등록"
         default: break

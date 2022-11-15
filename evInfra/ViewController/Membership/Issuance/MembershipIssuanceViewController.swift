@@ -165,10 +165,9 @@ internal final class MembershipIssuanceViewController: UIViewController,
     
     func moveToMyPayRegist() {
         AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "회원카드 신청 프로세스")
-        let mainStoryboard = UIStoryboard(name : "Member", bundle: nil)
-        let payRegistVC = mainStoryboard.instantiateViewController(withIdentifier: "MyPayRegisterViewController") as! MyPayRegisterViewController
-        payRegistVC.myPayRegisterViewDelegate = self
-        GlobalDefine.shared.mainNavi?.push(viewController: payRegistVC)
+        let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPayRegisterViewController.self)
+        viewcon.myPayRegisterViewDelegate = self
+        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
     }
     
     func checkPaymentCardStatus() {
