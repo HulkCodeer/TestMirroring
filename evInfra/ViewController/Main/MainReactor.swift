@@ -437,7 +437,9 @@ internal final class MainReactor: ViewModel, Reactor {
     }
     
     private func convertToEVPayShowType(with result: ApiResult<Data, ApiError>) -> EVPayShowType? {
-        guard MemberManager.shared.hasMembership else { return .evPayGuide }
+        guard MemberManager.shared.hasMembership else {
+            AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "메인화면 하단 EV Pay 버튼")
+            return .evPayGuide }
         
         switch result {
         case .success(let data):
