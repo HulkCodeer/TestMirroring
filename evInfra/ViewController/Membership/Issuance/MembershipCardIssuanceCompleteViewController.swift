@@ -34,7 +34,7 @@ internal final class MembershipCardIssuanceCompleteViewController: CommonBaseVie
     }
     
     private lazy var completeWelcomeGuideLbl = UILabel().then {
-        $0.text = "회원카드 신청 완료"
+        $0.text = "EV Pay 카드 신청 완료"
         $0.font = .systemFont(ofSize: 22, weight: .semibold)
         $0.textColor = Colors.contentPrimary.color
     }
@@ -139,7 +139,7 @@ internal final class MembershipCardIssuanceCompleteViewController: CommonBaseVie
     // MARK: FUNC
     
     func bind(reactor: MembershipCardIssuanceCompleteReactor) {
-        self.shipmentStatusView.bind(reactor: reactor)
+        self.shipmentStatusView.bind(reactor: reactor)        
         
         Observable.just(MembershipCardIssuanceCompleteReactor.Action.membershipCardInfo)
             .bind(to: reactor.action)
@@ -157,10 +157,10 @@ internal final class MembershipCardIssuanceCompleteViewController: CommonBaseVie
                 }
                 
                 // 사이드 메뉴에서 베리 전액 설정 시 회원카드 없는 CASE로 등록하러 온 경우
-                if let _vc = _mainNavi.containsView(ofKind: NewLeftViewController.self), let _delegate = obj.delegate {
+                if let _delegate = obj.delegate {
                     Snackbar().show(message: "EV Pay 카드 발급이 완료되었어요.")
                     _delegate.completeResiterMembershipCard()
-                    _ = _mainNavi.popToViewController(_vc, animated: true)
+                    _ = _mainNavi.popToRootViewController(animated: true)
                     return
                 }
                 

@@ -228,7 +228,7 @@ internal final class ShipmentStepView: UIView {
         statusDescTotalView.snp.makeConstraints {
             $0.leading.equalTo(stepTotalView.lineView.snp.trailing).offset(26)
             $0.top.equalTo(stepTotalView.dotView.snp.bottom).offset(14)
-            $0.height.greaterThanOrEqualTo(120)
+            $0.height.equalTo(120)
             $0.trailing.equalToSuperview().offset(-18)
         }
         
@@ -247,11 +247,13 @@ internal final class ShipmentStepView: UIView {
             $0.font = .systemFont(ofSize: 14, weight: .regular)
             $0.numberOfLines = 5
             $0.attributedText = attributeText
+            $0.setTextWithLineHeight(lineHeight: 22)
         }
         
         statusDescTotalView.addSubview(statusDescLbl)
         statusDescLbl.snp.makeConstraints {
             $0.leading.top.equalToSuperview().offset(16)
+            $0.height.equalTo(44)
             $0.trailing.equalToSuperview().offset(-16)
         }
 
@@ -272,11 +274,13 @@ internal final class ShipmentStepView: UIView {
             $0.textAlignment = .center
             $0.textColor = Colors.contentPrimary.color
             $0.font = .systemFont(ofSize: 14, weight: .regular)
+            $0.setTextWithLineHeight(lineHeight: 20)
         }
 
         moveChargingHelpGuideTotalView.addSubview(moveChargingHelpGuideLbl)
         moveChargingHelpGuideLbl.snp.makeConstraints {
-            $0.leading.top.equalToSuperview().offset(16)
+            $0.top.equalToSuperview().offset(8)
+            $0.leading.equalToSuperview().offset(16)
             $0.centerY.equalToSuperview()
         }
 
