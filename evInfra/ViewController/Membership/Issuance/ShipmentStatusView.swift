@@ -60,6 +60,7 @@ internal final class ShipmentStatusView: UIView {
             .asDriver(onErrorJustReturn: MembershipCardInfo(JSON.null))
             .drive(with: self) { obj, model in
                 obj.shipmentStepView.bind(model: model)
+                obj.shipmentInfoView.bind(model: model.destination)
             }
             .disposed(by: self.disposebag)
     }
