@@ -171,7 +171,7 @@ internal final class ShipmentInfoView: UIView {
             $0.leading.equalToSuperview().offset(56)
             $0.height.equalTo(24)
             $0.trailing.equalToSuperview()
-            $0.bottom.equalToSuperview().offset(-58)
+            $0.bottom.equalToSuperview().offset(-34)
         }
     }
     

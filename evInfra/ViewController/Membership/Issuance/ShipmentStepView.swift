@@ -474,7 +474,7 @@ internal final class ShipmentStepView: UIView {
             $0.top.equalTo(mailboxConfirmReceiptBtn.snp.bottom).offset(16)
             $0.centerX.equalTo(mailboxConfirmReceiptBtn.snp.centerX)
             $0.height.equalTo(16)
-            $0.bottom.equalToSuperview()
+            $0.bottom.equalToSuperview().offset(-20)
         }
 
         self.confirmReceiptGuideTotalView.addSubview(moveNotCardReceivedGuideBtn)
