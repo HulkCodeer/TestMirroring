@@ -12,7 +12,6 @@ import UIKit
 
 internal final class MainReactor: ViewModel, Reactor {
     typealias SelectedFilterInfo = (filterTagType: FilterTagType, isSeleted: Bool)
-    typealias ChargingData = (chargingType: ChargeShowType, chargingData: ChargingID?)
     
     enum Action {
         case showMarketingPopup
@@ -59,7 +58,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case clearSearchPoint(SearchWayPointType)
         case setSelectedFilterInfo(SelectedFilterInfo)
         case setEvPayFilter(Bool)
-        case setQRMenu(ChargingData)
+        case isShowQRMenu(Bool)
         case setEVPay(EVPayShowType)
         case setSelectedBottomMenu(BottomMenuType)
         case setIsAccountsReceivable(Bool)
@@ -87,7 +86,7 @@ internal final class MainReactor: ViewModel, Reactor {
         var isEvPayFilter: Bool?
         var isShowEvPayToolTip: Bool?
         var evPayPresentType: EVPayShowType?
-        var qrMenuChargingData: ChargingData?
+        var isShowQRMenu: Bool?
         var bottomItemType: BottomMenuType?
         var isAccountsReceivable: Bool? = false
         var isCharging: Bool? = false
@@ -198,8 +197,8 @@ internal final class MainReactor: ViewModel, Reactor {
         case .actionBottomQR:
             return self.provider.getChargingID()
                 .convertData()
-                .compactMap(convertToChargingData)
-                .map { return .setQRMenu($0) }
+                .compactMap(convertToIsShowQRMenu)
+                .map { return .isShowQRMenu($0) }
             
         case .actionEVPay:
             return provider.postPaymentStatus()
@@ -248,7 +247,7 @@ internal final class MainReactor: ViewModel, Reactor {
         newState.isClearSearchWayPoint = nil
         newState.searchDetinationData = nil
         newState.isShowEvPayToolTip = nil
-        newState.qrMenuChargingData = nil
+        newState.isShowQRMenu = nil
         newState.evPayPresentType = nil
         newState.bottomItemType = nil
         newState.isAccountsReceivable = nil
@@ -301,8 +300,8 @@ internal final class MainReactor: ViewModel, Reactor {
         case .setEvPayFilter(let isEvPayFilter):
             newState.isEvPayFilter = isEvPayFilter
   
-        case .setQRMenu(let chargingData):
-            newState.qrMenuChargingData = chargingData
+        case .isShowQRMenu(let isShowQRMenu):
+            newState.isShowQRMenu = isShowQRMenu
             
         case .setEVPay(let showType):
             newState.evPayPresentType = showType
@@ -363,7 +362,7 @@ internal final class MainReactor: ViewModel, Reactor {
         }
     }
     
-    private func convertToChargingData(with result: ApiResult<Data, ApiError>) -> ChargingData? {
+    private func convertToIsShowQRMenu(with result: ApiResult<Data, ApiError>) -> Bool? {
         switch result {
         case .success(let data):
             let jsonData = JSON(data)
@@ -376,22 +375,27 @@ internal final class MainReactor: ViewModel, Reactor {
             
             switch (code, PaymentStatus(rawValue: payCode)) {
             case (_, .PAY_DEBTOR_USER) :  // 미수금
-                return ( .accountsReceivable, nil)
+                let viewcon =  UIStoryboard(name : "Payment", bundle: nil).instantiateViewController(ofType: RepayListViewController.self)
+                viewcon.delegate = self
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                
+                return nil
                 
             case (1000, _) :    // 충전중
-                let chargingData = try? JSONDecoder().decode(ChargingID.self, from: data)
-                return (.charging, chargingData)
-
-            case (2002, _) where jsonData["status"].stringValue == "delete":      // 탈퇴 회원
-                return (.leave, nil)
+                let chargingID = jsonData["charging_id"].stringValue
+                let paymentReactor = PaymentStatusReactor(provider: RestApi())
+                let paymentVC = NewPaymentStatusViewController(reactor: paymentReactor)
+                paymentVC.chargingId = chargingID
+                GlobalDefine.shared.mainNavi?.push(viewController: paymentVC)
+                
+                return nil
                 
             case (2002, _):      // 충전 x
-                return (.none, nil)
+                return true
                 
-            default:
-                return nil
+            default: return nil
             }
- 
+            
         case .failure(let error):
             printLog(out: "Error Message : \(error)")
             Snackbar().show(message: "오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
@@ -581,17 +585,21 @@ internal final class MainReactor: ViewModel, Reactor {
         
     }
     
-    enum ChargeShowType {
-        case charging
-        case none
-        case accountsReceivable
-        case leave
-    }
-    
     enum EVPayShowType {
         case evPayGuide         // 신규, 미참여, gs사용유저
         case evPayManagement    // 결제카드 없고 회원카드 있는사람, 그냥 있는 사람.
         case accountsReceivable // 미수금.
     }
 
+}
+
+extension MainReactor: RepaymentListDelegate {
+    func onRepaySuccess() {
+        let reactor = PaymentQRScanReactor(provider: RestApi())
+        let viewcon = NewPaymentQRScanViewController(reactor: reactor)
+        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+    }
+    
+    func onRepayFail() {
+    }
 }
