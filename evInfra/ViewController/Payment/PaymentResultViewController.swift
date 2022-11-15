@@ -8,9 +8,8 @@
 
 import UIKit
 import SwiftyJSON
-import Material
 
-internal final class PaymentResultViewController: UIViewController {
+internal final class PaymentResultViewController: BaseViewController {
     
     @IBOutlet weak var naviTotalView: CommonNaviView!
     @IBOutlet weak var ivResultBg: UIView!

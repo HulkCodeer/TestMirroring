@@ -8,14 +8,14 @@
 
 import UIKit
 import SwiftyJSON
-import Material
 import M13Checkbox
 
 protocol RepaymentListDelegate: AnyObject {
     func onRepaySuccess()
     func onRepayFail()
 }
-class RepayListViewController: UIViewController, MyPayRegisterViewDelegate, RepaymentResultDelegate {
+
+internal final class RepayListViewController: UIViewController, MyPayRegisterViewDelegate, RepaymentResultDelegate {
     
     private lazy var customNaviBar = CommonNaviView().then {
         $0.backgroundColor = Colors.backgroundPrimary.color
