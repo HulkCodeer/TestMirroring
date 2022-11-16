@@ -267,17 +267,17 @@ internal final class NewFilterRoadView: UIView {
 
 extension NewFilterRoadView: FilterButtonAction {
     func saveFilter() {
-//        let filterModel = GlobalFilterReactor.sharedInstance.currentState.filterModel
-//        Observable.just(GlobalFilterReactor.Action.saveRoadFilter(filterModel))
-//            .bind(to: GlobalFilterReactor.sharedInstance.action)
-//            .disposed(by: self.disposeBag)
+        let filterModel = GlobalFilterReactor.sharedInstance.currentState.filterModel
+        Observable.of(GlobalFilterReactor.Action.saveFilter(filterModel))
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
     }
     
     func resetFilter() {
-//        let resetModel = GlobalFilterReactor.sharedInstance.initialState.resetFilterModel
-//        Observable.just(GlobalFilterReactor.Action.saveRoadFilter(resetModel))
-//            .bind(to: GlobalFilterReactor.sharedInstance.action)
-//            .disposed(by: self.disposeBag)
+        let resetModel = GlobalFilterReactor.sharedInstance.initialState.resetFilterModel
+        Observable.just(GlobalFilterReactor.Action.savePlaceFilter(resetModel))
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
     }
     
     func revertFilter() {

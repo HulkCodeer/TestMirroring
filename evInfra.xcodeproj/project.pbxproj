@@ -93,7 +93,6 @@
 		19394CCB29066C7E00385DB4 /* NewFilterSwitchesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19394CCA29066C7E00385DB4 /* NewFilterSwitchesView.swift */; };
 		19394CCC29066C7E00385DB4 /* NewFilterSwitchesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19394CCA29066C7E00385DB4 /* NewFilterSwitchesView.swift */; };
 		19394CCD29066C7E00385DB4 /* NewFilterSwitchesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19394CCA29066C7E00385DB4 /* NewFilterSwitchesView.swift */; };
-		193A4DAC27FAAEC000B604D3 /* NaverMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193A4DAB27FAAEC000B604D3 /* NaverMapView.swift */; };
 		193C95C4289906DB00CD61D6 /* GlobalAdsReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193C95C3289906DB00CD61D6 /* GlobalAdsReactor.swift */; };
 		193C95C5289906DB00CD61D6 /* GlobalAdsReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193C95C3289906DB00CD61D6 /* GlobalAdsReactor.swift */; };
 		1946E4F128FE312000CC9156 /* NewFilterRoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1946E4F028FE312000CC9156 /* NewFilterRoadView.swift */; };
@@ -5797,10 +5796,12 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_ENTITLEMENTS = evInfra/evInfra.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 11151724;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FA8TZGUDC;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 5FA8TZGUDC;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5823,6 +5824,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.soft-berry.ev-infra";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = EvInfra_20220627_debug;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = EvInfra_20220627_adhoc;
 				SWIFT_OBJC_BRIDGING_HEADER = "evInfra/evInfra-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;

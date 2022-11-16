@@ -159,8 +159,8 @@ internal final class MainViewController: UIViewController, StoryboardView {
         prepareNotificationCenter()
         prepareRouteView()
         prepareClustering()
-            
-        requestStationInfo()
+        
+//        requestStationInfo()
         
         prepareCalloutLayer()
         
