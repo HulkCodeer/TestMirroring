@@ -208,7 +208,7 @@ internal final class NewFilterSpeedView: UIView {
                     .bind(to: reactor.action)
                     .disposed(by: obj.disposeBag)
                 
-                obj.slowSpeedChangeDelegate?.changedSlowSpeed()
+//                obj.slowSpeedChangeDelegate?.changedSlowSpeed()
 
                 if obj.isDirectChange {
                     obj.saveFilter()
@@ -272,41 +272,41 @@ internal final class NewFilterSpeedView: UIView {
         return stepTotalView
     }
     
-    internal func changedSlowTypeSpeed(isFastSpeedOn: Bool, isSlowSpeedOn: Bool) {
-        switch (isFastSpeedOn, isSlowSpeedOn) {
-        case (false, true):
-            // case1. 다른 충전기타입 안켜져있을때, 완속타입(완속, 데스티네이션) 하나라도 ON
-            // 최소속도: 완속 / 최대속도: 완속
-            minSpeed = 0
-            maxSpeed = 0
-        case (true, true):
-            // case2. 다른 충전기타입 켜져있을때, 완속타입(완속, 데스티네이션) 하나라도 ON
-            // 최소속도: 완속 / 최대속도: 변동X
-            minSpeed = 0
-            maxSpeed = reactor.currentState.filterModel.maxSpeed
-        case (_, false) where minSpeed == 0 && maxSpeed == 0:
-            // case3.
-            // 최소속도: 50 / 최대속도: 50
-            minSpeed = 50
-            maxSpeed = 50
-        case (_, false) where minSpeed == 0 && maxSpeed > 0:
-            // case3. 다른 충전기타입 선택유무에 관계없이, 완속타입 OFF
-            // 최소속도: 50 / 최대속도: 변동X
-            minSpeed = 50
-            maxSpeed = reactor.currentState.filterModel.maxSpeed
-        default:
-            minSpeed = reactor.currentState.filterModel.minSpeed
-            maxSpeed = reactor.currentState.filterModel.maxSpeed
-        }
-        
-        Observable.just(FilterReactor.Action.updateSpeedFilter((minSpeed: minSpeed, maxSpeed: maxSpeed)))
-            .bind(to: reactor.action)
-            .disposed(by: self.disposeBag)
-
-        rangeSlider.selectedMinValue = Speed.convertToCGFloat(with: minSpeed).rawValue
-        rangeSlider.selectedMaxValue = Speed.convertToCGFloat(with: maxSpeed).rawValue
-        rangeSlider.setNeedsLayout()
-    }
+//    internal func changedSlowTypeSpeed(isFastSpeedOn: Bool, isSlowSpeedOn: Bool) {
+//        switch (isFastSpeedOn, isSlowSpeedOn) {
+//        case (false, true):
+//            // case1. 다른 충전기타입 안켜져있을때, 완속타입(완속, 데스티네이션) 하나라도 ON
+//            // 최소속도: 완속 / 최대속도: 완속
+//            minSpeed = 0
+//            maxSpeed = 0
+//        case (true, true):
+//            // case2. 다른 충전기타입 켜져있을때, 완속타입(완속, 데스티네이션) 하나라도 ON
+//            // 최소속도: 완속 / 최대속도: 변동X
+//            minSpeed = 0
+//            maxSpeed = reactor.currentState.filterModel.maxSpeed
+//        case (_, false) where minSpeed == 0 && maxSpeed == 0:
+//            // case3.
+//            // 최소속도: 50 / 최대속도: 50
+//            minSpeed = 50
+//            maxSpeed = 50
+//        case (_, false) where minSpeed == 0 && maxSpeed > 0:
+//            // case3. 다른 충전기타입 선택유무에 관계없이, 완속타입 OFF
+//            // 최소속도: 50 / 최대속도: 변동X
+//            minSpeed = 50
+//            maxSpeed = reactor.currentState.filterModel.maxSpeed
+//        default:
+//            minSpeed = reactor.currentState.filterModel.minSpeed
+//            maxSpeed = reactor.currentState.filterModel.maxSpeed
+//        }
+//        
+//        Observable.just(FilterReactor.Action.updateSpeedFilter((minSpeed: minSpeed, maxSpeed: maxSpeed)))
+//            .bind(to: reactor.action)
+//            .disposed(by: self.disposeBag)
+//
+//        rangeSlider.selectedMinValue = Speed.convertToCGFloat(with: minSpeed).rawValue
+//        rangeSlider.selectedMaxValue = Speed.convertToCGFloat(with: maxSpeed).rawValue
+//        rangeSlider.setNeedsLayout()
+//    }
 }
 
 extension NewFilterSpeedView: FilterButtonAction {
