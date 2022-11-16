@@ -33,18 +33,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
     
     private lazy var customNaviBar = MainNavigationBar()
     
-    private lazy var myLocationButton = UIButton().then {
-        $0.setImage(Icons.iconCurrentLocationMd.image, for: .normal)
-        $0.imageView?.contentMode = .scaleAspectFit
-        $0.addTarget(self, action: #selector(onClickMyLocation), for: .touchUpInside)
-        $0.backgroundColor = Colors.backgroundPrimary.color
-        
-        $0.IBcornerRadius = 20
-        $0.shadowRadius = 2.0
-        $0.shadowOffset = .init(x: 0.0, y: 2.0)
-        $0.shadowOpacity = 0.3
-        $0.layer.masksToBounds = false
-    }
     private lazy var reNewButton = UIButton().then {
         $0.setImage(Icons.iconRefreshMd.image, for: .normal)
         $0.imageView?.contentMode = .scaleAspectFit
@@ -55,6 +43,19 @@ internal final class MainViewController: UIViewController, StoryboardView {
         $0.IBcornerRadius = 20
         $0.shadowRadius = 2.0
         $0.shadowOffset = .init(x: 0, y: 2.0)
+        $0.shadowOpacity = 0.3
+        $0.layer.masksToBounds = false
+    }
+    
+    private lazy var myLocationButton = UIButton().then {
+        $0.setImage(Icons.iconCurrentLocationMd.image, for: .normal)
+        $0.imageView?.contentMode = .scaleAspectFit
+        $0.addTarget(self, action: #selector(onClickMyLocation), for: .touchUpInside)
+        $0.backgroundColor = Colors.backgroundPrimary.color
+        
+        $0.IBcornerRadius = 20
+        $0.shadowRadius = 2.0
+        $0.shadowOffset = .init(x: 0.0, y: 2.0)
         $0.shadowOpacity = 0.3
         $0.layer.masksToBounds = false
     }
