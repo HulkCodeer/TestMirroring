@@ -42,9 +42,9 @@ internal final class IntroViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        Observable.just(GlobalAdsReactor.Action.loadStartBanner)
-//            .bind(to: GlobalAdsReactor.sharedInstance.action)
-//            .disposed(by: disposeBag)
+        Observable.just(GlobalAdsReactor.Action.loadStartBanner)
+            .bind(to: GlobalAdsReactor.sharedInstance.action)
+            .disposed(by: disposeBag)
         
         showProgressLayer(isShow: false)
         showIntro()
