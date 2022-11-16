@@ -172,6 +172,10 @@ internal enum MapEvent: String, EventTypeProtocol {
     case clickGoingToCharge = "click_going_to_charge"
     case clickGoingToChargeCancel = "click_going_to_charge_cancel"
     case viewFavorites = "view_favorites"
+    case clickMainNavigationBarEVPay = "click_main_navigation_bar_EVPay"
+     
+    // AB Test
+    case clickMainNavigationBarEVPayAB = "click_main_navigation_bar_EVPay_AB"
     
     internal var toTypeDesc: String {
         return self.rawValue

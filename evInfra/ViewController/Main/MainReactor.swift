@@ -469,6 +469,15 @@ internal final class MainReactor: ViewModel, Reactor {
             AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "메인화면 하단 EV Pay 버튼")
             return .evPayGuide }
         
+        if !MemberManager.shared.isShowBottomMenuEVPayTooltip,
+           let reqData = ABTestManager.shared.reqData(.mainBottomEVPay) {
+            let (type, _) = reqData
+            let property: [String: Any] = ["type": type.rawValue]
+            MapEvent.clickMainNavigationBarEVPayAB.logEvent(property: property)
+        } else {
+            MapEvent.clickMainNavigationBarEVPay.logEvent()
+        }
+        
         switch result {
         case .success(let data):
             let json = JSON(data)
