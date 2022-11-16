@@ -13,12 +13,7 @@ import RxCocoa
 import SnapKit
 
 internal final class MainNavigationBar: UIView {
-    private lazy var contentStackView = UIStackView().then {
-        $0.axis = .horizontal
-        $0.distribution = .fill
-        $0.alignment = .fill
-        $0.spacing = 8
-    }
+    private lazy var contentView = UIView()
     
     internal lazy var menuButton = UIButton().then {
         let image = UIImage(asset: Icons.iconMenuMd)
@@ -88,21 +83,30 @@ internal final class MainNavigationBar: UIView {
         let itemSize: CGFloat = 40
         let searchChargeIconSize: CGFloat = 20
         
-        self.addSubview(contentStackView)
-        contentStackView.snp.makeConstraints {
+        self.addSubview(contentView)
+        contentView.snp.makeConstraints {
             $0.height.equalTo(itemSize)
             $0.leading.trailing.equalToSuperview().inset(verticalPadding)
             $0.bottom.equalToSuperview().inset(4)
         }
         
-        contentStackView.addArrangedSubview(menuButton)
+        contentView.addSubview(menuButton)
         menuButton.snp.makeConstraints {
+            $0.top.leading.bottom.equalToSuperview()
             $0.width.equalTo(itemSize)
         }
-        contentStackView.addArrangedSubview(searchChargeContentsView)
-        contentStackView.addArrangedSubview(searchWayContentView)
+        
+        contentView.addSubview(searchWayContentView)
         searchWayContentView.snp.makeConstraints {
+            $0.top.trailing.bottom.equalToSuperview()
             $0.width.equalTo(itemSize)
+        }
+        
+        contentView.addSubview(searchChargeContentsView)
+        searchChargeContentsView.snp.makeConstraints {
+            $0.leading.equalTo(menuButton.snp.trailing).offset(verticalPadding)
+            $0.trailing.equalTo(searchWayContentView.snp.leading).offset(-verticalPadding)
+            $0.top.bottom.equalToSuperview()
         }
         
         searchChargeContentsView.addSubview(searchChargeIcon)
