@@ -33,8 +33,29 @@ internal final class MainViewController: UIViewController, StoryboardView {
     
     private lazy var customNaviBar = MainNavigationBar()
     
-    @IBOutlet weak var myLocationButton: UIButton!
-    @IBOutlet weak var reNewButton: UIButton!
+    private lazy var myLocationButton = UIButton().then {
+        $0.setImage(Icons.iconCurrentLocationMd.image, for: .normal)
+        $0.imageView?.contentMode = .scaleAspectFit
+        $0.addTarget(self, action: #selector(onClickMyLocation), for: .touchUpInside)
+        $0.backgroundColor = Colors.backgroundPrimary.color
+        
+        $0.layer.cornerRadius = 20
+        $0.layer.shadowRadius = 2.0
+        $0.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        $0.layer.shadowOpacity = 0.3
+    }
+    private lazy var reNewButton = UIButton().then {
+        $0.setImage(Icons.iconRefreshMd.image, for: .normal)
+        $0.imageView?.contentMode = .scaleAspectFit
+        $0.addTarget(self, action: #selector(onClickRenewBtn), for: .touchUpInside)
+        $0.backgroundColor = Colors.backgroundPrimary.color
+        $0.tintColor = Colors.contentPrimary.color
+        
+        $0.layer.cornerRadius = 20
+        $0.layer.shadowRadius = 2.0
+        $0.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+        $0.layer.shadowOpacity = 0.3
+    }
     
     private lazy var chargePriceContentView = UIView().then {
         $0.backgroundColor = Colors.backgroundPrimary.color
@@ -65,6 +86,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     
     // Filter View
     private lazy var filterStackView = UIStackView().then {
+        $0.backgroundColor = Colors.backgroundPrimary.color
         $0.axis = .vertical
         $0.alignment = .fill
         $0.distribution = .fillProportionally
@@ -149,7 +171,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureLayer()
+        updateMyLocationButton()
 
         routeDistanceView.isHidden = true
         
@@ -328,8 +350,16 @@ internal final class MainViewController: UIViewController, StoryboardView {
             $0.height.equalTo(filterContainerViewHeight)
         }
         
+        naverMapView.addSubview(reNewButton)
         reNewButton.snp.makeConstraints {
             $0.top.equalTo(filterStackView.snp.bottom).offset(12)
+            $0.trailing.equalToSuperview().inset(10)
+            $0.size.equalTo(40)
+        }
+        
+        naverMapView.addSubview(myLocationButton)
+        myLocationButton.snp.makeConstraints {
+            $0.top.equalTo(reNewButton.snp.bottom).offset(12)
             $0.trailing.equalToSuperview().inset(10)
             $0.size.equalTo(40)
         }
@@ -881,22 +911,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
     private func prepareRouteView() {
         let findPath = UITapGestureRecognizer(target: self, action:  #selector (self.onClickShowNavi(_:)))
         self.routeDistanceBtn.addGestureRecognizer(findPath)
-    }
-    
-    private func configureLayer() {
-        // 내위치 현재 위치 버튼
-        myLocationButton.layer.cornerRadius = 20
-        myLocationButton.layer.shadowRadius = 2.0
-        myLocationButton.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
-        myLocationButton.layer.shadowOpacity = 0.3
-        
-        // 지도 리프레쉬 버튼
-        reNewButton.layer.cornerRadius = 20
-        reNewButton.layer.shadowRadius = 2.0
-        reNewButton.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
-        reNewButton.layer.shadowOpacity = 0.3
-                
-        updateMyLocationButton()
     }
     
     private func prepareTmapAPI() {
@@ -1671,7 +1685,7 @@ extension MainViewController {
                 
     private func myLocationModeOff() {
         mapView.positionMode = .normal
-        myLocationButton.setImage(UIImage(named: "icon_current_location_lg"), for: .normal)
+        myLocationButton.setImage(Icons.iconCurrentLocationMd.image, for: .normal)
         myLocationButton.tintColor = UIColor.init(named: "content-primary")
     }
     
@@ -1681,11 +1695,11 @@ extension MainViewController {
             DispatchQueue.main.async {
                 switch self?.mapView.positionMode  {
                 case .normal, .direction:
-                    self?.myLocationButton.setImage(UIImage(named: "icon_current_location_lg"), for: .normal)
+                    self?.myLocationButton.setImage(Icons.iconCurrentLocationMd.image, for: .normal)
                     self?.myLocationButton.tintColor = UIColor.init(named: "content-positive")
                     UIApplication.shared.isIdleTimerDisabled = false // 화면 켜짐 유지 끔
                 case .compass:
-                    self?.myLocationButton.setImage(UIImage(named: "icon_compass_lg"), for: .normal)
+                    self?.myLocationButton.setImage(Icons.iconCurrentLocationMd.image, for: .normal)
                     self?.myLocationButton.tintColor = UIColor.init(named: "content-positive")
                     UIApplication.shared.isIdleTimerDisabled = true // 화면 켜짐 유지
                 default:

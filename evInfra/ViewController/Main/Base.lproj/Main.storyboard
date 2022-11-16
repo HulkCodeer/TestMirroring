@@ -201,22 +201,6 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SJq-gl-PDQ" userLabel="Renew Button">
-                                <rect key="frame" x="325" y="66" width="40" height="40"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="i12-8V-bba"/>
-                                    <constraint firstAttribute="width" constant="40" id="uMc-2a-EPI"/>
-                                </constraints>
-                                <color key="tintColor" name="content-primary"/>
-                                <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
-                                <state key="normal" image="icon_refresh_md">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="onClickRenewBtn:" destination="Dkt-CM-WPs" eventType="touchUpInside" id="NqV-rF-Qr0"/>
-                                </connections>
-                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5EV-dN-PRm">
                                 <rect key="frame" x="0.0" y="449" width="375" height="218"/>
                                 <color key="backgroundColor" name="nt-white"/>
@@ -224,20 +208,6 @@
                                     <constraint firstAttribute="height" constant="218" id="2IN-77-sXP"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Z5-Ng-0pM" userLabel="My Location Button">
-                                <rect key="frame" x="325" y="118" width="40" height="40"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="40" id="YpY-Du-EoB"/>
-                                    <constraint firstAttribute="height" constant="40" id="hMG-Vd-OIF"/>
-                                </constraints>
-                                <color key="tintColor" name="content-primary"/>
-                                <inset key="contentEdgeInsets" minX="8" minY="8" maxX="8" maxY="8"/>
-                                <state key="normal" image="icon_current_location_md"/>
-                                <connections>
-                                    <action selector="onClickMyLocation:" destination="Dkt-CM-WPs" eventType="touchUpInside" id="WYc-Sz-irR"/>
-                                </connections>
-                            </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Ueo-lF-S8F">
                                 <rect key="frame" x="169" y="315" width="37" height="37"/>
                                 <constraints>
@@ -255,13 +225,9 @@
                             <constraint firstItem="SHM-kf-rAr" firstAttribute="leading" secondItem="aV6-BG-3jX" secondAttribute="leading" constant="16" id="65j-wd-FWJ"/>
                             <constraint firstItem="aV6-BG-3jX" firstAttribute="trailing" secondItem="MjX-0u-Kq9" secondAttribute="trailing" id="Kcc-zq-egO"/>
                             <constraint firstItem="aV6-BG-3jX" firstAttribute="trailing" secondItem="5EV-dN-PRm" secondAttribute="trailing" id="LGN-Bz-By8"/>
-                            <constraint firstItem="aV6-BG-3jX" firstAttribute="trailing" secondItem="SJq-gl-PDQ" secondAttribute="trailing" constant="10" id="NN1-nf-sPT"/>
-                            <constraint firstItem="aV6-BG-3jX" firstAttribute="trailing" secondItem="0Z5-Ng-0pM" secondAttribute="trailing" constant="10" id="PJg-08-g97"/>
                             <constraint firstItem="5EV-dN-PRm" firstAttribute="leading" secondItem="aV6-BG-3jX" secondAttribute="leading" id="QFx-7u-ZLH"/>
                             <constraint firstAttribute="bottom" secondItem="5EV-dN-PRm" secondAttribute="bottom" id="Rh4-UC-nF6"/>
                             <constraint firstItem="MjX-0u-Kq9" firstAttribute="top" secondItem="heY-bS-hgo" secondAttribute="top" constant="-84" id="Ruc-sK-Uw3"/>
-                            <constraint firstItem="0Z5-Ng-0pM" firstAttribute="top" secondItem="SJq-gl-PDQ" secondAttribute="bottom" constant="12" id="WJx-Fe-0DS"/>
-                            <constraint firstItem="SJq-gl-PDQ" firstAttribute="top" secondItem="MjX-0u-Kq9" secondAttribute="bottom" constant="12" id="ZVK-jJ-v0U"/>
                             <constraint firstItem="aV6-BG-3jX" firstAttribute="bottom" secondItem="SHM-kf-rAr" secondAttribute="bottom" constant="18" id="ZeW-S1-s4D"/>
                             <constraint firstItem="Ueo-lF-S8F" firstAttribute="centerX" secondItem="aV6-BG-3jX" secondAttribute="centerX" id="mmZ-Ia-1N8"/>
                             <constraint firstItem="MjX-0u-Kq9" firstAttribute="leading" secondItem="aV6-BG-3jX" secondAttribute="leading" id="u7g-8d-VLE"/>
@@ -281,8 +247,6 @@
                         <outlet property="filterContainerView" destination="oUv-17-AnI" id="6ar-By-MNM"/>
                         <outlet property="filterHeight" destination="G3d-Ad-3DT" id="aqD-Y6-pHJ"/>
                         <outlet property="markerIndicator" destination="Ueo-lF-S8F" id="Lei-Aj-f8J"/>
-                        <outlet property="myLocationButton" destination="0Z5-Ng-0pM" id="XEy-OS-WK7"/>
-                        <outlet property="reNewButton" destination="SJq-gl-PDQ" id="gHA-ki-9fC"/>
                         <outlet property="routeDistanceBtn" destination="xxr-DK-neS" id="wxA-1T-BVd"/>
                         <outlet property="routeDistanceLabel" destination="k0s-5e-MTS" id="yvt-wc-yxu"/>
                         <outlet property="routeDistanceView" destination="SHM-kf-rAr" id="ZEf-45-1CT"/>
@@ -380,12 +344,7 @@
     <color key="tintColor" red="0.082352941176470587" green="0.2627450980392157" blue="0.36078431372549019" alpha="1" colorSpace="calibratedRGB"/>
     <resources>
         <image name="go_navi_icon_white" width="16" height="16"/>
-        <image name="icon_current_location_md" width="24" height="24"/>
-        <image name="icon_refresh_md" width="24" height="24"/>
         <image name="intro_bg.jpg" width="1440" height="3200"/>
-        <namedColor name="content-primary">
-            <color red="0.094117647058823528" green="0.094117647058823528" blue="0.098039215686274508" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <namedColor name="nt-white">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
