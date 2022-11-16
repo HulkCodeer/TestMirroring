@@ -75,34 +75,34 @@ protocol AccessibilityFilterCreator {
 }
 
 enum AccessibilityType: CaseIterable {
-    case openType
-    case closeType
+    case publicType
+    case nonPublicType
 }
 
 class AccessibilityFilterFactory: AccessibilityFilterCreator {
     func createAccessibilityFilter(isSelected: Bool, type: AccessibilityType) -> any Filter {
         switch type {
-        case .openType:
+        case .publicType:
             return PublicFilter(isSelected: isSelected)
-        case .closeType:
+        case .nonPublicType:
             return NonPublicFilter(isSelected: isSelected)
         }
     }
 }
 
-enum DetailFilterType {
-    case accessibility(model: String, isSeleted: Bool)
-    case road(model: String, isSeleted: Bool)
-    case installType(model: String, isSeleted: Bool)
-    case chargerType(model: String, isSeleted: Bool)
-}
+//enum DetailFilterType {
+//    case accessibility(model: String, isSeleted: Bool)
+//    case road(model: String, isSeleted: Bool)
+//    case installType(model: String, isSeleted: Bool)
+//    case chargerType(model: String, isSeleted: Bool)
+//}
 
 internal final class FilterConfigModel {
     var accessibilityFilters: [any Filter] = []
     
     required init() {
         let factory = AccessibilityFilterFactory()
-        accessibilityFilters.append(factory.createAccessibilityFilter(isSelected: true, type: .openType))
-        accessibilityFilters.append(factory.createAccessibilityFilter(isSelected: true, type: .closeType))
+        accessibilityFilters.append(factory.createAccessibilityFilter(isSelected: true, type: .publicType))
+        accessibilityFilters.append(factory.createAccessibilityFilter(isSelected: true, type: .nonPublicType))
     }
 }
