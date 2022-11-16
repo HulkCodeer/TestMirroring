@@ -239,15 +239,15 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
 // 충전속도에 따른 완속 충전기 타입 세팅
 extension NewChargerFilterViewController: NewDelegateslowSpeedChange {
     func changedSlowSpeed() {
-        Observable.just(FilterReactor.Action.loadChargerTypes)
-            .bind(to: reactor.action)
-            .disposed(by: self.disposeBag)
+//        Observable.just(FilterReactor.Action.loadChargerTypes)
+//            .bind(to: reactor.action)
+//            .disposed(by: self.disposeBag)
     }
 }
 
 // 완속 충전기 타입에 따른 충전 속도 세팅
 extension NewChargerFilterViewController: NewDelegateSlowTypeChange {
     func onChangeSlowType(isFastSpeedOn: Bool, isSlowSpeedon: Bool) {
-        speedFilterView.changedSlowTypeSpeed(isFastSpeedOn: isFastSpeedOn, isSlowSpeedOn: isSlowSpeedon)
+//        speedFilterView.changedSlowTypeSpeed(isFastSpeedOn: isFastSpeedOn, isSlowSpeedOn: isSlowSpeedon)
     }
 }

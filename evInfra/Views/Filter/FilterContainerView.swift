@@ -161,7 +161,7 @@ extension FilterContainerView: DelegateFilterChange{
 
 extension FilterContainerView: NewDelegateSlowTypeChange {
     func onChangeSlowType(isFastSpeedOn: Bool, isSlowSpeedon: Bool) {
-        filterSpeedView.changedSlowTypeSpeed(isFastSpeedOn: isFastSpeedOn, isSlowSpeedOn: isSlowSpeedon)
+//        filterSpeedView.changedSlowTypeSpeed(isFastSpeedOn: isFastSpeedOn, isSlowSpeedOn: isSlowSpeedon)
     }
 }
 

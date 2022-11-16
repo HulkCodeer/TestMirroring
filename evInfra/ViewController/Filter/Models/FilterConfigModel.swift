@@ -30,7 +30,7 @@ extension Filter {
     }
 }
 
-class OpenFilter: Filter {
+internal class PublicFilter: Filter {
     var isSelected: Bool
                     
     var typeImageProperty: Property {
@@ -50,7 +50,7 @@ class OpenFilter: Filter {
     }
 }
 
-class CloseFilter: Filter {
+internal class NonPublicFilter: Filter {
     var isSelected: Bool
             
     var typeImageProperty: Property {
@@ -83,9 +83,9 @@ class AccessibilityFilterFactory: AccessibilityFilterCreator {
     func createAccessibilityFilter(isSelected: Bool, type: AccessibilityType) -> any Filter {
         switch type {
         case .openType:
-            return OpenFilter(isSelected: isSelected)
+            return PublicFilter(isSelected: isSelected)
         case .closeType:
-            return CloseFilter(isSelected: isSelected)
+            return NonPublicFilter(isSelected: isSelected)
         }
     }
 }

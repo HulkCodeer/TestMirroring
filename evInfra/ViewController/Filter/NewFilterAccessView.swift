@@ -172,7 +172,7 @@ internal final class NewFilterAccessView: UIView {
 
         reactor.state.compactMap { $0.accessType }
             .filter { $0.isEqual(accessTypeFilter) }
-            .asDriver(onErrorJustReturn: OpenFilter(isSelected: true))
+            .asDriver(onErrorJustReturn: PublicFilter(isSelected: true))
             .drive(with: self) { obj, type in
                 imgView.tintColor = type.displayImageColor
             }.disposed(by: self.disposeBag)
@@ -191,17 +191,17 @@ internal final class NewFilterAccessView: UIView {
 
 extension NewFilterAccessView: FilterButtonAction {
     func saveFilter() {
-        let filterModel = reactor.currentState.filterModel
-        Observable.of(FilterReactor.Action.saveFilter(filterModel))
-            .bind(to: reactor.action)
-            .disposed(by: self.disposeBag)
+//        let filterModel = reactor.currentState.filterModel
+//        Observable.of(FilterReactor.Action.saveFilter(filterModel))
+//            .bind(to: reactor.action)
+//            .disposed(by: self.disposeBag)
     }
     
     func resetFilter() {
-        let resetModel = reactor.initialState.resetFilterModel
-        Observable.just(FilterReactor.Action.savePlaceFilter(resetModel))
-            .bind(to: reactor.action)
-            .disposed(by: self.disposeBag)
+//        let resetModel = reactor.initialState.resetFilterModel
+//        Observable.just(FilterReactor.Action.savePlaceFilter(resetModel))
+//            .bind(to: reactor.action)
+//            .disposed(by: self.disposeBag)
     }
     
     func revertFilter() {

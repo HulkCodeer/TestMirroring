@@ -274,29 +274,29 @@ internal final class NewFilterRoadView: UIView {
     }
     
     internal func shouldChanged() -> Bool {
-        let isGeneral = reactor.currentState.isGeneralRoad
-        let isHighwayUp = reactor.currentState.isHighwayUp
-        let isHighwayDown = reactor.currentState.isHighwayDown
-        
-        return (isGeneral != FilterManager.sharedInstance.filter.isGeneralWay)
-        || (isHighwayUp != FilterManager.sharedInstance.filter.isHighwayUp)
-        || (isHighwayDown != FilterManager.sharedInstance.filter.isHighwayDown)
+//        let isGeneral = reactor.currentState.isGeneralRoad
+//        let isHighwayUp = reactor.currentState.isHighwayUp
+//        let isHighwayDown = reactor.currentState.isHighwayDown
+//
+//        return (isGeneral != FilterManager.sharedInstance.filter.isGeneralWay)
+//        || (isHighwayUp != FilterManager.sharedInstance.filter.isHighwayUp)
+//        || (isHighwayDown != FilterManager.sharedInstance.filter.isHighwayDown)
     }
 }
 
 extension NewFilterRoadView: FilterButtonAction {
     func saveFilter() {
-        let filterModel = reactor.currentState.filterModel
-        Observable.of(FilterReactor.Action.saveFilter(filterModel))
-            .bind(to: reactor.action)
-            .disposed(by: self.disposeBag)
+//        let filterModel = reactor.currentState.filterModel
+//        Observable.of(FilterReactor.Action.saveFilter(filterModel))
+//            .bind(to: reactor.action)
+//            .disposed(by: self.disposeBag)
     }
     
     func resetFilter() {
-        let resetModel = reactor.initialState.resetFilterModel
-        Observable.just(FilterReactor.Action.savePlaceFilter(resetModel))
-            .bind(to: reactor.action)
-            .disposed(by: self.disposeBag)
+//        let resetModel = reactor.initialState.resetFilterModel
+//        Observable.just(FilterReactor.Action.savePlaceFilter(resetModel))
+//            .bind(to: reactor.action)
+//            .disposed(by: self.disposeBag)
     }
     
     func revertFilter() {

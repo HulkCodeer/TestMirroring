@@ -273,37 +273,38 @@ internal final class NewFilterPlaceView: UIView {
     }
     
     internal func shouldChanged() -> Bool {
-        let isIndoor = reactor.currentState.isIndoor
-        let isOutdoor = reactor.currentState.isOutdoor
-        let isCanopy = reactor.currentState.isCanopy
-        
-        return (isIndoor != FilterManager.sharedInstance.filter.isIndoor)
-        || (isOutdoor != FilterManager.sharedInstance.filter.isOutdoor)
-        || (isCanopy != FilterManager.sharedInstance.filter.isCanopy)
+//        let isIndoor = reactor.currentState.isIndoor
+//        let isOutdoor = reactor.currentState.isOutdoor
+//        let isCanopy = reactor.currentState.isCanopy
+//
+//        return (isIndoor != FilterManager.sharedInstance.filter.isIndoor)
+//        || (isOutdoor != FilterManager.sharedInstance.filter.isOutdoor)
+//        || (isCanopy != FilterManager.sharedInstance.filter.isCanopy)
+        return true
     }
 }
 
 extension NewFilterPlaceView: FilterButtonAction {
     func saveFilter() {
-        let filterModel = reactor.currentState.filterModel
-        Observable.just(FilterReactor.Action.savePlaceFilter(filterModel))
-            .bind(to: reactor.action)
-            .disposed(by: self.disposeBag)
+//        let filterModel = reactor.currentState.filterModel
+//        Observable.just(FilterReactor.Action.savePlaceFilter(filterModel))
+//            .bind(to: reactor.action)
+//            .disposed(by: self.disposeBag)
     }
     
     func resetFilter() {
-        let resetModel = reactor.initialState.resetFilterModel
-        Observable.just(FilterReactor.Action.savePlaceFilter(resetModel))
-            .bind(to: reactor.action)
-            .disposed(by: self.disposeBag)
+//        let resetModel = reactor.initialState.resetFilterModel
+//        Observable.just(FilterReactor.Action.savePlaceFilter(resetModel))
+//            .bind(to: reactor.action)
+//            .disposed(by: self.disposeBag)
     }
     
     func revertFilter() {
         // TODO: original이랑 비교
-        let currentFilterModel = reactor.currentState.filterModel
-        let originalFilterModel = reactor.initialState.filterModel
-        Observable.just(FilterReactor.Action.savePlaceFilter(originalFilterModel))
-            .bind(to: reactor.action)
-            .disposed(by: self.disposeBag)
+//        let currentFilterModel = reactor.currentState.filterModel
+//        let originalFilterModel = reactor.initialState.filterModel
+//        Observable.just(FilterReactor.Action.savePlaceFilter(originalFilterModel))
+//            .bind(to: reactor.action)
+//            .disposed(by: self.disposeBag)
     }
 }

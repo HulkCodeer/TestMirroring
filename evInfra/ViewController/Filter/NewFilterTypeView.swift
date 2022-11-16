@@ -195,35 +195,35 @@ extension NewFilterTypeView: UICollectionViewDelegateFlowLayout {
 
 extension NewFilterTypeView: FilterButtonAction {
     func saveFilter() {
-        let filterModel = reactor.currentState.filterModel
-        Observable.of(FilterReactor.Action.saveFilter(filterModel))
-            .bind(to: reactor.action)
-            .disposed(by: self.disposeBag)
-
-        Observable.just(FilterReactor.Action.loadChargerTypes)
-            .bind(to: reactor.action)
-            .disposed(by: self.disposeBag)
+//        let filterModel = reactor.currentState.filterModel
+//        Observable.of(FilterReactor.Action.saveFilter(filterModel))
+//            .bind(to: reactor.action)
+//            .disposed(by: self.disposeBag)
+//
+//        Observable.just(FilterReactor.Action.loadChargerTypes)
+//            .bind(to: reactor.action)
+//            .disposed(by: self.disposeBag)
     }
     
     func resetFilter() {
-        for index in 0..<tags.count {
-            tags[index].selected = !(tags[index].uniqueKey == Const.CHARGER_TYPE_SLOW || tags[index].uniqueKey == Const.CHARGER_TYPE_DESTINATION)
-            Observable.just(FilterReactor.Action.changedChargerTypeFilter((tags[index].uniqueKey, tags[index].selected)))
-                .bind(to: reactor.action)
-                .disposed(by: self.disposeBag)
-        }
-        
-        Observable.just(FilterReactor.Action.setChargerTypeFilter(tags))
-            .bind(to: reactor.action)
-            .disposed(by: self.disposeBag)
+//        for index in 0..<tags.count {
+//            tags[index].selected = !(tags[index].uniqueKey == Const.CHARGER_TYPE_SLOW || tags[index].uniqueKey == Const.CHARGER_TYPE_DESTINATION)
+//            Observable.just(FilterReactor.Action.changedChargerTypeFilter((tags[index].uniqueKey, tags[index].selected)))
+//                .bind(to: reactor.action)
+//                .disposed(by: self.disposeBag)
+//        }
+//
+//        Observable.just(FilterReactor.Action.setChargerTypeFilter(tags))
+//            .bind(to: reactor.action)
+//            .disposed(by: self.disposeBag)
     }
     
     func revertFilter() {
-        for original in _originalTags {
-            Observable.just(FilterReactor.Action.changedChargerTypeFilter((original.uniqueKey, original.selected)))
-                .bind(to: reactor.action)
-                .disposed(by: self.disposeBag)
-        }
+//        for original in _originalTags {
+//            Observable.just(FilterReactor.Action.changedChargerTypeFilter((original.uniqueKey, original.selected)))
+//                .bind(to: reactor.action)
+//                .disposed(by: self.disposeBag)
+//        }
     }
 }
 
@@ -253,18 +253,18 @@ extension NewFilterTypeView: UICollectionViewDataSource {
                 cell.btn.isSelected = !cell.btn.isSelected
                 obj.tags[index].selected = cell.btn.isSelected
 
-                Observable.just(FilterReactor.Action.updateChargerTypeFilter(obj.tags))
-                    .bind(to: reactor.action)
-                    .disposed(by: obj.disposeBag)
+//                Observable.just(FilterReactor.Action.updateChargerTypeFilter(obj.tags))
+//                    .bind(to: reactor.action)
+//                    .disposed(by: obj.disposeBag)
                 
                 self.shouldSlowType()
                 if obj.isDirectChange {
                     obj.saveFilter()
                 }
                 
-                Observable.just(FilterReactor.Action.shouldChanged)
-                    .bind(to: reactor.action)
-                    .disposed(by: obj.disposeBag)
+//                Observable.just(FilterReactor.Action.shouldChanged)
+//                    .bind(to: reactor.action)
+//                    .disposed(by: obj.disposeBag)
             
                 cell.titleLbl.textColor = cell.btn.isSelected ? Colors.gr7.color : Colors.contentSecondary.color
                 cell.imgView.tintColor = cell.btn.isSelected ? Colors.gr7.color : Colors.contentSecondary.color
@@ -296,9 +296,9 @@ extension NewFilterTypeView: UICollectionViewDataSource {
         delegateSlowTypeChange?.onChangeSlowType(isFastSpeedOn: isFastSpeedTypeOn, isSlowSpeedon: isSlowSpeedTypeOn)
         
         if !isSlowSpeedTypeOn {
-            Observable.just(FilterReactor.Action.updateSlowTypeOn(false))
-                .bind(to: reactor.action)
-                .disposed(by: self.disposeBag)
+//            Observable.just(FilterReactor.Action.updateSlowTypeOn(false))
+//                .bind(to: reactor.action)
+//                .disposed(by: self.disposeBag)
         }
     }
 }

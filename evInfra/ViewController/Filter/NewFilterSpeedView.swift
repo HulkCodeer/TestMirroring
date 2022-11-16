@@ -298,7 +298,7 @@ internal final class NewFilterSpeedView: UIView {
 //            minSpeed = reactor.currentState.filterModel.minSpeed
 //            maxSpeed = reactor.currentState.filterModel.maxSpeed
 //        }
-//        
+//
 //        Observable.just(FilterReactor.Action.updateSpeedFilter((minSpeed: minSpeed, maxSpeed: maxSpeed)))
 //            .bind(to: reactor.action)
 //            .disposed(by: self.disposeBag)
@@ -311,10 +311,10 @@ internal final class NewFilterSpeedView: UIView {
 
 extension NewFilterSpeedView: FilterButtonAction {
     func saveFilter() {
-        let filterModel = reactor.currentState.filterModel
-        Observable.of(FilterReactor.Action.saveFilter(filterModel))
-            .bind(to: reactor.action)
-            .disposed(by: self.disposeBag)
+//        let filterModel = reactor.currentState.filterModel
+//        Observable.of(FilterReactor.Action.saveFilter(filterModel))
+//            .bind(to: reactor.action)
+//            .disposed(by: self.disposeBag)
     }
     
     func resetFilter() {
