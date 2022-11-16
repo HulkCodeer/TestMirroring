@@ -355,7 +355,9 @@ internal enum EnterViewType: String, EventTypeProtocol {
     case membershipUseGuideViewController = "회원카드 사용 안내 화면"    
     case none
     
-    init(viewName: String) {
+    init() { self = .none }
+    
+    private init(viewName: String) {
         switch viewName {
         case "PaymentQRScanViewController": self = .paymentQRScanViewController
         case "PaymentStatusViewController": self = .paymentStatusViewController
@@ -399,12 +401,14 @@ internal enum EnterViewType: String, EventTypeProtocol {
         default: self = .none
         }
     }
-    
-    internal var viewNameDesc: String {
-        return self.rawValue
-    }
-    
+                
     internal var toTypeDesc: String {
         return self.rawValue
+    }
+                    
+    func viewEnterLogEvent(viewName: String) {
+        DispatchQueue.global(qos: .background).async {
+            Amplitude.instance().logEvent(viewName, withEventProperties: ["type": EnterViewType(viewName: viewName).toTypeDesc])
+        }
     }
 }
