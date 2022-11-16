@@ -297,8 +297,9 @@ internal final class FCMManager {
                 _visibleViewcon.viewDidLoad()
                 return
             } else {
-                let membershipVC = UIStoryboard(name: "Membership", bundle: nil).instantiateViewController(ofType: MembershipCardViewController.self)
-                _mainNavi.push(viewController: membershipVC)
+                let reactor = MembershipCardReactor(provider: RestApi())
+                let viewcon = MembershipCardViewController(reactor: reactor)
+                _mainNavi.push(viewController: viewcon)
             }
         } else if (cmd.equals("show_membership_info")) {
             let viewcon = UIStoryboard(name: "Info", bundle: nil).instantiateViewController(ofType: MembershipUseGuideViewController.self)

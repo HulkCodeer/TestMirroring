@@ -67,7 +67,7 @@ internal final class NewCompanyTableViewCell: UITableViewCell {
     }
     
     // MARK: VARIABLES
-    private var filterReactor: GlobalFilterReactor?
+    private var filterReactor: FilterReactor?
     private var disposeBag = DisposeBag()
     private var group: NewCompanyGroup?
     internal var groups: [NewCompanyGroup] = [NewCompanyGroup]()
@@ -122,7 +122,7 @@ internal final class NewCompanyTableViewCell: UITableViewCell {
         companiesCollectionView.reloadData()
     }
     
-    internal func bind(reactor: GlobalFilterReactor) {
+    internal func bind(reactor: FilterReactor) {
         self.filterReactor = reactor
         companiesCollectionView.delegate = self
         companiesCollectionView.dataSource = self
@@ -179,8 +179,8 @@ extension NewCompanyTableViewCell: UICollectionViewDataSource {
                 cell.totalView.borderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
                 
                 if !isSelected {
-                    Observable.just(GlobalFilterReactor.Action.setAllCompanies(false))
-                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+                    Observable.just(FilterReactor.Action.setAllCompanies(false))
+                        .bind(to: FilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                 }
                 

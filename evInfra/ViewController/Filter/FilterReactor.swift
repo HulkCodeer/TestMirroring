@@ -8,13 +8,12 @@
 
 import ReactorKit
 
-internal final class GlobalFilterReactor: ViewModel, Reactor {
+internal final class FilterReactor: ViewModel, Reactor {
     typealias SelectedFilterType = (filterTagType: FilterTagType, isSelected: Bool)
     typealias SelectedSpeedFilter = (minSpeed: Int, maxSpeed: Int)
     typealias SelectedPlaceFilter = (placeType: PlaceType, isSelected: Bool)
     typealias SelectedRoadFilter = (roadType: RoadType, isSelected: Bool)
     typealias SelectedChargerTypeFilter = (chargerTypeKey: Int, isSelected: Bool)
-    typealias SelectedAccessFilter = (accessType: AccessType, isSelected: Bool)
     typealias SelectedCompanyFilter = (group: NewCompanyGroup, groupIndex: Int, companyIndex: Int, isSelected: Bool)
     
     enum Action {
@@ -41,13 +40,18 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         case updateCanopyPlaceFilter(Bool)
         case saveFilter(FilterModel)
         case shouldChanged
-        case changedSpeedFilter(SelectedSpeedFilter)
+        case updateSpeedFilter(SelectedSpeedFilter)
         case setSpeedFilter(SelectedSpeedFilter)
         case loadChargerTypes
+        case updateSlowTypeOn(Bool)
+        case updateMinMaxSpeedOn(Bool, Bool)
+        case updateChargerTypeFilter([NewTag])
         case changedChargerTypeFilter(SelectedChargerTypeFilter)
         case setChargerTypeFilter([NewTag])
         case changedCompanyFilter(SelectedCompanyFilter)
         case setCompanyFilter([NewCompanyGroup])
+//        case testLoadRoadType
+        case setAcessTypeFilter(any Filter)
     }
     
     enum Mutation {
@@ -72,18 +76,21 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         case updateCanopyFilter(Bool)
         case saveFilter(FilterModel)
         case shouldChanged
-        case changedSpeedFilter(SelectedSpeedFilter)
+        case updateSpeedFilter(SelectedSpeedFilter)
         case loadChargerTypes([NewTag])
+        case updateSlowTypeOn(Bool)
+        case updateMinMaxSpeedOn(Bool, Bool)
         case changedChargerTypeFilter(SelectedChargerTypeFilter)
+        case updateChargerTypeFilter([NewTag])
         case changedCompanyFilter(SelectedCompanyFilter)
+        case setTestRoadType(any Filter)
     }
 
     struct State {
         var loadedCompanies: [Company]? = []
         var isSelectedAllCompanies: Bool? = true
         var isChangedFilter: Bool? = false
-        var selectedFilterType: SelectedFilterType?
-        var selectedAccessFilter: SelectedAccessFilter?
+        var selectedFilterType: SelectedFilterType?        
         var changedChargerTypeFilter: SelectedChargerTypeFilter?
         var selectedChargerTypes: [ChargerType]?
         var changedCompanyFilter: SelectedCompanyFilter?
@@ -103,9 +110,27 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         var isFavoriteFilter: Bool = FilterManager.sharedInstance.filter.isFavoriteChecked
         var numberOfFavorites: Int? = ChargerManager.sharedInstance.getChargerStationInfoList().filter { $0.mFavorite }.count
         var isRepresentCarFilter: Bool = FilterManager.sharedInstance.filter.isRepresentCarChecked
+        var isSlowTypeOn: Bool = false
+        var minMaxSpeedOn: (Bool, Bool) = (false, false)
         var filterModel: FilterModel = FilterModel()
-        var resetFilterModel: FilterModel = FilterModel(isPublic: true, isNonPublic: true, isGeneralRoad: true, isHighwayDown: true, isHighwayUp: true, isIndoor: true, isOutdoor: true, isCanopy: true, minSpeed: 50, maxSpeed: 350, isEvPayFilter: false, isFavoriteFilter: false, isRepresentCarFilter: false)
+        var resetFilterModel: FilterModel = FilterModel(isPublic: true, isNonPublic: true,
+                                                        isGeneralRoad: true, isHighwayDown: true,
+                                                        isHighwayUp: true, isIndoor: true,
+                                                        isOutdoor: true, isCanopy: true,
+                                                        minSpeed: 50, maxSpeed: 350,
+                                                        isEvPayFilter: false, isFavoriteFilter: false,
+                                                        isRepresentCarFilter: false,
+                                                        chargerTypes: ChargerType.allCases.compactMap {
+            if $0.uniqueKey == Const.CHARGER_TYPE_DCCOMBO || $0.uniqueKey == Const.CHARGER_TYPE_DCDEMO || $0.uniqueKey == Const.CHARGER_TYPE_AC || $0.uniqueKey == Const.CHARGER_TYPE_SUPER_CHARGER {
+                return NewTag(title: $0.typeTitle, selected: true, uniqueKey: $0.uniqueKey, image: $0.typeImageProperty?.image)
+            } else {
+                return NewTag(title: $0.typeTitle, selected: false, uniqueKey: $0.uniqueKey, image: $0.typeImageProperty?.image)
+            }
+        })
         var shouldChanged: Bool = false
+        
+        var testModel: FilterConfigModel = FilterConfigModel()
+        var accessType: (any Filter)?
     }
     
     struct FilterModel: Equatable {
@@ -123,10 +148,38 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         var isFavoriteFilter: Bool? = FilterManager.sharedInstance.filter.isFavoriteChecked
         var numberOfFavorites: Int? = ChargerManager.sharedInstance.getChargerStationInfoList().filter { $0.mFavorite }.count
         var isRepresentCarFilter: Bool = FilterManager.sharedInstance.filter.isRepresentCarChecked
+        var chargerTypes: [NewTag] = ChargerType.allCases.compactMap {
+            if $0.uniqueKey == Const.CHARGER_TYPE_DCCOMBO || $0.uniqueKey == Const.CHARGER_TYPE_DCDEMO || $0.uniqueKey == Const.CHARGER_TYPE_AC || $0.uniqueKey == Const.CHARGER_TYPE_SUPER_CHARGER {
+                return NewTag(title: $0.typeTitle, selected: true, uniqueKey: $0.uniqueKey, image: $0.typeImageProperty?.image)
+            } else {
+                return NewTag(title: $0.typeTitle, selected: false, uniqueKey: $0.uniqueKey, image: $0.typeImageProperty?.image)
+            }
+        }
+        
+        init() {
+            
+        }
+        
+        init(isPublic: Bool, isNonPublic: Bool, isGeneralRoad: Bool, isHighwayDown: Bool, isHighwayUp: Bool, isIndoor: Bool, isOutdoor: Bool, isCanopy: Bool, minSpeed: Int, maxSpeed: Int, isEvPayFilter: Bool? = nil, isFavoriteFilter: Bool? = nil, numberOfFavorites: Int? = nil, isRepresentCarFilter: Bool, chargerTypes: [NewTag]) {
+            self.isPublic = isPublic
+            self.isNonPublic = isNonPublic
+            self.isGeneralRoad = isGeneralRoad
+            self.isHighwayDown = isHighwayDown
+            self.isHighwayUp = isHighwayUp
+            self.isIndoor = isIndoor
+            self.isOutdoor = isOutdoor
+            self.isCanopy = isCanopy
+            self.minSpeed = minSpeed
+            self.maxSpeed = maxSpeed
+            self.isEvPayFilter = isEvPayFilter
+            self.isFavoriteFilter = isFavoriteFilter
+            self.numberOfFavorites = numberOfFavorites
+            self.isRepresentCarFilter = isRepresentCarFilter
+            self.chargerTypes = chargerTypes
+        }
     }
     
-    internal var initialState: State
-    static let sharedInstance: GlobalFilterReactor = GlobalFilterReactor(provider: RestApi())
+    internal var initialState: State    
     
     override init(provider: SoftberryAPI) {
         self.initialState = State()
@@ -135,9 +188,26 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+        case .setAcessTypeFilter(let filter):
+            self.currentState.testModel.accessibilityFilters = self.currentState.testModel.accessibilityFilters.map { test in
+                if test.isEqual(filter) {
+                    return filter
+                }
+                return test
+            }
+            
+            printLog(out: "PARK TEST state : \(self.currentState.testModel.accessibilityFilters[0].isSelected)")
+            
+            printLog(out: "PARK TEST state : \(self.currentState.testModel.accessibilityFilters[1].isSelected)")
+                                    
+            return .just(.setTestRoadType(filter))
+            
+//        case .testLoadRoadType:
+//            return .just(.setTestRoadType)
+            
         case .loadCompanies:
             let companyValues: [CompanyInfoDto] = FilterManager.sharedInstance.filter.companyDictionary.map { $0.1 }
-            let isEvPaFilter = self.currentState.isEvPayFilter ?? false
+            let isEvPaFilter = self.currentState.filterModel.isEvPayFilter ?? false
 
             let wholeList = companyValues.sorted { $0.name ?? "".lowercased() < $1.name ?? "".lowercased() }
                 .compactMap { Company(title: $0.name!, companyId: $0.company_id ?? "", img: ImageMarker.companyImg(company: $0.icon_name!) ?? UIImage(named: "icon_building_sm")!, selected: isEvPaFilter ? $0.card_setting ?? false : $0.is_visible, isRecommaned: $0.recommend ?? false, isEvPayAvailable: false) }
@@ -225,14 +295,20 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
             FilterManager.sharedInstance.saveIndoor(with: filterModel.isIndoor)
             FilterManager.sharedInstance.saveOutdoor(with: filterModel.isOutdoor)
             FilterManager.sharedInstance.saveCanopy(with: filterModel.isCanopy)
+            FilterManager.sharedInstance.saveSpeedFilter(min: filterModel.minSpeed, max: filterModel.maxSpeed)
+            
+            let chargerTypes = filterModel.chargerTypes
+            for tag in chargerTypes {
+                FilterManager.sharedInstance.saveChargerType(index: tag.uniqueKey, selected: tag.selected)
+            }
             
             return Observable.concat([
                 .just(.saveFilter(filterModel)),
                 .just(.shouldChanged)
             ])
 
-        case .changedSpeedFilter(let selectedSpeedFilter):
-            return .just(.changedSpeedFilter(selectedSpeedFilter))
+        case .updateSpeedFilter(let selectedSpeedFilter):
+            return .just(.updateSpeedFilter(selectedSpeedFilter))
             
         case .setSpeedFilter(let speedFilter):
             FilterManager.sharedInstance.saveSpeedFilter(min: speedFilter.minSpeed, max: speedFilter.maxSpeed)
@@ -245,10 +321,8 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
             var tags: [NewTag] = [NewTag]()
             let myCarType: Int = UserDefault().readInt(key: UserDefault.Key.MB_CAR_TYPE)
             let hasMyCar: Bool = UserDefault().readInt(key: UserDefault.Key.MB_CAR_ID) != 0
-            let isRepresentCarFilter = self.currentState.isRepresentCarFilter ?? false
-            printLog(out: "//// GlobalFilterReactor ////")
-            printLog(out: "myCarType : \(myCarType)")
-            printLog(out: "hasMyCar : \(hasMyCar)")
+            let isRepresentCarFilter = self.currentState.isRepresentCarFilter
+            let isSlowTypeOn: Bool = self.currentState.isSlowTypeOn
             
             if isRepresentCarFilter {
                 if hasMyCar {
@@ -261,15 +335,33 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
                     }
                 }
             } else {
-                for type in ChargerType.allCases {
-                    tags.append(NewTag(title: type.typeTitle, selected: type.selected, uniqueKey: type.uniqueKey, image: type.typeImageProperty?.image))
-                    
+                if isSlowTypeOn {
+                    for type in ChargerType.allCases {
+                        if type == .slow || type == .destination {
+                            tags.append(NewTag(title: type.typeTitle, selected: true, uniqueKey: type.uniqueKey, image: type.typeImageProperty?.image))
+                        } else {
+                            tags.append(NewTag(title: type.typeTitle, selected: type.selected, uniqueKey: type.uniqueKey, image: type.typeImageProperty?.image))
+                        }
+                    }
+                } else {
+                    for type in ChargerType.allCases {
+                        tags.append(NewTag(title: type.typeTitle, selected: type.selected, uniqueKey: type.uniqueKey, image: type.typeImageProperty?.image))
+                    }
                 }
             }
             return .just(.loadChargerTypes(tags))
             
+        case .updateSlowTypeOn(let isOn):
+            return .just(.updateSlowTypeOn(isOn))
+            
+        case .updateMinMaxSpeedOn(let isFastSpeedOn, let isSlowSpeedOn):
+            return .just(.updateMinMaxSpeedOn(isFastSpeedOn, isSlowSpeedOn))
+            
         case .changedChargerTypeFilter(let selectedChargerType):
             return .just(.changedChargerTypeFilter(selectedChargerType))
+            
+        case .updateChargerTypeFilter(let tags):
+            return .just(.updateChargerTypeFilter(tags))
             
         case .setChargerTypeFilter(let tags):
             for tag in tags {
@@ -302,8 +394,12 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         var newState = state
         newState.loadedCompanies = nil
         newState.chargerTypes = nil
+        newState.accessType = nil
         
         switch mutation {
+        case .setTestRoadType(let filter):
+            newState.accessType = filter
+            
         case .loadCompanies(let companies):
             newState.loadedCompanies = companies
         case .setAllCompanies(let isSelect):
@@ -372,15 +468,25 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
             let shouldChanged = self.initialState.filterModel != self.currentState.filterModel
             newState.shouldChanged = shouldChanged
             
-        case .changedSpeedFilter(let selectedSpeedFilter):
-            newState.minSpeed = selectedSpeedFilter.minSpeed
-            newState.maxSpeed = selectedSpeedFilter.maxSpeed
+        case .updateSpeedFilter(let selectedSpeedFilter):
+            newState.filterModel.minSpeed = selectedSpeedFilter.minSpeed
+            newState.filterModel.maxSpeed = selectedSpeedFilter.maxSpeed
+            newState.isUpdateFilterBarTitle = true
             
         case .loadChargerTypes(let tags):
-            newState.chargerTypes = tags
+            newState.filterModel.chargerTypes = tags
+            
+        case .updateSlowTypeOn(let isOn):
+            newState.isSlowTypeOn = isOn
+            
+        case .updateMinMaxSpeedOn(let isFastSpeedOn, let isSlowSpeedOn):
+            newState.minMaxSpeedOn = (isFastSpeedOn, isSlowSpeedOn)
             
         case .changedChargerTypeFilter(let selectedChargerTypeFilter):
             newState.changedChargerTypeFilter = selectedChargerTypeFilter
+            
+        case .updateChargerTypeFilter(let tags):
+            newState.filterModel.chargerTypes = tags
             
         case .changedCompanyFilter(let selectedCompanyFilter):
             newState.changedCompanyFilter = selectedCompanyFilter

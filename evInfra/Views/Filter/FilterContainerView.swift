@@ -66,27 +66,25 @@ internal final class FilterContainerView: UIView {
         filterRoadView.isDirectChange = true
         filterPlaceView.isDirectChange = true
         
-        filterTypeView.delegate = self
+//        filterTypeView.delegate = self
+        filterTypeView.delegateSlowTypeChange = self
         filterSpeedView.delegate = self
         filterRoadView.delegate = self
-//        filterPlaceView.delegate = self
+        filterPlaceView.delegate = self
         filterPriceView.delegate = self
-        
-//        filterSpeedView.slowSpeedChangeDelegate = self
-//        filterTypeView.slowTypeChangeDelegate = self
     }
     
     // MARK: FUNC
     
     func bind(reactor: MainReactor) {
         self.mainReactor = reactor
+                
+        filterSpeedView.bind(reactor: reactor.filterReactor)
+        filterPlaceView.bind(reactor: reactor.filterReactor)
+        filterRoadView.bind(reactor: reactor.filterReactor)
+        filterTypeView.bind(reactor: reactor.filterReactor)
         
-        filterSpeedView.bind(reactor: GlobalFilterReactor.sharedInstance)
-        filterPlaceView.bind(reactor: GlobalFilterReactor.sharedInstance)
-        filterRoadView.bind(reactor: GlobalFilterReactor.sharedInstance)
-        filterTypeView.bind(reactor: GlobalFilterReactor.sharedInstance)
-        
-        GlobalFilterReactor.sharedInstance.state.compactMap { $0.selectedFilterType }
+        reactor.filterReactor.state.compactMap { $0.selectedFilterType }
             .asDriver(onErrorJustReturn: nil)
             .drive(with: self) { obj, selected in
                 switch selected?.filterTagType {
@@ -161,11 +159,17 @@ extension FilterContainerView: DelegateFilterChange{
     }
 }
 
-extension FilterContainerView : DelegateSlowTypeChange {
-    func onChangeSlowType(slowOn: Bool) {
-//        filterSpeedView.setSlowOn(slowOn: slowOn)
+extension FilterContainerView: NewDelegateSlowTypeChange {
+    func onChangeSlowType(isFastSpeedOn: Bool, isSlowSpeedon: Bool) {
+        filterSpeedView.changedSlowTypeSpeed(isFastSpeedOn: isFastSpeedOn, isSlowSpeedOn: isSlowSpeedon)
     }
 }
+
+//extension FilterContainerView : DelegateSlowTypeChange {
+//    func onChangeSlowType(slowOn: Bool) {
+//        filterSpeedView.setSlowOn(slowOn: slowOn)
+//    }
+//}
 
 extension FilterContainerView : DelegateSlowSpeedChange {
     func onChangeSlowSpeed(isSlow: Bool) {

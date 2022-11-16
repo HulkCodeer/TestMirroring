@@ -80,33 +80,37 @@ internal final class VerticalConfirmPopupViewController: UIViewController {
         view.addSubview(dimmedBtn)
         dimmedBtn.addSubview(containerView)
         containerView.addSubview(dialogView)
+        containerView.addSubview(buttonStackView)
         
         dialogView.addArrangedSubview(titleLabel)
         dialogView.addArrangedSubview(descriptionLabel)
-        dialogView.addArrangedSubview(buttonStackView)
         
         dimmedBtn.snp.makeConstraints {
-            $0.top.bottom.left.right.equalToSuperview()
+            $0.top.bottom.leading.trailing.equalToSuperview()
         }
         
         containerView.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(24)
-            $0.right.equalToSuperview().offset(-24)
+            $0.leading.equalToSuperview().offset(24)
+            $0.trailing.equalToSuperview().offset(-24)
             $0.centerY.equalToSuperview()
         }
         
         dialogView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(24)
-            $0.left.equalToSuperview().offset(16)
-            $0.bottom.right.equalToSuperview().offset(-16)
+            $0.leading.equalToSuperview().offset(32)
+            $0.trailing.equalToSuperview().offset(-32)
         }
         
         buttonStackView.snp.makeConstraints {
-            $0.width.equalToSuperview()            
+            $0.top.equalTo(dialogView.snp.bottom).offset(24)
+            $0.leading.equalToSuperview().offset(16)
+            $0.bottom.trailing.equalToSuperview().offset(-16)
+            $0.height.equalTo(48)
         }
         
         self.titleLabel.text = self.popupModel.title
         self.descriptionLabel.text = self.popupModel.message
+        self.descriptionLabel.setTextWithLineHeight(lineHeight: 22)
         
         if let _confirmTitle = self.popupModel.confirmBtnTitle {
             let confirmBtn = createButton(backgroundColor: Colors.backgroundPositive.color,

@@ -230,13 +230,14 @@ internal class AmplitudeEvent {
     private init() {}
     
     enum Event: String, EventTypeProtocol {
-        case clickViewAddPaymentCard = "view_add_payment_card"
-        case clickViewApplyEVICard = "view_apply_EVI_card"
+        case viewAddPaymentCard = "view_add_payment_card"
+        case viewApplyEVICard = "view_apply_EVI_card"
         case viewMyInfo = "view_my_info"
         case clickSidemenuRenewBerry = "click_sidemenu_renew_berry"
         case clickSidemenuSetUpBerryAll = "click_sidemenu_set_up_berry_all"
         case clickSidemenuMyBerry = "click_sidemenu_my_berry"
         case viewLogin = "view_login"
+        case viewInfoEVICard = "view_info_EVI_card"
         case none
         
         internal var toTypeDesc: String {
@@ -324,7 +325,6 @@ internal enum EnterViewType: String, EventTypeProtocol {
     case membershipQRViewController = "SK렌터카 카드 QR scan 화면"
     case lotteRentCertificateViewController = "롯데렌터카 등록 화면"
     case repayListViewController = "미수금 결제 내역 화면"
-    case myPayinfoViewController = "결제정보관리 화면"
     case repayResultViewController = "미수금 결제 완료 화면"
     case myPageViewController = "개인정보관리 화면"
     case quitAccountCompleteViewController = "회원탈퇴 완료 화면"
@@ -352,11 +352,12 @@ internal enum EnterViewType: String, EventTypeProtocol {
     case quitAccountViewController = "회원탈퇴 화면"
     case pointUseGuideViewController = "베리 사용 안내 화면"
     case acceptTermsViewController = "회원 가입 이용약관 동의 화면"
-    case membershipUseGuideViewController = "회원카드 사용 안내 화면"
-    case membershipGuideViewController = "회원카드 안내 화면"
+    case membershipUseGuideViewController = "회원카드 사용 안내 화면"    
     case none
     
-    init(viewName: String) {
+    init() { self = .none }
+    
+    private init(viewName: String) {
         switch viewName {
         case "PaymentQRScanViewController": self = .paymentQRScanViewController
         case "PaymentStatusViewController": self = .paymentStatusViewController
@@ -369,7 +370,6 @@ internal enum EnterViewType: String, EventTypeProtocol {
         case "MembershipQRViewController": self = .membershipQRViewController
         case "LotteRentCertificateViewController": self = .lotteRentCertificateViewController
         case "RepayListViewController": self = .repayListViewController
-        case "MyPayinfoViewController": self = .myPayinfoViewController
         case "RepayResultViewController": self = .repayResultViewController
         case "MyPageViewController": self = .myPageViewController
         case "QuitAccountCompleteViewController": self = .quitAccountCompleteViewController
@@ -398,16 +398,17 @@ internal enum EnterViewType: String, EventTypeProtocol {
         case "PointUseGuideViewController": self = .pointUseGuideViewController
         case "AcceptTermsViewController": self = .acceptTermsViewController
         case "MembershipUseGuideViewController": self = .membershipUseGuideViewController
-        case "MembershipGuideViewController": self = .membershipGuideViewController
         default: self = .none
         }
     }
-    
-    internal var viewNameDesc: String {
-        return self.rawValue
-    }
-    
+                
     internal var toTypeDesc: String {
         return self.rawValue
+    }
+                    
+    func viewEnterLogEvent(viewName: String) {
+        DispatchQueue.global(qos: .background).async {
+            Amplitude.instance().logEvent(viewName, withEventProperties: ["type": EnterViewType(viewName: viewName).toTypeDesc])
+        }
     }
 }

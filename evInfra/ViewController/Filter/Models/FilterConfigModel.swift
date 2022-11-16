@@ -8,13 +8,42 @@
 
 import Foundation
 
-protocol Filter {
+protocol Filter: Equatable {
+    typealias Property = (image: UIImage?, imgUnSelectColor: UIColor, imgSelectColor: UIColor)
     var isSelected: Bool { get set }
+    var typeTilte: String { get }
+    var typeImageProperty: Property { get }
+    var displayImageColor: UIColor { get }
     init(isSelected: Bool)
+}
+
+extension Filter {
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        return lhs.isSelected == rhs.isSelected
+    }
+    
+    func isEqual(_ other: any Equatable) -> Bool {
+        guard let other = other as? Self else {
+            return false
+        }
+        return self == other
+    }
 }
 
 class OpenFilter: Filter {
     var isSelected: Bool
+                    
+    var typeImageProperty: Property {
+        return (image: Icons.iconAccessPublic.image, imgUnSelectColor: Colors.contentTertiary.color, imgSelectColor: Colors.contentPositive.color)
+    }
+    
+    var displayImageColor: UIColor {
+        self.isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+    }
+    
+    var typeTilte: String {
+        "개방 충전소"
+    }
     
     required init(isSelected: Bool) {
         self.isSelected = isSelected
@@ -23,6 +52,18 @@ class OpenFilter: Filter {
 
 class CloseFilter: Filter {
     var isSelected: Bool
+            
+    var typeImageProperty: Property {
+        return (image: Icons.iconAccessNonpublic.image, imgUnSelectColor: Colors.contentTertiary.color, imgSelectColor: Colors.contentPositive.color)
+    }
+    
+    var displayImageColor: UIColor {
+        isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+    }
+    
+    var typeTilte: String {
+        "비개방 충전소"
+    }
     
     required init(isSelected: Bool) {
         self.isSelected = isSelected
@@ -30,7 +71,7 @@ class CloseFilter: Filter {
 }
 
 protocol AccessibilityFilterCreator {
-    func createAccessibilityFilter(isSelected: Bool, type: AccessibilityType) -> Filter
+    func createAccessibilityFilter(isSelected: Bool, type: AccessibilityType) -> any Filter
 }
 
 enum AccessibilityType: CaseIterable {
@@ -39,7 +80,7 @@ enum AccessibilityType: CaseIterable {
 }
 
 class AccessibilityFilterFactory: AccessibilityFilterCreator {
-    func createAccessibilityFilter(isSelected: Bool, type: AccessibilityType) -> Filter {
+    func createAccessibilityFilter(isSelected: Bool, type: AccessibilityType) -> any Filter {
         switch type {
         case .openType:
             return OpenFilter(isSelected: isSelected)
@@ -57,11 +98,11 @@ enum DetailFilterType {
 }
 
 internal final class FilterConfigModel {
-    var roadFilters: [Filter] = []
+    var accessibilityFilters: [any Filter] = []
     
     required init() {
         let factory = AccessibilityFilterFactory()
-        roadFilters.append(contentsOf: factory.createAccessibilityFilter(isSelected: true, type: .openType))
-        roadFilters.append(contentsOf: factory.createAccessibilityFilter(isSelected: true, type: .closeType))
+        accessibilityFilters.append(factory.createAccessibilityFilter(isSelected: true, type: .openType))
+        accessibilityFilters.append(factory.createAccessibilityFilter(isSelected: true, type: .closeType))
     }
 }

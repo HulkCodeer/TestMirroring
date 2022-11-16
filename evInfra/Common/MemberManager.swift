@@ -259,6 +259,15 @@ internal final class MemberManager {
             return UserDefault().readBool(key: UserDefault.Key.IS_SHOW_BOTTOM_MENU_EVPAY_TOOLTIP)
         }
     }
+    
+    internal var isShowMembershipCardCompleteTooltip: Bool {
+        set {
+            UserDefault().saveBool(key: UserDefault.Key.IS_SHOW_MEMBERSHIPCARD_COMPLETE_TOOLTIP, value: newValue)
+        }
+        get {
+            return UserDefault().readBool(key: UserDefault.Key.IS_SHOW_MEMBERSHIPCARD_COMPLETE_TOOLTIP)
+        }
+    }
             
     func setData(data: JSON) {
         if data["mb_id"].stringValue.elementsEqual("") {
@@ -309,19 +318,6 @@ internal final class MemberManager {
         userDefault.saveString(key: UserDefault.Key.MB_AGE_RANGE, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_EMAIL, value: "")
         userDefault.saveString(key: UserDefault.Key.MB_PHONE, value: "")
-        
-//        // 로그아웃 시, 즐겨찾기 필터 적용 off
-//        Observable.of(GlobalFilterReactor.Action.setFavoriteFilter(false))
-//            .bind(to: GlobalFilterReactor.sharedInstance.action)
-//            .disposed(by: self.disposeBag)
-//        
-//        // 로그아웃 시, 대표차량 필터 적용 off
-//        Observable.of(GlobalFilterReactor.Action.setRepresentCarFilter(false))
-//            .bind(to: GlobalFilterReactor.sharedInstance.action)
-//            .disposed(by: self.disposeBag)
-
-        FilterManager.sharedInstance.saveIsRepresentCarChecked(false)
-        FilterManager.sharedInstance.saveIsFavoriteChecked(false)
                         
         AmplitudeManager.shared.setUser(with: nil)
     }

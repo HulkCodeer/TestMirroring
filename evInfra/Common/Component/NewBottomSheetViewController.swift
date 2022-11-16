@@ -1,5 +1,5 @@
 //
-//  NewGroupViewController.swift
+//  NewBottomSheetViewController.swift
 //  evInfra
 //
 //  Created by 박현진 on 2022/06/30.

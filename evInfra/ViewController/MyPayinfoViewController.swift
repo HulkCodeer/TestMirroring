@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Material
 import WebKit
 import SwiftyJSON
 
@@ -77,16 +76,10 @@ internal final class MyPayinfoViewController: UIViewController, MyPayRegisterVie
             } else {
                 MemberManager.shared.showLoginAlert()
             }
-        }
+        }        
+        AmplitudeEvent.shared.fromViewSourceByLogEvent(eventType: .viewAddPaymentCard)
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.isNavigationBarHidden = true
-        
-        AmplitudeEvent.shared.fromViewSourceByLogEvent(eventType: .clickViewAddPaymentCard)
-    }
-    
+            
     func checkRegisterPayment() {
         Server.getPayRegisterStatus { (isSuccess, value) in
             if isSuccess {
@@ -101,8 +94,8 @@ internal final class MyPayinfoViewController: UIViewController, MyPayRegisterVie
                         let paymentStoryboard = UIStoryboard(name : "Payment", bundle: nil)
                         let repayListVC = paymentStoryboard.instantiateViewController(withIdentifier: "RepayListViewController") as! RepayListViewController
                         repayListVC.delegate = self
-                        self.navigationController?.push(viewController: repayListVC)
-                        break;
+                        GlobalDefine.shared.mainNavi?.push(viewController: repayListVC)
+                        
                     case PaymentCard.PAY_NO_VERIFY_USER, PaymentCard.PAY_DELETE_FAIL_USER:
                         let ok = UIAlertAction(title: "확인", style: .default, handler:{ (ACTION) -> Void in
                             self.navigationController?.pop()
@@ -212,7 +205,7 @@ internal final class MyPayinfoViewController: UIViewController, MyPayRegisterVie
     func moveToMyPayRegist() {
         let payRegistVC = self.storyboard?.instantiateViewController(withIdentifier: "MyPayRegisterViewController") as! MyPayRegisterViewController
         payRegistVC.myPayRegisterViewDelegate = self
-        navigationController?.push(viewController: payRegistVC)
+        GlobalDefine.shared.mainNavi?.push(viewController: payRegistVC)
     }
     
     func showConfirmBtn(show: Bool) {

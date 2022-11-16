@@ -12,6 +12,10 @@ import SwiftyJSON
 
 internal final class SearchAddressViewController: UIViewController {
 
+    private lazy var commonNaviView = CommonNaviView().then {
+        $0.naviTitleLbl.text = "우편번호 검색"
+    }
+    
     var mWebView: WKWebView!
     var searchAddressDelegate: SearchAddressViewDelegate? = nil
     
@@ -36,6 +40,7 @@ internal final class SearchAddressViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.isHidden = true
     }
 
     func initWebView() {
@@ -49,7 +54,17 @@ internal final class SearchAddressViewController: UIViewController {
         mWebView.navigationDelegate = self
         mWebView.translatesAutoresizingMaskIntoConstraints = true
         mWebView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        
+        self.view.addSubview(commonNaviView)
+        commonNaviView.snp.makeConstraints {
+            $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(Constants.view.naviBarHeight)
+        }
         self.view.addSubview(mWebView)
+        mWebView.snp.makeConstraints {
+            $0.top.equalTo(commonNaviView.snp.bottom)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
     }
 
     func prepareActionBar() {

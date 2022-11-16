@@ -50,6 +50,13 @@ public extension UINavigationController {
     internal func containsViewController(ofKind kind: AnyClass) -> Bool {
         self.viewControllers.contains(where: { $0.isKind(of: kind) })
     }
+    
+    internal func containsView(ofKind kind: AnyClass) -> UIViewController? {
+        if let vc = self.viewControllers.last(where: { $0.isKind(of: kind) }) {
+            return vc
+        }
+        return nil
+    }
                 
     internal func popToViewControllerWithHandler(vc: UIViewController, completion: @escaping ()->()) {
         CATransaction.begin()

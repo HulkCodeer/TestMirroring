@@ -9,7 +9,7 @@
 import UIKit
 import RxSwift
 
-internal final class StickButton: UIView {
+internal final class StickyButton: UIView {
     
     // MARK: UI
     

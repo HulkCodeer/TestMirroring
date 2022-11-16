@@ -64,7 +64,7 @@ internal final class PermissionsGuideViewController: CommonBaseViewController, S
         $0.spacing = 24
     }
     
-    private lazy var nextBtn = StickButton(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 32, height: 80), level: .primary).then {
+    private lazy var nextBtn = StickyButton(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 32, height: 80), level: .primary).then {
         $0.rectBtn.setTitle("권한 동의하기", for: .normal)
     }
     

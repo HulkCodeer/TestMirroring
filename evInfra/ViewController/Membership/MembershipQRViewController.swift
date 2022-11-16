@@ -122,7 +122,7 @@ class MembershipQRViewController: UIViewController,
         resultVC.showCallBtn = callBtn
         resultVC.message = msg
         resultVC.delegate = self
-        self.navigationController?.push(viewController: resultVC)
+        GlobalDefine.shared.mainNavi?.push(viewController: resultVC)
     }
     
     func onConfirmBtnPressed(code : Int){

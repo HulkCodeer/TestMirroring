@@ -13,7 +13,6 @@ internal final class TooltipView: UIView {
         static let tipWidth: CGFloat = 12
         static let tipHeight: CGFloat = 8
         static let tipTopMargin: CGFloat = 8
-        static var totalHeight: CGFloat = 44
         static var totalViewRadius: CGFloat = 5
     }
     
@@ -31,7 +30,7 @@ internal final class TooltipView: UIView {
         fileprivate var tipLeftMargin: CGFloat
         fileprivate var tipDirection: TipDirection
         fileprivate var maxWidth: CGFloat
-        fileprivate var font: UIFont = .systemFont(ofSize: 14, weight: .regular)
+        fileprivate var font: UIFont
         fileprivate var animating: Animating = Animating()
         fileprivate var leftImg: UIImage?
         
@@ -43,11 +42,12 @@ internal final class TooltipView: UIView {
             fileprivate var springVelocity       = CGFloat(0.7)
         }
                 
-        internal init(tipLeftMargin: CGFloat, tipDirection: TipDirection, maxWidth: CGFloat, leftImg: UIImage? = nil) {
+        internal init(tipLeftMargin: CGFloat, tipDirection: TipDirection, maxWidth: CGFloat, leftImg: UIImage? = nil, font: UIFont = .systemFont(ofSize: 14, weight: .regular)) {
             self.tipLeftMargin = tipLeftMargin
             self.tipDirection = tipDirection
             self.maxWidth = maxWidth
             self.leftImg = leftImg
+            self.font = font
         }
     }
     
@@ -81,6 +81,8 @@ internal final class TooltipView: UIView {
                 
         let messageSize = message.toSizeRect(of: self.configure.font, maxWidth: self.configure.maxWidth)
         let totalWidth = messageSize.width
+        let messageHeight = messageSize.height
+        var totalHeight: CGFloat = messageHeight + 16
                                                                         
         switch self.configure.tipDirection {
         case .top:
@@ -88,12 +90,16 @@ internal final class TooltipView: UIView {
             path.addLine(to: CGPoint(x: self.configure.tipLeftMargin + tipCenterPoint, y: -Consts.tipHeight))
             path.addLine(to: CGPoint(x: tipEndPoint, y: 0))
             path.addLine(to: CGPoint(x: 0, y: 0))
+        
+            totalHeight += Consts.tipHeight
             
         case .bottom:
-            path.move(to: CGPoint(x: self.configure.tipLeftMargin, y: Consts.totalHeight))
-            path.addLine(to: CGPoint(x: self.configure.tipLeftMargin + tipCenterPoint, y: Consts.totalHeight + Consts.tipHeight))
-            path.addLine(to: CGPoint(x: tipEndPoint, y: Consts.totalHeight))
-            path.addLine(to: CGPoint(x: self.configure.tipLeftMargin, y: Consts.totalHeight))
+            path.move(to: CGPoint(x: self.configure.tipLeftMargin, y: totalHeight))
+            path.addLine(to: CGPoint(x: self.configure.tipLeftMargin + tipCenterPoint, y: totalHeight + Consts.tipHeight))
+            path.addLine(to: CGPoint(x: tipEndPoint, y: totalHeight))
+            path.addLine(to: CGPoint(x: self.configure.tipLeftMargin, y: totalHeight))
+            
+            totalHeight += Consts.tipHeight
                                     
         case .left:
             path.move(to: CGPoint(x: 0, y: self.configure.tipLeftMargin))
@@ -126,7 +132,7 @@ internal final class TooltipView: UIView {
         self.addSubview(totalView)
         totalView.snp.makeConstraints {
             $0.leading.top.trailing.equalToSuperview()
-            $0.height.equalTo(Consts.totalHeight)
+            $0.height.equalTo(totalHeight)
         }
         
         let leftImgView = UIImageView().then {
@@ -177,6 +183,8 @@ internal final class TooltipView: UIView {
                 
         let messageSize = message.toSizeRect(of: self.configure.font, maxWidth: self.configure.maxWidth)
         let totalWidth = messageSize.width
+        let messageHeight = messageSize.height
+        var totalHeight: CGFloat = messageHeight + 16
                                                                         
         switch self.configure.tipDirection {
         case .top:
@@ -186,10 +194,10 @@ internal final class TooltipView: UIView {
             path.addLine(to: CGPoint(x: 0, y: 0))
             
         case .bottom:
-            path.move(to: CGPoint(x: self.configure.tipLeftMargin, y: Consts.totalHeight))
-            path.addLine(to: CGPoint(x: self.configure.tipLeftMargin + tipCenterPoint, y: Consts.totalHeight + Consts.tipHeight))
-            path.addLine(to: CGPoint(x: tipEndPoint, y: Consts.totalHeight))
-            path.addLine(to: CGPoint(x: self.configure.tipLeftMargin, y: Consts.totalHeight))
+            path.move(to: CGPoint(x: self.configure.tipLeftMargin, y: totalHeight))
+            path.addLine(to: CGPoint(x: self.configure.tipLeftMargin + tipCenterPoint, y: totalHeight + Consts.tipHeight))
+            path.addLine(to: CGPoint(x: tipEndPoint, y: totalHeight))
+            path.addLine(to: CGPoint(x: self.configure.tipLeftMargin, y: totalHeight))
                                     
         case .left:
             path.move(to: CGPoint(x: 0, y: self.configure.tipLeftMargin))
@@ -222,7 +230,7 @@ internal final class TooltipView: UIView {
         self.addSubview(totalView)
         totalView.snp.makeConstraints {
             $0.leading.top.trailing.equalToSuperview()
-            $0.height.equalTo(Consts.totalHeight)
+            $0.height.equalTo(totalHeight)
         }
         
         let leftImgView = UIImageView().then {

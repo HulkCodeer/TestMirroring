@@ -240,7 +240,7 @@ internal final class NewFilterBarView: UIView {
 
         switch filterTagType {
         case .evpay:
-            let isSelected = GlobalFilterReactor.sharedInstance.currentState.filterModel.isEvPayFilter ?? false
+            let isSelected = GlobalFilterReactor.sharedInstance.initialState.filterModel.isEvPayFilter ?? false
             view.IBborderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
             titleLbl.textColor = isSelected ? Colors.gr6.color : Colors.contentSecondary.color
             imgView.tintColor = isSelected ? Colors.gr6.color : Colors.contentSecondary.color
@@ -250,78 +250,77 @@ internal final class NewFilterBarView: UIView {
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
                     
-                    Observable.just(GlobalFilterReactor.Action.saveEvPayFilter(btn.isSelected))
+                    let setEvPayFilterStream = Observable.of(GlobalFilterReactor.Action.updateEvPayFilter(btn.isSelected))
+                    let saveEvPayFilterStream = Observable.of(GlobalFilterReactor.Action.saveEvPayFilter(btn.isSelected))
+                    
+                    Observable.concat([setEvPayFilterStream, saveEvPayFilterStream])
                         .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                     
-                }
-                .disposed(by: self.disposeBag)
-            
-            GlobalFilterReactor.sharedInstance.state.compactMap { $0.filterModel.isEvPayFilter }
-                .asDriver(onErrorJustReturn: false)
-                .drive(with: self) { obj, isEvPayFilter in
+                    view.IBborderColor = btn.isSelected ? Colors.borderPositive.color : Colors.nt1.color
+                    titleLbl.textColor = btn.isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+                    imgView.tintColor = btn.isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+                    
                     let property: [String: Any] = ["filterName": "EV Pay",
-                                                   "filterValue": isEvPayFilter ? "On":"Off"]
+                                                   "filterValue": btn.isSelected ? "On":"Off"]
                     FilterEvent.clickUpperFilter.logEvent(property: property)
-                
-                    view.IBborderColor = isEvPayFilter ? Colors.borderPositive.color : Colors.nt1.color
-                    titleLbl.textColor = isEvPayFilter ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-                    imgView.tintColor = isEvPayFilter ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
                 }
                 .disposed(by: self.disposeBag)
+
         case .favorite:
+            let isSelected = GlobalFilterReactor.sharedInstance.initialState.filterModel.isFavoriteFilter ?? false
+            MemberManager.shared.tryToLoginCheck { isLogin in
+                guard isLogin else {
+                    btn.isSelected = false
+                    view.IBborderColor = Colors.nt1.color
+                    titleLbl.textColor = typeImageProperty.imgUnSelectColor
+                    imgView.tintColor = typeImageProperty.imgUnSelectColor
+                    imgView.image = typeImageProperty.imgUnSelect
+
+                    Observable.just(GlobalFilterReactor.Action.updateFavoriteFilter(false))
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+                        .disposed(by: self.disposeBag)
+                    return
+                }
+                btn.isSelected = isSelected
+                view.IBborderColor = btn.isSelected ? Colors.borderPositive.color : Colors.nt1.color
+                titleLbl.textColor = btn.isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+                imgView.tintColor = btn.isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+                imgView.image = btn.isSelected ? typeImageProperty.imgSelect : typeImageProperty.imgUnSelect
+            }
+            
             btn.rx.tap
                 .asDriver()
                 .drive(with: self) { obj, _ in
                     MemberManager.shared.tryToLoginCheck { isLogin in
                         if isLogin {
                             btn.isSelected = !btn.isSelected
-                            Observable.just(GlobalFilterReactor.Action.updateFavoriteFilter(btn.isSelected))
-                                .bind(to: GlobalFilterReactor.sharedInstance.action)
+                            Observable.just(FilterReactor.Action.updateFavoriteFilter(btn.isSelected))
+                                .bind(to: FilterReactor.sharedInstance.action)
                                 .disposed(by: obj.disposeBag)
                             
-                            Observable.just(GlobalFilterReactor.Action.saveFavoriteFilter(btn.isSelected))
-                                .bind(to: GlobalFilterReactor.sharedInstance.action)
+                            Observable.just(FilterReactor.Action.saveFavoriteFilter(btn.isSelected))
+                                .bind(to: FilterReactor.sharedInstance.action)
                                 .disposed(by: obj.disposeBag)
+                            
+                            btn.isSelected = btn.isSelected
+                            view.IBborderColor = btn.isSelected ? Colors.borderPositive.color : Colors.nt1.color
+                            titleLbl.textColor = btn.isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+                            imgView.tintColor = btn.isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+                            imgView.image = btn.isSelected ? typeImageProperty.imgSelect : typeImageProperty.imgUnSelect
                         } else {
                             MemberManager.shared.showLoginAlert()
-                            Observable.just(GlobalFilterReactor.Action.updateFavoriteFilter(false))
-                                .bind(to: GlobalFilterReactor.sharedInstance.action)
+                            Observable.just(FilterReactor.Action.updateFavoriteFilter(false))
+                                .bind(to: FilterReactor.sharedInstance.action)
                                 .disposed(by: obj.disposeBag)
                             
-                            Observable.just(GlobalFilterReactor.Action.saveFavoriteFilter(false))
-                                .bind(to: GlobalFilterReactor.sharedInstance.action)
+                            Observable.just(FilterReactor.Action.saveFavoriteFilter(false))
+                                .bind(to: FilterReactor.sharedInstance.action)
                                 .disposed(by: obj.disposeBag)
                         }
                     }
                 }
                 .disposed(by: self.disposeBag)
-            
-            GlobalFilterReactor.sharedInstance.state.compactMap { $0.filterModel.isFavoriteFilter }
-                .asDriver(onErrorJustReturn: false)
-                .drive(with: self) { obj, isFavoriteFilter in
-                    MemberManager.shared.tryToLoginCheck { isLogin in
-                        guard isLogin else {
-                            btn.isSelected = false
-                            view.IBborderColor = Colors.nt1.color
-                            titleLbl.textColor = typeImageProperty.imgUnSelectColor
-                            imgView.tintColor = typeImageProperty.imgUnSelectColor
-                            imgView.image = typeImageProperty.imgUnSelect
-                            
-                            Observable.just(GlobalFilterReactor.Action.updateFavoriteFilter(false))
-                                .bind(to: GlobalFilterReactor.sharedInstance.action)
-                                .disposed(by: obj.disposeBag)
-                            
-                            return
-                        }
-                        btn.isSelected = isFavoriteFilter
-                        view.IBborderColor = isFavoriteFilter ? Colors.borderPositive.color : Colors.nt1.color
-                        titleLbl.textColor = isFavoriteFilter ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-                        imgView.tintColor = isFavoriteFilter ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-                        imgView.image = isFavoriteFilter ? typeImageProperty.imgSelect : typeImageProperty.imgUnSelect
-                    }
-                }.disposed(by: self.disposeBag)
-
         case .place:
             let isChanged = FilterManager.sharedInstance.shouldPlaceChanged()
             titleLbl.textColor = isChanged ? Colors.gr6.color : Colors.contentSecondary.color
@@ -332,8 +331,8 @@ internal final class NewFilterBarView: UIView {
                 .asDriver()
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
-                    Observable.just(GlobalFilterReactor.Action.setSelectedFilterType((.place, btn.isSelected)))
-                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+                    Observable.just(FilterReactor.Action.setSelectedFilterType((.place, btn.isSelected)))
+                        .bind(to: FilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                 }
                 .disposed(by: self.disposeBag)
@@ -347,8 +346,8 @@ internal final class NewFilterBarView: UIView {
                 .asDriver()
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
-                    Observable.just(GlobalFilterReactor.Action.setSelectedFilterType((.road, btn.isSelected)))
-                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+                    Observable.just(FilterReactor.Action.setSelectedFilterType((.road, btn.isSelected)))
+                        .bind(to: FilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                 }
                 .disposed(by: self.disposeBag)
@@ -362,8 +361,8 @@ internal final class NewFilterBarView: UIView {
                 .asDriver()
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
-                    Observable.just(GlobalFilterReactor.Action.setSelectedFilterType((.speed, btn.isSelected)))
-                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+                    Observable.just(FilterReactor.Action.setSelectedFilterType((.speed, btn.isSelected)))
+                        .bind(to: FilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                 }
                 .disposed(by: self.disposeBag)
@@ -377,8 +376,8 @@ internal final class NewFilterBarView: UIView {
                 .asDriver()
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
-                    Observable.just(GlobalFilterReactor.Action.setSelectedFilterType((.type, btn.isSelected)))
-                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+                    Observable.just(FilterReactor.Action.setSelectedFilterType((.type, btn.isSelected)))
+                        .bind(to: FilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                 }
                 .disposed(by: self.disposeBag)
@@ -386,14 +385,14 @@ internal final class NewFilterBarView: UIView {
         default: break
         }
     
-        GlobalFilterReactor.sharedInstance.state.compactMap { $0.isUpdateFilterBarTitle }
+        FilterReactor.sharedInstance.state.compactMap { $0.isUpdateFilterBarTitle }
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { obj, isUpdate in
                 titleLbl.text = filterTagType.typeDesc
             }
             .disposed(by: self.disposeBag)
         
-        GlobalFilterReactor.sharedInstance.state.compactMap { $0.selectedFilterType }
+        FilterReactor.sharedInstance.state.compactMap { $0.selectedFilterType }
             .asDriver(onErrorJustReturn: (.speed, false))
             .drive(with: self) { obj, selected in
                 switch filterTagType {

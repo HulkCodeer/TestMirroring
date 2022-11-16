@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class LinkShareManager {
+internal final class LinkShareManager {
     static let shared = LinkShareManager()
     private let templateId = "10575"
     private var shareList = [String: String]()

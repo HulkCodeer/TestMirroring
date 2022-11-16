@@ -209,10 +209,9 @@ internal final class MembershipReissuanceViewController: CommonBaseViewControlle
         moveFindPasswordBtn.rx.tap
             .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
             .asDriver(onErrorJustReturn: ())
-            .drive(onNext: { [weak self] _ in
-                guard let self = self else { return }
+            .drive(onNext: { _ in                
                 let viewcon = FindPasswordViewController()
-                self.navigationController?.push(viewController: viewcon)
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             })
             .disposed(by: self.disposebag)
     }

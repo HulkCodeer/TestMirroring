@@ -82,7 +82,7 @@ internal final class NewFilterRoadView: UIView {
         super.awakeFromNib()
     }
     
-    func bind(reactor: GlobalFilterReactor) {
+    func bind(reactor: FilterReactor) {
         self.addSubview(totalView)
         totalView.snp.makeConstraints {
             $0.top.leading.trailing.bottom.equalToSuperview()
@@ -105,12 +105,12 @@ internal final class NewFilterRoadView: UIView {
             $0.height.equalTo(68)
         }
         
-        for roadType in RoadType.allCases {
-            stackView.addArrangedSubview(self.createRoadTypeView(roadType, reactor: reactor))
+        for roadFilter in RoadType.allCases {
+            stackView.addArrangedSubview(self.createRoadTypeView(roadFilter, reactor: reactor))
         }
     }
-    
-    private func createRoadTypeView(_ roadType: RoadType, reactor: GlobalFilterReactor) -> UIView {
+           
+    private func createRoadTypeView(_ roadType: RoadType, reactor: FilterReactor) -> UIView {
         let typeImageProperty = roadType.typeImageProperty ?? (image: nil, imgUnSelectColor: nil, imgSelectColor: nil)
         let imgView = UIImageView().then {
             $0.image = typeImageProperty.image
@@ -148,101 +148,120 @@ internal final class NewFilterRoadView: UIView {
             }
         }
 
-        let isGenral = GlobalFilterReactor.sharedInstance.currentState.filterModel.isGeneralRoad
-        let isHighwayUp = GlobalFilterReactor.sharedInstance.currentState.filterModel.isHighwayUp
-        let isHighwayDown = GlobalFilterReactor.sharedInstance.currentState.filterModel.isHighwayDown
+        let isGenral = FilterReactor.sharedInstance.currentState.filterModel.isGeneralRoad
+        let isHighwayUp = FilterReactor.sharedInstance.currentState.filterModel.isHighwayUp
+        let isHighwayDown = FilterReactor.sharedInstance.currentState.filterModel.isHighwayDown
+        
+        btn.rx.tap
+            .asDriver()
+            .drive(with: self) { obj, _ in
+                btn.isSelected = !btn.isSelected
+
+                Observable.just(FilterReactor.Action.updateGeneralFilter(btn.isSelected))
+                    .bind(to: FilterReactor.sharedInstance.action)
+                    .disposed(by: obj.disposeBag)
+
+                if obj.isDirectChange {
+                    obj.saveFilter()
+                }
+
+                Observable.just(FilterReactor.Action.shouldChanged)
+                    .bind(to: FilterReactor.sharedInstance.action)
+                    .disposed(by: obj.disposeBag)
+            }
+            .disposed(by: self.disposeBag)
         
         switch roadType {
         case .general:
             imgView.tintColor = isGenral ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
             titleLbl.textColor = isGenral ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-            
+
             btn.isSelected = isGenral
-            
+
             btn.rx.tap
                 .asDriver()
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
-                    
-                    Observable.just(GlobalFilterReactor.Action.updateGeneralFilter(btn.isSelected))
-                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+
+                    Observable.just(FilterReactor.Action.updateGeneralFilter(btn.isSelected))
+                        .bind(to: FilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
-                    
+
                     if obj.isDirectChange {
                         obj.saveFilter()
                     }
-                    
-                    Observable.just(GlobalFilterReactor.Action.shouldChanged)
-                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+
+                    Observable.just(FilterReactor.Action.shouldChanged)
+                        .bind(to: FilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                 }
                 .disposed(by: self.disposeBag)
-            
-            GlobalFilterReactor.sharedInstance.state.compactMap { $0.filterModel.isGeneralRoad }
+
+            FilterReactor.sharedInstance.state.compactMap { $0.filterModel.isGeneralRoad }
                 .asDriver(onErrorJustReturn: false)
                 .drive(with: self) { obj, isSelected in
                     btn.isSelected = isSelected
                     imgView.tintColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
                     titleLbl.textColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
                 }.disposed(by: self.disposeBag)
-            
+
         case .highwayUp:
             imgView.tintColor = isHighwayUp ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
             titleLbl.textColor = isHighwayUp ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-            
+
             btn.isSelected = isHighwayUp
-            
+
             btn.rx.tap
                 .asDriver()
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
-                    Observable.just(GlobalFilterReactor.Action.updateHighwayUpFilter(btn.isSelected))
-                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+                    Observable.just(FilterReactor.Action.updateHighwayUpFilter(btn.isSelected))
+                        .bind(to: FilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
-                    
+
                     if obj.isDirectChange {
                         obj.saveFilter()
                     }
-                    
-                    Observable.just(GlobalFilterReactor.Action.shouldChanged)
-                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+
+                    Observable.just(FilterReactor.Action.shouldChanged)
+                        .bind(to: FilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                 }
                 .disposed(by: self.disposeBag)
-            
-            GlobalFilterReactor.sharedInstance.state.compactMap { $0.filterModel.isHighwayUp }
+
+            FilterReactor.sharedInstance.state.compactMap { $0.filterModel.isHighwayUp }
                 .asDriver(onErrorJustReturn: false)
                 .drive(with: self) { obj, isSelected in
                     btn.isSelected = isSelected
                     imgView.tintColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
                     titleLbl.textColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
                 }.disposed(by: self.disposeBag)
-            
+
         case .highwayDown:
             imgView.tintColor = isHighwayDown ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
             titleLbl.textColor = isHighwayDown ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-            
+
             btn.isSelected = isHighwayDown
-            
+
             btn.rx.tap
                 .asDriver()
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
-                    Observable.just(GlobalFilterReactor.Action.updateHigywayDownFilter(btn.isSelected))
-                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+                    Observable.just(FilterReactor.Action.updateHigywayDownFilter(btn.isSelected))
+                        .bind(to: FilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
-                    
+
                     if obj.isDirectChange {
                         obj.saveFilter()
                     }
-                    
-                    Observable.just(GlobalFilterReactor.Action.shouldChanged)
-                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+
+                    Observable.just(FilterReactor.Action.shouldChanged)
+                        .bind(to: FilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                 }
                 .disposed(by: self.disposeBag)
-            
-            GlobalFilterReactor.sharedInstance.state.compactMap { $0.filterModel.isHighwayDown }
+
+            FilterReactor.sharedInstance.state.compactMap { $0.filterModel.isHighwayDown }
                 .asDriver(onErrorJustReturn: false)
                 .drive(with: self) { obj, isSelected in
                     btn.isSelected = isSelected
@@ -255,9 +274,9 @@ internal final class NewFilterRoadView: UIView {
     }
     
     internal func shouldChanged() -> Bool {
-        let isGeneral = GlobalFilterReactor.sharedInstance.currentState.isGeneralRoad
-        let isHighwayUp = GlobalFilterReactor.sharedInstance.currentState.isHighwayUp
-        let isHighwayDown = GlobalFilterReactor.sharedInstance.currentState.isHighwayDown
+        let isGeneral = FilterReactor.sharedInstance.currentState.isGeneralRoad
+        let isHighwayUp = FilterReactor.sharedInstance.currentState.isHighwayUp
+        let isHighwayDown = FilterReactor.sharedInstance.currentState.isHighwayDown
         
         return (isGeneral != FilterManager.sharedInstance.filter.isGeneralWay)
         || (isHighwayUp != FilterManager.sharedInstance.filter.isHighwayUp)
@@ -267,17 +286,17 @@ internal final class NewFilterRoadView: UIView {
 
 extension NewFilterRoadView: FilterButtonAction {
     func saveFilter() {
-//        let filterModel = GlobalFilterReactor.sharedInstance.currentState.filterModel
-//        Observable.just(GlobalFilterReactor.Action.saveRoadFilter(filterModel))
-//            .bind(to: GlobalFilterReactor.sharedInstance.action)
-//            .disposed(by: self.disposeBag)
+        let filterModel = GlobalFilterReactor.sharedInstance.currentState.filterModel
+        Observable.of(GlobalFilterReactor.Action.saveFilter(filterModel))
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
     }
     
     func resetFilter() {
-//        let resetModel = GlobalFilterReactor.sharedInstance.initialState.resetFilterModel
-//        Observable.just(GlobalFilterReactor.Action.saveRoadFilter(resetModel))
-//            .bind(to: GlobalFilterReactor.sharedInstance.action)
-//            .disposed(by: self.disposeBag)
+        let resetModel = GlobalFilterReactor.sharedInstance.initialState.resetFilterModel
+        Observable.just(GlobalFilterReactor.Action.savePlaceFilter(resetModel))
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
     }
     
     func revertFilter() {

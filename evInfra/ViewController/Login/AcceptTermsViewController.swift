@@ -6,8 +6,6 @@
 //  Copyright © 2022 soft-berry. All rights reserved.
 //
 
-import Foundation
-import Material
 import M13Checkbox
 import UIKit
 
@@ -121,14 +119,14 @@ class AcceptTermsViewController: UIViewController {
         let signUpVc = LoginStoryboard.instantiateViewController(withIdentifier: "SignUpViewController") as! SignUpViewController
         signUpVc.delegate = self
         signUpVc.user = user
-        self.navigationController?.push(viewController: signUpVc)
+        GlobalDefine.shared.mainNavi?.push(viewController: signUpVc)
     }
     
     func seeTerms(index: TermsViewController.Request) {
         let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
         let termsVc = infoStoryboard.instantiateViewController(withIdentifier: "TermsViewController") as! TermsViewController
         termsVc.tabIndex = index;
-        self.navigationController?.push(viewController: termsVc)
+        GlobalDefine.shared.mainNavi?.push(viewController: termsVc)
     }
     
     

@@ -12,7 +12,7 @@ import WebKit
 import SwiftyJSON
 import RxSwift
 
-class MyPayRegisterViewController: UIViewController {
+internal final class MyPayRegisterViewController: UIViewController {
     internal weak var myPayRegisterViewDelegate: MyPayRegisterViewDelegate?
     
     private let disposeBag = DisposeBag()

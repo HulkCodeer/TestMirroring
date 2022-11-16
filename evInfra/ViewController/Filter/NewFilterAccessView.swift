@@ -13,29 +13,6 @@ import SnapKit
 import Then
 import EasyTipView
 
-enum AccessType: CaseIterable {
-    typealias Property = (image: UIImage?, imgUnSelectColor: UIColor?, imgSelectColor: UIColor?)
-    
-    case publicCharger
-    case nonePublicCharger
-    
-    internal var typeImageProperty: Property? {
-        switch self {
-        case .publicCharger:
-            return (image: Icons.iconAccessPublic.image, imgUnSelectColor: Colors.contentTertiary.color, imgSelectColor: Colors.contentPositive.color)
-        case .nonePublicCharger:
-            return (image: Icons.iconAccessNonpublic.image, imgUnSelectColor: Colors.contentTertiary.color, imgSelectColor: Colors.contentPositive.color)
-        }
-    }
-    
-    internal var typeTilte: String {
-        switch self {
-        case .publicCharger: return "개방 충전소"
-        case .nonePublicCharger: return "비개방 충전소"
-        }
-    }
-}
-
 internal final class NewFilterAccessView: UIView {
     // MARK: UI
     private lazy var totalView = UIView().then {
@@ -82,7 +59,7 @@ internal final class NewFilterAccessView: UIView {
         super.awakeFromNib()
     }
     
-    func bind(reactor: GlobalFilterReactor) {
+    func bind(reactor: FilterReactor) {
         self.addSubview(totalView)
         totalView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -112,7 +89,7 @@ internal final class NewFilterAccessView: UIView {
             $0.height.equalTo(68)
         }
         
-        for accessType in AccessType.allCases {
+        for accessType in reactor.currentState.testModel.accessibilityFilters {
             stackView.addArrangedSubview(self.createAccessTypeView(accessType, reactor: reactor))
         }
         
@@ -143,20 +120,21 @@ internal final class NewFilterAccessView: UIView {
             }.disposed(by: self.disposeBag)
     }
     
-    private func createAccessTypeView(_ accessType: AccessType, reactor: GlobalFilterReactor) -> UIView {
-        let typeImageProperty = accessType.typeImageProperty ?? (image: nil, imgUnSelectColor: nil, imgSelectColor: nil)
+    private func createAccessTypeView(_ accessTypeFilter: any Filter, reactor: FilterReactor) -> UIView {
+//        let typeImageProperty = roadType.typeImageProperty ?? (image: nil, imgUnSelectColor: nil, imgSelectColor: nil)
+        var accessTypeFilter = accessTypeFilter
         let imgView = UIImageView().then {
-            $0.image = typeImageProperty.image
-            $0.tintColor = typeImageProperty.imgUnSelectColor
+            $0.image = accessTypeFilter.typeImageProperty.image
+            $0.tintColor = accessTypeFilter.displayImageColor
         }
         
         let titleLbl = UILabel().then {
-            $0.text = accessType.typeTilte
+            $0.text = "\(accessTypeFilter.typeTilte)"
             $0.font = .systemFont(ofSize: 14)
         }
         
         let btn = UIButton().then {
-            $0.isSelected = false
+            $0.isSelected = accessTypeFilter.isSelected
         }
         
         let view = UIView().then {
@@ -180,104 +158,50 @@ internal final class NewFilterAccessView: UIView {
                 $0.edges.equalToSuperview()
             }
         }
-
-        let isPublic = GlobalFilterReactor.sharedInstance.currentState.filterModel.isPublic
-        let isNonPublic = GlobalFilterReactor.sharedInstance.currentState.filterModel.isNonPublic
         
-        switch accessType {
-        case .publicCharger:
-            imgView.tintColor = isPublic ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-            titleLbl.textColor = isPublic ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-            
-            btn.isSelected = isPublic
-            
-            btn.rx.tap
-                .asDriver()
-                .drive(with: self) { obj, _ in
-                    btn.isSelected = !btn.isSelected
-                    Observable.just(GlobalFilterReactor.Action.updatePublicFilter(btn.isSelected))
-                        .bind(to: GlobalFilterReactor.sharedInstance.action)
-                        .disposed(by: obj.disposeBag)
-                    
-                    if obj.isDirectChange {
-                        obj.saveFilter()
-                    }
-                    
-                    Observable.just(GlobalFilterReactor.Action.shouldChanged)
-                        .bind(to: GlobalFilterReactor.sharedInstance.action)
-                        .disposed(by: obj.disposeBag)
-                }.disposed(by: self.disposeBag)
-            
-            GlobalFilterReactor.sharedInstance.state.compactMap { $0.filterModel.isPublic }
-                .asDriver(onErrorJustReturn: false)
-                .drive(with: self) { obj, isSelected in
-                    btn.isSelected = isSelected
-                    imgView.tintColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-                    titleLbl.textColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-                }.disposed(by: self.disposeBag)
-            
-        case .nonePublicCharger:
-            imgView.tintColor = isNonPublic ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-            titleLbl.textColor = isNonPublic ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-            
-            btn.isSelected = isNonPublic
-            
-            btn.rx.tap
-                .asDriver()
-                .drive(with: self) { obj, _ in
-                    btn.isSelected = !btn.isSelected
-                    Observable.just(GlobalFilterReactor.Action.updateNonPublicFilter(btn.isSelected))
-                        .bind(to: GlobalFilterReactor.sharedInstance.action)
-                        .disposed(by: obj.disposeBag)
-                    
-                    if obj.isDirectChange {
-                        obj.saveFilter()
-                    }
-                    
-                    Observable.just(GlobalFilterReactor.Action.shouldChanged)
-                        .bind(to: GlobalFilterReactor.sharedInstance.action)
-                        .disposed(by: obj.disposeBag)
-                    
-                }.disposed(by: self.disposeBag)
-            
-            GlobalFilterReactor.sharedInstance.state.compactMap { $0.filterModel.isNonPublic }
-                .asDriver(onErrorJustReturn: false)
-                .drive(with: self) { obj, isSelected in
-                    btn.isSelected = isSelected
-                    imgView.tintColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-                    titleLbl.textColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-                }.disposed(by: self.disposeBag)
-        }
+        btn.rx.tap
+            .asDriver()
+            .drive(with: self) { obj, _ in
+                btn.isSelected = !btn.isSelected
+                accessTypeFilter.isSelected = btn.isSelected
+                Observable.just(FilterReactor.Action.setAcessTypeFilter(accessTypeFilter))
+                    .bind(to: reactor.action)
+                    .disposed(by: self.disposeBag)
+            }
+            .disposed(by: self.disposeBag)
+
+        reactor.state.compactMap { $0.accessType }
+            .filter { $0.isEqual(accessTypeFilter) }
+            .asDriver(onErrorJustReturn: OpenFilter(isSelected: true))
+            .drive(with: self) { obj, type in
+                imgView.tintColor = type.displayImageColor
+            }.disposed(by: self.disposeBag)
         
         return view
     }
-    
-    internal func shouldChanged() -> Bool {
-        let isPublic = GlobalFilterReactor.sharedInstance.currentState.isPublic
-        let isNonPublic = GlobalFilterReactor.sharedInstance.currentState.isNonPublic
-        
-        return (isPublic != FilterManager.sharedInstance.filter.isPublic)
-        || (isNonPublic != FilterManager.sharedInstance.filter.isNonPublic)
-    }
+            
+//    internal func shouldChanged() -> Bool {
+//        let isPublic = GlobalFilterReactor.sharedInstance.currentState.isPublic
+//        let isNonPublic = GlobalFilterReactor.sharedInstance.currentState.isNonPublic
+//
+//        return (isPublic != FilterManager.sharedInstance.filter.isPublic)
+//        || (isNonPublic != FilterManager.sharedInstance.filter.isNonPublic)
+//    }
 }
 
 extension NewFilterAccessView: FilterButtonAction {
     func saveFilter() {
-//        let savePublicChargerStream = Observable.of(GlobalFilterReactor.Action.setAccessFilter((.publicCharger, GlobalFilterReactor.sharedInstance.currentState.isPublic)))
-//        let saveNonPublicChargerStream = Observable.of(GlobalFilterReactor.Action.setAccessFilter((.nonePublicCharger, GlobalFilterReactor.sharedInstance.currentState.isNonPublic)))
-//
-//        Observable.concat(savePublicChargerStream, saveNonPublicChargerStream)
-//            .bind(to: GlobalFilterReactor.sharedInstance.action)
-//            .disposed(by: self.disposeBag)
+        let filterModel = GlobalFilterReactor.sharedInstance.currentState.filterModel
+        Observable.of(GlobalFilterReactor.Action.saveFilter(filterModel))
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
     }
     
     func resetFilter() {
-//        let resetPublicChargerStream = Observable.of(GlobalFilterReactor.Action.changedAccessFilter((.publicCharger, true)))
-//        let resetNonPublicChargerStream = Observable.of(GlobalFilterReactor.Action.changedAccessFilter((.nonePublicCharger, true)))
-//
-//        Observable.concat([resetPublicChargerStream, resetNonPublicChargerStream])
-//            .bind(to: GlobalFilterReactor.sharedInstance.action)
-//            .disposed(by: self.disposeBag)
+        let resetModel = GlobalFilterReactor.sharedInstance.initialState.resetFilterModel
+        Observable.just(GlobalFilterReactor.Action.savePlaceFilter(resetModel))
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
     }
     
     func revertFilter() {
