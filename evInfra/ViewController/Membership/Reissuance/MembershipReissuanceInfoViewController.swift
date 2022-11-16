@@ -32,7 +32,7 @@ internal final class MembershipReissuanceInfoViewController: CommonBaseViewContr
     
     private lazy var totalView = UIView()
     private lazy var guideStrTopLbl = UILabel().then {        
-        $0.text = "EV Pay카드 배송 정보를 입력해주세요"
+        $0.text = "EV Pay 카드 배송 정보를 입력해주세요"
         $0.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         $0.textColor = UIColor(named: "content-primary")
     }
@@ -284,8 +284,8 @@ internal final class MembershipReissuanceInfoViewController: CommonBaseViewContr
             .asDriver(onErrorJustReturn: ())
             .drive(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                let popupModel = PopupModel(title: "EV Pay카드 배송 정보 확인",
-                                            message: "수령인 : \(self.nameTf.text ?? "")\n주소 : \(self.addressTf.text ?? "") \(self.detailAddressTf.text ?? "")\n\n위 주소로 EV Pay카드를 발급하시겠습니까?",
+                let popupModel = PopupModel(title: "EV Pay 카드 배송 정보 확인",
+                                            message: "수령인 : \(self.nameTf.text ?? "")\n주소 : \(self.addressTf.text ?? "") \(self.detailAddressTf.text ?? "")\n\n위 주소로 EV Pay 카드를 발급하시겠습니까?",
                                             confirmBtnTitle: "네", cancelBtnTitle: "아니오",
                                             confirmBtnAction: { [weak self] in
                     guard let self = self else { return }
@@ -335,7 +335,7 @@ internal final class MembershipReissuanceInfoViewController: CommonBaseViewContr
                 let mapStoryboard = UIStoryboard(name : "Map", bundle: nil)
                 let saVC = mapStoryboard.instantiateViewController(withIdentifier: "SearchAddressViewController") as! SearchAddressViewController
                 saVC.searchAddressDelegate = self
-                self.navigationController?.push(viewController: saVC)
+                GlobalDefine.shared.mainNavi?.push(viewController: saVC)
             })
             .disposed(by: self.disposeBag)
         

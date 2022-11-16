@@ -8,14 +8,14 @@
 
 import UIKit
 import SwiftyJSON
-import Material
 import M13Checkbox
 
 protocol RepaymentListDelegate: AnyObject {
     func onRepaySuccess()
     func onRepayFail()
 }
-class RepayListViewController: UIViewController, MyPayRegisterViewDelegate, RepaymentResultDelegate {
+
+internal final class RepayListViewController: UIViewController, MyPayRegisterViewDelegate, RepaymentResultDelegate {
     
     private lazy var customNaviBar = CommonNaviView().then {
         $0.backgroundColor = Colors.backgroundPrimary.color
@@ -216,10 +216,11 @@ class RepayListViewController: UIViewController, MyPayRegisterViewDelegate, Repa
         let dialogMessage = UIAlertController(title: "카드를 변경하시겠습니까?", message: "카드 변경 진행 시, 변경 완료 후 기존에 등록된 카드는 삭제됩니다. ", preferredStyle: .alert)
         let ok = UIAlertAction(title: "확인", style: .default, handler: {(ACTION) -> Void in
             AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "미수금 화면")
-            let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
-            let payRegistVC = memberStoryboard.instantiateViewController(withIdentifier: "MyPayRegisterViewController") as! MyPayRegisterViewController
-            payRegistVC.myPayRegisterViewDelegate = self
-            self.navigationController?.push(viewController: payRegistVC)
+            
+            let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: MyPayRegisterViewController.self)
+            viewcon.myPayRegisterViewDelegate = self
+            
+            GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
         })
         let cancel = UIAlertAction(title: "취소", style: .cancel, handler:{ (ACTION) -> Void in
             self.dismiss(animated: true, completion: nil)

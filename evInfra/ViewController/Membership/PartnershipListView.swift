@@ -13,10 +13,11 @@ import EasyTipView
 
 protocol PartnershipListViewDelegate: AnyObject {
     func addNewPartnership()
-    func showEvinfraMembershipInfo(info : MemberPartnershipInfo)    
+    func showEvinfraMembershipInfo(info : MembershipCardInfo)
     func moveMembershipUseGuideView()
-    func moveReissuanceView(info: MemberPartnershipInfo)
+    func moveReissuanceView(info: MembershipCardInfo)
     func paymentStatusInfo() -> PaymentStatus
+    func showShipmentStatusView()
 }
 
 internal final class PartnershipListView : UIView {
@@ -26,8 +27,6 @@ internal final class PartnershipListView : UIView {
     @IBOutlet var viewEvinfraList: UIView!
     @IBOutlet var labelCardStatus: UILabel!
     @IBOutlet var labelCardNum: UILabel!
-    @IBOutlet var labelCarNo: UILabel!
-    @IBOutlet var labelContrDate: UILabel!
     @IBOutlet var viewAddBtn: UIView!
     @IBOutlet var btnAddCard: UIImageView!
     @IBOutlet var membershipUseGuideBtn: UIButton!
@@ -35,14 +34,33 @@ internal final class PartnershipListView : UIView {
     @IBOutlet var membershipUseGuideLbl: UILabel!
     @IBOutlet var reissuanceView: UIView!
     @IBOutlet var reissuanceLbl: UILabel!
+    @IBOutlet var evPayGuideArrow: UIView!
     
+    private lazy var evPayGuideArrowView = ChevronArrow(.size20(.right)).then {
+        $0.IBimageColor = Colors.contentTertiary.color
+    }
+        
+    private lazy var shipmentStatusArrowView = ChevronArrow.init(.size20(.right)).then {
+        $0.IBimageColor = Colors.backgroundAlwaysLight.color
+    }
     
+    private lazy var presentShipmentViewBtn = UIButton()
+    
+    private var cardNoTooltipView = TooltipView(configure: TooltipView.Configure(tipLeftMargin: 8,
+                                                                                 tipDirection: .bottom,
+                                                                                 maxWidth: 233,
+                                                                                 font: .systemFont(ofSize: 16, weight: .regular))).then {
+        $0.isHidden = true
+    }
+    
+    private var tipView = EasyTipView(text: "")
+        
     // MARK: VARIABLE
     
     internal weak var delegate: PartnershipListViewDelegate?
-    internal var navi: UINavigationController = UINavigationController()
+    internal var fromViewType: MembershipCardViewController.FromViewType = .none
     
-    private var evInfraInfo : MemberPartnershipInfo = MemberPartnershipInfo(JSON.null)
+    private var evInfraInfo: MembershipCardInfo = MembershipCardInfo(JSON.null)
     private var disposebag = DisposeBag()
     
     // MARK: SYSTEM FUNC
@@ -63,16 +81,41 @@ internal final class PartnershipListView : UIView {
         addSubview(view)
         initView()
         
-        membershipUseGuideLbl.attributedText = NSAttributedString(string: "EV Pay카드 사용방법이 궁금하신가요?", attributes:
-                                                                    [.underlineStyle: NSUnderlineStyle.single.rawValue])
+        evPayGuideArrow.addSubview(evPayGuideArrowView)
+        evPayGuideArrowView.snp.makeConstraints {
+            $0.center.equalToSuperview()
+            $0.width.height.equalTo(20)
+        }
         
+        self.addSubview(shipmentStatusArrowView)
+        shipmentStatusArrowView.snp.makeConstraints {
+            $0.leading.equalTo(labelCardStatus.snp.trailing)
+            $0.centerY.equalTo(labelCardStatus.snp.centerY)
+            $0.width.height.equalTo(20)
+        }
+        
+        self.addSubview(presentShipmentViewBtn)
+        presentShipmentViewBtn.snp.makeConstraints {
+            $0.leading.equalTo(labelCardStatus.snp.leading)
+            $0.height.equalTo(labelCardStatus.snp.height)
+            $0.trailing.equalTo(shipmentStatusArrowView.snp.trailing)
+            $0.centerY.equalTo(labelCardStatus.snp.centerY)
+        }
+        
+        presentShipmentViewBtn.rx.tap
+            .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
+            .asDriver(onErrorJustReturn: ())
+            .drive(with: self) { obj, _ in
+                obj.delegate?.showShipmentStatusView()
+            }
+            .disposed(by: self.disposebag)
+                        
         membershipUseGuideBtn.rx.tap
             .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
             .asDriver(onErrorJustReturn: ())
-            .drive(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                self.delegate?.moveMembershipUseGuideView()
-            })
+            .drive(with: self) { obj, _ in
+                obj.delegate?.moveMembershipUseGuideView()
+            }
             .disposed(by: self.disposebag)
         
         reissuanceBtn.rx.tap
@@ -109,24 +152,23 @@ internal final class PartnershipListView : UIView {
                                 let popupModel = PopupModel(title: "결제카드 오류 안내",
                                                             message: "현재 고객님의 결제 카드에 오류가 발생했어요. 오류 발생 시 원활한 서비스 이용을 할 수 없으니 다른 카드로 변경해주세요.",
                                                             confirmBtnTitle: "결제카드 변경하기",
-                                                            confirmBtnAction: { [weak self] in
-                                    guard let self = self else { return }
-                                    AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "EVI Pay카드 관리 결제카드 등록 오류")
+                                                            confirmBtnAction: {                                     
+                                    AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "EVI Pay 카드 관리 결제카드 등록 오류")
                                     let memberStoryboard = UIStoryboard(name : "Member", bundle: nil)
                                     let myPayInfoVC = memberStoryboard.instantiateViewController(ofType: MyPayinfoViewController.self)
-                                    self.navi.push(viewController: myPayInfoVC)
+                                    GlobalDefine.shared.mainNavi?.push(viewController: myPayInfoVC)
                                 })
 
                                 let popup = ConfirmPopupViewController(model: popupModel)
                                                             
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                                    self.navi.present(popup, animated: false, completion: nil)
+                                    GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
                                 })
                                                     
                             case .PAY_DEBTOR_USER: // 돈안낸 유저
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
                                     let paymentVC = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: RepayListViewController.self)
-                                    self.navi.push(viewController: paymentVC)
+                                    GlobalDefine.shared.mainNavi?.push(viewController: paymentVC)
                                 })
                                 
                             case .PAY_FINE_USER: // 정상 유저
@@ -139,7 +181,7 @@ internal final class PartnershipListView : UIView {
                                 let popup = ConfirmPopupViewController(model: popupModel)
                                                                                         
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                                    self.navi.present(popup, animated: false, completion: nil)
+                                    GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
                                 })
                                                     
                             default: break
@@ -163,22 +205,38 @@ internal final class PartnershipListView : UIView {
         return view
     }
     
-    func showInfoView(info : MemberPartnershipInfo) {
+    internal func showInfoView(info : MembershipCardInfo) {
         evInfraInfo = info
         viewEvinfraList.isHidden = false
-        labelCardStatus.text = info.displayStatusDescription
-        reissuanceLbl.textColor = info.isReissuance ? UIColor(named: "nt-9"): UIColor(named: "nt-3")
+        labelCardStatus.text = info.condition.convertStatusType.toString
+        shipmentStatusArrowView.isHidden = info.condition.convertStatusType.toString.isEmpty
+        reissuanceLbl.textColor = info.isReissuance ? Colors.nt9.color: Colors.nt3.color                        
+        labelCardNum.text = info.displayCardNo
         
-        guard let _cardNo = info.cardNo else { return }
-        let modString = _cardNo.replaceAll(of : "(\\d{4})(?=\\d)", with : "$1-")
-        labelCardNum.text = modString
-                        
-        if info.cardStatusType == .sipping {
+        if info.condition.convertStatusType == .sendReady, !MemberManager.shared.isShowMembershipCardCompleteTooltip {
+            cardNoTooltipView.isHidden = false
+            
+            self.addSubview(cardNoTooltipView)
+            cardNoTooltipView.snp.makeConstraints {
+                $0.leading.equalTo(labelCardNum.snp.leading)
+                $0.width.equalTo(233)
+                $0.bottom.equalTo(labelCardNum.snp.top).offset(-8)
+                $0.height.equalTo(69)
+            }
+        
+            cardNoTooltipView.show(message: "GS, 환경부 제외 충전소에서\n카드 번호로 바로 충전할 수 있어요!")
+            
+            MemberManager.shared.isShowMembershipCardCompleteTooltip = true
+        } else {
+            cardNoTooltipView.dismiss()
+        }
+                                                        
+        if info.condition.convertStatusType == .sending {
             _ = viewEvinfraList.subviews.compactMap { $0 as? EasyTipView }.first?.removeFromSuperview()
                                     
             var preferences = EasyTipView.Preferences()
-            preferences.drawing.backgroundColor = UIColor(named: "background-always-dark")!
-            preferences.drawing.foregroundColor = UIColor(named: "content-on-color")!
+            preferences.drawing.backgroundColor = Colors.backgroundAlwaysDark.color
+            preferences.drawing.foregroundColor = Colors.contentOnColor.color
             preferences.drawing.textAlignment = NSTextAlignment.natural
             
             preferences.drawing.arrowPosition = .bottom
@@ -188,13 +246,14 @@ internal final class PartnershipListView : UIView {
             preferences.animating.showInitialAlpha = 0
             preferences.animating.showDuration = 1
             preferences.animating.dismissDuration = 1
-                                 
+                        
             guard !UserDefault().readBool(key: UserDefault.Key.IS_HIDDEN_DELEVERY_COMPLETE_TOOLTIP) else { return }
             let text = "영업일 기준 3~5일 뒤에\n우편함을 확인해보세요! 📮✉️"
-            EasyTipView.show(forView: self.labelCardStatus,
-                             withinSuperview: self.viewEvinfraList,
-                text: text,
-                             preferences: preferences, delegate: self)
+            self.tipView = EasyTipView(text: text, preferences: preferences, delegate: self)
+            self.tipView.show(forView: self.labelCardStatus, withinSuperview: self.viewEvinfraList)
+            
+        } else {
+            self.tipView.dismiss()
         }
     }
     

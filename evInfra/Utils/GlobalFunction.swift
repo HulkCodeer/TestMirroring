@@ -118,5 +118,5 @@ internal final class GlobalFunctionSwift {
             return _vc
         }
         return nil
-    }
+    }        
 }

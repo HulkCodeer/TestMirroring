@@ -6,11 +6,7 @@
 //  Copyright © 2019 soft-berry. All rights reserved.
 //
 
-import Foundation
-
 import UIKit
-import M13Checkbox
-import Material
 import SwiftyJSON
 import RxSwift
 
@@ -117,7 +113,7 @@ internal final class PointViewController: UIViewController {
             .drive(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 let viewcon = PointUseGuideViewController()
-                self.navigationController?.push(viewController: viewcon)
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             })
             .disposed(by: self.disposeBag)
 
@@ -147,7 +143,7 @@ internal final class PointViewController: UIViewController {
     @objc
     fileprivate func handleSettingButton() {
         let preUsePointVC = self.storyboard?.instantiateViewController(withIdentifier: "PreUsePointViewController") as! PreUsePointViewController
-        navigationController?.push(viewController: preUsePointVC)
+        GlobalDefine.shared.mainNavi?.push(viewController: preUsePointVC)
     }
     
     // Get all berry

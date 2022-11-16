@@ -21,7 +21,7 @@ extension String {
         }
     }
     
-    func toDate(dateFormat: DateConstants) -> Date? {
+    func toDate(dateFormat: Constants.DateConstants) -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = dateFormat.rawValue
         let date: Date? = dateFormatter.date(from: self)
@@ -149,5 +149,27 @@ extension NSMutableAttributedString {
         attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 16, weight: .bold), range: range)
         
         return attributedString
+    }
+    
+    func attributedString(text: String, font: UIFont, textColor: UIColor) {
+        _ = self.string.getArrayAfterRegex(regex: text)
+            .map { NSRange($0, in: self.string) }
+            .map {
+                self.setAttributes(
+                    [.font: font, .foregroundColor: textColor],
+                    range: $0)
+            }
+    }
+    
+    func attributedString(text: [String], font: [UIFont], textColor: [UIColor]) {
+        for (index, element) in text.enumerated() {
+            _ = self.string.getArrayAfterRegex(regex: element)
+                .map { NSRange($0, in: self.string) }
+                .map {
+                    self.setAttributes(
+                        [.font: font[index], .foregroundColor: textColor[index]],
+                        range: $0)
+                }
+        }
     }
 }

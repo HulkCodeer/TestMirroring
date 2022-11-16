@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -183,7 +183,7 @@
                                                 </constraints>
                                                 <prototypes>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="PaymentTableViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PaymentTableViewCell" id="uFe-Wa-nGS" customClass="PaymentTableViewCell" customModule="evInfra" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="50" width="343" height="71.5"/>
+                                                        <rect key="frame" x="0.0" y="44.5" width="343" height="71.5"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="uFe-Wa-nGS" id="EhF-Ff-ZWq">
                                                             <rect key="frame" x="0.0" y="0.0" width="343" height="71.5"/>
@@ -262,8 +262,8 @@
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IRQ-4p-k8i">
                                                         <rect key="frame" x="0.0" y="49" width="343" height="167.5"/>
-                                                        <string key="text">- 미수금 발생 시, 충전 및 EV Pay카드 사용이 제한됩니다. 
-- 미수금 결제 완료 시, 충전 제한 및 EV Pay카드 제한이 풀립니다. 
+                                                        <string key="text">- 미수금 발생 시, 충전 및 EV Pay 카드 사용이 제한됩니다. 
+- 미수금 결제 완료 시, 충전 제한 및 EV Pay 카드 제한이 풀립니다. 
 
 - 자세한 충전 내역은 좌측메뉴 &gt; 마이페이지 &gt; EV Pay &gt; 충전이력 조회 메뉴에서 확인 가능합니다. 
 
@@ -1762,7 +1762,7 @@
         <image name="icon_refresh_sm" width="20" height="20"/>
         <image name="qr_box" width="285" height="284"/>
         <namedColor name="background-positive">
-            <color red="0.28235294117647058" green="0.83529411764705885" blue="0.59215686274509804" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.28200000524520874" green="0.83499997854232788" blue="0.59200000762939453" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="background-primary">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1777,7 +1777,7 @@
             <color red="0.6705882352941176" green="0.67450980392156867" blue="0.68627450980392157" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="content-negative">
-            <color red="0.93333333333333335" green="0.15294117647058825" blue="0.21568627450980393" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.93300002813339233" green="0.15299999713897705" blue="0.21600000560283661" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="content-on-color">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

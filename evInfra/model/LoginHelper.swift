@@ -11,7 +11,7 @@ import SwiftyJSON
 import AuthenticationServices // apple login
 import RxSwift
 
-protocol LoginHelperDelegate: class {
+protocol LoginHelperDelegate: AnyObject {
     var loginViewController: UIViewController { get }
     
     func successLogin()

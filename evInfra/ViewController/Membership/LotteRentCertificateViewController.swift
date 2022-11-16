@@ -146,7 +146,7 @@ class LotteRentCertificateViewController : UIViewController,
         resultVC.showCallBtn = callBtn
         resultVC.message = msg
         resultVC.delegate = self
-        self.navigationController?.push(viewController: resultVC)
+        GlobalDefine.shared.mainNavi?.push(viewController: resultVC)
     }
     
     func onConfirmBtnPressed(code: Int) {
@@ -189,10 +189,9 @@ class LotteRentCertificateViewController : UIViewController,
     
     func moveToMyPayRegist() {
         AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "롯데 렌트카 화면")
-        let mainStoryboard = UIStoryboard(name: "Member", bundle: nil)
-        let payRegistVC = mainStoryboard.instantiateViewController(withIdentifier: "MyPayRegisterViewController") as! MyPayRegisterViewController
-        payRegistVC.myPayRegisterViewDelegate = self
-        navigationController?.push(viewController: payRegistVC)
+        let viewcon = UIStoryboard(name: "Member", bundle: nil).instantiateViewController(ofType: MyPayRegisterViewController.self) 
+        viewcon.myPayRegisterViewDelegate = self
+        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
     }
     
     func finishRegisterResult(json: JSON) {

@@ -259,6 +259,15 @@ internal final class MemberManager {
             return UserDefault().readBool(key: UserDefault.Key.IS_SHOW_BOTTOM_MENU_EVPAY_TOOLTIP)
         }
     }
+    
+    internal var isShowMembershipCardCompleteTooltip: Bool {
+        set {
+            UserDefault().saveBool(key: UserDefault.Key.IS_SHOW_MEMBERSHIPCARD_COMPLETE_TOOLTIP, value: newValue)
+        }
+        get {
+            return UserDefault().readBool(key: UserDefault.Key.IS_SHOW_MEMBERSHIPCARD_COMPLETE_TOOLTIP)
+        }
+    }
             
     func setData(data: JSON) {
         if data["mb_id"].stringValue.elementsEqual("") {

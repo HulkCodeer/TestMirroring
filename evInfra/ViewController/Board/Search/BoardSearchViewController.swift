@@ -272,6 +272,7 @@ extension BoardSearchViewController: UITableViewDataSource {
                     guard let emptyTableViewCell = tableView.dequeueReusableCell(withIdentifier: "EmptyTableViewCell", for: indexPath) as? EmptyTableViewCell else { return UITableViewCell() }
                     emptyTableViewCell.configure(isSearchViewType: .Keyword)
                     emptyTableViewCell.selectionStyle = .none
+                    emptyTableViewCell.isUserInteractionEnabled = false
                     return emptyTableViewCell
                 } else {
                     guard let recentKeywordCell = tableView.dequeueReusableCell(withIdentifier: "RecentKeywordTableViewCell", for: indexPath) as? RecentKeywordTableViewCell else { return UITableViewCell() }
@@ -374,7 +375,7 @@ extension BoardSearchViewController: UITableViewDelegate {
                     boardDetailTableViewController.document_srl = documentSRL
                     boardDetailTableViewController.isFromStationDetailView = false
                     
-                    self.navigationController?.push(viewController: boardDetailTableViewController)
+                    GlobalDefine.shared.mainNavi?.push(viewController: boardDetailTableViewController)
                 }
             } else {
                 guard let keyword = self.recentKeywords[indexPath.row].title else { return }

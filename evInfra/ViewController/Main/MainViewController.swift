@@ -16,7 +16,6 @@ import NMapsMap
 import SnapKit
 import RxSwift
 import RxCocoa
-import EasyTipView
 import AVFoundation
 import ReactorKit
 import RxViewController
@@ -37,12 +36,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     @IBOutlet weak var myLocationButton: UIButton!
     @IBOutlet weak var reNewButton: UIButton!
     
-    private lazy var chargePriceContentStackView = UIStackView().then {
-        $0.axis = .horizontal
-        $0.distribution = .fillProportionally
-        $0.alignment = .center
-        $0.spacing = 2
-
+    private lazy var chargePriceContentView = UIView().then {
         $0.backgroundColor = Colors.backgroundPrimary.color
         $0.layer.cornerRadius = 17
         $0.clipsToBounds = true
@@ -52,27 +46,17 @@ internal final class MainViewController: UIViewController, StoryboardView {
         $0.layer.shadowOpacity = 0.5
         $0.layer.shadowOffset = CGSize(width: 0.5, height: 2)
         $0.layer.masksToBounds = false
-        
-        let leadingPadding = UIView()
-        let trailingPadding = UIView()
-        
-        $0.addArrangedSubview(leadingPadding)
-        leadingPadding.snp.makeConstraints {
-            $0.width.equalTo(12)
-        }
-        $0.addArrangedSubview(trailingPadding)
-        trailingPadding.snp.makeConstraints {
-            $0.width.equalTo(14)
-        }
     }
+
     private lazy var chargePriceIcon = UIImageView().then {
-        $0.image = Icons.iconCoinFillSm.image
+        $0.image = Icons.coinFillSm.image
         $0.contentMode = .scaleAspectFill
+        $0.tintColor = Colors.nt6.color
     }
     private lazy var chargePriceLabel = UILabel().then {
         $0.text = "충전 요금 안내"
         $0.textColor = Colors.nt6.color
-        $0.font = .systemFont(ofSize: 14)
+        $0.font = .systemFont(ofSize: 14, weight: .semibold)
     }
     private lazy var chargePriceButton = UIButton()
     
@@ -133,7 +117,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
 
     private lazy var naverMapView = NaverMapView(frame: .zero).then {
         $0.mapView.addCameraDelegate(delegate: self)
-        $0.mapView.touchDelegate = self
+        $0.mapView.touchDelegate = self    
         ChargerManager.sharedInstance.delegate = self
     }
     var mapView: NMFMapView { naverMapView.mapView }
@@ -153,9 +137,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
     private var canIgnoreJejuPush = true
 
     internal var disposeBag = DisposeBag()
-    
-    private var evPayTipView = EasyTipView(text: "")
-    
+        
     private var bottomEvPaytooltipView: TooltipView?
     
     deinit {
@@ -177,7 +159,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         prepareNotificationCenter()
         prepareRouteView()
         prepareClustering()
-        
+            
         requestStationInfo()
         
         prepareCalloutLayer()
@@ -263,15 +245,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         super.viewWillDisappear(true)
         // removeObserver 하면 안됨. addObserver를 viewdidload에서 함
         
-        if !MemberManager.shared.isShowEvPayTooltip && !FCMManager.sharedInstance.originalMemberId.isEmpty {
-            self.evPayTipView.dismiss()
-            MemberManager.shared.isShowEvPayTooltip = true
-        }
-        
-        if !FCMManager.sharedInstance.originalMemberId.isEmpty {
-            dismissBottomMenuTooltip()
-            MemberManager.shared.isShowBottomMenuEVPayTooltip = true
-        }
+        dismissBottomMenuTooltip()
     }
     
     // MARK: UI
@@ -290,11 +264,12 @@ internal final class MainViewController: UIViewController, StoryboardView {
             $0.height.equalTo(62)
         }
         
-        view.addSubview(chargePriceContentStackView)
-        chargePriceContentStackView.snp.makeConstraints {
+        view.addSubview(chargePriceContentView)
+        chargePriceContentView.snp.makeConstraints {
             $0.bottom.equalTo(bottomMenuView.snp.top).inset(-12)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(34)
+            $0.width.equalTo(134)
         }
         
         bottomMenuView.addSubview(bottomMenuStackView)
@@ -307,13 +282,20 @@ internal final class MainViewController: UIViewController, StoryboardView {
         filterStackView.addArrangedSubview(filterBarView)
         filterStackView.addArrangedSubview(filterContainerView)
         
-        chargePriceContentStackView.insertArrangedSubview(chargePriceIcon, at: 1)
+        chargePriceContentView.addSubview(chargePriceIcon)
         chargePriceIcon.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.equalToSuperview().inset(14)
             $0.size.equalTo(20)
         }
-        chargePriceContentStackView.insertArrangedSubview(chargePriceLabel, at: 2)
         
-        chargePriceContentStackView.addSubview(chargePriceButton)
+        chargePriceContentView.addSubview(chargePriceLabel)
+        chargePriceLabel.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.equalTo(chargePriceIcon.snp.trailing).offset(4)
+        }
+        
+        chargePriceContentView.addSubview(chargePriceButton)
         chargePriceButton.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -407,7 +389,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
             }
         }
         
-        if !MemberManager.shared.isShowBottomMenuEVPayTooltip {
+        if !MemberManager.shared.isShowBottomMenuEVPayTooltip && !FCMManager.sharedInstance.originalMemberId.isEmpty {
             Observable.just(MainReactor.Action.openBottomEvPayTooltip)
                 .bind(to: reactor.action)
                 .disposed(by: disposeBag)
@@ -490,29 +472,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 GlobalDefine.shared.mainNavi?.push(viewController: chargerFilterViewController)
             }
             .disposed(by: self.disposeBag)
-        
-        reactor.state.compactMap { $0.isShowEvPayToolTip }
-            .asDriver(onErrorJustReturn: false)
-            .drive(with: self) { obj, isShow in
-                guard isShow else { return }
-                
-                var evPayPreferences = EasyTipView.Preferences()
-                        
-                evPayPreferences.drawing.backgroundColor = Colors.backgroundAlwaysDark.color
-                evPayPreferences.drawing.foregroundColor = Colors.backgroundSecondary.color
-                evPayPreferences.drawing.textAlignment = NSTextAlignment.left
 
-                evPayPreferences.drawing.arrowPosition = .top
-                evPayPreferences.animating.showInitialAlpha = 1
-                evPayPreferences.animating.showDuration = 1
-                evPayPreferences.animating.dismissDuration = 1
-                evPayPreferences.positioning.maxWidth = 227
-
-                let evPayTiptext = "EV Pay 카드로 충전 가능한 충전소만\n볼 수 있어요"
-                self.evPayTipView = EasyTipView(text: evPayTiptext, preferences: evPayPreferences)
-//                self.evPayTipView.show(forView: self.filterBarView.evPayView, withinSuperview: self.view)
-            }
-            .disposed(by: self.disposeBag)
     }
     
     // MARK: - bindAction
@@ -655,12 +615,11 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 owner.customNaviBar.setMenuBadge(hasBadge: hasBadge)
             }
             .disposed(by: disposeBag)
-        
+
         reactor.state.compactMap { $0.isShowBottomEvPayToolTip }
             .asDriver(onErrorJustReturn: true)
             .drive(with: self) { obj, isShow in
                 obj.bottomEvPaytooltipView?.isHidden = !isShow
-                MemberManager.shared.isShowBottomMenuEVPayTooltip = !isShow
             }
             .disposed(by: disposeBag)
         
@@ -690,7 +649,10 @@ internal final class MainViewController: UIViewController, StoryboardView {
         reactor.state.compactMap { $0.isHideSearchWay }
             .asDriver(onErrorJustReturn: true)
             .drive(with: self) { owner, isHideSearchWay in
-                owner.clusterManager?.isRouteMode = !isHideSearchWay
+                if isHideSearchWay {    // 길찾기화면 숨김 -> 길찾기모드 종료.
+                    owner.clusterManager?.isRouteMode = false
+                }
+                
                 owner.customNaviBar.hideSearchWayMode(isHideSearchWay)
                 
                 RouteEvent.clickNavigation.logEvent(property: ["onOrOff": "\(!isHideSearchWay ? "On" : "Off")"])
@@ -711,20 +673,20 @@ internal final class MainViewController: UIViewController, StoryboardView {
             .map { _ in return String() }
             .bind(to: searchWayView.startTextField.rx.text)
             .disposed(by: disposeBag)
+        
         reactor.state.compactMap { $0.isClearSearchWayPoint }
             .filter { $0.1 == .endPoint }
             .map { _ in return String() }
             .bind(to: searchWayView.endTextField.rx.text)
             .disposed(by: disposeBag)
-        
-        
+                
         reactor.state.compactMap { $0.isHideDestinationResult }
             .filter { $0 == true }
             .asDriver(onErrorJustReturn: true)
             .drive(with: self) { owner, isHideDestination in
-                UIView.animate(withDuration: 0.5, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn, animations: {() -> Void in
+                UIView.animate(withDuration: 0.5, delay: 0.0, options: UIView.AnimationOptions.curveEaseIn) {
                     self.destinationResultTableView.isHidden = true
-                }, completion: nil)
+                }
             }
             .disposed(by: disposeBag)
         
@@ -732,9 +694,9 @@ internal final class MainViewController: UIViewController, StoryboardView {
             .filter { $0 == false }
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { owner, isHideDestination in
-                UIView.animate(withDuration: 0.5, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: {() -> Void in
+                UIView.animate(withDuration: 0.5, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut) {
                     owner.destinationResultTableView.isHidden = false
-                }, completion: nil)
+                }
             }
             .disposed(by: disposeBag)
         
@@ -755,7 +717,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                     
                 owner.setView(view: owner.routeDistanceView, hidden: true)
                 
-                owner.chargePriceContentStackView.isHidden = false
+                owner.chargePriceContentView.isHidden = false
                 owner.bottomMenuView.isHidden = false
                 
                 owner.searchWayView.startTextField.text = String()
@@ -787,69 +749,21 @@ internal final class MainViewController: UIViewController, StoryboardView {
             }
             .disposed(by: disposeBag)
         
-        // check
-        reactor.state.compactMap { $0.chargingType }
-            .asDriver(onErrorJustReturn: (.none))
-            .drive(with: self) { owner, chargingType in
-                owner.defaults.saveBool(
-                    key: UserDefault.Key.HAS_FAILED_PAYMENT,
-                    value: (chargingType == .accountsReceivable))
-                
-                switch chargingType {
-                case .leave:
-                    LoginHelper.shared.logout(completion: { [weak self] success in
-                        if success {
-                            Snackbar().show(message: "회원 탈퇴로 인해 로그아웃 되었습니다.")
+        reactor.state.compactMap { $0.isShowQRMenu }
+            .asDriver(onErrorJustReturn: true)
+            .drive(with: self) { owner, isShow in
+                let status = AVCaptureDevice.authorizationStatus(for: .video)
+                switch status {
+                case .notDetermined, .denied:
+                    AVCaptureDevice.requestAccess(for: .video) { [weak self] grated in
+                        if grated {
+                            self?.movePaymentQRScan()
                         } else {
-                            Snackbar().show(message: "다시 시도해 주세요.")
+                            self?.showAuthAlert()
                         }
-                    })
-
-                default:
-                    break
-                }
-                
-            }
-            .disposed(by: disposeBag)
-        
-        reactor.state.compactMap { $0.qrMenuChargingData }
-            .asDriver(onErrorJustReturn: (.none, nil))
-            .drive(with: self) { owner, chargingData in
-                let (type, chargingID) = chargingData
-                
-                switch type {
-                case .charging:
-                    guard let _chargingID = chargingID?.chargingID else { break }
-                    
-                    let paymentReactor = PaymentStatusReactor(provider: RestApi())
-                    let paymentVC = NewPaymentStatusViewController(reactor: paymentReactor)
-                    paymentVC.chargingId = _chargingID
-                    
-                    GlobalDefine.shared.mainNavi?.push(viewController: paymentVC)
-                    
-                case .none:
-                    let status = AVCaptureDevice.authorizationStatus(for: .video)
-                    switch status {
-                    case .notDetermined, .denied:
-                        AVCaptureDevice.requestAccess(for: .video) { [weak self] grated in
-                            if grated {
-                                self?.movePaymentQRScan()
-                            } else {
-                                self?.showAuthAlert()
-                            }
-                        }
-                    case .authorized:
-                        self.movePaymentQRScan()
-                        
-                    default: break
                     }
-                    
-                case .accountsReceivable:
-                    let paymentStoryboard = UIStoryboard(name : "Payment", bundle: nil)
-                    let repayListViewController = paymentStoryboard.instantiateViewController(ofType: RepayListViewController.self)
-                    repayListViewController.delegate = self
-                    
-                    GlobalDefine.shared.mainNavi?.push(viewController: repayListViewController)
+                case .authorized:
+                    self.movePaymentQRScan()
                     
                 default: break
                 }
@@ -862,20 +776,13 @@ internal final class MainViewController: UIViewController, StoryboardView {
             .drive(with: self) { owner, showType in
                 switch showType {
                 case .evPayGuide:
-                    let guidVC = MembershipGuideViewController()
-                    GlobalDefine.shared.mainNavi?.push(viewController: guidVC)
+                    let viewcon = MembershipGuideViewController()
+                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                     
                 case .evPayManagement:
-                    let membershipStoryboard = UIStoryboard(name : "Membership", bundle: nil)
-                    let membershipCardVC  = membershipStoryboard.instantiateViewController(ofType: MembershipCardViewController.self)
-                    GlobalDefine.shared.mainNavi?.push(viewController: membershipCardVC)
-                    
-                case .accountsReceivable:
-                    let paymentStoryboard = UIStoryboard(name : "Payment", bundle: nil)
-                    let repayListViewController = paymentStoryboard.instantiateViewController(ofType: RepayListViewController.self)
-                    repayListViewController.delegate = self
-                    
-                    GlobalDefine.shared.mainNavi?.push(viewController: repayListViewController)
+                    let reactor = MembershipCardReactor(provider: RestApi())
+                    let viewcon = MembershipCardViewController(reactor: reactor)
+                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 }
             }
             .disposed(by: disposeBag)
@@ -887,13 +794,13 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 case .community:
                     UserDefault().saveInt(key: UserDefault.Key.LAST_FREE_ID, value: Board.sharedInstance.freeBoardId)
                     
-                    let communityBoardViewController = CardBoardViewController(category: .FREE, mode: .FEED)
-                    GlobalDefine.shared.mainNavi?.push(viewController: communityBoardViewController)
+                    let viewcon = CardBoardViewController(category: .FREE, mode: .FEED)
+                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                     
                 case .favorite:
-                    let favoriteViewController = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: FavoriteViewController.self)
-                    favoriteViewController.delegate = self
-                    GlobalDefine.shared.mainNavi?.push(viewController: favoriteViewController, subtype: CATransitionSubtype.fromTop)
+                    let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: FavoriteViewController.self)
+                    viewcon.delegate = self
+                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon, subtype: CATransitionSubtype.fromTop)
                     
                 default:
                     break
@@ -904,10 +811,9 @@ internal final class MainViewController: UIViewController, StoryboardView {
         reactor.state.compactMap { $0.isShowChargePrice }
             .asDriver(onErrorJustReturn: true)
             .drive { _ in
-                let infoStoryboard = UIStoryboard(name : "Info", bundle: nil)
-                let priceInfoViewController: TermsViewController = infoStoryboard.instantiateViewController(ofType: TermsViewController.self)
-                priceInfoViewController.tabIndex = .priceInfo
-                GlobalDefine.shared.mainNavi?.push(viewController: priceInfoViewController)
+                let viewcon = UIStoryboard(name : "Info", bundle: nil).instantiateViewController(ofType: TermsViewController.self)
+                viewcon.tabIndex = .priceInfo
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
             }
             .disposed(by: disposeBag)
     }
@@ -1077,11 +983,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if !MemberManager.shared.isShowEvPayTooltip {
-            MemberManager.shared.isShowEvPayTooltip = true
-            self.evPayTipView.dismiss()
-        }
-
         dismissBottomMenuTooltip()
     }
     
@@ -1290,7 +1191,7 @@ extension MainViewController {
             // 하단 충전소 정보 숨기기
             setView(view: callOutLayer, hidden: true)
             
-            self.chargePriceContentStackView.isHidden = true
+            self.chargePriceContentView.isHidden = true
             self.bottomMenuView.isHidden = true
             
             let bounds = NMGLatLngBounds(southWestLat: startPoint.getLatitude(),
