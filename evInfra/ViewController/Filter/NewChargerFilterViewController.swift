@@ -160,13 +160,8 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
         accessFilterView.bind(reactor: reactor)
         companyFilterView.bind(reactor: reactor)
         
-        switchFilterView.delegate = self
-        typeFilterView.delegate = self
-        speedFilterView.delegate = self
-        roadFilterView.delegate = self
-        placeFilterView.delegate = self
-        accessFilterView.delegate = self
-        companyFilterView.delegate = self
+        speedFilterView.slowSpeedChangeDelegate = self
+        typeFilterView.delegateSlowTypeChange = self
         
         originalModel = FilterReactor.sharedInstance.currentState.filterModel
         
@@ -184,13 +179,6 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
                         Observable.just(FilterReactor.Action.saveFilter(originalModel))
                             .bind(to: FilterReactor.sharedInstance.action)
                             .disposed(by: obj.disposeBag)
-//                        obj.switchFilterView.revertFilter()
-//                        obj.speedFilterView.revertFilter()
-//                        obj.typeFilterView.revertFilter()
-//                        obj.accessFilterView.revertFilter()
-//                        obj.roadFilterView.revertFilter()
-//                        obj.placeFilterView.revertFilter()
-//                        obj.companyFilterView.revertFilter()
 
                         GlobalDefine.shared.mainNavi?.pop()
                     }
@@ -212,17 +200,10 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
                 let cancelBtn = UIAlertAction(title: "취소", style: .default)
                 let okBtn = UIAlertAction(title: "초기화", style: .default) { _ in
                     FilterEvent.clickFilterReset.logEvent()
-//
-//                    obj.switchFilterView.resetFilter()
-//                    obj.speedFilterView.resetFilter()
-//                    obj.typeFilterView.resetFilter()
-//                    obj.accessFilterView.resetFilter()
-//                    obj.roadFilterView.resetFilter()
-//                    obj.placeFilterView.resetFilter()
-//                    obj.companyFilterView.resetFilter()
-                    let resetModel = FilterReactor.sharedInstance.currentState.resetFilterModel
-                    Observable.just(FilterReactor.Action.saveFilter(resetModel))
-                        .bind(to: FilterReactor.sharedInstance.action)
+
+                    let resetModel = GlobalFilterReactor.sharedInstance.currentState.resetFilterModel
+                    Observable.just(GlobalFilterReactor.Action.saveFilter(resetModel))
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                 }
                 var actions = [UIAlertAction]()
@@ -241,16 +222,9 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
             .drive(with: self) { obj, _ in
                 obj.saveBtn.rectBtn.isSelected = !obj.saveBtn.rectBtn.isSelected
                 
-//                obj.switchFilterView.saveFilter()
-//                obj.speedFilterView.saveFilter()
-//                obj.typeFilterView.saveFilter()
-//                obj.accessFilterView.saveFilter()
-//                obj.roadFilterView.saveFilter()
-//                obj.placeFilterView.saveFilter()
-//                obj.companyFilterView.saveFilter()
-                let filterModel = FilterReactor.sharedInstance.currentState.filterModel
-                Observable.just(FilterReactor.Action.saveFilter(filterModel))
-                    .bind(to: FilterReactor.sharedInstance.action)
+                let filterModel = GlobalFilterReactor.sharedInstance.currentState.filterModel
+                Observable.just(GlobalFilterReactor.Action.saveFilter(filterModel))
+                    .bind(to: GlobalFilterReactor.sharedInstance.action)
                     .disposed(by: obj.disposeBag)
                 
                 obj.delegate?.applyFilter()
@@ -260,24 +234,20 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
             }.disposed(by: self.disposeBag)
             
     }
-    
-//    private func shouldChanged() -> Bool {
-//        printLog(out: "switchFilterView.shouldChange() \(switchFilterView.shouldChange())")
-//        printLog(out: "roadFilterView.shouldChanged \(roadFilterView.shouldChanged())")
-//        printLog(out: "accessFilterView.shouldChanged \(accessFilterView.shouldChanged())")
-//        printLog(out: "placeFilterView.shouldChanged() \(placeFilterView.shouldChanged())")
-//        printLog(out: "speedFilterView.shouldChanged() \(speedFilterView.shouldChanged())")
-//        printLog(out: "typeFilterView.shouldChange() \(typeFilterView.shouldChange())")
-//        printLog(out: "companyFilterView.shouldChange() \(companyFilterView.shouldChange())")
-//        return switchFilterView.shouldChange() || roadFilterView.shouldChanged() || accessFilterView.shouldChanged() || placeFilterView.shouldChanged() || speedFilterView.shouldChanged() || typeFilterView.shouldChange() || companyFilterView.shouldChange()
-//    }
 }
 
-extension NewChargerFilterViewController: NewDelegateFilterChange {
-    func changedFilter() {
-        // TODO: change stream
-//        Observable.just(shouldChanged())
-//            .bind(to: saveBtn.rectBtn.rx.isEnabled)
-//            .disposed(by: self.disposeBag)
+// 충전속도에 따른 완속 충전기 타입 세팅
+extension NewChargerFilterViewController: NewDelegateslowSpeedChange {
+    func changedSlowSpeed() {
+        Observable.just(GlobalFilterReactor.Action.loadChargerTypes)
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
+    }
+}
+
+// 완속 충전기 타입에 따른 충전 속도 세팅
+extension NewChargerFilterViewController: NewDelegateSlowTypeChange {
+    func onChangeSlowType(isFastSpeedOn: Bool, isSlowSpeedon: Bool) {
+        speedFilterView.changedSlowTypeSpeed(isFastSpeedOn: isFastSpeedOn, isSlowSpeedOn: isSlowSpeedon)
     }
 }

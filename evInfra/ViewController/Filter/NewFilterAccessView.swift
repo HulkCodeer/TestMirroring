@@ -191,21 +191,17 @@ internal final class NewFilterAccessView: UIView {
 
 extension NewFilterAccessView: FilterButtonAction {
     func saveFilter() {
-//        let savePublicChargerStream = Observable.of(GlobalFilterReactor.Action.setAccessFilter((.publicCharger, GlobalFilterReactor.sharedInstance.currentState.isPublic)))
-//        let saveNonPublicChargerStream = Observable.of(GlobalFilterReactor.Action.setAccessFilter((.nonePublicCharger, GlobalFilterReactor.sharedInstance.currentState.isNonPublic)))
-//
-//        Observable.concat(savePublicChargerStream, saveNonPublicChargerStream)
-//            .bind(to: GlobalFilterReactor.sharedInstance.action)
-//            .disposed(by: self.disposeBag)
+        let filterModel = GlobalFilterReactor.sharedInstance.currentState.filterModel
+        Observable.of(GlobalFilterReactor.Action.saveFilter(filterModel))
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
     }
     
     func resetFilter() {
-//        let resetPublicChargerStream = Observable.of(GlobalFilterReactor.Action.changedAccessFilter((.publicCharger, true)))
-//        let resetNonPublicChargerStream = Observable.of(GlobalFilterReactor.Action.changedAccessFilter((.nonePublicCharger, true)))
-//
-//        Observable.concat([resetPublicChargerStream, resetNonPublicChargerStream])
-//            .bind(to: GlobalFilterReactor.sharedInstance.action)
-//            .disposed(by: self.disposeBag)
+        let resetModel = GlobalFilterReactor.sharedInstance.initialState.resetFilterModel
+        Observable.just(GlobalFilterReactor.Action.savePlaceFilter(resetModel))
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
     }
     
     func revertFilter() {

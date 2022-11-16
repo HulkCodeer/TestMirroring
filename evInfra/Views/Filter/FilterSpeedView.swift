@@ -72,6 +72,7 @@ class FilterSpeedView: UIView {
         FilterManager.sharedInstance.saveSpeedFilter(min: minSpeed, max: maxSpeed)
     }
     
+    // 충전기 타입 완속일때, 충전기 속도 세팅
     func setSlowOn(slowOn: Bool){
         if slowOn && minSpeed > 0 {
             minSpeed = 0;

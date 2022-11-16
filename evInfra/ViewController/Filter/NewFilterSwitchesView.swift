@@ -35,7 +35,7 @@ internal final class NewFilterSwitchesView: UIView {
     }
     
     // MARK: VARIABLES
-    private weak var filterReactor: FilterReactor?
+    private weak var filterReactor: GlobalFilterReactor?
     private var disposeBag = DisposeBag()
     internal weak var delegate: NewDelegateFilterChange?
     
@@ -47,7 +47,7 @@ internal final class NewFilterSwitchesView: UIView {
         super.init(coder: coder)
     }
     
-    func bind(reactor: FilterReactor) {
+    func bind(reactor: GlobalFilterReactor) {
         self.filterReactor = reactor
         self.addSubview(verticalStackView)
         verticalStackView.snp.makeConstraints {
@@ -64,7 +64,7 @@ internal final class NewFilterSwitchesView: UIView {
         }
     }
     
-    private func createSwitchViews(switchType: SwitchType, reactor: FilterReactor) -> UIView {
+    private func createSwitchViews(switchType: SwitchType, reactor: GlobalFilterReactor) -> UIView {
         let view = UIView()
         
         let stackView = UIStackView().then {
@@ -139,9 +139,9 @@ internal final class NewFilterSwitchesView: UIView {
             $0.leading.greaterThanOrEqualTo(stackView.snp.trailing).offset(30)
         }
         
-        let isEvPay = FilterReactor.sharedInstance.currentState.filterModel.isEvPayFilter ?? false
-        let isFavorite = FilterReactor.sharedInstance.currentState.filterModel.isFavoriteFilter ?? false
-        let isRepresentCar = FilterReactor.sharedInstance.currentState.filterModel.isRepresentCarFilter
+        let isEvPay = GlobalFilterReactor.sharedInstance.currentState.filterModel.isEvPayFilter ?? false
+        let isFavorite = GlobalFilterReactor.sharedInstance.currentState.filterModel.isFavoriteFilter ?? false
+        let isRepresentCar = GlobalFilterReactor.sharedInstance.currentState.filterModel.isRepresentCarFilter
         
         switch switchType {
         case .evpay:
@@ -152,28 +152,20 @@ internal final class NewFilterSwitchesView: UIView {
                 .throttle(.milliseconds(800), scheduler: MainScheduler.instance)
                 .asDriver(onErrorJustReturn: false)
                 .drive(with: self) { obj, isOn in
-                    let setEvPayFilterStream = Observable.of(FilterReactor.Action.updateEvPayFilter(isOn))
-                    let loadCompaniesStream = Observable.of(FilterReactor.Action.loadCompanies)
-                    let shouldChangedStream = Observable.of(FilterReactor.Action.shouldChanged)
+                    let setEvPayFilterStream = Observable.of(GlobalFilterReactor.Action.updateEvPayFilter(isOn))
+                    let loadCompaniesStream = Observable.of(GlobalFilterReactor.Action.loadCompanies)
+                    let shouldChangedStream = Observable.of(GlobalFilterReactor.Action.shouldChanged)
 
                     Observable.concat([setEvPayFilterStream, loadCompaniesStream, shouldChangedStream])
-                        .bind(to: FilterReactor.sharedInstance.action)
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                 }.disposed(by: self.disposeBag)
-            
-//            GlobalFilterReactor.sharedInstance.state.compactMap { $0.filterModel.isEvPayFilter }
-//                .asDriver(onErrorJustReturn: false)
-//                .drive(with: self) { obj, isOn in
-//                    printLog(out: "switchview :: \(isOn)")
-//                }
-//                .disposed(by: self.disposeBag)
 
         case .favorite:
-//            isOn = GlobalFilterReactor.sharedInstance.initialState.filterModel.isFavoriteFilter
             switchView.isOn = isFavorite
             
-            Observable.just(FilterReactor.Action.numberOfFavorits)
-                .bind(to: FilterReactor.sharedInstance.action)
+            Observable.just(GlobalFilterReactor.Action.numberOfFavorits)
+                .bind(to: GlobalFilterReactor.sharedInstance.action)
                 .disposed(by: self.disposeBag)
             
             switchView.rx.isOn
@@ -185,55 +177,40 @@ internal final class NewFilterSwitchesView: UIView {
                         MemberManager.shared.tryToLoginCheck { isLogin in
                             guard isLogin else {
                                 MemberManager.shared.showLoginAlert()
-                                Observable.just(FilterReactor.Action.updateFavoriteFilter(false))
-                                    .bind(to: FilterReactor.sharedInstance.action)
+                                Observable.just(GlobalFilterReactor.Action.updateFavoriteFilter(false))
+                                    .bind(to: GlobalFilterReactor.sharedInstance.action)
                                     .disposed(by: obj.disposeBag)
-                                Observable.just(FilterReactor.Action.saveFavoriteFilter(false))
-                                    .bind(to: FilterReactor.sharedInstance.action)
+                                Observable.just(GlobalFilterReactor.Action.saveFavoriteFilter(false))
+                                    .bind(to: GlobalFilterReactor.sharedInstance.action)
                                     .disposed(by: obj.disposeBag)
+                                switchView.isOn = false
                                 return
                             }
                             
-                            let numberOfFavorites = FilterReactor.sharedInstance.currentState.numberOfFavorites ?? 0
+                            let numberOfFavorites = GlobalFilterReactor.sharedInstance.currentState.numberOfFavorites ?? 0
                             if numberOfFavorites == 0 {
-                                // TODO: 토스트 - 해당 필터를 사용하려면 즐겨찾는 충전소를 등록해 보세요.
-                                printLog(out: "TOAST :: 해당 필터를 사용하려면 즐겨찾는 충전소를 등록해 보세요.")
-                                Observable.just(FilterReactor.Action.updateFavoriteFilter(false))
-                                    .bind(to: FilterReactor.sharedInstance.action)
+                                GlobalDefine.shared.mainNavi?.view.makeToast("해당 필터를 사용하려면 즐겨찾는 충전소를 등록해 보세요.", type: .info)
+                                Observable.just(GlobalFilterReactor.Action.updateFavoriteFilter(false))
+                                    .bind(to: GlobalFilterReactor.sharedInstance.action)
                                     .disposed(by: obj.disposeBag)
                             } else {
-                                Observable.just(FilterReactor.Action.updateFavoriteFilter(true))
-                                    .bind(to: FilterReactor.sharedInstance.action)
+                                Observable.just(GlobalFilterReactor.Action.updateFavoriteFilter(true))
+                                    .bind(to: GlobalFilterReactor.sharedInstance.action)
                                     .disposed(by: obj.disposeBag)
-                                obj.delegate?.changedFilter()
                             }
                         }
                     } else {
-                        Observable.just(FilterReactor.Action.updateFavoriteFilter(false))
-                            .bind(to: FilterReactor.sharedInstance.action)
+                        Observable.just(GlobalFilterReactor.Action.updateFavoriteFilter(false))
+                            .bind(to: GlobalFilterReactor.sharedInstance.action)
                             .disposed(by: obj.disposeBag)
-                        obj.delegate?.changedFilter()
                     }
                     
-                    Observable.just(FilterReactor.Action.shouldChanged)
-                        .bind(to: FilterReactor.sharedInstance.action)
+                    Observable.just(GlobalFilterReactor.Action.shouldChanged)
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: self.disposeBag)
                 }.disposed(by: self.disposeBag)
             
-//            GlobalFilterReactor.sharedInstance.state.compactMap { $0.filterModel.isFavoriteFilter }
-//                .asDriver(onErrorJustReturn: false)
-//                .drive(with: self) { obj, isFavoriteFilter in
-//                    MemberManager.shared.tryToLoginCheck { isLogin in
-//                        guard isLogin else {
-//                            switchView.isOn = false
-//                            return
-//                        }
-//                        switchView.isOn = isFavoriteFilter
-//                    }
-//                }.disposed(by: self.viewDisposeBag)
-
         case .representCar:
-//            isOn = GlobalFilterReactor.sharedInstance.initialState.isRepresentCarFilter
             switchView.isOn = isRepresentCar
             
             switchView.rx.isOn
@@ -245,104 +222,54 @@ internal final class NewFilterSwitchesView: UIView {
                         MemberManager.shared.tryToLoginCheck { isLogin in
                             guard isLogin else {
                                 MemberManager.shared.showLoginAlert()
-                                Observable.just(FilterReactor.Action.updateRepresentCarFilter(false))
-                                    .bind(to: FilterReactor.sharedInstance.action)
+                                Observable.just(GlobalFilterReactor.Action.updateRepresentCarFilter(false))
+                                    .bind(to: GlobalFilterReactor.sharedInstance.action)
                                     .disposed(by: obj.disposeBag)
-                                Observable.just(FilterReactor.Action.saveRepresentCarFilter(false))
-                                    .bind(to: FilterReactor.sharedInstance.action)
+                                Observable.just(GlobalFilterReactor.Action.saveRepresentCarFilter(false))
+                                    .bind(to: GlobalFilterReactor.sharedInstance.action)
                                     .disposed(by: obj.disposeBag)
+                                switchView.isOn = false
                                 return
                             }
                             
                             let hasMyCar: Bool = UserDefault().readInt(key: UserDefault.Key.MB_CAR_ID) != 0
                             guard hasMyCar else {
-                                // TODO: 토스트 - 해당 필터를 사용하려면 마이페이지\n> 개인정보 관리에서 대표차량을 등록해 보세요.
-                                printLog(out: "토스트 - 해당 필터를 사용하려면 마이페이지\n> 개인정보 관리에서 대표차량을 등록해 보세요.")
+                                GlobalDefine.shared.mainNavi?.view.makeToast("해당 필터를 사용하려면 마이페이지\n> 개인정보 관리에서 대표차량을 등록해 보세요..", type: .info)
                                 return
                             }
                             
-                            Observable.just(FilterReactor.Action.updateRepresentCarFilter(true))
-                                .bind(to: FilterReactor.sharedInstance.action)
+                            Observable.just(GlobalFilterReactor.Action.updateRepresentCarFilter(true))
+                                .bind(to: GlobalFilterReactor.sharedInstance.action)
                                 .disposed(by: obj.disposeBag)
                             
-                            Observable.just(FilterReactor.Action.loadChargerTypes)
-                                .bind(to: FilterReactor.sharedInstance.action)
+                            Observable.just(GlobalFilterReactor.Action.loadChargerTypes)
+                                .bind(to: GlobalFilterReactor.sharedInstance.action)
                                 .disposed(by: self.disposeBag)
                         }
                     } else {
-                        Observable.just(FilterReactor.Action.updateRepresentCarFilter(false))
-                            .bind(to: FilterReactor.sharedInstance.action)
+                        Observable.just(GlobalFilterReactor.Action.updateRepresentCarFilter(false))
+                            .bind(to: GlobalFilterReactor.sharedInstance.action)
                             .disposed(by: obj.disposeBag)
                         
-                        Observable.just(FilterReactor.Action.loadChargerTypes)
-                            .bind(to: FilterReactor.sharedInstance.action)
+                        Observable.just(GlobalFilterReactor.Action.loadChargerTypes)
+                            .bind(to: GlobalFilterReactor.sharedInstance.action)
                             .disposed(by: self.disposeBag)
                     }
                     
-                    Observable.just(FilterReactor.Action.shouldChanged)
-                        .bind(to: FilterReactor.sharedInstance.action)
+                    Observable.just(GlobalFilterReactor.Action.shouldChanged)
+                        .bind(to: GlobalFilterReactor.sharedInstance.action)
                         .disposed(by: self.disposeBag)
                 }.disposed(by: self.disposeBag)
-            
-//            GlobalFilterReactor.sharedInstance.state.compactMap { $0.filterModel.isRepresentCarFilter }
-//                .asDriver(onErrorJustReturn: false)
-//                .drive(with: self) { obj, isRepresentCarFilter in
-//                    MemberManager.shared.tryToLoginCheck { isLogin in
-//                        guard isLogin else {
-//                            switchView.isOn = false
-//                            return
-//                        }
-//                        switchView.isOn = isRepresentCarFilter
-//                    }
-//                }.disposed(by: self.viewDisposeBag)
         }
-        
-//        switchView.isOn = isOn
         
         return view
     }
     
     internal func shouldChange() -> Bool {
-        let isEvPayFilter = FilterReactor.sharedInstance.currentState.isEvPayFilter
-        let isFavoriteFilter = FilterReactor.sharedInstance.currentState.isFavoriteFilter
-        let isRepresentCarFilter = FilterReactor.sharedInstance.currentState.isRepresentCarFilter
+        let isEvPayFilter = GlobalFilterReactor.sharedInstance.currentState.isEvPayFilter
+        let isFavoriteFilter = GlobalFilterReactor.sharedInstance.currentState.isFavoriteFilter
+        let isRepresentCarFilter = GlobalFilterReactor.sharedInstance.currentState.isRepresentCarFilter
         
         return isEvPayFilter != FilterManager.sharedInstance.filter.isMembershipCardChecked || isFavoriteFilter != FilterManager.sharedInstance.filter.isFavoriteChecked || isRepresentCarFilter != FilterManager.sharedInstance.filter.isRepresentCarChecked
-    }
-}
-
-extension NewFilterSwitchesView: FilterButtonAction {
-    func saveFilter() {
-//        let isEvPayFilter = GlobalFilterReactor.sharedInstance.currentState.isEvPayFilter
-//        let isFavoriteFilter = GlobalFilterReactor.sharedInstance.currentState.isFavoriteFilter
-//        let isRepresentCarFilter = GlobalFilterReactor.sharedInstance.currentState.isRepresentCarFilter
-//
-//        let saveEvPayFilterStream = Observable.of(GlobalFilterReactor.Action.saveEvPayFilter(isEvPayFilter))
-//        let saveFavoriteFilterStream = Observable.of(GlobalFilterReactor.Action.saveFavoriteFilter(isFavoriteFilter))
-//        let saveRepresentCarFilterStream = Observable.of(GlobalFilterReactor.Action.saveRepresentCarFilter(isRepresentCarFilter))
-//
-//        Observable.concat([saveEvPayFilterStream, saveFavoriteFilterStream, saveRepresentCarFilterStream])
-//            .bind(to: GlobalFilterReactor.sharedInstance.action)
-//            .disposed(by: self.disposeBag)
-    }
-    
-    func resetFilter() {
-//        let resetEvPayFilterStream = Observable.of(GlobalFilterReactor.Action.updateEvPayFilter(false))
-//        let resetFavoriteFilterStream = Observable.of(GlobalFilterReactor.Action.updateFavoriteFilter(false))
-//        let resetRepresentCarFilterStream = Observable.of(GlobalFilterReactor.Action.updateRepresentCarFilter(false))
-//
-//        Observable.concat([resetEvPayFilterStream, resetFavoriteFilterStream, resetRepresentCarFilterStream])
-//            .bind(to: GlobalFilterReactor.sharedInstance.action)
-//            .disposed(by: self.disposeBag)
-    }
-    
-    func revertFilter() {
-//        let revertIsEvPayFilter = Observable.of(GlobalFilterReactor.Action.updateEvPayFilter(FilterManager.sharedInstance.filter.isMembershipCardChecked))
-//        let revertIsFavoriteFilter = Observable.of(GlobalFilterReactor.Action.updateFavoriteFilter(FilterManager.sharedInstance.filter.isFavoriteChecked))
-//        let revertIsRepresentCarFilter = Observable.of(GlobalFilterReactor.Action.updateRepresentCarFilter(FilterManager.sharedInstance.filter.isRepresentCarChecked))
-//
-//        Observable.concat([revertIsEvPayFilter, revertIsFavoriteFilter, revertIsRepresentCarFilter])
-//            .bind(to: GlobalFilterReactor.sharedInstance.action)
-//            .disposed(by: self.disposeBag)
     }
 }
