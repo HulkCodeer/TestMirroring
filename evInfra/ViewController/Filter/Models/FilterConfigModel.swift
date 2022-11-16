@@ -8,18 +8,60 @@
 
 import Foundation
 
+protocol Filter {
+    var isSelected: Bool { get set }
+    init(isSelected: Bool)
+}
+
+class OpenFilter: Filter {
+    var isSelected: Bool
+    
+    required init(isSelected: Bool) {
+        self.isSelected = isSelected
+    }
+}
+
+class CloseFilter: Filter {
+    var isSelected: Bool
+    
+    required init(isSelected: Bool) {
+        self.isSelected = isSelected
+    }
+}
+
+protocol AccessibilityFilterCreator {
+    func createAccessibilityFilter(isSelected: Bool, type: AccessibilityType) -> Filter
+}
+
+enum AccessibilityType: CaseIterable {
+    case openType
+    case closeType
+}
+
+class AccessibilityFilterFactory: AccessibilityFilterCreator {
+    func createAccessibilityFilter(isSelected: Bool, type: AccessibilityType) -> Filter {
+        switch type {
+        case .openType:
+            return OpenFilter(isSelected: isSelected)
+        case .closeType:
+            return CloseFilter(isSelected: isSelected)
+        }
+    }
+}
+
 enum DetailFilterType {
-    case accessibility
-    case road
-    case installType
-    case chargerType
+    case accessibility(model: String, isSeleted: Bool)
+    case road(model: String, isSeleted: Bool)
+    case installType(model: String, isSeleted: Bool)
+    case chargerType(model: String, isSeleted: Bool)
 }
 
 internal final class FilterConfigModel {
-    var test: String
-    var filterTypes: Set<String> = []
+    var roadFilters: [Filter] = []
     
-    required init(test: String) {
-        self.test = test
+    required init() {
+        let factory = AccessibilityFilterFactory()
+        roadFilters.append(contentsOf: factory.createAccessibilityFilter(isSelected: true, type: .openType))
+        roadFilters.append(contentsOf: factory.createAccessibilityFilter(isSelected: true, type: .closeType))
     }
 }
