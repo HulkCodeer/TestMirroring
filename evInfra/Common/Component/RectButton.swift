@@ -30,6 +30,7 @@ internal final class RectButton: UIButton {
         super.init(frame:CGRect.zero)
         
         self.IBcornerRadius = 8
+        self.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
         
         switch level {
         case .primary: // enable, disable 가능
@@ -49,5 +50,5 @@ internal final class RectButton: UIButton {
             self.setTitleColor(Colors.contentOnColor.color, for: .normal)
             self.setBackgroundColor(Colors.backgroundNegative.color, for: .normal)
         }
-    }
+    }        
 }

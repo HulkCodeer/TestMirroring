@@ -16,7 +16,7 @@ internal class TermsViewController: UIViewController, WKUIDelegate, WKNavigation
     enum Request {
         case Contact           // 제휴문의
         case UsingTerms        // 서비스 이용약관
-        case PersonalInfoTerms // 개인정보처리방침
+        case PersonalInfoTerms // 개인정보 처리방침
         case LocationTerms     // 위치기반서비스 이용약관
         case MembershipTerms   // 회원카드 이용약관
         case Licence           // 라이센스
@@ -99,7 +99,7 @@ internal class TermsViewController: UIViewController, WKUIDelegate, WKNavigation
         case .UsingTerms:
             customNaviBar.naviTitleLbl.text = "서비스 이용약관"
         case .PersonalInfoTerms:
-            customNaviBar.naviTitleLbl.text = "개인정보 취급방침"
+            customNaviBar.naviTitleLbl.text = "개인정보 처리방침"
         case .LocationTerms:
             customNaviBar.naviTitleLbl.text = "위치기반서비스 이용약관"
         case .MembershipTerms:
@@ -150,44 +150,44 @@ internal class TermsViewController: UIViewController, WKUIDelegate, WKNavigation
         var strUrl = Const.EV_PAY_SERVER + "/terms/term/service_use"
         switch tabIndex {
         case .Contact:
-            strUrl = "http://www.soft-berry.com/contact/"
+            strUrl = "\(Const.EV_PAY_SERVER)/docs/info/partnership_info_v3"
             
         case .UsingTerms:
-            strUrl = Const.EV_PAY_SERVER + "/terms/term/service_use"
+            strUrl = "\(Const.EV_PAY_SERVER)/terms/term/service_use_v3"
         
         case .PersonalInfoTerms:
-            strUrl = Const.EV_PAY_SERVER + "/terms/term/privacy_policy"
+            strUrl = "\(Const.EV_PAY_SERVER)/terms/term/privacy_policy_v3"
         
         case .LocationTerms:
-            strUrl = Const.EV_PAY_SERVER + "/terms/term/service_location"
+            strUrl = "\(Const.EV_PAY_SERVER)/terms/term/service_location"
             
         case .MembershipTerms:
-            strUrl = Const.EV_PAY_SERVER + "/terms/term/membership"
+            strUrl = "\(Const.EV_PAY_SERVER)/terms/term/membership_v3"
         
         case .Licence:
-            strUrl = Const.EV_PAY_SERVER + "/terms/term/license"
+            strUrl = "\(Const.EV_PAY_SERVER)/terms/term/license_v3"
         
         case .EvBonusGuide:
-            strUrl = Const.EV_PAY_SERVER + "/docs/info/subsidy_guide"
+            strUrl = "\(Const.EV_PAY_SERVER)/docs/info/subsidy_guide"
             
         case .priceInfo:
-            strUrl = Const.EV_PAY_SERVER + "/docs/info/charge_price_info"            
+            strUrl = "\(Const.EV_PAY_SERVER)/docs/info/charge_price_info"
             MapEvent.viewChargingPriceInfo.logEvent()
             
         case .EvBonusStatus:
-            strUrl = Const.EV_PAY_SERVER + "/docs/info/subsidy_status"
+            strUrl = "\(Const.EV_PAY_SERVER)/docs/info/subsidy_status"
         
         case .BusinessInfo:
-            strUrl = Const.EV_PAY_SERVER + "/docs/info/business_info"
+            strUrl = "\(Const.EV_PAY_SERVER)/docs/info/business_info_v3"
             
         case .StationPrice:
-            strUrl = Const.EV_PAY_SERVER + "/docs/info/charge_price_info"
+            strUrl = "\(Const.EV_PAY_SERVER)/docs/info/charge_price_info"
             
         case .faqTop:
-            strUrl = Const.EV_PAY_SERVER + "/docs/info/faq_main"
+            strUrl = "\(Const.EV_PAY_SERVER)/docs/info/faq_main"
             
         case .faqDetail:
-            strUrl = Const.EV_PAY_SERVER + "/docs/info/faq_detail"
+            strUrl = "\(Const.EV_PAY_SERVER)/docs/info/faq_detail"
         
         case .BatteryInfo:
             strUrl = Const.SK_BATTERY_SERVER

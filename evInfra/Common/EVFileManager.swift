@@ -8,7 +8,7 @@
 
 import Foundation
 
-class EVFileManager {
+internal final class EVFileManager {
     
     static let sharedInstance = EVFileManager()
     

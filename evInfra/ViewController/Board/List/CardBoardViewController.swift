@@ -20,8 +20,7 @@ internal final class CardBoardViewController: CommonBaseViewController {
     private lazy var boardTableView = BoardTableView()
     private lazy var searchButton = UIButton().then {
         $0.setImage(Icons.iconSearchMd.image, for: .normal)
-        $0.tintColor = Colors.nt9.color
-        
+        $0.tintColor = Colors.nt9.color        
         $0.addTarget(self, action: #selector(handleSearchButton), for: .touchUpInside)
     }
     
@@ -136,23 +135,27 @@ extension CardBoardViewController {
         guard let boardSearchViewController = storyboard.instantiateViewController(withIdentifier: "BoardSearchViewController") as? BoardSearchViewController else { return }
         
         boardSearchViewController.category = self.category
-        self.navigationController?.push(viewController: boardSearchViewController)
+        GlobalDefine.shared.mainNavi?.push(viewController: boardSearchViewController)
     }
     
     @objc
     fileprivate func handlePostButton() {
-        let storyboard = UIStoryboard.init(name: "BoardWriteViewController", bundle: nil)
-        guard let viewcon = storyboard.instantiateViewController(withIdentifier: "BoardWriteViewController") as? BoardWriteViewController else { return }
-        
-        viewcon.isFromDetailView = false
-        viewcon.category = self.category
-        viewcon.popCompletion = { [weak self] in
-            guard let self = self else { return }
-            self.fetchFirstBoard(mid: self.category.rawValue, sort: self.sortType, mode: self.mode.rawValue)
-        }        
-                
-        GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-                
+        MemberManager.shared.tryToLoginCheck {isLogin in
+            if !isLogin {
+                MemberManager.shared.showLoginAlert()
+            } else {
+                let viewcon = UIStoryboard.init(name: "BoardWriteViewController", bundle: nil).instantiateViewController(ofType: BoardWriteViewController.self)
+                AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "커뮤니티 글쓰기 버튼")
+                viewcon.category = self.category
+                viewcon.popCompletion = { [weak self] in
+                    guard let self = self else { return }
+                    self.fetchFirstBoard(mid: self.category.rawValue, sort: self.sortType, mode: self.mode.rawValue)
+                }
+                        
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+            }
+        }
+                                
         BoardEvent.clickWriteBoardPost.logEvent()
     }
 }
@@ -222,7 +225,7 @@ extension CardBoardViewController: BoardTableViewDelegate {
             }
         }
         
-        self.navigationController?.push(viewController: boardDetailTableViewController)
+        GlobalDefine.shared.mainNavi?.push(viewController: boardDetailTableViewController)
     }
     
     func showImageViewer(url: URL, isProfileImageMode: Bool) {
@@ -231,7 +234,7 @@ extension CardBoardViewController: BoardTableViewDelegate {
         imageVC.mImageURL = url
         imageVC.isProfileImageMode = isProfileImageMode
     
-        self.navigationController?.push(viewController: imageVC)
+        GlobalDefine.shared.mainNavi?.push(viewController: imageVC)
     }
 }
 

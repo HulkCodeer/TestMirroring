@@ -45,8 +45,7 @@ internal final class BoardWriteViewController: BaseViewController, UINavigationC
     var document: Document?
     var popCompletion: (() -> Void)?
     let cropper = UIImageCropper(cropRatio: 100/115)
-    let trasientAlertView = TransientAlertViewController()
-    internal var isFromDetailView: Bool = false
+    let trasientAlertView = TransientAlertViewController()    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,20 +55,17 @@ internal final class BoardWriteViewController: BaseViewController, UINavigationC
         boardWriteViewModel.subscribe { [weak self] isEnable in
             guard let self = self else { return }
             self.completeButton.isEnabled = isEnable
-        }
-        boardWriteViewModel.isFromDetailView = isFromDetailView
+        }        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        MemberManager.shared.tryToLoginCheck {[weak self] isLogin in
-            guard let self = self else { return }
+        MemberManager.shared.tryToLoginCheck {isLogin in
             if !isLogin {
-                AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: self.isFromDetailView ? "충전소 상세 게시글 작성 버튼": "커뮤니티 글쓰기 버튼")                
                 MemberManager.shared.showLoginAlert(completion: { (result) -> Void in
                     if !result {
-                        self.navigationController?.pop()
+                        GlobalDefine.shared.mainNavi?.pop()
                     }
                 })
             }

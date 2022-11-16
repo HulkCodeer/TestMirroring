@@ -30,6 +30,7 @@ internal final class DeepLinkPath {
         case event_detail
         case kakaolink(KakaoLinkType)
         case main
+        case qrCharge
         
         enum KakaoLinkType: String {
             case charger = "charger"
@@ -63,6 +64,9 @@ internal final class DeepLinkPath {
                 
             case .main:
                 return "/main"
+                
+            case .qrCharge:
+                return "qr_charge"
                 
             case .kakaolink(let type):
                 switch type {
@@ -98,8 +102,8 @@ internal final class DeepLinkPath {
         
         switch linkPath {
         case DynamicLinkUrlPathType.membership.value:
-            storyboard = UIStoryboard(name : "Membership", bundle: nil)
-            let viewcon = storyboard.instantiateViewController(ofType: MembershipCardViewController.self)
+            let reactor = MembershipCardReactor(provider: RestApi())
+            let viewcon = MembershipCardViewController(reactor: reactor)
             _mainNavi.push(viewController: viewcon)
             
         case DynamicLinkUrlPathType.payment.value:

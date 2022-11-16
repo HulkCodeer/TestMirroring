@@ -106,6 +106,11 @@ class UserDefault {
         static let IS_SHOW_BERRYSETTING_CASE3_POPUP = "is_show_berrysetting_case3_popup" // 항상 허용 권한 위치 팝업 띄웠는지 유무
         static let IS_FIRST_INSTALL = "is_first_install" // 앱 최초 설치인지 확인용
         static let IS_SHOW_PERMISSION = "IS_SHOW_PERMISSION" // 권한 관련 화면 보여졌는지 체크
+        
+        static let IS_SHOW_MEMBERSHIPCARD_COMPLETE_TOOLTIP = "is_show_membershipcard_complete_tooltip" // 회원카드 화면에서 카드번호 가이드 툴팁
+        static let LAST_MEMBERSHIPCARD_DELIVERY_STATUS = "last_membershipcard_delivery_status" // 회원카드 발급 후 배송 마지막 상태
+        static let IS_EVPAY_BADGE_NEW = "is_evpay_badge_new" // 회원카드 발급 메뉴에 N 표시
+        
     }
 
     func saveString(key:String, value: String) -> Void {

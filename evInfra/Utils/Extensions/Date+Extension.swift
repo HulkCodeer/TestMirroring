@@ -10,7 +10,7 @@ import Foundation
 
 extension Date {
     
-    func toString(dateFormat: DateConstants) -> String {
+    func toString(dateFormat: Constants.DateConstants) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = dateFormat.rawValue
         return dateFormatter.string(from: self)

@@ -10,7 +10,7 @@ import UIKit
 import Motion
 import SwiftyJSON
 
-class ReportBoardViewController: UIViewController {
+internal final class ReportBoardViewController: UIViewController {
     
     private lazy var customNavibar = CommonNaviView().then {
         $0.naviTitleLbl.text = "나의 제보 내역"
@@ -19,7 +19,7 @@ class ReportBoardViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var emptyLabel: UILabel!
     
-    var reportList = Array<ReportCharger>()
+    private var reportList = Array<ReportCharger>()
     
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
@@ -98,18 +98,13 @@ class ReportBoardViewController: UIViewController {
     }
 }
 
-extension ReportBoardViewController: ReportChargeViewDelegate {
+extension ReportBoardViewController { //: ReportChargeViewDelegate {
     func goToReportChargerPage(index:Int) {
-        let reportChargeVC = self.storyboard?.instantiateViewController(withIdentifier: "ReportChargeViewController") as! ReportChargeViewController
-        reportChargeVC.delegate = self
-        reportChargeVC.info.charger_id = self.reportList[index].charger_id        
+        let viewcon = UIStoryboard(name : "Report", bundle: nil).instantiateViewController(ofType: ReportChargeViewController.self)
+        viewcon.info.charger_id = self.reportList[index].charger_id
+        self.present(viewcon, animated: true)
         
-        self.present(AppNavigationController(rootViewController: reportChargeVC), animated: true)
-    }
-    
-    func getReportInfo() {
-        getReportList(reportId: 0)
-    }
+    }    
 }
 
 extension ReportBoardViewController: UITableViewDelegate {

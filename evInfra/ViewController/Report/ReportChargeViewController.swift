@@ -11,10 +11,12 @@ import Material
 import Motion
 import SwiftyJSON
 import DropDown
+import RxSwift
+import RxCocoa
 
-protocol ReportChargeViewDelegate {
-    func getReportInfo()
-}
+//protocol ReportChargeViewDelegate: AnyObject {
+//    func getReportInfo()
+//}
 
 internal final class ReportChargeViewController: UIViewController {
             
@@ -29,16 +31,19 @@ internal final class ReportChargeViewController: UIViewController {
     @IBOutlet weak var operationTextView: UITextField!
     @IBOutlet weak var applyBtn: UIButton!
     @IBOutlet weak var deleteBtn: UIButton!
+    @IBOutlet var commonNaviView: CommonNaviView!
     
-    
-    var delegate:ReportChargeViewDelegate? = nil
+//    weak var delegate: ReportChargeViewDelegate?
 
     var tMapView: TMapView? = nil
     var activeTextView: Any? = nil
     
     var charger: ChargerStationInfo? = nil
     var info = ReportCharger()
+    
     internal var isFromDetailView = false
+    
+    private var disposeBag = DisposeBag()
     
     @IBAction func onClickApplyBtn(_ sender: Any) {
         sendReportToServer()
@@ -58,15 +63,18 @@ internal final class ReportChargeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        prepareActionBar()
-        
+                
+        commonNaviView.backClosure = { [weak self ] in
+            guard let self = self else { return }
+            self.dismiss(animated: true)
+        }
+
         prepareMapView()
         prepareChargerView()
         prepareCommonView()
 
         requestReportData()
-        
+
         tMapView?.delegate = self
     }
 
@@ -82,23 +90,11 @@ internal final class ReportChargeViewController: UIViewController {
         
         removeObserver()
         
-        if let delegate = self.delegate {
-            delegate.getReportInfo()
-        }
+//        if let delegate = self.delegate {
+//            delegate.getReportInfo()
+//        }
     }
-
-    func prepareActionBar() {
-        let backButton = IconButton(image: Icon.cm.arrowBack)
-        backButton.tintColor = UIColor(named: "content-primary")
-        backButton.addTarget(self, action: #selector(onClickBackBtn), for: .touchUpInside)
         
-        navigationItem.hidesBackButton = true
-        navigationItem.leftViews = [backButton]
-        navigationItem.titleLabel.textColor = UIColor(named: "content-primary")
-        navigationItem.titleLabel.text = "충전소 추가/정보 제보"
-        self.navigationController?.isNavigationBarHidden = false
-    }
-    
     func prepareCommonView() {
         operationTextView.layer.borderWidth = 0.5
         operationTextView.layer.borderColor = UIColor.lightGray.cgColor
@@ -151,11 +147,6 @@ internal final class ReportChargeViewController: UIViewController {
         deleteBtn.isHidden = !isDeleteBtnEnable
     }
     
-    @objc
-    fileprivate func onClickBackBtn() {
-        dismiss(animated: true, completion: nil)
-    }
-    
     func cancelReport() {
         Snackbar().show(message: "서버요청 중 오류가 발생하였습니다. 재시도 바랍니다.")
         dismiss(animated: true, completion: nil)
@@ -179,12 +170,6 @@ internal final class ReportChargeViewController: UIViewController {
         
         self.info.adr = fullAddr as? String
         fullAddressLabel.text = fullAddr as? String
-    }
-    
-    func setVisableView(view:UIView, hidden:Bool) {
-        UIView.transition(with: view, duration: 0.5, options: .transitionCrossDissolve, animations: {
-            view.isHidden = hidden
-        })
     }
     
     func sendDeleteToServer() {
@@ -232,55 +217,43 @@ internal final class ReportChargeViewController: UIViewController {
         
         self.present(AppSearchBarController(rootViewController: searchVC), animated: true, completion: nil)
     }
-
-    func indicatorControll(isStart: Bool) {
-        if isStart {
-            setVisableView(view: serverComIndicator, hidden: false)
-            serverComIndicator.startAnimating()
-            UIApplication.shared.beginIgnoringInteractionEvents()
-        } else {
-            setVisableView(view: self.serverComIndicator, hidden: true)
-            serverComIndicator.stopAnimating()
-            UIApplication.shared.endIgnoringInteractionEvents()
-        }
-    }
-    
+        
     func requestReportData() {
         if let chargerId = self.info.charger_id {
             if let charger = ChargerManager.sharedInstance.getChargerStationInfoById(charger_id: chargerId) {
                 self.charger = charger
-                
-                indicatorControll(isStart: true)
-                Server.getReportInfo(chargerId: chargerId) { (isSuccess, value) in
-
-                    self.indicatorControll(isStart: false)
+                                
+                Server.getReportInfo(chargerId: chargerId) { [weak self] (isSuccess, value) in
                     if isSuccess {
                         let json = JSON(value)
                         if json["code"].intValue == 1000 { // 기존에 제보한 내역이 있음
                             let report = json["report"]
 
-                            self.info.report_id = report["report_id"].intValue
-                            self.info.type_id = report["type_id"].intValue
-                            self.info.status_id = report["status_id"].intValue
-                            self.info.charger_id = report["charger_id"].stringValue
-                            self.info.snm = report["snm"].stringValue
-                            self.info.lat = report["lat"].doubleValue
-                            self.info.lon = report["lon"].doubleValue
-                            self.info.adr = report["adr"].stringValue
-                            self.info.adr_dtl = report["adr_dtl"].stringValue
+                            self?.info.report_id = report["report_id"].intValue
+                            self?.info.type_id = report["type_id"].intValue
+                            self?.info.status_id = report["status_id"].intValue
+                            self?.info.charger_id = report["charger_id"].stringValue
+                            self?.info.snm = report["snm"].stringValue
+                            self?.info.lat = report["lat"].doubleValue
+                            self?.info.lon = report["lon"].doubleValue
+                            self?.info.adr = report["adr"].stringValue
+                            self?.info.adr_dtl = report["adr_dtl"].stringValue
                         } else { // 처음 제보하는 충전소
-                            self.info.report_id = 0
-                            self.info.type_id = ReportCharger.REPORT_CHARGER_TYPE_USER_MOD
-                            self.info.status_id = ReportCharger.REPORT_CHARGER_STATUS_FINISH
+                            self?.info.report_id = 0
+                            self?.info.type_id = ReportCharger.REPORT_CHARGER_TYPE_USER_MOD
+                            self?.info.status_id = ReportCharger.REPORT_CHARGER_STATUS_FINISH
 
-                            self.info.snm = charger.mStationInfoDto?.mSnm
-                            self.info.lat = charger.mStationInfoDto?.mLatitude
-                            self.info.lon = charger.mStationInfoDto?.mLongitude
-                            self.info.adr = charger.mStationInfoDto?.mAddress
-                            self.info.adr_dtl = charger.mStationInfoDto?.mAddressDetail
+                            self?.info.snm = charger.mStationInfoDto?.mSnm
+                            self?.info.lat = charger.mStationInfoDto?.mLatitude
+                            self?.info.lon = charger.mStationInfoDto?.mLongitude
+                            self?.info.adr = charger.mStationInfoDto?.mAddress
+                            self?.info.adr_dtl = charger.mStationInfoDto?.mAddressDetail
                         }
-                        self.moveToLocation(lat: self.info.lat!, lon: self.info.lon!)
-                        self.prepareChargerView()
+                        
+                        if let lat = self?.info.lat, let lon = self?.info.lon {
+                            self?.moveToLocation(lat: lat, lon: lon)
+                            self?.prepareChargerView()
+                        }
                     }
                 }
             } else {
@@ -292,20 +265,17 @@ internal final class ReportChargeViewController: UIViewController {
     }
     
     func requestReportApply() {
-        self.indicatorControll(isStart: true)
         self.info.type_id = ReportCharger.REPORT_CHARGER_TYPE_USER_MOD
         self.info.adr_dtl = addressDetailTextView.text
 
-        Server.modifyReport(info: self.info) { (isSuccess, value) in
-            
-            self.indicatorControll(isStart: false)
+        Server.modifyReport(info: self.info) { [weak self] (isSuccess, value) in
             if isSuccess {
                 let json = JSON(value)
                 if json["code"].exists() && json["code"].intValue == 1000 {
                     Snackbar().show(message: "수정 요청이 등록되었습니다. 제보해 주셔서 감사드립니다.")
 
                     // 제보 정보 다시 받아오기
-                    self.requestReportData()
+                    self?.requestReportData()
                     ReportsEvent.clickStationCompleteReport.logEvent()
                     
                 } else {
@@ -318,18 +288,14 @@ internal final class ReportChargeViewController: UIViewController {
     }
 
     func requestDeleteReport() {
-        self.indicatorControll(isStart: true)
-
-        Server.deleteReport(reportId: info.report_id, typeId: ReportCharger.REPORT_CHARGER_TYPE_USER_MOD_DELETE) { (isSuccess, value) in
-
-            self.indicatorControll(isStart: false)
+        Server.deleteReport(reportId: info.report_id, typeId: ReportCharger.REPORT_CHARGER_TYPE_USER_MOD_DELETE) { [weak self] (isSuccess, value) in            
             if isSuccess {
                 let json = JSON(value)
                 if json["code"].exists() && json["code"].intValue == 1000 {
                     Snackbar().show(message: "제보해 주신 정보를 취소 처리하였습니다. 도움에 감사드립니다.")
                     
                     // 제보 정보 다시 받아오기
-                    self.requestReportData()
+                    self?.requestReportData()
                 } else {
                     Snackbar().show(message: "제보 취소 요청이 실패하였습니다. 다시 시도해 주세요.")
                 }
@@ -358,6 +324,7 @@ extension ReportChargeViewController: AddressToLocationDelegate {
             return
         }
         mapView.setCenter(TMapPoint.init(lon: lon, lat: lat))
+        mapView.setCenter(CLLocationCoordinate2D(latitude: lat, longitude: lon), animated: true)
     }
 }
 
@@ -367,11 +334,11 @@ extension ReportChargeViewController : UITextFieldDelegate, UITextViewDelegate {
     }
     
     func addObserver() {
-        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: nil) { notification in
-            self.keyboardWillShow(notification : notification)
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: nil) { [weak self] notification in
+            self?.keyboardWillShow(notification : notification)
         }
-        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: nil) { notification in
-            self.keyboardWillHide(notification : notification)
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: nil) { [weak self] notification in
+            self?.keyboardWillHide(notification : notification)
         }
     }
     
@@ -387,6 +354,7 @@ extension ReportChargeViewController : UITextFieldDelegate, UITextViewDelegate {
         scrollView.contentInset = contentInsert
         scrollView.scrollIndicatorInsets = contentInsert
         
+        // ?
         if let active = activeTextView {
             if active is UITextView {
                 self.scrollView.scrollToView(view: (active as! UIView).superview!)

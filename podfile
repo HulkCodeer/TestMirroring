@@ -68,8 +68,10 @@ def shared_pods
   
   # Map
   pod 'NMapsMap'
-  
+
+  # Log
   pod 'Amplitude', '~> 8.8.0'
+    
   
 end
 

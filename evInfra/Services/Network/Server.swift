@@ -186,17 +186,7 @@ class Server {
                       method: .post, parameters: reqParam, encoding: JSONEncoding.default)
         .validate().responseData { response in responseJson(response: response, completion: completion) }
     }
-    
-    // 회원 - 회원카드 정보 가져오기
-    static func getInfoMembershipCard(completion: @escaping (Bool, Any) -> Void) {
-        let reqParam: Parameters = [
-            "mb_id": MemberManager.shared.mbId
-        ]        
-        AF.request(Const.EV_PAY_SERVER + "/member/v2/membership_card/info",
-                      method: .post, parameters: reqParam, encoding: JSONEncoding.default)
-        .validate().responseData { response in responseJson(response: response, completion: completion) }
-    }
-    
+            
     // 회원 - 렌터카 카드 정보 조회
     static func getRetnalCarCardInfo(completion: @escaping (Bool, Any) -> Void) {
         let reqParam: Parameters = [

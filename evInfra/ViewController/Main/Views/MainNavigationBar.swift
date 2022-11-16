@@ -33,7 +33,10 @@ internal final class MainNavigationBar: UIView {
         $0.isExclusiveTouch = true
     }
     private lazy var searchChargeContentsView = UIView().then {
-        $0.backgroundColor = Colors.nt0.color
+        $0.backgroundColor = Colors.ntMinus.color
+        $0.layer.borderColor = Colors.nt0.color.cgColor
+        $0.layer.borderWidth = 1
+        
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 8
     }
@@ -45,7 +48,7 @@ internal final class MainNavigationBar: UIView {
     private lazy var searchChargeText = UILabel().then {
         $0.text = "어디서 충전할까요?"
         $0.textColor = Colors.nt4.color
-        $0.font = .systemFont(ofSize: 16)
+        $0.font = .systemFont(ofSize: 16, weight: .medium)
     }
     
     // 길찾기 button
