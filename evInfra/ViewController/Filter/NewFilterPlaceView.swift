@@ -147,9 +147,9 @@ internal final class NewFilterPlaceView: UIView {
             }
         }
 
-        let isIndoor = FilterReactor.sharedInstance.currentState.filterModel.isIndoor
-        let isOutdoor = FilterReactor.sharedInstance.currentState.filterModel.isOutdoor
-        let isCanopy = FilterReactor.sharedInstance.currentState.filterModel.isCanopy
+        let isIndoor = reactor.currentState.filterModel.isIndoor
+        let isOutdoor = reactor.currentState.filterModel.isOutdoor
+        let isCanopy = reactor.currentState.filterModel.isCanopy
         
         switch placeType {
         case .indoor:
@@ -164,7 +164,7 @@ internal final class NewFilterPlaceView: UIView {
                     btn.isSelected = !btn.isSelected
 
                     Observable.just(FilterReactor.Action.updateIndoorPlaceFilter(btn.isSelected))
-                        .bind(to: FilterReactor.sharedInstance.action)
+                        .bind(to: reactor.action)
                         .disposed(by: obj.disposeBag)
                     
                     if obj.isDirectChange {
@@ -172,12 +172,12 @@ internal final class NewFilterPlaceView: UIView {
                     }
                     
                     Observable.just(FilterReactor.Action.shouldChanged)
-                        .bind(to: FilterReactor.sharedInstance.action)
+                        .bind(to: reactor.action)
                         .disposed(by: obj.disposeBag)
                 }
                 .disposed(by: self.disposeBag)
             
-            FilterReactor.sharedInstance.state.compactMap { $0.filterModel.isIndoor }
+            reactor.state.compactMap { $0.filterModel.isIndoor }
                 .asDriver(onErrorJustReturn: false)
                 .drive(with: self) { obj, isSelected in
                     btn.isSelected = isSelected
@@ -197,7 +197,7 @@ internal final class NewFilterPlaceView: UIView {
                     btn.isSelected = !btn.isSelected
 
                     Observable.just(FilterReactor.Action.updateOutdoorPlaceFilter(btn.isSelected))
-                        .bind(to: FilterReactor.sharedInstance.action)
+                        .bind(to: reactor.action)
                         .disposed(by: obj.disposeBag)
                     
                     if obj.isDirectChange {
@@ -205,13 +205,13 @@ internal final class NewFilterPlaceView: UIView {
                     }
                     
                     Observable.just(FilterReactor.Action.shouldChanged)
-                        .bind(to: FilterReactor.sharedInstance.action)
+                        .bind(to: reactor.action)
                         .disposed(by: obj.disposeBag)
                     
                 }
                 .disposed(by: self.disposeBag)
             
-            FilterReactor.sharedInstance.state.compactMap { $0.filterModel.isOutdoor }
+            reactor.state.compactMap { $0.filterModel.isOutdoor }
                 .asDriver(onErrorJustReturn: false)
                 .drive(with: self) { obj, isSelected in
                     btn.isSelected = isSelected
@@ -230,7 +230,7 @@ internal final class NewFilterPlaceView: UIView {
                     btn.isSelected = !btn.isSelected
 
                     Observable.just(FilterReactor.Action.updateCanopyPlaceFilter(btn.isSelected))
-                        .bind(to: FilterReactor.sharedInstance.action)
+                        .bind(to: reactor.action)
                         .disposed(by: obj.disposeBag)
                     
                     if obj.isDirectChange {
@@ -238,12 +238,12 @@ internal final class NewFilterPlaceView: UIView {
                     }
                     
                     Observable.just(FilterReactor.Action.shouldChanged)
-                        .bind(to: FilterReactor.sharedInstance.action)
+                        .bind(to: reactor.action)
                         .disposed(by: obj.disposeBag)
                 }
                 .disposed(by: self.disposeBag)
             
-            FilterReactor.sharedInstance.state.compactMap { $0.filterModel.isCanopy }
+            reactor.state.compactMap { $0.filterModel.isCanopy }
                 .asDriver(onErrorJustReturn: false)
                 .drive(with: self) { obj, isSelected in
                     btn.isSelected = isSelected
@@ -273,9 +273,9 @@ internal final class NewFilterPlaceView: UIView {
     }
     
     internal func shouldChanged() -> Bool {
-        let isIndoor = FilterReactor.sharedInstance.currentState.isIndoor
-        let isOutdoor = FilterReactor.sharedInstance.currentState.isOutdoor
-        let isCanopy = FilterReactor.sharedInstance.currentState.isCanopy
+        let isIndoor = reactor.currentState.isIndoor
+        let isOutdoor = reactor.currentState.isOutdoor
+        let isCanopy = reactor.currentState.isCanopy
         
         return (isIndoor != FilterManager.sharedInstance.filter.isIndoor)
         || (isOutdoor != FilterManager.sharedInstance.filter.isOutdoor)
@@ -285,25 +285,25 @@ internal final class NewFilterPlaceView: UIView {
 
 extension NewFilterPlaceView: FilterButtonAction {
     func saveFilter() {
-        let filterModel = FilterReactor.sharedInstance.currentState.filterModel
+        let filterModel = reactor.currentState.filterModel
         Observable.just(FilterReactor.Action.savePlaceFilter(filterModel))
-            .bind(to: FilterReactor.sharedInstance.action)
+            .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
     }
     
     func resetFilter() {
-        let resetModel = FilterReactor.sharedInstance.initialState.resetFilterModel
+        let resetModel = reactor.initialState.resetFilterModel
         Observable.just(FilterReactor.Action.savePlaceFilter(resetModel))
-            .bind(to: FilterReactor.sharedInstance.action)
+            .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
     }
     
     func revertFilter() {
         // TODO: original이랑 비교
-        let currentFilterModel = FilterReactor.sharedInstance.currentState.filterModel
-        let originalFilterModel = FilterReactor.sharedInstance.initialState.filterModel
+        let currentFilterModel = reactor.currentState.filterModel
+        let originalFilterModel = reactor.initialState.filterModel
         Observable.just(FilterReactor.Action.savePlaceFilter(originalFilterModel))
-            .bind(to: FilterReactor.sharedInstance.action)
+            .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
     }
 }

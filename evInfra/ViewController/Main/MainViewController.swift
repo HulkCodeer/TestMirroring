@@ -450,7 +450,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
             }
             .disposed(by: self.disposeBag)
 
-        FilterReactor.sharedInstance.state.compactMap { $0.selectedFilterType }
+        reactor.state.compactMap { $0.selectedFilterType }
             .asDriver(onErrorJustReturn: (filterTagType: .speed, isSelected: false))
             .drive(with: self) { obj, selected in
                 obj.filterContainerView.isHidden = !selected.isSelected
@@ -467,7 +467,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         reactor.state.compactMap { $0.isShowFilterSetting }
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { obj, isShow in
-                let chargerFilterViewController = NewChargerFilterViewController(reactor: FilterReactor.sharedInstance)
+                let chargerFilterViewController = NewChargerFilterViewController(reactor: reactor)
                 chargerFilterViewController.delegate = obj
                 GlobalDefine.shared.mainNavi?.push(viewController: chargerFilterViewController)
             }

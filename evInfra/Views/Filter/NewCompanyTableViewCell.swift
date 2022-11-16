@@ -180,7 +180,7 @@ extension NewCompanyTableViewCell: UICollectionViewDataSource {
                 
                 if !isSelected {
                     Observable.just(FilterReactor.Action.setAllCompanies(false))
-                        .bind(to: FilterReactor.sharedInstance.action)
+                        .bind(to: reactor.action)
                         .disposed(by: obj.disposeBag)
                 }
                 

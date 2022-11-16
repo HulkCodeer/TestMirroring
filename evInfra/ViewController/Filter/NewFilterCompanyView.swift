@@ -146,10 +146,10 @@ internal final class NewFilterCompanyView: UIView {
         self.filterReactor = reactor
         
         Observable.just(FilterReactor.Action.loadCompanies)
-            .bind(to: FilterReactor.sharedInstance.action)
+            .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
         
-        FilterReactor.sharedInstance.state.compactMap { $0.loadedCompanies }
+        reactor.state.compactMap { $0.loadedCompanies }
             .subscribe(with: self) { obj, companies in
                 obj.groups.removeAll()
 
@@ -190,9 +190,9 @@ internal final class NewFilterCompanyView: UIView {
                 }
                 // 전체 선택 유무
                 allSelect ? Observable.just(FilterReactor.Action.setAllCompanies(true))
-                    .bind(to: FilterReactor.sharedInstance.action).disposed(by: self.disposeBag)
+                    .bind(to: reactor.action).disposed(by: self.disposeBag)
                 : Observable.just(FilterReactor.Action.setAllCompanies(false))
-                    .bind(to: FilterReactor.sharedInstance.action).disposed(by: self.disposeBag)
+                    .bind(to: reactor.action).disposed(by: self.disposeBag)
 
                 if !companiesInGroup.isEmpty {
                     obj.groups.append(NewCompanyGroup(groupTitle: obj.groupTitle[titleIndex-1], companies: companiesInGroup, groupIndex: obj.groups.count - 1))
@@ -207,7 +207,7 @@ internal final class NewFilterCompanyView: UIView {
                 obj.companyTableView.reloadData()
             }.disposed(by: self.disposeBag)
         
-        FilterReactor.sharedInstance.state.compactMap { $0.isSelectedAllCompanies }
+        reactor.state.compactMap { $0.isSelectedAllCompanies }
             .bind(to: allSwitch.rx.isOn)
             .disposed(by: self.disposeBag)
         
@@ -219,13 +219,13 @@ internal final class NewFilterCompanyView: UIView {
                 // step1. EvPay filter 끄기 , isOn == true 일때
                 if isOn {
                     Observable.just(FilterReactor.Action.updateEvPayFilter(false))
-                        .bind(to: FilterReactor.sharedInstance.action)
+                        .bind(to: reactor.action)
                         .disposed(by: obj.disposeBag)
                 }
                 
                 // step2. 충전 사업자 불러오기
                 Observable.just(FilterReactor.Action.loadCompanies)
-                    .bind(to: FilterReactor.sharedInstance.action)
+                    .bind(to: reactor.action)
                     .disposed(by: obj.disposeBag)
             }.disposed(by: self.disposeBag)
     }
@@ -257,7 +257,7 @@ internal final class NewFilterCompanyView: UIView {
 extension NewFilterCompanyView: FilterButtonAction {
     func saveFilter() {
         Observable.just(FilterReactor.Action.setCompanyFilter(groups))
-            .bind(to: FilterReactor.sharedInstance.action)
+            .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
     }
     
@@ -268,11 +268,11 @@ extension NewFilterCompanyView: FilterButtonAction {
             }
         }
         Observable.just(FilterReactor.Action.setCompanyFilter(groups))
-            .bind(to: FilterReactor.sharedInstance.action)
+            .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
 
         Observable.just(FilterReactor.Action.setAllCompanies(true))
-            .bind(to: FilterReactor.sharedInstance.action)
+            .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
 
         companyTableView.reloadData()
