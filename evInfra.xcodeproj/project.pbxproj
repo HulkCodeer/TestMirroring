@@ -93,7 +93,6 @@
 		19394CCB29066C7E00385DB4 /* NewFilterSwitchesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19394CCA29066C7E00385DB4 /* NewFilterSwitchesView.swift */; };
 		19394CCC29066C7E00385DB4 /* NewFilterSwitchesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19394CCA29066C7E00385DB4 /* NewFilterSwitchesView.swift */; };
 		19394CCD29066C7E00385DB4 /* NewFilterSwitchesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19394CCA29066C7E00385DB4 /* NewFilterSwitchesView.swift */; };
-		193A4DAC27FAAEC000B604D3 /* NaverMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193A4DAB27FAAEC000B604D3 /* NaverMapView.swift */; };
 		193C95C4289906DB00CD61D6 /* GlobalAdsReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193C95C3289906DB00CD61D6 /* GlobalAdsReactor.swift */; };
 		193C95C5289906DB00CD61D6 /* GlobalAdsReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193C95C3289906DB00CD61D6 /* GlobalAdsReactor.swift */; };
 		1946E4F128FE312000CC9156 /* NewFilterRoadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1946E4F028FE312000CC9156 /* NewFilterRoadView.swift */; };
@@ -1351,6 +1350,9 @@
 		8261C8B528ECF6A20018E168 /* UIWindow+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8261C8B428ECF6A20018E168 /* UIWindow+Extension.swift */; };
 		8261C8B628ECF6A20018E168 /* UIWindow+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8261C8B428ECF6A20018E168 /* UIWindow+Extension.swift */; };
 		8261C8B728ECF6A20018E168 /* UIWindow+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8261C8B428ECF6A20018E168 /* UIWindow+Extension.swift */; };
+		82689E5129246287003D90D9 /* FilterConfigModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82689E5029246287003D90D9 /* FilterConfigModel.swift */; };
+		82689E5229246287003D90D9 /* FilterConfigModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82689E5029246287003D90D9 /* FilterConfigModel.swift */; };
+		82689E5329246287003D90D9 /* FilterConfigModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82689E5029246287003D90D9 /* FilterConfigModel.swift */; };
 		82829BCE28ADC1330044AD6C /* UIImageView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */; };
 		82829BCF28ADC1330044AD6C /* UIImageView+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */; };
 		82829BD128ADC2F20044AD6C /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */; };
@@ -1912,6 +1914,7 @@
 		824D5DBC28BE050A00EDC712 /* QROutletTypeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QROutletTypeModel.swift; sourceTree = "<group>"; };
 		824D5DC028BE1C2500EDC712 /* GlobalFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFunction.swift; sourceTree = "<group>"; };
 		8261C8B428ECF6A20018E168 /* UIWindow+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIWindow+Extension.swift"; sourceTree = "<group>"; };
+		82689E5029246287003D90D9 /* FilterConfigModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterConfigModel.swift; sourceTree = "<group>"; };
 		82829BCD28ADC1330044AD6C /* UIImageView+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Rx.swift"; sourceTree = "<group>"; };
 		82829BD028ADC2F20044AD6C /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		82840479290021FE0081567C /* TooltipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipView.swift; sourceTree = "<group>"; };
@@ -2142,6 +2145,7 @@
 		00A7D5C926B7B13F00C5DBCC /* Filter */ = {
 			isa = PBXGroup;
 			children = (
+				82689E4F2924625F003D90D9 /* Models */,
 				00A7D5C726B7B0D100C5DBCC /* Filter.storyboard */,
 				19394CC629062F5B00385DB4 /* NewChargerFilterViewController.swift */,
 				00A7D5D126B7DA2100C5DBCC /* ChargerFilterViewController.swift */,
@@ -3090,6 +3094,14 @@
 			isa = PBXGroup;
 			children = (
 				824D5DBC28BE050A00EDC712 /* QROutletTypeModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		82689E4F2924625F003D90D9 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				82689E5029246287003D90D9 /* FilterConfigModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -4651,6 +4663,7 @@
 				6309C7A02900006B00A52E4F /* LeftViewMenuItem.swift in Sources */,
 				63F31477284EC74F001713D2 /* Event.swift in Sources */,
 				63F31478284EC74F001713D2 /* BoardTableViewFooter.swift in Sources */,
+				82689E5229246287003D90D9 /* FilterConfigModel.swift in Sources */,
 				82E1302928DEAE2A00E7983D /* Server.swift in Sources */,
 				82DD57DC28C5D41900C6C55E /* StickButton.swift in Sources */,
 				63F3147A284EC74F001713D2 /* UIAlertController+Extension.swift in Sources */,
@@ -4991,6 +5004,7 @@
 				733662D222FAB6720049AEFE /* MyCouponContentsViewController.swift in Sources */,
 				599A64F529110447008448DC /* ChargingID.swift in Sources */,
 				733662CC22EFECB80049AEFE /* Event.swift in Sources */,
+				82689E5129246287003D90D9 /* FilterConfigModel.swift in Sources */,
 				DB87607420690B370095394B /* BoardTableViewFooter.swift in Sources */,
 				82DD57DB28C5D41900C6C55E /* StickButton.swift in Sources */,
 				DBEE9AFA2117DBF000770D04 /* UIAlertController+Extension.swift in Sources */,
@@ -5345,6 +5359,7 @@
 				824D5CEA28BDD89C00EDC712 /* MemberPartnershipInfo.swift in Sources */,
 				5975BD5928D97DC900910F6F /* NoticeList.swift in Sources */,
 				5975BD5728D97DAA00910F6F /* NewNoticeTableViewCell.swift in Sources */,
+				82689E5329246287003D90D9 /* FilterConfigModel.swift in Sources */,
 				824D5CEB28BDD89C00EDC712 /* Const.swift in Sources */,
 				824D5CEC28BDD89C00EDC712 /* MembershipQRViewController.swift in Sources */,
 				824D5CED28BDD89C00EDC712 /* CouponCodeViewController.swift in Sources */,
