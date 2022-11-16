@@ -63,10 +63,10 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
     
     // MARK: VARIABLES
     internal weak var delegate: NewDelegateChargerFilterView?
-    private var originalModel: GlobalFilterReactor.FilterModel?
+    private var originalModel: FilterReactor.FilterModel?
     
     // MARK: STSTEM FUNC
-    init(reactor: GlobalFilterReactor) {
+    init(reactor: FilterReactor) {
         super.init()
         self.reactor = reactor
     }
@@ -151,7 +151,7 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
         }
     }
     
-    func bind(reactor: GlobalFilterReactor) {
+    func bind(reactor: FilterReactor) {
         switchFilterView.bind(reactor: reactor)
         typeFilterView.bind(reactor: reactor)
         speedFilterView.bind(reactor: reactor)
@@ -168,21 +168,21 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
         accessFilterView.delegate = self
         companyFilterView.delegate = self
         
-        originalModel = GlobalFilterReactor.sharedInstance.currentState.filterModel
+        originalModel = FilterReactor.sharedInstance.currentState.filterModel
         
         // 뒤로가기 버튼
         backBtn.btn.rx.tap
             .asDriver(onErrorJustReturn: ())
             .drive(with: self) { obj, _ in
-                let shouldChanged = GlobalFilterReactor.sharedInstance.currentState.shouldChanged
+                let shouldChanged = FilterReactor.sharedInstance.currentState.shouldChanged
                 if shouldChanged {
                     let cancelBtn = UIAlertAction(title: "취소", style: .default)
                     let okBtn = UIAlertAction(title: "나가기", style: .default) { _ in
                         
                         guard let originalModel = obj.originalModel else { return }
                         
-                        Observable.just(GlobalFilterReactor.Action.saveFilter(originalModel))
-                            .bind(to: GlobalFilterReactor.sharedInstance.action)
+                        Observable.just(FilterReactor.Action.saveFilter(originalModel))
+                            .bind(to: FilterReactor.sharedInstance.action)
                             .disposed(by: obj.disposeBag)
 //                        obj.switchFilterView.revertFilter()
 //                        obj.speedFilterView.revertFilter()
@@ -220,9 +220,9 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
 //                    obj.roadFilterView.resetFilter()
 //                    obj.placeFilterView.resetFilter()
 //                    obj.companyFilterView.resetFilter()
-                    let resetModel = GlobalFilterReactor.sharedInstance.currentState.resetFilterModel
-                    Observable.just(GlobalFilterReactor.Action.saveFilter(resetModel))
-                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+                    let resetModel = FilterReactor.sharedInstance.currentState.resetFilterModel
+                    Observable.just(FilterReactor.Action.saveFilter(resetModel))
+                        .bind(to: FilterReactor.sharedInstance.action)
                         .disposed(by: obj.disposeBag)
                 }
                 var actions = [UIAlertAction]()
@@ -232,7 +232,7 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
             }.disposed(by: self.disposeBag)
         
         // 필터 저장 버튼 bind
-        GlobalFilterReactor.sharedInstance.state.compactMap { $0.shouldChanged }
+        FilterReactor.sharedInstance.state.compactMap { $0.shouldChanged }
             .bind(to: saveBtn.rectBtn.rx.isEnabled)
             .disposed(by: self.disposeBag)
         
@@ -248,9 +248,9 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
 //                obj.roadFilterView.saveFilter()
 //                obj.placeFilterView.saveFilter()
 //                obj.companyFilterView.saveFilter()
-                let filterModel = GlobalFilterReactor.sharedInstance.currentState.filterModel
-                Observable.just(GlobalFilterReactor.Action.saveFilter(filterModel))
-                    .bind(to: GlobalFilterReactor.sharedInstance.action)
+                let filterModel = FilterReactor.sharedInstance.currentState.filterModel
+                Observable.just(FilterReactor.Action.saveFilter(filterModel))
+                    .bind(to: FilterReactor.sharedInstance.action)
                     .disposed(by: obj.disposeBag)
                 
                 obj.delegate?.applyFilter()

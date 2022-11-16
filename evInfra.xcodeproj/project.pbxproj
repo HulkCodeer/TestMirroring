@@ -84,9 +84,9 @@
 		192C31842907A2CF00465B3D /* NewFilterAccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192C31812907A2CF00465B3D /* NewFilterAccessView.swift */; };
 		192C31852907C19300465B3D /* AmplitudeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A3D3252887F13400AE8280 /* AmplitudeManager.swift */; };
 		192C31862907C1CB00465B3D /* NewFilterTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1946E4F428FE95AF00CC9156 /* NewFilterTypeView.swift */; };
-		192FBAAA290E43F1006DDE6D /* GlobalFilterReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192FBAA9290E43F1006DDE6D /* GlobalFilterReactor.swift */; };
-		192FBAAB290E43F1006DDE6D /* GlobalFilterReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192FBAA9290E43F1006DDE6D /* GlobalFilterReactor.swift */; };
-		192FBAAC290E43F1006DDE6D /* GlobalFilterReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192FBAA9290E43F1006DDE6D /* GlobalFilterReactor.swift */; };
+		192FBAAA290E43F1006DDE6D /* FilterReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192FBAA9290E43F1006DDE6D /* FilterReactor.swift */; };
+		192FBAAB290E43F1006DDE6D /* FilterReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192FBAA9290E43F1006DDE6D /* FilterReactor.swift */; };
+		192FBAAC290E43F1006DDE6D /* FilterReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 192FBAA9290E43F1006DDE6D /* FilterReactor.swift */; };
 		19394CC729062F5B00385DB4 /* NewChargerFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19394CC629062F5B00385DB4 /* NewChargerFilterViewController.swift */; };
 		19394CC829062F5B00385DB4 /* NewChargerFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19394CC629062F5B00385DB4 /* NewChargerFilterViewController.swift */; };
 		19394CC929062F5B00385DB4 /* NewChargerFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19394CC629062F5B00385DB4 /* NewChargerFilterViewController.swift */; };
@@ -1563,7 +1563,7 @@
 		192A338227FE747E00EF1684 /* Marker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Marker.swift; sourceTree = "<group>"; };
 		192A338427FED07C00EF1684 /* CLLocationCoordinate2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocationCoordinate2D.swift; sourceTree = "<group>"; };
 		192C31812907A2CF00465B3D /* NewFilterAccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFilterAccessView.swift; sourceTree = "<group>"; };
-		192FBAA9290E43F1006DDE6D /* GlobalFilterReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalFilterReactor.swift; sourceTree = "<group>"; };
+		192FBAA9290E43F1006DDE6D /* FilterReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterReactor.swift; sourceTree = "<group>"; };
 		19394CC629062F5B00385DB4 /* NewChargerFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChargerFilterViewController.swift; sourceTree = "<group>"; };
 		19394CCA29066C7E00385DB4 /* NewFilterSwitchesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFilterSwitchesView.swift; sourceTree = "<group>"; };
 		193A4DAB27FAAEC000B604D3 /* NaverMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverMapView.swift; sourceTree = "<group>"; };
@@ -2156,7 +2156,7 @@
 				19394CCA29066C7E00385DB4 /* NewFilterSwitchesView.swift */,
 				192C31812907A2CF00465B3D /* NewFilterAccessView.swift */,
 				19DEF7E8290A483C004100C3 /* NewFilterCompanyView.swift */,
-				192FBAA9290E43F1006DDE6D /* GlobalFilterReactor.swift */,
+				192FBAA9290E43F1006DDE6D /* FilterReactor.swift */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -4736,7 +4736,7 @@
 				63F3148F284EC74F001713D2 /* CopyableLabel.swift in Sources */,
 				63F31490284EC74F001713D2 /* CLLocationCoordinate2D.swift in Sources */,
 				63F31491284EC74F001713D2 /* ReportChargeViewController.swift in Sources */,
-				192FBAAB290E43F1006DDE6D /* GlobalFilterReactor.swift in Sources */,
+				192FBAAB290E43F1006DDE6D /* FilterReactor.swift in Sources */,
 				824D5DBE28BE050A00EDC712 /* QROutletTypeModel.swift in Sources */,
 				63F31492284EC74F001713D2 /* MembershipGuideViewController.swift in Sources */,
 				63F31493284EC74F001713D2 /* PointTableViewCell.swift in Sources */,
@@ -5077,7 +5077,7 @@
 				73DD778123164CB60006EFFC /* CopyableLabel.swift in Sources */,
 				192A338527FED07C00EF1684 /* CLLocationCoordinate2D.swift in Sources */,
 				CE00E812214A330B00020D6E /* ReportChargeViewController.swift in Sources */,
-				192FBAAA290E43F1006DDE6D /* GlobalFilterReactor.swift in Sources */,
+				192FBAAA290E43F1006DDE6D /* FilterReactor.swift in Sources */,
 				824D5DBD28BE050A00EDC712 /* QROutletTypeModel.swift in Sources */,
 				637247DA282A6F3B00595FCE /* MembershipGuideViewController.swift in Sources */,
 				DB5041AE23506A14007336BC /* PointTableViewCell.swift in Sources */,
@@ -5146,7 +5146,7 @@
 				824D5C1228BDD89C00EDC712 /* MyCouponTableViewCell.swift in Sources */,
 				824D5C1328BDD89C00EDC712 /* Coupon.swift in Sources */,
 				824D5C1428BDD89C00EDC712 /* NSData+Extension.swift in Sources */,
-				192FBAAC290E43F1006DDE6D /* GlobalFilterReactor.swift in Sources */,
+				192FBAAC290E43F1006DDE6D /* FilterReactor.swift in Sources */,
 				824D5C1528BDD89C00EDC712 /* PartnershipListView.swift in Sources */,
 				824D5C1628BDD89C00EDC712 /* AppSearchBarController.swift in Sources */,
 				824D5C1728BDD89C00EDC712 /* UINavigationController+Extension.swift in Sources */,

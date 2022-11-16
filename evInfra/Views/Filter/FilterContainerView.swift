@@ -80,13 +80,13 @@ internal final class FilterContainerView: UIView {
     
     func bind(reactor: MainReactor) {
         self.mainReactor = reactor
+                
+        filterSpeedView.bind(reactor: reactor.filterReactor)
+        filterPlaceView.bind(reactor: reactor.filterReactor)
+        filterRoadView.bind(reactor: reactor.filterReactor)
+        filterTypeView.bind(reactor: reactor.filterReactor)
         
-        filterSpeedView.bind(reactor: GlobalFilterReactor.sharedInstance)
-        filterPlaceView.bind(reactor: GlobalFilterReactor.sharedInstance)
-        filterRoadView.bind(reactor: GlobalFilterReactor.sharedInstance)
-        filterTypeView.bind(reactor: GlobalFilterReactor.sharedInstance)
-        
-        GlobalFilterReactor.sharedInstance.state.compactMap { $0.selectedFilterType }
+        reactor.filterReactor.state.compactMap { $0.selectedFilterType }
             .asDriver(onErrorJustReturn: nil)
             .drive(with: self) { obj, selected in
                 switch selected?.filterTagType {

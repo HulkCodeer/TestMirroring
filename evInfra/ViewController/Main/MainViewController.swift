@@ -160,7 +160,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
         prepareRouteView()
         prepareClustering()
             
-        requestStationInfo()
+//        requestStationInfo()
         
         prepareCalloutLayer()
         
@@ -357,12 +357,12 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 menuType: bottomMenuType,
                 reactor: reactor)
             bottomMenuStackView.addArrangedSubview(item)
-            
+
             item.button.rx.tap
                 .map { MainReactor.Action.selectedBottomMenu(bottomMenuType) }
                 .bind(to: reactor.action)
                 .disposed(by: self.disposeBag)
-            
+
             switch bottomMenuType {
             case .evPay:
                 guard let reqData = ABTestManager.shared.reqData(.mainBottomEVPay) else { break }
@@ -370,10 +370,10 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 let width: CGFloat = tooltipMSG.size(of: .systemFont(ofSize: 14)).width + 24
                 let tipLeft: CGFloat = (width / 2) - 6
                 bottomEvPaytooltipView = TooltipView(configure: TooltipView.Configure(tipLeftMargin: tipLeft, tipDirection: .bottom, maxWidth: width))
-                
+
                 guard let bottomEvPaytooltipView = bottomEvPaytooltipView else { return }
                 bottomEvPaytooltipView.isHidden = true
-                
+
                 self.view.addSubview(bottomEvPaytooltipView)
                 bottomEvPaytooltipView.snp.makeConstraints {
                     $0.width.equalTo(width)
@@ -381,26 +381,26 @@ internal final class MainViewController: UIViewController, StoryboardView {
                     $0.bottom.equalTo(item.button.snp.top).offset(-7)
                     $0.height.equalTo(50)
                 }
-                
+
                 bottomEvPaytooltipView.show(message: tooltipMSG)
-                
+
             default:
                 break
             }
         }
-        
+
         if !MemberManager.shared.isShowBottomMenuEVPayTooltip && !FCMManager.sharedInstance.originalMemberId.isEmpty {
             Observable.just(MainReactor.Action.openBottomEvPayTooltip)
                 .bind(to: reactor.action)
                 .disposed(by: disposeBag)
         }
-        
+
         bindAction(reactor: reactor)
         bindState(reactor: reactor)
 
         filterBarView.bind(reactor: reactor)
         filterContainerView.bind(reactor: reactor)
-                                        
+
         reactor.state.compactMap { $0.isShowMarketingPopup }
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { obj, _ in
@@ -418,15 +418,15 @@ internal final class MainViewController: UIViewController, StoryboardView {
                         .bind(to: reactor.action)
                         .disposed(by: self.disposeBag)
                 }
-                
+
                 let popup = ConfirmPopupViewController(model: popupModel)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                     GlobalDefine.shared.mainNavi?.present(popup, animated: false, completion: nil)
                 }
-                                                                                
+
             }
             .disposed(by: self.disposeBag)
-        
+
         reactor.state.compactMap { $0.isShowStartBanner }
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { obj, _ in
@@ -437,7 +437,7 @@ internal final class MainViewController: UIViewController, StoryboardView {
                         var components = DateComponents()
                         components.day = -7
                         let keepDate = keepDateStr.isEmpty ? Calendar.current.date(byAdding: components, to: Date()) : Date().toDate(data: keepDateStr)
-                                   
+
                         guard let _keepDate = keepDate else { return }
                         let difference = Calendar.current.dateComponents([.day], from: _keepDate, to: Date())
                         if let day = difference.day, day > 6 {
@@ -449,25 +449,25 @@ internal final class MainViewController: UIViewController, StoryboardView {
                     .disposed(by: obj.disposeBag)
             }
             .disposed(by: self.disposeBag)
-        
-        GlobalFilterReactor.sharedInstance.state.compactMap { $0.selectedFilterType }
+
+        FilterReactor.sharedInstance.state.compactMap { $0.selectedFilterType }
             .asDriver(onErrorJustReturn: (filterTagType: .speed, isSelected: false))
             .drive(with: self) { obj, selected in
                 obj.filterContainerView.isHidden = !selected.isSelected
             }
             .disposed(by: self.disposeBag)
-        
+
         reactor.state.compactMap { $0.isEvPayFilter }
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { obj, _ in
                 self.drawMapMarker()
             }
             .disposed(by: self.disposeBag)
-        
+
         reactor.state.compactMap { $0.isShowFilterSetting }
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { obj, isShow in
-                let chargerFilterViewController = NewChargerFilterViewController(reactor: GlobalFilterReactor.sharedInstance)
+                let chargerFilterViewController = NewChargerFilterViewController(reactor: FilterReactor.sharedInstance)
                 chargerFilterViewController.delegate = obj
                 GlobalDefine.shared.mainNavi?.push(viewController: chargerFilterViewController)
             }

@@ -8,13 +8,12 @@
 
 import ReactorKit
 
-internal final class GlobalFilterReactor: ViewModel, Reactor {
+internal final class FilterReactor: ViewModel, Reactor {
     typealias SelectedFilterType = (filterTagType: FilterTagType, isSelected: Bool)
     typealias SelectedSpeedFilter = (minSpeed: Int, maxSpeed: Int)
     typealias SelectedPlaceFilter = (placeType: PlaceType, isSelected: Bool)
     typealias SelectedRoadFilter = (roadType: RoadType, isSelected: Bool)
     typealias SelectedChargerTypeFilter = (chargerTypeKey: Int, isSelected: Bool)
-    typealias SelectedAccessFilter = (accessType: AccessType, isSelected: Bool)
     typealias SelectedCompanyFilter = (group: NewCompanyGroup, groupIndex: Int, companyIndex: Int, isSelected: Bool)
     
     enum Action {
@@ -48,7 +47,8 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         case setChargerTypeFilter([NewTag])
         case changedCompanyFilter(SelectedCompanyFilter)
         case setCompanyFilter([NewCompanyGroup])
-        case testLoadRoadType
+//        case testLoadRoadType
+        case setAcessTypeFilter(any Filter)
     }
     
     enum Mutation {
@@ -77,15 +77,14 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         case loadChargerTypes([NewTag])
         case changedChargerTypeFilter(SelectedChargerTypeFilter)
         case changedCompanyFilter(SelectedCompanyFilter)
-        case setTestRoadType
+        case setTestRoadType(any Filter)
     }
 
     struct State {
         var loadedCompanies: [Company]? = []
         var isSelectedAllCompanies: Bool? = true
         var isChangedFilter: Bool? = false
-        var selectedFilterType: SelectedFilterType?
-        var selectedAccessFilter: SelectedAccessFilter?
+        var selectedFilterType: SelectedFilterType?        
         var changedChargerTypeFilter: SelectedChargerTypeFilter?
         var selectedChargerTypes: [ChargerType]?
         var changedCompanyFilter: SelectedCompanyFilter?
@@ -110,7 +109,7 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         var shouldChanged: Bool = false
         
         var testModel: FilterConfigModel = FilterConfigModel()
-        var testRoadTypes: [any Filter] = []
+        var accessType: (any Filter)?
     }
     
     struct FilterModel: Equatable {
@@ -130,8 +129,7 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         var isRepresentCarFilter: Bool = FilterManager.sharedInstance.filter.isRepresentCarChecked
     }
     
-    internal var initialState: State
-    static let sharedInstance: GlobalFilterReactor = GlobalFilterReactor(provider: RestApi())
+    internal var initialState: State    
     
     override init(provider: SoftberryAPI) {
         self.initialState = State()
@@ -140,8 +138,22 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .testLoadRoadType:
-            return .just(.setTestRoadType)
+        case .setAcessTypeFilter(let filter):
+            self.currentState.testModel.accessibilityFilters = self.currentState.testModel.accessibilityFilters.map { test in
+                if test.isEqual(filter) {
+                    return filter
+                }
+                return test
+            }
+            
+            printLog(out: "PARK TEST state : \(self.currentState.testModel.accessibilityFilters[0].isSelected)")
+            
+            printLog(out: "PARK TEST state : \(self.currentState.testModel.accessibilityFilters[1].isSelected)")
+                                    
+            return .just(.setTestRoadType(filter))
+            
+//        case .testLoadRoadType:
+//            return .just(.setTestRoadType)
             
         case .loadCompanies:
             let companyValues: [CompanyInfoDto] = FilterManager.sharedInstance.filter.companyDictionary.map { $0.1 }
@@ -310,10 +322,11 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         var newState = state
         newState.loadedCompanies = nil
         newState.chargerTypes = nil
+        newState.accessType = nil
         
         switch mutation {
-        case .setTestRoadType:
-            newState.testRoadTypes = self.currentState.testModel.roadFilters
+        case .setTestRoadType(let filter):
+            newState.accessType = filter
             
         case .loadCompanies(let companies):
             newState.loadedCompanies = companies

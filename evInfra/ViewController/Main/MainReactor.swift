@@ -16,7 +16,6 @@ internal final class MainReactor: ViewModel, Reactor {
     typealias SelectedRoadFilter = (roadType: RoadType, isSelected: Bool)
     typealias SelectedChargerTypeFilter = (chargerType: ChargerType, isSelected: Bool)
     typealias SelectedSpeedFilter = (minSpeed: Int, maxSpeed: Int)
-    typealias SelectedAccessFilter = (accessType: AccessType, isSelected: Bool)
     
     enum Action {
         case showMarketingPopup
@@ -27,7 +26,6 @@ internal final class MainReactor: ViewModel, Reactor {
         case setSelectedRoadFilter(SelectedRoadFilter)
         case setSelectedChargerTypeFilter(SelectedChargerTypeFilter)
         case setSelectedSpeedFilter(SelectedSpeedFilter)
-        case setSelectedAccessFilter(SelectedAccessFilter)
         case swipeLeft
         case swipeRight
         case showFilterSetting
@@ -63,7 +61,6 @@ internal final class MainReactor: ViewModel, Reactor {
         case setSelectedRoadFilter(SelectedRoadFilter)
         case setSelectedChargerTypeFilter(SelectedChargerTypeFilter)
         case setSelectedSpeedFilter(SelectedSpeedFilter)
-        case setSelectedAccessFilter(SelectedAccessFilter)
         case showFilterSetting
         case updateFilterBarTitle
         case showSearchChargingStation
@@ -96,7 +93,6 @@ internal final class MainReactor: ViewModel, Reactor {
         var selectedRoadFilter: SelectedRoadFilter?
         var selectedChargerTypeFilter: SelectedChargerTypeFilter?
         var selectedSpeedFilter: SelectedSpeedFilter?
-        var selectedAccessFilter: SelectedAccessFilter?
         var isShowFilterSetting: Bool?
         var isUpdateFilterBarTitle: Bool?
         var isShowSearchChargingStation: Bool?
@@ -122,10 +118,13 @@ internal final class MainReactor: ViewModel, Reactor {
     }
     
     internal var initialState: State
+    
+    internal var filterReactor: FilterReactor
 
     override init(provider: SoftberryAPI) {
         self.initialState = State()
-        super.init(provider: provider)
+        self.filterReactor = FilterReactor(provider: provider)
+        super.init(provider: provider)                
     }
     
     // MARK: - mutate
@@ -163,10 +162,6 @@ internal final class MainReactor: ViewModel, Reactor {
             
         case .setSelectedSpeedFilter(let selectedSpeedFilter):
             return .just(.setSelectedSpeedFilter(selectedSpeedFilter))
-            
-        case .setSelectedAccessFilter(let selectedAccessFilter):
-            selectedAccessFilter.accessType == .publicCharger ? FilterManager.sharedInstance.savePublic(with: selectedAccessFilter.isSelected) : FilterManager.sharedInstance.saveNonPublic(with: selectedAccessFilter.isSelected)
-            return .just(.setSelectedAccessFilter(selectedAccessFilter))
             
         case .swipeLeft:
             let selectedFilterInfo: SelectedFilterInfo = (filterTagType: self.currentState.selectedFilterInfo?.filterTagType.swipeLeft() ?? .speed, isSeleted: true)
@@ -278,6 +273,7 @@ internal final class MainReactor: ViewModel, Reactor {
             
         case .openBottomEvPayTooltip:
             return .just(.openBottomEvPayTooltip)
+            
         }
     }
     
@@ -335,9 +331,6 @@ internal final class MainReactor: ViewModel, Reactor {
         case .setSelectedSpeedFilter(let selectedSpeedFilter):
             newState.selectedSpeedFilter = selectedSpeedFilter
             newState.isUpdateFilterBarTitle = true
-            
-        case .setSelectedAccessFilter(let selectedAccessFilter):
-            newState.selectedAccessFilter = selectedAccessFilter
             
         case .showFilterSetting:
             newState.isShowFilterSetting = true

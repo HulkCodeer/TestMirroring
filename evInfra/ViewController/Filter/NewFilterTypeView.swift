@@ -136,7 +136,7 @@ internal final class NewFilterTypeView: UIView {
     }
     
     // MARK: REACTORKIT
-    internal func bind(reactor: GlobalFilterReactor) {
+    internal func bind(reactor: FilterReactor) {
         
         self.addSubview(totalView)
         totalView.snp.makeConstraints {
@@ -160,8 +160,8 @@ internal final class NewFilterTypeView: UIView {
             $0.height.equalTo(76)
         }
         
-        Observable.just(GlobalFilterReactor.Action.loadChargerTypes)
-            .bind(to: GlobalFilterReactor.sharedInstance.action)
+        Observable.just(FilterReactor.Action.loadChargerTypes)
+            .bind(to: FilterReactor.sharedInstance.action)
             .disposed(by: self.disposeBag)
         
         reactor.state.compactMap { $0.chargerTypes }
@@ -195,28 +195,28 @@ extension NewFilterTypeView: UICollectionViewDelegateFlowLayout {
 
 extension NewFilterTypeView: FilterButtonAction {
     func saveFilter() {
-        Observable.just(GlobalFilterReactor.Action.setChargerTypeFilter(tags))
-            .bind(to: GlobalFilterReactor.sharedInstance.action)
+        Observable.just(FilterReactor.Action.setChargerTypeFilter(tags))
+            .bind(to: FilterReactor.sharedInstance.action)
             .disposed(by: self.disposeBag)
     }
     
     func resetFilter() {
         for index in 0..<tags.count {
             tags[index].selected = !(tags[index].uniqueKey == Const.CHARGER_TYPE_SLOW || tags[index].uniqueKey == Const.CHARGER_TYPE_DESTINATION)
-            Observable.just(GlobalFilterReactor.Action.changedChargerTypeFilter((tags[index].uniqueKey, tags[index].selected)))
-                .bind(to: GlobalFilterReactor.sharedInstance.action)
+            Observable.just(FilterReactor.Action.changedChargerTypeFilter((tags[index].uniqueKey, tags[index].selected)))
+                .bind(to: FilterReactor.sharedInstance.action)
                 .disposed(by: self.disposeBag)
         }
         
-        Observable.just(GlobalFilterReactor.Action.setChargerTypeFilter(tags))
-            .bind(to: GlobalFilterReactor.sharedInstance.action)
+        Observable.just(FilterReactor.Action.setChargerTypeFilter(tags))
+            .bind(to: FilterReactor.sharedInstance.action)
             .disposed(by: self.disposeBag)
     }
     
     func revertFilter() {
         for original in _originalTags {
-            Observable.just(GlobalFilterReactor.Action.changedChargerTypeFilter((original.uniqueKey, original.selected)))
-                .bind(to: GlobalFilterReactor.sharedInstance.action)
+            Observable.just(FilterReactor.Action.changedChargerTypeFilter((original.uniqueKey, original.selected)))
+                .bind(to: FilterReactor.sharedInstance.action)
                 .disposed(by: self.disposeBag)
         }
     }
@@ -247,8 +247,8 @@ extension NewFilterTypeView: UICollectionViewDataSource {
             .drive(with: self) { obj, _ in
                 cell.btn.isSelected = !cell.btn.isSelected
                 
-                Observable.just(GlobalFilterReactor.Action.changedChargerTypeFilter((obj.tags[index].uniqueKey, cell.btn.isSelected)))
-                    .bind(to: GlobalFilterReactor.sharedInstance.action)
+                Observable.just(FilterReactor.Action.changedChargerTypeFilter((obj.tags[index].uniqueKey, cell.btn.isSelected)))
+                    .bind(to: FilterReactor.sharedInstance.action)
                     .disposed(by: obj.disposeBag)
                 
                 if obj.isDirectChange {
@@ -258,7 +258,7 @@ extension NewFilterTypeView: UICollectionViewDataSource {
                 obj.delegate?.changedFilter()
             }.disposed(by: self.disposeBag)
 
-        GlobalFilterReactor.sharedInstance.state.compactMap { $0.changedChargerTypeFilter }
+        FilterReactor.sharedInstance.state.compactMap { $0.changedChargerTypeFilter }
             .asDriver(onErrorJustReturn: (0, false))
             .drive(with: self) { obj, selectedChargerFilter in
                 guard selectedChargerFilter.chargerTypeKey == obj.tags[index].uniqueKey else { return }
