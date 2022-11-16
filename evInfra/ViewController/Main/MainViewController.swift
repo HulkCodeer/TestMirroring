@@ -270,15 +270,74 @@ internal final class MainViewController: UIViewController, StoryboardView {
         dismissBottomMenuTooltip()
     }
     
-    // MARK: UI
+    // MARK: Make UI
     
-    private func setUI() {
-        view.insertSubview(naverMapView, at: 0)
-        view.addSubview(filterStackView)
+    private func makeUI() {
         view.addSubview(customNaviBar)
+        customNaviBar.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.top).offset(customNaviBar.height)
+        }
 
-        view.addSubview(destinationResultTableView)
+        makeFilter()        // 상단필터 & 상단 길찾기뷰.
+        makeMap()
         
+        view.addSubview(destinationResultTableView)
+        destinationResultTableView.snp.makeConstraints {
+            $0.top.equalTo(filterBarView.snp.bottom)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        makeBottomMenu()
+
+        view.bringSubviewToFront(self.callOutLayer)
+    }
+    
+    private func makeFilter() {
+        view.addSubview(filterStackView)
+        filterStackView.snp.makeConstraints {
+            $0.top.equalTo(customNaviBar.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+        }
+        
+        filterStackView.addArrangedSubview(searchWayView)
+        searchWayView.snp.makeConstraints {
+            $0.height.equalTo(72)
+        }
+        filterStackView.addArrangedSubview(filterBarView)
+        filterBarView.snp.makeConstraints {
+            $0.height.equalTo(54)
+        }
+        filterStackView.addArrangedSubview(filterContainerView)
+        filterContainerView.snp.makeConstraints {
+            $0.height.equalTo(116)
+        }
+    }
+    
+    private func makeMap() {
+        view.insertSubview(naverMapView, at: 0)
+        naverMapView.snp.makeConstraints {
+            $0.top.equalTo(customNaviBar)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        naverMapView.addSubview(reNewButton)
+        reNewButton.snp.makeConstraints {
+            $0.top.equalTo(filterStackView.snp.bottom).offset(12)
+            $0.trailing.equalToSuperview().inset(10)
+            $0.size.equalTo(40)
+        }
+
+        naverMapView.addSubview(myLocationButton)
+        myLocationButton.snp.makeConstraints {
+            $0.top.equalTo(reNewButton.snp.bottom).offset(12)
+            $0.trailing.equalToSuperview().inset(10)
+            $0.size.equalTo(40)
+        }
+    }
+    
+    private func makeBottomMenu() {
         view.addSubview(bottomMenuView)
         bottomMenuView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(16)
@@ -300,10 +359,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
             $0.leading.trailing.equalToSuperview().inset(8)
         }
         
-        filterStackView.addArrangedSubview(searchWayView)
-        filterStackView.addArrangedSubview(filterBarView)
-        filterStackView.addArrangedSubview(filterContainerView)
-        
         chargePriceContentView.addSubview(chargePriceIcon)
         chargePriceIcon.snp.makeConstraints {
             $0.centerY.equalToSuperview()
@@ -321,66 +376,13 @@ internal final class MainViewController: UIViewController, StoryboardView {
         chargePriceButton.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        
-        view.bringSubviewToFront(self.callOutLayer)
-    }
-    
-    private func setConstraints() {
-        let searchWayViewHeight: CGFloat = 72
-        let filterBarViewHeight: CGFloat = 54
-        let filterContainerViewHeight: CGFloat = 116
-        
-        customNaviBar.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.trailing.equalTo(view.safeAreaLayoutGuide)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.top).offset(customNaviBar.height)
-        }
-        
-        filterStackView.snp.makeConstraints {
-            $0.top.equalTo(customNaviBar.snp.bottom)
-            $0.leading.trailing.equalToSuperview()
-        }
-        searchWayView.snp.makeConstraints {
-            $0.height.equalTo(searchWayViewHeight)
-        }
-        filterBarView.snp.makeConstraints {
-            $0.height.equalTo(filterBarViewHeight)
-        }
-        filterContainerView.snp.makeConstraints {
-            $0.height.equalTo(filterContainerViewHeight)
-        }
-        
-        naverMapView.addSubview(reNewButton)
-        reNewButton.snp.makeConstraints {
-            $0.top.equalTo(filterStackView.snp.bottom).offset(12)
-            $0.trailing.equalToSuperview().inset(10)
-            $0.size.equalTo(40)
-        }
-        
-        naverMapView.addSubview(myLocationButton)
-        myLocationButton.snp.makeConstraints {
-            $0.top.equalTo(reNewButton.snp.bottom).offset(12)
-            $0.trailing.equalToSuperview().inset(10)
-            $0.size.equalTo(40)
-        }
-
-        naverMapView.snp.makeConstraints {
-            $0.top.equalTo(customNaviBar)
-            $0.leading.trailing.bottom.equalToSuperview()
-        }
-        
-        destinationResultTableView.snp.makeConstraints {
-            $0.top.equalTo(filterBarView.snp.bottom)
-            $0.leading.trailing.bottom.equalToSuperview()
-        }
     }
     
     // MARK: REACTORKIT
     
     internal func bind(reactor: MainReactor) {
-        // 스토리보드 제거 후 loadView 이동 요망. setUI, setConstraints
-        setUI()
-        setConstraints()
+        // 스토리보드 제거 후 loadView 이동 요망.
+        makeUI()
         
         for bottomMenuType in MainReactor.BottomMenuType.allCases {
             let item = BottomMenuItem(
