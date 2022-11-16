@@ -56,12 +56,9 @@ enum Speed: CGFloat, CaseIterable {
     }
 }
 
-internal final class NewFilterSpeedView: UIView {
+internal final class NewFilterSpeedView: CommonFilterView {
     
     // MARK: UI
-    private lazy var totalView = UIView().then {
-        $0.backgroundColor = Colors.backgroundPrimary.color
-    }
     
     private lazy var stackView = UIStackView().then {
         $0.axis = .horizontal

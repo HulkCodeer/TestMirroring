@@ -16,10 +16,7 @@ import Then
 internal final class NewFilterRoadView: CommonFilterView {
     
     // MARK: UI
-    private lazy var totalView = UIView().then {
-        $0.backgroundColor = Colors.backgroundPrimary.color
-    }
-    
+
     private lazy var filterTitleLbl = UILabel().then {
         $0.text = "도로"
         $0.font = .systemFont(ofSize: 14, weight: .bold)
@@ -63,7 +60,7 @@ internal final class NewFilterRoadView: CommonFilterView {
     }
     
     func bind(reactor: FilterReactor) {                
-        for roadFilter in reactor.currentState.tempFilterModel.accessibilityFilters {
+        for roadFilter in reactor.currentState.tempFilterModel.roadFilters {
             let filterTypeView = self.createCommonFilterTypeView(roadFilter, reactor: reactor)
             stackView.addArrangedSubview(filterTypeView.totalView)
             

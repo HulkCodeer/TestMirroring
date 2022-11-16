@@ -15,9 +15,6 @@ import EasyTipView
 
 internal final class NewFilterAccessView: CommonFilterView {
     // MARK: UI
-    private lazy var totalView = UIView().then {
-        $0.backgroundColor = Colors.backgroundPrimary.color
-    }
     
     private lazy var filterTitleLbl = UILabel().then {
         $0.text = "접근"

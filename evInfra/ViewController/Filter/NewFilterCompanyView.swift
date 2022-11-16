@@ -12,12 +12,9 @@ import RxCocoa
 import SnapKit
 import Then
 
-internal final class NewFilterCompanyView: UIView {
+internal final class NewFilterCompanyView: CommonFilterView {
     // MARK: UI
-    private lazy var totalView = UIView().then {
-        $0.backgroundColor = Colors.backgroundPrimary.color
-    }
-    
+
     private lazy var filterTitleLbl = UILabel().then {
         $0.text = "충전사업자"
         $0.font = .systemFont(ofSize: 14, weight: .bold)

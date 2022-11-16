@@ -11,6 +11,10 @@ import Foundation
 internal class CommonFilterView: UIView {
     typealias FilterView = (totalView: UIView, imgView: UIImageView, btn: UIButton)
     
+    internal lazy var totalView = UIView().then {
+        $0.backgroundColor = Colors.backgroundPrimary.color
+    }
+    
     deinit {
         printLog(out: "\(type(of: self)): Deinited")
     }

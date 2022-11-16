@@ -95,11 +95,8 @@ enum ChargerType: CaseIterable {
     }
 }
 
-internal final class NewFilterTypeView: UIView {
+internal final class NewFilterTypeView: CommonFilterView {
     // MARK: UI
-    private lazy var totalView = UIView().then {
-        $0.backgroundColor = Colors.backgroundPrimary.color
-    }
     
     private lazy var filterTitleLbl = UILabel().then {
         $0.text = "충전기타입"
