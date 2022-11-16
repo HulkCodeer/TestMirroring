@@ -66,14 +66,12 @@ internal final class FilterContainerView: UIView {
         filterRoadView.isDirectChange = true
         filterPlaceView.isDirectChange = true
         
-        filterTypeView.delegate = self
+//        filterTypeView.delegate = self
+        filterTypeView.delegateSlowTypeChange = self
         filterSpeedView.delegate = self
         filterRoadView.delegate = self
-//        filterPlaceView.delegate = self
+        filterPlaceView.delegate = self
         filterPriceView.delegate = self
-        
-//        filterSpeedView.slowSpeedChangeDelegate = self
-//        filterTypeView.slowTypeChangeDelegate = self
     }
     
     // MARK: FUNC
@@ -161,11 +159,17 @@ extension FilterContainerView: DelegateFilterChange{
     }
 }
 
-extension FilterContainerView : DelegateSlowTypeChange {
-    func onChangeSlowType(slowOn: Bool) {
-//        filterSpeedView.setSlowOn(slowOn: slowOn)
+extension FilterContainerView: NewDelegateSlowTypeChange {
+    func onChangeSlowType(isFastSpeedOn: Bool, isSlowSpeedon: Bool) {
+        filterSpeedView.changedSlowTypeSpeed(isFastSpeedOn: isFastSpeedOn, isSlowSpeedOn: isSlowSpeedon)
     }
 }
+
+//extension FilterContainerView : DelegateSlowTypeChange {
+//    func onChangeSlowType(slowOn: Bool) {
+//        filterSpeedView.setSlowOn(slowOn: slowOn)
+//    }
+//}
 
 extension FilterContainerView : DelegateSlowSpeedChange {
     func onChangeSlowSpeed(isSlow: Bool) {

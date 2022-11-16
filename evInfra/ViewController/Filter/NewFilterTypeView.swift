@@ -12,7 +12,15 @@ import RxCocoa
 import SnapKit
 import Then
 
-internal struct NewTag {
+protocol NewDelegateSlowTypeChange: AnyObject {
+    func onChangeSlowType(isFastSpeedOn: Bool, isSlowSpeedon: Bool)
+}
+
+internal class NewTag: Equatable {
+    static func == (lhs: NewTag, rhs: NewTag) -> Bool {
+        return lhs.title == rhs.title && lhs.selected == rhs.selected && lhs.uniqueKey == rhs.uniqueKey && lhs.image == rhs.image
+    }
+    
     var title: String
     var selected: Bool
     var uniqueKey: Int
@@ -117,8 +125,8 @@ internal final class NewFilterTypeView: UIView {
     private var disposeBag = DisposeBag()
     private var _originalTags: [NewTag] = [NewTag]()
     private var tags: [NewTag] = [NewTag]()
-    internal var types: [ChargerType] = [ChargerType]()
-    internal weak var delegate: NewDelegateFilterChange?
+    internal weak var delegateSlowTypeChange: NewDelegateSlowTypeChange?
+
     internal var isDirectChange: Bool = false
     
     // MARK: SYSTEM FUNC
@@ -164,23 +172,15 @@ internal final class NewFilterTypeView: UIView {
             .bind(to: GlobalFilterReactor.sharedInstance.action)
             .disposed(by: self.disposeBag)
         
-        reactor.state.compactMap { $0.chargerTypes }
+        reactor.state.compactMap { $0.filterModel.chargerTypes }
             .asDriver(onErrorJustReturn: [])
             .drive(with: self) { obj, types in
                 obj.tags.removeAll()
                 obj._originalTags.removeAll()
-                obj.tags = types
                 obj._originalTags = types
+                obj.tags = types
                 obj.chargerTypesCollectionView.reloadData()
             }.disposed(by: self.disposeBag)
-    }
-    
-    internal func shouldChange() -> Bool {
-        for index in 0..<self.tags.count {
-            guard tags[index].selected == _originalTags[index].selected else { return true }
-        }
-        
-        return false
     }
 }
 
@@ -195,7 +195,12 @@ extension NewFilterTypeView: UICollectionViewDelegateFlowLayout {
 
 extension NewFilterTypeView: FilterButtonAction {
     func saveFilter() {
-        Observable.just(GlobalFilterReactor.Action.setChargerTypeFilter(tags))
+        let filterModel = GlobalFilterReactor.sharedInstance.currentState.filterModel
+        Observable.of(GlobalFilterReactor.Action.saveFilter(filterModel))
+            .bind(to: GlobalFilterReactor.sharedInstance.action)
+            .disposed(by: self.disposeBag)
+
+        Observable.just(GlobalFilterReactor.Action.loadChargerTypes)
             .bind(to: GlobalFilterReactor.sharedInstance.action)
             .disposed(by: self.disposeBag)
     }
@@ -246,36 +251,54 @@ extension NewFilterTypeView: UICollectionViewDataSource {
             .asDriver()
             .drive(with: self) { obj, _ in
                 cell.btn.isSelected = !cell.btn.isSelected
-                
-                Observable.just(GlobalFilterReactor.Action.changedChargerTypeFilter((obj.tags[index].uniqueKey, cell.btn.isSelected)))
+                obj.tags[index].selected = cell.btn.isSelected
+
+                Observable.just(GlobalFilterReactor.Action.updateChargerTypeFilter(obj.tags))
                     .bind(to: GlobalFilterReactor.sharedInstance.action)
                     .disposed(by: obj.disposeBag)
                 
+                self.shouldSlowType()
                 if obj.isDirectChange {
                     obj.saveFilter()
                 }
                 
-                obj.delegate?.changedFilter()
+                Observable.just(GlobalFilterReactor.Action.shouldChanged)
+                    .bind(to: GlobalFilterReactor.sharedInstance.action)
+                    .disposed(by: obj.disposeBag)
+            
+                cell.titleLbl.textColor = cell.btn.isSelected ? Colors.gr7.color : Colors.contentSecondary.color
+                cell.imgView.tintColor = cell.btn.isSelected ? Colors.gr7.color : Colors.contentSecondary.color
+                cell.totalView.backgroundColor = cell.btn.isSelected ? Colors.backgroundPositiveLight.color : Colors.backgroundPrimary.color
+                cell.totalView.borderColor = cell.btn.isSelected ? Colors.borderPositive.color : Colors.nt1.color
             }.disposed(by: self.disposeBag)
-
-        GlobalFilterReactor.sharedInstance.state.compactMap { $0.changedChargerTypeFilter }
-            .asDriver(onErrorJustReturn: (0, false))
-            .drive(with: self) { obj, selectedChargerFilter in
-                guard selectedChargerFilter.chargerTypeKey == obj.tags[index].uniqueKey else { return }
-                
-                let isSelected = selectedChargerFilter.isSelected
-                obj.tags[index].selected = isSelected
-                cell.titleLbl.textColor = isSelected ? Colors.gr7.color : Colors.contentSecondary.color
-                cell.imgView.tintColor = isSelected ? Colors.gr7.color : Colors.contentSecondary.color
-                cell.totalView.backgroundColor = isSelected ? Colors.backgroundPositiveLight.color : Colors.backgroundPrimary.color
-                cell.totalView.borderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
-            }.disposed(by: self.disposeBag)
-        
         /* cell에 리액터 주입 안 한 이유:
          * NewTagListViewCell은 상단필터의 충전기타입 필터 뿐만 아니라 필터 상세의 회사필터에도 적용되는데,
          * 각각 충전기타입과 회사타입에 대한 바인드 함수를 따로 정의하기 위해 cell안에 리액터 주입을 안함.
          */
 
         return cell
+    }
+    
+    private func shouldSlowType() {
+        var isFastSpeedTypeOn: Bool = false
+        var isSlowSpeedTypeOn: Bool = false
+        
+        for index in 0..<tags.count {
+            if tags[index].uniqueKey == Const.CHARGER_TYPE_SLOW || tags[index].uniqueKey == Const.CHARGER_TYPE_DESTINATION {
+                // 완속
+                isSlowSpeedTypeOn = isSlowSpeedTypeOn || tags[index].selected
+            } else {
+                // 급속
+                isFastSpeedTypeOn = isFastSpeedTypeOn || tags[index].selected
+            }
+        }
+        
+        delegateSlowTypeChange?.onChangeSlowType(isFastSpeedOn: isFastSpeedTypeOn, isSlowSpeedon: isSlowSpeedTypeOn)
+        
+        if !isSlowSpeedTypeOn {
+            Observable.just(GlobalFilterReactor.Action.updateSlowTypeOn(false))
+                .bind(to: GlobalFilterReactor.sharedInstance.action)
+                .disposed(by: self.disposeBag)
+        }
     }
 }
