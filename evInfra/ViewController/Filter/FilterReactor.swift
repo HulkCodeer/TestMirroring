@@ -52,6 +52,7 @@ internal final class FilterReactor: ViewModel, Reactor {
         case setCompanyFilter([NewCompanyGroup])
 //        case testLoadRoadType
         case setAcessTypeFilter(any Filter)
+        case setRoadTypeFilter(any Filter)
     }
     
     enum Mutation {
@@ -83,7 +84,8 @@ internal final class FilterReactor: ViewModel, Reactor {
         case changedChargerTypeFilter(SelectedChargerTypeFilter)
         case updateChargerTypeFilter([NewTag])
         case changedCompanyFilter(SelectedCompanyFilter)
-        case setTestRoadType(any Filter)
+        case setAccessType(any Filter)
+        case setRoadType(any Filter)
     }
 
     struct State {
@@ -129,8 +131,8 @@ internal final class FilterReactor: ViewModel, Reactor {
         })
         var shouldChanged: Bool = false
         
-        var testModel: FilterConfigModel = FilterConfigModel()
-        var accessType: (any Filter)?
+        var tempFilterModel: FilterConfigModel = FilterConfigModel()
+        var filterType: (any Filter)?
     }
     
     struct FilterModel: Equatable {
@@ -188,19 +190,25 @@ internal final class FilterReactor: ViewModel, Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .setAcessTypeFilter(let filter):
-            self.currentState.testModel.accessibilityFilters = self.currentState.testModel.accessibilityFilters.map { test in
+        case .setRoadTypeFilter(let filter):
+            self.currentState.tempFilterModel.roadFilters = self.currentState.tempFilterModel.roadFilters.map { test in
                 if test.isEqual(filter) {
                     return filter
                 }
                 return test
             }
+                                                            
+            return .just(.setRoadType(filter))
             
-            printLog(out: "PARK TEST state : \(self.currentState.testModel.accessibilityFilters[0].isSelected)")
-            
-            printLog(out: "PARK TEST state : \(self.currentState.testModel.accessibilityFilters[1].isSelected)")
-                                    
-            return .just(.setTestRoadType(filter))
+        case .setAcessTypeFilter(let filter):
+            self.currentState.tempFilterModel.accessibilityFilters = self.currentState.tempFilterModel.accessibilityFilters.map { test in
+                if test.isEqual(filter) {
+                    return filter
+                }
+                return test
+            }
+                                                            
+            return .just(.setAccessType(filter))
             
 //        case .testLoadRoadType:
 //            return .just(.setTestRoadType)
@@ -394,11 +402,14 @@ internal final class FilterReactor: ViewModel, Reactor {
         var newState = state
         newState.loadedCompanies = nil
         newState.chargerTypes = nil
-        newState.accessType = nil
+        newState.filterType = nil
         
         switch mutation {
-        case .setTestRoadType(let filter):
-            newState.accessType = filter
+        case .setRoadType(let filter):
+            newState.filterType = filter
+            
+        case .setAccessType(let filter):
+            newState.filterType = filter
             
         case .loadCompanies(let companies):
             newState.loadedCompanies = companies

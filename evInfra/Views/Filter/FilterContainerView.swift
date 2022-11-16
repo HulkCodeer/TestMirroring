@@ -63,7 +63,7 @@ internal final class FilterContainerView: UIView {
         
         filterTypeView.isDirectChange = true
         filterSpeedView.isDirectChange = true
-        filterRoadView.isDirectChange = true
+//        filterRoadView.isDirectChange = true
         filterPlaceView.isDirectChange = true
         
 //        filterTypeView.delegate = self

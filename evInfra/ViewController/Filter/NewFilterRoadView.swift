@@ -13,34 +13,7 @@ import RxCocoa
 import SnapKit
 import Then
 
-enum RoadType: CaseIterable {
-    typealias Property = (image: UIImage?, imgUnSelectColor: UIColor?, imgSelectColor: UIColor?)
-    
-    case general
-    case highwayUp
-    case highwayDown
-    
-    internal var typeImageProperty: Property? {
-        switch self {
-        case .general:
-            return (image: Icons.iconGeneralRoad.image, imgUnSelectColor: Colors.contentTertiary.color, imgSelectColor: Colors.contentPositive.color)
-        case .highwayUp:
-            return (image: Icons.iconHighwayTop.image, imgUnSelectColor: Colors.contentTertiary.color, imgSelectColor: Colors.contentPositive.color)
-        case .highwayDown:
-            return (image: Icons.iconHighwayBottom.image, imgUnSelectColor: Colors.contentTertiary.color, imgSelectColor: Colors.contentPositive.color)
-        }
-    }
-    
-    internal var typeTitle: String {
-        switch self {
-        case .general: return "일반도로"
-        case .highwayUp: return "고속도로(상)"
-        case .highwayDown: return "고속도로(하)"
-        }
-    }
-}
-
-internal final class NewFilterRoadView: UIView {
+internal final class NewFilterRoadView: CommonFilterView {
     
     // MARK: UI
     private lazy var totalView = UIView().then {
@@ -62,27 +35,10 @@ internal final class NewFilterRoadView: UIView {
     // MARK: VARIABLES
     var disposeBag = DisposeBag()
     internal weak var delegate: NewDelegateFilterChange?
-    internal var isDirectChange: Bool = false
     
     // MARK: FUNC
     
-    deinit {
-        printLog(out: "\(type(of: self)): Deinited")
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    
-    func bind(reactor: FilterReactor) {
+    override func makeUI() {
         self.addSubview(totalView)
         totalView.snp.makeConstraints {
             $0.top.leading.trailing.bottom.equalToSuperview()
@@ -104,174 +60,196 @@ internal final class NewFilterRoadView: UIView {
             $0.bottom.equalTo(totalView.snp.bottom).offset(-20)
             $0.height.equalTo(68)
         }
-        
-        for roadFilter in RoadType.allCases {
-            stackView.addArrangedSubview(self.createRoadTypeView(roadFilter, reactor: reactor))
+    }
+    
+    func bind(reactor: FilterReactor) {                
+        for roadFilter in reactor.currentState.tempFilterModel.accessibilityFilters {
+            let filterTypeView = self.createCommonFilterTypeView(roadFilter, reactor: reactor)
+            stackView.addArrangedSubview(filterTypeView.totalView)
+            
+            filterTypeView.btn.rx.tap
+                .asDriver()
+                .drive(with: self) { obj, _ in
+                    var roadFilter = roadFilter
+                    filterTypeView.btn.isSelected = !filterTypeView.btn.isSelected
+                    roadFilter.isSelected = filterTypeView.btn.isSelected
+                    Observable.just(FilterReactor.Action.setAcessTypeFilter(roadFilter))
+                        .bind(to: reactor.action)
+                        .disposed(by: self.disposeBag)
+                }
+                .disposed(by: self.disposeBag)
+
+            reactor.state.compactMap { $0.filterType }
+                .filter { $0.isEqual(roadFilter) }
+                .asDriver(onErrorJustReturn: PublicFilter(isSelected: true))
+                .drive(with: self) { obj, type in
+                    filterTypeView.imgView.tintColor = type.displayImageColor
+                }.disposed(by: self.disposeBag)
         }
     }
            
-    private func createRoadTypeView(_ roadType: RoadType, reactor: FilterReactor) -> UIView {
-        let typeImageProperty = roadType.typeImageProperty ?? (image: nil, imgUnSelectColor: nil, imgSelectColor: nil)
-        let imgView = UIImageView().then {
-            $0.image = typeImageProperty.image
-            $0.tintColor = typeImageProperty.imgUnSelectColor
-        }
-        
-        let titleLbl = UILabel().then {
-            $0.text = roadType.typeTitle
-            $0.font = .systemFont(ofSize: 14)
-        }
-        
-        let btn = UIButton().then {
-            $0.isSelected = false
-        }
-        
-        let view = UIView().then {
-            $0.addSubview(imgView)
-            imgView.snp.makeConstraints {
-                $0.top.equalToSuperview()
-                $0.centerX.equalToSuperview()
-                $0.width.height.equalTo(48)
-            }
-            
-            $0.addSubview(titleLbl)
-            titleLbl.snp.makeConstraints {
-                $0.top.equalTo(imgView.snp.bottom).offset(4)
-                $0.centerX.equalToSuperview()
-                $0.bottom.equalToSuperview()
-                $0.height.equalTo(16)
-            }
-
-            $0.addSubview(btn)
-            btn.snp.makeConstraints {
-                $0.edges.equalToSuperview()
-            }
-        }
-
-        let isGenral = reactor.currentState.filterModel.isGeneralRoad
-        let isHighwayUp = reactor.currentState.filterModel.isHighwayUp
-        let isHighwayDown = reactor.currentState.filterModel.isHighwayDown
-        
-        btn.rx.tap
-            .asDriver()
-            .drive(with: self) { obj, _ in
-                btn.isSelected = !btn.isSelected
-
-                Observable.just(FilterReactor.Action.updateGeneralFilter(btn.isSelected))
-                    .bind(to: reactor.action)
-                    .disposed(by: obj.disposeBag)
-
-                if obj.isDirectChange {
-                    obj.saveFilter()
-                }
-
-                Observable.just(FilterReactor.Action.shouldChanged)
-                    .bind(to: reactor.action)
-                    .disposed(by: obj.disposeBag)
-            }
-            .disposed(by: self.disposeBag)
-        
-        switch roadType {
-        case .general:
-            imgView.tintColor = isGenral ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-            titleLbl.textColor = isGenral ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-
-            btn.isSelected = isGenral
-
-            btn.rx.tap
-                .asDriver()
-                .drive(with: self) { obj, _ in
-                    btn.isSelected = !btn.isSelected
-
-                    Observable.just(FilterReactor.Action.updateGeneralFilter(btn.isSelected))
-                        .bind(to: reactor.action)
-                        .disposed(by: obj.disposeBag)
-
-                    if obj.isDirectChange {
-                        obj.saveFilter()
-                    }
-
-                    Observable.just(FilterReactor.Action.shouldChanged)
-                        .bind(to: reactor.action)
-                        .disposed(by: obj.disposeBag)
-                }
-                .disposed(by: self.disposeBag)
-
-            reactor.state.compactMap { $0.filterModel.isGeneralRoad }
-                .asDriver(onErrorJustReturn: false)
-                .drive(with: self) { obj, isSelected in
-                    btn.isSelected = isSelected
-                    imgView.tintColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-                    titleLbl.textColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-                }.disposed(by: self.disposeBag)
-
-        case .highwayUp:
-            imgView.tintColor = isHighwayUp ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-            titleLbl.textColor = isHighwayUp ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-
-            btn.isSelected = isHighwayUp
-
-            btn.rx.tap
-                .asDriver()
-                .drive(with: self) { obj, _ in
-                    btn.isSelected = !btn.isSelected
-                    Observable.just(FilterReactor.Action.updateHighwayUpFilter(btn.isSelected))
-                        .bind(to: reactor.action)
-                        .disposed(by: obj.disposeBag)
-
-                    if obj.isDirectChange {
-                        obj.saveFilter()
-                    }
-
-                    Observable.just(FilterReactor.Action.shouldChanged)
-                        .bind(to: reactor.action)
-                        .disposed(by: obj.disposeBag)
-                }
-                .disposed(by: self.disposeBag)
-
-            reactor.state.compactMap { $0.filterModel.isHighwayUp }
-                .asDriver(onErrorJustReturn: false)
-                .drive(with: self) { obj, isSelected in
-                    btn.isSelected = isSelected
-                    imgView.tintColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-                    titleLbl.textColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-                }.disposed(by: self.disposeBag)
-
-        case .highwayDown:
-            imgView.tintColor = isHighwayDown ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-            titleLbl.textColor = isHighwayDown ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-
-            btn.isSelected = isHighwayDown
-
-            btn.rx.tap
-                .asDriver()
-                .drive(with: self) { obj, _ in
-                    btn.isSelected = !btn.isSelected
-                    Observable.just(FilterReactor.Action.updateHigywayDownFilter(btn.isSelected))
-                        .bind(to: reactor.action)
-                        .disposed(by: obj.disposeBag)
-
-                    if obj.isDirectChange {
-                        obj.saveFilter()
-                    }
-
-                    Observable.just(FilterReactor.Action.shouldChanged)
-                        .bind(to: reactor.action)
-                        .disposed(by: obj.disposeBag)
-                }
-                .disposed(by: self.disposeBag)
-
-            reactor.state.compactMap { $0.filterModel.isHighwayDown }
-                .asDriver(onErrorJustReturn: false)
-                .drive(with: self) { obj, isSelected in
-                    btn.isSelected = isSelected
-                    imgView.tintColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-                    titleLbl.textColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-                }.disposed(by: self.disposeBag)
-        }
-        
-        return view
-    }
+//    private func createRoadTypeView(_ roadTypeFilter: any Filter, reactor: FilterReactor) -> UIView {
+//        let typeImageProperty = roadType.typeImageProperty ?? (image: nil, imgUnSelectColor: nil, imgSelectColor: nil)
+//        let imgView = UIImageView().then {
+//            $0.image = typeImageProperty.image
+//            $0.tintColor = typeImageProperty.imgUnSelectColor
+//        }
+//
+//        let titleLbl = UILabel().then {
+//            $0.text = roadType.typeTitle
+//            $0.font = .systemFont(ofSize: 14)
+//        }
+//
+//        let btn = UIButton().then {
+//            $0.isSelected = false
+//        }
+//
+//        let view = UIView().then {
+//            $0.addSubview(imgView)
+//            imgView.snp.makeConstraints {
+//                $0.top.equalToSuperview()
+//                $0.centerX.equalToSuperview()
+//                $0.width.height.equalTo(48)
+//            }
+//
+//            $0.addSubview(titleLbl)
+//            titleLbl.snp.makeConstraints {
+//                $0.top.equalTo(imgView.snp.bottom).offset(4)
+//                $0.centerX.equalToSuperview()
+//                $0.bottom.equalToSuperview()
+//                $0.height.equalTo(16)
+//            }
+//
+//            $0.addSubview(btn)
+//            btn.snp.makeConstraints {
+//                $0.edges.equalToSuperview()
+//            }
+//        }
+//
+//        let isGenral = reactor.currentState.filterModel.isGeneralRoad
+//        let isHighwayUp = reactor.currentState.filterModel.isHighwayUp
+//        let isHighwayDown = reactor.currentState.filterModel.isHighwayDown
+//
+//        btn.rx.tap
+//            .asDriver()
+//            .drive(with: self) { obj, _ in
+//                btn.isSelected = !btn.isSelected
+//
+//                Observable.just(FilterReactor.Action.updateGeneralFilter(btn.isSelected))
+//                    .bind(to: reactor.action)
+//                    .disposed(by: obj.disposeBag)
+//
+//                if obj.isDirectChange {
+//                    obj.saveFilter()
+//                }
+//
+//                Observable.just(FilterReactor.Action.shouldChanged)
+//                    .bind(to: reactor.action)
+//                    .disposed(by: obj.disposeBag)
+//            }
+//            .disposed(by: self.disposeBag)
+//
+//        switch roadType {
+//        case .general:
+//            imgView.tintColor = isGenral ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+//            titleLbl.textColor = isGenral ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+//
+//            btn.isSelected = isGenral
+//
+//            btn.rx.tap
+//                .asDriver()
+//                .drive(with: self) { obj, _ in
+//                    btn.isSelected = !btn.isSelected
+//
+//                    Observable.just(FilterReactor.Action.updateGeneralFilter(btn.isSelected))
+//                        .bind(to: reactor.action)
+//                        .disposed(by: obj.disposeBag)
+//
+//                    if obj.isDirectChange {
+//                        obj.saveFilter()
+//                    }
+//
+//                    Observable.just(FilterReactor.Action.shouldChanged)
+//                        .bind(to: reactor.action)
+//                        .disposed(by: obj.disposeBag)
+//                }
+//                .disposed(by: self.disposeBag)
+//
+//            reactor.state.compactMap { $0.filterModel.isGeneralRoad }
+//                .asDriver(onErrorJustReturn: false)
+//                .drive(with: self) { obj, isSelected in
+//                    btn.isSelected = isSelected
+//                    imgView.tintColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+//                    titleLbl.textColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+//                }.disposed(by: self.disposeBag)
+//
+//        case .highwayUp:
+//            imgView.tintColor = isHighwayUp ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+//            titleLbl.textColor = isHighwayUp ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+//
+//            btn.isSelected = isHighwayUp
+//
+//            btn.rx.tap
+//                .asDriver()
+//                .drive(with: self) { obj, _ in
+//                    btn.isSelected = !btn.isSelected
+//                    Observable.just(FilterReactor.Action.updateHighwayUpFilter(btn.isSelected))
+//                        .bind(to: reactor.action)
+//                        .disposed(by: obj.disposeBag)
+//
+//                    if obj.isDirectChange {
+//                        obj.saveFilter()
+//                    }
+//
+//                    Observable.just(FilterReactor.Action.shouldChanged)
+//                        .bind(to: reactor.action)
+//                        .disposed(by: obj.disposeBag)
+//                }
+//                .disposed(by: self.disposeBag)
+//
+//            reactor.state.compactMap { $0.filterModel.isHighwayUp }
+//                .asDriver(onErrorJustReturn: false)
+//                .drive(with: self) { obj, isSelected in
+//                    btn.isSelected = isSelected
+//                    imgView.tintColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+//                    titleLbl.textColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+//                }.disposed(by: self.disposeBag)
+//
+//        case .highwayDown:
+//            imgView.tintColor = isHighwayDown ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+//            titleLbl.textColor = isHighwayDown ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+//
+//            btn.isSelected = isHighwayDown
+//
+//            btn.rx.tap
+//                .asDriver()
+//                .drive(with: self) { obj, _ in
+//                    btn.isSelected = !btn.isSelected
+//                    Observable.just(FilterReactor.Action.updateHigywayDownFilter(btn.isSelected))
+//                        .bind(to: reactor.action)
+//                        .disposed(by: obj.disposeBag)
+//
+//                    if obj.isDirectChange {
+//                        obj.saveFilter()
+//                    }
+//
+//                    Observable.just(FilterReactor.Action.shouldChanged)
+//                        .bind(to: reactor.action)
+//                        .disposed(by: obj.disposeBag)
+//                }
+//                .disposed(by: self.disposeBag)
+//
+//            reactor.state.compactMap { $0.filterModel.isHighwayDown }
+//                .asDriver(onErrorJustReturn: false)
+//                .drive(with: self) { obj, isSelected in
+//                    btn.isSelected = isSelected
+//                    imgView.tintColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+//                    titleLbl.textColor = isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+//                }.disposed(by: self.disposeBag)
+//        }
+//
+//        return view
+//    }
     
     internal func shouldChanged() -> Bool {
 //        let isGeneral = reactor.currentState.isGeneralRoad

@@ -12,33 +12,6 @@ import RxCocoa
 import SnapKit
 import Then
 
-enum PlaceType: CaseIterable {
-    typealias Property = (image: UIImage?, imgUnSelectColor: UIColor?, imgSelectColor: UIColor?)
-    
-    case indoor
-    case outdoor
-    case canopy
-    
-    internal var typeImageProperty: Property? {
-        switch self {
-        case .indoor:
-            return (image: Icons.iconInside.image, imgUnSelectColor: Colors.contentTertiary.color, imgSelectColor: Colors.contentPositive.color)
-        case .outdoor:
-            return (image: Icons.iconOutside.image, imgUnSelectColor: Colors.contentTertiary.color, imgSelectColor: Colors.contentPositive.color)
-        case .canopy:
-            return (image: Icons.iconCanopy.image, imgUnSelectColor: Colors.contentTertiary.color, imgSelectColor: Colors.contentPositive.color)
-        }
-    }
-    
-    internal var typeTitle: String {
-        switch self {
-        case .indoor: return "실내"
-        case .outdoor: return "실외"
-        case .canopy: return "캐노피"
-        }
-    }
-}
-
 internal final class NewFilterPlaceView: UIView {
     
     // MARK: UI

@@ -30,68 +30,8 @@ extension Filter {
     }
 }
 
-internal class PublicFilter: Filter {
-    var isSelected: Bool
-                    
-    var typeImageProperty: Property {
-        return (image: Icons.iconAccessPublic.image, imgUnSelectColor: Colors.contentTertiary.color, imgSelectColor: Colors.contentPositive.color)
-    }
-    
-    var displayImageColor: UIColor {
-        self.isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-    }
-    
-    var typeTilte: String {
-        "개방 충전소"
-    }
-    
-    required init(isSelected: Bool) {
-        self.isSelected = isSelected
-    }
-}
-
-internal class NonPublicFilter: Filter {
-    var isSelected: Bool
-            
-    var typeImageProperty: Property {
-        return (image: Icons.iconAccessNonpublic.image, imgUnSelectColor: Colors.contentTertiary.color, imgSelectColor: Colors.contentPositive.color)
-    }
-    
-    var displayImageColor: UIColor {
-        isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-    }
-    
-    var typeTilte: String {
-        "비개방 충전소"
-    }
-    
-    required init(isSelected: Bool) {
-        self.isSelected = isSelected
-    }
-}
-
-protocol AccessibilityFilterCreator {
-    func createAccessibilityFilter(isSelected: Bool, type: AccessibilityType) -> any Filter
-}
-
-enum AccessibilityType: CaseIterable {
-    case publicType
-    case nonPublicType
-}
-
-class AccessibilityFilterFactory: AccessibilityFilterCreator {
-    func createAccessibilityFilter(isSelected: Bool, type: AccessibilityType) -> any Filter {
-        switch type {
-        case .publicType:
-            return PublicFilter(isSelected: isSelected)
-        case .nonPublicType:
-            return NonPublicFilter(isSelected: isSelected)
-        }
-    }
-}
-
 //enum DetailFilterType {
-//    case accessibility(model: String, isSeleted: Bool)
+//    case Road(model: String, isSeleted: Bool)
 //    case road(model: String, isSeleted: Bool)
 //    case installType(model: String, isSeleted: Bool)
 //    case chargerType(model: String, isSeleted: Bool)
@@ -99,10 +39,22 @@ class AccessibilityFilterFactory: AccessibilityFilterCreator {
 
 internal final class FilterConfigModel {
     var accessibilityFilters: [any Filter] = []
+    var roadFilters: [any Filter] = []
+    var placeFilters: [any Filter] = []
     
     required init() {
-        let factory = AccessibilityFilterFactory()
-        accessibilityFilters.append(factory.createAccessibilityFilter(isSelected: true, type: .publicType))
-        accessibilityFilters.append(factory.createAccessibilityFilter(isSelected: true, type: .nonPublicType))
+        let accessbilityFactory = AccessibilityFilterFactory()
+        accessibilityFilters.append(accessbilityFactory.createAccessibilityFilter(isSelected: true, type: .publicType))
+        accessibilityFilters.append(accessbilityFactory.createAccessibilityFilter(isSelected: true, type: .nonPublicType))
+                
+        let roadFactory = RoadFilterFactory()
+        roadFilters.append(roadFactory.createRoadFilter(isSelected: true, type: .general))
+        roadFilters.append(roadFactory.createRoadFilter(isSelected: true, type: .highwayUp))
+        roadFilters.append(roadFactory.createRoadFilter(isSelected: true, type: .highwayDown))
+        
+        let placeFactory = PlaceFilterFactory()
+        placeFilters.append(placeFactory.createPlaceFilter(isSelected: true, type: .indoor))
+        placeFilters.append(placeFactory.createPlaceFilter(isSelected: true, type: .outdoor))
+        placeFilters.append(placeFactory.createPlaceFilter(isSelected: true, type: .canopy))
     }
 }

@@ -895,6 +895,18 @@
 		821A05E828627F3100EB1A91 /* ChevronArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A05E028627F3000EB1A91 /* ChevronArrow.swift */; };
 		821A717528B2762700B13816 /* NewPaymentStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A717428B2762700B13816 /* NewPaymentStatusViewController.swift */; };
 		821A717628B2762700B13816 /* NewPaymentStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 821A717428B2762700B13816 /* NewPaymentStatusViewController.swift */; };
+		822F382329253E1000CB94C9 /* AccessibilityFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822F382229253E1000CB94C9 /* AccessibilityFilter.swift */; };
+		822F382429253E1000CB94C9 /* AccessibilityFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822F382229253E1000CB94C9 /* AccessibilityFilter.swift */; };
+		822F382529253E1000CB94C9 /* AccessibilityFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822F382229253E1000CB94C9 /* AccessibilityFilter.swift */; };
+		822F382729253FB900CB94C9 /* RoadFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822F382629253FB900CB94C9 /* RoadFilter.swift */; };
+		822F382829253FB900CB94C9 /* RoadFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822F382629253FB900CB94C9 /* RoadFilter.swift */; };
+		822F382929253FB900CB94C9 /* RoadFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822F382629253FB900CB94C9 /* RoadFilter.swift */; };
+		822F382B292541DA00CB94C9 /* PlaceFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822F382A292541DA00CB94C9 /* PlaceFilter.swift */; };
+		822F382C292541DA00CB94C9 /* PlaceFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822F382A292541DA00CB94C9 /* PlaceFilter.swift */; };
+		822F382D292541DA00CB94C9 /* PlaceFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822F382A292541DA00CB94C9 /* PlaceFilter.swift */; };
+		822F382F292543DF00CB94C9 /* CommonFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822F382E292543DF00CB94C9 /* CommonFilterView.swift */; };
+		822F3830292543DF00CB94C9 /* CommonFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822F382E292543DF00CB94C9 /* CommonFilterView.swift */; };
+		822F3831292543DF00CB94C9 /* CommonFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822F382E292543DF00CB94C9 /* CommonFilterView.swift */; };
 		8232BA2729153F8200834FF8 /* UIStackView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8232BA2629153F8200834FF8 /* UIStackView+Extension.swift */; };
 		8232BA2829153F8200834FF8 /* UIStackView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8232BA2629153F8200834FF8 /* UIStackView+Extension.swift */; };
 		8232BA2929153F8200834FF8 /* UIStackView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8232BA2629153F8200834FF8 /* UIStackView+Extension.swift */; };
@@ -1900,6 +1912,10 @@
 		821A05DF28627F3000EB1A91 /* CommonNaviView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonNaviView.swift; sourceTree = "<group>"; };
 		821A05E028627F3000EB1A91 /* ChevronArrow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChevronArrow.swift; sourceTree = "<group>"; };
 		821A717428B2762700B13816 /* NewPaymentStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPaymentStatusViewController.swift; sourceTree = "<group>"; };
+		822F382229253E1000CB94C9 /* AccessibilityFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityFilter.swift; sourceTree = "<group>"; };
+		822F382629253FB900CB94C9 /* RoadFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoadFilter.swift; sourceTree = "<group>"; };
+		822F382A292541DA00CB94C9 /* PlaceFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceFilter.swift; sourceTree = "<group>"; };
+		822F382E292543DF00CB94C9 /* CommonFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonFilterView.swift; sourceTree = "<group>"; };
 		8232BA2629153F8200834FF8 /* UIStackView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Extension.swift"; sourceTree = "<group>"; };
 		82373CE229013F1100C0B33D /* Exo-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Exo-SemiBoldItalic.ttf"; path = "Fonts/Exo-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		824D5DB828BDD89C00EDC712 /* evInfra_release.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = evInfra_release.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2147,6 +2163,7 @@
 			children = (
 				82689E4F2924625F003D90D9 /* Models */,
 				00A7D5C726B7B0D100C5DBCC /* Filter.storyboard */,
+				822F382E292543DF00CB94C9 /* CommonFilterView.swift */,
 				19394CC629062F5B00385DB4 /* NewChargerFilterViewController.swift */,
 				00A7D5D126B7DA2100C5DBCC /* ChargerFilterViewController.swift */,
 				19D85C8428FCF016000B1BB1 /* NewFilterPlaceView.swift */,
@@ -3119,6 +3136,9 @@
 			isa = PBXGroup;
 			children = (
 				82689E5029246287003D90D9 /* FilterConfigModel.swift */,
+				822F382229253E1000CB94C9 /* AccessibilityFilter.swift */,
+				822F382629253FB900CB94C9 /* RoadFilter.swift */,
+				822F382A292541DA00CB94C9 /* PlaceFilter.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -4493,6 +4513,7 @@
 				63F313D3284EC74F001713D2 /* AddressSearchCell.swift in Sources */,
 				63F313D4284EC74F001713D2 /* UIColor+Extension.swift in Sources */,
 				59317D1628B7781B00B1AE92 /* NewNoticeViewController.swift in Sources */,
+				822F382829253FB900CB94C9 /* RoadFilter.swift in Sources */,
 				63F313D5284EC74F001713D2 /* UIStoryboard+Extension.swift in Sources */,
 				63F313D6284EC74F001713D2 /* ServerResult.swift in Sources */,
 				63F313D7284EC74F001713D2 /* ChargerFilter.swift in Sources */,
@@ -4538,6 +4559,7 @@
 				63F313F5284EC74F001713D2 /* TransientAlertViewController.swift in Sources */,
 				63F313F6284EC74F001713D2 /* DataBaseHelper.swift in Sources */,
 				63F313F7284EC74F001713D2 /* LoginViewController.swift in Sources */,
+				822F382C292541DA00CB94C9 /* PlaceFilter.swift in Sources */,
 				63762F482869A8F000C951BF /* QuitAccountReasonModel.swift in Sources */,
 				63F313F8284EC74F001713D2 /* RangeSeekSlider.swift in Sources */,
 				63F313F9284EC74F001713D2 /* BoardDetailTableViewCell.swift in Sources */,
@@ -4587,6 +4609,7 @@
 				63F3141D284EC74F001713D2 /* KoreanChar.swift in Sources */,
 				63F3141E284EC74F001713D2 /* FilterPriceView.swift in Sources */,
 				63F3141F284EC74F001713D2 /* MainViewController.swift in Sources */,
+				822F382429253E1000CB94C9 /* AccessibilityFilter.swift in Sources */,
 				63F31420284EC74F001713D2 /* ChargingHistoryList.swift in Sources */,
 				63F31421284EC74F001713D2 /* UtilNavigation.swift in Sources */,
 				59BC62FF2914D6B000428A0D /* ABTestManager.swift in Sources */,
@@ -4728,6 +4751,7 @@
 				63F3148A284EC74F001713D2 /* EVFileManager.swift in Sources */,
 				194C02692897CF8C00DADA8D /* StartBannerViewController.swift in Sources */,
 				63762F522869A91900C951BF /* SettingsReactor.swift in Sources */,
+				822F3830292543DF00CB94C9 /* CommonFilterView.swift in Sources */,
 				63F3148C284EC74F001713D2 /* Regions.swift in Sources */,
 				63F3148D284EC74F001713D2 /* CompanyInfoCheckerDelegate.swift in Sources */,
 				8266F9F72913A1DD00B375A6 /* MembershipCardShipmentStatusViewController.swift in Sources */,
@@ -4834,6 +4858,7 @@
 				CE33B4BB2191B8B000B6C632 /* EventViewController.swift in Sources */,
 				0013A7CA2746576D009CFC22 /* RepayListViewController.swift in Sources */,
 				DB367BF324FE673E00898BED /* LoginHelper.swift in Sources */,
+				822F382729253FB900CB94C9 /* RoadFilter.swift in Sources */,
 				73BFA04F208487050028B35D /* BoardTableView.swift in Sources */,
 				59EC3B7E28D32A49001A18B5 /* Constants.swift in Sources */,
 				00A3658F26C4E35900424E40 /* FilterSpeedView.swift in Sources */,
@@ -4879,6 +4904,7 @@
 				73344ABF207B3A9B00A6A9EC /* UIImage+Extension.swift in Sources */,
 				63DA0A0B282E600C0021292C /* MembershipReissuanceInfoViewController.swift in Sources */,
 				192C31822907A2CF00465B3D /* NewFilterAccessView.swift in Sources */,
+				822F382B292541DA00CB94C9 /* PlaceFilter.swift in Sources */,
 				00C75C56252EF40100387559 /* HSUnderLineTextField.swift in Sources */,
 				00B36C4126D4B33100749FFE /* CompanyTableViewCell.swift in Sources */,
 				73EE8FB52101B7920016F505 /* BedgeButton.swift in Sources */,
@@ -4928,6 +4954,7 @@
 				00A6A16226C3A4D30023DAE3 /* FilterPlaceView.swift in Sources */,
 				63762F1528699FB200C951BF /* Info.swift in Sources */,
 				73344AC5207F429300A6A9EC /* EditViewDelegate.swift in Sources */,
+				822F382329253E1000CB94C9 /* AccessibilityFilter.swift in Sources */,
 				CEC4322A223A5C9A00B76795 /* SearchTableView.swift in Sources */,
 				63762F4D2869A8F000C951BF /* QuitAccountViewController.swift in Sources */,
 				59BC62FE2914D6B000428A0D /* ABTestManager.swift in Sources */,
@@ -5069,6 +5096,7 @@
 				737A012220F3225800638812 /* EVFileManager.swift in Sources */,
 				194C02682897CF8C00DADA8D /* StartBannerViewController.swift in Sources */,
 				63762F512869A91900C951BF /* SettingsReactor.swift in Sources */,
+				822F382F292543DF00CB94C9 /* CommonFilterView.swift in Sources */,
 				DB6E59492063C595002E75C8 /* Regions.swift in Sources */,
 				737A012A20F709B300638812 /* CompanyInfoCheckerDelegate.swift in Sources */,
 				8266F9F62913A1DD00B375A6 /* MembershipCardShipmentStatusViewController.swift in Sources */,
@@ -5141,6 +5169,7 @@
 				824D5C0C28BDD89C00EDC712 /* PartnershipJoinView.swift in Sources */,
 				824D5C0D28BDD89C00EDC712 /* NewBottomSheetViewController.swift in Sources */,
 				19DEF7EF290B64B8004100C3 /* NewCompanyTableViewCell.swift in Sources */,
+				822F382529253E1000CB94C9 /* AccessibilityFilter.swift in Sources */,
 				824D5C1028BDD89C00EDC712 /* GlobalDefine.swift in Sources */,
 				824D5C1128BDD89C00EDC712 /* SC_TRACE.swift in Sources */,
 				824D5C1228BDD89C00EDC712 /* MyCouponTableViewCell.swift in Sources */,
@@ -5268,6 +5297,7 @@
 				824D5C8028BDD89C00EDC712 /* FilterPriceView.swift in Sources */,
 				824D5C8128BDD89C00EDC712 /* MainViewController.swift in Sources */,
 				824D5C8228BDD89C00EDC712 /* ChargingHistoryList.swift in Sources */,
+				822F382D292541DA00CB94C9 /* PlaceFilter.swift in Sources */,
 				824D5C8328BDD89C00EDC712 /* UtilNavigation.swift in Sources */,
 				824D5C8428BDD89C00EDC712 /* ChargingStatus.swift in Sources */,
 				824D5C8528BDD89C00EDC712 /* FilterPlaceView.swift in Sources */,
@@ -5374,6 +5404,7 @@
 				824D5CD728BDD89C00EDC712 /* SearchTypeSelectView.swift in Sources */,
 				824D5CD928BDD89C00EDC712 /* AlertView.swift in Sources */,
 				824D5CDB28BDD89C00EDC712 /* Connector.swift in Sources */,
+				822F3831292543DF00CB94C9 /* CommonFilterView.swift in Sources */,
 				824D5CDC28BDD89C00EDC712 /* KeyChainManager.swift in Sources */,
 				824D5CDD28BDD89C00EDC712 /* ServiceGuideViewController.swift in Sources */,
 				8266F9F42913922800B375A6 /* MembershipCardReactor.swift in Sources */,
@@ -5435,6 +5466,7 @@
 				824D5D0C28BDD89C00EDC712 /* ReportBoardTableViewCell.swift in Sources */,
 				829C073C2904D4DD008E2E6D /* MembershipCardIssuanceCompleteReactor.swift in Sources */,
 				824D5D0F28BDD89C00EDC712 /* BottomSheetViewController.swift in Sources */,
+				822F382929253FB900CB94C9 /* RoadFilter.swift in Sources */,
 				824D5D1028BDD89C00EDC712 /* BoardListItem.swift in Sources */,
 				824D5D1128BDD89C00EDC712 /* evInfra.xcdatamodeld in Sources */,
 				824D5D1328BDD89C00EDC712 /* EditViewController.swift in Sources */,
