@@ -133,7 +133,7 @@ internal final class NewFilterSpeedView: UIView {
     }
     
     // MARK: FUNC
-    internal func bind(reactor: GlobalFilterReactor) {
+    internal func bind(reactor: FilterReactor) {
         self.addSubview(totalView)
 
         totalView.snp.makeConstraints {
@@ -182,8 +182,8 @@ internal final class NewFilterSpeedView: UIView {
         cancelGesture.cancelsTouchesInView = false
         self.rangeSlider.addGestureRecognizer(cancelGesture)
         
-        minSpeed = GlobalFilterReactor.sharedInstance.currentState.filterModel.minSpeed
-        maxSpeed = GlobalFilterReactor.sharedInstance.currentState.filterModel.maxSpeed
+        minSpeed = reactor.currentState.filterModel.minSpeed
+        maxSpeed = reactor.currentState.filterModel.maxSpeed
         
         speedLbl.text = FilterManager.sharedInstance.speedTitle(min: minSpeed, max: maxSpeed)
         rangeSlider.selectedMinValue = Speed.convertToCGFloat(with: minSpeed).rawValue
@@ -195,17 +195,17 @@ internal final class NewFilterSpeedView: UIView {
                 let _minSpeed = Speed.convertToSpeed(with: Int(obj.rangeSlider.selectedMinValue))
                 let _maxSpeed = Speed.convertToSpeed(with: Int(obj.rangeSlider.selectedMaxValue))
                 
-                Observable.just(GlobalFilterReactor.Action.updateSpeedFilter((minSpeed: _minSpeed, maxSpeed: _maxSpeed)))
-                    .bind(to: GlobalFilterReactor.sharedInstance.action)
+                Observable.just(FilterReactor.Action.updateSpeedFilter((minSpeed: _minSpeed, maxSpeed: _maxSpeed)))
+                    .bind(to: reactor.action)
                     .disposed(by: obj.disposeBag)
                 
                 // 완속(속도 == 0)일때, 충전기타입 '완속' / '데스티네이션' 선택
-                Observable.just(GlobalFilterReactor.Action.updateSlowTypeOn(_minSpeed == 0))
-                    .bind(to: GlobalFilterReactor.sharedInstance.action)
+                Observable.just(FilterReactor.Action.updateSlowTypeOn(_minSpeed == 0))
+                    .bind(to: reactor.action)
                     .disposed(by: self.disposeBag)
                 
-                Observable.just(GlobalFilterReactor.Action.shouldChanged)
-                    .bind(to: GlobalFilterReactor.sharedInstance.action)
+                Observable.just(FilterReactor.Action.shouldChanged)
+                    .bind(to: reactor.action)
                     .disposed(by: obj.disposeBag)
                 
                 obj.slowSpeedChangeDelegate?.changedSlowSpeed()
@@ -215,21 +215,21 @@ internal final class NewFilterSpeedView: UIView {
                 }
             }.disposed(by: self.disposeBag)
         
-        GlobalFilterReactor.sharedInstance.state.compactMap { $0.filterModel.minSpeed }
+        reactor.state.compactMap { $0.filterModel.minSpeed }
             .asDriver(onErrorJustReturn: 0)
             .drive(with: self) { obj, minSpeed in
                 obj.rangeSlider.selectedMinValue = Speed.convertToCGFloat(with: minSpeed).rawValue
                 obj.rangeSlider.setNeedsLayout()
             }.disposed(by: self.disposeBag)
         
-        GlobalFilterReactor.sharedInstance.state.compactMap { $0.filterModel.maxSpeed }
+        reactor.state.compactMap { $0.filterModel.maxSpeed }
             .asDriver(onErrorJustReturn: 350)
             .drive(with: self) { obj, maxSpeed in
                 obj.rangeSlider.selectedMaxValue = Speed.convertToCGFloat(with: maxSpeed).rawValue
                 obj.rangeSlider.setNeedsLayout()
             }.disposed(by: self.disposeBag)
         
-        GlobalFilterReactor.sharedInstance.state.compactMap { $0.filterModel }.map { return ($0.minSpeed, $0.maxSpeed) }
+        reactor.state.compactMap { $0.filterModel }.map { return ($0.minSpeed, $0.maxSpeed) }
             .asDriver(onErrorJustReturn: (0, 350))
             .drive(with: self) { obj, speed in
                 let min = speed.0
@@ -283,7 +283,7 @@ internal final class NewFilterSpeedView: UIView {
             // case2. 다른 충전기타입 켜져있을때, 완속타입(완속, 데스티네이션) 하나라도 ON
             // 최소속도: 완속 / 최대속도: 변동X
             minSpeed = 0
-            maxSpeed = GlobalFilterReactor.sharedInstance.currentState.filterModel.maxSpeed
+            maxSpeed = reactor.currentState.filterModel.maxSpeed
         case (_, false) where minSpeed == 0 && maxSpeed == 0:
             // case3.
             // 최소속도: 50 / 최대속도: 50
@@ -293,14 +293,14 @@ internal final class NewFilterSpeedView: UIView {
             // case3. 다른 충전기타입 선택유무에 관계없이, 완속타입 OFF
             // 최소속도: 50 / 최대속도: 변동X
             minSpeed = 50
-            maxSpeed = GlobalFilterReactor.sharedInstance.currentState.filterModel.maxSpeed
+            maxSpeed = reactor.currentState.filterModel.maxSpeed
         default:
-            minSpeed = GlobalFilterReactor.sharedInstance.currentState.filterModel.minSpeed
-            maxSpeed = GlobalFilterReactor.sharedInstance.currentState.filterModel.maxSpeed
+            minSpeed = reactor.currentState.filterModel.minSpeed
+            maxSpeed = reactor.currentState.filterModel.maxSpeed
         }
         
-        Observable.just(GlobalFilterReactor.Action.updateSpeedFilter((minSpeed: minSpeed, maxSpeed: maxSpeed)))
-            .bind(to: GlobalFilterReactor.sharedInstance.action)
+        Observable.just(FilterReactor.Action.updateSpeedFilter((minSpeed: minSpeed, maxSpeed: maxSpeed)))
+            .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
 
         rangeSlider.selectedMinValue = Speed.convertToCGFloat(with: minSpeed).rawValue
@@ -311,23 +311,23 @@ internal final class NewFilterSpeedView: UIView {
 
 extension NewFilterSpeedView: FilterButtonAction {
     func saveFilter() {
-        let filterModel = GlobalFilterReactor.sharedInstance.currentState.filterModel
-        Observable.of(GlobalFilterReactor.Action.saveFilter(filterModel))
-            .bind(to: GlobalFilterReactor.sharedInstance.action)
+        let filterModel = reactor.currentState.filterModel
+        Observable.of(FilterReactor.Action.saveFilter(filterModel))
+            .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
     }
     
     func resetFilter() {
-//        Observable.just(GlobalFilterReactor.Action.changedSpeedFilter((minSpeed: 50, maxSpeed: 350)))
-//            .bind(to: GlobalFilterReactor.sharedInstance.action)
+//        Observable.just(FilterReactor.Action.changedSpeedFilter((minSpeed: 50, maxSpeed: 350)))
+//            .bind(to: reactor.action)
 //            .disposed(by: self.disposeBag)
 //        rangeSlider.setNeedsLayout()
 //        speedLbl.text = FilterManager.sharedInstance.speedTitle(min: 50, max: 350)
     }
     
     func revertFilter() {
-//        Observable.just(GlobalFilterReactor.Action.changedSpeedFilter((minSpeed: FilterManager.sharedInstance.filter.minSpeed, maxSpeed: FilterManager.sharedInstance.filter.maxSpeed)))
-//            .bind(to: GlobalFilterReactor.sharedInstance.action)
+//        Observable.just(FilterReactor.Action.changedSpeedFilter((minSpeed: FilterManager.sharedInstance.filter.minSpeed, maxSpeed: FilterManager.sharedInstance.filter.maxSpeed)))
+//            .bind(to: reactor.action)
 //            .disposed(by: self.disposeBag)
     }
 }

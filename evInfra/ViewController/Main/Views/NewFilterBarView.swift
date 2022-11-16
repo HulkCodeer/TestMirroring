@@ -240,7 +240,7 @@ internal final class NewFilterBarView: UIView {
 
         switch filterTagType {
         case .evpay:
-            let isSelected = GlobalFilterReactor.sharedInstance.initialState.filterModel.isEvPayFilter ?? false
+            let isSelected = reactor.initialState.filterModel.isEvPayFilter ?? false
             view.IBborderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
             titleLbl.textColor = isSelected ? Colors.gr6.color : Colors.contentSecondary.color
             imgView.tintColor = isSelected ? Colors.gr6.color : Colors.contentSecondary.color
@@ -250,11 +250,11 @@ internal final class NewFilterBarView: UIView {
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
                     
-                    let setEvPayFilterStream = Observable.of(GlobalFilterReactor.Action.updateEvPayFilter(btn.isSelected))
-                    let saveEvPayFilterStream = Observable.of(GlobalFilterReactor.Action.saveEvPayFilter(btn.isSelected))
+                    let setEvPayFilterStream = Observable.of(FilterReactor.Action.updateEvPayFilter(btn.isSelected))
+                    let saveEvPayFilterStream = Observable.of(FilterReactor.Action.saveEvPayFilter(btn.isSelected))
                     
                     Observable.concat([setEvPayFilterStream, saveEvPayFilterStream])
-                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+                        .bind(to: reactor.action)
                         .disposed(by: obj.disposeBag)
                     
                     view.IBborderColor = btn.isSelected ? Colors.borderPositive.color : Colors.nt1.color
@@ -268,7 +268,7 @@ internal final class NewFilterBarView: UIView {
                 .disposed(by: self.disposeBag)
 
         case .favorite:
-            let isSelected = GlobalFilterReactor.sharedInstance.initialState.filterModel.isFavoriteFilter ?? false
+            let isSelected = reactor.initialState.filterModel.isFavoriteFilter ?? false
             MemberManager.shared.tryToLoginCheck { isLogin in
                 guard isLogin else {
                     btn.isSelected = false
@@ -277,8 +277,8 @@ internal final class NewFilterBarView: UIView {
                     imgView.tintColor = typeImageProperty.imgUnSelectColor
                     imgView.image = typeImageProperty.imgUnSelect
 
-                    Observable.just(GlobalFilterReactor.Action.updateFavoriteFilter(false))
-                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+                    Observable.just(FilterReactor.Action.updateFavoriteFilter(false))
+                        .bind(to: reactor.action)
                         .disposed(by: self.disposeBag)
                     return
                 }
@@ -296,11 +296,11 @@ internal final class NewFilterBarView: UIView {
                         if isLogin {
                             btn.isSelected = !btn.isSelected
                             Observable.just(FilterReactor.Action.updateFavoriteFilter(btn.isSelected))
-                                .bind(to: FilterReactor.sharedInstance.action)
+                                .bind(to: reactor.action)
                                 .disposed(by: obj.disposeBag)
                             
                             Observable.just(FilterReactor.Action.saveFavoriteFilter(btn.isSelected))
-                                .bind(to: FilterReactor.sharedInstance.action)
+                                .bind(to: reactor.action)
                                 .disposed(by: obj.disposeBag)
                             
                             btn.isSelected = btn.isSelected
@@ -311,11 +311,11 @@ internal final class NewFilterBarView: UIView {
                         } else {
                             MemberManager.shared.showLoginAlert()
                             Observable.just(FilterReactor.Action.updateFavoriteFilter(false))
-                                .bind(to: FilterReactor.sharedInstance.action)
+                                .bind(to: reactor.action)
                                 .disposed(by: obj.disposeBag)
                             
                             Observable.just(FilterReactor.Action.saveFavoriteFilter(false))
-                                .bind(to: FilterReactor.sharedInstance.action)
+                                .bind(to: reactor.action)
                                 .disposed(by: obj.disposeBag)
                         }
                     }
@@ -332,7 +332,7 @@ internal final class NewFilterBarView: UIView {
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
                     Observable.just(FilterReactor.Action.setSelectedFilterType((.place, btn.isSelected)))
-                        .bind(to: FilterReactor.sharedInstance.action)
+                        .bind(to: reactor.action)
                         .disposed(by: obj.disposeBag)
                 }
                 .disposed(by: self.disposeBag)
@@ -347,7 +347,7 @@ internal final class NewFilterBarView: UIView {
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
                     Observable.just(FilterReactor.Action.setSelectedFilterType((.road, btn.isSelected)))
-                        .bind(to: FilterReactor.sharedInstance.action)
+                        .bind(to: reactor.action)
                         .disposed(by: obj.disposeBag)
                 }
                 .disposed(by: self.disposeBag)
@@ -362,7 +362,7 @@ internal final class NewFilterBarView: UIView {
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
                     Observable.just(FilterReactor.Action.setSelectedFilterType((.speed, btn.isSelected)))
-                        .bind(to: FilterReactor.sharedInstance.action)
+                        .bind(to: reactor.action)
                         .disposed(by: obj.disposeBag)
                 }
                 .disposed(by: self.disposeBag)
@@ -377,7 +377,7 @@ internal final class NewFilterBarView: UIView {
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
                     Observable.just(FilterReactor.Action.setSelectedFilterType((.type, btn.isSelected)))
-                        .bind(to: FilterReactor.sharedInstance.action)
+                        .bind(to: reactor.action)
                         .disposed(by: obj.disposeBag)
                 }
                 .disposed(by: self.disposeBag)
@@ -385,14 +385,14 @@ internal final class NewFilterBarView: UIView {
         default: break
         }
     
-        FilterReactor.sharedInstance.state.compactMap { $0.isUpdateFilterBarTitle }
+        reactor.state.compactMap { $0.isUpdateFilterBarTitle }
             .asDriver(onErrorJustReturn: false)
             .drive(with: self) { obj, isUpdate in
                 titleLbl.text = filterTagType.typeDesc
             }
             .disposed(by: self.disposeBag)
         
-        FilterReactor.sharedInstance.state.compactMap { $0.selectedFilterType }
+        reactor.state.compactMap { $0.selectedFilterType }
             .asDriver(onErrorJustReturn: (.speed, false))
             .drive(with: self) { obj, selected in
                 switch filterTagType {

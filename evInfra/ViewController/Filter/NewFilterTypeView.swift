@@ -169,7 +169,7 @@ internal final class NewFilterTypeView: UIView {
         }
         
         Observable.just(FilterReactor.Action.loadChargerTypes)
-            .bind(to: FilterReactor.sharedInstance.action)
+            .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
         
         reactor.state.compactMap { $0.filterModel.chargerTypes }
@@ -195,13 +195,13 @@ extension NewFilterTypeView: UICollectionViewDelegateFlowLayout {
 
 extension NewFilterTypeView: FilterButtonAction {
     func saveFilter() {
-        let filterModel = GlobalFilterReactor.sharedInstance.currentState.filterModel
-        Observable.of(GlobalFilterReactor.Action.saveFilter(filterModel))
-            .bind(to: GlobalFilterReactor.sharedInstance.action)
+        let filterModel = reactor.currentState.filterModel
+        Observable.of(FilterReactor.Action.saveFilter(filterModel))
+            .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
 
-        Observable.just(GlobalFilterReactor.Action.loadChargerTypes)
-            .bind(to: GlobalFilterReactor.sharedInstance.action)
+        Observable.just(FilterReactor.Action.loadChargerTypes)
+            .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
     }
     
@@ -209,19 +209,19 @@ extension NewFilterTypeView: FilterButtonAction {
         for index in 0..<tags.count {
             tags[index].selected = !(tags[index].uniqueKey == Const.CHARGER_TYPE_SLOW || tags[index].uniqueKey == Const.CHARGER_TYPE_DESTINATION)
             Observable.just(FilterReactor.Action.changedChargerTypeFilter((tags[index].uniqueKey, tags[index].selected)))
-                .bind(to: FilterReactor.sharedInstance.action)
+                .bind(to: reactor.action)
                 .disposed(by: self.disposeBag)
         }
         
         Observable.just(FilterReactor.Action.setChargerTypeFilter(tags))
-            .bind(to: FilterReactor.sharedInstance.action)
+            .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
     }
     
     func revertFilter() {
         for original in _originalTags {
             Observable.just(FilterReactor.Action.changedChargerTypeFilter((original.uniqueKey, original.selected)))
-                .bind(to: FilterReactor.sharedInstance.action)
+                .bind(to: reactor.action)
                 .disposed(by: self.disposeBag)
         }
     }
@@ -253,8 +253,8 @@ extension NewFilterTypeView: UICollectionViewDataSource {
                 cell.btn.isSelected = !cell.btn.isSelected
                 obj.tags[index].selected = cell.btn.isSelected
 
-                Observable.just(GlobalFilterReactor.Action.updateChargerTypeFilter(obj.tags))
-                    .bind(to: GlobalFilterReactor.sharedInstance.action)
+                Observable.just(FilterReactor.Action.updateChargerTypeFilter(obj.tags))
+                    .bind(to: reactor.action)
                     .disposed(by: obj.disposeBag)
                 
                 self.shouldSlowType()
@@ -262,8 +262,8 @@ extension NewFilterTypeView: UICollectionViewDataSource {
                     obj.saveFilter()
                 }
                 
-                Observable.just(GlobalFilterReactor.Action.shouldChanged)
-                    .bind(to: GlobalFilterReactor.sharedInstance.action)
+                Observable.just(FilterReactor.Action.shouldChanged)
+                    .bind(to: reactor.action)
                     .disposed(by: obj.disposeBag)
             
                 cell.titleLbl.textColor = cell.btn.isSelected ? Colors.gr7.color : Colors.contentSecondary.color
@@ -296,8 +296,8 @@ extension NewFilterTypeView: UICollectionViewDataSource {
         delegateSlowTypeChange?.onChangeSlowType(isFastSpeedOn: isFastSpeedTypeOn, isSlowSpeedon: isSlowSpeedTypeOn)
         
         if !isSlowSpeedTypeOn {
-            Observable.just(GlobalFilterReactor.Action.updateSlowTypeOn(false))
-                .bind(to: GlobalFilterReactor.sharedInstance.action)
+            Observable.just(FilterReactor.Action.updateSlowTypeOn(false))
+                .bind(to: reactor.action)
                 .disposed(by: self.disposeBag)
         }
     }

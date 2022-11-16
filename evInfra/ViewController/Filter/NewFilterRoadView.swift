@@ -148,9 +148,9 @@ internal final class NewFilterRoadView: UIView {
             }
         }
 
-        let isGenral = FilterReactor.sharedInstance.currentState.filterModel.isGeneralRoad
-        let isHighwayUp = FilterReactor.sharedInstance.currentState.filterModel.isHighwayUp
-        let isHighwayDown = FilterReactor.sharedInstance.currentState.filterModel.isHighwayDown
+        let isGenral = reactor.currentState.filterModel.isGeneralRoad
+        let isHighwayUp = reactor.currentState.filterModel.isHighwayUp
+        let isHighwayDown = reactor.currentState.filterModel.isHighwayDown
         
         btn.rx.tap
             .asDriver()
@@ -158,7 +158,7 @@ internal final class NewFilterRoadView: UIView {
                 btn.isSelected = !btn.isSelected
 
                 Observable.just(FilterReactor.Action.updateGeneralFilter(btn.isSelected))
-                    .bind(to: FilterReactor.sharedInstance.action)
+                    .bind(to: reactor.action)
                     .disposed(by: obj.disposeBag)
 
                 if obj.isDirectChange {
@@ -166,7 +166,7 @@ internal final class NewFilterRoadView: UIView {
                 }
 
                 Observable.just(FilterReactor.Action.shouldChanged)
-                    .bind(to: FilterReactor.sharedInstance.action)
+                    .bind(to: reactor.action)
                     .disposed(by: obj.disposeBag)
             }
             .disposed(by: self.disposeBag)
@@ -184,7 +184,7 @@ internal final class NewFilterRoadView: UIView {
                     btn.isSelected = !btn.isSelected
 
                     Observable.just(FilterReactor.Action.updateGeneralFilter(btn.isSelected))
-                        .bind(to: FilterReactor.sharedInstance.action)
+                        .bind(to: reactor.action)
                         .disposed(by: obj.disposeBag)
 
                     if obj.isDirectChange {
@@ -192,12 +192,12 @@ internal final class NewFilterRoadView: UIView {
                     }
 
                     Observable.just(FilterReactor.Action.shouldChanged)
-                        .bind(to: FilterReactor.sharedInstance.action)
+                        .bind(to: reactor.action)
                         .disposed(by: obj.disposeBag)
                 }
                 .disposed(by: self.disposeBag)
 
-            FilterReactor.sharedInstance.state.compactMap { $0.filterModel.isGeneralRoad }
+            reactor.state.compactMap { $0.filterModel.isGeneralRoad }
                 .asDriver(onErrorJustReturn: false)
                 .drive(with: self) { obj, isSelected in
                     btn.isSelected = isSelected
@@ -216,7 +216,7 @@ internal final class NewFilterRoadView: UIView {
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
                     Observable.just(FilterReactor.Action.updateHighwayUpFilter(btn.isSelected))
-                        .bind(to: FilterReactor.sharedInstance.action)
+                        .bind(to: reactor.action)
                         .disposed(by: obj.disposeBag)
 
                     if obj.isDirectChange {
@@ -224,12 +224,12 @@ internal final class NewFilterRoadView: UIView {
                     }
 
                     Observable.just(FilterReactor.Action.shouldChanged)
-                        .bind(to: FilterReactor.sharedInstance.action)
+                        .bind(to: reactor.action)
                         .disposed(by: obj.disposeBag)
                 }
                 .disposed(by: self.disposeBag)
 
-            FilterReactor.sharedInstance.state.compactMap { $0.filterModel.isHighwayUp }
+            reactor.state.compactMap { $0.filterModel.isHighwayUp }
                 .asDriver(onErrorJustReturn: false)
                 .drive(with: self) { obj, isSelected in
                     btn.isSelected = isSelected
@@ -248,7 +248,7 @@ internal final class NewFilterRoadView: UIView {
                 .drive(with: self) { obj, _ in
                     btn.isSelected = !btn.isSelected
                     Observable.just(FilterReactor.Action.updateHigywayDownFilter(btn.isSelected))
-                        .bind(to: FilterReactor.sharedInstance.action)
+                        .bind(to: reactor.action)
                         .disposed(by: obj.disposeBag)
 
                     if obj.isDirectChange {
@@ -256,12 +256,12 @@ internal final class NewFilterRoadView: UIView {
                     }
 
                     Observable.just(FilterReactor.Action.shouldChanged)
-                        .bind(to: FilterReactor.sharedInstance.action)
+                        .bind(to: reactor.action)
                         .disposed(by: obj.disposeBag)
                 }
                 .disposed(by: self.disposeBag)
 
-            FilterReactor.sharedInstance.state.compactMap { $0.filterModel.isHighwayDown }
+            reactor.state.compactMap { $0.filterModel.isHighwayDown }
                 .asDriver(onErrorJustReturn: false)
                 .drive(with: self) { obj, isSelected in
                     btn.isSelected = isSelected
@@ -274,9 +274,9 @@ internal final class NewFilterRoadView: UIView {
     }
     
     internal func shouldChanged() -> Bool {
-        let isGeneral = FilterReactor.sharedInstance.currentState.isGeneralRoad
-        let isHighwayUp = FilterReactor.sharedInstance.currentState.isHighwayUp
-        let isHighwayDown = FilterReactor.sharedInstance.currentState.isHighwayDown
+        let isGeneral = reactor.currentState.isGeneralRoad
+        let isHighwayUp = reactor.currentState.isHighwayUp
+        let isHighwayDown = reactor.currentState.isHighwayDown
         
         return (isGeneral != FilterManager.sharedInstance.filter.isGeneralWay)
         || (isHighwayUp != FilterManager.sharedInstance.filter.isHighwayUp)
@@ -286,23 +286,23 @@ internal final class NewFilterRoadView: UIView {
 
 extension NewFilterRoadView: FilterButtonAction {
     func saveFilter() {
-        let filterModel = GlobalFilterReactor.sharedInstance.currentState.filterModel
-        Observable.of(GlobalFilterReactor.Action.saveFilter(filterModel))
-            .bind(to: GlobalFilterReactor.sharedInstance.action)
+        let filterModel = reactor.currentState.filterModel
+        Observable.of(FilterReactor.Action.saveFilter(filterModel))
+            .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
     }
     
     func resetFilter() {
-        let resetModel = GlobalFilterReactor.sharedInstance.initialState.resetFilterModel
-        Observable.just(GlobalFilterReactor.Action.savePlaceFilter(resetModel))
-            .bind(to: GlobalFilterReactor.sharedInstance.action)
+        let resetModel = reactor.initialState.resetFilterModel
+        Observable.just(FilterReactor.Action.savePlaceFilter(resetModel))
+            .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
     }
     
     func revertFilter() {
-//        let filterModel = GlobalFilterReactor.sharedInstance.initialState.filterModel
-//        Observable.just(GlobalFilterReactor.Action.saveRoadFilter(filterModel))
-//            .bind(to: GlobalFilterReactor.sharedInstance.action)
+//        let filterModel = reactor.initialState.filterModel
+//        Observable.just(FilterReactor.Action.saveRoadFilter(filterModel))
+//            .bind(to: reactor.action)
 //            .disposed(by: self.disposeBag)
     }
 }

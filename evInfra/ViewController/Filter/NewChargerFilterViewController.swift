@@ -163,13 +163,13 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
         speedFilterView.slowSpeedChangeDelegate = self
         typeFilterView.delegateSlowTypeChange = self
         
-        originalModel = FilterReactor.sharedInstance.currentState.filterModel
+        originalModel = reactor.currentState.filterModel
         
         // 뒤로가기 버튼
         backBtn.btn.rx.tap
             .asDriver(onErrorJustReturn: ())
             .drive(with: self) { obj, _ in
-                let shouldChanged = FilterReactor.sharedInstance.currentState.shouldChanged
+                let shouldChanged = reactor.currentState.shouldChanged
                 if shouldChanged {
                     let cancelBtn = UIAlertAction(title: "취소", style: .default)
                     let okBtn = UIAlertAction(title: "나가기", style: .default) { _ in
@@ -177,7 +177,7 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
                         guard let originalModel = obj.originalModel else { return }
                         
                         Observable.just(FilterReactor.Action.saveFilter(originalModel))
-                            .bind(to: FilterReactor.sharedInstance.action)
+                            .bind(to: reactor.action)
                             .disposed(by: obj.disposeBag)
 
                         GlobalDefine.shared.mainNavi?.pop()
@@ -201,9 +201,9 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
                 let okBtn = UIAlertAction(title: "초기화", style: .default) { _ in
                     FilterEvent.clickFilterReset.logEvent()
 
-                    let resetModel = GlobalFilterReactor.sharedInstance.currentState.resetFilterModel
-                    Observable.just(GlobalFilterReactor.Action.saveFilter(resetModel))
-                        .bind(to: GlobalFilterReactor.sharedInstance.action)
+                    let resetModel = reactor.currentState.resetFilterModel
+                    Observable.just(FilterReactor.Action.saveFilter(resetModel))
+                        .bind(to: reactor.action)
                         .disposed(by: obj.disposeBag)
                 }
                 var actions = [UIAlertAction]()
@@ -213,7 +213,7 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
             }.disposed(by: self.disposeBag)
         
         // 필터 저장 버튼 bind
-        FilterReactor.sharedInstance.state.compactMap { $0.shouldChanged }
+        reactor.state.compactMap { $0.shouldChanged }
             .bind(to: saveBtn.rectBtn.rx.isEnabled)
             .disposed(by: self.disposeBag)
         
@@ -222,9 +222,9 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
             .drive(with: self) { obj, _ in
                 obj.saveBtn.rectBtn.isSelected = !obj.saveBtn.rectBtn.isSelected
                 
-                let filterModel = GlobalFilterReactor.sharedInstance.currentState.filterModel
-                Observable.just(GlobalFilterReactor.Action.saveFilter(filterModel))
-                    .bind(to: GlobalFilterReactor.sharedInstance.action)
+                let filterModel = reactor.currentState.filterModel
+                Observable.just(FilterReactor.Action.saveFilter(filterModel))
+                    .bind(to: reactor.action)
                     .disposed(by: obj.disposeBag)
                 
                 obj.delegate?.applyFilter()
@@ -239,8 +239,8 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
 // 충전속도에 따른 완속 충전기 타입 세팅
 extension NewChargerFilterViewController: NewDelegateslowSpeedChange {
     func changedSlowSpeed() {
-        Observable.just(GlobalFilterReactor.Action.loadChargerTypes)
-            .bind(to: GlobalFilterReactor.sharedInstance.action)
+        Observable.just(FilterReactor.Action.loadChargerTypes)
+            .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
     }
 }
