@@ -8,9 +8,22 @@
 
 import Foundation
 
-protocol Filter {
+protocol Filter: Equatable {
     var isSelected: Bool { get set }
     init(isSelected: Bool)
+}
+
+extension Filter {
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        return lhs.isSelected == rhs.isSelected
+    }
+    
+    func isEqual(_ other: any Equatable) -> Bool {
+        guard let other = other as? Self else {
+            return false
+        }
+        return self == other
+    }
 }
 
 class OpenFilter: Filter {
@@ -30,7 +43,7 @@ class CloseFilter: Filter {
 }
 
 protocol AccessibilityFilterCreator {
-    func createAccessibilityFilter(isSelected: Bool, type: AccessibilityType) -> Filter
+    func createAccessibilityFilter(isSelected: Bool, type: AccessibilityType) -> any Filter
 }
 
 enum AccessibilityType: CaseIterable {
@@ -39,7 +52,7 @@ enum AccessibilityType: CaseIterable {
 }
 
 class AccessibilityFilterFactory: AccessibilityFilterCreator {
-    func createAccessibilityFilter(isSelected: Bool, type: AccessibilityType) -> Filter {
+    func createAccessibilityFilter(isSelected: Bool, type: AccessibilityType) -> any Filter {
         switch type {
         case .openType:
             return OpenFilter(isSelected: isSelected)
@@ -57,11 +70,11 @@ enum DetailFilterType {
 }
 
 internal final class FilterConfigModel {
-    var roadFilters: [Filter] = []
+    var roadFilters: [any Filter] = []
     
     required init() {
         let factory = AccessibilityFilterFactory()
-        roadFilters.append(contentsOf: factory.createAccessibilityFilter(isSelected: true, type: .openType))
-        roadFilters.append(contentsOf: factory.createAccessibilityFilter(isSelected: true, type: .closeType))
+        roadFilters.append(factory.createAccessibilityFilter(isSelected: true, type: .openType))
+        roadFilters.append(factory.createAccessibilityFilter(isSelected: true, type: .closeType))
     }
 }

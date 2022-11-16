@@ -48,6 +48,7 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         case setChargerTypeFilter([NewTag])
         case changedCompanyFilter(SelectedCompanyFilter)
         case setCompanyFilter([NewCompanyGroup])
+        case testLoadRoadType
     }
     
     enum Mutation {
@@ -76,6 +77,7 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         case loadChargerTypes([NewTag])
         case changedChargerTypeFilter(SelectedChargerTypeFilter)
         case changedCompanyFilter(SelectedCompanyFilter)
+        case setTestRoadType
     }
 
     struct State {
@@ -106,6 +108,9 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         var filterModel: FilterModel = FilterModel()
         var resetFilterModel: FilterModel = FilterModel(isPublic: true, isNonPublic: true, isGeneralRoad: true, isHighwayDown: true, isHighwayUp: true, isIndoor: true, isOutdoor: true, isCanopy: true, minSpeed: 50, maxSpeed: 350, isEvPayFilter: false, isFavoriteFilter: false, isRepresentCarFilter: false)
         var shouldChanged: Bool = false
+        
+        var testModel: FilterConfigModel = FilterConfigModel()
+        var testRoadTypes: [any Filter] = []
     }
     
     struct FilterModel: Equatable {
@@ -135,6 +140,9 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+        case .testLoadRoadType:
+            return .just(.setTestRoadType)
+            
         case .loadCompanies:
             let companyValues: [CompanyInfoDto] = FilterManager.sharedInstance.filter.companyDictionary.map { $0.1 }
             let isEvPaFilter = self.currentState.isEvPayFilter ?? false
@@ -304,6 +312,9 @@ internal final class GlobalFilterReactor: ViewModel, Reactor {
         newState.chargerTypes = nil
         
         switch mutation {
+        case .setTestRoadType:
+            newState.testRoadTypes = self.currentState.testModel.roadFilters
+            
         case .loadCompanies(let companies):
             newState.loadedCompanies = companies
         case .setAllCompanies(let isSelect):
