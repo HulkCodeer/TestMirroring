@@ -55,7 +55,7 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
     private var roadFilterView = NewFilterRoadView()
     private var accessFilterView = NewFilterAccessView()
     private var companyFilterView = NewFilterCompanyView()
-    private var saveBtn = StickButton(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 32, height: 80),
+    private var saveBtn = StickyButton(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 32, height: 80),
                                            level: .primary).then {
         $0.rectBtn.setTitle("필터 설정 저장하기", for: .normal)
         $0.rectBtn.isSelected = false
