@@ -783,12 +783,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
                     let reactor = MembershipCardReactor(provider: RestApi())
                     let viewcon = MembershipCardViewController(reactor: reactor)
                     GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-                    
-                case .accountsReceivable:
-                    let viewcon = UIStoryboard(name : "Payment", bundle: nil).instantiateViewController(ofType: RepayListViewController.self)
-                    viewcon.delegate = self
-                    
-                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
                 }
             }
             .disposed(by: disposeBag)

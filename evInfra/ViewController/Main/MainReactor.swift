@@ -451,14 +451,11 @@ internal final class MainReactor: ViewModel, Reactor {
             let json = JSON(data)
             let payCode = json["pay_code"].intValue
                         
-            switch PaymentStatus(rawValue: payCode) {
-            case .PAY_DEBTOR_USER:   // 미수금
-                Observable.just(MainReactor.Action.setIsAccountsReceivable(true))
-                    .bind(to: self.action)
-                    .disposed(by: disposeBag)
-                
-            default: break
-            }
+            let isAccountsReceivable = PaymentStatus(rawValue: payCode) == .PAY_DEBTOR_USER
+            
+            Observable.just(MainReactor.Action.setIsAccountsReceivable(isAccountsReceivable))
+                .bind(to: self.action)
+                .disposed(by: disposeBag)
             
         case .failure(let error):
             printLog(out: "Error Message : \(error)")
@@ -483,7 +480,11 @@ internal final class MainReactor: ViewModel, Reactor {
                     .bind(to: self.action)
                     .disposed(by: disposeBag)
                 
-                return .accountsReceivable
+                let viewcon = UIStoryboard(name : "Payment", bundle: nil).instantiateViewController(ofType: RepayListViewController.self)
+                viewcon.delegate = self
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+                
+                return nil
 
             default:
                 return .evPayManagement
@@ -588,7 +589,6 @@ internal final class MainReactor: ViewModel, Reactor {
     enum EVPayShowType {
         case evPayGuide         // 신규, 미참여, gs사용유저
         case evPayManagement    // 결제카드 없고 회원카드 있는사람, 그냥 있는 사람.
-        case accountsReceivable // 미수금.
     }
 
 }
