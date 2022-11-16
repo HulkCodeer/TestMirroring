@@ -256,9 +256,9 @@ internal final class NewFilterCompanyView: UIView {
 
 extension NewFilterCompanyView: FilterButtonAction {
     func saveFilter() {
-        Observable.just(FilterReactor.Action.setCompanyFilter(groups))
-            .bind(to: reactor.action)
-            .disposed(by: self.disposeBag)
+//        Observable.just(FilterReactor.Action.setCompanyFilter(groups))
+//            .bind(to: reactor.action)
+//            .disposed(by: self.disposeBag)
     }
     
     func resetFilter() {
@@ -267,13 +267,13 @@ extension NewFilterCompanyView: FilterButtonAction {
                 company.selected = true
             }
         }
-        Observable.just(FilterReactor.Action.setCompanyFilter(groups))
-            .bind(to: reactor.action)
-            .disposed(by: self.disposeBag)
-
-        Observable.just(FilterReactor.Action.setAllCompanies(true))
-            .bind(to: reactor.action)
-            .disposed(by: self.disposeBag)
+//        Observable.just(FilterReactor.Action.setCompanyFilter(groups))
+//            .bind(to: reactor.action)
+//            .disposed(by: self.disposeBag)
+//
+//        Observable.just(FilterReactor.Action.setAllCompanies(true))
+//            .bind(to: reactor.action)
+//            .disposed(by: self.disposeBag)
 
         companyTableView.reloadData()
         delegate?.changedFilter()

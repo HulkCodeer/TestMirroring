@@ -450,12 +450,12 @@ internal final class MainViewController: UIViewController, StoryboardView {
             }
             .disposed(by: self.disposeBag)
 
-        reactor.state.compactMap { $0.selectedFilterType }
-            .asDriver(onErrorJustReturn: (filterTagType: .speed, isSelected: false))
-            .drive(with: self) { obj, selected in
-                obj.filterContainerView.isHidden = !selected.isSelected
-            }
-            .disposed(by: self.disposeBag)
+//        reactor.state.compactMap { $0.selectedFilterType }
+//            .asDriver(onErrorJustReturn: (filterTagType: .speed, isSelected: false))
+//            .drive(with: self) { obj, selected in
+//                obj.filterContainerView.isHidden = !selected.isSelected
+//            }
+//            .disposed(by: self.disposeBag)
 
         reactor.state.compactMap { $0.isEvPayFilter }
             .asDriver(onErrorJustReturn: false)
@@ -464,14 +464,14 @@ internal final class MainViewController: UIViewController, StoryboardView {
             }
             .disposed(by: self.disposeBag)
 
-        reactor.state.compactMap { $0.isShowFilterSetting }
-            .asDriver(onErrorJustReturn: false)
-            .drive(with: self) { obj, isShow in
-                let chargerFilterViewController = NewChargerFilterViewController(reactor: reactor)
-                chargerFilterViewController.delegate = obj
-                GlobalDefine.shared.mainNavi?.push(viewController: chargerFilterViewController)
-            }
-            .disposed(by: self.disposeBag)
+//        reactor.state.compactMap { $0.isShowFilterSetting }
+//            .asDriver(onErrorJustReturn: false)
+//            .drive(with: self) { obj, isShow in
+//                let chargerFilterViewController = NewChargerFilterViewController(reactor: reactor)
+//                chargerFilterViewController.delegate = obj
+//                GlobalDefine.shared.mainNavi?.push(viewController: chargerFilterViewController)
+//            }
+//            .disposed(by: self.disposeBag)
 
     }
     

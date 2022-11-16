@@ -281,6 +281,7 @@ internal final class NewFilterRoadView: UIView {
 //        return (isGeneral != FilterManager.sharedInstance.filter.isGeneralWay)
 //        || (isHighwayUp != FilterManager.sharedInstance.filter.isHighwayUp)
 //        || (isHighwayDown != FilterManager.sharedInstance.filter.isHighwayDown)
+        return true
     }
 }
 

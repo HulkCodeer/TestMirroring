@@ -238,152 +238,152 @@ internal final class NewFilterBarView: UIView {
             $0.IBborderColor = Colors.nt1.color
         }
 
-        switch filterTagType {
-        case .evpay:
-            let isSelected = reactor.initialState.filterModel.isEvPayFilter ?? false
-            view.IBborderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
-            titleLbl.textColor = isSelected ? Colors.gr6.color : Colors.contentSecondary.color
-            imgView.tintColor = isSelected ? Colors.gr6.color : Colors.contentSecondary.color
-            
-            btn.rx.tap
-                .asDriver()
-                .drive(with: self) { obj, _ in
-                    btn.isSelected = !btn.isSelected
-                    
-                    let setEvPayFilterStream = Observable.of(FilterReactor.Action.updateEvPayFilter(btn.isSelected))
-                    let saveEvPayFilterStream = Observable.of(FilterReactor.Action.saveEvPayFilter(btn.isSelected))
-                    
-                    Observable.concat([setEvPayFilterStream, saveEvPayFilterStream])
-                        .bind(to: reactor.action)
-                        .disposed(by: obj.disposeBag)
-                    
-                    view.IBborderColor = btn.isSelected ? Colors.borderPositive.color : Colors.nt1.color
-                    titleLbl.textColor = btn.isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-                    imgView.tintColor = btn.isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-                    
-                    let property: [String: Any] = ["filterName": "EV Pay",
-                                                   "filterValue": btn.isSelected ? "On":"Off"]
-                    FilterEvent.clickUpperFilter.logEvent(property: property)
-                }
-                .disposed(by: self.disposeBag)
-
-        case .favorite:
-            let isSelected = reactor.initialState.filterModel.isFavoriteFilter ?? false
-            MemberManager.shared.tryToLoginCheck { isLogin in
-                guard isLogin else {
-                    btn.isSelected = false
-                    view.IBborderColor = Colors.nt1.color
-                    titleLbl.textColor = typeImageProperty.imgUnSelectColor
-                    imgView.tintColor = typeImageProperty.imgUnSelectColor
-                    imgView.image = typeImageProperty.imgUnSelect
-
-                    Observable.just(FilterReactor.Action.updateFavoriteFilter(false))
-                        .bind(to: reactor.action)
-                        .disposed(by: self.disposeBag)
-                    return
-                }
-                btn.isSelected = isSelected
-                view.IBborderColor = btn.isSelected ? Colors.borderPositive.color : Colors.nt1.color
-                titleLbl.textColor = btn.isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-                imgView.tintColor = btn.isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-                imgView.image = btn.isSelected ? typeImageProperty.imgSelect : typeImageProperty.imgUnSelect
-            }
-            
-            btn.rx.tap
-                .asDriver()
-                .drive(with: self) { obj, _ in
-                    MemberManager.shared.tryToLoginCheck { isLogin in
-                        if isLogin {
-                            btn.isSelected = !btn.isSelected
-                            Observable.just(FilterReactor.Action.updateFavoriteFilter(btn.isSelected))
-                                .bind(to: reactor.action)
-                                .disposed(by: obj.disposeBag)
-                            
-                            Observable.just(FilterReactor.Action.saveFavoriteFilter(btn.isSelected))
-                                .bind(to: reactor.action)
-                                .disposed(by: obj.disposeBag)
-                            
-                            btn.isSelected = btn.isSelected
-                            view.IBborderColor = btn.isSelected ? Colors.borderPositive.color : Colors.nt1.color
-                            titleLbl.textColor = btn.isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-                            imgView.tintColor = btn.isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
-                            imgView.image = btn.isSelected ? typeImageProperty.imgSelect : typeImageProperty.imgUnSelect
-                        } else {
-                            MemberManager.shared.showLoginAlert()
-                            Observable.just(FilterReactor.Action.updateFavoriteFilter(false))
-                                .bind(to: reactor.action)
-                                .disposed(by: obj.disposeBag)
-                            
-                            Observable.just(FilterReactor.Action.saveFavoriteFilter(false))
-                                .bind(to: reactor.action)
-                                .disposed(by: obj.disposeBag)
-                        }
-                    }
-                }
-                .disposed(by: self.disposeBag)
-        case .place:
-            let isChanged = FilterManager.sharedInstance.shouldPlaceChanged()
-            titleLbl.textColor = isChanged ? Colors.gr6.color : Colors.contentSecondary.color
-            view.IBborderColor = isChanged ? Colors.borderPositive.color : Colors.nt1.color
-            imgView.tintColor = isChanged ? Colors.gr6.color : Colors.contentTertiary.color
-            
-            btn.rx.tap
-                .asDriver()
-                .drive(with: self) { obj, _ in
-                    btn.isSelected = !btn.isSelected
-                    Observable.just(FilterReactor.Action.setSelectedFilterType((.place, btn.isSelected)))
-                        .bind(to: reactor.action)
-                        .disposed(by: obj.disposeBag)
-                }
-                .disposed(by: self.disposeBag)
-        case .road:
-            let isChanged = FilterManager.sharedInstance.shouldRoadChanged()
-            titleLbl.textColor = isChanged ? Colors.gr6.color : Colors.contentSecondary.color
-            view.IBborderColor = isChanged ? Colors.borderPositive.color : Colors.nt1.color
-            imgView.tintColor = isChanged ? Colors.gr6.color : Colors.contentTertiary.color
-            
-            btn.rx.tap
-                .asDriver()
-                .drive(with: self) { obj, _ in
-                    btn.isSelected = !btn.isSelected
-                    Observable.just(FilterReactor.Action.setSelectedFilterType((.road, btn.isSelected)))
-                        .bind(to: reactor.action)
-                        .disposed(by: obj.disposeBag)
-                }
-                .disposed(by: self.disposeBag)
-        case .speed:
-            let isChanged = FilterManager.sharedInstance.shouldSpeedChanged()
-            titleLbl.textColor = isChanged ? Colors.gr6.color : Colors.contentSecondary.color
-            view.IBborderColor = isChanged ? Colors.borderPositive.color : Colors.nt1.color
-            imgView.tintColor = isChanged ? Colors.gr6.color : Colors.contentTertiary.color
-            
-            btn.rx.tap
-                .asDriver()
-                .drive(with: self) { obj, _ in
-                    btn.isSelected = !btn.isSelected
-                    Observable.just(FilterReactor.Action.setSelectedFilterType((.speed, btn.isSelected)))
-                        .bind(to: reactor.action)
-                        .disposed(by: obj.disposeBag)
-                }
-                .disposed(by: self.disposeBag)
-        case .type:
-            let isChanged = FilterManager.sharedInstance.shouldTypeChanged()
-            titleLbl.textColor = isChanged ? Colors.gr6.color : Colors.contentSecondary.color
-            view.IBborderColor = isChanged ? Colors.borderPositive.color : Colors.nt1.color
-            imgView.tintColor = isChanged ? Colors.gr6.color : Colors.contentTertiary.color
-            
-            btn.rx.tap
-                .asDriver()
-                .drive(with: self) { obj, _ in
-                    btn.isSelected = !btn.isSelected
-                    Observable.just(FilterReactor.Action.setSelectedFilterType((.type, btn.isSelected)))
-                        .bind(to: reactor.action)
-                        .disposed(by: obj.disposeBag)
-                }
-                .disposed(by: self.disposeBag)
-            
-        default: break
-        }
+//        switch filterTagType {
+//        case .evpay:
+//            let isSelected = reactor.initialState.filterModel.isEvPayFilter ?? false
+//            view.IBborderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
+//            titleLbl.textColor = isSelected ? Colors.gr6.color : Colors.contentSecondary.color
+//            imgView.tintColor = isSelected ? Colors.gr6.color : Colors.contentSecondary.color
+//
+//            btn.rx.tap
+//                .asDriver()
+//                .drive(with: self) { obj, _ in
+//                    btn.isSelected = !btn.isSelected
+//
+//                    let setEvPayFilterStream = Observable.of(FilterReactor.Action.updateEvPayFilter(btn.isSelected))
+//                    let saveEvPayFilterStream = Observable.of(FilterReactor.Action.saveEvPayFilter(btn.isSelected))
+//
+//                    Observable.concat([setEvPayFilterStream, saveEvPayFilterStream])
+//                        .bind(to: reactor.action)
+//                        .disposed(by: obj.disposeBag)
+//
+//                    view.IBborderColor = btn.isSelected ? Colors.borderPositive.color : Colors.nt1.color
+//                    titleLbl.textColor = btn.isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+//                    imgView.tintColor = btn.isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+//
+//                    let property: [String: Any] = ["filterName": "EV Pay",
+//                                                   "filterValue": btn.isSelected ? "On":"Off"]
+//                    FilterEvent.clickUpperFilter.logEvent(property: property)
+//                }
+//                .disposed(by: self.disposeBag)
+//
+//        case .favorite:
+//            let isSelected = reactor.initialState.filterModel.isFavoriteFilter ?? false
+//            MemberManager.shared.tryToLoginCheck { isLogin in
+//                guard isLogin else {
+//                    btn.isSelected = false
+//                    view.IBborderColor = Colors.nt1.color
+//                    titleLbl.textColor = typeImageProperty.imgUnSelectColor
+//                    imgView.tintColor = typeImageProperty.imgUnSelectColor
+//                    imgView.image = typeImageProperty.imgUnSelect
+//
+//                    Observable.just(FilterReactor.Action.updateFavoriteFilter(false))
+//                        .bind(to: reactor.action)
+//                        .disposed(by: self.disposeBag)
+//                    return
+//                }
+//                btn.isSelected = isSelected
+//                view.IBborderColor = btn.isSelected ? Colors.borderPositive.color : Colors.nt1.color
+//                titleLbl.textColor = btn.isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+//                imgView.tintColor = btn.isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+//                imgView.image = btn.isSelected ? typeImageProperty.imgSelect : typeImageProperty.imgUnSelect
+//            }
+//
+//            btn.rx.tap
+//                .asDriver()
+//                .drive(with: self) { obj, _ in
+//                    MemberManager.shared.tryToLoginCheck { isLogin in
+//                        if isLogin {
+//                            btn.isSelected = !btn.isSelected
+//                            Observable.just(FilterReactor.Action.updateFavoriteFilter(btn.isSelected))
+//                                .bind(to: reactor.action)
+//                                .disposed(by: obj.disposeBag)
+//
+//                            Observable.just(FilterReactor.Action.saveFavoriteFilter(btn.isSelected))
+//                                .bind(to: reactor.action)
+//                                .disposed(by: obj.disposeBag)
+//
+//                            btn.isSelected = btn.isSelected
+//                            view.IBborderColor = btn.isSelected ? Colors.borderPositive.color : Colors.nt1.color
+//                            titleLbl.textColor = btn.isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+//                            imgView.tintColor = btn.isSelected ? typeImageProperty.imgSelectColor : typeImageProperty.imgUnSelectColor
+//                            imgView.image = btn.isSelected ? typeImageProperty.imgSelect : typeImageProperty.imgUnSelect
+//                        } else {
+//                            MemberManager.shared.showLoginAlert()
+//                            Observable.just(FilterReactor.Action.updateFavoriteFilter(false))
+//                                .bind(to: reactor.action)
+//                                .disposed(by: obj.disposeBag)
+//
+//                            Observable.just(FilterReactor.Action.saveFavoriteFilter(false))
+//                                .bind(to: reactor.action)
+//                                .disposed(by: obj.disposeBag)
+//                        }
+//                    }
+//                }
+//                .disposed(by: self.disposeBag)
+//        case .place:
+//            let isChanged = FilterManager.sharedInstance.shouldPlaceChanged()
+//            titleLbl.textColor = isChanged ? Colors.gr6.color : Colors.contentSecondary.color
+//            view.IBborderColor = isChanged ? Colors.borderPositive.color : Colors.nt1.color
+//            imgView.tintColor = isChanged ? Colors.gr6.color : Colors.contentTertiary.color
+//
+//            btn.rx.tap
+//                .asDriver()
+//                .drive(with: self) { obj, _ in
+//                    btn.isSelected = !btn.isSelected
+//                    Observable.just(FilterReactor.Action.setSelectedFilterType((.place, btn.isSelected)))
+//                        .bind(to: reactor.action)
+//                        .disposed(by: obj.disposeBag)
+//                }
+//                .disposed(by: self.disposeBag)
+//        case .road:
+//            let isChanged = FilterManager.sharedInstance.shouldRoadChanged()
+//            titleLbl.textColor = isChanged ? Colors.gr6.color : Colors.contentSecondary.color
+//            view.IBborderColor = isChanged ? Colors.borderPositive.color : Colors.nt1.color
+//            imgView.tintColor = isChanged ? Colors.gr6.color : Colors.contentTertiary.color
+//
+//            btn.rx.tap
+//                .asDriver()
+//                .drive(with: self) { obj, _ in
+//                    btn.isSelected = !btn.isSelected
+//                    Observable.just(FilterReactor.Action.setSelectedFilterType((.road, btn.isSelected)))
+//                        .bind(to: reactor.action)
+//                        .disposed(by: obj.disposeBag)
+//                }
+//                .disposed(by: self.disposeBag)
+//        case .speed:
+//            let isChanged = FilterManager.sharedInstance.shouldSpeedChanged()
+//            titleLbl.textColor = isChanged ? Colors.gr6.color : Colors.contentSecondary.color
+//            view.IBborderColor = isChanged ? Colors.borderPositive.color : Colors.nt1.color
+//            imgView.tintColor = isChanged ? Colors.gr6.color : Colors.contentTertiary.color
+//
+//            btn.rx.tap
+//                .asDriver()
+//                .drive(with: self) { obj, _ in
+//                    btn.isSelected = !btn.isSelected
+//                    Observable.just(FilterReactor.Action.setSelectedFilterType((.speed, btn.isSelected)))
+//                        .bind(to: reactor.action)
+//                        .disposed(by: obj.disposeBag)
+//                }
+//                .disposed(by: self.disposeBag)
+//        case .type:
+//            let isChanged = FilterManager.sharedInstance.shouldTypeChanged()
+//            titleLbl.textColor = isChanged ? Colors.gr6.color : Colors.contentSecondary.color
+//            view.IBborderColor = isChanged ? Colors.borderPositive.color : Colors.nt1.color
+//            imgView.tintColor = isChanged ? Colors.gr6.color : Colors.contentTertiary.color
+//
+//            btn.rx.tap
+//                .asDriver()
+//                .drive(with: self) { obj, _ in
+//                    btn.isSelected = !btn.isSelected
+//                    Observable.just(FilterReactor.Action.setSelectedFilterType((.type, btn.isSelected)))
+//                        .bind(to: reactor.action)
+//                        .disposed(by: obj.disposeBag)
+//                }
+//                .disposed(by: self.disposeBag)
+//
+//        default: break
+//        }
     
         reactor.state.compactMap { $0.isUpdateFilterBarTitle }
             .asDriver(onErrorJustReturn: false)
@@ -392,55 +392,55 @@ internal final class NewFilterBarView: UIView {
             }
             .disposed(by: self.disposeBag)
         
-        reactor.state.compactMap { $0.selectedFilterType }
-            .asDriver(onErrorJustReturn: (.speed, false))
-            .drive(with: self) { obj, selected in
-                switch filterTagType {
-                case .evpay, .favorite: break
-                default:
-                    let isSelected = selected.filterTagType == filterTagType ? selected.isSelected : false
-                    
-                    if isSelected {
-                        view.IBborderColor = Colors.borderPositive.color
-                        view.backgroundColor = Colors.backgroundPositiveLight.color
-                        titleLbl.textColor = Colors.gr7.color
-                        imgView.image = selected.filterTagType.typeImageProperty?.imgSelect
-                        imgView.tintColor = filterTagType.typeImageProperty?.imgSelectColor
-                    } else {
-                        view.IBborderColor = Colors.nt1.color
-                        view.backgroundColor = Colors.backgroundPrimary.color
-                        titleLbl.textColor = Colors.contentSecondary.color
-                        imgView.image = filterTagType.typeImageProperty?.imgUnSelect
-                        imgView.tintColor = filterTagType.typeImageProperty?.imgUnSelectColor
-                        
-                        switch filterTagType {
-                        case .speed:
-                            let isChanged = FilterManager.sharedInstance.shouldSpeedChanged()
-                            titleLbl.textColor = isChanged ? Colors.gr6.color : Colors.contentSecondary.color
-                            view.IBborderColor = isChanged ? Colors.borderPositive.color : Colors.nt1.color
-                            imgView.tintColor = isChanged ? Colors.gr6.color : Colors.contentTertiary.color
-                        case .place:
-                            let isChanged = FilterManager.sharedInstance.shouldPlaceChanged()
-                            titleLbl.textColor = isChanged ? Colors.gr6.color : Colors.contentSecondary.color
-                            view.IBborderColor = isChanged ? Colors.borderPositive.color : Colors.nt1.color
-                            imgView.tintColor = isChanged ? Colors.gr6.color : Colors.contentTertiary.color
-                        case .road:
-                            let isChanged = FilterManager.sharedInstance.shouldRoadChanged()
-                            titleLbl.textColor = isChanged ? Colors.gr6.color : Colors.contentSecondary.color
-                            view.IBborderColor = isChanged ? Colors.borderPositive.color : Colors.nt1.color
-                            imgView.tintColor = isChanged ? Colors.gr6.color : Colors.contentTertiary.color
-                        case .type:
-                            let isChanged = FilterManager.sharedInstance.shouldTypeChanged()
-                            titleLbl.textColor = isChanged ? Colors.gr6.color : Colors.contentSecondary.color
-                            view.IBborderColor = isChanged ? Colors.borderPositive.color : Colors.nt1.color
-                            imgView.tintColor = isChanged ? Colors.gr6.color : Colors.contentTertiary.color
-                        default: break
-                        }
-                    }
-                    
-                    btn.isSelected = isSelected
-                }
-            }.disposed(by: self.disposeBag)
+//        reactor.state.compactMap { $0.selectedFilterType }
+//            .asDriver(onErrorJustReturn: (.speed, false))
+//            .drive(with: self) { obj, selected in
+//                switch filterTagType {
+//                case .evpay, .favorite: break
+//                default:
+//                    let isSelected = selected.filterTagType == filterTagType ? selected.isSelected : false
+//
+//                    if isSelected {
+//                        view.IBborderColor = Colors.borderPositive.color
+//                        view.backgroundColor = Colors.backgroundPositiveLight.color
+//                        titleLbl.textColor = Colors.gr7.color
+//                        imgView.image = selected.filterTagType.typeImageProperty?.imgSelect
+//                        imgView.tintColor = filterTagType.typeImageProperty?.imgSelectColor
+//                    } else {
+//                        view.IBborderColor = Colors.nt1.color
+//                        view.backgroundColor = Colors.backgroundPrimary.color
+//                        titleLbl.textColor = Colors.contentSecondary.color
+//                        imgView.image = filterTagType.typeImageProperty?.imgUnSelect
+//                        imgView.tintColor = filterTagType.typeImageProperty?.imgUnSelectColor
+//
+//                        switch filterTagType {
+//                        case .speed:
+//                            let isChanged = FilterManager.sharedInstance.shouldSpeedChanged()
+//                            titleLbl.textColor = isChanged ? Colors.gr6.color : Colors.contentSecondary.color
+//                            view.IBborderColor = isChanged ? Colors.borderPositive.color : Colors.nt1.color
+//                            imgView.tintColor = isChanged ? Colors.gr6.color : Colors.contentTertiary.color
+//                        case .place:
+//                            let isChanged = FilterManager.sharedInstance.shouldPlaceChanged()
+//                            titleLbl.textColor = isChanged ? Colors.gr6.color : Colors.contentSecondary.color
+//                            view.IBborderColor = isChanged ? Colors.borderPositive.color : Colors.nt1.color
+//                            imgView.tintColor = isChanged ? Colors.gr6.color : Colors.contentTertiary.color
+//                        case .road:
+//                            let isChanged = FilterManager.sharedInstance.shouldRoadChanged()
+//                            titleLbl.textColor = isChanged ? Colors.gr6.color : Colors.contentSecondary.color
+//                            view.IBborderColor = isChanged ? Colors.borderPositive.color : Colors.nt1.color
+//                            imgView.tintColor = isChanged ? Colors.gr6.color : Colors.contentTertiary.color
+//                        case .type:
+//                            let isChanged = FilterManager.sharedInstance.shouldTypeChanged()
+//                            titleLbl.textColor = isChanged ? Colors.gr6.color : Colors.contentSecondary.color
+//                            view.IBborderColor = isChanged ? Colors.borderPositive.color : Colors.nt1.color
+//                            imgView.tintColor = isChanged ? Colors.gr6.color : Colors.contentTertiary.color
+//                        default: break
+//                        }
+//                    }
+//
+//                    btn.isSelected = isSelected
+//                }
+//            }.disposed(by: self.disposeBag)
 
         return view
     }

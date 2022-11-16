@@ -179,9 +179,9 @@ extension NewCompanyTableViewCell: UICollectionViewDataSource {
                 cell.totalView.borderColor = isSelected ? Colors.borderPositive.color : Colors.nt1.color
                 
                 if !isSelected {
-                    Observable.just(FilterReactor.Action.setAllCompanies(false))
-                        .bind(to: reactor.action)
-                        .disposed(by: obj.disposeBag)
+//                    Observable.just(FilterReactor.Action.setAllCompanies(false))
+//                        .bind(to: reactor.action)
+//                        .disposed(by: obj.disposeBag)
                 }
                 
                 obj.delegateFilterChange?.changedFilter()
