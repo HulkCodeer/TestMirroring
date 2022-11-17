@@ -172,38 +172,7 @@ internal final class FilterReactor: ViewModel, Reactor {
             return .just(.shouldChanged)
             
         case .loadChargerTypes:
-            var tags: [NewTag] = [NewTag]()
-            let myCarType: Int = UserDefault().readInt(key: UserDefault.Key.MB_CAR_TYPE)
-            let hasMyCar: Bool = UserDefault().readInt(key: UserDefault.Key.MB_CAR_ID) != 0
-            let isRepresentCarFilter = self.currentState.tempFilterModel.isRepresentCarFilter
-            let isSlowTypeOn: Bool = self.currentState.isSlowTypeOn
-            
-            if isRepresentCarFilter {
-                if hasMyCar {
-                    for type in ChargerType.allCases {
-                        tags.append(NewTag(title: type.typeTitle, selected: myCarType == type.uniqueKey, uniqueKey: type.uniqueKey, image: type.typeImageProperty?.image))
-                    }
-                } else {
-                    for type in ChargerType.allCases {
-                        tags.append(NewTag(title: type.typeTitle, selected: type.selected, uniqueKey: type.uniqueKey, image: type.typeImageProperty?.image))
-                    }
-                }
-            } else {
-                if isSlowTypeOn {
-                    for type in ChargerType.allCases {
-                        if type == .slow || type == .destination {
-                            tags.append(NewTag(title: type.typeTitle, selected: true, uniqueKey: type.uniqueKey, image: type.typeImageProperty?.image))
-                        } else {
-                            tags.append(NewTag(title: type.typeTitle, selected: type.selected, uniqueKey: type.uniqueKey, image: type.typeImageProperty?.image))
-                        }
-                    }
-                } else {
-                    for type in ChargerType.allCases {
-                        tags.append(NewTag(title: type.typeTitle, selected: type.selected, uniqueKey: type.uniqueKey, image: type.typeImageProperty?.image))
-                    }
-                }
-            }
-            return .just(.loadChargerTypes(tags))
+            return .just(.loadChargerTypes(self.currentState.tempFilterModel.chargerTypes))
             
         case .updateSlowTypeOn(let isOn):
             return .just(.updateSlowTypeOn(isOn))
@@ -295,7 +264,6 @@ internal final class FilterReactor: ViewModel, Reactor {
 //            newState.isUpdateFilterBarTitle = true
             
         case .shouldChanged:
-            printLog(out: "PARK TEST compare \(self.originalFilterModel == self.currentState.tempFilterModel)")
             newState.shouldChanged = self.originalFilterModel == self.currentState.tempFilterModel
             
         case .updateSpeedFilter(let selectedSpeedFilter):

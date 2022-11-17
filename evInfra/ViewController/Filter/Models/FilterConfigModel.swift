@@ -50,6 +50,7 @@ internal final class FilterConfigModel: Equatable {
     var numberOfFavorites: Int = 0
     var isRepresentCarFilter: Bool = false
     var chargerTypes: [NewTag] = []
+    var isSlowTypeOn: Bool = false
     
     convenience init(isConvert: Bool) {
         self.init()
@@ -73,12 +74,36 @@ internal final class FilterConfigModel: Equatable {
         isEvPayFilter = FilterManager.sharedInstance.isMembershipCardChecked()
         isFavoriteFilter = FilterManager.sharedInstance.filter.isFavoriteChecked
         numberOfFavorites = ChargerManager.sharedInstance.getChargerStationInfoList().filter { $0.mFavorite }.count
-        isRepresentCarFilter = FilterManager.sharedInstance.filter.isRepresentCarChecked
-        chargerTypes = ChargerType.allCases.compactMap {
-            if $0.uniqueKey == Const.CHARGER_TYPE_DCCOMBO || $0.uniqueKey == Const.CHARGER_TYPE_DCDEMO || $0.uniqueKey == Const.CHARGER_TYPE_AC || $0.uniqueKey == Const.CHARGER_TYPE_SUPER_CHARGER {
-                return NewTag(title: $0.typeTitle, selected: true, uniqueKey: $0.uniqueKey, image: $0.typeImageProperty?.image)
+        isRepresentCarFilter = FilterManager.sharedInstance.filter.isRepresentCarChecked        
+        
+        let myCarType: Int = UserDefault().readInt(key: UserDefault.Key.MB_CAR_TYPE)
+        let hasMyCar: Bool = UserDefault().readInt(key: UserDefault.Key.MB_CAR_ID) != 0
+        let isRepresentCarFilter = self.isRepresentCarFilter
+        let isSlowTypeOn: Bool = self.isSlowTypeOn
+        
+        if isRepresentCarFilter {
+            if hasMyCar {
+                for type in ChargerType.allCases {
+                    chargerTypes.append(NewTag(title: type.typeTitle, selected: myCarType == type.uniqueKey, uniqueKey: type.uniqueKey, image: type.typeImageProperty?.image))
+                }
             } else {
-                return NewTag(title: $0.typeTitle, selected: false, uniqueKey: $0.uniqueKey, image: $0.typeImageProperty?.image)
+                for type in ChargerType.allCases {
+                    chargerTypes.append(NewTag(title: type.typeTitle, selected: type.selected, uniqueKey: type.uniqueKey, image: type.typeImageProperty?.image))
+                }
+            }
+        } else {
+            if isSlowTypeOn {
+                for type in ChargerType.allCases {
+                    if type == .slow || type == .destination {
+                        chargerTypes.append(NewTag(title: type.typeTitle, selected: true, uniqueKey: type.uniqueKey, image: type.typeImageProperty?.image))
+                    } else {
+                        chargerTypes.append(NewTag(title: type.typeTitle, selected: type.selected, uniqueKey: type.uniqueKey, image: type.typeImageProperty?.image))
+                    }
+                }
+            } else {
+                for type in ChargerType.allCases {
+                    chargerTypes.append(NewTag(title: type.typeTitle, selected: type.selected, uniqueKey: type.uniqueKey, image: type.typeImageProperty?.image))
+                }
             }
         }
     }

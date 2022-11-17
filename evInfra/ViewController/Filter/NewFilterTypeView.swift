@@ -18,6 +18,7 @@ protocol NewDelegateSlowTypeChange: AnyObject {
 
 internal class NewTag: Equatable {
     static func == (lhs: NewTag, rhs: NewTag) -> Bool {
+        
         return lhs.title == rhs.title && lhs.selected == rhs.selected && lhs.uniqueKey == rhs.uniqueKey && lhs.image == rhs.image
     }
     
@@ -122,27 +123,14 @@ internal final class NewFilterTypeView: CommonFilterView {
     private var disposeBag = DisposeBag()
     private var _originalTags: [NewTag] = [NewTag]()
     private var tags: [NewTag] = [NewTag]()
-    internal weak var delegateSlowTypeChange: NewDelegateSlowTypeChange?
-
-    internal var isDirectChange: Bool = false
+    private var reactor: FilterReactor?
     
+    internal weak var delegateSlowTypeChange: NewDelegateSlowTypeChange?
+    internal var isDirectChange: Bool = false
+        
     // MARK: SYSTEM FUNC
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    
-    // MARK: REACTORKIT
-    internal func bind(reactor: FilterReactor) {
-        
+    override func makeUI() {
         self.addSubview(totalView)
         totalView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -164,20 +152,25 @@ internal final class NewFilterTypeView: CommonFilterView {
             $0.bottom.lessThanOrEqualToSuperview().offset(-20)
             $0.height.equalTo(76)
         }
+    }
+    
+    // MARK: REACTORKIT
+    internal func bind(reactor: FilterReactor) {
+        self.reactor = reactor
         
         Observable.just(FilterReactor.Action.loadChargerTypes)
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
         
-//        reactor.state.compactMap { $0.filterModel.chargerTypes }
-//            .asDriver(onErrorJustReturn: [])
-//            .drive(with: self) { obj, types in
-//                obj.tags.removeAll()
-//                obj._originalTags.removeAll()
-//                obj._originalTags = types
-//                obj.tags = types
-//                obj.chargerTypesCollectionView.reloadData()
-//            }.disposed(by: self.disposeBag)
+        reactor.state.compactMap { $0.tempFilterModel.chargerTypes }
+            .asDriver(onErrorJustReturn: [])
+            .drive(with: self) { obj, types in
+                obj.tags.removeAll()
+                obj._originalTags.removeAll()
+                obj._originalTags = types
+                obj.tags = types
+                obj.chargerTypesCollectionView.reloadData()
+            }.disposed(by: self.disposeBag)
     }
 }
 
@@ -247,22 +240,20 @@ extension NewFilterTypeView: UICollectionViewDataSource {
         cell.btn.rx.tap
             .asDriver()
             .drive(with: self) { obj, _ in
+                guard let _reactor = self.reactor else { return }
+                
                 cell.btn.isSelected = !cell.btn.isSelected
                 obj.tags[index].selected = cell.btn.isSelected
-
-//                Observable.just(FilterReactor.Action.updateChargerTypeFilter(obj.tags))
-//                    .bind(to: reactor.action)
-//                    .disposed(by: obj.disposeBag)
+                
+                Observable.just(FilterReactor.Action.updateChargerTypeFilter(obj.tags))
+                    .bind(to: _reactor.action)
+                    .disposed(by: obj.disposeBag)
                 
                 self.shouldSlowType()
                 if obj.isDirectChange {
                     obj.saveFilter()
                 }
-                
-//                Observable.just(FilterReactor.Action.shouldChanged)
-//                    .bind(to: reactor.action)
-//                    .disposed(by: obj.disposeBag)
-            
+                            
                 cell.titleLbl.textColor = cell.btn.isSelected ? Colors.gr7.color : Colors.contentSecondary.color
                 cell.imgView.tintColor = cell.btn.isSelected ? Colors.gr7.color : Colors.contentSecondary.color
                 cell.totalView.backgroundColor = cell.btn.isSelected ? Colors.backgroundPositiveLight.color : Colors.backgroundPrimary.color
