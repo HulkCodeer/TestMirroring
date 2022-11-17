@@ -394,38 +394,69 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 reactor: reactor)
             bottomMenuStackView.addArrangedSubview(item)
             
+            item.button.rx.tap
+                .filter { bottomMenuType == .qrCharging }
+                .asDriver(onErrorJustReturn: ())
+                .drive(with: self) { obj, _ in
+                    MemberManager.shared.tryToLoginCheck { isLogin in
+                        if isLogin {
+                            Observable.just(MainReactor.Action.actionBottomQR)
+                                .bind(to: reactor.action)
+                                .disposed(by: obj.disposeBag)
+                        } else {    // 비로그인시 로그인 플로우 확인용
+                            AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "QR 충전")
+                            MemberManager.shared.showLoginAlert()
+                        }
+                    }
+                }
+                .disposed(by: disposeBag)
+            
+            item.button.rx.tap
+                .filter { bottomMenuType == .community }
+                .asDriver(onErrorJustReturn: ())
+                .drive(with: self) { obj, _ in
+                    Observable.just(MainReactor.Action.actionBottomCommunity)
+                        .bind(to: reactor.action)
+                        .disposed(by: obj.disposeBag)
+                }
+                .disposed(by: self.disposeBag)
+            
+            item.button.rx.tap
+                .filter { bottomMenuType == .evPay }
+                .asDriver(onErrorJustReturn: ())
+                .drive(with: self) { obj, _ in
+                    MemberManager.shared.tryToLoginCheck { isLogin in
+                        if isLogin {
+                            Observable.just(MainReactor.Action.actionBottomEVPay)
+                                .bind(to: reactor.action)
+                                .disposed(by: obj.disposeBag)
+                        } else {    // 비로그인시 로그인 플로우 확인용
+                            AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "즐겨찾기 리스트/버튼")
+                            MemberManager.shared.showLoginAlert()
+                        }
+                    }
+                }
+                .disposed(by: disposeBag)
+            
+            item.button.rx.tap
+                .filter { bottomMenuType == .favorite }
+                .asDriver(onErrorJustReturn: ())
+                .drive(with: self) { obj, _ in
+                    MemberManager.shared.tryToLoginCheck { isLogin in
+                        if isLogin {
+                            Observable.just(MainReactor.Action.actionBottomFavorite)
+                                .bind(to: reactor.action)
+                                .disposed(by: obj.disposeBag)
+                        } else {    // 비로그인시 로그인 플로우 확인용
+                            AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "메인화면 하단 EV Pay 버튼")
+                            MemberManager.shared.showLoginAlert()
+                        }
+                    }
+                }
+                .disposed(by: disposeBag)
+            
             switch bottomMenuType {
-            case .qrCharging:
-                MemberManager.shared.tryToLoginCheck { isLogin in
-                    if isLogin {
-                        item.button.rx.tap
-                            .map { MainReactor.Action.actionBottomQR }
-                            .bind(to: reactor.action)
-                            .disposed(by: self.disposeBag)
-                    } else {    // 비로그인시 로그인 플로우 확인용
-                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "QR 충전")
-                        MemberManager.shared.showLoginAlert()
-                    }
-                }
-            case .community:
-                item.button.rx.tap
-                    .map { MainReactor.Action.actionBottomCommunity }
-                    .bind(to: reactor.action)
-                    .disposed(by: self.disposeBag)
-                
             case .evPay:
-                MemberManager.shared.tryToLoginCheck { isLogin in
-                    if isLogin {
-                        item.button.rx.tap
-                            .map { MainReactor.Action.actionBottomEVPay }
-                            .bind(to: reactor.action)
-                            .disposed(by: self.disposeBag)
-                    } else {    // 비로그인시 로그인 플로우 확인용
-                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "즐겨찾기 리스트/버튼")
-                        MemberManager.shared.showLoginAlert()
-                    }
-                }
-                
                 // toolTip
                 guard let reqData = ABTestManager.shared.reqData(.mainBottomEVPay) else { break }
                 let (_, tooltipMSG) = reqData
@@ -445,19 +476,8 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 }
                 
                 bottomEvPaytooltipView.show(message: tooltipMSG)
-                
-            case .favorite:
-                MemberManager.shared.tryToLoginCheck { isLogin in
-                    if isLogin {
-                        item.button.rx.tap
-                            .map { MainReactor.Action.actionBottomFavorite }
-                            .bind(to: reactor.action)
-                            .disposed(by: self.disposeBag)
-                    } else {    // 비로그인시 로그인 플로우 확인용
-                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "메인화면 하단 EV Pay 버튼")
-                        MemberManager.shared.showLoginAlert()
-                    }
-                }
+                                
+            default: break
             }
         }
         
