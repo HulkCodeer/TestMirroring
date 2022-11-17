@@ -135,7 +135,7 @@ internal final class NewFilterSpeedView: CommonFilterView {
 
         totalView.snp.makeConstraints {
             $0.edges.equalToSuperview()
-            $0.height.equalTo(128)
+            $0.height.equalTo(138)
         }
         
         totalView.addSubview(stackView)
@@ -159,19 +159,15 @@ internal final class NewFilterSpeedView: CommonFilterView {
         
         totalView.addSubview(stepHorizontalStackView)
         stepHorizontalStackView.snp.makeConstraints {
-            $0.top.equalTo(rangeSlider.snp.bottom)
+            $0.top.equalTo(rangeSlider.snp.bottom).offset(12)
             $0.leading.equalTo(totalView.snp.leading).offset(34)
             $0.trailing.equalTo(totalView.snp.trailing).offset(-34)
-            $0.bottom.equalTo(totalView.snp.bottom).offset(-16)
+            $0.bottom.equalTo(totalView.snp.bottom).offset(-14)
             $0.height.equalTo(32)
         }
         
         for step in Speed.allCases {
             let stepView = createStepView(step: step.description)
-            stepView.snp.makeConstraints {
-                $0.width.equalTo(28)
-                $0.height.equalTo(32)
-            }
             stepHorizontalStackView.addArrangedSubview(stepView)
         }
         
@@ -261,7 +257,6 @@ internal final class NewFilterSpeedView: CommonFilterView {
             $0.addSubview(stepLbl)
             stepLbl.snp.makeConstraints {
                 $0.top.equalTo(stepView.snp.bottom).offset(4)
-                $0.width.equalTo(28)
                 $0.leading.trailing.bottom.equalToSuperview()
             }
         }
