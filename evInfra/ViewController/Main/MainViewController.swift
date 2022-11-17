@@ -387,19 +387,46 @@ internal final class MainViewController: UIViewController, StoryboardView {
         // 스토리보드 제거 후 loadView 이동 요망.
         makeUI()
         
+        // makeBottomMenu + bind
         for bottomMenuType in MainReactor.BottomMenuType.allCases {
             let item = BottomMenuItem(
                 menuType: bottomMenuType,
                 reactor: reactor)
             bottomMenuStackView.addArrangedSubview(item)
             
-            item.button.rx.tap
-                .map { MainReactor.Action.selectedBottomMenu(bottomMenuType) }
-                .bind(to: reactor.action)
-                .disposed(by: self.disposeBag)
-            
             switch bottomMenuType {
+            case .qrCharging:
+                MemberManager.shared.tryToLoginCheck { isLogin in
+                    if isLogin {
+                        item.button.rx.tap
+                            .map { MainReactor.Action.actionBottomQR }
+                            .bind(to: reactor.action)
+                            .disposed(by: self.disposeBag)
+                    } else {    // 비로그인시 로그인 플로우 확인용
+                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "QR 충전")
+                        MemberManager.shared.showLoginAlert()
+                    }
+                }
+            case .community:
+                item.button.rx.tap
+                    .map { MainReactor.Action.actionBottomCommunity }
+                    .bind(to: reactor.action)
+                    .disposed(by: self.disposeBag)
+                
             case .evPay:
+                MemberManager.shared.tryToLoginCheck { isLogin in
+                    if isLogin {
+                        item.button.rx.tap
+                            .map { MainReactor.Action.actionBottomEVPay }
+                            .bind(to: reactor.action)
+                            .disposed(by: self.disposeBag)
+                    } else {    // 비로그인시 로그인 플로우 확인용
+                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "즐겨찾기 리스트/버튼")
+                        MemberManager.shared.showLoginAlert()
+                    }
+                }
+                
+                // toolTip
                 guard let reqData = ABTestManager.shared.reqData(.mainBottomEVPay) else { break }
                 let (_, tooltipMSG) = reqData
                 let width: CGFloat = tooltipMSG.size(of: .systemFont(ofSize: 14)).width + 24
@@ -419,8 +446,18 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 
                 bottomEvPaytooltipView.show(message: tooltipMSG)
                 
-            default:
-                break
+            case .favorite:
+                MemberManager.shared.tryToLoginCheck { isLogin in
+                    if isLogin {
+                        item.button.rx.tap
+                            .map { MainReactor.Action.actionBottomFavorite }
+                            .bind(to: reactor.action)
+                            .disposed(by: self.disposeBag)
+                    } else {    // 비로그인시 로그인 플로우 확인용
+                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: "메인화면 하단 EV Pay 버튼")
+                        MemberManager.shared.showLoginAlert()
+                    }
+                }
             }
         }
         
@@ -821,25 +858,23 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 }
             }
             .disposed(by: disposeBag)
-
-        reactor.state.compactMap { $0.bottomItemType }
-            .asDriver(onErrorJustReturn: .community)
-            .drive(with: self) { owner, bottomType in
-                switch bottomType {
-                case .community:
-                    UserDefault().saveInt(key: UserDefault.Key.LAST_FREE_ID, value: Board.sharedInstance.freeBoardId)
-                    
-                    let viewcon = CardBoardViewController(category: .FREE, mode: .FEED)
-                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-                    
-                case .favorite:
-                    let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: FavoriteViewController.self)
-                    viewcon.delegate = self
-                    GlobalDefine.shared.mainNavi?.push(viewController: viewcon, subtype: CATransitionSubtype.fromTop)
-                    
-                default:
-                    break
-                }
+        
+        reactor.state.compactMap { $0.isShowCommunity }
+            .asDriver(onErrorJustReturn: true)
+            .drive(with: self) { obj, _ in
+                UserDefault().saveInt(key: UserDefault.Key.LAST_FREE_ID, value: Board.sharedInstance.freeBoardId)
+                
+                let viewcon = CardBoardViewController(category: .FREE, mode: .FEED)
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state.compactMap { $0.isShowFavorite }
+            .asDriver(onErrorJustReturn: true)
+            .drive(with: self) { obj, _ in
+                let viewcon = UIStoryboard(name : "Member", bundle: nil).instantiateViewController(ofType: FavoriteViewController.self)
+                viewcon.delegate = self
+                GlobalDefine.shared.mainNavi?.push(viewController: viewcon, subtype: CATransitionSubtype.fromTop)
             }
             .disposed(by: disposeBag)
         

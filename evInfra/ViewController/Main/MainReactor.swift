@@ -31,10 +31,10 @@ internal final class MainReactor: ViewModel, Reactor {
         case clearSearchPoint(SearchWayPointType)
         case setEvPayFilter(Bool)
         case setChargingID
-        case selectedBottomMenu(BottomMenuType)
         case actionBottomQR
-        case actionEVPay
-        case actionBottomMenu(BottomMenuType)
+        case actionBottomCommunity
+        case actionBottomFavorite
+        case actionBottomEVPay
         case setIsAccountsReceivable(Bool)
         case setIsCharging(Bool)
         case showChargePrice
@@ -59,8 +59,9 @@ internal final class MainReactor: ViewModel, Reactor {
         case setSelectedFilterInfo(SelectedFilterInfo)
         case setEvPayFilter(Bool)
         case isShowQRMenu(Bool)
+        case isShowCommunity
+        case isShowFavorite
         case setEVPay(EVPayShowType)
-        case setSelectedBottomMenu(BottomMenuType)
         case setIsAccountsReceivable(Bool)
         case setIsCharging(Bool)
         case setChargePrice
@@ -87,7 +88,8 @@ internal final class MainReactor: ViewModel, Reactor {
         var isShowEvPayToolTip: Bool?
         var evPayPresentType: EVPayShowType?
         var isShowQRMenu: Bool?
-        var bottomItemType: BottomMenuType?
+        var isShowCommunity: Bool?
+        var isShowFavorite: Bool?
         var isAccountsReceivable: Bool? = false
         var isCharging: Bool? = false
         var isShowChargePrice: Bool?
@@ -189,10 +191,6 @@ internal final class MainReactor: ViewModel, Reactor {
             return self.provider.getChargingID()
                 .convertData()
                 .map(checkChargingStatus)
-
-        case .selectedBottomMenu(let bottomType):
-            bottomType.action(reactor: self, provider: provider)
-            return .empty()
             
         case .actionBottomQR:
             return self.provider.getChargingID()
@@ -200,14 +198,17 @@ internal final class MainReactor: ViewModel, Reactor {
                 .compactMap(convertToIsShowQRMenu)
                 .map { return .isShowQRMenu($0) }
             
-        case .actionEVPay:
+        case .actionBottomCommunity:
+            return .just(.isShowCommunity)
+            
+        case .actionBottomFavorite:
+            return .just(.isShowFavorite)
+            
+        case .actionBottomEVPay:
             return provider.postPaymentStatus()
                 .convertData()
                 .compactMap(convertToEVPayShowType)
                 .map { return .setEVPay($0)}
-            
-        case .actionBottomMenu(let menuType):
-            return .just(.setSelectedBottomMenu(menuType) )
             
         case .setIsAccountsReceivable(let isReceivable):
             return .just(.setIsAccountsReceivable(isReceivable))
@@ -248,8 +249,9 @@ internal final class MainReactor: ViewModel, Reactor {
         newState.searchDetinationData = nil
         newState.isShowEvPayToolTip = nil
         newState.isShowQRMenu = nil
+        newState.isShowCommunity = nil
+        newState.isShowFavorite = nil
         newState.evPayPresentType = nil
-        newState.bottomItemType = nil
         newState.isAccountsReceivable = nil
         newState.isCharging = nil
         newState.isShowChargePrice = nil
@@ -303,12 +305,15 @@ internal final class MainReactor: ViewModel, Reactor {
         case .isShowQRMenu(let isShowQRMenu):
             newState.isShowQRMenu = isShowQRMenu
             
+        case .isShowCommunity:
+            newState.isShowCommunity = true
+            
+        case .isShowFavorite:
+            newState.isShowFavorite = true
+            
         case .setEVPay(let showType):
             newState.evPayPresentType = showType
-            
-        case .setSelectedBottomMenu(let itemType):
-            newState.bottomItemType = itemType
-            
+
         case .setIsAccountsReceivable(let isReceivable):
             newState.isAccountsReceivable = isReceivable
             
@@ -550,47 +555,7 @@ internal final class MainReactor: ViewModel, Reactor {
         // 미수금
         var accountsReceivableIcon: UIImage? {
             guard self == .evPay else { return nil }
-            
             return Icons.iconEvpayNew.image
-        }
-
-        private var actionValue: (action: MainReactor.Action, logoutAplitudeMSG: String?) {
-            switch self {
-            case .qrCharging:
-                return (MainReactor.Action.actionBottomQR, "QR 충전")
-                
-            case .community:
-                return (MainReactor.Action.actionBottomMenu(.community), nil)
-                
-            case .favorite:
-                return (MainReactor.Action.actionBottomMenu(.favorite), "즐겨찾기 리스트/버튼")
-                
-            case .evPay:
-                // 앰플리튜드 설정 필요한지 확인해야함. "EV Pay 관리" 임의로 문구 넣어둔것.
-                return (MainReactor.Action.actionEVPay, "EV Pay 관리")
-             
-            }
-        }
-        
-        func action(reactor: MainReactor, provider: SoftberryAPI) {
-            switch self {
-            case .community:
-                Observable.just(actionValue.action)
-                    .bind(to: reactor.action)
-                    .disposed(by: reactor.disposeBag)
-                
-            default:
-                MemberManager.shared.tryToLoginCheck { isLogin in
-                    if isLogin {
-                        Observable.just(actionValue.action)
-                            .bind(to: reactor.action)
-                            .disposed(by: reactor.disposeBag)
-                    } else {    // 비로그인시 로그인 플로우 확인용
-                        AmplitudeEvent.shared.setFromViewDesc(fromViewDesc: actionValue.logoutAplitudeMSG ?? String())
-                        MemberManager.shared.showLoginAlert()
-                    }
-                }
-            }
         }
         
     }
@@ -609,6 +574,5 @@ extension MainReactor: RepaymentListDelegate {
         GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
     }
     
-    func onRepayFail() {
-    }
-}
+    func onRepayFail() {}
+ }
