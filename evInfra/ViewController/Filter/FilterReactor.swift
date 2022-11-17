@@ -32,7 +32,7 @@ internal final class FilterReactor: ViewModel, Reactor {
         case loadChargerTypes
         case updateSlowTypeOn(Bool)
         case updateMinMaxSpeedOn(Bool, Bool)
-        case updateChargerTypeFilter([NewTag])
+        case updateChargerTypeFilter(Int)
         case changedChargerTypeFilter(SelectedChargerTypeFilter)
         case setChargerTypeFilter([NewTag])
         case changedCompanyFilter(SelectedCompanyFilter)
@@ -59,7 +59,6 @@ internal final class FilterReactor: ViewModel, Reactor {
         case updateSlowTypeOn(Bool)
         case updateMinMaxSpeedOn(Bool, Bool)
         case changedChargerTypeFilter(SelectedChargerTypeFilter)
-        case updateChargerTypeFilter([NewTag])
         case changedCompanyFilter(SelectedCompanyFilter)
         case setAccessType(any Filter)
         case setRoadType(any Filter)
@@ -74,7 +73,7 @@ internal final class FilterReactor: ViewModel, Reactor {
         var changedChargerTypeFilter: SelectedChargerTypeFilter?
         var selectedChargerTypes: [ChargerType]?
         var changedCompanyFilter: SelectedCompanyFilter?
-        var chargerTypes: [NewTag]? = []
+        
         var isUpdateFilterBarTitle: Bool?
         var isSlowTypeOn: Bool = false
         var minMaxSpeedOn: (Bool, Bool) = (false, false)
@@ -82,6 +81,7 @@ internal final class FilterReactor: ViewModel, Reactor {
         
         var tempFilterModel: FilterConfigModel = FilterConfigModel(isConvert: true)
         var filterType: (any Filter)?
+        var typeTags: [NewTag]?
     }
             
     internal var initialState: State
@@ -183,8 +183,9 @@ internal final class FilterReactor: ViewModel, Reactor {
         case .changedChargerTypeFilter(let selectedChargerType):
             return .just(.changedChargerTypeFilter(selectedChargerType))
             
-        case .updateChargerTypeFilter(let tags):
-            return .just(.updateChargerTypeFilter(tags))
+        case .updateChargerTypeFilter(let index):
+            self.currentState.tempFilterModel.chargerTypes[index].selected = !self.currentState.tempFilterModel.chargerTypes[index].selected
+            return .just(.shouldChanged)
             
         case .setChargerTypeFilter(let tags):
             for tag in tags {
@@ -220,9 +221,9 @@ internal final class FilterReactor: ViewModel, Reactor {
     
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
-        newState.loadedCompanies = nil
-        newState.chargerTypes = nil
+        newState.loadedCompanies = nil        
         newState.filterType = nil
+        newState.typeTags = nil
         
         switch mutation {
 //        case .resetFilter:
@@ -270,7 +271,7 @@ internal final class FilterReactor: ViewModel, Reactor {
             newState.isUpdateFilterBarTitle = true
             
         case .loadChargerTypes(let tags):
-            newState.tempFilterModel.chargerTypes = tags
+            newState.typeTags = tags
             
         case .updateSlowTypeOn(let isOn):
             newState.isSlowTypeOn = isOn
@@ -280,10 +281,7 @@ internal final class FilterReactor: ViewModel, Reactor {
             
         case .changedChargerTypeFilter(let selectedChargerTypeFilter):
             newState.changedChargerTypeFilter = selectedChargerTypeFilter
-            
-        case .updateChargerTypeFilter(let tags): break
-            newState.tempFilterModel.chargerTypes = tags
-            
+                                
         case .changedCompanyFilter(let selectedCompanyFilter):
             newState.changedCompanyFilter = selectedCompanyFilter
 

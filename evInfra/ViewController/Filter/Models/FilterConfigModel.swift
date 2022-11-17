@@ -190,16 +190,16 @@ internal final class FilterConfigModel: Equatable {
             }
         }
         
-        printLog(out: "\(isEqualAccess)")
-        printLog(out: "\(isEqualRoad)")
-        printLog(out: "\(isEqualPlace)")
-        printLog(out: "\(lhs.minSpeed == rhs.minSpeed)")
-        printLog(out: "\(lhs.maxSpeed == rhs.maxSpeed)")
-        printLog(out: "\(lhs.isEvPayFilter == rhs.isEvPayFilter)")
-        printLog(out: "\(lhs.isFavoriteFilter == rhs.isFavoriteFilter)")
-        printLog(out: "\(lhs.numberOfFavorites == rhs.numberOfFavorites)")
-        printLog(out: "\(lhs.isRepresentCarFilter == rhs.isRepresentCarFilter)")
-        printLog(out: "\(lhs.chargerTypes == rhs.chargerTypes)")
+//        printLog(out: "\(isEqualAccess)")
+//        printLog(out: "\(isEqualRoad)")
+//        printLog(out: "\(isEqualPlace)")
+//        printLog(out: "\(lhs.minSpeed == rhs.minSpeed)")
+//        printLog(out: "\(lhs.maxSpeed == rhs.maxSpeed)")
+//        printLog(out: "\(lhs.isEvPayFilter == rhs.isEvPayFilter)")
+//        printLog(out: "\(lhs.isFavoriteFilter == rhs.isFavoriteFilter)")
+//        printLog(out: "\(lhs.numberOfFavorites == rhs.numberOfFavorites)")
+//        printLog(out: "\(lhs.isRepresentCarFilter == rhs.isRepresentCarFilter)")
+//        printLog(out: "\(lhs.chargerTypes == rhs.chargerTypes)")
         
         return isEqualAccess &&
         isEqualRoad &&

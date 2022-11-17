@@ -77,6 +77,7 @@ internal final class NewFilterRoadView: CommonFilterView {
                 .disposed(by: self.disposeBag)
 
             reactor.state.compactMap { $0.filterType }
+                .debug()
                 .filter { $0.isEqual(roadFilter) }
                 .asDriver(onErrorJustReturn: PublicFilter(isSelected: true))
                 .drive(with: self) { obj, type in

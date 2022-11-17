@@ -121,7 +121,6 @@ internal final class NewFilterTypeView: CommonFilterView {
     // MARK: VARIABLES
     private weak var mainReactor: MainReactor?
     private var disposeBag = DisposeBag()
-    private var _originalTags: [NewTag] = [NewTag]()
     private var tags: [NewTag] = [NewTag]()
     private var reactor: FilterReactor?
     
@@ -162,12 +161,11 @@ internal final class NewFilterTypeView: CommonFilterView {
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
         
-        reactor.state.compactMap { $0.tempFilterModel.chargerTypes }
+        reactor.state.compactMap { $0.typeTags }
+            .debug()
             .asDriver(onErrorJustReturn: [])
             .drive(with: self) { obj, types in
                 obj.tags.removeAll()
-                obj._originalTags.removeAll()
-                obj._originalTags = types
                 obj.tags = types
                 obj.chargerTypesCollectionView.reloadData()
             }.disposed(by: self.disposeBag)
@@ -229,6 +227,8 @@ extension NewFilterTypeView: UICollectionViewDataSource {
         let index = indexPath.row
         let chargerType = tags[indexPath.row]
         
+        printLog(out: "PARK TEST selected: \(chargerType.selected)")
+        
         cell.btn.isSelected = chargerType.selected
         cell.titleLbl.text = chargerType.title
         cell.titleLbl.textColor = chargerType.selected ? Colors.gr7.color : Colors.contentSecondary.color
@@ -240,24 +240,26 @@ extension NewFilterTypeView: UICollectionViewDataSource {
         cell.btn.rx.tap
             .asDriver()
             .drive(with: self) { obj, _ in
-                guard let _reactor = self.reactor else { return }
+                guard let _reactor = obj.reactor else { return }
                 
                 cell.btn.isSelected = !cell.btn.isSelected
                 obj.tags[index].selected = cell.btn.isSelected
-                
-                Observable.just(FilterReactor.Action.updateChargerTypeFilter(obj.tags))
+                                
+                Observable.just(FilterReactor.Action.updateChargerTypeFilter(index))
                     .bind(to: _reactor.action)
                     .disposed(by: obj.disposeBag)
                 
-                self.shouldSlowType()
+                obj.shouldSlowType()
                 if obj.isDirectChange {
                     obj.saveFilter()
                 }
+                
+                obj.chargerTypesCollectionView.reloadData()
                             
-                cell.titleLbl.textColor = cell.btn.isSelected ? Colors.gr7.color : Colors.contentSecondary.color
-                cell.imgView.tintColor = cell.btn.isSelected ? Colors.gr7.color : Colors.contentSecondary.color
-                cell.totalView.backgroundColor = cell.btn.isSelected ? Colors.backgroundPositiveLight.color : Colors.backgroundPrimary.color
-                cell.totalView.borderColor = cell.btn.isSelected ? Colors.borderPositive.color : Colors.nt1.color
+//                cell.titleLbl.textColor = cell.btn.isSelected ? Colors.gr7.color : Colors.contentSecondary.color
+//                cell.imgView.tintColor = cell.btn.isSelected ? Colors.gr7.color : Colors.contentSecondary.color
+//                cell.totalView.backgroundColor = cell.btn.isSelected ? Colors.backgroundPositiveLight.color : Colors.backgroundPrimary.color
+//                cell.totalView.borderColor = cell.btn.isSelected ? Colors.borderPositive.color : Colors.nt1.color
             }.disposed(by: self.disposeBag)
         /* cell에 리액터 주입 안 한 이유:
          * NewTagListViewCell은 상단필터의 충전기타입 필터 뿐만 아니라 필터 상세의 회사필터에도 적용되는데,
