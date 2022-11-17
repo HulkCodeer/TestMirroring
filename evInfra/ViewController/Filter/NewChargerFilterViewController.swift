@@ -63,7 +63,6 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
     
     // MARK: VARIABLES
     internal weak var delegate: NewDelegateChargerFilterView?
-    private var originalModel: FilterReactor.FilterModel?
     
     // MARK: STSTEM FUNC
     init(reactor: FilterReactor) {
@@ -162,33 +161,24 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
         
         speedFilterView.slowSpeedChangeDelegate = self
         typeFilterView.delegateSlowTypeChange = self
-        
-        originalModel = reactor.currentState.filterModel
-        
+                        
         // 뒤로가기 버튼
         backBtn.btn.rx.tap
             .asDriver(onErrorJustReturn: ())
             .drive(with: self) { obj, _ in
-                let shouldChanged = reactor.currentState.shouldChanged
-                if shouldChanged {
-                    let cancelBtn = UIAlertAction(title: "취소", style: .default)
-                    let okBtn = UIAlertAction(title: "나가기", style: .default) { _ in
-                        
-                        guard let originalModel = obj.originalModel else { return }
-                        
-                        Observable.just(FilterReactor.Action.saveFilter(originalModel))
-                            .bind(to: reactor.action)
-                            .disposed(by: obj.disposeBag)
+                guard reactor.currentState.tempFilterModel != reactor.originalFilterModel else {
+                    GlobalDefine.shared.mainNavi?.pop()
+                    return
+                }
 
-                        GlobalDefine.shared.mainNavi?.pop()
-                    }
-                    var actions = [UIAlertAction]()
-                    actions.append(cancelBtn)
-                    actions.append(okBtn)
-                    UIAlertController.showAlert(title: "뒤로가기", message: "필터를 저장하지 않고 나가시겠습니까?", actions: actions)
-                } else {
+                let cancelBtn = UIAlertAction(title: "취소", style: .default)
+                let okBtn = UIAlertAction(title: "나가기", style: .default) { _ in
                     GlobalDefine.shared.mainNavi?.pop()
                 }
+                var actions = [UIAlertAction]()
+                actions.append(cancelBtn)
+                actions.append(okBtn)
+                UIAlertController.showAlert(title: "뒤로가기", message: "필터를 저장하지 않고 나가시겠습니까?", actions: actions)
             }.disposed(by: self.disposeBag)
         
         // 초기화 버튼
@@ -201,10 +191,7 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
                 let okBtn = UIAlertAction(title: "초기화", style: .default) { _ in
                     FilterEvent.clickFilterReset.logEvent()
 
-                    let resetModel = reactor.currentState.resetFilterModel
-                    Observable.just(FilterReactor.Action.saveFilter(resetModel))
-                        .bind(to: reactor.action)
-                        .disposed(by: obj.disposeBag)
+                    Observable.just(FilterReactor.Action.reset)
                 }
                 var actions = [UIAlertAction]()
                 actions.append(cancelBtn)

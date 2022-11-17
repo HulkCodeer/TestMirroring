@@ -40,6 +40,7 @@ internal final class FilterReactor: ViewModel, Reactor {
 //        case testLoadRoadType
         case setAcessTypeFilter(any Filter)
         case setRoadTypeFilter(any Filter)
+        case resetFilter
     }
     
     enum Mutation {
@@ -61,6 +62,7 @@ internal final class FilterReactor: ViewModel, Reactor {
         case changedCompanyFilter(SelectedCompanyFilter)
         case setAccessType(any Filter)
         case setRoadType(any Filter)
+        case resetFilter
     }
 
     struct State {
@@ -81,7 +83,9 @@ internal final class FilterReactor: ViewModel, Reactor {
         var filterType: (any Filter)?
     }
             
-    internal var initialState: State    
+    internal var initialState: State
+    
+    internal var originalFilterModel: FilterConfigModel = FilterConfigModel(isConvert: true)
     
     override init(provider: SoftberryAPI) {
         self.initialState = State()
@@ -90,6 +94,9 @@ internal final class FilterReactor: ViewModel, Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+        case .resetFilter:
+            return .just(.resetFilter)
+            
         case .setRoadTypeFilter(let filter):
             self.currentState.tempFilterModel.roadFilters = self.currentState.tempFilterModel.roadFilters.map { test in
                 if test.isEqual(filter) {
@@ -240,6 +247,9 @@ internal final class FilterReactor: ViewModel, Reactor {
         newState.filterType = nil
         
         switch mutation {
+        case .resetFilter:
+            newState.
+            
         case .setRoadType(let filter):
             newState.filterType = filter
             

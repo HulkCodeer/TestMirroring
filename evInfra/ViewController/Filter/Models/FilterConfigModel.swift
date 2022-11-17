@@ -19,7 +19,8 @@ protocol Filter: Equatable {
 
 extension Filter {
     static func == (lhs: Self, rhs: Self) -> Bool {
-        return lhs.isSelected == rhs.isSelected
+        lhs.isSelected == rhs.isSelected &&
+        lhs.typeTilte == rhs.typeTilte
     }
     
     func isEqual(_ other: any Equatable) -> Bool {
@@ -37,7 +38,7 @@ extension Filter {
 //    case chargerType(model: String, isSeleted: Bool)
 //}
 
-internal final class FilterConfigModel {
+internal final class FilterConfigModel: Equatable {
     var accessibilityFilters: [any Filter] = []
     var roadFilters: [any Filter] = []
     var placeFilters: [any Filter] = []
@@ -134,5 +135,27 @@ internal final class FilterConfigModel {
                 return NewTag(title: $0.typeTitle, selected: false, uniqueKey: $0.uniqueKey, image: $0.typeImageProperty?.image)
             }
         }
+    }
+    
+    static func == (lhs: FilterConfigModel, rhs: FilterConfigModel) -> Bool {
+        lhs.accessibilityFilters.contains(where: { item in
+            let compareValue = rhs.accessibilityFilters.filter { item.isEqual($0) }
+            return item.isSelected == compareValue.first?.isSelected
+        }) &&
+        lhs.roadFilters.contains(where: { item in
+            let compareValue = rhs.roadFilters.filter { item.isEqual($0) }
+            return item.isSelected == compareValue.first?.isSelected
+        }) &&
+        lhs.placeFilters.contains(where: { item in
+            let compareValue = rhs.accessibilityFilters.filter { item.isEqual($0) }
+            return item.isSelected == compareValue.first?.isSelected
+        }) &&
+        lhs.minSpeed == rhs.minSpeed &&
+        lhs.maxSpeed == rhs.maxSpeed &&
+        lhs.isEvPayFilter == rhs.isEvPayFilter &&
+        lhs.isFavoriteFilter == rhs.isFavoriteFilter &&
+        lhs.numberOfFavorites == rhs.numberOfFavorites &&
+        lhs.isRepresentCarFilter == rhs.isRepresentCarFilter &&
+        lhs.chargerTypes == rhs.chargerTypes
     }
 }

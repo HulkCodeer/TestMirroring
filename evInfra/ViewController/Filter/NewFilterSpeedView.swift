@@ -201,9 +201,9 @@ internal final class NewFilterSpeedView: CommonFilterView {
                     .bind(to: reactor.action)
                     .disposed(by: self.disposeBag)
                 
-                Observable.just(FilterReactor.Action.shouldChanged)
-                    .bind(to: reactor.action)
-                    .disposed(by: obj.disposeBag)
+//                Observable.just(FilterReactor.Action.shouldChanged)
+//                    .bind(to: reactor.action)
+//                    .disposed(by: obj.disposeBag)
                 
 //                obj.slowSpeedChangeDelegate?.changedSlowSpeed()
 
@@ -212,21 +212,21 @@ internal final class NewFilterSpeedView: CommonFilterView {
                 }
             }.disposed(by: self.disposeBag)
         
-        reactor.state.compactMap { $0.filterModel.minSpeed }
+        reactor.state.compactMap { $0.tempFilterModel.minSpeed }
             .asDriver(onErrorJustReturn: 0)
             .drive(with: self) { obj, minSpeed in
                 obj.rangeSlider.selectedMinValue = Speed.convertToCGFloat(with: minSpeed).rawValue
                 obj.rangeSlider.setNeedsLayout()
             }.disposed(by: self.disposeBag)
         
-        reactor.state.compactMap { $0.filterModel.maxSpeed }
+        reactor.state.compactMap { $0.tempFilterModel.maxSpeed }
             .asDriver(onErrorJustReturn: 350)
             .drive(with: self) { obj, maxSpeed in
                 obj.rangeSlider.selectedMaxValue = Speed.convertToCGFloat(with: maxSpeed).rawValue
                 obj.rangeSlider.setNeedsLayout()
             }.disposed(by: self.disposeBag)
         
-        reactor.state.compactMap { $0.filterModel }.map { return ($0.minSpeed, $0.maxSpeed) }
+        reactor.state.compactMap { $0.tempFilterModel }.map { return ($0.minSpeed, $0.maxSpeed) }
             .asDriver(onErrorJustReturn: (0, 350))
             .drive(with: self) { obj, speed in
                 let min = speed.0
