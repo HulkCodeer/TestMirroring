@@ -445,11 +445,9 @@ internal final class MainReactor: ViewModel, Reactor {
     }
     
     private func setPaymentStatus(with result: ApiResult<Data, ApiError>) -> Mutation  {
-        if !MemberManager.shared.hasMembership {
-            Observable.just(MainReactor.Action.hasEVPayCard(false))
-                .bind(to: self.action)
-                .disposed(by: disposeBag)
-        }
+        Observable.just(MainReactor.Action.hasEVPayCard(MemberManager.shared.hasMembership))
+            .bind(to: self.action)
+            .disposed(by: disposeBag)
         
         switch result {
         case .success(let data):
@@ -457,6 +455,7 @@ internal final class MainReactor: ViewModel, Reactor {
             let payCode = json["pay_code"].intValue
                         
             let isAccountsReceivable = PaymentStatus(rawValue: payCode) == .PAY_DEBTOR_USER
+            printLog("setPaymentStatus: hasMembership -> \(MemberManager.shared.hasMembership), isAccountsReceivable -> \(isAccountsReceivable), paycode -> \(payCode)")
             
             Observable.just(MainReactor.Action.setIsAccountsReceivable(isAccountsReceivable))
                 .bind(to: self.action)
