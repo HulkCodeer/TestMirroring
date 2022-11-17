@@ -195,9 +195,11 @@ extension NewCompanyTableViewCell: UICollectionViewDataSource {
 extension NewCompanyTableViewCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NewTagListViewCell", for: indexPath) as? NewTagListViewCell else { return CGSize.zero }
-        let strText = groups[groupIndex].companies[indexPath.row].title
-        let cellSize = cell.adjustCellSize(height: 34, str: strText)
-        return cellSize
+        cell.titleLbl.text = groups[groupIndex].companies[indexPath.row].title
+        cell.titleLbl.sizeToFit()
+        
+        let totalWidth = cell.titleLbl.frame.width + 12 + 16 + 4 + 12 // leftPadding + imgView + rightPadding + label right padding
+        return CGSize(width: ceil(totalWidth), height: 30)
     }
 }
 

@@ -133,7 +133,7 @@ internal final class NewFilterTypeView: CommonFilterView {
         self.addSubview(totalView)
         totalView.snp.makeConstraints {
             $0.edges.equalToSuperview()
-            $0.height.equalTo(138)
+            $0.height.equalTo(128)
         }
         
         totalView.addSubview(filterTitleLbl)
@@ -148,8 +148,8 @@ internal final class NewFilterTypeView: CommonFilterView {
             $0.top.equalTo(filterTitleLbl.snp.bottom).offset(16)
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)
-            $0.bottom.lessThanOrEqualToSuperview().offset(-20)
-            $0.height.equalTo(76)
+            $0.bottom.greaterThanOrEqualToSuperview().offset(-20)
+            $0.height.equalTo(68)
         }
     }
     

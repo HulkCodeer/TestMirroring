@@ -58,16 +58,18 @@ internal final class NewTagListViewCell: UICollectionViewCell {
     
     // MARK: FUNC
     private func makeUI() {
-        self.addSubview(totalView)
+        self.contentView.addSubview(totalView)
         totalView.snp.makeConstraints {
             $0.edges.equalToSuperview()
-            $0.height.equalTo(34)
+            $0.height.equalTo(30)
         }
         
         totalView.addSubview(imgView)
         imgView.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(12)
             $0.centerY.equalToSuperview()
+            $0.top.equalToSuperview().offset(7)
+            $0.bottom.equalToSuperview().offset(-7)
             $0.width.height.equalTo(16)
         }
         
@@ -75,6 +77,8 @@ internal final class NewTagListViewCell: UICollectionViewCell {
         titleLbl.snp.makeConstraints {
             $0.leading.equalTo(imgView.snp.trailing).offset(4)
             $0.centerY.equalToSuperview()
+            $0.top.equalToSuperview().offset(4)
+            $0.bottom.equalToSuperview().offset(-4)
             $0.trailing.equalToSuperview().offset(-12)
             $0.height.equalTo(22)
         }
@@ -83,16 +87,6 @@ internal final class NewTagListViewCell: UICollectionViewCell {
         btn.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-    }
-    
-    func adjustCellSize(height: CGFloat, str: String) -> CGSize {
-        self.titleLbl.text = str
-        let font = (name: titleLbl.font.fontName, size: titleLbl.font.pointSize)
-        let textSize = titleLbl.textSize(font: UIFont(name: font.name, size: font.size)!, text: str)
-        let leftPaddingSize = 12 + 16 + 4 + 2
-        
-        let targetSize = CGSize(width: textSize.width + CGFloat(leftPaddingSize), height: height)
-        return self.totalView.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: .fittingSizeLevel, verticalFittingPriority: .fittingSizeLevel)
     }
 }
 
