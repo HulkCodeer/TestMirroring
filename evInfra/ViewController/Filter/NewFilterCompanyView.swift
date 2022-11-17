@@ -78,7 +78,7 @@ internal final class NewFilterCompanyView: CommonFilterView {
         self.addSubview(totalView)
         totalView.snp.makeConstraints {
             $0.edges.equalToSuperview()
-            $0.height.equalTo(500)
+            $0.height.equalTo(504)
         }
         
         totalView.addSubview(filterTitleLbl)
@@ -285,7 +285,6 @@ extension NewFilterCompanyView: UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(ofType: NewCompanyTableViewCell.self, for: indexPath)
         cell.configuration(with: groups, groupIndex: indexPath.row)
         cell.layoutIfNeeded()
-        
         return 200
     }
 }
@@ -304,10 +303,6 @@ extension NewFilterCompanyView: UITableViewDataSource {
         if let _reactor = self.filterReactor {
             cell.bind(reactor: _reactor)
         }
-        
-        let height = cell.companiesCollectionView.collectionViewLayout.collectionViewContentSize.height
-        cell.bounds.size.height = height
-        cell.layoutIfNeeded()
         
         return cell
     }
