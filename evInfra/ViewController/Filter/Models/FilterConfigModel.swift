@@ -42,7 +42,71 @@ internal final class FilterConfigModel {
     var roadFilters: [any Filter] = []
     var placeFilters: [any Filter] = []
     
-    required init() {
+    var minSpeed: Int = 50
+    var maxSpeed: Int = 350
+    var isEvPayFilter: Bool = false
+    var isFavoriteFilter: Bool = false
+    var numberOfFavorites: Int = 0
+    var isRepresentCarFilter: Bool = false
+    var chargerTypes: [NewTag] = []
+    
+    convenience init(isConvert: Bool) {
+        self.init()
+        
+        let accessbilityFactory = AccessibilityFilterFactory()
+        accessibilityFilters.append(accessbilityFactory.createAccessibilityFilter(isSelected: FilterManager.sharedInstance.filter.isPublic, type: .publicType))
+        accessibilityFilters.append(accessbilityFactory.createAccessibilityFilter(isSelected: FilterManager.sharedInstance.filter.isNonPublic, type: .nonPublicType))
+                
+        let roadFactory = RoadFilterFactory()
+        roadFilters.append(roadFactory.createRoadFilter(isSelected: FilterManager.sharedInstance.filter.isGeneralWay, type: .general))
+        roadFilters.append(roadFactory.createRoadFilter(isSelected: FilterManager.sharedInstance.filter.isHighwayUp, type: .highwayUp))
+        roadFilters.append(roadFactory.createRoadFilter(isSelected: FilterManager.sharedInstance.filter.isHighwayDown, type: .highwayDown))
+        
+        let placeFactory = PlaceFilterFactory()
+        placeFilters.append(placeFactory.createPlaceFilter(isSelected: FilterManager.sharedInstance.filter.isIndoor, type: .indoor))
+        placeFilters.append(placeFactory.createPlaceFilter(isSelected: FilterManager.sharedInstance.filter.isOutdoor, type: .outdoor))
+        placeFilters.append(placeFactory.createPlaceFilter(isSelected: FilterManager.sharedInstance.filter.isCanopy, type: .canopy))
+        
+        minSpeed = FilterManager.sharedInstance.filter.minSpeed
+        maxSpeed = FilterManager.sharedInstance.filter.maxSpeed
+        isEvPayFilter = FilterManager.sharedInstance.isMembershipCardChecked()
+        isFavoriteFilter = FilterManager.sharedInstance.filter.isFavoriteChecked
+        numberOfFavorites = ChargerManager.sharedInstance.getChargerStationInfoList().filter { $0.mFavorite }.count
+        isRepresentCarFilter = FilterManager.sharedInstance.filter.isRepresentCarChecked
+        chargerTypes = ChargerType.allCases.compactMap {
+            if $0.uniqueKey == Const.CHARGER_TYPE_DCCOMBO || $0.uniqueKey == Const.CHARGER_TYPE_DCDEMO || $0.uniqueKey == Const.CHARGER_TYPE_AC || $0.uniqueKey == Const.CHARGER_TYPE_SUPER_CHARGER {
+                return NewTag(title: $0.typeTitle, selected: true, uniqueKey: $0.uniqueKey, image: $0.typeImageProperty?.image)
+            } else {
+                return NewTag(title: $0.typeTitle, selected: false, uniqueKey: $0.uniqueKey, image: $0.typeImageProperty?.image)
+            }
+        }
+    }
+    
+    init() {}
+    
+    internal func convertToData() -> FilterConfigModel {
+        let accessbilityFactory = AccessibilityFilterFactory()
+        accessibilityFilters.append(accessbilityFactory.createAccessibilityFilter(isSelected: FilterManager.sharedInstance.filter.isPublic, type: .publicType))
+        accessibilityFilters.append(accessbilityFactory.createAccessibilityFilter(isSelected: FilterManager.sharedInstance.filter.isNonPublic, type: .nonPublicType))
+                
+        let roadFactory = RoadFilterFactory()
+        roadFilters.append(roadFactory.createRoadFilter(isSelected: FilterManager.sharedInstance.filter.isGeneralWay, type: .general))
+        roadFilters.append(roadFactory.createRoadFilter(isSelected: FilterManager.sharedInstance.filter.isHighwayUp, type: .highwayUp))
+        roadFilters.append(roadFactory.createRoadFilter(isSelected: FilterManager.sharedInstance.filter.isHighwayDown, type: .highwayDown))
+        
+        let placeFactory = PlaceFilterFactory()
+        placeFilters.append(placeFactory.createPlaceFilter(isSelected: FilterManager.sharedInstance.filter.isIndoor, type: .indoor))
+        placeFilters.append(placeFactory.createPlaceFilter(isSelected: FilterManager.sharedInstance.filter.isOutdoor, type: .outdoor))
+        placeFilters.append(placeFactory.createPlaceFilter(isSelected: FilterManager.sharedInstance.filter.isCanopy, type: .canopy))
+        
+        return self
+    }
+    
+    internal func resetFilter() {
+        accessibilityFilters.removeAll(keepingCapacity: true)
+        roadFilters.removeAll(keepingCapacity: true)
+        placeFilters.removeAll(keepingCapacity: true)
+        
         let accessbilityFactory = AccessibilityFilterFactory()
         accessibilityFilters.append(accessbilityFactory.createAccessibilityFilter(isSelected: true, type: .publicType))
         accessibilityFilters.append(accessbilityFactory.createAccessibilityFilter(isSelected: true, type: .nonPublicType))
@@ -56,5 +120,19 @@ internal final class FilterConfigModel {
         placeFilters.append(placeFactory.createPlaceFilter(isSelected: true, type: .indoor))
         placeFilters.append(placeFactory.createPlaceFilter(isSelected: true, type: .outdoor))
         placeFilters.append(placeFactory.createPlaceFilter(isSelected: true, type: .canopy))
+        
+        self.minSpeed = 50
+        self.maxSpeed = 350
+        self.isEvPayFilter = false
+        self.isFavoriteFilter = false
+        self.isRepresentCarFilter = false
+        
+        self.chargerTypes = ChargerType.allCases.compactMap {
+            if $0.uniqueKey == Const.CHARGER_TYPE_DCCOMBO || $0.uniqueKey == Const.CHARGER_TYPE_DCDEMO || $0.uniqueKey == Const.CHARGER_TYPE_AC || $0.uniqueKey == Const.CHARGER_TYPE_SUPER_CHARGER {
+                return NewTag(title: $0.typeTitle, selected: true, uniqueKey: $0.uniqueKey, image: $0.typeImageProperty?.image)
+            } else {
+                return NewTag(title: $0.typeTitle, selected: false, uniqueKey: $0.uniqueKey, image: $0.typeImageProperty?.image)
+            }
+        }
     }
 }

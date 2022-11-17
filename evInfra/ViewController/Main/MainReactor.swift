@@ -61,7 +61,6 @@ internal final class MainReactor: ViewModel, Reactor {
         case setSelectedRoadFilter(SelectedRoadFilter)
         case setSelectedChargerTypeFilter(SelectedChargerTypeFilter)
         case setSelectedSpeedFilter(SelectedSpeedFilter)
-        case showFilterSetting
         case updateFilterBarTitle
         case showSearchChargingStation
         case toggleLeftMenu
@@ -172,7 +171,11 @@ internal final class MainReactor: ViewModel, Reactor {
             return .just(.setSelectedFilterInfo(selectedFilterInfo))
             
         case .showFilterSetting:
-            return .just(.showFilterSetting)
+            let chargerFilterViewController = NewChargerFilterViewController(reactor: self.filterReactor)
+//            chargerFilterViewController.delegate = obj
+            GlobalDefine.shared.mainNavi?.push(viewController: chargerFilterViewController)
+            
+            return .empty()
             
         case .updateFilterBarTitle:
             return .just(.updateFilterBarTitle)
@@ -282,8 +285,7 @@ internal final class MainReactor: ViewModel, Reactor {
         var newState = state
         newState.isShowMarketingPopup = nil
         newState.isShowStartBanner = nil
-        newState.hasNewBoardContents = nil
-        newState.isShowFilterSetting = nil
+        newState.hasNewBoardContents = nil        
         newState.isUpdateFilterBarTitle = nil
         newState.isShowSearchChargingStation = nil
         newState.isShowMenu = nil
@@ -331,10 +333,7 @@ internal final class MainReactor: ViewModel, Reactor {
         case .setSelectedSpeedFilter(let selectedSpeedFilter):
             newState.selectedSpeedFilter = selectedSpeedFilter
             newState.isUpdateFilterBarTitle = true
-            
-        case .showFilterSetting:
-            newState.isShowFilterSetting = true
-            
+                                
         case .updateFilterBarTitle:
             newState.isUpdateFilterBarTitle = true
             

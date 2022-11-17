@@ -463,16 +463,6 @@ internal final class MainViewController: UIViewController, StoryboardView {
                 self.drawMapMarker()
             }
             .disposed(by: self.disposeBag)
-
-//        reactor.state.compactMap { $0.isShowFilterSetting }
-//            .asDriver(onErrorJustReturn: false)
-//            .drive(with: self) { obj, isShow in
-//                let chargerFilterViewController = NewChargerFilterViewController(reactor: reactor)
-//                chargerFilterViewController.delegate = obj
-//                GlobalDefine.shared.mainNavi?.push(viewController: chargerFilterViewController)
-//            }
-//            .disposed(by: self.disposeBag)
-
     }
     
     // MARK: - bindAction
