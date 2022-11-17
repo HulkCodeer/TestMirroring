@@ -435,6 +435,16 @@ internal final class MainViewController: UIViewController, StoryboardView {
                             MemberManager.shared.showLoginAlert()
                         }
                     }
+                    
+                    // 로그인여부 상관 없음.
+                    if !MemberManager.shared.isShowBottomMenuEVPayTooltip,
+                       let reqData = ABTestManager.shared.reqData(.mainBottomEVPay) {
+                        let (type, _) = reqData
+                        let property: [String: Any] = ["type": type.rawValue]
+                        MapEvent.clickMainNavigationBarEVPayAB.logEvent(property: property)
+                    } else {
+                        MapEvent.clickMainNavigationBarEVPay.logEvent()
+                    }
                 }
                 .disposed(by: disposeBag)
             
