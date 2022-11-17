@@ -442,9 +442,10 @@ internal final class MainViewController: UIViewController, StoryboardView {
                         let (type, _) = reqData
                         let property: [String: Any] = ["type": type.rawValue]
                         MapEvent.clickMainNavigationBarEVPayAB.logEvent(property: property)
-                    } else {
-                        MapEvent.clickMainNavigationBarEVPay.logEvent()
                     }
+                    
+                    MapEvent.clickMainNavigationBarEVPay.logEvent()
+                    
                 }
                 .disposed(by: disposeBag)
             
