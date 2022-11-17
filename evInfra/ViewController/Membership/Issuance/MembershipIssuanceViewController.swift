@@ -91,6 +91,8 @@ internal final class MembershipIssuanceViewController: UIViewController,
         super.viewDidLoad()
         
         initView()
+                
+        AmplitudeEvent.shared.logEvent(eventType: .viewApplyEVICard)
     }
     
     override func viewWillAppear(_ animated: Bool) {

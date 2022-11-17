@@ -86,7 +86,7 @@ internal final class MembershipGuideViewController: CommonBaseViewController, WK
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        AmplitudeEvent.shared.fromViewSourceByLogEvent(eventType: .viewApplyEVICard)
+        AmplitudeEvent.shared.fromViewSourceByLogEvent(eventType: .viewInfoEVICard)
         
         membershipRegisterBtn.rectBtn.rx.tap
             .asDriver()
@@ -94,7 +94,7 @@ internal final class MembershipGuideViewController: CommonBaseViewController, WK
                 let viewcon = UIStoryboard(name : "Membership", bundle: nil).instantiateViewController(ofType: MembershipIssuanceViewController.self)
                 viewcon.delegate = obj
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
-                AmplitudeEvent.shared.fromViewSourceByLogEvent(eventType: .viewInfoEVICard)                                
+                PaymentEvent.clickApplyEVICard.logEvent()                
             }
             .disposed(by: disposebag)
     }

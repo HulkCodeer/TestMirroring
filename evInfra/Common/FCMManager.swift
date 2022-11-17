@@ -339,7 +339,7 @@ internal final class FCMManager {
         guard let _mainNavi = GlobalDefine.shared.mainNavi, let _visibleViewcon = _mainNavi.visibleViewController else { return }
         if _visibleViewcon.isKind(of: RepayListViewController.self) {
             _visibleViewcon.viewDidLoad()            
-        } else {
+        } else {            
             let paymentVC = UIStoryboard(name: "Payment", bundle: nil).instantiateViewController(ofType: RepayListViewController.self)
             _mainNavi.push(viewController: paymentVC)
         }

@@ -250,13 +250,19 @@ internal class AmplitudeEvent {
     }
          
     private var fromViewDesc: String = ""
-        
+                
     func fromViewDescStr() -> String {
         return fromViewDesc
     }
     
     func setFromViewDesc(fromViewDesc: String) {
         self.fromViewDesc = fromViewDesc
+    }
+    
+    func logEvent(eventType: Event) {
+        DispatchQueue.global(qos: .background).async {
+            Amplitude.instance().logEvent(eventType.toTypeDesc)
+        }
     }
             
     func fromViewSourceByLogEvent(eventType: Event) {
@@ -333,7 +339,6 @@ internal enum EnterViewType: String, EventTypeProtocol {
     case myPageViewController = "개인정보관리 화면"
     case quitAccountCompleteViewController = "회원탈퇴 완료 화면"
     case quitAccountReasonQuestionViewController = "회원탈퇴 사유 선택화면"
-    case membershipIssuanceViewController = "회원카드 신청 화면"
     case membershipInfoViewController = "회원카드 상세 화면"
     case myCouponViewController = "보유 쿠폰 리스트 화면"
     case myCouponContentsViewController = "보유 쿠폰 상세 화면"
@@ -377,8 +382,7 @@ internal enum EnterViewType: String, EventTypeProtocol {
         case "RepayResultViewController": self = .repayResultViewController
         case "MyPageViewController": self = .myPageViewController
         case "QuitAccountCompleteViewController": self = .quitAccountCompleteViewController
-        case "QuitAccountReasonQuestionViewController": self = .quitAccountReasonQuestionViewController
-        case "MembershipIssuanceViewController": self = .membershipIssuanceViewController
+        case "QuitAccountReasonQuestionViewController": self = .quitAccountReasonQuestionViewController        
         case "MembershipInfoViewController": self = .membershipInfoViewController
         case "MyCouponViewController": self = .myCouponViewController
         case "MyCouponContentsViewController": self = .myCouponContentsViewController

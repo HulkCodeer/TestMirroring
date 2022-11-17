@@ -374,7 +374,7 @@ internal final class MainReactor: ViewModel, Reactor {
                 .disposed(by: disposeBag)
             
             switch (code, PaymentStatus(rawValue: payCode)) {
-            case (_, .PAY_DEBTOR_USER) :  // 미수금
+            case (_, .PAY_DEBTOR_USER) :  // 미수금            
                 let viewcon =  UIStoryboard(name : "Payment", bundle: nil).instantiateViewController(ofType: RepayListViewController.self)
                 viewcon.delegate = self
                 GlobalDefine.shared.mainNavi?.push(viewController: viewcon)
