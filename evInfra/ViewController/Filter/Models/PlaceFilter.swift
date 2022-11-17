@@ -24,6 +24,11 @@ internal class IndoorFilter: Filter {
     required init(isSelected: Bool) {
         self.isSelected = isSelected
     }
+    
+    static func == (lhs: IndoorFilter, rhs: IndoorFilter) -> Bool {
+        lhs.isSelected == rhs.isSelected &&
+        lhs.typeTilte == rhs.typeTilte
+    }
 }
 
 internal class OutdoorFilter: Filter {
@@ -44,6 +49,11 @@ internal class OutdoorFilter: Filter {
     required init(isSelected: Bool) {
         self.isSelected = isSelected
     }
+    
+    static func == (lhs: OutdoorFilter, rhs: OutdoorFilter) -> Bool {
+        lhs.isSelected == rhs.isSelected &&
+        lhs.typeTilte == rhs.typeTilte
+    }
 }
 
 internal class CanopyFilter: Filter {
@@ -63,6 +73,11 @@ internal class CanopyFilter: Filter {
     
     required init(isSelected: Bool) {
         self.isSelected = isSelected
+    }
+    
+    static func == (lhs: CanopyFilter, rhs: CanopyFilter) -> Bool {
+        lhs.isSelected == rhs.isSelected &&
+        lhs.typeTilte == rhs.typeTilte
     }
 }
 

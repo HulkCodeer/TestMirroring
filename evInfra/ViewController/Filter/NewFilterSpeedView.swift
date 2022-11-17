@@ -179,8 +179,8 @@ internal final class NewFilterSpeedView: CommonFilterView {
         cancelGesture.cancelsTouchesInView = false
         self.rangeSlider.addGestureRecognizer(cancelGesture)
         
-        minSpeed = reactor.currentState.filterModel.minSpeed
-        maxSpeed = reactor.currentState.filterModel.maxSpeed
+        minSpeed = reactor.currentState.tempFilterModel.minSpeed
+        maxSpeed = reactor.currentState.tempFilterModel.maxSpeed
         
         speedLbl.text = FilterManager.sharedInstance.speedTitle(min: minSpeed, max: maxSpeed)
         rangeSlider.selectedMinValue = Speed.convertToCGFloat(with: minSpeed).rawValue

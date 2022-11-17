@@ -18,7 +18,7 @@ protocol Filter: Equatable {
 }
 
 extension Filter {
-    static func == (lhs: Self, rhs: Self) -> Bool {
+    static func == (lhs: any Filter, rhs: any Filter) -> Bool {
         lhs.isSelected == rhs.isSelected &&
         lhs.typeTilte == rhs.typeTilte
     }
@@ -138,18 +138,47 @@ internal final class FilterConfigModel: Equatable {
     }
     
     static func == (lhs: FilterConfigModel, rhs: FilterConfigModel) -> Bool {
-        lhs.accessibilityFilters.contains(where: { item in
-            let compareValue = rhs.accessibilityFilters.filter { item.isEqual($0) }
-            return item.isSelected == compareValue.first?.isSelected
-        }) &&
-        lhs.roadFilters.contains(where: { item in
-            let compareValue = rhs.roadFilters.filter { item.isEqual($0) }
-            return item.isSelected == compareValue.first?.isSelected
-        }) &&
-        lhs.placeFilters.contains(where: { item in
-            let compareValue = rhs.accessibilityFilters.filter { item.isEqual($0) }
-            return item.isSelected == compareValue.first?.isSelected
-        }) &&
+        var isEqualAccess = true
+        
+        for (index, filter) in lhs.accessibilityFilters.enumerated() {
+            if filter.isSelected != rhs.accessibilityFilters[index].isSelected {
+                isEqualAccess = false
+                break
+            }
+        }
+        
+        var isEqualRoad = true
+        
+        for (index, filter) in lhs.roadFilters.enumerated() {
+            if filter.isSelected != rhs.roadFilters[index].isSelected {
+                isEqualRoad = false
+                break
+            }
+        }
+        
+        var isEqualPlace = true
+        
+        for (index, filter) in lhs.placeFilters.enumerated() {
+            if filter.isSelected != rhs.placeFilters[index].isSelected {
+                isEqualPlace = false
+                break
+            }
+        }
+        
+        printLog(out: "\(isEqualAccess)")
+        printLog(out: "\(isEqualRoad)")
+        printLog(out: "\(isEqualPlace)")
+        printLog(out: "\(lhs.minSpeed == rhs.minSpeed)")
+        printLog(out: "\(lhs.maxSpeed == rhs.maxSpeed)")
+        printLog(out: "\(lhs.isEvPayFilter == rhs.isEvPayFilter)")
+        printLog(out: "\(lhs.isFavoriteFilter == rhs.isFavoriteFilter)")
+        printLog(out: "\(lhs.numberOfFavorites == rhs.numberOfFavorites)")
+        printLog(out: "\(lhs.isRepresentCarFilter == rhs.isRepresentCarFilter)")
+        printLog(out: "\(lhs.chargerTypes == rhs.chargerTypes)")
+        
+        return isEqualAccess &&
+        isEqualRoad &&
+        isEqualPlace &&
         lhs.minSpeed == rhs.minSpeed &&
         lhs.maxSpeed == rhs.maxSpeed &&
         lhs.isEvPayFilter == rhs.isEvPayFilter &&

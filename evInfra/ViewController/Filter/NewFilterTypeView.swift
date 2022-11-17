@@ -169,15 +169,15 @@ internal final class NewFilterTypeView: CommonFilterView {
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
         
-        reactor.state.compactMap { $0.filterModel.chargerTypes }
-            .asDriver(onErrorJustReturn: [])
-            .drive(with: self) { obj, types in
-                obj.tags.removeAll()
-                obj._originalTags.removeAll()
-                obj._originalTags = types
-                obj.tags = types
-                obj.chargerTypesCollectionView.reloadData()
-            }.disposed(by: self.disposeBag)
+//        reactor.state.compactMap { $0.filterModel.chargerTypes }
+//            .asDriver(onErrorJustReturn: [])
+//            .drive(with: self) { obj, types in
+//                obj.tags.removeAll()
+//                obj._originalTags.removeAll()
+//                obj._originalTags = types
+//                obj.tags = types
+//                obj.chargerTypesCollectionView.reloadData()
+//            }.disposed(by: self.disposeBag)
     }
 }
 

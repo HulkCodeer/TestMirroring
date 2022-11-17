@@ -139,128 +139,128 @@ internal final class NewFilterSwitchesView: UIView {
             $0.leading.greaterThanOrEqualTo(stackView.snp.trailing).offset(30)
         }
         
-        let isEvPay = reactor.currentState.filterModel.isEvPayFilter ?? false
-        let isFavorite = reactor.currentState.filterModel.isFavoriteFilter ?? false
-        let isRepresentCar = reactor.currentState.filterModel.isRepresentCarFilter
+//        let isEvPay = reactor.currentState.filterModel.isEvPayFilter ?? false
+//        let isFavorite = reactor.currentState.filterModel.isFavoriteFilter ?? false
+//        let isRepresentCar = reactor.currentState.filterModel.isRepresentCarFilter
         
-        switch switchType {
-        case .evpay:
-            switchView.isOn = isEvPay
-            
-            switchView.rx.isOn
-                .changed
-                .throttle(.milliseconds(800), scheduler: MainScheduler.instance)
-                .asDriver(onErrorJustReturn: false)
-                .drive(with: self) { obj, isOn in
-                    let setEvPayFilterStream = Observable.of(FilterReactor.Action.updateEvPayFilter(isOn))
-                    let loadCompaniesStream = Observable.of(FilterReactor.Action.loadCompanies)
-                    let shouldChangedStream = Observable.of(FilterReactor.Action.shouldChanged)
-
-                    Observable.concat([setEvPayFilterStream, loadCompaniesStream, shouldChangedStream])
-                        .bind(to: reactor.action)
-                        .disposed(by: obj.disposeBag)
-                }.disposed(by: self.disposeBag)
-
-        case .favorite:
-            switchView.isOn = isFavorite
-            
-            Observable.just(FilterReactor.Action.numberOfFavorits)
-                .bind(to: reactor.action)
-                .disposed(by: self.disposeBag)
-            
-            switchView.rx.isOn
-                .changed
-                .throttle(.milliseconds(800), scheduler: MainScheduler.instance)
-                .asDriver(onErrorJustReturn: false)
-                .drive(with: self) { obj, isOn in
-                    if isOn {
-                        MemberManager.shared.tryToLoginCheck { isLogin in
-                            guard isLogin else {
-                                MemberManager.shared.showLoginAlert()
-                                Observable.just(FilterReactor.Action.updateFavoriteFilter(false))
-                                    .bind(to: reactor.action)
-                                    .disposed(by: obj.disposeBag)
-                                Observable.just(FilterReactor.Action.saveFavoriteFilter(false))
-                                    .bind(to: reactor.action)
-                                    .disposed(by: obj.disposeBag)
-                                switchView.isOn = false
-                                return
-                            }
-                            
-                            let numberOfFavorites = reactor.currentState.numberOfFavorites ?? 0
-                            if numberOfFavorites == 0 {
-                                GlobalDefine.shared.mainNavi?.view.makeToast("해당 필터를 사용하려면 즐겨찾는 충전소를 등록해 보세요.", type: .info)
-                                Observable.just(FilterReactor.Action.updateFavoriteFilter(false))
-                                    .bind(to: reactor.action)
-                                    .disposed(by: obj.disposeBag)
-                            } else {
-                                Observable.just(FilterReactor.Action.updateFavoriteFilter(true))
-                                    .bind(to: reactor.action)
-                                    .disposed(by: obj.disposeBag)
-                            }
-                        }
-                    } else {
-                        Observable.just(FilterReactor.Action.updateFavoriteFilter(false))
-                            .bind(to: reactor.action)
-                            .disposed(by: obj.disposeBag)
-                    }
-                    
-                    Observable.just(FilterReactor.Action.shouldChanged)
-                        .bind(to: reactor.action)
-                        .disposed(by: self.disposeBag)
-                }.disposed(by: self.disposeBag)
-            
-        case .representCar:
-            switchView.isOn = isRepresentCar
-            
-            switchView.rx.isOn
-                .changed
-                .throttle(.milliseconds(800), scheduler: MainScheduler.instance)
-                .asDriver(onErrorJustReturn: false)
-                .drive(with: self) { obj, isOn in
-                    if isOn {
-                        MemberManager.shared.tryToLoginCheck { isLogin in
-                            guard isLogin else {
-                                MemberManager.shared.showLoginAlert()
-                                Observable.just(FilterReactor.Action.updateRepresentCarFilter(false))
-                                    .bind(to: reactor.action)
-                                    .disposed(by: obj.disposeBag)
-                                Observable.just(FilterReactor.Action.saveRepresentCarFilter(false))
-                                    .bind(to: reactor.action)
-                                    .disposed(by: obj.disposeBag)
-                                switchView.isOn = false
-                                return
-                            }
-                            
-                            let hasMyCar: Bool = UserDefault().readInt(key: UserDefault.Key.MB_CAR_ID) != 0
-                            guard hasMyCar else {
-                                GlobalDefine.shared.mainNavi?.view.makeToast("해당 필터를 사용하려면 마이페이지\n> 개인정보 관리에서 대표차량을 등록해 보세요..", type: .info)
-                                return
-                            }
-                            
-                            Observable.just(FilterReactor.Action.updateRepresentCarFilter(true))
-                                .bind(to: reactor.action)
-                                .disposed(by: obj.disposeBag)
-                            
-                            Observable.just(FilterReactor.Action.loadChargerTypes)
-                                .bind(to: reactor.action)
-                                .disposed(by: self.disposeBag)
-                        }
-                    } else {
-                        Observable.just(FilterReactor.Action.updateRepresentCarFilter(false))
-                            .bind(to: reactor.action)
-                            .disposed(by: obj.disposeBag)
-                        
-                        Observable.just(FilterReactor.Action.loadChargerTypes)
-                            .bind(to: reactor.action)
-                            .disposed(by: self.disposeBag)
-                    }
-                    
-                    Observable.just(FilterReactor.Action.shouldChanged)
-                        .bind(to: reactor.action)
-                        .disposed(by: self.disposeBag)
-                }.disposed(by: self.disposeBag)
-        }
+//        switch switchType {
+//        case .evpay:
+//            switchView.isOn = isEvPay
+//            
+//            switchView.rx.isOn
+//                .changed
+//                .throttle(.milliseconds(800), scheduler: MainScheduler.instance)
+//                .asDriver(onErrorJustReturn: false)
+//                .drive(with: self) { obj, isOn in
+//                    let setEvPayFilterStream = Observable.of(FilterReactor.Action.updateEvPayFilter(isOn))
+//                    let loadCompaniesStream = Observable.of(FilterReactor.Action.loadCompanies)
+//                    let shouldChangedStream = Observable.of(FilterReactor.Action.shouldChanged)
+//
+//                    Observable.concat([setEvPayFilterStream, loadCompaniesStream, shouldChangedStream])
+//                        .bind(to: reactor.action)
+//                        .disposed(by: obj.disposeBag)
+//                }.disposed(by: self.disposeBag)
+//
+//        case .favorite:
+//            switchView.isOn = isFavorite
+//            
+//            Observable.just(FilterReactor.Action.numberOfFavorits)
+//                .bind(to: reactor.action)
+//                .disposed(by: self.disposeBag)
+//            
+//            switchView.rx.isOn
+//                .changed
+//                .throttle(.milliseconds(800), scheduler: MainScheduler.instance)
+//                .asDriver(onErrorJustReturn: false)
+//                .drive(with: self) { obj, isOn in
+//                    if isOn {
+//                        MemberManager.shared.tryToLoginCheck { isLogin in
+//                            guard isLogin else {
+//                                MemberManager.shared.showLoginAlert()
+//                                Observable.just(FilterReactor.Action.updateFavoriteFilter(false))
+//                                    .bind(to: reactor.action)
+//                                    .disposed(by: obj.disposeBag)
+//                                Observable.just(FilterReactor.Action.saveFavoriteFilter(false))
+//                                    .bind(to: reactor.action)
+//                                    .disposed(by: obj.disposeBag)
+//                                switchView.isOn = false
+//                                return
+//                            }
+//                            
+//                            let numberOfFavorites = reactor.currentState.numberOfFavorites ?? 0
+//                            if numberOfFavorites == 0 {
+//                                GlobalDefine.shared.mainNavi?.view.makeToast("해당 필터를 사용하려면 즐겨찾는 충전소를 등록해 보세요.", type: .info)
+//                                Observable.just(FilterReactor.Action.updateFavoriteFilter(false))
+//                                    .bind(to: reactor.action)
+//                                    .disposed(by: obj.disposeBag)
+//                            } else {
+//                                Observable.just(FilterReactor.Action.updateFavoriteFilter(true))
+//                                    .bind(to: reactor.action)
+//                                    .disposed(by: obj.disposeBag)
+//                            }
+//                        }
+//                    } else {
+//                        Observable.just(FilterReactor.Action.updateFavoriteFilter(false))
+//                            .bind(to: reactor.action)
+//                            .disposed(by: obj.disposeBag)
+//                    }
+//                    
+//                    Observable.just(FilterReactor.Action.shouldChanged)
+//                        .bind(to: reactor.action)
+//                        .disposed(by: self.disposeBag)
+//                }.disposed(by: self.disposeBag)
+//            
+//        case .representCar:
+//            switchView.isOn = isRepresentCar
+//            
+//            switchView.rx.isOn
+//                .changed
+//                .throttle(.milliseconds(800), scheduler: MainScheduler.instance)
+//                .asDriver(onErrorJustReturn: false)
+//                .drive(with: self) { obj, isOn in
+//                    if isOn {
+//                        MemberManager.shared.tryToLoginCheck { isLogin in
+//                            guard isLogin else {
+//                                MemberManager.shared.showLoginAlert()
+//                                Observable.just(FilterReactor.Action.updateRepresentCarFilter(false))
+//                                    .bind(to: reactor.action)
+//                                    .disposed(by: obj.disposeBag)
+//                                Observable.just(FilterReactor.Action.saveRepresentCarFilter(false))
+//                                    .bind(to: reactor.action)
+//                                    .disposed(by: obj.disposeBag)
+//                                switchView.isOn = false
+//                                return
+//                            }
+//                            
+//                            let hasMyCar: Bool = UserDefault().readInt(key: UserDefault.Key.MB_CAR_ID) != 0
+//                            guard hasMyCar else {
+//                                GlobalDefine.shared.mainNavi?.view.makeToast("해당 필터를 사용하려면 마이페이지\n> 개인정보 관리에서 대표차량을 등록해 보세요..", type: .info)
+//                                return
+//                            }
+//                            
+//                            Observable.just(FilterReactor.Action.updateRepresentCarFilter(true))
+//                                .bind(to: reactor.action)
+//                                .disposed(by: obj.disposeBag)
+//                            
+//                            Observable.just(FilterReactor.Action.loadChargerTypes)
+//                                .bind(to: reactor.action)
+//                                .disposed(by: self.disposeBag)
+//                        }
+//                    } else {
+//                        Observable.just(FilterReactor.Action.updateRepresentCarFilter(false))
+//                            .bind(to: reactor.action)
+//                            .disposed(by: obj.disposeBag)
+//                        
+//                        Observable.just(FilterReactor.Action.loadChargerTypes)
+//                            .bind(to: reactor.action)
+//                            .disposed(by: self.disposeBag)
+//                    }
+//                    
+//                    Observable.just(FilterReactor.Action.shouldChanged)
+//                        .bind(to: reactor.action)
+//                        .disposed(by: self.disposeBag)
+//                }.disposed(by: self.disposeBag)
+//        }
         
         return view
     }

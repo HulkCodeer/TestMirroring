@@ -24,6 +24,11 @@ internal class GeneralFilter: Filter {
     required init(isSelected: Bool) {
         self.isSelected = isSelected
     }
+    
+    static func == (lhs: GeneralFilter, rhs: GeneralFilter) -> Bool {
+        lhs.isSelected == rhs.isSelected &&
+        lhs.typeTilte == rhs.typeTilte
+    }
 }
 
 internal class HighwayUpFilter: Filter {
@@ -44,6 +49,11 @@ internal class HighwayUpFilter: Filter {
     required init(isSelected: Bool) {
         self.isSelected = isSelected
     }
+    
+    static func == (lhs: HighwayUpFilter, rhs: HighwayUpFilter) -> Bool {
+        lhs.isSelected == rhs.isSelected &&
+        lhs.typeTilte == rhs.typeTilte
+    }
 }
 
 internal class HighwayDownFilter: Filter {
@@ -63,6 +73,11 @@ internal class HighwayDownFilter: Filter {
     
     required init(isSelected: Bool) {
         self.isSelected = isSelected
+    }
+    
+    static func == (lhs: HighwayDownFilter, rhs: HighwayDownFilter) -> Bool {
+        lhs.isSelected == rhs.isSelected &&
+        lhs.typeTilte == rhs.typeTilte
     }
 }
 

@@ -191,7 +191,10 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
                 let okBtn = UIAlertAction(title: "초기화", style: .default) { _ in
                     FilterEvent.clickFilterReset.logEvent()
 
-                    Observable.just(FilterReactor.Action.reset)
+                    
+//                    Observable.just(FilterReactor.Action.reset)
+//                        .bind()
+//                        .dispose
                 }
                 var actions = [UIAlertAction]()
                 actions.append(cancelBtn)
@@ -208,16 +211,15 @@ internal final class NewChargerFilterViewController: CommonBaseViewController, S
             .asDriver(onErrorJustReturn: ())
             .drive(with: self) { obj, _ in
                 obj.saveBtn.rectBtn.isSelected = !obj.saveBtn.rectBtn.isSelected
-                
-                let filterModel = reactor.currentState.filterModel
-                Observable.just(FilterReactor.Action.saveFilter(filterModel))
-                    .bind(to: reactor.action)
-                    .disposed(by: obj.disposeBag)
-                
-                obj.delegate?.applyFilter()
-                
-                FilterManager.sharedInstance.logEventWithFilter("필터")
-                GlobalDefine.shared.mainNavi?.pop()
+                                
+//                Observable.just(FilterReactor.Action.saveFilter(filterModel))
+//                    .bind(to: reactor.action)
+//                    .disposed(by: obj.disposeBag)
+//                
+//                obj.delegate?.applyFilter()
+//                
+//                FilterManager.sharedInstance.logEventWithFilter("필터")
+//                GlobalDefine.shared.mainNavi?.pop()
             }.disposed(by: self.disposeBag)
             
     }

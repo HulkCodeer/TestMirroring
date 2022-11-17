@@ -24,6 +24,11 @@ internal class PublicFilter: Filter {
     required init(isSelected: Bool) {
         self.isSelected = isSelected
     }
+    
+    static func == (lhs: PublicFilter, rhs: PublicFilter) -> Bool {
+        lhs.isSelected == rhs.isSelected &&
+        lhs.typeTilte == rhs.typeTilte
+    }
 }
 
 internal class NonPublicFilter: Filter {
@@ -43,6 +48,11 @@ internal class NonPublicFilter: Filter {
     
     required init(isSelected: Bool) {
         self.isSelected = isSelected
+    }
+    
+    static func == (lhs: NonPublicFilter, rhs: NonPublicFilter) -> Bool {
+        lhs.isSelected == rhs.isSelected &&
+        lhs.typeTilte == rhs.typeTilte
     }
 }
 

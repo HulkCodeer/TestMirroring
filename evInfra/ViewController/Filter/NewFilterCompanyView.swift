@@ -215,9 +215,9 @@ internal final class NewFilterCompanyView: CommonFilterView {
                 
                 // step1. EvPay filter 끄기 , isOn == true 일때
                 if isOn {
-                    Observable.just(FilterReactor.Action.updateEvPayFilter(false))
-                        .bind(to: reactor.action)
-                        .disposed(by: obj.disposeBag)
+//                    Observable.just(FilterReactor.Action.updateEvPayFilter(false))
+//                        .bind(to: reactor.action)
+//                        .disposed(by: obj.disposeBag)
                 }
                 
                 // step2. 충전 사업자 불러오기

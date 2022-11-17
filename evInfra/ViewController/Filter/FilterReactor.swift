@@ -40,7 +40,8 @@ internal final class FilterReactor: ViewModel, Reactor {
 //        case testLoadRoadType
         case setAcessTypeFilter(any Filter)
         case setRoadTypeFilter(any Filter)
-        case resetFilter
+//        case resetFilter
+        case saveFilter
     }
     
     enum Mutation {
@@ -62,7 +63,7 @@ internal final class FilterReactor: ViewModel, Reactor {
         case changedCompanyFilter(SelectedCompanyFilter)
         case setAccessType(any Filter)
         case setRoadType(any Filter)
-        case resetFilter
+//        case resetFilter
     }
 
     struct State {
@@ -85,41 +86,44 @@ internal final class FilterReactor: ViewModel, Reactor {
             
     internal var initialState: State
     
-    internal var originalFilterModel: FilterConfigModel = FilterConfigModel(isConvert: true)
+    internal var originalFilterModel: FilterConfigModel
     
     override init(provider: SoftberryAPI) {
         self.initialState = State()
+        
+        self.originalFilterModel = UserDefault().getUserDefault("filterModel") as? FilterConfigModel ?? FilterConfigModel(isConvert: true)
+        
         super.init(provider: provider)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .resetFilter:
-            return .just(.resetFilter)
+//        case .resetFilter:
+//            return .just(.resetFilter)
             
         case .setRoadTypeFilter(let filter):
-            self.currentState.tempFilterModel.roadFilters = self.currentState.tempFilterModel.roadFilters.map { test in
-                if test.isEqual(filter) {
+            self.currentState.tempFilterModel.roadFilters = self.currentState.tempFilterModel.roadFilters.map { roadFilter in
+                if roadFilter.isEqual(filter) {
                     return filter
                 }
-                return test
+                return roadFilter
             }
-                                                            
-            return .just(.setRoadType(filter))
+                                                                        
+            return .concat([
+                .just(.setRoadType(filter)),
+                .just(.shouldChanged)])
             
         case .setAcessTypeFilter(let filter):
-            self.currentState.tempFilterModel.accessibilityFilters = self.currentState.tempFilterModel.accessibilityFilters.map { test in
-                if test.isEqual(filter) {
+            self.currentState.tempFilterModel.accessibilityFilters = self.currentState.tempFilterModel.accessibilityFilters.map { accessFilter in
+                if accessFilter.isEqual(filter) {
                     return filter
                 }
-                return test
+                return accessFilter
             }
-                                                            
-            return .just(.setAccessType(filter))
-            
-//        case .testLoadRoadType:
-//            return .just(.setTestRoadType)
-            
+            return .concat([
+                .just(.setAccessType(filter)),
+                .just(.shouldChanged)])
+                        
         case .loadCompanies:
             let companyValues: [CompanyInfoDto] = FilterManager.sharedInstance.filter.companyDictionary.map { $0.1 }
             let isEvPaFilter = self.currentState.tempFilterModel.isEvPayFilter ?? false
@@ -237,6 +241,11 @@ internal final class FilterReactor: ViewModel, Reactor {
             
             FilterManager.sharedInstance.updateCompanyFilter()
             return .empty()
+            
+        case .saveFilter:
+            UserDefault().setUserDefault("filterModel", value: self.currentState.tempFilterModel)
+            
+            return .empty()
         }
     }
     
@@ -247,8 +256,8 @@ internal final class FilterReactor: ViewModel, Reactor {
         newState.filterType = nil
         
         switch mutation {
-        case .resetFilter:
-            newState.
+//        case .resetFilter:
+//            newState.
             
         case .setRoadType(let filter):
             newState.filterType = filter
@@ -286,14 +295,14 @@ internal final class FilterReactor: ViewModel, Reactor {
 //            newState.isUpdateFilterBarTitle = true
             
         case .shouldChanged:
-//            let shouldChanged = self.initialState.filterModel != self.currentState.filterModel
-            newState.shouldChanged = true
+            printLog(out: "PARK TEST compare \(self.originalFilterModel == self.currentState.tempFilterModel)")
+            newState.shouldChanged = self.originalFilterModel == self.currentState.tempFilterModel
             
         case .updateSpeedFilter(let selectedSpeedFilter):
             newState.isUpdateFilterBarTitle = true
             
-        case .loadChargerTypes(let tags): break
-//            newState.filterModel.chargerTypes = tags
+        case .loadChargerTypes(let tags):
+            newState.tempFilterModel.chargerTypes = tags
             
         case .updateSlowTypeOn(let isOn):
             newState.isSlowTypeOn = isOn
@@ -305,7 +314,7 @@ internal final class FilterReactor: ViewModel, Reactor {
             newState.changedChargerTypeFilter = selectedChargerTypeFilter
             
         case .updateChargerTypeFilter(let tags): break
-//            newState.filterModel.chargerTypes = tags
+            newState.tempFilterModel.chargerTypes = tags
             
         case .changedCompanyFilter(let selectedCompanyFilter):
             newState.changedCompanyFilter = selectedCompanyFilter
