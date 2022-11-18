@@ -254,6 +254,9 @@
 		633FF2FF28B342630041BDBB /* Radio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF2FB28B342630041BDBB /* Radio.swift */; };
 		633FF30228B3697A0041BDBB /* PaymentStatusReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF30128B3697A0041BDBB /* PaymentStatusReactor.swift */; };
 		633FF30328B3697A0041BDBB /* PaymentStatusReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FF30128B3697A0041BDBB /* PaymentStatusReactor.swift */; };
+		634426D92927406C001952B0 /* ServerResultProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634426D82927406C001952B0 /* ServerResultProtocol.swift */; };
+		634426DA2927406C001952B0 /* ServerResultProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634426D82927406C001952B0 /* ServerResultProtocol.swift */; };
+		634426DB2927406C001952B0 /* ServerResultProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634426D82927406C001952B0 /* ServerResultProtocol.swift */; };
 		636DB9402876ED6A008BB27A /* IconTextRectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636DB93F2876ED6A008BB27A /* IconTextRectButton.swift */; };
 		636DB9412876ED6A008BB27A /* IconTextRectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636DB93F2876ED6A008BB27A /* IconTextRectButton.swift */; };
 		637247D1282A5EBE00595FCE /* UIStoryboard+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637247D0282A5EBE00595FCE /* UIStoryboard+Extension.swift */; };
@@ -1626,6 +1629,7 @@
 		633FF2FA28B342630041BDBB /* CheckBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
 		633FF2FB28B342630041BDBB /* Radio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Radio.swift; sourceTree = "<group>"; };
 		633FF30128B3697A0041BDBB /* PaymentStatusReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentStatusReactor.swift; sourceTree = "<group>"; };
+		634426D82927406C001952B0 /* ServerResultProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerResultProtocol.swift; sourceTree = "<group>"; };
 		636DB93F2876ED6A008BB27A /* IconTextRectButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconTextRectButton.swift; sourceTree = "<group>"; };
 		637247D0282A5EBE00595FCE /* UIStoryboard+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Extension.swift"; sourceTree = "<group>"; };
 		637247D2282A5F7900595FCE /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
@@ -2679,6 +2683,7 @@
 				63EB0390283CB26500078D28 /* ServerResult.swift */,
 				523A3AF12797A9CA004C3C23 /* GroupViewController.swift */,
 				59BC62FD2914D6B000428A0D /* ABTestManager.swift */,
+				634426D82927406C001952B0 /* ServerResultProtocol.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -4643,6 +4648,7 @@
 				63F3148A284EC74F001713D2 /* EVFileManager.swift in Sources */,
 				194C02692897CF8C00DADA8D /* StartBannerViewController.swift in Sources */,
 				63762F522869A91900C951BF /* SettingsReactor.swift in Sources */,
+				634426DA2927406C001952B0 /* ServerResultProtocol.swift in Sources */,
 				63F3148C284EC74F001713D2 /* Regions.swift in Sources */,
 				63F3148D284EC74F001713D2 /* CompanyInfoCheckerDelegate.swift in Sources */,
 				8266F9F72913A1DD00B375A6 /* MembershipCardShipmentStatusViewController.swift in Sources */,
@@ -4971,6 +4977,7 @@
 				737A012220F3225800638812 /* EVFileManager.swift in Sources */,
 				194C02682897CF8C00DADA8D /* StartBannerViewController.swift in Sources */,
 				63762F512869A91900C951BF /* SettingsReactor.swift in Sources */,
+				634426D92927406C001952B0 /* ServerResultProtocol.swift in Sources */,
 				DB6E59492063C595002E75C8 /* Regions.swift in Sources */,
 				737A012A20F709B300638812 /* CompanyInfoCheckerDelegate.swift in Sources */,
 				8266F9F62913A1DD00B375A6 /* MembershipCardShipmentStatusViewController.swift in Sources */,
@@ -5299,6 +5306,7 @@
 				824D5CF728BDD89C00EDC712 /* EVFileManager.swift in Sources */,
 				824D5CF828BDD89C00EDC712 /* StartBannerViewController.swift in Sources */,
 				824D5CF928BDD89C00EDC712 /* SettingsReactor.swift in Sources */,
+				634426DB2927406C001952B0 /* ServerResultProtocol.swift in Sources */,
 				824D5CFA28BDD89C00EDC712 /* Regions.swift in Sources */,
 				824D5CFB28BDD89C00EDC712 /* CompanyInfoCheckerDelegate.swift in Sources */,
 				8266F9F82913A1DD00B375A6 /* MembershipCardShipmentStatusViewController.swift in Sources */,
